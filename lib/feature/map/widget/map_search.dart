@@ -49,7 +49,8 @@ class MapSearchBar extends ConsumerWidget {
     final mapSearchListNotifier = ref.watch(mapSearchListProvider.notifier);
     final textEditingControllerNotifier = ref.watch(textEditingControllerProvider.notifier);
     return Container(
-        color: (mapSearchList.isNotEmpty) ? Colors.white.withOpacity(0.9) : Colors.transparent,
+        color:
+            (mapSearchList.isNotEmpty) ? Colors.white.withValues(alpha: 0.9) : Colors.transparent,
         child: Container(
           margin: const EdgeInsets.only(top: 15, right: 5, left: 5),
           padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -96,7 +97,7 @@ class MapBarrierOnSearch extends ConsumerWidget {
     final mapSearchListNotifier = ref.watch(mapSearchListProvider.notifier);
     if (mapSearchList.isNotEmpty) {
       return Container(
-        color: Colors.white.withOpacity(0.9),
+        color: Colors.white.withValues(alpha: 0.9),
         child: GestureDetector(
           behavior: HitTestBehavior.translucent,
           child: const SizedBox.expand(),
