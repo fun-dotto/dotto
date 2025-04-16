@@ -7,8 +7,9 @@ on:
   pull_request:
     types:
       - opened
-      - synchronize
+      - ready_for_review
       - reopened
+      - synchronize
   schedule:
     - cron: 0 15 * * *
   workflow_dispatch:
@@ -22,7 +23,7 @@ env:
 
 jobs:
   test:
-    name: flutter widget test
+    name: Test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
