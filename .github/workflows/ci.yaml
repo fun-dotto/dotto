@@ -35,5 +35,7 @@ jobs:
           cache: true
       - name: Install Dependencies
         run: make install
+      - name: Run Build
+        run: make build
       - name: Run Tests
         run: make test
