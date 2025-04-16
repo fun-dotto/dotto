@@ -20,3 +20,4 @@ classDiagram
 - [[macOS] Homebrew](setup/02_macOS_Homebrew.md)
 - [[Windows] Windows ターミナル](setup/03_Windows_Terminal.md)
 - [Visual Studio Code](setup/04_VisualStudioCode.md)
+- [[macOS] Xcode](setup/05_Xcode.md)
