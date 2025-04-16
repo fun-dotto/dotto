@@ -25,10 +25,6 @@ test:
 	genhtml coverage/new_lcov.info -o coverage/html
 	open coverage/html/index.html
 
-.PHONY: format
-format:
-	flutter format .
-
 .PHONY: analyze
 analyze:
 	flutter analyze
