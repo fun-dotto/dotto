@@ -13,3 +13,7 @@ classDiagram
   Firebase : - Python
   Firebase : - JavaScript
 ```
+
+## 環境構築
+
+- [GitHub アカウントの作成](setup/01_GitHub.md)
