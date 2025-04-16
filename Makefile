@@ -19,7 +19,7 @@ test:
 	flutter test
 
 .PHONY: test-with-coverage
-test:
+test-with-coverage:
 	flutter test --coverage
 	lcov --remove coverage/lcov.info 'lib/**.g.dart' -o coverage/new_lcov.info --ignore-errors unused
 	genhtml coverage/new_lcov.info -o coverage/html
