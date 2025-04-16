@@ -2,7 +2,7 @@
 
 テキストエディタです。
 
-## [macOS] インストール
+## [macOS] Visual Studio Code をインストール
 
 Homebrew を使ってインストールします。
 
@@ -10,7 +10,7 @@ Homebrew を使ってインストールします。
 % brew install --cask visual-studio-code
 ```
 
-## [Windows] インストール
+## [Windows] Visual Studio Code をインストール
 
 [公式サイト](https://code.visualstudio.com/)からインストーラをダウンロードしてインストールします。
 

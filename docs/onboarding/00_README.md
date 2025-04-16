@@ -16,7 +16,7 @@ classDiagram
 
 ## 環境構築
 
-- [GitHub アカウントの作成](setup/01_GitHub.md)
-- [[macOS] Homebrew をインストール](setup/02_macOS_Homebrew.md)
-- [[Windows] Windows ターミナルをインストール](setup/03_Windows_Terminal.md)
+- [GitHub アカウント](setup/01_GitHub.md)
+- [[macOS] Homebrew](setup/02_macOS_Homebrew.md)
+- [[Windows] Windows ターミナル](setup/03_Windows_Terminal.md)
 - [Visual Studio Code](setup/04_VisualStudioCode.md)

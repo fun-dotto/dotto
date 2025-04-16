@@ -1,4 +1,4 @@
-# GitHub アカウントの作成
+# GitHub アカウント
 
 [Sign up to GitHub](https://github.com/signup) から GitHub アカウントを作成します。
 

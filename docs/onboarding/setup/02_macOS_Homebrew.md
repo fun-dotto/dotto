@@ -1,4 +1,4 @@
-# [macOS] Homebrew をインストール
+# [macOS] Homebrew
 
 `ターミナル.app` (英: `Terminal.app`) を起動します。
 
@@ -12,7 +12,7 @@
 
 macOS のためのパッケージ管理ツールです。
 
-## インストール方法
+## Homebrew をインストール
 
 ```
 % /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
