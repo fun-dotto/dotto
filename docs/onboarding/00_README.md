@@ -17,3 +17,4 @@ classDiagram
 ## 環境構築
 
 - [GitHub アカウントの作成](setup/01_GitHub.md)
+- [[macOS] Homebrew をインストール](setup/02_macOS_Homebrew.md)
