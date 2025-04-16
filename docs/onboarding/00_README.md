@@ -18,3 +18,4 @@ classDiagram
 
 - [GitHub アカウントの作成](setup/01_GitHub.md)
 - [[macOS] Homebrew をインストール](setup/02_macOS_Homebrew.md)
+- [[Windows] Windows ターミナルをインストール](setup/03_Windows_Terminal.md)
