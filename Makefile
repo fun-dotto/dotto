@@ -6,6 +6,14 @@ install:
 build:
 	flutter pub run build_runner build --delete-conflicting-outputs
 
+.PHONY: build-ios
+build-ios:
+	flutter build ios
+
+.PHONY: build-android
+build-android:
+	flutter build android
+
 .PHONY: run
 run:
 	flutter run
