@@ -1,0 +1,28 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+  schedule:
+    - cron: 0 15 * * *
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: flutter widget test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install Dependencies
+        run: make install
+      - name: Build
+        run: make build
+      - name: Run Tests
+        run: make test
