@@ -13,6 +13,13 @@ on:
     - cron: 0 15 * * *
   workflow_dispatch:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  flutter_version: "3.27.4"
+
 jobs:
   test:
     name: flutter widget test
@@ -20,6 +27,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.flutter_version }}
+          cache: true
       - name: Install Dependencies
         run: make install
       - name: Build
