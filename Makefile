@@ -1,5 +1,6 @@
 .PHONY: install
 install:
+	touch .env.dev
 	flutter pub get
 
 .PHONY: build
