@@ -1,39 +1,39 @@
 .PHONY: install
 install:
-	touch .env.dev
-	flutter pub get
+	fvm flutter config --enable-swift-package-manager
+	fvm flutter pub get
 
 .PHONY: build
 build:
-	flutter pub run build_runner build --delete-conflicting-outputs
+	fvm flutter pub run build_runner build --delete-conflicting-outputs
 
 .PHONY: build-ios
 build-ios:
-	flutter build ios
+	fvm flutter build ios
 
 .PHONY: build-android
 build-android:
-	flutter build android
+	fvm flutter build android
 
 .PHONY: run
 run:
-	flutter run
+	fvm flutter run
 
 .PHONY: clean
 clean:
-	flutter clean
+	fvm flutter clean
 
 .PHONY: test
 test:
-	flutter test
+	fvm flutter test
 
 .PHONY: test-with-coverage
 test-with-coverage:
-	flutter test --coverage
+	fvm flutter test --coverage
 	lcov --remove coverage/lcov.info 'lib/**.g.dart' -o coverage/new_lcov.info --ignore-errors unused
 	genhtml coverage/new_lcov.info -o coverage/html
 	open coverage/html/index.html
 
 .PHONY: analyze
 analyze:
-	flutter analyze
+	fvm flutter analyze
