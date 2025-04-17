@@ -33,9 +33,11 @@ jobs:
         with:
           flutter-version: ${{ env.flutter_version }}
           cache: true
+      - name: Set up files
+        run: touch ./.env.dev
       - name: Install Dependencies
-        run: make install
+        run: flutter pub get
       - name: Run Build
-        run: make build
+        run: flutter pub run build_runner build --delete-conflicting-outputs
       - name: Run Tests
-        run: make test
+        run: flutter test
