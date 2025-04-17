@@ -118,6 +118,7 @@ flutter:
         - asset: assets/fonts/Murecho/static/Murecho-Black.ttf
           weight: 900
   uses-material-design: true
+  disable-swift-package-manager: true
 
   # To add assets to your application, add an assets section, like this:
   assets:
