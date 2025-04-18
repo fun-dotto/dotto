@@ -5,7 +5,7 @@ install:
 
 .PHONY: build
 build:
-	fvm flutter pub run build_runner build --delete-conflicting-outputs
+	fvm dart run build_runner build --delete-conflicting-outputs
 
 .PHONY: build-ios
 build-ios:
@@ -36,4 +36,4 @@ test-with-coverage:
 
 .PHONY: analyze
 analyze:
-	fvm flutter analyze
+	fvm flutter analyze ./lib/ ./test/
