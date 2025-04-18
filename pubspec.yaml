@@ -38,20 +38,20 @@ dependencies:
   flutter_staggered_grid_view: ^0.7.0
 
   # Firebase
-  firebase_core: ^3.13.0
-  cloud_firestore: ^5.6.6
+  firebase_core: ^3.8.0
+  cloud_firestore: ^5.5.0
   firebase_app_check: ^0.3.2
-  firebase_auth: ^5.5.2
-  firebase_database: ^11.3.5
-  firebase_messaging: ^15.2.5
-  firebase_storage: ^12.4.5
-  google_sign_in: ^6.3.0
+  firebase_auth: ^5.4.0
+  firebase_database: ^11.2.0
+  firebase_messaging: ^15.2.0
+  firebase_storage: ^12.4.0
+  google_sign_in: ^6.2.2
 
   flutter_dotenv: ^5.1.0
   minio: ^3.5.6
   flutter_riverpod: ^2.5.1
   flutter_pdfview: ^1.4.0
-  share_plus: ^10.1.4
+  share_plus: ^10.1.0
   path_provider: ^2.1.3
   shared_preferences: ^2.2.3
   intl: ^0.19.0
@@ -61,11 +61,11 @@ dependencies:
   flutter_rating_bar: ^4.0.1
   flutter_datetime_picker_plus: ^2.2.0
   collection: ^1.18.0
-  flutter_local_notifications: ^19.1.0
+  flutter_local_notifications: ^19.0.0
   timezone: ^0.10.0
   flutter_overboard: ^3.1.3
   settings_ui: ^2.0.2
-  package_info_plus: ^8.3.0
+  package_info_plus: ^8.1.0
   freezed_annotation: ^2.4.1
   geolocator: ^13.0.2
   app_links: ^6.4.0
