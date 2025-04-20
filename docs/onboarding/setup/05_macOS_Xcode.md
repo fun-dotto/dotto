@@ -26,7 +26,9 @@ Xcodes で Xcode の最新安定版インストールします。
 % xcodes install 16.3 --experimental-unxip
 ```
 
-iOS ランタイムの最新版をインストールします。  
+## SDK をインストール
+
+iOS SDK の最新版をインストールします。  
 下記の例では、`iOS 18.4` をインストールします。
 
 ```
