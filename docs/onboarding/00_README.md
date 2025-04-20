@@ -21,7 +21,7 @@ classDiagram
 - [[Windows] Windows ターミナル](setup/03_Windows_Terminal.md)
 - [Visual Studio Code](setup/04_VisualStudioCode.md)
 - [[macOS] Xcode](setup/05_macOS_Xcode.md)
-- Android Studio
+- [Android Studio](setup/06_AndroidStudio.md)
 - Git
 - Flutter
 - Firebase
