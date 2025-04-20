@@ -13,7 +13,7 @@ build-ios:
 
 .PHONY: build-android
 build-android:
-	fvm flutter build android
+	fvm flutter build appbundle
 
 .PHONY: run
 run:
