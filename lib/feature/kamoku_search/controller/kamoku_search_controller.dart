@@ -13,7 +13,7 @@ final kamokuSearchControllerProvider =
         (ref) => KamokuSearchControllerProvider());
 
 @freezed
-class KamokuSearchController with _$KamokuSearchController {
+abstract class KamokuSearchController with _$KamokuSearchController {
   const factory KamokuSearchController({
     required int senmonKyoyoStatus,
     required Map<KamokuSearchChoices, List<bool>> checkboxStatusMap,
