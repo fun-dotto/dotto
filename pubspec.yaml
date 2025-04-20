@@ -57,7 +57,7 @@ dependencies:
   intl: ^0.19.0
   url_launcher: ^6.2.6
   path: ^1.9.0
-  flutter_slidable: ^3.1.0
+  flutter_slidable: ^4.0.0
   flutter_rating_bar: ^4.0.1
   flutter_datetime_picker_plus: ^2.2.0
   collection: ^1.18.0
@@ -67,7 +67,7 @@ dependencies:
   settings_ui: ^2.0.2
   package_info_plus: ^8.1.0
   freezed_annotation: ^3.0.0
-  geolocator: ^13.0.2
+  geolocator: ^14.0.0
   app_links: ^6.4.0
   cupertino_icons: ^1.0.8
 
