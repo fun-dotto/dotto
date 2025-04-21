@@ -22,7 +22,7 @@ classDiagram
 - [Visual Studio Code](setup/04_VisualStudioCode.md)
 - [[macOS] Xcode](setup/05_macOS_Xcode.md)
 - [Android Studio](setup/06_AndroidStudio.md)
-- Git
+- [Git](setup/07_Git.md)
 - Flutter
 - Firebase
 - Dotto
