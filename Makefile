@@ -1,39 +1,43 @@
+FLUTTER = fvm flutter
+DART = fvm dart
+
 .PHONY: install
 install:
-	fvm flutter config --enable-swift-package-manager
-	fvm flutter pub get
+	fvm install
+	$(FLUTTER) config --enable-swift-package-manager
+	$(FLUTTER) pub get
 
 .PHONY: build
 build:
-	fvm dart run build_runner build --delete-conflicting-outputs
+	$(DART) run build_runner build --delete-conflicting-outputs
 
 .PHONY: build-ios
 build-ios:
-	fvm flutter build ios
+	$(FLUTTER) build ios
 
 .PHONY: build-android
 build-android:
-	fvm flutter build appbundle
+	$(FLUTTER) build appbundle
 
 .PHONY: run
 run:
-	fvm flutter run
+	$(FLUTTER) run
 
 .PHONY: clean
 clean:
-	fvm flutter clean
+	$(FLUTTER) clean
 
 .PHONY: test
 test:
-	fvm flutter test
+	$(FLUTTER) test
 
 .PHONY: test-with-coverage
 test-with-coverage:
-	fvm flutter test --coverage
+	$(FLUTTER) test --coverage
 	lcov --remove coverage/lcov.info 'lib/**.g.dart' -o coverage/new_lcov.info --ignore-errors unused
 	genhtml coverage/new_lcov.info -o coverage/html
 	open coverage/html/index.html
 
 .PHONY: analyze
 analyze:
-	fvm flutter analyze ./lib/ ./test/
+	$(FLUTTER) analyze ./lib/ ./test/
