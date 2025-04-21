@@ -3,7 +3,7 @@ DART = fvm dart
 
 .PHONY: install
 install:
-	fvm install
+	fvm install 2>/dev/null
 	$(FLUTTER) config --enable-swift-package-manager
 	$(FLUTTER) pub get
 
