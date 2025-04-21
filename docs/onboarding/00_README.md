@@ -23,6 +23,6 @@ classDiagram
 - [[macOS] Xcode](setup/05_macOS_Xcode.md)
 - [Android Studio](setup/06_AndroidStudio.md)
 - [Git](setup/07_Git.md)
-- Flutter
+- [Flutter](setup/08_Flutter.md)
 - Firebase
 - Dotto
