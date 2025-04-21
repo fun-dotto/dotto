@@ -36,8 +36,8 @@ jobs:
       - name: Set up files
         run: touch ./.env.dev
       - name: Install Dependencies
-        run: flutter pub get
+        run: make install FLUTTER=flutter
       - name: Run Build
-        run: flutter pub run build_runner build --delete-conflicting-outputs
+        run: make build DART=dart
       - name: Run Tests
-        run: flutter test
+        run: make test FLUTTER=flutter
