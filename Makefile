@@ -3,7 +3,7 @@ DART = fvm dart
 
 .PHONY: install
 install:
-	if [ !$(GITHUB_ACTIONS) ]; then fvm install; fi
+	if [ $(GITHUB_ACTIONS) ]; then $(FLUTTER) --version; else fvm install; fi
 	$(FLUTTER) config --enable-swift-package-manager
 	$(FLUTTER) pub get
 
