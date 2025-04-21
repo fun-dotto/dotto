@@ -24,5 +24,5 @@ classDiagram
 - [Android Studio](setup/06_AndroidStudio.md)
 - [Git](setup/07_Git.md)
 - [Flutter](setup/08_Flutter.md)
-- Firebase
+- [Firebase](setup/09_Firebase.md)
 - Dotto
