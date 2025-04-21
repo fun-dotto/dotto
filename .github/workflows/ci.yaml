@@ -18,9 +18,6 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
-env:
-  flutter_version: "3.27.4"
-
 jobs:
   test:
     name: Test
@@ -28,14 +25,19 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Get Flutter Version form .fvmrc
+        uses: kuhnroyal/flutter-fvm-config-action/config@v3
+        id: fvm-config-action
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: ${{ env.flutter_version }}
+          flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
           cache: true
+      - name: Set up files
+        run: touch ./.env.dev
       - name: Install Dependencies
-        run: make install
+        run: make install FLUTTER=flutter
       - name: Run Build
-        run: make build
+        run: make build DART=dart
       - name: Run Tests
-        run: make test
+        run: make test FLUTTER=flutter

@@ -1,39 +1,43 @@
+FLUTTER = fvm flutter
+DART = fvm dart
+
 .PHONY: install
 install:
-	touch .env.dev
-	flutter pub get
+	if [ $(GITHUB_ACTIONS) ]; then $(FLUTTER) --version; else fvm install; fi
+	$(FLUTTER) config --enable-swift-package-manager
+	$(FLUTTER) pub get
 
 .PHONY: build
 build:
-	flutter pub run build_runner build --delete-conflicting-outputs
+	$(DART) run build_runner build --delete-conflicting-outputs
 
 .PHONY: build-ios
 build-ios:
-	flutter build ios
+	$(FLUTTER) build ios
 
 .PHONY: build-android
 build-android:
-	flutter build android
+	$(FLUTTER) build appbundle
 
 .PHONY: run
 run:
-	flutter run
+	$(FLUTTER) run
 
 .PHONY: clean
 clean:
-	flutter clean
+	$(FLUTTER) clean
 
 .PHONY: test
 test:
-	flutter test
+	$(FLUTTER) test
 
 .PHONY: test-with-coverage
 test-with-coverage:
-	flutter test --coverage
+	$(FLUTTER) test --coverage
 	lcov --remove coverage/lcov.info 'lib/**.g.dart' -o coverage/new_lcov.info --ignore-errors unused
 	genhtml coverage/new_lcov.info -o coverage/html
 	open coverage/html/index.html
 
 .PHONY: analyze
 analyze:
-	flutter analyze
+	$(FLUTTER) analyze ./lib/ ./test/
