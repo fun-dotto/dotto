@@ -22,11 +22,23 @@ build-ios:
 build-android:
 	$(FLUTTER) build appbundle
 
+.PHONY: deploy-ios-firebase-app-distribution
+deploy-ios-firebase-app-distribution:
+	$(MAKE) build-ios && \
+	cd ./ios && \
+	$(FASTLANE) deploy_firebase_app_distribution
+
+.PHONY: deploy-android-firebase-app-distribution
+deploy-android-firebase-app-distribution:
+	$(MAKE) build-android && \
+	cd ./android && \
+	$(FASTLANE) deploy_firebase_app_distribution
+
 .PHONY: deploy-ios-testflight
 deploy-ios-testflight:
 	$(MAKE) build-ios && \
 	cd ./ios && \
-	$(FASTLANE) deploy-testflight
+	$(FASTLANE) deploy_testflight
 
 .PHONY: deploy-android-play-store
 deploy-android-play-store:
