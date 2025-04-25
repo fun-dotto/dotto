@@ -13,11 +13,23 @@ build:
 
 .PHONY: build-ios
 build-ios:
-	$(FLUTTER) build ios
+	$(FLUTTER) build ipa
 
 .PHONY: build-android
 build-android:
 	$(FLUTTER) build appbundle
+
+.PHONY: deploy-ios
+deploy-ios:
+  $(MAKE) build-ios && \
+	cd ios && \
+	fastlane deploy
+
+.PHONY: deploy-android
+deploy-android:
+	$(MAKE) build-android && \
+	cd android && \
+	fastlane deploy
 
 .PHONY: run
 run:
