@@ -6,7 +6,9 @@ FASTLANE = bundle exec fastlane
 install:
 	if [ $(GITHUB_ACTIONS) ]; then $(FLUTTER) --version; else fvm install; fi && \
 	$(FLUTTER) config --enable-swift-package-manager && \
-	$(FLUTTER) pub get
+	$(FLUTTER) pub get && \
+	cd ./ios && bundle install && cd .. && \
+	cd ./android && bundle install
 
 .PHONY: build
 build:
@@ -23,13 +25,13 @@ build-android:
 .PHONY: deploy-ios-testflight
 deploy-ios-testflight:
 	$(MAKE) build-ios && \
-	cd ios && \
+	cd ./ios && \
 	$(FASTLANE) deploy-testflight
 
 .PHONY: deploy-android-play-store
 deploy-android-play-store:
 	$(MAKE) build-android && \
-	cd android && \
+	cd ./android && \
 	$(FASTLANE) deploy_play_store
 
 .PHONY: run
