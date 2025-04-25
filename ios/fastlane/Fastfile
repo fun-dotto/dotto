@@ -50,6 +50,7 @@ platform :ios do
 
   desc "Deploy to Firebase App Distribution"
   lane :deploy_firebase_app_distribution do
+    increment_build_number
     build_adhoc
     firebase_app_distribution(
       app: ENV["FIREBASE_APP_ID"],
@@ -59,6 +60,7 @@ platform :ios do
 
   desc "Deploy to TestFlight"
   lane :deploy_testflight do
+    increment_build_number
     build_appstore
     upload_to_testflight(skip_submission: true)
   end
