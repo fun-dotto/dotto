@@ -14,7 +14,7 @@ build:
 
 .PHONY: build-ios
 build-ios:
-	$(FLUTTER) build ios
+	$(FLUTTER) build ios --release --no-codesign
 
 .PHONY: build-android
 build-android:
