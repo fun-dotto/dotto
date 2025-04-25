@@ -16,9 +16,20 @@
 default_platform(:android)
 
 platform :android do
+  ENV["FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT"] = "30"
+
   desc "Runs all the tests"
   lane :test do
     gradle(task: "test")
+  end
+
+  desc "Deploy to Firebase App Distribution"
+  lane :deploy_firebase_app_distribution do
+    gradle(task: "clean assembleRelease")
+    firebase_app_distribution(
+      app: ENV["FIREBASE_APP_ID"],
+      groups: ENV["FIREBASE_APP_DISTRIBUTION_GROUPS"],
+    )
   end
 
   desc "Submit a new Beta Build to Crashlytics Beta"
