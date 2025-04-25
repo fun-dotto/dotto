@@ -45,20 +45,10 @@ Firebase の情報をセットアップします。
 以下のコマンドを実行すると、証明書のフィンガープリントが表示される。
 
 ```
-% keytool -genkey -v -alias dotto -keyalg RSA -keysize 2048 -validity 365 -keypass dottoandroid -keystore ~/.android/debug.keystore -storepass android
-% keytool -list -v -alias dotto -keystore ~/.android/debug.keystore -storepass android
+% keytool -list -v -alias androiddebugkey -keystore ~/.android/debug.keystore -storepass android
 ```
 
 [Firebase](https://console.firebase.google.com/u/0/project/swift2023groupc/settings/general/android:jp.ac.fun.dotto?hl=ja)にアクセスして、表示された SHA-1 のフィンガープリントを登録する。
-
-Visual Studio Code を開いて、`android/key.properties`を作成し、以下の内容を記述する。
-
-```
-keyAlias=dotto
-keyPassword=dottoandroid
-storeFile=~/.android/debug.keystore
-storePassword=android
-```
 
 ## [Windows] Android Emulator で起動する
 
@@ -73,17 +63,7 @@ Ex. `C:\Program Files\Android\Android Studio\jbr\bin`
 以下のコマンドを実行すると、証明書のフィンガープリントが表示される。
 
 ```
-> keytool -genkey -v -alias dotto -keyalg RSA -keysize 2048 -validity 365 -keypass dottoandroid -keystore ~\.android\debug.keystore -storepass android
-> keytool -list -v -alias dotto -keystore ~\.android\debug.keystore -storepass android
+> keytool -list -v -alias androiddebugkey -keystore ~\.android\debug.keystore -storepass android
 ```
 
 [Firebase](https://console.firebase.google.com/u/0/project/swift2023groupc/settings/general/android:jp.ac.fun.dotto?hl=ja)にアクセスして、表示された SHA-1 のフィンガープリントを登録する。
-
-Visual Studio Code を開いて、`.\android\key.properties`を作成し、以下の内容を記述する。
-
-```
-keyAlias=dotto
-keyPassword=dottoandroid
-storeFile=~\.android\debug.keystore
-storePassword=android
-```
