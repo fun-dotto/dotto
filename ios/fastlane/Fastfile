@@ -16,7 +16,9 @@
 default_platform(:ios)
 
 platform :ios do
-  desk "Build for Ad Hoc"
+  ENV["FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT"] = "30"
+
+  desc "Build for Ad Hoc"
   lane :build_adhoc do
     match_adhoc_readonly
     build_app(
@@ -31,7 +33,7 @@ platform :ios do
     )
   end
 
-  desk "Build for App Store"
+  desc "Build for App Store"
   lane :build_appstore do
     match_appstore_readonly
     build_app(
@@ -43,6 +45,15 @@ platform :ios do
           "jp.ac.fun.dotto" => "match AppStore jp.ac.fun.dotto",
         },
       },
+    )
+  end
+
+  desc "Deploy to Firebase App Distribution"
+  lane :deploy_firebase_app_distribution do
+    build_adhoc
+    firebase_app_distribution(
+      app: ENV["FIREBASE_APP_ID"],
+      groups: ENV["FIREBASE_APP_DISTRIBUTION_GROUPS"],
     )
   end
 

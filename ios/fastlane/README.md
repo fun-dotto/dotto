@@ -15,13 +15,37 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 ## iOS
 
-### ios deploy
+### ios build_adhoc
 
 ```sh
-[bundle exec] fastlane ios deploy
+[bundle exec] fastlane ios build_adhoc
 ```
 
-Build and deploy to TestFlight
+Build for Ad Hoc
+
+### ios build_appstore
+
+```sh
+[bundle exec] fastlane ios build_appstore
+```
+
+Build for App Store
+
+### ios deploy_firebase_app_distribution
+
+```sh
+[bundle exec] fastlane ios deploy_firebase_app_distribution
+```
+
+Deploy to Firebase App Distribution
+
+### ios deploy_testflight
+
+```sh
+[bundle exec] fastlane ios deploy_testflight
+```
+
+Deploy to TestFlight
 
 ### ios match_development
 
