@@ -40,6 +40,16 @@ Firebase の情報をセットアップします。
 % make run
 ```
 
+## [macOS] Android Emulator で起動する
+
+以下のコマンドを実行すると、証明書のフィンガープリントが表示される。
+
+```
+% keytool -list -v -alias androiddebugkey -keystore ~/.android/debug.keystore -storepass android
+```
+
+[Firebase](https://console.firebase.google.com/u/0/project/swift2023groupc/settings/general/android:jp.ac.fun.dotto?hl=ja)にアクセスして、表示された SHA-1 のフィンガープリントを登録する。
+
 ## [Windows] Android Emulator で起動する
 
 Android Studio で使用されている Java があるフォルダのパスをコピーする。
@@ -50,19 +60,10 @@ Ex. `C:\Program Files\Android\Android Studio\jbr\bin`
 > set PATH=<コピーしたパスをペースト>;%PATH%
 ```
 
-以下のコマンドを実行して進めると、証明書のフィンガープリントが表示される。
+以下のコマンドを実行すると、証明書のフィンガープリントが表示される。
 
 ```
-> keytool -list -v -keystore ".android\debug.keystore" -alias androiddebugkey -storepass android -keypass android
+> keytool -list -v -alias androiddebugkey -keystore ~\.android\debug.keystore -storepass android
 ```
 
-[Firebase](https://console.firebase.google.com/u/0/project/swift2023groupc/settings/general/android:jp.ac.fun.dotto?hl=ja)にアクセスして、表示された SHA-256 のフィンガープリントを登録する。
-
-Visual Studio Code を開いて、`android/key.properties`を作成し、以下の内容を記述する。
-
-```
-storePassword=android
-keyPassword=android
-keyAlias=key
-storeFile=.android\debug.keystore
-```
+[Firebase](https://console.firebase.google.com/u/0/project/swift2023groupc/settings/general/android:jp.ac.fun.dotto?hl=ja)にアクセスして、表示された SHA-1 のフィンガープリントを登録する。
