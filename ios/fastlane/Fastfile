@@ -16,13 +16,40 @@
 default_platform(:ios)
 
 platform :ios do
-  desc "Build and deploy to TestFlight"
-  lane :deploy do
+  desk "Build for Ad Hoc"
+  lane :build_adhoc do
+    match_adhoc_readonly
     build_app(
       skip_build_archive: true,
       archive_path: "../build/ios/archive/Runner.xcarchive",
+      export_method: "ad-hoc",
+      export_options: {
+        provisioningProfiles: {
+          "jp.ac.fun.dotto" => "match AdHoc jp.ac.fun.dotto",
+        },
+      },
     )
-    upload_to_testflight
+  end
+
+  desk "Build for App Store"
+  lane :build_appstore do
+    match_appstore_readonly
+    build_app(
+      skip_build_archive: true,
+      archive_path: "../build/ios/archive/Runner.xcarchive",
+      export_method: "app-store",
+      export_options: {
+        provisioningProfiles: {
+          "jp.ac.fun.dotto" => "match AppStore jp.ac.fun.dotto",
+        },
+      },
+    )
+  end
+
+  desc "Deploy to TestFlight"
+  lane :deploy_testflight do
+    build_appstore
+    upload_to_testflight(skip_submission: true)
   end
 
   desc "Match development"
