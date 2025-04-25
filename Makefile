@@ -1,10 +1,11 @@
 FLUTTER = fvm flutter
 DART = fvm dart
+FASTLANE = bundle exec fastlane
 
 .PHONY: install
 install:
-	if [ $(GITHUB_ACTIONS) ]; then $(FLUTTER) --version; else fvm install; fi
-	$(FLUTTER) config --enable-swift-package-manager
+	if [ $(GITHUB_ACTIONS) ]; then $(FLUTTER) --version; else fvm install; fi && \
+	$(FLUTTER) config --enable-swift-package-manager && \
 	$(FLUTTER) pub get
 
 .PHONY: build
@@ -13,23 +14,23 @@ build:
 
 .PHONY: build-ios
 build-ios:
-	$(FLUTTER) build ipa
+	$(FLUTTER) build ios
 
 .PHONY: build-android
 build-android:
 	$(FLUTTER) build appbundle
 
-.PHONY: deploy-ios
-deploy-ios:
-  $(MAKE) build-ios && \
+.PHONY: deploy-ios-testflight
+deploy-ios-testflight:
+	$(MAKE) build-ios && \
 	cd ios && \
-	fastlane deploy
+	$(FASTLANE) deploy-testflight
 
-.PHONY: deploy-android
-deploy-android:
+.PHONY: deploy-android-play-store
+deploy-android-play-store:
 	$(MAKE) build-android && \
 	cd android && \
-	fastlane deploy
+	$(FASTLANE) deploy_play_store
 
 .PHONY: run
 run:
@@ -53,3 +54,7 @@ test-with-coverage:
 .PHONY: analyze
 analyze:
 	$(FLUTTER) analyze ./lib/ ./test/
+
+.PHONY: match-development
+match-development:
+	cd ios && $(FASTLANE) match_development_readonly
