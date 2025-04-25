@@ -31,7 +31,7 @@ platform :android do
   end
 
   desc "Deploy a new version to the Google Play"
-  lane :deploy do
+  lane :deploy_play_store do
     gradle(task: "clean assembleRelease")
     upload_to_play_store(
       aab: "../build/app/outputs/bundle/release/app-release.aab",
