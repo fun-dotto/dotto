@@ -24,4 +24,55 @@ platform :ios do
     )
     upload_to_testflight
   end
+
+  desc "Match development"
+  lane :match_development do
+    match(
+      type: "development",
+      force_for_new_devices: true
+    )
+  end
+
+  desc "Match adhoc"
+  lane :match_adhoc do
+    match(
+      type: "adhoc",
+      force_for_new_devices: true
+    )
+  end
+
+  desc "Match appstore"
+  lane :match_appstore do
+    match(
+      type: "appstore",
+      force_for_new_devices: true
+    )
+  end
+
+  desc "Match development (readonly)"
+  lane :match_development_readonly do
+    match(
+      type: "development",
+      readonly: true,
+      force_for_new_devices: true
+    )
+  end
+
+  desc "Match adhoc (readonly)"
+  lane :match_adhoc_readonly do
+    match(
+      type: "adhoc",
+      readonly: true,
+      force_for_new_devices: true
+    )
+  end
+
+  desc "Match appstore (readonly)"
+  lane :match_appstore_readonly do
+    match(
+      type: "appstore",
+      readonly: true,
+      force_for_new_devices: true
+    )
+  end
 end
