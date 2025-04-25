@@ -279,3 +279,4 @@ macos/Flutter/GeneratedPluginRegistrant.swift
 
 coverage/
 play-store-credentials.json
+firebase-app-distribution-credentials.json
