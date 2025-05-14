@@ -75,16 +75,20 @@ match-development:
 
 .PHONY: bump_build
 bump_build:
+	$(DART) pub global activate pub_version_plus
 	$(DART) pub global run pub_version_plus:main build
 
 .PHONY: bump_patch
 bump_patch:
-	$(DART) pub global run pub_version_plus:main patch
+	$(DART) pub global activate pub_version_plus
+	$(DART) pub global run pub_version_plus:main patch --build reset
 
 .PHONY: bump_minor
 bump_minor:
-	$(DART) pub global run pub_version_plus:main minor
+	$(DART) pub global activate pub_version_plus
+	$(DART) pub global run pub_version_plus:main minor --build reset
 
 .PHONY: bump_major
 bump_major:
-	$(DART) pub global run pub_version_plus:main major
+	$(DART) pub global activate pub_version_plus
+	$(DART) pub global run pub_version_plus:main major --build reset
