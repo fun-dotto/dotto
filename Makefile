@@ -36,12 +36,14 @@ deploy-android-firebase-app-distribution:
 
 .PHONY: deploy-ios-testflight
 deploy-ios-testflight:
+	$(MAKE) bump_build && \
 	$(MAKE) build-ios && \
 	cd ./ios && \
 	$(FASTLANE) deploy_testflight
 
 .PHONY: deploy-android-play-store
 deploy-android-play-store:
+	$(MAKE) bump_build && \
 	$(MAKE) build-android && \
 	cd ./android && \
 	$(FASTLANE) deploy_play_store
