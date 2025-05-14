@@ -72,3 +72,19 @@ analyze:
 .PHONY: match-development
 match-development:
 	cd ios && $(FASTLANE) match_development_readonly
+
+.PHONY: bump_build
+bump_build:
+	$(DART) pub global run pub_version_plus:main build
+
+.PHONY: bump_patch
+bump_patch:
+	$(DART) pub global run pub_version_plus:main patch
+
+.PHONY: bump_minor
+bump_minor:
+	$(DART) pub global run pub_version_plus:main minor
+
+.PHONY: bump_major
+bump_major:
+	$(DART) pub global run pub_version_plus:main major
