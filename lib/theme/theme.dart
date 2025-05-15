@@ -53,7 +53,7 @@ class DottoTheme {
       cardTheme: const CardTheme(
         surfaceTintColor: Colors.white,
       ),
-      fontFamily: 'NotoSansJP',
+      fontFamily: 'Murecho',
     );
   }
 }
