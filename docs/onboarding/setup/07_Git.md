@@ -35,8 +35,9 @@
 ### [macOS] 秘密鍵と公開鍵を生成
 
 ```
+% mkdir ~/.ssh
 % ssh-keygen -t ed25519 -C "<メールアドレス>"
-Enter a file in which to save the key (/Users/<username>/.ssh/id_ed25519): ~/.ssh/github
+Enter a file in which to save the key (/Users/<username>/.ssh/id_ed25519): /Users/<username>/.ssh/github
 Enter passphrase (empty for no passphrase): <Enterキーを押下>
 Enter same passphrase again: <Enterキーを押下>
 ```
@@ -44,8 +45,9 @@ Enter same passphrase again: <Enterキーを押下>
 ### [Windows] 秘密鍵と公開鍵を生成
 
 ```
+> mkdir ~/.ssh
 > ssh-keygen -t ed25519 -C "<メールアドレス>"
-Enter a file in which to save the key (C:\Users\<username>\.ssh\id_ed25519): ~/.ssh/github
+Enter a file in which to save the key (C:\Users\<username>\.ssh\id_ed25519): C:\Users\<username>\.ssh\github
 Enter passphrase (empty for no passphrase): <Enterキーを押下>
 Enter same passphrase again: <Enterキーを押下>
 > Get-Service -Name ssh-agent | Set-Service -StartupType Manual
