@@ -56,7 +56,7 @@ class MapBottomInfo extends ConsumerWidget {
           Container(
             height: 75,
             width: 245,
-            color: Colors.grey.shade400.withOpacity(0.6),
+            color: Colors.grey.shade400.withValues(alpha: 0.6),
             padding: const EdgeInsets.all(10),
             alignment: Alignment.centerLeft,
             child: Column(
@@ -71,7 +71,7 @@ class MapBottomInfo extends ConsumerWidget {
           const SizedBox(height: 15),
           Container(
               height: floorButtonHeight,
-              color: Colors.grey.shade400.withOpacity(0.8),
+              color: Colors.grey.shade400.withValues(alpha: 0.8),
               alignment: Alignment.centerLeft,
               child: Consumer(
                 builder: (context, ref, child) {

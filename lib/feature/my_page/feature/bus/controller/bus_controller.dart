@@ -20,7 +20,7 @@ class AllBusStopsNotifier extends Notifier<List<BusStop>?> {
   }
 }
 
-/// Map<String, Map<String, List<BusTrip>>>
+/// Map&lt;String, Map&lt;String, List&lt;BusTrip&gt;&gt;&gt;
 /// 1つ目のStringキー: from_fun, to_fun
 /// 2つ目のStringキー: holiday, weekday
 final busDataProvider = NotifierProvider<BusDataNotifier, Map<String, Map<String, List<BusTrip>>>?>(

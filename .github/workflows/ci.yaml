@@ -1,0 +1,43 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types:
+      - opened
+      - ready_for_review
+      - reopened
+      - synchronize
+  schedule:
+    - cron: 0 15 * * *
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Get Flutter Version form .fvmrc
+        uses: kuhnroyal/flutter-fvm-config-action/config@v3
+        id: fvm-config-action
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
+          cache: true
+      - name: Set up files
+        run: touch ./.env.dev
+      - name: Install Dependencies
+        run: make install FLUTTER=flutter
+      - name: Run Build
+        run: make build DART=dart
+      - name: Run Tests
+        run: make test FLUTTER=flutter

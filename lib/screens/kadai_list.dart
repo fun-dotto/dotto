@@ -84,22 +84,21 @@ class _KadaiListScreenState extends State<KadaiListScreen> {
     debugPrint(scheduledDate.toString());
     if (scheduledDate.isAfter(now)) {
       await flutterLocalNotificationsPlugin.zonedSchedule(
-          kadai.id!,
-          '${kadai.courseName}',
-          '${kadai.name}\n締切1日前です',
-          scheduledDate,
-          const NotificationDetails(
-            android: AndroidNotificationDetails(
-              'your channel id',
-              'your channel name',
-              importance: Importance.max,
-              priority: Priority.high,
-            ),
-            iOS: DarwinNotificationDetails(),
+        kadai.id!,
+        '${kadai.courseName}',
+        '${kadai.name}\n締切1日前です',
+        scheduledDate,
+        const NotificationDetails(
+          android: AndroidNotificationDetails(
+            'your channel id',
+            'your channel name',
+            importance: Importance.max,
+            priority: Priority.high,
           ),
-          androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
-          uiLocalNotificationDateInterpretation:
-              UILocalNotificationDateInterpretation.absoluteTime);
+          iOS: DarwinNotificationDetails(),
+        ),
+        androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+      );
     }
   }
 
