@@ -33,6 +33,8 @@ jobs:
         with:
           flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
           cache: true
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
       - name: Set up files
         run: touch ./.env.dev
       - name: Install Dependencies
