@@ -49,41 +49,41 @@ class MapSearchBar extends ConsumerWidget {
     final mapSearchListNotifier = ref.watch(mapSearchListProvider.notifier);
     final textEditingControllerNotifier = ref.watch(textEditingControllerProvider.notifier);
     return Container(
-      color: (mapSearchList.isNotEmpty) ? Colors.white.withValues(alpha: 0.9) : Colors.transparent,
-      /*child: Container(*/
-      // Container in Container?
-      margin: const EdgeInsets.only(top: 15, right: 5, left: 5),
-      padding: const EdgeInsets.symmetric(horizontal: 10),
-      child: AppBar(
-          shape: RoundedRectangleBorder(
-            side: const BorderSide(),
-            borderRadius: BorderRadius.circular(20),
-          ),
-          elevation: 5,
-          title: _mapSearchTextField(ref),
-          automaticallyImplyLeading: false,
-          surfaceTintColor: Colors.white,
-          backgroundColor: Colors.grey.shade100,
-          foregroundColor: Colors.black87,
-          //文字が入力されたときのボタンの動作
-          actions: onMapSearch
-              ? [
-                  IconButton(
-                      //×が押されたときの動作
-                      onPressed: () {
-                        mapSearchListNotifier.state = [];
-                        onMapSearchNotifier.state = false;
-                        textEditingControllerNotifier.state.clear();
-                      },
-                      icon: const Icon(Icons.clear)),
-                ]
-              : [
-                  IconButton(
-                    onPressed: () {},
-                    icon: const Icon(Icons.search),
-                  )
-                ]),
-    ); //);
+        color:
+            (mapSearchList.isNotEmpty) ? Colors.white.withValues(alpha: 0.9) : Colors.transparent,
+        child: Container(
+          margin: const EdgeInsets.only(top: 15, right: 5, left: 5),
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          child: AppBar(
+              shape: RoundedRectangleBorder(
+                side: const BorderSide(),
+                borderRadius: BorderRadius.circular(20),
+              ),
+              elevation: 5,
+              title: _mapSearchTextField(ref),
+              automaticallyImplyLeading: false,
+              surfaceTintColor: Colors.white,
+              backgroundColor: Colors.grey.shade100,
+              foregroundColor: Colors.black87,
+              //文字が入力されたときのボタンの動作
+              actions: onMapSearch
+                  ? [
+                      IconButton(
+                          //×が押されたときの動作
+                          onPressed: () {
+                            mapSearchListNotifier.state = [];
+                            onMapSearchNotifier.state = false;
+                            textEditingControllerNotifier.state.clear();
+                          },
+                          icon: const Icon(Icons.clear)),
+                    ]
+                  : [
+                      IconButton(
+                        onPressed: () {},
+                        icon: const Icon(Icons.search),
+                      )
+                    ]),
+        ));
   }
 }
 
