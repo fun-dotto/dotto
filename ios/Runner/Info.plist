@@ -42,7 +42,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>$(FLUTTER_BUILD_NUMBER)</string>
+	<string>1</string>
 	<key>FlutterDeepLinkingEnabled</key>
 	<false/>
 	<key>ITSAppUsesNonExemptEncryption</key>
