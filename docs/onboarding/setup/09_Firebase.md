@@ -14,6 +14,7 @@ Node.js のバージョンを管理するためのアプリケーション`nvm`�
 % echo 'export NVM_DIR="$HOME/.nvm"' >> ~/.zshrc
 % echo '[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm' >> ~/.zshrc
 % echo '[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion' >> ~/.zshrc
+% source ~/.zshrc
 ```
 
 Node.js の最新安定バージョンを確認します。  
@@ -27,7 +28,7 @@ Node.js の最新安定バージョンを確認します。
        v22.11.0   (LTS: Jod)
        v22.12.0   (LTS: Jod)
        v22.13.0   (LTS: Jod)
-->     v22.13.1   (LTS: Jod)
+       v22.13.1   (LTS: Jod)
        v22.14.0   (Latest LTS: Jod)
         v23.0.0
         v23.1.0
