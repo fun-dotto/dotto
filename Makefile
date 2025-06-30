@@ -10,7 +10,7 @@ install:
 
 .PHONY: bundle-install
 bundle-install:
-	cd ./ios && bundle install && cd .. && \
+	cd ./ios && bundle install
 	cd ./android && bundle install
 
 .PHONY: build
