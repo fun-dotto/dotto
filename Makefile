@@ -6,7 +6,10 @@ FASTLANE = bundle exec fastlane
 install:
 	if [ $(GITHUB_ACTIONS) ]; then $(FLUTTER) --version; else fvm install; fi && \
 	$(FLUTTER) config --enable-swift-package-manager && \
-	$(FLUTTER) pub get && \
+	$(FLUTTER) pub get
+
+.PHONY: bundle-install
+bundle-install:
 	cd ./ios && bundle install && cd .. && \
 	cd ./android && bundle install
 
@@ -16,11 +19,11 @@ build:
 
 .PHONY: build-ios
 build-ios:
-	$(FLUTTER) build ios --release --no-codesign
+	$(FLUTTER) build ios --release
 
 .PHONY: build-android
 build-android:
-	$(FLUTTER) build appbundle
+	$(FLUTTER) build appbundle --release
 
 .PHONY: deploy-ios-firebase-app-distribution
 deploy-ios-firebase-app-distribution:
@@ -94,3 +97,8 @@ bump_minor:
 bump_major:
 	$(DART) pub global activate pub_version_plus
 	$(DART) pub global run pub_version_plus:main major --build reset
+
+.PHONY: register-ios-device
+register-ios-device:
+	cd ./ios && \
+	$(FASTLANE) run register_device name:$(name) udid:$(udid)
