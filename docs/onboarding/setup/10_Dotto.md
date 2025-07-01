@@ -40,6 +40,17 @@ Firebase の情報をセットアップします。
 % make run
 ```
 
+## [macOS] iOS 端末で起動する
+
+Mac と iPhone を接続します。
+
+以下のコマンドを実行します。
+
+```
+% make match_development
+% make run
+```
+
 ## [macOS] Android Emulator で起動する
 
 以下のコマンドを実行すると、証明書のフィンガープリントが表示される。
@@ -67,3 +78,7 @@ Ex. `C:\Program Files\Android\Android Studio\jbr\bin`
 ```
 
 [Firebase](https://console.firebase.google.com/u/0/project/swift2023groupc/settings/general/android:jp.ac.fun.dotto?hl=ja)にアクセスして、表示された SHA-1 のフィンガープリントを登録する。
+
+## [Windows] Android 端末で起動する
+
+Coming soon.
