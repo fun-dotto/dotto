@@ -40,6 +40,17 @@ Firebase の情報をセットアップします。
 % make run
 ```
 
+## [macOS] iOS 端末で起動する
+
+Mac と iPhone を接続します。
+
+以下のコマンドを実行します。
+
+```
+% make match_development
+% make run
+```
+
 ## [macOS] Android Emulator で起動する
 
 Visual Studio Code から Android エミュレータを起動します。
