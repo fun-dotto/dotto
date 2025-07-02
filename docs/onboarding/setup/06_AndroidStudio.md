@@ -16,7 +16,7 @@ JetBrains Toolbox から、Android Studio の最新安定版をダウンロー�
 - Plugins → Flutter インストール
 - [Windows] More Actions → Virtual Device Maneger → Emulator 作成
   - 新しいデバイスを選択
-  - Show Advanced Settings から Internal storage を 2048 から 4096 くらいにしておくことをおすすめ
+  - Show Advanced Settings から Internal storage を 2048MB から 4096MB くらいにしておくことをおすすめ(2GB→4GB)
 - Emulator を起動
   - Emulator の設定 (右側の 3 点ドット)から位置情報を変更
     - 日本国内にあれば OK
