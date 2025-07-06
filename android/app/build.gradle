@@ -15,12 +15,12 @@ if (localPropertiesFile.exists()) {
 
 def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
 if (flutterVersionCode == null) {
-    flutterVersionCode = '28'
+    flutterVersionCode = '30'
 }
 
 def flutterVersionName = localProperties.getProperty('flutter.versionName')
 if (flutterVersionName == null) {
-    flutterVersionName = '1.3.1'
+    flutterVersionName = '1.4.0'
 }
 
 def keystoreProperties = new Properties()
@@ -32,8 +32,7 @@ if (keystorePropertiesFile.exists()) {
 
 android {
     namespace "jp.ac.fun.dotto"
-    compileSdkVersion 34
-    ndkVersion "25.1.8937393"
+    compileSdkVersion 35
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -88,8 +87,8 @@ flutter {
 }
 
 dependencies {
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.3'
-    implementation platform('com.google.firebase:firebase-bom:33.6.0')
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.5'
+    implementation platform('com.google.firebase:firebase-bom:33.12.0')
     implementation 'com.google.firebase:firebase-appcheck-debug:18.0.0'
     implementation 'com.google.firebase:firebase-appcheck-playintegrity:18.0.0'
     implementation 'androidx.window:window:1.3.0'

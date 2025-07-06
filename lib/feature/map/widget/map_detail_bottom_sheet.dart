@@ -77,7 +77,7 @@ class MapDetailBottomSheet extends ConsumerWidget {
     return Container(
       width: 140,
       decoration: BoxDecoration(
-        color: blue.withOpacity(0.6),
+        color: blue.withValues(alpha: 0.6),
         borderRadius: BorderRadius.circular(8),
       ),
       padding: const EdgeInsets.all(5),

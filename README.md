@@ -1,3 +1,7 @@
-# flutter_app
+# Dotto
 
-我々のアプリだ
+[![CI](https://github.com/fun-dotto/dotto/actions/workflows/ci.yaml/badge.svg)](https://github.com/fun-dotto/dotto/actions/workflows/ci.yaml)
+
+## ようこそ、Dotto 開発チームへ！
+
+[オンボーディング](docs/onboarding/00_README.md)
