@@ -21,10 +21,10 @@ class NotificationRepository {
       provisional: false,
       sound: true,
     );
-    // final token = await messaging.getToken();
-    // if (token != null) {
-    //   debugPrint("FCM Token: $token");
-    // }
+    final token = await messaging.getToken();
+    if (token != null) {
+      debugPrint("FCM Token: $token");
+    }
   }
 
   Future<void> setupInteractedMessage(WidgetRef ref) async {
