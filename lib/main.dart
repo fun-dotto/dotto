@@ -23,6 +23,9 @@ import 'package:timezone/timezone.dart' as tz;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  // .envファイルの読み込み
+  await dotenv.load(fileName: ".env.dev");
+
   // Firebaseの初期化
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
@@ -35,9 +38,6 @@ Future<void> main() async {
     return true;
   };
 
-  // Firebase Realtime Databaseのパーシステンスを有効化
-  FirebaseDatabase.instance.setPersistenceEnabled(true);
-
   // Firebase App Checkの初期化
   await FirebaseAppCheck.instance.activate(
     androidProvider: kReleaseMode ? AndroidProvider.playIntegrity : AndroidProvider.debug,
@@ -47,10 +47,10 @@ Future<void> main() async {
   // Firebase Remote Configの初期化
   await RemoteConfigRepository.initialize();
 
-  // .envファイルの読み込み
-  await dotenv.load(fileName: ".env.dev");
+  // Firebase Realtime Databaseのパーシステンスを有効化
+  FirebaseDatabase.instance.setPersistenceEnabled(true);
 
-  // 画面の向きを固定.
+  // 画面の向きを固定
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
