@@ -4,8 +4,10 @@ import 'package:dotto/repository/db_config.dart';
 import 'package:dotto/repository/download_file_from_firebase.dart';
 import 'package:dotto/repository/location.dart';
 import 'package:dotto/repository/notification.dart';
+import 'package:dotto/repository/remote_config_repository.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
@@ -20,24 +22,58 @@ import 'package:timezone/timezone.dart' as tz;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Firebaseの初期化
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+  // Firebase Crashlyticsの初期化
+  FlutterError.onError = (errorDetails) {
+    FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
+  };
+  PlatformDispatcher.instance.onError = (error, stack) {
+    FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+    return true;
+  };
+
+  // Firebase Realtime Databaseのパーシステンスを有効化
   FirebaseDatabase.instance.setPersistenceEnabled(true);
+
+  // Firebase App Checkの初期化
   await FirebaseAppCheck.instance.activate(
     androidProvider: kReleaseMode ? AndroidProvider.playIntegrity : AndroidProvider.debug,
     appleProvider: kReleaseMode ? AppleProvider.appAttest : AppleProvider.debug,
   );
+
+  // Firebase Remote Configの初期化
+  await RemoteConfigRepository.initialize();
+
+  // .envファイルの読み込み
   await dotenv.load(fileName: ".env.dev");
+
   // 画面の向きを固定.
-  SystemChrome.setPreferredOrientations(
-      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
+
+  // ローカルタイムゾーンの設定
   await _configureLocalTimeZone();
   Timer(const Duration(seconds: 1), () {});
+
+  // Firebase Messagingのバックグラウンドハンドラーを設定
   await NotificationRepository().init();
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
+  // 位置情報の許可をリクエスト
   await requestLocationPermission();
+
+  // ファイルをダウンロード
   await downloadFiles();
+
+  // データベースの初期化
   await SyllabusDBConfig.setDB();
 
+  // アプリの起動
   runApp(const ProviderScope(child: MyApp()));
 }
 
