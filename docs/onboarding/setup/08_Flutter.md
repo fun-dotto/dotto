@@ -8,31 +8,40 @@ Flutter とは、iOS、macOS、Android、Windows、Web など、複数のプラ�
 
 Flutter のバージョンを管理するためのアプリケーション`fvm`をインストールします。
 
-```
-% brew tap leoafarias/fvm
-% brew install fvm
+```Bash
+brew tap leoafarias/fvm
+```Bash
+brew install fvm
 ```
 
 Flutter の最新バージョンを確認します。
 
-```
-% fvm releases
+```Bash
+fvm releases
 ```
 
 Flutter の最新バージョンをインストールします。
 
+```Bash
+fvm install <最新バージョン番号>
 ```
-% fvm install <最新バージョン番号>
-% fvm global <最新バージョン番号>
+```Bash
+fvm global <最新バージョン番号>
 ```
 
 パスを通します。
 
+```Bash
+echo 'export PATH="$HOME/fvm/default/bin:$PATH"' >> ~/.zshrc
 ```
-% echo 'export PATH="$HOME/fvm/default/bin:$PATH"' >> ~/.zshrc
-% echo 'export PATH="$PATH":"$HOME/.pub-cache/bin"' >> ~/.zshrc
-% echo '[[ -f /Users/kantacky/.dart-cli-completion/zsh-config.zsh ]] && . /Users/kantacky/.dart-cli-completion/zsh-config.zsh || true' >> ~/.zshrc
-% source ~/.zshrc
+```Bash
+echo 'export PATH="$PATH":"$HOME/.pub-cache/bin"' >> ~/.zshrc
+```
+```Bash
+echo '[[ -f /Users/kantacky/.dart-cli-completion/zsh-config.zsh ]] && . /Users/kantacky/.dart-cli-completion/zsh-config.zsh || true' >> ~/.zshrc
+```
+```Bash
+source ~/.zshrc
 ```
 
 Flutter のバージョン番号が表示されれば成功です。
@@ -47,14 +56,14 @@ Tools • Dart 3.7.2 • DevTools 2.42.3
 
 Flutter に必要な環境が整っているかどうかを確認します。
 
-```
-% flutter doctor
+```Bash
+flutter doctor
 ```
 
 Android Studio を使う場合は、ライセンスを確認して同意します。
 
-```
-% flutter doctor --android-licenses
+```Bash
+flutter doctor --android-licenses
 ```
 
 ## [Windows] Flutter をインストール

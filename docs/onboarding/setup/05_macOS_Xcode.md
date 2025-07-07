@@ -5,8 +5,8 @@
 Xcode を管理するためのアプリケーションです。Homebrew を使ってインストールします。  
 Xcode を高速にインストールするためのパッケージ `aria2` も合わせてインストールします。
 
-```
-% brew install xcodes aria2
+```Bash
+brew install xcodes aria2
 ```
 
 ## Xcode をインストール
@@ -15,8 +15,12 @@ Xcodes で Xcode の最新安定版インストールします。
 下記の例では、16.4 が最新です。`Beta` 、`Release Candidate` が入っているバージョンは、安定版ではないので、インストールすることは避けます。  
 下記の例では、`16.4` をインストールします。
 
+```Bash
+xcodes list
 ```
-% xcodes list
+
+出力例
+```
 ...
 16.0 Beta (16A5171c)
 16.0 Beta 2 (16A5171r)
@@ -42,7 +46,9 @@ Xcodes で Xcode の最新安定版インストールします。
 16.3 (16E140)
 16.4 Beta (16F1t)
 16.4 (16F6)
-% xcodes install 16.4
+```
+```Bash
+xcodes install 16.4
 ```
 
 ## SDK をインストール
@@ -50,8 +56,11 @@ Xcodes で Xcode の最新安定版インストールします。
 iOS SDK の最新版をインストールします。  
 下記の例では、`iOS 18.5` をインストールします。
 
+```Bash
+xcodes runtimes
 ```
-% xcodes runtimes
+以下は出力例
+```
 -- iOS --
 ...
 iOS 18.5
@@ -66,5 +75,7 @@ tvOS 18.5
 visionOS 2.5
 
 Note: Bundled runtimes are indicated for the currently selected Xcode, more bundled runtimes may exist in other Xcode(s)
-% xcodes runtimes install 'iOS 18.5'
+```
+```Bash
+xcodes runtimes install 'iOS 18.5'
 ```

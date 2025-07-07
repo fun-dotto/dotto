@@ -8,20 +8,30 @@ Dotto の Firebase プロジェクトに招待してもらうよう、Google ア
 
 Node.js のバージョンを管理するためのアプリケーション`nvm`をインストールします。
 
+```Bash
+brew install nvm
 ```
-% brew install nvm
-% mkdir ~/.nvm
-% echo 'export NVM_DIR="$HOME/.nvm"' >> ~/.zshrc
-% echo '[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm' >> ~/.zshrc
-% echo '[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion' >> ~/.zshrc
-% source ~/.zshrc
+```Bash
+mkdir ~/.nvm
+```
+```Bash
+echo 'export NVM_DIR="$HOME/.nvm"' >> ~/.zshrc
+```
+```Bash
+echo '[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm' >> ~/.zshrc
+```
+```Bash
+echo '[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion' >> ~/.zshrc
+```
+```Bash
+source ~/.zshrc
 ```
 
 Node.js の最新安定バージョンを確認します。  
 以下の例では、v22.14.0 が最新安定バージョンです。
 
-```
-% nvm ls-remote
+```Bash
+nvm ls-remote
 ...
         v22.9.0
        v22.10.0
@@ -45,16 +55,20 @@ Node.js の最新安定バージョンを確認します。
        v23.11.0
 ```
 
-```
-% nvm install <最新安定バージョン番号>
+```Bash
+nvm install <最新安定バージョン番号>
 ```
 
 以下のコマンドを実行する事で、各種バージョン番号が表示されれば成功です。
 
+```Bash
+node -v
 ```
-% node -v
-% nvm current
-% npm -v
+```Bash
+nvm current
+```Bash
+```Bash
+npm -v
 ```
 
 ## [Windows] Node.js をインストール
@@ -74,8 +88,8 @@ Node.js の最新安定バージョンを確認します。
 
 ## Firebase CLI をインストール
 
-```
-% npm install -g firebase-tools
+```Bash
+npm install -g firebase-tools
 ```
 
 [Windows] 以下のコマンドを実行します。
@@ -86,12 +100,12 @@ Node.js の最新安定バージョンを確認します。
 
 以下のコマンドを実行して、Firebase CLI にログインします。
 
-```
-% firebase login
+```Bash
+firebase login
 ```
 
 以下のコマンドを実行して、プロジェクト`dotto`が表示されれば成功です。
 
-```
-% firebase projects:list
+```Bash
+firebase projects:list
 ```
