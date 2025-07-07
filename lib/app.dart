@@ -13,7 +13,6 @@ import 'package:dotto/feature/map/controller/map_controller.dart';
 import 'package:dotto/feature/map/repository/map_repository.dart';
 import 'package:dotto/feature/my_page/feature/bus/controller/bus_controller.dart';
 import 'package:dotto/feature/my_page/feature/funch/controller/funch_providers.dart';
-import 'package:dotto/feature/my_page/feature/funch/repository/funch_repository.dart';
 import 'package:dotto/feature/my_page/feature/bus/repository/bus_repository.dart';
 import 'package:dotto/feature/my_page/feature/news/controller/news_controller.dart';
 import 'package:dotto/feature/my_page/feature/news/repository/news_repository.dart';
@@ -112,7 +111,7 @@ class _BasePageState extends ConsumerState<BasePage> {
   }
 
   Future<void> getFunchMenuList() async {
-    ref.read(funchAllCoopMenuProvider.notifier).set(await FunchRepository().getAllCoopMenu());
+    ref.read(funchAllCoopMenuProvider.notifier).fetchAllCoopMenu();
   }
 
   Future<void> saveFCMToken() async {

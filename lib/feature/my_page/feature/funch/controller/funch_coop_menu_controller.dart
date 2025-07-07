@@ -18,12 +18,15 @@ final funchMonthMenuProvider = Provider(
 );
 
 class FunchCoopMenuNotifier extends Notifier<List<FunchCoopMenu>?> {
+  final FunchRepository _funchRepository = FunchRepository();
+
   @override
   List<FunchCoopMenu>? build() {
     return null;
   }
 
-  void set(List<FunchCoopMenu> list) {
+  void fetchAllCoopMenu() async {
+    final list = await _funchRepository.getAllCoopMenu();
     state = list;
   }
 
