@@ -13,7 +13,6 @@ Future<String> readJsonFile(String fileName) async {
       await Future.delayed(const Duration(milliseconds: 100));
       return await readJsonFile(fileName);
     }
-    //print("read success");
     return content;
   } else {
     throw Exception("File does not exist");
