@@ -12,7 +12,7 @@ final class RemoteConfigRepository {
     if (const bool.fromEnvironment('dart.vm.product') == false) {
       await remoteConfig.setConfigSettings(RemoteConfigSettings(
         fetchTimeout: const Duration(minutes: 1),
-        minimumFetchInterval: const Duration(minutes: 5),
+        minimumFetchInterval: const Duration(minutes: 0),
       ));
     } else {
       await remoteConfig.setConfigSettings(RemoteConfigSettings(
