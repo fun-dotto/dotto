@@ -12,10 +12,10 @@ class ConfigController extends StateNotifier<ConfigState> {
 
     try {
       final isDesignV2Enabled =
-          await _remoteConfigRepository.getBool(RemoteConfigKeys.isDesignV2Enabled);
-      final isFunchEnabled = await _remoteConfigRepository.getBool(RemoteConfigKeys.isFunchEnabled);
+          _remoteConfigRepository.getBool(RemoteConfigKeys.isDesignV2Enabled);
+      final isFunchEnabled = _remoteConfigRepository.getBool(RemoteConfigKeys.isFunchEnabled);
       final isValidAppVersion =
-          await _remoteConfigRepository.getBool(RemoteConfigKeys.isValidAppVersion);
+          _remoteConfigRepository.getBool(RemoteConfigKeys.isValidAppVersion);
 
       state = state.copyWith(
         isDesignV2Enabled: isDesignV2Enabled,

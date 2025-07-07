@@ -4,11 +4,8 @@ import '../domain/remote_config_keys.dart';
 final class RemoteConfigRepository {
   final remoteConfig = FirebaseRemoteConfig.instance;
 
-  RemoteConfigRepository() {
-    _initialize();
-  }
-
-  Future<void> _initialize() async {
+  static Future<void> initialize() async {
+    final remoteConfig = FirebaseRemoteConfig.instance;
     if (const bool.fromEnvironment('dart.vm.product') == false) {
       await remoteConfig.setConfigSettings(RemoteConfigSettings(
         fetchTimeout: const Duration(minutes: 1),
@@ -26,25 +23,23 @@ final class RemoteConfigRepository {
       RemoteConfigKeys.isFunchEnabled: false,
       RemoteConfigKeys.isValidAppVersion: true,
     });
+
+    await remoteConfig.fetchAndActivate();
   }
 
-  Future<bool> getBool(String key) async {
-    await remoteConfig.fetchAndActivate();
+  bool getBool(String key) {
     return remoteConfig.getBool(key);
   }
 
-  Future<double> getDouble(String key) async {
-    await remoteConfig.fetchAndActivate();
+  double getDouble(String key) {
     return remoteConfig.getDouble(key);
   }
 
-  Future<int> getInt(String key) async {
-    await remoteConfig.fetchAndActivate();
+  int getInt(String key) {
     return remoteConfig.getInt(key);
   }
 
-  Future<String> getString(String key) async {
-    await remoteConfig.fetchAndActivate();
+  String getString(String key) {
     return remoteConfig.getString(key);
   }
 }
