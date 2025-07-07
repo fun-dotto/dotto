@@ -2,9 +2,9 @@ import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:collection/collection.dart';
-import 'package:dotto/feature/my_page/feature/funch/controller/funch_providers.dart';
-import 'package:dotto/feature/my_page/feature/funch/domain/funch_menu.dart';
-import 'package:dotto/feature/my_page/feature/funch/domain/funch_price.dart';
+import 'package:dotto/feature/funch/controller/funch_providers.dart';
+import 'package:dotto/feature/funch/domain/funch_menu.dart';
+import 'package:dotto/feature/funch/domain/funch_price.dart';
 import 'package:dotto/importer.dart';
 import 'package:dotto/repository/read_json_file.dart';
 

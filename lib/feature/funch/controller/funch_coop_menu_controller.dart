@@ -1,5 +1,5 @@
-import 'package:dotto/feature/my_page/feature/funch/domain/funch_menu.dart';
-import 'package:dotto/feature/my_page/feature/funch/repository/funch_repository.dart';
+import 'package:dotto/feature/funch/domain/funch_menu.dart';
+import 'package:dotto/feature/funch/repository/funch_repository.dart';
 import 'package:dotto/importer.dart';
 
 final funchAllCoopMenuProvider =

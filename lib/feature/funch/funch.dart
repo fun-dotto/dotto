@@ -1,8 +1,8 @@
 import 'package:dotto/components/color_fun.dart';
-import 'package:dotto/feature/my_page/feature/funch/controller/funch_providers.dart';
-import 'package:dotto/feature/my_page/feature/funch/domain/funch_menu.dart';
-import 'package:dotto/feature/my_page/feature/funch/domain/funch_menu_type.dart';
-import 'package:dotto/feature/my_page/feature/funch/widget/funch_menu_card.dart';
+import 'package:dotto/feature/funch/controller/funch_providers.dart';
+import 'package:dotto/feature/funch/domain/funch_menu.dart';
+import 'package:dotto/feature/funch/domain/funch_menu_type.dart';
+import 'package:dotto/feature/funch/widget/funch_menu_card.dart';
 import 'package:dotto/importer.dart';
 import 'package:intl/intl.dart';
 

@@ -12,7 +12,7 @@ import 'package:dotto/domain/tab_item.dart';
 import 'package:dotto/feature/map/controller/map_controller.dart';
 import 'package:dotto/feature/map/repository/map_repository.dart';
 import 'package:dotto/feature/my_page/feature/bus/controller/bus_controller.dart';
-import 'package:dotto/feature/my_page/feature/funch/controller/funch_providers.dart';
+import 'package:dotto/feature/funch/controller/funch_providers.dart';
 import 'package:dotto/feature/my_page/feature/bus/repository/bus_repository.dart';
 import 'package:dotto/feature/my_page/feature/news/controller/news_controller.dart';
 import 'package:dotto/feature/my_page/feature/news/repository/news_repository.dart';

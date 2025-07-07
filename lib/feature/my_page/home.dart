@@ -2,8 +2,8 @@ import 'package:collection/collection.dart';
 import 'package:dotto/components/animation.dart';
 import 'package:dotto/components/color_fun.dart';
 import 'package:dotto/feature/my_page/feature/bus/widget/bus_card_home.dart';
-import 'package:dotto/feature/my_page/feature/funch/funch.dart';
-import 'package:dotto/feature/my_page/feature/funch/widget/my_page_funch.dart';
+import 'package:dotto/feature/funch/funch.dart';
+import 'package:dotto/feature/my_page/components/mypage_funch_card.dart';
 import 'package:dotto/feature/my_page/feature/news/controller/news_controller.dart';
 import 'package:dotto/feature/my_page/feature/news/news_detail.dart';
 import 'package:dotto/feature/my_page/feature/news/widget/my_page_news.dart';
@@ -218,7 +218,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               const SizedBox(height: 20),
               const BusCardHome(),
               const SizedBox(height: 20),
-              const MyPageFunch(),
+              const MyPageFunchCard(),
               const SizedBox(height: 20),
               const MyPageNews(),
               const SizedBox(height: 20),

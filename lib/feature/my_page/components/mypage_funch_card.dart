@@ -1,16 +1,16 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dotto/components/app_color.dart';
 import 'package:dotto/components/widgets/progress_indicator.dart';
-import 'package:dotto/feature/my_page/feature/funch/controller/funch_providers.dart';
-import 'package:dotto/feature/my_page/feature/funch/domain/funch_menu.dart';
-import 'package:dotto/feature/my_page/feature/funch/funch.dart';
-import 'package:dotto/feature/my_page/feature/funch/repository/funch_repository.dart';
-import 'package:dotto/feature/my_page/feature/funch/widget/funch_price_list.dart';
+import 'package:dotto/feature/funch/controller/funch_providers.dart';
+import 'package:dotto/feature/funch/domain/funch_menu.dart';
+import 'package:dotto/feature/funch/funch.dart';
+import 'package:dotto/feature/funch/repository/funch_repository.dart';
+import 'package:dotto/feature/funch/widget/funch_price_list.dart';
 import 'package:dotto/importer.dart';
 import 'package:intl/intl.dart';
 
-class MyPageFunch extends ConsumerWidget {
-  const MyPageFunch({super.key});
+class MyPageFunchCard extends ConsumerWidget {
+  const MyPageFunchCard({super.key});
 
   Future<List<FunchMenu>> _getDaysMenu(WidgetRef ref, DateTime date) async {
     final funchDaysMenu = await ref.watch(funchDaysMenuProvider);

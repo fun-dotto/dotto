@@ -1,4 +1,4 @@
-import 'package:dotto/feature/my_page/feature/funch/domain/funch_price.dart';
+import 'package:dotto/feature/funch/domain/funch_price.dart';
 
 class FunchMenu {
   final String name;
