@@ -5,8 +5,9 @@ import 'package:dotto/components/color_fun.dart';
 
 class DottoTheme {
   static ThemeData get lightTheme {
-    return ThemeData.light().copyWith(
+    return ThemeData(
       colorScheme: const ColorScheme.light(),
+      fontFamily: 'NotoSansJP',
       extensions: [
         DottoSemanticColors.light,
       ],
