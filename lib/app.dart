@@ -57,7 +57,7 @@ class BasePage extends ConsumerStatefulWidget {
 class _BasePageState extends ConsumerState<BasePage> {
   late List<String?> parameter;
 
-  Future<void> initUniLinks() async {
+  Future<void> setupUniversalLinks() async {
     final appLinks = AppLinks();
     appLinks.uriLinkStream.listen((event) {
       if (event.path == "/config/" && event.hasQuery) {
@@ -74,13 +74,13 @@ class _BasePageState extends ConsumerState<BasePage> {
     });
   }
 
-  Future<void> setPersonalLessonIdList() async {
+  Future<void> getPersonalLessonIdList() async {
     await TimetableRepository().loadPersonalTimeTableList(ref);
     ref.read(twoWeekTimeTableDataProvider.notifier).state =
         await TimetableRepository().get2WeekLessonSchedule(ref);
   }
 
-  Future<void> initBus() async {
+  Future<void> getBus() async {
     await ref.read(allBusStopsProvider.notifier).init();
     await ref.read(busDataProvider.notifier).init();
     ref.read(myBusStopProvider.notifier).init();
@@ -92,14 +92,13 @@ class _BasePageState extends ConsumerState<BasePage> {
     ref.read(newsListProvider.notifier).update(await NewsRepository().getNewsListFromFirestore());
   }
 
-  Future<void> initFunch() async {
+  Future<void> getFunchMenuList() async {
     ref.read(funchAllCoopMenuProvider.notifier).set(await FunchRepository().getAllCoopMenu());
-    print("allMenu");
   }
 
   Future<void> saveFCMToken() async {
     final didSave = await UserPreferences.getBool(UserPreferenceKeys.didSaveFCMToken) ?? false;
-    debugPrint("didSave: $didSave");
+    debugPrint("didSaveFCMToken: $didSave");
     if (didSave) {
       return;
     }
@@ -123,23 +122,20 @@ class _BasePageState extends ConsumerState<BasePage> {
     }
   }
 
-  Future<void> init() async {
-    initUniLinks();
-    initBus();
+  void init() async {
     NotificationRepository().setupInteractedMessage(ref);
-    setPersonalLessonIdList();
-    // await downloadFiles();
-    await getNews();
-    initFunch();
+    setupUniversalLinks();
+    getPersonalLessonIdList();
+    getBus();
+    getFunchMenuList();
+    getNews();
     saveFCMToken();
   }
 
   @override
   void initState() {
     super.initState();
-    Future(() async {
-      await init();
-    });
+    init();
   }
 
   void _onItemTapped(int index) async {
