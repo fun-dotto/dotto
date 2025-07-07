@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import '../domain/remote_config_keys.dart';
 
@@ -6,7 +7,7 @@ final class RemoteConfigRepository {
 
   static Future<void> initialize() async {
     final remoteConfig = FirebaseRemoteConfig.instance;
-    if (const bool.fromEnvironment('dart.vm.product') == false) {
+    if (kDebugMode) {
       await remoteConfig.setConfigSettings(RemoteConfigSettings(
         fetchTimeout: const Duration(minutes: 1),
         minimumFetchInterval: const Duration(minutes: 0),
@@ -18,7 +19,7 @@ final class RemoteConfigRepository {
       ));
     }
 
-    if (const bool.fromEnvironment('dart.vm.product') == false) {
+    if (kDebugMode) {
       await remoteConfig.setDefaults(const {
         RemoteConfigKeys.isDesignV2Enabled: false,
         RemoteConfigKeys.isFunchEnabled: false,
