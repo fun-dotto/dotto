@@ -21,7 +21,7 @@ final class RemoteConfigRepository {
     if (const bool.fromEnvironment('dart.vm.product') == false) {
       await remoteConfig.setDefaults(const {
         RemoteConfigKeys.isDesignV2Enabled: false,
-        RemoteConfigKeys.isFunchEnabled: false,
+        RemoteConfigKeys.isFunchEnabled: true,
         RemoteConfigKeys.isValidAppVersion: true,
       });
     } else {
