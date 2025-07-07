@@ -90,36 +90,37 @@ class FunchRepository {
   }
 
   Future<Map<DateTime, FunchDaysMenu>> getDaysMenu(Ref ref, List<FunchCoopMenu>? allMenu) async {
-    if (allMenu != null) {
-      final data = await _getDaysMenuFromFirestore();
-      Set<String> originalMenuRefs = {};
-      for (var key in data.keys) {
-        originalMenuRefs
-            .addAll((data[key]!["original_menu"] as List<DocumentReference>).map((e) => e.id));
-      }
-      final originalMenu = await _getAllOriginalMenu(originalMenuRefs);
-      ref.read(funchAllOriginalMenuProvider.notifier).set(originalMenu);
-
-      return data.map((key, value) {
-        List<FunchCoopMenu> list = [];
-        for (int v in value["menu"]) {
-          final menu = allMenu.firstWhereOrNull((element) => element.itemCode == v);
-          if (menu != null) {
-            list.add(menu);
-          }
-        }
-        List<FunchOriginalMenu> originalList = [];
-        for (DocumentReference v in value["original_menu"]) {
-          final menu = originalMenu.firstWhereOrNull((element) => element.id == v.id);
-          if (menu != null) {
-            originalList.add(menu);
-          }
-        }
-        return MapEntry(key, FunchDaysMenu(key, list, originalList));
-      });
-    } else {
+    if (allMenu == null) {
       return {};
     }
+
+    final data = await _getDaysMenuFromFirestore();
+    Set<String> originalMenuRefs = {};
+    for (Map value in data.values) {
+      final originalMenu = value["original_menu"] as List<DocumentReference>;
+      originalMenuRefs.addAll(originalMenu.map((e) => e.id));
+    }
+
+    final originalMenuList = await _getAllOriginalMenu(originalMenuRefs);
+    ref.read(funchAllOriginalMenuProvider.notifier).set(originalMenuList);
+
+    return data.map((key, value) {
+      List<FunchCoopMenu> list = [];
+      for (int v in value["menu"]) {
+        final menu = allMenu.firstWhereOrNull((element) => element.itemCode == v);
+        if (menu != null) {
+          list.add(menu);
+        }
+      }
+      List<FunchOriginalMenu> originalList = [];
+      for (DocumentReference v in value["original_menu"]) {
+        final menu = originalMenuList.firstWhereOrNull((element) => element.id == v.id);
+        if (menu != null) {
+          originalList.add(menu);
+        }
+      }
+      return MapEntry(key, FunchDaysMenu(key, list, originalList));
+    });
   }
 
   Future<Map<int, Map>> _getMonthMenuFromFirestore() async {
