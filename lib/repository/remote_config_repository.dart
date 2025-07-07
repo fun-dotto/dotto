@@ -1,4 +1,5 @@
 import 'package:firebase_remote_config/firebase_remote_config.dart';
+import '../domain/remote_config_keys.dart';
 
 final class RemoteConfigRepository {
   final remoteConfig = FirebaseRemoteConfig.instance;
@@ -21,9 +22,9 @@ final class RemoteConfigRepository {
     }
 
     await remoteConfig.setDefaults(const {
-      "is_design_v2_enabled": false,
-      "is_funch_enabled": false,
-      "is_valid_app_version": true,
+      RemoteConfigKeys.isDesignV2Enabled: false,
+      RemoteConfigKeys.isFunchEnabled: false,
+      RemoteConfigKeys.isValidAppVersion: true,
     });
   }
 
