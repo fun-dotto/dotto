@@ -68,7 +68,7 @@ Future<void> main() async {
   await requestLocationPermission();
 
   // ファイルをダウンロード
-  await downloadFiles();
+  await _downloadFiles();
 
   // データベースの初期化
   await SyllabusDBConfig.setDB();
@@ -87,7 +87,7 @@ Future<void> _configureLocalTimeZone() async {
   tz.setLocalLocation(tz.getLocation('Asia/Tokyo'));
 }
 
-Future<void> downloadFiles() async {
+Future<void> _downloadFiles() async {
   try {
     await Future(
       () {
