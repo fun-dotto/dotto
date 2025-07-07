@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Project 03 Group C',
+      title: 'Dotto',
       theme: DottoTheme.v1,
       home: const BasePage(),
       localizationsDelegates: const [
