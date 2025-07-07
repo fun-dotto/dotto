@@ -1,7 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dotto/components/app_color.dart';
 import 'package:dotto/components/widgets/progress_indicator.dart';
-import 'package:dotto/feature/my_page/feature/funch/controller/funch_controller.dart';
+import 'package:dotto/feature/my_page/feature/funch/controller/funch_providers.dart';
 import 'package:dotto/feature/my_page/feature/funch/domain/funch_menu.dart';
 import 'package:dotto/feature/my_page/feature/funch/funch.dart';
 import 'package:dotto/feature/my_page/feature/funch/repository/funch_repository.dart';

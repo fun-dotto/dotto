@@ -1,5 +1,5 @@
 import 'package:dotto/components/color_fun.dart';
-import 'package:dotto/feature/my_page/feature/funch/controller/funch_controller.dart';
+import 'package:dotto/feature/my_page/feature/funch/controller/funch_providers.dart';
 import 'package:dotto/feature/my_page/feature/funch/domain/funch_menu.dart';
 import 'package:dotto/feature/my_page/feature/funch/domain/funch_menu_type.dart';
 import 'package:dotto/feature/my_page/feature/funch/widget/funch_menu_card.dart';
