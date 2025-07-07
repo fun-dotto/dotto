@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'colors/theme_extension.dart';
-
 import 'package:dotto/components/color_fun.dart';
 
 class DottoTheme {
