@@ -1,5 +1,6 @@
 FLUTTER = fvm flutter
 DART = fvm dart
+FASTLANE = bundle exec fastlane
 
 .PHONY: install
 install:
@@ -7,17 +8,14 @@ install:
 	$(FLUTTER) config --enable-swift-package-manager
 	$(FLUTTER) pub get
 
+.PHONY: bundle-install
+bundle-install:
+	cd ./ios && bundle install
+	cd ./android && bundle install
+
 .PHONY: build
 build:
 	$(DART) run build_runner build --delete-conflicting-outputs
-
-.PHONY: build-ios
-build-ios:
-	$(FLUTTER) build ios
-
-.PHONY: build-android
-build-android:
-	$(FLUTTER) build appbundle
 
 .PHONY: run
 run:
@@ -41,3 +39,58 @@ test-with-coverage:
 .PHONY: analyze
 analyze:
 	$(FLUTTER) analyze ./lib/ ./test/
+
+.PHONY: build-ios
+build-ios:
+	$(FLUTTER) build ios --release
+
+.PHONY: build-android
+build-android:
+	$(FLUTTER) build appbundle --release
+
+.PHONY: deploy-ios-firebase-app-distribution
+deploy-ios-firebase-app-distribution:
+	cd ./ios && $(FASTLANE) deploy_firebase_app_distribution
+
+.PHONY: deploy-android-firebase-app-distribution
+deploy-android-firebase-app-distribution:
+	cd ./android && $(FASTLANE) deploy_firebase_app_distribution
+
+.PHONY: deploy-ios-testflight
+deploy-ios-testflight:
+	cd ./ios && $(FASTLANE) deploy_testflight
+
+.PHONY: deploy-android-play-store
+deploy-android-play-store:
+	cd ./android && $(FASTLANE) deploy_play_store
+
+.PHONY: match-development
+match-development:
+	cd ./ios && $(FASTLANE) match_development_readonly
+
+.PHONY: bump-build
+bump-build:
+	$(DART) pub global activate pub_version_plus
+	$(DART) pub global run pub_version_plus:main build
+
+.PHONY: bump-patch
+bump-patch:
+	$(DART) pub global activate pub_version_plus
+	$(DART) pub global run pub_version_plus:main patch --build reset
+
+.PHONY: bump-minor
+bump-minor:
+	$(DART) pub global activate pub_version_plus
+	$(DART) pub global run pub_version_plus:main minor --build reset
+
+.PHONY: bump-major
+bump-major:
+	$(DART) pub global activate pub_version_plus
+	$(DART) pub global run pub_version_plus:main major --build reset
+
+.PHONY: register-ios-device
+register-ios-device:
+	cd ./ios && $(FASTLANE) run register_device name:$(name) udid:$(udid)
+	cd ./ios && $(FASTLANE) match_development
+	cd ./ios && $(FASTLANE) match_adhoc
+	cd ./ios && $(FASTLANE) match_appstore
