@@ -3,7 +3,7 @@ import 'colors/theme_extension.dart';
 import 'package:dotto/components/color_fun.dart';
 
 class DottoTheme {
-  static ThemeData get lightTheme {
+  static ThemeData get v2 {
     return ThemeData(
       colorScheme: const ColorScheme.light(),
       fontFamily: 'NotoSansJP',
