@@ -5,7 +5,7 @@ import 'package:dotto/feature/funch/controller/funch_providers.dart';
 import 'package:dotto/feature/funch/domain/funch_menu.dart';
 import 'package:dotto/feature/funch/funch.dart';
 import 'package:dotto/feature/funch/repository/funch_repository.dart';
-import 'package:dotto/feature/funch/widget/funch_price_list.dart';
+import 'package:dotto/feature/funch/component/funch_price_list.dart';
 import 'package:dotto/importer.dart';
 import 'package:intl/intl.dart';
 
@@ -42,7 +42,7 @@ class MyPageFunchCard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final nextDay = FunchRepository().nextDay();
     final dayString = _getDayString(nextDay);
-    
+
     return Column(
       children: [
         GestureDetector(
@@ -59,11 +59,11 @@ class MyPageFunchCard extends ConsumerWidget {
                 return Center(child: createProgressIndicator());
               }
               final menu = snapshot.data as List<FunchMenu>;
-              
+
               if (menu.isEmpty) {
                 return _buildEmptyCard(context, dayString, snapshot);
               }
-              
+
               return _buildMenuCard(context, ref, menu, dayString);
             },
           ),
@@ -99,12 +99,13 @@ class MyPageFunchCard extends ConsumerWidget {
     );
   }
 
-  Widget _buildMenuCard(BuildContext context, WidgetRef ref, List<FunchMenu> menu, String dayString) {
+  Widget _buildMenuCard(
+      BuildContext context, WidgetRef ref, List<FunchMenu> menu, String dayString) {
     const borderRadius = 10.0;
-    
+
     return Container(
-      margin: EdgeInsets.symmetric(
-          horizontal: MediaQuery.of(context).size.width * 0.075, vertical: 2),
+      margin:
+          EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.075, vertical: 2),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(borderRadius),
@@ -193,7 +194,7 @@ class MyPageFunchCard extends ConsumerWidget {
 
   Widget _buildIndicators(BuildContext context, WidgetRef ref, List<FunchMenu> menu) {
     final mypageIndex = ref.watch(funchMyPageIndexProvider);
-    
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -204,10 +205,9 @@ class MyPageFunchCard extends ConsumerWidget {
             margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
             decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: (Theme.of(context).brightness == Brightness.dark
-                        ? Colors.white
-                        : Colors.black)
-                    .withOpacity(mypageIndex == i ? 0.9 : 0.4)),
+                color:
+                    (Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black)
+                        .withOpacity(mypageIndex == i ? 0.9 : 0.4)),
           ),
         },
       ],
