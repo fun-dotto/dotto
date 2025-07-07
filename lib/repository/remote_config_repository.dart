@@ -18,11 +18,19 @@ final class RemoteConfigRepository {
       ));
     }
 
-    await remoteConfig.setDefaults(const {
-      RemoteConfigKeys.isDesignV2Enabled: false,
-      RemoteConfigKeys.isFunchEnabled: false,
-      RemoteConfigKeys.isValidAppVersion: true,
-    });
+    if (const bool.fromEnvironment('dart.vm.product') == false) {
+      await remoteConfig.setDefaults(const {
+        RemoteConfigKeys.isDesignV2Enabled: false,
+        RemoteConfigKeys.isFunchEnabled: false,
+        RemoteConfigKeys.isValidAppVersion: true,
+      });
+    } else {
+      await remoteConfig.setDefaults(const {
+        RemoteConfigKeys.isDesignV2Enabled: false,
+        RemoteConfigKeys.isFunchEnabled: false,
+        RemoteConfigKeys.isValidAppVersion: true,
+      });
+    }
 
     await remoteConfig.fetchAndActivate();
   }
