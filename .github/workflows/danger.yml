@@ -2,29 +2,25 @@ name: Danger
 
 on:
   pull_request:
-    types: [opened, synchronize, ready_for_review]
+    types:
+      - opened
+      - synchronize
+      - ready_for_review
 
 jobs:
   danger:
-    # Skip if PR is in draft mode
     if: github.event.pull_request.draft == false
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.0'
           bundler-cache: true
-      
       - name: Install dependencies
         run: bundle install
-      
       - name: Run Danger
         run: bundle exec danger
         env:
