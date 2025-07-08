@@ -1,4 +1,3 @@
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:minio/minio.dart';
 
 class S3Repository {
@@ -6,12 +5,12 @@ class S3Repository {
   static late String _bucketName;
   S3Repository._internal() {
     _s3 = Minio(
-      endPoint: dotenv.env['END_POINT']!,
-      accessKey: dotenv.env['ACCESS_KEY']!,
-      secretKey: dotenv.env['SECRET_KEY']!,
+      endPoint: String.fromEnvironment('CLOUDFLARE_R2_ENDPOINT'),
+      accessKey: String.fromEnvironment('CLOUDFLARE_R2_ACCESS_KEY_ID'),
+      secretKey: String.fromEnvironment('CLOUDFLARE_R2_SECRET_ACCESS_KEY'),
       useSSL: true,
     );
-    _bucketName = dotenv.env['BUCKET']!;
+    _bucketName = String.fromEnvironment('CLOUDFLARE_R2_BUCKET_NAME');
   }
   static final S3Repository _instance = S3Repository._internal();
   factory S3Repository() {

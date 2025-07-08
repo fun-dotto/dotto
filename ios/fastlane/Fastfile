@@ -29,7 +29,7 @@ platform :ios do
   lane :build_adhoc do
     match_adhoc_readonly
     sh( "fvm", "flutter", "clean" )
-    sh( "fvm", "flutter", "build", "ios", "--release" )
+    sh( "fvm", "flutter", "build", "ios", "--release", "--dart-define-from-file=./.env" )
     build_app(
       clean: true,
       export_method: "ad-hoc",
@@ -45,7 +45,7 @@ platform :ios do
   lane :build_appstore do
     match_appstore_readonly
     sh( "fvm", "flutter", "clean" )
-    sh( "fvm", "flutter", "build", "ios", "--release" )
+    sh( "fvm", "flutter", "build", "ios", "--release", "--dart-define-from-file=./.env" )
     build_app(
       export_method: "app-store",
       export_options: {

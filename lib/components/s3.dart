@@ -1,5 +1,4 @@
 import 'package:minio/minio.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:minio/models.dart';
 
 class S3 {
@@ -9,9 +8,9 @@ class S3 {
   static final instance = S3._();
   Minio getMinio() {
     _minio ??= Minio(
-      endPoint: dotenv.env['END_POINT']!,
-      accessKey: dotenv.env['ACCESS_KEY']!,
-      secretKey: dotenv.env['SECRET_KEY']!,
+      endPoint: String.fromEnvironment('CLOUDFLARE_R2_ENDPOINT'),
+      accessKey: String.fromEnvironment('CLOUDFLARE_R2_ACCESS_KEY_ID'),
+      secretKey: String.fromEnvironment('CLOUDFLARE_R2_SECRET_ACCESS_KEY'),
       useSSL: true,
     );
     return _minio!;

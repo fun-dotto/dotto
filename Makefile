@@ -19,7 +19,7 @@ build:
 
 .PHONY: run
 run:
-	$(FLUTTER) run
+	$(FLUTTER) run --dart-define-from-file=./.env
 
 .PHONY: clean
 clean:
@@ -42,11 +42,11 @@ analyze:
 
 .PHONY: build-ios
 build-ios:
-	$(FLUTTER) build ios --release
+	$(FLUTTER) build ios --release --dart-define-from-file=./.env
 
 .PHONY: build-android
 build-android:
-	$(FLUTTER) build appbundle --release
+	$(FLUTTER) build appbundle --release --dart-define-from-file=./.env
 
 .PHONY: deploy-ios-firebase-app-distribution
 deploy-ios-firebase-app-distribution:
