@@ -14,9 +14,13 @@ if github.pr_body.length < 10
   warn("PR説明が短すぎます。変更内容をより詳しく記載することをお勧めします。")
 end
 
+if github.pr_json["requested_reviewers"].nil? || github.pr_json["requested_reviewers"].empty?
+  warn("PRにReviewerが設定されていません。Reviewerを設定してください。")
+end
+
 # Assigneesのチェック
 if github.pr_json["assignees"].nil? || github.pr_json["assignees"].empty?
-  fail("PRにAssigneeが設定されていません。担当者を設定してください。")
+  fail("PRにAssigneeが設定されていません。あなた自身をアサインしてください。")
 end
 
 # Milestoneのチェック
