@@ -15,7 +15,7 @@ if github.pr_body.length < 10
 end
 
 if github.pr_json["requested_reviewers"].nil? || github.pr_json["requested_reviewers"].empty?
-  warn("PRにReviewerが設定されていません。Reviewerを設定してください。")
+  fail("PRにReviewerが設定されていません。Reviewerを設定してください。")
 end
 
 # Assigneesのチェック
