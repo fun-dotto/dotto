@@ -344,7 +344,7 @@ abstract final class FunGridMaps {
           stairType: const MapStairType(Axis.horizontal, true, true)), // 体育館側階段
       MapTile(30, 1, MapTileType.road),
       MapTile(2, 13, MapTileType.road),
-      MapTile(2, 5, MapTileType.otherroom, right: 1, bottom: 1),
+      MapTile(2, 5, MapTileType.subroom, txt: '406', right: 1, bottom: 1),
       MapTile(2, 5, MapTileType.empty, top: 1),
       MapTile(6, 5, MapTileType.classroom,
           txt: '485', left: 1, bottom: 1, food: false, drink: true),
