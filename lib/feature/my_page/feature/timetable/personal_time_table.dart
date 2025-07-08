@@ -79,8 +79,7 @@ class PersonalTimeTableScreen extends ConsumerWidget {
                           decoration: BoxDecoration(
                             border: Border.all(color: Colors.grey),
                             color: Colors.grey.shade300,
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(5)),
+                            borderRadius: const BorderRadius.all(Radius.circular(5)),
                           ),
                           padding: const EdgeInsets.all(2),
                           child: Text(
@@ -116,8 +115,7 @@ class PersonalTimeTableScreen extends ConsumerWidget {
     );
   }
 
-  Widget seasonTimeTableList(
-      BuildContext context, WidgetRef ref, int seasonnumber) {
+  Widget seasonTimeTableList(BuildContext context, WidgetRef ref, int seasonnumber) {
     final weekPeriodAllRecords = ref.watch(weekPeriodAllRecordsProvider);
     final weekString = ['月', '火', '水', '木', '金'];
     return SingleChildScrollView(
@@ -149,8 +147,7 @@ class PersonalTimeTableScreen extends ConsumerWidget {
                 TableRow(
                   children: [
                     for (int j = 1; j <= 5; j++) ...{
-                      tableText(context, ref, "${weekString[j - 1]}曜$i限", j, i,
-                          seasonnumber, data),
+                      tableText(context, ref, "${weekString[j - 1]}曜$i限", j, i, seasonnumber, data),
                     }
                   ],
                 )
@@ -172,10 +169,8 @@ class PersonalTimeTableScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final deviceWidth = MediaQuery.of(context).size.width;
     final deviceHeight = MediaQuery.of(context).size.height;
-    final currentTimetablePageIndex =
-        ref.watch(currentTimetablePageIndexProvider);
-    final currentTimetablePageIndexNotifier =
-        ref.read(currentTimetablePageIndexProvider.notifier);
+    final currentTimetablePageIndex = ref.watch(currentTimetablePageIndexProvider);
+    final currentTimetablePageIndexNotifier = ref.read(currentTimetablePageIndexProvider.notifier);
     final timetablePageController = ref.read(timetablePageControllerProvider);
     return Scaffold(
       appBar: AppBar(
@@ -186,7 +181,6 @@ class PersonalTimeTableScreen extends ConsumerWidget {
               return IconButton(
                 onPressed: () {
                   seasonTimeTable(context, ref);
-                  //print(records);
                 },
                 icon: const Icon(Icons.list),
               );
