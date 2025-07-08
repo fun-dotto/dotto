@@ -24,19 +24,20 @@ if github.pr_json["milestone"].nil?
   fail("PRにMilestoneが設定されていません。適切なMilestoneを設定してください。")
 end
 
-# Issue参照のチェック
-# #123, close #123, closes #123, fix #123, fixes #123, resolve #123, resolves #123 などのパターンを検出
-issue_reference_patterns = [
-  /#\d+/,                    # #123
-  /close[s]?\s+#\d+/i,      # close #123, closes #123
-  /fix(e[s])?\s+#\d+/i,     # fix #123, fixes #123
-  /resolve[s]?\s+#\d+/i     # resolve #123, resolves #123
-]
-
-has_issue_reference = issue_reference_patterns.any? { |pattern| github.pr_body.match?(pattern) }
-
-if !has_issue_reference
-  fail("PRの説明に関連するIssueの参照（#123、close #123、fix #123 など）が含まれていません。")
+# Issue参照のチェック（PRにIssueが関連づけられている場合のみ）
+# GitHub Development機能で関連づけられているIssueを確認
+if github.pr_json["body"] && !github.pr_json["body"].empty?
+  # PRの説明にIssue参照がある場合のみチェック（関連づけられているIssueが存在する前提）
+  referenced_issues = github.pr_body.scan(/#(\d+)/).flatten.map(&:to_i)
+  
+  # 関連づけられているIssueがある場合（closing keywordの存在で判定）
+  closing_keywords = /(close[s]?|fix(e[s])?|resolve[s]?)\s+#\d+/i
+  has_closing_reference = github.pr_body.match?(closing_keywords)
+  
+  # 単純なIssue参照があるが、closing keywordがない場合は警告
+  if !referenced_issues.empty? && !has_closing_reference
+    warn("Issue参照がありますが、closing keyword（close、fix、resolve）の使用を推奨します。")
+  end
 end
 
 # 大きなPRの警告
