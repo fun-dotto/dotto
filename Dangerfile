@@ -24,6 +24,21 @@ if github.pr_json["milestone"].nil?
   fail("PRにMilestoneが設定されていません。適切なMilestoneを設定してください。")
 end
 
+# Issue参照のチェック
+# #123, close #123, closes #123, fix #123, fixes #123, resolve #123, resolves #123 などのパターンを検出
+issue_reference_patterns = [
+  /#\d+/,                    # #123
+  /close[s]?\s+#\d+/i,      # close #123, closes #123
+  /fix(e[s])?\s+#\d+/i,     # fix #123, fixes #123
+  /resolve[s]?\s+#\d+/i     # resolve #123, resolves #123
+]
+
+has_issue_reference = issue_reference_patterns.any? { |pattern| github.pr_body.match?(pattern) }
+
+if !has_issue_reference
+  fail("PRの説明に関連するIssueの参照（#123、close #123、fix #123 など）が含まれていません。")
+end
+
 # 大きなPRの警告
 if git.lines_of_code > 500
   warn("このPRは大きすぎます (#{git.lines_of_code} lines)。小さなPRに分割することを検討してください。")
