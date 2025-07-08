@@ -14,6 +14,15 @@ if github.pr_body.length < 10
   warn("PR説明が短すぎます。変更内容をより詳しく記載することをお勧めします。")
 end
 
+# AssigneesとMilestoneのチェック
+if github.pr_json["assignees"].nil? || github.pr_json["assignees"].empty?
+  fail("PRにAssigneeが設定されていません。担当者を設定してください。")
+end
+
+if github.pr_json["milestone"].nil?
+  fail("PRにMilestoneが設定されていません。適切なMilestoneを設定してください。")
+end
+
 # 大きなPRの警告
 if git.lines_of_code > 500
   warn("このPRは大きすぎます (#{git.lines_of_code} lines)。小さなPRに分割することを検討してください。")
