@@ -5,7 +5,7 @@ import 'package:dotto/feature/funch/controller/funch_providers.dart';
 import 'package:dotto/feature/funch/domain/funch_menu.dart';
 import 'package:dotto/feature/funch/funch.dart';
 import 'package:dotto/feature/funch/repository/funch_repository.dart';
-import 'package:dotto/feature/funch/component/funch_price_list.dart';
+import 'package:dotto/feature/funch/widget/funch_price_list.dart';
 import 'package:dotto/importer.dart';
 import 'package:intl/intl.dart';
 

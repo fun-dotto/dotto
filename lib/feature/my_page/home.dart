@@ -1,9 +1,10 @@
 import 'package:collection/collection.dart';
 import 'package:dotto/components/animation.dart';
 import 'package:dotto/components/color_fun.dart';
+import 'package:dotto/controller/config_controller.dart';
 import 'package:dotto/feature/my_page/feature/bus/widget/bus_card_home.dart';
 import 'package:dotto/feature/funch/funch.dart';
-import 'package:dotto/feature/my_page/component/mypage_funch_card.dart';
+import 'package:dotto/feature/my_page/widget/mypage_funch_card.dart';
 import 'package:dotto/feature/my_page/feature/news/controller/news_controller.dart';
 import 'package:dotto/feature/my_page/feature/news/news_detail.dart';
 import 'package:dotto/feature/my_page/feature/news/widget/my_page_news.dart';
@@ -125,6 +126,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final config = ref.watch(configControllerProvider);
     WidgetsBinding.instance.addPostFrameCallback((_) => _showPushNotificationNews(context, ref));
 
     final double infoBoxWidth = MediaQuery.sizeOf(context).width * 0.4;
@@ -146,16 +148,18 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         ),
       );
     }, Icons.event_busy, '休講情報'));
-    infoTiles.add(infoButton(context, () {
-      Navigator.of(context).push(
-        PageRouteBuilder(
-          pageBuilder: (context, animation, secondaryAnimation) {
-            return const FunchScreen();
-          },
-          transitionsBuilder: fromRightAnimation,
-        ),
-      );
-    }, Icons.lunch_dining_outlined, '学食'));
+    if (config.isFunchEnabled) {
+      infoTiles.add(infoButton(context, () {
+        Navigator.of(context).push(
+          PageRouteBuilder(
+            pageBuilder: (context, animation, secondaryAnimation) {
+              return const FunchScreen();
+            },
+            transitionsBuilder: fromRightAnimation,
+          ),
+        );
+      }, Icons.lunch_dining_outlined, '学食'));
+    }
     infoTiles.addAll(fileNamePath.entries
         .map((item) => infoButton(context, () {
               Navigator.of(context).push(
@@ -218,7 +222,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               const SizedBox(height: 20),
               const BusCardHome(),
               const SizedBox(height: 20),
-              const MyPageFunchCard(),
+              config.isFunchEnabled ? const MyPageFunchCard() : const SizedBox.shrink(),
               const SizedBox(height: 20),
               const MyPageNews(),
               const SizedBox(height: 20),
