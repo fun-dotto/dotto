@@ -94,8 +94,8 @@ npm install -g firebase-tools
 
 [Windows] 以下のコマンドを実行します。
 
-```
-> Set-ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
+```Shell
+Set-ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
 ```
 
 以下のコマンドを実行して、Firebase CLI にログインします。

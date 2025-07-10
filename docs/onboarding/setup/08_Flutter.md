@@ -46,8 +46,11 @@ source ~/.zshrc
 
 Flutter のバージョン番号が表示されれば成功です。
 
+```Bash
+flutter --version
 ```
-% flutter --version
+
+```
 Flutter 3.29.3 • channel stable • https://github.com/flutter/flutter.git
 Framework • revision ea121f8859 (9 days ago) • 2025-04-11 19:10:07 +0000
 Engine • revision cf56914b32
@@ -84,8 +87,10 @@ flutter doctor --android-licenses
 
 Flutter のバージョン番号が表示されれば成功です。
 
+```Shell
+flutter –-version
 ```
-> flutter –-version
+```
 Flutter 3.29.3 • channel stable • https://github.com/flutter/flutter.git
 Framework • revision ea121f8859 (9 days ago) • 2025-04-11 19:10:07 +0000
 Engine • revision cf56914b32
@@ -94,31 +99,33 @@ Tools • Dart 3.7.2 • DevTools 2.42.3
 
 Flutter のバージョンを管理するためのアプリケーション`fvm`をインストールします。
 
-```
-> dart pub global activate fvm
+```Shell
+dart pub global activate fvm
 ```
 
 Flutter の最新バージョンを確認します。
 
-```
-% fvm releases
+```Shell
+fvm releases
 ```
 
 Flutter の最新バージョンをインストールします。
 
+```Shell
+fvm install <最新バージョン番号>
 ```
-% fvm install <最新バージョン番号>
-% fvm global <最新バージョン番号>
+```Shell
+fvm global <最新バージョン番号>
 ```
 
 Flutter に必要な環境が整っているかどうかを確認します。
 
-```
-% flutter doctor
+```Shell
+flutter doctor
 ```
 
 ライセンスを確認して同意します。
 
-```
-% flutter doctor --android-licenses
+```Shell
+flutter doctor --android-licenses
 ```

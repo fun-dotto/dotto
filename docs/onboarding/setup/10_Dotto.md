@@ -83,22 +83,22 @@ Android Studio で使用されている Java があるフォルダのパスを�
 
 Ex. `C:\Program Files\Android\Android Studio\jbr\bin`
 
-```
-> set PATH=<コピーしたパスをペースト>;%PATH%
+```Shell
+set PATH=<コピーしたパスをペースト>;%PATH%
 ```
 
 以下のコマンドを実行します。
 
-```
-> make run
+```Shell
+make run
 ```
 
 q キーを押して、一度終了します。
 
 以下のコマンドを実行して、証明書のフィンガープリントを取得します。
 
-```
-> keytool -list -v -alias androiddebugkey -keystore $env:USERPROFILE\.android\debug.keystore -storepass android
+```Shell
+keytool -list -v -alias androiddebugkey -keystore $env:USERPROFILE\.android\debug.keystore -storepass android
 ```
 
 [Firebase](https://console.firebase.google.com/u/0/project/swift2023groupc/settings/general/android:jp.ac.fun.dotto?hl=ja)にアクセスして、表示された SHA-1 のフィンガープリントを登録する。

@@ -83,10 +83,12 @@ ssh-add --apple-use-keychain ~/.ssh/github
 
 ### [Windows] SSH Agent に秘密鍵を登録
 
-```
-> Get-Service -Name ssh-agent | Set-Service -StartupType Manual
+```Shell
+Get-Service -Name ssh-agent | Set-Service -StartupType Manual
 Start-Service ssh-agent
-> ssh-add ~/.ssh/github
+
+```Shell
+ssh-add ~/.ssh/github
 ```
 
 ### GitHub に公開鍵を登録
@@ -99,8 +101,8 @@ pbcopy < ~/.ssh/github.pub
 
 [Windows] 公開鍵をクリップボードにコピーします。
 
-```
-> cat ~/.ssh/github.pub | clip
+```Shell
+cat ~/.ssh/github.pub | clip
 ```
 
 [GitHub の SSH キー設定ページ](https://github.com/settings/keys)を開きます。
