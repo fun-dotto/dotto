@@ -38,7 +38,7 @@ echo 'export PATH="$HOME/fvm/default/bin:$PATH"' >> ~/.zshrc
 echo 'export PATH="$PATH":"$HOME/.pub-cache/bin"' >> ~/.zshrc
 ```
 ```Bash
-echo '[[ -f /Users/kantacky/.dart-cli-completion/zsh-config.zsh ]] && . /Users/kantacky/.dart-cli-completion/zsh-config.zsh || true' >> ~/.zshrc
+echo '[[ -f $HOME/.dart-cli-completion/zsh-config.zsh ]] && . $HOME/.dart-cli-completion/zsh-config.zsh || true' >> ~/.zshrc  
 ```
 ```Bash
 source ~/.zshrc
