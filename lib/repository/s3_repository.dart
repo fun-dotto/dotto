@@ -1,16 +1,17 @@
 import 'package:minio/minio.dart';
+import 'package:dotto/controller/config_controller.dart';
 
 class S3Repository {
   static late Minio _s3;
   static late String _bucketName;
   S3Repository._internal() {
     _s3 = Minio(
-      endPoint: String.fromEnvironment('CLOUDFLARE_R2_ENDPOINT'),
-      accessKey: String.fromEnvironment('CLOUDFLARE_R2_ACCESS_KEY_ID'),
-      secretKey: String.fromEnvironment('CLOUDFLARE_R2_SECRET_ACCESS_KEY'),
+      endPoint: ConfigState.cloudflareR2Endpoint,
+      accessKey: ConfigState.cloudflareR2AccessKeyId,
+      secretKey: ConfigState.cloudflareR2SecretAccessKey,
       useSSL: true,
     );
-    _bucketName = String.fromEnvironment('CLOUDFLARE_R2_BUCKET_NAME');
+    _bucketName = ConfigState.cloudflareR2BucketName;
   }
   static final S3Repository _instance = S3Repository._internal();
   factory S3Repository() {

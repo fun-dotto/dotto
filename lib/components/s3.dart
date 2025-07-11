@@ -1,5 +1,6 @@
 import 'package:minio/minio.dart';
 import 'package:minio/models.dart';
+import 'package:dotto/controller/config_controller.dart';
 
 class S3 {
   Minio? _minio;
@@ -8,9 +9,9 @@ class S3 {
   static final instance = S3._();
   Minio getMinio() {
     _minio ??= Minio(
-      endPoint: String.fromEnvironment('CLOUDFLARE_R2_ENDPOINT'),
-      accessKey: String.fromEnvironment('CLOUDFLARE_R2_ACCESS_KEY_ID'),
-      secretKey: String.fromEnvironment('CLOUDFLARE_R2_SECRET_ACCESS_KEY'),
+      endPoint: ConfigState.cloudflareR2Endpoint,
+      accessKey: ConfigState.cloudflareR2AccessKeyId,
+      secretKey: ConfigState.cloudflareR2SecretAccessKey,
       useSSL: true,
     );
     return _minio!;
