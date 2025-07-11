@@ -83,13 +83,13 @@ Android Studio で使用されている Java があるフォルダのパスを�
 
 Ex. `C:\Program Files\Android\Android Studio\jbr\bin`
 
-```Shell
+```pwsh
 set PATH=<コピーしたパスをペースト>;%PATH%
 ```
 
 以下のコマンドを実行します。
 
-```Shell
+```pwsh
 make run
 ```
 
@@ -97,7 +97,7 @@ q キーを押して、一度終了します。
 
 以下のコマンドを実行して、証明書のフィンガープリントを取得します。
 
-```Shell
+```pwsh
 keytool -list -v -alias androiddebugkey -keystore $env:USERPROFILE\.android\debug.keystore -storepass android
 ```
 

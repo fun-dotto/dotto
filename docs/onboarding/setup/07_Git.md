@@ -53,13 +53,18 @@ Enter same passphrase again: <Enterキーを押下>
 
 ### [Windows] 秘密鍵と公開鍵を生成
 
+```pwsh
+mkdir ~/.ssh
 ```
-> mkdir ~/.ssh
-> ssh-keygen -t ed25519 -C "<メールアドレス>"
+```pwsh
+ssh-keygen -t ed25519 -C "<メールアドレス>"
+```
+```pwsh
 Enter a file in which to save the key (C:\Users\<username>\.ssh\id_ed25519): C:\Users\<username>\.ssh\github
 Enter passphrase (empty for no passphrase): <Enterキーを押下>
 Enter same passphrase again: <Enterキーを押下>
-> Get-Service -Name ssh-agent | Set-Service -StartupType Manual
+```pwsh
+Get-Service -Name ssh-agent | Set-Service -StartupType Manual
 Start-Service ssh-agent
 ```
 
@@ -83,11 +88,11 @@ ssh-add --apple-use-keychain ~/.ssh/github
 
 ### [Windows] SSH Agent に秘密鍵を登録
 
-```Shell
+```pwsh
 Get-Service -Name ssh-agent | Set-Service -StartupType Manual
 Start-Service ssh-agent
 ```
-```Shell
+```pwsh
 ssh-add ~/.ssh/github
 ```
 
@@ -101,7 +106,7 @@ pbcopy < ~/.ssh/github.pub
 
 [Windows] 公開鍵をクリップボードにコピーします。
 
-```Shell
+```pwsh
 cat ~/.ssh/github.pub | clip
 ```
 

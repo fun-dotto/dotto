@@ -94,7 +94,7 @@ npm install -g firebase-tools
 
 [Windows] 以下のコマンドを実行します。
 
-```Shell
+```pwsh
 Set-ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
 ```
 

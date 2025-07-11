@@ -87,7 +87,7 @@ flutter doctor --android-licenses
 
 Flutter のバージョン番号が表示されれば成功です。
 
-```Shell
+```pwsh
 flutter –-version
 ```
 ```
@@ -99,33 +99,33 @@ Tools • Dart 3.7.2 • DevTools 2.42.3
 
 Flutter のバージョンを管理するためのアプリケーション`fvm`をインストールします。
 
-```Shell
+```pwsh
 dart pub global activate fvm
 ```
 
 Flutter の最新バージョンを確認します。
 
-```Shell
+```pwsh
 fvm releases
 ```
 
 Flutter の最新バージョンをインストールします。
 
-```Shell
+```pwsh
 fvm install <最新バージョン番号>
 ```
-```Shell
+```pwsh
 fvm global <最新バージョン番号>
 ```
 
 Flutter に必要な環境が整っているかどうかを確認します。
 
-```Shell
+```pwsh
 flutter doctor
 ```
 
 ライセンスを確認して同意します。
 
-```Shell
+```pwsh
 flutter doctor --android-licenses
 ```
