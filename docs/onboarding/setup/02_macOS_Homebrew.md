@@ -29,7 +29,7 @@ eval $(/opt/homebrew/bin/brew shellenv)
 brew -v
 ```
 
-期待される出力
+出力例
 ```
 Homebrew X.X.X
 ```

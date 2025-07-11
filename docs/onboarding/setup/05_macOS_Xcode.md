@@ -59,7 +59,7 @@ iOS SDK の最新版をインストールします。
 ```zsh
 xcodes runtimes
 ```
-以下は出力例
+出力例
 ```
 -- iOS --
 ...

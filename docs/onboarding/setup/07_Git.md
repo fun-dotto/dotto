@@ -44,7 +44,7 @@ mkdir ~/.ssh
 ssh-keygen -t ed25519 -C "<メールアドレス>"
 ```
 
-以下のように出力されるはずです
+出力例
 ```
 Enter a file in which to save the key (/Users/<username>/.ssh/id_ed25519): /Users/<username>/.ssh/github
 Enter passphrase (empty for no passphrase): <Enterキーを押下>
