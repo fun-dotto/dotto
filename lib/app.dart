@@ -42,6 +42,14 @@ class _MyAppState extends ConsumerState<MyApp> {
       debugPrint("isDesignV2Enabled: ${ref.read(configControllerProvider).isDesignV2Enabled}");
       debugPrint("isFunchEnabled: ${ref.read(configControllerProvider).isFunchEnabled}");
       debugPrint("isValidAppVersion: ${ref.read(configControllerProvider).isValidAppVersion}");
+
+      debugPrint("CLOUDFLARE_R2_ENDPOINT: ${String.fromEnvironment('CLOUDFLARE_R2_ENDPOINT')}");
+      debugPrint(
+          "CLOUDFLARE_R2_ACCESS_KEY_ID: ${String.fromEnvironment('CLOUDFLARE_R2_ACCESS_KEY_ID')}");
+      debugPrint(
+          "CLOUDFLARE_R2_SECRET_ACCESS_KEY: ${String.fromEnvironment('CLOUDFLARE_R2_SECRET_ACCESS_KEY')}");
+      debugPrint(
+          "CLOUDFLARE_R2_BUCKET_NAME: ${String.fromEnvironment('CLOUDFLARE_R2_BUCKET_NAME')}");
     });
   }
 
