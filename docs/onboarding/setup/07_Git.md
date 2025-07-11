@@ -72,8 +72,6 @@ Start-Service ssh-agent
 
 ```zsh
 eval "$(ssh-agent -s)"
-```
-```zsh
 echo "Host github.com
 ```
 ```
