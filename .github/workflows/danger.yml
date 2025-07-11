@@ -17,6 +17,7 @@ on:
 
 jobs:
   danger:
+    name: Danger
     if: github.event.pull_request.draft == false
     runs-on: ubuntu-latest
     permissions:
