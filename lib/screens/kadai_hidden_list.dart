@@ -24,8 +24,7 @@ class _KadaiHiddenScreenState extends State<KadaiHiddenScreen> {
   List<Kadai> hiddenKadai = [];
 
   Future<void> loadDeleteList() async {
-    final jsonString =
-        await UserPreferences.getString(UserPreferenceKeys.kadaiDeleteList);
+    final jsonString = await UserPreferences.getString(UserPreferenceKeys.kadaiDeleteList);
     if (jsonString != null) {
       setState(() {
         deleteList = List<int>.from(json.decode(jsonString));
@@ -34,8 +33,7 @@ class _KadaiHiddenScreenState extends State<KadaiHiddenScreen> {
   }
 
   Future<void> saveDeleteList() async {
-    await UserPreferences.setString(
-        UserPreferenceKeys.kadaiDeleteList, json.encode(deleteList));
+    await UserPreferences.setString(UserPreferenceKeys.kadaiDeleteList, json.encode(deleteList));
   }
 
   Future<void> hiddenKadaiList() async {
@@ -43,7 +41,6 @@ class _KadaiHiddenScreenState extends State<KadaiHiddenScreen> {
       for (Kadai kadai in kadaiList.listKadai) {
         if (deleteList.contains(kadai.id)) {
           hiddenKadai.add(kadai);
-          //print(kadai.id);
         }
       }
     }
@@ -71,7 +68,6 @@ class _KadaiHiddenScreenState extends State<KadaiHiddenScreen> {
       // 非表示の課題リストを生成
       hiddenKadaiList();
       hiddenKadai = hiddenKadai.toSet().toList();
-      //print(deleteList);
     });
   }
 
@@ -120,7 +116,6 @@ class _KadaiHiddenScreenState extends State<KadaiHiddenScreen> {
                         setState(() {
                           deleteList.remove(hiddenKadai[index].id);
                           hiddenKadai.remove(hiddenKadai[index]);
-                          //print(deleteList);
                           saveDeleteList();
                         });
                       }),
@@ -133,7 +128,6 @@ class _KadaiHiddenScreenState extends State<KadaiHiddenScreen> {
                             setState(() {
                               deleteList.remove(hiddenKadai[index].id);
                               hiddenKadai.remove(hiddenKadai[index]);
-                              //print(deleteList);
                               saveDeleteList();
                             });
                           },
@@ -145,8 +139,7 @@ class _KadaiHiddenScreenState extends State<KadaiHiddenScreen> {
                       leading: const SizedBox(
                         width: 20,
                       ),
-                      contentPadding: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 8),
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                       title: Text(
                         hiddenKadai[index].name!,
                         style: const TextStyle(

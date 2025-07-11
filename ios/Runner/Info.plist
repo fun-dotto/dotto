@@ -50,7 +50,7 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>バス時刻表のデフォルトの行き先を未来大にするかどうかを判定するために使用します</string>
+	<string>より多くの便利な機能を提供するためにデバイスの位置情報を利用します。</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UIBackgroundModes</key>
@@ -77,5 +77,7 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>より多くの便利な機能を提供するためにデバイスの位置情報を利用します。</string>
 </dict>
 </plist>

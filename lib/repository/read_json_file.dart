@@ -9,7 +9,6 @@ Future<String> readJsonFile(String fileName) async {
   if (await file.exists()) {
     // ファイルの内容を文字列として読み込む
     String content = await file.readAsString();
-    //print("read success");
     return content;
   } else {
     throw Exception("File does not exist");
