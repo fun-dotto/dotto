@@ -60,9 +60,9 @@ deploy-android-firebase-app-distribution:
 deploy-ios-testflight:
 	cd ./ios && $(FASTLANE) deploy_testflight
 
-.PHONY: deploy-android-play-store
-deploy-android-play-store:
-	cd ./android && $(FASTLANE) deploy_play_store
+.PHONY: deploy-android-google-play
+deploy-android-google-play:
+	cd ./android && $(FASTLANE) deploy_google_play
 
 .PHONY: match-development
 match-development:
