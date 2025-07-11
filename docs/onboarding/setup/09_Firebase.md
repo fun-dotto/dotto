@@ -8,29 +8,29 @@ Dotto の Firebase プロジェクトに招待してもらうよう、Google ア
 
 Node.js のバージョンを管理するためのアプリケーション`nvm`をインストールします。
 
-```Bash
+```zsh
 brew install nvm
 ```
-```Bash
+```zsh
 mkdir ~/.nvm
 ```
-```Bash
+```zsh
 echo 'export NVM_DIR="$HOME/.nvm"' >> ~/.zshrc
 ```
-```Bash
+```zsh
 echo '[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm' >> ~/.zshrc
 ```
-```Bash
+```zsh
 echo '[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion' >> ~/.zshrc
 ```
-```Bash
+```zsh
 source ~/.zshrc
 ```
 
 Node.js の最新安定バージョンを確認します。  
 以下の例では、v22.14.0 が最新安定バージョンです。
 
-```Bash
+```zsh
 nvm ls-remote
 ...
         v22.9.0
@@ -55,19 +55,19 @@ nvm ls-remote
        v23.11.0
 ```
 
-```Bash
+```zsh
 nvm install <最新安定バージョン番号>
 ```
 
 以下のコマンドを実行する事で、各種バージョン番号が表示されれば成功です。
 
-```Bash
+```zsh
 node -v
 ```
-```Bash
+```zsh
 nvm current
-```Bash
-```Bash
+```zsh
+```zsh
 npm -v
 ```
 
@@ -88,7 +88,7 @@ npm -v
 
 ## Firebase CLI をインストール
 
-```Bash
+```zsh
 npm install -g firebase-tools
 ```
 
@@ -100,12 +100,12 @@ Set-ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
 
 以下のコマンドを実行して、Firebase CLI にログインします。
 
-```Bash
+```zsh
 firebase login
 ```
 
 以下のコマンドを実行して、プロジェクト`dotto`が表示されれば成功です。
 
-```Bash
+```zsh
 firebase projects:list
 ```

@@ -26,10 +26,10 @@
 以下のコマンドを実行します。
 (<>内は自分で入力して下さい)
 
-```Bash
+```zsh
 git config --global user.name "<自分の名前: フルネームを `Given Family` の形式で>"
 ```
-```Bash
+```zsh
 git config --global user.email "<メールアドレス: GitHubで登録したものと同一のもの>"
 ```
 
@@ -37,10 +37,10 @@ git config --global user.email "<メールアドレス: GitHubで登録したも
 
 ### [macOS] 秘密鍵と公開鍵を生成
 
-```Bash
+```zsh
 mkdir ~/.ssh
 ```
-```Bash
+```zsh
 ssh-keygen -t ed25519 -C "<メールアドレス>"
 ```
 
@@ -65,10 +65,10 @@ Start-Service ssh-agent
 
 ### [macOS] SSH Agent に秘密鍵を登録
 
-```Bash
+```zsh
 eval "$(ssh-agent -s)"
 ```
-```Bash
+```zsh
 echo "Host github.com
 ```
 ```
@@ -77,7 +77,7 @@ echo "Host github.com
   IdentityFile ~/.ssh/github
 " >> ~/.ssh/config
 ```
-```Bash
+```zsh
 ssh-add --apple-use-keychain ~/.ssh/github
 ```
 
@@ -86,7 +86,7 @@ ssh-add --apple-use-keychain ~/.ssh/github
 ```Shell
 Get-Service -Name ssh-agent | Set-Service -StartupType Manual
 Start-Service ssh-agent
-
+```
 ```Shell
 ssh-add ~/.ssh/github
 ```
@@ -95,7 +95,7 @@ ssh-add ~/.ssh/github
 
 [macOS] 公開鍵をクリップボードにコピーします。
 
-```Bash
+```zsh
 pbcopy < ~/.ssh/github.pub
 ```
 
@@ -119,7 +119,7 @@ cat ~/.ssh/github.pub | clip
 
 以下のコマンドを実行して、表示されれば成功です。
 
-```Bash
+```zsh
 ssh -T git@github.com
 ```
 ```

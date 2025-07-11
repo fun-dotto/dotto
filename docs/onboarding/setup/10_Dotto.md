@@ -2,10 +2,10 @@
 
 リポジトリをクローンします。
 
-```Bash
+```zsh
 git clone git@github.com:fun-dotto/dotto.git
 ```
-```Bash
+```zsh
 cd dotto
 ```
 
@@ -13,16 +13,16 @@ cd dotto
 
 プロジェクトの依存関係のインストールをします。
 
-```Bash
+```zsh
 make install
 ```
 
 Firebase の情報をセットアップします。
 
-```Bash
+```zsh
 dart pub global activate flutterfire_cli
 ```
-```Bash
+```zsh
 flutterfire configure
 ```
 
@@ -30,7 +30,7 @@ flutterfire configure
 
 必要なコードを生成します。
 
-```Bash
+```zsh
 make build
 ```
 
@@ -40,7 +40,7 @@ make build
 
 以下のコマンドを実行します。
 
-```Bash
+```zsh
 make run
 ```
 
@@ -50,10 +50,10 @@ Mac と iPhone を接続します。
 
 以下のコマンドを実行します。
 
-```Bash
+```zsh
 make match_development
 ```
-```Bash
+```zsh
 make run
 ```
 
@@ -63,7 +63,7 @@ Visual Studio Code から Android エミュレータを起動します。
 
 以下のコマンドを実行します。
 
-```Bash
+```zsh
 make run
 ```
 
@@ -71,7 +71,7 @@ q キーを押して、一度終了します。
 
 以下のコマンドを実行して、証明書のフィンガープリントを取得します。
 
-```Bash
+```zsh
 keytool -list -v -alias androiddebugkey -keystore ~/.android/debug.keystore -storepass android
 ```
 
