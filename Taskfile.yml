@@ -1,0 +1,134 @@
+version: "3"
+
+vars:
+  FLUTTER: fvm flutter
+  DART: fvm dart
+  FASTLANE: bundle exec fastlane
+
+tasks:
+  default:
+    cmds:
+      - task --list-all
+    silent: true
+
+  install:
+    desc: Install dependencies and configure Flutter
+    cmds:
+      - |
+        if [ "$GITHUB_ACTIONS" ]; then
+          {{.FLUTTER}} --version
+        else
+          fvm install
+        fi
+      - "{{.FLUTTER}} config --enable-swift-package-manager"
+      - "{{.FLUTTER}} pub get"
+
+  bundle-install:
+    desc: Install bundle dependencies for iOS and Android
+    cmds:
+      - bundle install
+      - cd ./ios && bundle install
+      - cd ./android && bundle install
+
+  build:
+    desc: Run build_runner to generate code
+    cmds:
+      - "{{.DART}} run build_runner build --delete-conflicting-outputs"
+
+  run:
+    desc: Run the Flutter app
+    cmds:
+      - "{{.FLUTTER}} run"
+
+  clean:
+    desc: Clean Flutter build files
+    cmds:
+      - "{{.FLUTTER}} clean"
+
+  test:
+    desc: Run Flutter tests
+    cmds:
+      - "{{.FLUTTER}} test"
+
+  test-with-coverage:
+    desc: Run Flutter tests with coverage report
+    cmds:
+      - "{{.FLUTTER}} test --coverage"
+      - "lcov --remove coverage/lcov.info 'lib/**.g.dart' -o coverage/new_lcov.info --ignore-errors unused"
+      - "genhtml coverage/new_lcov.info -o coverage/html"
+      - "open coverage/html/index.html"
+
+  analyze:
+    desc: Analyze Dart code
+    cmds:
+      - "{{.FLUTTER}} analyze ./lib/ ./test/"
+
+  build-ios:
+    desc: Build iOS release
+    cmds:
+      - "{{.FLUTTER}} build ios --release"
+
+  build-android:
+    desc: Build Android release appbundle
+    cmds:
+      - "{{.FLUTTER}} build appbundle --release"
+
+  deploy-ios-firebase-app-distribution:
+    desc: Deploy iOS to Firebase App Distribution
+    cmds:
+      - cd ./ios && {{.FASTLANE}} deploy_firebase_app_distribution
+
+  deploy-android-firebase-app-distribution:
+    desc: Deploy Android to Firebase App Distribution
+    cmds:
+      - cd ./android && {{.FASTLANE}} deploy_firebase_app_distribution
+
+  deploy-ios-testflight:
+    desc: Deploy iOS to TestFlight
+    cmds:
+      - cd ./ios && {{.FASTLANE}} deploy_testflight
+
+  deploy-android-google-play:
+    desc: Deploy Android to Google Play
+    cmds:
+      - cd ./android && {{.FASTLANE}} deploy_google_play
+
+  match-development:
+    desc: Match development certificates (readonly)
+    cmds:
+      - cd ./ios && {{.FASTLANE}} match_development_readonly
+
+  bump-build:
+    desc: Bump build number
+    cmds:
+      - "{{.DART}} pub global activate pub_version_plus"
+      - "{{.DART}} pub global run pub_version_plus:main build"
+
+  bump-patch:
+    desc: Bump patch version and reset build number
+    cmds:
+      - "{{.DART}} pub global activate pub_version_plus"
+      - "{{.DART}} pub global run pub_version_plus:main patch --build reset"
+
+  bump-minor:
+    desc: Bump minor version and reset build number
+    cmds:
+      - "{{.DART}} pub global activate pub_version_plus"
+      - "{{.DART}} pub global run pub_version_plus:main minor --build reset"
+
+  bump-major:
+    desc: Bump major version and reset build number
+    cmds:
+      - "{{.DART}} pub global activate pub_version_plus"
+      - "{{.DART}} pub global run pub_version_plus:main major --build reset"
+
+  register-ios-device:
+    desc: Register iOS device and update provisioning profiles
+    vars:
+      NAME: "{{.name}}"
+      UDID: "{{.udid}}"
+    cmds:
+      - cd ./ios && {{.FASTLANE}} run register_device name:{{.NAME}} udid:{{.UDID}}
+      - cd ./ios && {{.FASTLANE}} match_development
+      - cd ./ios && {{.FASTLANE}} match_adhoc
+      - cd ./ios && {{.FASTLANE}} match_appstore
