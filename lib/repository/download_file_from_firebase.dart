@@ -5,12 +5,12 @@ import 'package:firebase_storage/firebase_storage.dart';
 
 Future<void> downloadFileFromFirebase(String firebaseFilePath) async {
   final gsReference =
-      FirebaseStorage.instance.refFromURL("gs://swift2023groupc.appspot.com/$firebaseFilePath");
+      FirebaseStorage.instance.refFromURL('gs://swift2023groupc.appspot.com/$firebaseFilePath');
 
   final filePath = await getApplicationFilePath(firebaseFilePath);
   final file = File(filePath);
 
-  bool doesFileExists = await file.exists();
+  final doesFileExists = await file.exists();
   if (!doesFileExists) {
     file.create();
   }
@@ -20,7 +20,7 @@ Future<void> downloadFileFromFirebase(String firebaseFilePath) async {
 
 Future<Uint8List?> getFileFromFirebase(String firebaseFilePath) async {
   final gsReference =
-      FirebaseStorage.instance.refFromURL("gs://swift2023groupc.appspot.com/$firebaseFilePath");
+      FirebaseStorage.instance.refFromURL('gs://swift2023groupc.appspot.com/$firebaseFilePath');
 
-  return await gsReference.getData();
+  return gsReference.getData();
 }

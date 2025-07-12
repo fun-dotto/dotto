@@ -3,7 +3,7 @@ import 'package:dotto/feature/setting/repository/settings_repository.dart';
 import 'package:dotto/importer.dart';
 import 'package:flutter/services.dart';
 
-class SettingsSetUserkeyScreen extends StatelessWidget {
+final class SettingsSetUserkeyScreen extends StatelessWidget {
   SettingsSetUserkeyScreen({super.key});
   final TextEditingController controller = TextEditingController();
 
@@ -14,7 +14,7 @@ class SettingsSetUserkeyScreen extends StatelessWidget {
         onTap: () => FocusScope.of(context).unfocus(),
         child: Scaffold(
           appBar: AppBar(
-            title: Text('課題のユーザーキー設定'),
+            title: const Text('課題のユーザーキー設定'),
           ),
           body: Container(
             margin: const EdgeInsets.only(top: 40, right: 15, left: 15),
@@ -36,7 +36,7 @@ class SettingsSetUserkeyScreen extends StatelessWidget {
                     LengthLimitingTextInputFormatter(16),
                     // 半角英数字のみ許可
                     FilteringTextInputFormatter.allow(
-                      RegExp(r'[a-zA-Z0-9]'),
+                      RegExp('[a-zA-Z0-9]'),
                     ),
                   ],
                   onChanged: (value) async {

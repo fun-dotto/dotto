@@ -3,15 +3,15 @@ import 'package:dotto/importer.dart';
 enum RoomAvailableType {
   outlet(
     Icons.electrical_services,
-    "コンセント",
+    'コンセント',
   ),
   food(
     Icons.lunch_dining,
-    "食べ物",
+    '食べ物',
   ),
   drink(
     Icons.local_drink,
-    "飲み物",
+    '飲み物',
   );
 
   const RoomAvailableType(this.icon, this.title);

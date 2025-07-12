@@ -1,25 +1,24 @@
-import 'package:dotto/theme/v1/color_fun.dart';
 import 'package:dotto/feature/funch/domain/funch_menu.dart';
 import 'package:dotto/feature/funch/domain/funch_menu_category.dart';
 import 'package:dotto/importer.dart';
+import 'package:dotto/theme/v1/color_fun.dart';
 
 final class FunchPriceList extends StatelessWidget {
-  final FunchMenu menu;
-  final bool isHome;
 
   const FunchPriceList(this.menu, {super.key, this.isHome = false});
+  final FunchMenu menu;
+  final bool isHome;
 
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
-      crossAxisAlignment: CrossAxisAlignment.center,
       children: priceText(),
     );
   }
 
   List<Widget> priceText() {
-    List<Widget> priceText = [];
+    final priceText = <Widget>[];
     if (![...FunchMenuCategory.donCurry.categoryIds, ...FunchMenuCategory.noodle.categoryIds]
         .contains(menu.categoryId)) {
       return [
@@ -29,10 +28,10 @@ final class FunchPriceList extends StatelessWidget {
         )
       ];
     }
-    final sizeStr = ["大", "中", "小"];
+    final sizeStr = ['大', '中', '小'];
     final price = [menu.prices.large, menu.prices.medium, menu.prices.small];
 
-    for (int i = 0; i < price.length; i++) {
+    for (var i = 0; i < price.length; i++) {
       final p = price[i];
       if (p == null) {
         continue;
@@ -45,8 +44,6 @@ final class FunchPriceList extends StatelessWidget {
       }
       priceText.add(
         Wrap(
-          direction: Axis.horizontal,
-          spacing: 0,
           children: [
             ClipOval(
               child: Container(

@@ -1,9 +1,9 @@
+import 'package:dotto/theme/colors/semantic_colors.dart';
 import 'package:flutter/material.dart';
-import 'semantic_colors.dart';
 
 /// Extension for accessing semantic colors through the theme
 @immutable
-class DottoSemanticColors extends ThemeExtension<DottoSemanticColors> {
+final class DottoSemanticColors extends ThemeExtension<DottoSemanticColors> {
   const DottoSemanticColors({
     // Text Colors
     required this.textPrimary,
@@ -284,9 +284,12 @@ class DottoSemanticColors extends ThemeExtension<DottoSemanticColors> {
       accentPrimary: Color.lerp(accentPrimary, other.accentPrimary, t)!,
 
       // Background Colors
-      backgroundPrimary: Color.lerp(backgroundPrimary, other.backgroundPrimary, t)!,
-      backgroundSecondary: Color.lerp(backgroundSecondary, other.backgroundSecondary, t)!,
-      backgroundDisabled: Color.lerp(backgroundDisabled, other.backgroundDisabled, t)!,
+      backgroundPrimary:
+          Color.lerp(backgroundPrimary, other.backgroundPrimary, t)!,
+      backgroundSecondary:
+          Color.lerp(backgroundSecondary, other.backgroundSecondary, t)!,
+      backgroundDisabled:
+          Color.lerp(backgroundDisabled, other.backgroundDisabled, t)!,
       backgroundModal: Color.lerp(backgroundModal, other.backgroundModal, t)!,
 
       // State Colors
@@ -297,7 +300,8 @@ class DottoSemanticColors extends ThemeExtension<DottoSemanticColors> {
       // Border Colors
       borderDivider: Color.lerp(borderDivider, other.borderDivider, t)!,
       borderOutline: Color.lerp(borderOutline, other.borderOutline, t)!,
-      borderOutlineOnColor: Color.lerp(borderOutlineOnColor, other.borderOutlineOnColor, t)!,
+      borderOutlineOnColor:
+          Color.lerp(borderOutlineOnColor, other.borderOutlineOnColor, t)!,
 
       // Primary Colors
       primaryMain: Color.lerp(primaryMain, other.primaryMain, t)!,

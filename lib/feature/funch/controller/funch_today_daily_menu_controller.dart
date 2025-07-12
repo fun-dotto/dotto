@@ -10,9 +10,9 @@ final funchTodayDailyMenuListProvider =
 
 final class FunchTodayDailyMenuNotifier<FunchRepository extends FunchRepositoryInterface>
     extends AsyncNotifier<Map<String, FunchDailyMenu>> {
-  final FunchRepository _funchRepository;
 
   FunchTodayDailyMenuNotifier(this._funchRepository);
+  final FunchRepository _funchRepository;
 
   @override
   Future<Map<String, FunchDailyMenu>> build() async {
@@ -30,7 +30,7 @@ final class FunchTodayDailyMenuNotifier<FunchRepository extends FunchRepositoryI
     final combinedMenus = <String, FunchDailyMenu>{};
 
     for (final dateString in dailyMenuFromFirestore.keys) {
-      List<FunchMenu> menuItems = [];
+      final menuItems = <FunchMenu>[];
       final date = DateTimeUtility.parseDateKey(dateString);
       final firstDayOfMonth = DateTimeUtility.firstDateOfMonth(date);
       monthlyMenuFromFirestore[DateTimeUtility.dateKey(firstDayOfMonth)]
@@ -42,7 +42,7 @@ final class FunchTodayDailyMenuNotifier<FunchRepository extends FunchRepositoryI
       monthlyMenuFromFirestore[DateTimeUtility.dateKey(firstDayOfMonth)]
           ?.originalMenuIds
           .forEach((id) {
-        final menu = allOriginalMenu.firstWhere((m) => m.id == id.toString());
+        final menu = allOriginalMenu.firstWhere((m) => m.id == id);
         menuItems.add(menu);
       });
       dailyMenuFromFirestore[DateTimeUtility.dateKey(date)]?.commonMenuIds.forEach((id) {
@@ -50,7 +50,7 @@ final class FunchTodayDailyMenuNotifier<FunchRepository extends FunchRepositoryI
         menuItems.add(menu);
       });
       dailyMenuFromFirestore[DateTimeUtility.dateKey(date)]?.originalMenuIds.forEach((id) {
-        final menu = allOriginalMenu.firstWhere((m) => m.id == id.toString());
+        final menu = allOriginalMenu.firstWhere((m) => m.id == id);
         menuItems.add(menu);
       });
       combinedMenus[DateTimeUtility.dateKey(date)] = FunchDailyMenu(menuItems);

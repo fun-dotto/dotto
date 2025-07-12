@@ -12,5 +12,5 @@
     ".fvm": true,
     "build": true,
   },
-  "dart.lineLength": 100
+  "dart.lineLength": 80
 }

@@ -1,13 +1,14 @@
-import 'package:dotto/importer.dart';
 import 'package:dotto/feature/kamoku_search/controller/kamoku_search_controller.dart';
+import 'package:dotto/importer.dart';
 
-class KamokuSearchBox extends ConsumerWidget {
+final class KamokuSearchBox extends ConsumerWidget {
   const KamokuSearchBox({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final kamokuSearchController = ref.watch(kamokuSearchControllerProvider);
-    final kamokuSearchControllerNotifier = ref.watch(kamokuSearchControllerProvider.notifier);
+    final kamokuSearchControllerNotifier =
+        ref.watch(kamokuSearchControllerProvider.notifier);
     return TextField(
       controller: kamokuSearchController.textEditingController,
       focusNode: kamokuSearchController.searchBoxFocusNode,
@@ -28,9 +29,7 @@ class KamokuSearchBox extends ConsumerWidget {
               )
             : null,
       ),
-      onChanged: (text) {
-        kamokuSearchControllerNotifier.setSearchWord(text);
-      },
+      onChanged: kamokuSearchControllerNotifier.setSearchWord,
     );
   }
 }

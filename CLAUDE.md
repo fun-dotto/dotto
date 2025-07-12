@@ -18,70 +18,70 @@
 
 ```bash
 # fvm（Flutter Version Manager）を使用して依存関係をインストール
-make install
+task install
 
 # fastlane依存関係をインストール
-make bundle-install
+task bundle-install
 ```
 
 ### 開発ワークフロー
 
 ```bash
 # アプリを実行
-make run
+task run
 
 # コード生成（freezedモデル、JSON シリアライゼーション）
-make build
+task build
 
 # テストを実行
-make test
+task test
 
 # カバレッジレポート付きテストを実行
-make test-with-coverage
+task test-with-coverage
 
 # コードの問題を分析
-make analyze
+task analyze
 
 # ビルドアーティファクトをクリーンアップ
-make clean
+task clean
 ```
 
 ### プロダクション用ビルド
 
 ```bash
 # iOSリリースビルド
-make build-ios
+task build-ios
 
 # Androidリリースビルド
-make build-android
+task build-android
 ```
 
 ### バージョン管理
 
 ```bash
 # ビルド番号を上げる
-make bump-build
+task bump-build
 
 # パッチバージョンを上げる
-make bump-patch
+task bump-patch
 
 # マイナーバージョンを上げる
-make bump-minor
+task bump-minor
 
 # メジャーバージョンを上げる
-make bump-major
+task bump-major
 ```
 
 ### デプロイ
 
 ```bash
 # Firebase App Distributionにデプロイ
-make deploy-ios-firebase-app-distribution
-make deploy-android-firebase-app-distribution
+task deploy-ios-firebase-app-distribution
+task deploy-android-firebase-app-distribution
 
 # App Store/Play Storeにデプロイ
-make deploy-ios-testflight
-make deploy-android-play-store
+task deploy-ios-testflight
+task deploy-android-google-play
 ```
 
 ## アーキテクチャ
@@ -155,13 +155,13 @@ lib/
 
 - イミュータブルデータクラスに`freezed`を使用
 - JSON シリアライゼーションに`json_serializable`を使用
-- モデルを変更した後は`make build`を実行
+- モデルを変更した後は`task build`を実行
 
 ### テスト
 
 - `test/`ディレクトリにユニットテスト
-- 基本テストには`make test`を実行
-- カバレッジレポートには`make test-with-coverage`を実行
+- 基本テストには`task test`を実行
+- カバレッジレポートには`task test-with-coverage`を実行
 
 ### 多言語化
 
@@ -195,17 +195,17 @@ lib/
 2. サブディレクトリを追加: `controller/`, `domain/`, `repository/`, `widget/`
 3. 状態管理のための Riverpod プロバイダーを実装
 4. 必要に応じてナビゲーションルートを追加
-5. コード生成を使用する場合は`make build`を実行
+5. コード生成を使用する場合は`task build`を実行
 
 ### データモデルの変更
 
 1. `domain/`ディレクトリのモデルクラスを更新
 2. 必要に応じて`freezed`アノテーションを追加
-3. `make build`を実行してコードを再生成
+3. `task build`を実行してコードを再生成
 4. それに応じてリポジトリメソッドを更新
 
 ### 新しい依存関係の追加
 
 1. `pubspec.yaml`に追加
-2. `make install`を実行
+2. `task install`を実行
 3. 関連ファイルでインポートを更新

@@ -91,6 +91,7 @@ dev_dependencies:
   json_serializable: ^6.8.0
   flutter_native_splash: ^2.4.5
   mockito: ^5.4.0
+  very_good_analysis: ^8.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
