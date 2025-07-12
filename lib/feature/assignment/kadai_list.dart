@@ -628,7 +628,7 @@ final class _KadaiListScreenState extends State<KadaiListScreen> {
               dividerColor: Colors.transparent,
             ),
             child: ExpansionTile(
-              childrenPadding: const EdgeInsets.all(0),
+              childrenPadding: EdgeInsets.zero,
               backgroundColor: Colors.white,
               collapsedBackgroundColor: Colors.white,
               title: Row(

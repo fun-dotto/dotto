@@ -261,7 +261,7 @@ final class MapTile extends StatelessWidget {
             child: SizedBox.expand(
               child: (innerWidget == null)
                   ? Container(
-                      padding: const EdgeInsets.all(0),
+                      padding: EdgeInsets.zero,
                       color: focus ? Colors.red : tileColor,
                     )
                   : innerWidget,

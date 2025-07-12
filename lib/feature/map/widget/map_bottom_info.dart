@@ -111,7 +111,7 @@ final class MapBottomInfo extends ConsumerWidget {
                         child: Center(
                           child: TextButton(
                             style: TextButton.styleFrom(
-                              padding: const EdgeInsets.all(0),
+                              padding: EdgeInsets.zero,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(0),
                               ),

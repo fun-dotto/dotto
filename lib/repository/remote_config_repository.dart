@@ -10,7 +10,7 @@ final class RemoteConfigRepository {
     if (kDebugMode) {
       await remoteConfig.setConfigSettings(RemoteConfigSettings(
         fetchTimeout: const Duration(minutes: 1),
-        minimumFetchInterval: const Duration(),
+        minimumFetchInterval: Duration.zero,
       ));
     } else {
       await remoteConfig.setConfigSettings(RemoteConfigSettings(

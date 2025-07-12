@@ -43,7 +43,7 @@ final class DottoTheme {
       ),
       textButtonTheme: const TextButtonThemeData(
         style: ButtonStyle(
-          padding: const WidgetStatePropertyAll(EdgeInsets.zero),
+          padding: WidgetStatePropertyAll(EdgeInsets.zero),
         ),
       ),
       dividerTheme: DividerThemeData(

@@ -297,7 +297,7 @@ final class MyPageTimetable extends ConsumerWidget {
                           ),
                           minimumSize: const Size(buttonSize, buttonSize),
                           fixedSize: const Size(buttonSize, buttonSize),
-                          padding: const EdgeInsets.all(0),
+                          padding: EdgeInsets.zero,
                         ),
                         // 日付表示
                         child: Column(

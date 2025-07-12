@@ -10,7 +10,7 @@ final class KamokuSearchFilterRadio extends ConsumerWidget {
     final kamokuSearchControllerNotifier =
         ref.watch(kamokuSearchControllerProvider.notifier);
     return Align(
-      alignment: const AlignmentDirectional(-1, 0),
+      alignment: AlignmentDirectional.centerStart,
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(

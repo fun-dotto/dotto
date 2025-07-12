@@ -16,7 +16,7 @@ final class KamokuSearchFilterCheckbox extends ConsumerWidget {
     final checkedList =
         kamokuSearchController.checkboxStatusMap[kamokuSearchChoices]!;
     return Align(
-      alignment: const AlignmentDirectional(-1, 0),
+      alignment: AlignmentDirectional.centerStart,
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(
