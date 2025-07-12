@@ -4,8 +4,8 @@
 
 ## Command Line Tools をインストール
 
-```
-% xcode-select --install
+```zsh
+xcode-select --install
 ```
 
 ## [Homebrew](https://brew.sh/ja/) とは
@@ -14,16 +14,24 @@ macOS のためのパッケージ管理ツールです。
 
 ## Homebrew をインストール
 
-```
-% /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-```
-
-```
-% echo 'eval $(/opt/homebrew/bin/brew shellenv)' >> ~/.zprofile
-% eval $(/opt/homebrew/bin/brew shellenv)
+```zsh
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
 
+```zsh
+echo 'eval $(/opt/homebrew/bin/brew shellenv)' >> ~/.zprofile
 ```
-% brew -v
+
+```zsh
+eval $(/opt/homebrew/bin/brew shellenv)
+```
+
+```zsh
+brew -v
+```
+
+出力例
+
+```
 Homebrew X.X.X
 ```
