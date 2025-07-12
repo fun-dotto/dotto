@@ -1,6 +1,6 @@
 import 'package:minio/minio.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:minio/models.dart';
+import 'package:dotto/controller/config_controller.dart';
 
 class S3 {
   Minio? _minio;
@@ -9,9 +9,9 @@ class S3 {
   static final instance = S3._();
   Minio getMinio() {
     _minio ??= Minio(
-      endPoint: dotenv.env['END_POINT']!,
-      accessKey: dotenv.env['ACCESS_KEY']!,
-      secretKey: dotenv.env['SECRET_KEY']!,
+      endPoint: ConfigState.cloudflareR2Endpoint,
+      accessKey: ConfigState.cloudflareR2AccessKeyId,
+      secretKey: ConfigState.cloudflareR2SecretAccessKey,
       useSSL: true,
     );
     return _minio!;
