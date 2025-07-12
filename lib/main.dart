@@ -34,9 +34,6 @@ Future<void> main() async {
     return true;
   };
 
-  // Firebase Realtime Databaseのパーシステンスを有効化
-  FirebaseDatabase.instance.setPersistenceEnabled(true);
-
   // Firebase App Checkの初期化
   await FirebaseAppCheck.instance.activate(
     androidProvider: kReleaseMode ? AndroidProvider.playIntegrity : AndroidProvider.debug,
@@ -46,7 +43,10 @@ Future<void> main() async {
   // Firebase Remote Configの初期化
   await RemoteConfigRepository.initialize();
 
-  // 画面の向きを固定.
+  // Firebase Realtime Databaseのパーシステンスを有効化
+  FirebaseDatabase.instance.setPersistenceEnabled(true);
+
+  // 画面の向きを固定
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
@@ -92,6 +92,7 @@ Future<void> _downloadFiles() async {
           'map/oneweek_schedule.json',
           'home/cancel_lecture.json',
           'home/sup_lecture.json',
+          'funch/menu.json',
         ];
         for (var path in filePaths) {
           downloadFileFromFirebase(path);

@@ -1,10 +1,22 @@
 {
   "dart.flutterSdkPath": ".fvm/versions/3.29.3",
   "search.exclude": {
-    "**/.fvm": true
+    ".dart_tool": true,
+    ".firebase": true,
+    ".fvm": true,
+    "android": true,
+    "build": true,
+    "coverage": true,
+    "ios": true
   },
   "files.watcherExclude": {
-    "**/.fvm": true
+    ".dart_tool": true,
+    ".firebase": true,
+    ".fvm": true,
+    "android": true,
+    "build": true,
+    "coverage": true,
+    "ios": true
   },
   "dart.lineLength": 100
 }
