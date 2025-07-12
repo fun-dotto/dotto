@@ -26,6 +26,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Install Task
+        uses: arduino/setup-task@v2
       - name: Get Flutter Version form .fvmrc
         uses: kuhnroyal/flutter-fvm-config-action/config@v3
         id: fvm-config-action
@@ -39,8 +41,8 @@ jobs:
       - name: Set up files
         run: touch ./.env.dev
       - name: Install Dependencies
-        run: make install FLUTTER=flutter
+        run: task install FLUTTER=flutter
       - name: Run Build
-        run: make build DART=dart
+        run: task build DART=dart
       - name: Run Tests
-        run: make test FLUTTER=flutter
+        run: task test FLUTTER=flutter
