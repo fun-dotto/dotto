@@ -25,14 +25,14 @@ final class DottoTheme {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
         ),
-        padding: const EdgeInsets.all(0),
+        padding: EdgeInsets.zero,
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ButtonStyle(
           shape: WidgetStatePropertyAll(RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           )),
-          padding: const WidgetStatePropertyAll(EdgeInsets.all(0)),
+          padding: const WidgetStatePropertyAll(EdgeInsets.zero),
           elevation: const WidgetStatePropertyAll(2),
           surfaceTintColor: const WidgetStatePropertyAll(Colors.transparent),
         ),
@@ -43,7 +43,7 @@ final class DottoTheme {
       ),
       textButtonTheme: const TextButtonThemeData(
         style: ButtonStyle(
-          padding: WidgetStatePropertyAll(EdgeInsets.all(0)),
+          padding: const WidgetStatePropertyAll(EdgeInsets.zero),
         ),
       ),
       dividerTheme: DividerThemeData(

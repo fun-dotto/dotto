@@ -154,7 +154,8 @@ final class PDFScreen extends StatefulWidget {
 
 final class _PDFScreenState extends State<PDFScreen>
     with WidgetsBindingObserver {
-  //final Completer<PDFViewController> _controller = Completer<PDFViewController>();
+  // final Completer<PDFViewController> _controller =
+  //     Completer<PDFViewController>();
   int pages = 0;
   int currentPage = 0;
   bool isReady = false;
