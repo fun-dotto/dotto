@@ -193,8 +193,7 @@ class _BasePageState extends ConsumerState<BasePage> {
           await MapRepository().setUsingColor(DateTime.now(), ref);
     }
 
-    final tabItemNotifier = ref.read(tabItemProvider.notifier);
-    tabItemNotifier.selected(selectedTab);
+    ref.read(tabItemProvider.notifier).selected(selectedTab);
   }
 
   Future<bool> isAppTutorialCompleted() async {
@@ -207,8 +206,9 @@ class _BasePageState extends ConsumerState<BasePage> {
   Future<void> _showAppTutorial(BuildContext context) async {
     if (!await isAppTutorialCompleted()) {
       if (context.mounted) {
-        Navigator.of(context).push(PageRouteBuilder(
-          pageBuilder: (context, animation, secondaryAnimation) => const AppTutorial(),
+        await Navigator.of(context).push<void>(PageRouteBuilder<void>(
+          pageBuilder: (context, animation, secondaryAnimation) =>
+              const AppTutorial(),
           fullscreenDialog: true,
           transitionsBuilder: fromRightAnimation,
         ));

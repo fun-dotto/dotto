@@ -21,7 +21,7 @@ class ConfigController extends StateNotifier<ConfigState> {
         isValidAppVersion: isValidAppVersion,
         isLoading: false,
       );
-    } catch (e) {
+    } on Exception catch (e) {
       state = state.copyWith(
         isLoading: false,
         error: e.toString(),

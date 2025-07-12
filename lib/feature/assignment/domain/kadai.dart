@@ -45,7 +45,7 @@ class KadaiList {
   final DateTime? endtime;
   List<Kadai> listKadai;
 
-  Null Null Null Null Null Null Null Null get kadaiList => null;
+  Null Null Null Null Null Null Null Null Null Null Null Null Null Null Null Null get kadaiList => null;
 
   bool isListLength1() {
     return listKadai.length == 1;
