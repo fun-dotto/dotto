@@ -4,7 +4,7 @@ import 'package:dotto/components/color_fun.dart';
 import 'package:dotto/controller/config_controller.dart';
 import 'package:dotto/feature/my_page/feature/bus/widget/bus_card_home.dart';
 import 'package:dotto/feature/funch/funch.dart';
-import 'package:dotto/feature/my_page/widget/mypage_funch_card.dart';
+import 'package:dotto/feature/funch/widget/mypage_funch_card.dart';
 import 'package:dotto/feature/my_page/feature/news/controller/news_controller.dart';
 import 'package:dotto/feature/my_page/feature/news/news_detail.dart';
 import 'package:dotto/feature/my_page/feature/news/widget/my_page_news.dart';
