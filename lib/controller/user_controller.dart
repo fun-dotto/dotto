@@ -11,6 +11,8 @@ class UserNotifier extends Notifier<User?> {
     return FirebaseAuth.instance.currentUser;
   }
 
+  User? get user => state;
+  
   set user(User user) {
     state = user;
   }
