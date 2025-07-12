@@ -22,9 +22,6 @@ import 'package:timezone/timezone.dart' as tz;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // .envファイルの読み込み
-  await dotenv.load(fileName: ".env.dev");
-
   // Firebaseの初期化
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
