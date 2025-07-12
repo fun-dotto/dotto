@@ -92,8 +92,11 @@ final class KamokuSearchControllerProvider
     state = state.copyWith(searchWord: word);
   }
 
-  void checkboxOnChanged(
-      bool? value, KamokuSearchChoices kamokuSearchChoices, int index) {
+  void checkboxOnChanged({
+    required bool? value,
+    required KamokuSearchChoices kamokuSearchChoices,
+    required int index,
+  }) {
     final checkboxStatusMap = state.checkboxStatusMap;
     checkboxStatusMap[kamokuSearchChoices]![index] = value ?? false;
     if (kamokuSearchChoices == KamokuSearchChoices.grade &&
@@ -315,7 +318,8 @@ final class KamokuSearchControllerProvider
     List<Map<String, dynamic>> records;
     sqlWhere = (sqlWhere == '') ? '1' : sqlWhere;
     records = await database.rawQuery(
-        'SELECT * FROM sort detail INNER JOIN sort ON sort.LessonId=detail.LessonId WHERE $sqlWhere');
+        'SELECT * FROM sort detail INNER JOIN sort ON '
+        'sort.LessonId=detail.LessonId WHERE $sqlWhere');
     state = state.copyWith(
         searchResults: records
             .where(

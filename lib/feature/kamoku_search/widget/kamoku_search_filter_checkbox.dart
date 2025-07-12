@@ -30,7 +30,10 @@ final class KamokuSearchFilterCheckbox extends ConsumerWidget {
                       value: checkedList[i],
                       onChanged: (value) {
                         kamokuSearchControllerNotifier.checkboxOnChanged(
-                            value, kamokuSearchChoices, i);
+                          value: value,
+                          kamokuSearchChoices: kamokuSearchChoices,
+                          index: i,
+                        );
                       },
                     ),
                     Text(kamokuSearchChoices.displayString?[i] ??
