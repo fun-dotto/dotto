@@ -651,7 +651,10 @@ final class _KadaiListScreenState extends State<KadaiListScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         //Text(
-                        //"${data[index].hiddenKadai(deleteList).length.toString()}個の課題",
+                        // "${data[index]
+                        //     .hiddenKadai(deleteList)
+                        //     .length
+                        //     .toString()}個の課題",
                         //),
                         Text(
                           '${unFinishedList(data[index])}個の課題',

@@ -161,7 +161,9 @@ final class _KadaiHiddenScreenState extends State<KadaiHiddenScreen> {
                           ),
                           if (hiddenKadai[index].endtime != null)
                             Text(
-                              '終了：${stringFromDateTime(hiddenKadai[index].endtime)}',
+                              '終了：${stringFromDateTime(
+                                hiddenKadai[index].endtime,
+                              )}',
                               style: const TextStyle(
                                 fontSize: 12,
                               ),

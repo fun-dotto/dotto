@@ -36,8 +36,12 @@ Future<void> main() async {
 
   // Firebase App Checkの初期化
   await FirebaseAppCheck.instance.activate(
-    androidProvider: kReleaseMode ? AndroidProvider.playIntegrity : AndroidProvider.debug,
-    appleProvider: kReleaseMode ? AppleProvider.appAttest : AppleProvider.debug,
+    androidProvider: kReleaseMode
+        ? AndroidProvider.playIntegrity
+        : AndroidProvider.debug,
+    appleProvider: kReleaseMode
+        ? AppleProvider.appAttest
+        : AppleProvider.debug,
   );
 
   // Firebase Remote Configの初期化
