@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:dotto/components/kadai.dart';
+import 'package:dotto/feature/assignment/domain/kadai.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
