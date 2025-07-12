@@ -20,7 +20,7 @@ import 'package:dotto/feature/my_page/feature/timetable/repository/timetable_rep
 import 'package:dotto/feature/settings/repository/settings_repository.dart';
 import 'package:dotto/importer.dart';
 import 'package:dotto/repository/notification.dart';
-import 'package:dotto/screens/app_tutorial.dart';
+import 'package:dotto/widget/app_tutorial.dart';
 import 'package:dotto/theme/importer.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';

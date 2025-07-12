@@ -8,7 +8,7 @@ import 'package:dotto/widget/loading_circular.dart';
 import 'package:dotto/feature/settings/controller/settings_controller.dart';
 import 'package:dotto/importer.dart';
 import 'package:dotto/repository/firebase_get_kadai.dart';
-import 'package:dotto/screens/kadai_hidden_list.dart';
+import 'package:dotto/widget/kadai_hidden_list.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';

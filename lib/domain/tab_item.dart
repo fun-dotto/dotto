@@ -2,7 +2,7 @@ import 'package:dotto/feature/kamoku_search/kamoku_search.dart';
 import 'package:dotto/feature/map/map.dart';
 import 'package:dotto/feature/my_page/home.dart';
 import 'package:dotto/importer.dart';
-import 'package:dotto/screens/kadai_list.dart';
+import 'package:dotto/widget/kadai_list.dart';
 import 'package:dotto/feature/settings/settings.dart';
 
 enum TabItem {

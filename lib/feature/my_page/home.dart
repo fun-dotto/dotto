@@ -14,7 +14,7 @@ import 'package:dotto/feature/my_page/feature/timetable/personal_time_table.dart
 import 'package:dotto/feature/my_page/feature/timetable/repository/timetable_repository.dart';
 import 'package:dotto/feature/my_page/feature/timetable/widget/my_page_timetable.dart';
 import 'package:dotto/importer.dart';
-import 'package:dotto/screens/file_viewer.dart';
+import 'package:dotto/widget/file_viewer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {

@@ -8,7 +8,7 @@ import 'package:dotto/feature/settings/repository/settings_repository.dart';
 import 'package:dotto/feature/settings/widget/license.dart';
 import 'package:dotto/feature/settings/widget/settings_set_userkey.dart';
 import 'package:dotto/importer.dart';
-import 'package:dotto/screens/app_tutorial.dart';
+import 'package:dotto/widget/app_tutorial.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:settings_ui/settings_ui.dart';
 import 'package:url_launcher/url_launcher.dart';
