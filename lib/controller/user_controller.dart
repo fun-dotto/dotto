@@ -13,7 +13,7 @@ class UserNotifier extends Notifier<User?> {
 
   User? get user => state;
   
-  set user(User user) {
+  set user(User? user) {
     state = user;
   }
 
