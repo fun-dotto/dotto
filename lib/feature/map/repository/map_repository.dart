@@ -30,9 +30,13 @@ final class MapRepository {
     if (snapshot.exists && snapshotRoom.exists) {
       (snapshot.value! as Map).forEach((floor, value) {
         (value as Map).forEach((roomName, value2) {
-          returnList[floor as String]!.addAll({
-            roomName as String: MapDetail.fromFirebase(floor as String,
-                roomName as String, value2 as Map, snapshotRoom.value! as Map)
+          returnList[floor]!.addAll({
+            roomName: MapDetail.fromFirebase(
+                floor,
+                roomName,
+                value2 as Map<String, dynamic>,
+                snapshotRoom.value! as Map<String, dynamic>,
+              )
           });
         });
       });
@@ -84,7 +88,7 @@ final class MapRepository {
     try {
       final fileContent = await readJsonFile(scheduleFilePath);
       resourceIds = findRoomsInUse(fileContent, dateTime);
-    } catch (e) {
+    } on Exception catch (e) {
       debugPrint(e.toString());
     }
     return resourceIds;

@@ -3,8 +3,8 @@ final class MapDetail {
       this.detail, this.mail, this.searchWordList,
       {this.scheduleList});
 
-  factory MapDetail.fromFirebase(
-      String floor, String roomName, Map value, Map roomScheduleMap) {
+  factory MapDetail.fromFirebase(String floor, String roomName,
+      Map<String, dynamic> value, Map<String, dynamic> roomScheduleMap) {
     List<String>? sWordList;
     if (value.containsKey('searchWordList')) {
       sWordList = (value['searchWordList'] as String).split(',');
@@ -22,8 +22,8 @@ final class MapDetail {
       );
     }
     return MapDetail(
-        floor as String,
-        roomName as String,
+        floor,
+        roomName,
         value['classroomNo'] as int?,
         value['header'] as String,
         value['detail'] as String?,
@@ -61,7 +61,7 @@ final class MapDetail {
 final class RoomSchedule {
   const RoomSchedule(this.begin, this.end, this.title);
 
-  factory RoomSchedule.fromFirebase(Map map) {
+  factory RoomSchedule.fromFirebase(Map<String, dynamic> map) {
     final beginDatetime = DateTime.parse(map['begin_datetime'] as String);
     final endDatetime = DateTime.parse(map['end_datetime'] as String);
     final title = map['title'];

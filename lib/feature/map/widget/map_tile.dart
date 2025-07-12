@@ -11,7 +11,7 @@ abstract final class MapColors {
 
 // 階段の時の描画設定
 final class MapStairType {
-  const MapStairType(this.direction, this.up, this.down);
+  const MapStairType(this.direction, {required this.up, required this.down});
   final Axis direction;
   final bool up;
   final bool down;
@@ -40,7 +40,7 @@ final class MapTile extends StatelessWidget {
     this.wc = 0x0000,
     this.using = false,
     this.fontSize = 4,
-    this.stairType = const MapStairType(Axis.horizontal, true, true),
+    this.stairType = const MapStairType(Axis.horizontal, up: true, down: true),
     this.useEndTime,
     this.innerWidget,
     this.food,
@@ -86,23 +86,23 @@ final class MapTile extends StatelessWidget {
     fontColor = ttype.textColor;
   }
 
-  void setUsing(bool b) {
+  set isUsing(bool b) {
     using = b;
   }
 
-  void setTileColor(Color c) {
+  set tileBackgroundColor(Color c) {
     tileColor = c;
   }
 
-  void setFontColor(Color c) {
+  set textColor(Color c) {
     fontColor = c;
   }
 
-  void setUseEndTime(DateTime dt) {
+  set endTime(DateTime dt) {
     useEndTime = dt;
   }
 
-  void setLessonIds(List<String> lIds) {
+  set lessonIdList(List<String> lIds) {
     lessonIds = lIds;
   }
 
@@ -201,7 +201,7 @@ final class MapTile extends StatelessWidget {
     });
   }
 
-  BorderSide oneBorderSide(double n, bool focus) {
+  BorderSide oneBorderSide(double n, {required bool focus}) {
     if (focus) {
       return const BorderSide(color: Colors.red);
     } else if (n > 0) {
@@ -211,7 +211,7 @@ final class MapTile extends StatelessWidget {
     }
   }
 
-  EdgeInsets edgeInsets(bool focus) {
+  EdgeInsets edgeInsets({required bool focus}) {
     return EdgeInsets.only(
       top: (top > 0 || focus) ? 0 : 1,
       right: (right > 0 || focus) ? 0 : 1,
@@ -223,8 +223,8 @@ final class MapTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final floorBarString = <String>['1', '2', '3', '4', '5', 'R6', 'R7'];
-    final widgetList = <Widget>[];
-    widgetList.add(SizedBox.expand(child: Consumer(
+    final widgetList = <Widget>[]
+      ..add(SizedBox.expand(child: Consumer(
       builder: (context, ref, child) {
         final mapFocusMapDetail = ref.watch(mapFocusMapDetailProvider);
         final mapPage = ref.watch(mapPageProvider);
@@ -247,13 +247,13 @@ final class MapTile extends StatelessWidget {
           }
         }
         return Container(
-            padding: edgeInsets(focus),
+            padding: edgeInsets(focus: focus),
             decoration: BoxDecoration(
               border: Border(
-                  top: oneBorderSide(top, focus),
-                  right: oneBorderSide(right, focus),
-                  bottom: oneBorderSide(bottom, focus),
-                  left: oneBorderSide(left, focus)),
+                  top: oneBorderSide(top, focus: focus),
+                  right: oneBorderSide(right, focus: focus),
+                  bottom: oneBorderSide(bottom, focus: focus),
+                  left: oneBorderSide(left, focus: focus)),
               color: (ttype == MapTileType.empty)
                   ? tileColor
                   : MapTileType.road.backgroundColor,
@@ -267,8 +267,8 @@ final class MapTile extends StatelessWidget {
                   : innerWidget,
             ));
       },
-    )));
-    widgetList.add(stackTextIcon());
+    )))
+      ..add(stackTextIcon());
     if (ttype == MapTileType.stair) {
       if (stairType.up && !stairType.down) {
         widgetList.add(SizedBox.expand(

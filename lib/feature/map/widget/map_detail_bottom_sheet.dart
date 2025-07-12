@@ -54,7 +54,8 @@ final class MapDetailBottomSheet extends ConsumerWidget {
               ),
               const SizedBox(width: 5),
               Text(
-                "${DateFormat('HH:mm').format(begin)} ~ ${DateFormat('HH:mm').format(end)}",
+                '${DateFormat('HH:mm').format(begin)} ~ '
+                '${DateFormat('HH:mm').format(end)}',
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 18,
@@ -135,7 +136,7 @@ final class MapDetailBottomSheet extends ConsumerWidget {
     try {
       gridMap = FunGridMaps.mapTileListMap[floor]!
           .firstWhere((element) => element.txt == roomName);
-    } catch (e) {
+    } on StateError catch (e) {
       gridMap = null;
     }
     return Container(
@@ -260,8 +261,8 @@ final class MapDetailBottomSheet extends ConsumerWidget {
                 const Text('詳細は未来大Googleアカウントでログインすることで表示できます。'),
                 OutlinedButton(
                   onPressed: () {
-                    final tabItemNotifier = ref.read(tabItemProvider.notifier);
-                    tabItemNotifier.selected(TabItem.setting);
+                    ref.read(tabItemProvider.notifier)
+                      ..selected(TabItem.setting);
                   },
                   style: OutlinedButton.styleFrom(
                     foregroundColor: Colors.grey.shade700,
