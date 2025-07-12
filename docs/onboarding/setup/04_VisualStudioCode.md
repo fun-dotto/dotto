@@ -6,8 +6,8 @@
 
 Homebrew を使ってインストールします。
 
-```
-% brew install --cask visual-studio-code
+```zsh
+brew install --cask visual-studio-code
 ```
 
 ## [Windows] Visual Studio Code をインストール

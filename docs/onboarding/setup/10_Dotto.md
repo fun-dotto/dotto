@@ -2,32 +2,38 @@
 
 リポジトリをクローンします。
 
+```zsh
+git clone git@github.com:fun-dotto/dotto.git
 ```
-% git clone git@github.com:fun-dotto/dotto.git
-% cd dotto
+
+```zsh
+cd dotto
 ```
 
 ## プロジェクトをセットアップ
 
 プロジェクトの依存関係のインストールをします。
 
-```
-% make install
+```zsh
+make install
 ```
 
 Firebase の情報をセットアップします。
 
+```zsh
+dart pub global activate flutterfire_cli
 ```
-% dart pub global activate flutterfire_cli
-% flutterfire configure
+
+```zsh
+flutterfire configure
 ```
 
 メンバーに`.env.dev`ファイルをもらい、プロジェクト直下に配置します。
 
 必要なコードを生成します。
 
-```
-% make build
+```zsh
+make build
 ```
 
 ## [macOS] iOS Simulator で起動する
@@ -36,8 +42,8 @@ Firebase の情報をセットアップします。
 
 以下のコマンドを実行します。
 
-```
-% make run
+```zsh
+make run
 ```
 
 ## [macOS] iOS 端末で起動する
@@ -46,9 +52,12 @@ Mac と iPhone を接続します。
 
 以下のコマンドを実行します。
 
+```zsh
+make match_development
 ```
-% make match_development
-% make run
+
+```zsh
+make run
 ```
 
 ## [macOS] Android Emulator で起動する
@@ -57,16 +66,16 @@ Visual Studio Code から Android エミュレータを起動します。
 
 以下のコマンドを実行します。
 
-```
-% make run
+```zsh
+make run
 ```
 
 q キーを押して、一度終了します。
 
 以下のコマンドを実行して、証明書のフィンガープリントを取得します。
 
-```
-% keytool -list -v -alias androiddebugkey -keystore ~/.android/debug.keystore -storepass android
+```zsh
+keytool -list -v -alias androiddebugkey -keystore ~/.android/debug.keystore -storepass android
 ```
 
 [Firebase](https://console.firebase.google.com/u/0/project/swift2023groupc/settings/general/android:jp.ac.fun.dotto?hl=ja)にアクセスして、表示された SHA-1 のフィンガープリントを登録する。
@@ -77,22 +86,22 @@ Android Studio で使用されている Java があるフォルダのパスを�
 
 Ex. `C:\Program Files\Android\Android Studio\jbr\bin`
 
-```
-> set PATH=<コピーしたパスをペースト>;%PATH%
+```pwsh
+set PATH=<コピーしたパスをペースト>;%PATH%
 ```
 
 以下のコマンドを実行します。
 
-```
-> make run
+```pwsh
+make run
 ```
 
 q キーを押して、一度終了します。
 
 以下のコマンドを実行して、証明書のフィンガープリントを取得します。
 
-```
-> keytool -list -v -alias androiddebugkey -keystore $env:USERPROFILE\.android\debug.keystore -storepass android
+```pwsh
+keytool -list -v -alias androiddebugkey -keystore $env:USERPROFILE\.android\debug.keystore -storepass android
 ```
 
 [Firebase](https://console.firebase.google.com/u/0/project/swift2023groupc/settings/general/android:jp.ac.fun.dotto?hl=ja)にアクセスして、表示された SHA-1 のフィンガープリントを登録する。
