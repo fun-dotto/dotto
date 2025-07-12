@@ -1,5 +1,5 @@
 import 'package:dotto/importer.dart';
-import 'package:dotto/components/animation.dart';
+import 'package:dotto/theme/v1/animation.dart';
 import 'package:dotto/widget/loading_circular.dart';
 import 'package:dotto/feature/kamoku_detail/kamoku_detail_page_view.dart';
 import 'package:dotto/feature/kamoku_search/controller/kamoku_search_controller.dart';

@@ -1,4 +1,4 @@
-import 'package:dotto/components/animation.dart';
+import 'package:dotto/theme/v1/animation.dart';
 import 'package:dotto/theme/v1/app_color.dart';
 import 'package:dotto/feature/my_page/feature/news/news.dart';
 import 'package:dotto/feature/my_page/feature/news/widget/news_list.dart';

@@ -1,5 +1,5 @@
 import 'package:dotto/importer.dart';
-import 'package:dotto/components/animation.dart';
+import 'package:dotto/theme/v1/animation.dart';
 import 'package:dotto/theme/v1/color_fun.dart';
 import 'package:dotto/widget/loading_circular.dart';
 import 'package:dotto/feature/my_page/feature/timetable/personal_select_lesson.dart';

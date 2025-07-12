@@ -1,5 +1,5 @@
 import 'package:collection/collection.dart';
-import 'package:dotto/components/animation.dart';
+import 'package:dotto/theme/v1/animation.dart';
 import 'package:dotto/widget/loading_circular.dart';
 import 'package:dotto/feature/my_page/feature/bus/bus.dart';
 import 'package:dotto/feature/my_page/feature/bus/controller/bus_controller.dart';
