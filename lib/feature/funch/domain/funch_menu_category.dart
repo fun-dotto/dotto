@@ -1,14 +1,15 @@
 import 'package:dotto/importer.dart';
 
 enum FunchMenuCategory {
-  set([1, 7, 8], "セット・単品", Icons.restaurant),
-  donCurry([4, 5], "丼・カレー", Icons.rice_bowl),
-  noodle([11], "麺", Icons.ramen_dining),
-  sideDish([2, 9], "副菜", Icons.eco),
-  dessert([3], "デザート", Icons.cake);
+  set("セット・単品", [1, 7, 8], Icons.restaurant),
+  donCurry("丼・カレー", [4, 5], Icons.rice_bowl),
+  noodle("麺", [11], Icons.ramen_dining),
+  sideDish("副菜", [2, 9], Icons.eco),
+  dessert("デザート", [3], Icons.cake);
 
-  final List<int> categoryIds;
   final String title;
+  final List<int> categoryIds;
   final IconData icon;
-  const FunchMenuCategory(this.categoryIds, this.title, this.icon);
+
+  const FunchMenuCategory(this.title, this.categoryIds, this.icon);
 }
