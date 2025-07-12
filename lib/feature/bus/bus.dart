@@ -1,4 +1,5 @@
 import 'package:collection/collection.dart';
+import 'package:dotto/asset.dart';
 import 'package:dotto/theme/v1/app_color.dart';
 import 'package:dotto/widget/loading_circular.dart';
 import 'package:dotto/feature/bus/widget/bus_timetable.dart';
@@ -179,7 +180,7 @@ class BusScreen extends ConsumerWidget {
             child: Column(
               children: [
                 Image.asset(
-                  "assets/bus.png",
+                  Asset.bus,
                   width: MediaQuery.of(context).size.width * 0.57,
                 ),
                 Row(

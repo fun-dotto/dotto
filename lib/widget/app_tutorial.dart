@@ -1,6 +1,7 @@
+import 'package:dotto/asset.dart';
+import 'package:dotto/theme/v1/color_fun.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_overboard/flutter_overboard.dart';
-import 'package:dotto/theme/v1/color_fun.dart';
 
 class AppTutorial extends StatelessWidget {
   const AppTutorial({super.key});
@@ -65,7 +66,7 @@ class AppTutorial extends StatelessWidget {
       PageModel.withChild(
         child: _withImage(
           topMargin,
-          'assets/tutorial/home.png',
+          Asset.tutorialHome,
           'ホーム',
           '時間割を設定でき、休講・補講情報などの確認をできます',
           backgroundColor,
@@ -75,7 +76,7 @@ class AppTutorial extends StatelessWidget {
       PageModel.withChild(
         child: _withImage(
           topMargin,
-          'assets/tutorial/map.png',
+          Asset.tutorialMap,
           '学内マップ',
           '使用中の教室を確認したり、教員名で検索したりできます',
           backgroundColor,
@@ -85,7 +86,7 @@ class AppTutorial extends StatelessWidget {
       PageModel.withChild(
         child: _withImage(
           topMargin,
-          'assets/tutorial/kamoku.png',
+          Asset.tutorialKamoku,
           '科目検索',
           'シラバスから科目を検索できます',
           backgroundColor,
@@ -95,7 +96,7 @@ class AppTutorial extends StatelessWidget {
       PageModel.withChild(
         child: _withImage(
           topMargin,
-          'assets/tutorial/kadai.png',
+          Asset.tutorialKadai,
           'HOPE課題',
           'HOPEで設定を行うことで課題を表示することができます',
           backgroundColor,

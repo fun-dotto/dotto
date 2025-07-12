@@ -1,6 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:dotto/theme/v1/app_color.dart';
-import 'package:dotto/widget/loading_circular.dart';
+import 'package:dotto/asset.dart';
 import 'package:dotto/feature/funch/controller/funch_today_daily_menu_controller.dart';
 import 'package:dotto/feature/funch/controller/funch_mypage_card_index_controller.dart';
 import 'package:dotto/feature/funch/domain/funch_menu.dart';
@@ -8,6 +7,8 @@ import 'package:dotto/feature/funch/funch.dart';
 import 'package:dotto/feature/funch/utility/datetime.dart';
 import 'package:dotto/feature/funch/widget/funch_price_list.dart';
 import 'package:dotto/importer.dart';
+import 'package:dotto/theme/v1/app_color.dart';
+import 'package:dotto/widget/loading_circular.dart';
 import 'package:intl/intl.dart';
 
 final class FunchMyPageCard extends ConsumerWidget {
@@ -19,7 +20,7 @@ final class FunchMyPageCard extends ConsumerWidget {
         imageUrl,
       );
     } else {
-      return const AssetImage('assets/images/no_image.png');
+      return const AssetImage(Asset.noImage);
     }
   }
 
@@ -168,7 +169,7 @@ final class FunchMyPageCard extends ConsumerWidget {
             fit: BoxFit.fill,
             errorBuilder: (context, error, stackTrace) {
               return Image.asset(
-                'assets/images/no_image.png',
+                Asset.noImage,
                 width: double.infinity,
                 fit: BoxFit.fill,
               );

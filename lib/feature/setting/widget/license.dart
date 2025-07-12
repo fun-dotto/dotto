@@ -1,3 +1,4 @@
+import 'package:dotto/asset.dart';
 import 'package:dotto/importer.dart';
 
 class SettingsLicenseScreen extends StatelessWidget {
@@ -7,7 +8,7 @@ class SettingsLicenseScreen extends StatelessWidget {
     return LicensePage(
       applicationName: 'Dotto',
       applicationIcon: Image.asset(
-        'assets/dotto_icon.png',
+        Asset.icon768,
         width: 150,
       ),
     );
