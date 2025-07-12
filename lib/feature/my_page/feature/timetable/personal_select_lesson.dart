@@ -1,6 +1,6 @@
 import 'package:dotto/importer.dart';
 import 'package:dotto/components/color_fun.dart';
-import 'package:dotto/components/widgets/progress_indicator.dart';
+import 'package:dotto/widget/progress_indicator.dart';
 import 'package:dotto/feature/my_page/feature/timetable/controller/timetable_controller.dart';
 import 'package:dotto/feature/my_page/feature/timetable/repository/timetable_repository.dart';
 import 'package:dotto/feature/my_page/feature/timetable/widget/timetable_is_over_selected_snack_bar.dart';

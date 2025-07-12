@@ -1,5 +1,5 @@
 import 'package:dotto/components/animation.dart';
-import 'package:dotto/components/widgets/progress_indicator.dart';
+import 'package:dotto/widget/progress_indicator.dart';
 import 'package:dotto/feature/my_page/feature/news/controller/news_controller.dart';
 import 'package:dotto/feature/my_page/feature/news/news_detail.dart';
 import 'package:dotto/importer.dart';

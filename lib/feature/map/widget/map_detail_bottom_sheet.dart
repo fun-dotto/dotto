@@ -1,4 +1,4 @@
-import 'package:dotto/components/widgets/progress_indicator.dart';
+import 'package:dotto/widget/progress_indicator.dart';
 import 'package:dotto/controller/tab_controller.dart';
 import 'package:dotto/controller/user_controller.dart';
 import 'package:dotto/domain/tab_item.dart';

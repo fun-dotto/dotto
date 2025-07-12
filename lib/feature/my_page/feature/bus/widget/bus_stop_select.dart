@@ -1,5 +1,5 @@
 import 'package:dotto/components/setting_user_info.dart';
-import 'package:dotto/components/widgets/progress_indicator.dart';
+import 'package:dotto/widget/progress_indicator.dart';
 import 'package:dotto/feature/my_page/feature/bus/controller/bus_controller.dart';
 import 'package:dotto/importer.dart';
 

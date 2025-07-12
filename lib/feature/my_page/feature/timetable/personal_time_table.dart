@@ -1,7 +1,7 @@
 import 'package:dotto/importer.dart';
 import 'package:dotto/components/animation.dart';
 import 'package:dotto/components/color_fun.dart';
-import 'package:dotto/components/widgets/progress_indicator.dart';
+import 'package:dotto/widget/progress_indicator.dart';
 import 'package:dotto/feature/my_page/feature/timetable/personal_select_lesson.dart';
 import 'package:dotto/feature/my_page/feature/timetable/controller/timetable_controller.dart';
 

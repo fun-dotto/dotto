@@ -1,7 +1,7 @@
 import 'package:dotto/importer.dart';
 import 'package:dotto/components/animation.dart';
 import 'package:dotto/components/color_fun.dart';
-import 'package:dotto/components/widgets/progress_indicator.dart';
+import 'package:dotto/widget/progress_indicator.dart';
 import 'package:dotto/controller/user_controller.dart';
 import 'package:dotto/feature/kamoku_detail/kamoku_detail_page_view.dart';
 import 'package:dotto/feature/my_page/feature/timetable/controller/timetable_controller.dart';

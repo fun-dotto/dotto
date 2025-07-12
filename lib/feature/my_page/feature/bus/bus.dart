@@ -1,6 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:dotto/components/app_color.dart';
-import 'package:dotto/components/widgets/progress_indicator.dart';
+import 'package:dotto/widget/progress_indicator.dart';
 import 'package:dotto/feature/my_page/feature/bus/widget/bus_timetable.dart';
 import 'package:dotto/feature/my_page/feature/bus/controller/bus_controller.dart';
 import 'package:dotto/feature/my_page/feature/bus/domain/bus_trip.dart';

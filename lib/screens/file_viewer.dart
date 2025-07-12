@@ -8,7 +8,7 @@ import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:dotto/components/s3.dart';
 import 'dart:typed_data';
-import 'package:dotto/components/widgets/progress_indicator.dart';
+import 'package:dotto/widget/progress_indicator.dart';
 import 'package:share_plus/share_plus.dart';
 
 enum StorageService { cloudflare, firebase }
