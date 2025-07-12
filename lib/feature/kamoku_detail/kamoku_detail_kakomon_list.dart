@@ -1,12 +1,11 @@
-import 'package:flutter/material.dart';
-
-import 'package:dotto/repository/s3.dart';
-import 'package:dotto/widget/loading_circular.dart';
 import 'package:dotto/feature/kamoku_detail/repository/kamoku_detail_repository.dart';
 import 'package:dotto/feature/kamoku_detail/widget/kamoku_detail_kakomon_list_objects.dart';
+import 'package:dotto/repository/s3.dart';
+import 'package:dotto/widget/loading_circular.dart';
+import 'package:flutter/material.dart';
 
 class KamokuDetailKakomonListScreen extends StatefulWidget {
-  const KamokuDetailKakomonListScreen({super.key, required this.url});
+  const KamokuDetailKakomonListScreen({required this.url, super.key});
   final int url;
 
   @override
@@ -36,7 +35,7 @@ class _KamokuDetailKakomonListScreenState extends State<KamokuDetailKakomonListS
                           .toList(),
                     );
                   } else {
-                    return LoadingCircular();
+                    return const LoadingCircular();
                   }
                 },
               )

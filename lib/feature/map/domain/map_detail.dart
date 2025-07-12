@@ -1,12 +1,4 @@
 class MapDetail {
-  final String floor;
-  final String roomName;
-  final int? classroomNo;
-  final String header;
-  final String? detail;
-  final List<RoomSchedule>? scheduleList;
-  final String? mail;
-  final List<String>? searchWordList;
 
   const MapDetail(this.floor, this.roomName, this.classroomNo, this.header, this.detail, this.mail,
       this.searchWordList,
@@ -19,7 +11,7 @@ class MapDetail {
     }
     List<RoomSchedule>? roomScheduleList;
     if (roomScheduleMap.containsKey(roomName)) {
-      List scheduleList = roomScheduleMap[roomName] as List;
+      final var scheduleList = roomScheduleMap[roomName] as List;
       roomScheduleList = scheduleList.map((e) {
         return RoomSchedule.fromFirebase(e);
       }).toList();
@@ -33,6 +25,14 @@ class MapDetail {
         value['mail'], sWordList,
         scheduleList: roomScheduleList);
   }
+  final String floor;
+  final String roomName;
+  final int? classroomNo;
+  final String header;
+  final String? detail;
+  final List<RoomSchedule>? scheduleList;
+  final String? mail;
+  final List<String>? searchWordList;
 
   static const MapDetail none = MapDetail('1', '0', null, '0', null, null, null);
 
@@ -51,9 +51,6 @@ class MapDetail {
 }
 
 class RoomSchedule {
-  final DateTime begin;
-  final DateTime end;
-  final String title;
 
   const RoomSchedule(this.begin, this.end, this.title);
 
@@ -63,12 +60,15 @@ class RoomSchedule {
     final title = map['title'];
     return RoomSchedule(beginDatetime, endDatetime, title);
   }
+  final DateTime begin;
+  final DateTime end;
+  final String title;
 }
 
 class MapDetailMap {
-  final Map<String, Map<String, MapDetail>> mapDetailList;
 
   MapDetailMap(this.mapDetailList);
+  final Map<String, Map<String, MapDetail>> mapDetailList;
 
   MapDetail? searchOnce(String floor, String roomName) {
     if (mapDetailList.containsKey(floor)) {
@@ -80,19 +80,19 @@ class MapDetailMap {
   }
 
   List<MapDetail> searchAll(String searchText) {
-    List<MapDetail> results = [];
-    List<MapDetail> results2 = [];
-    List<MapDetail> results3 = [];
-    List<MapDetail> results4 = [];
+    final results = <MapDetail>[];
+    final results2 = <MapDetail>[];
+    final results3 = <MapDetail>[];
+    final results4 = <MapDetail>[];
     mapDetailList.forEach((_, value) {
-      for (var mapDetail in value.values) {
+      for (final mapDetail in value.values) {
         if (mapDetail.roomName == searchText) {
           results.add(mapDetail);
           continue;
         }
         if (mapDetail.searchWordList != null) {
-          bool matchFlag = false;
-          for (var word in mapDetail.searchWordList!) {
+          var matchFlag = false;
+          for (final word in mapDetail.searchWordList!) {
             if (word.contains(searchText)) {
               results2.add(mapDetail);
               matchFlag = true;

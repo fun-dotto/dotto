@@ -1,9 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 final class FirestoreFunchMenu {
-  final DateTime date; // Monthly: 当月の1日 (JST), Daily: 当日の0時 (JST)
-  final List<int> commonMenuIds;
-  final List<String> originalMenuIds;
 
   FirestoreFunchMenu({
     required this.date,
@@ -30,4 +27,7 @@ final class FirestoreFunchMenu {
       originalMenuIds: List<String>.from(json['original_menu_ids']),
     );
   }
+  final DateTime date; // Monthly: 当月の1日 (JST), Daily: 当日の0時 (JST)
+  final List<int> commonMenuIds;
+  final List<String> originalMenuIds;
 }

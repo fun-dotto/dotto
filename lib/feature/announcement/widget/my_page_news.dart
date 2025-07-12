@@ -1,8 +1,8 @@
-import 'package:dotto/theme/v1/animation.dart';
-import 'package:dotto/theme/v1/app_color.dart';
 import 'package:dotto/feature/announcement/news.dart';
 import 'package:dotto/feature/announcement/widget/news_list.dart';
 import 'package:dotto/importer.dart';
+import 'package:dotto/theme/v1/animation.dart';
+import 'package:dotto/theme/v1/app_color.dart';
 import 'package:flutter/material.dart';
 
 class MyPageNews extends StatelessWidget {
@@ -18,8 +18,7 @@ class MyPageNews extends StatelessWidget {
           BoxShadow(
             color: Colors.black26,
             offset: Offset(0, 1),
-            spreadRadius: 0.0,
-            blurRadius: 1.0,
+            blurRadius: 1,
           )
         ],
         borderRadius: BorderRadius.circular(10),
@@ -30,7 +29,7 @@ class MyPageNews extends StatelessWidget {
         children: [
           const Padding(
             padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
-            child: Text("Dottoからのお知らせ"),
+            child: Text('Dottoからのお知らせ'),
           ),
           const NewsList(
             isHome: true,
@@ -48,7 +47,7 @@ class MyPageNews extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Text(
-                    "お知らせ一覧",
+                    'お知らせ一覧',
                     style: TextStyle(
                       color: AppColor.linkTextBlue,
                     ),

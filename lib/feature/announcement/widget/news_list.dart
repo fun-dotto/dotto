@@ -1,13 +1,13 @@
-import 'package:dotto/theme/v1/animation.dart';
-import 'package:dotto/widget/loading_circular.dart';
 import 'package:dotto/feature/announcement/controller/news_controller.dart';
 import 'package:dotto/feature/announcement/news_detail.dart';
 import 'package:dotto/importer.dart';
+import 'package:dotto/theme/v1/animation.dart';
+import 'package:dotto/widget/loading_circular.dart';
 import 'package:intl/intl.dart';
 
-class NewsList extends ConsumerWidget {
-  final bool isHome; // Trueなら3つ
+class NewsList extends ConsumerWidget { // Trueなら3つ
   const NewsList({this.isHome = false, super.key});
+  final bool isHome;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -43,6 +43,6 @@ class NewsList extends ConsumerWidget {
         shrinkWrap: isHome,
       );
     }
-    return LoadingCircular();
+    return const LoadingCircular();
   }
 }

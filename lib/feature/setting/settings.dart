@@ -1,13 +1,13 @@
 import 'dart:io';
 
-import 'package:dotto/theme/v1/animation.dart';
-import 'package:dotto/repository/setting_user_info.dart';
 import 'package:dotto/controller/user_controller.dart';
 import 'package:dotto/feature/setting/controller/settings_controller.dart';
 import 'package:dotto/feature/setting/repository/settings_repository.dart';
 import 'package:dotto/feature/setting/widget/license.dart';
 import 'package:dotto/feature/setting/widget/settings_set_userkey.dart';
 import 'package:dotto/importer.dart';
+import 'package:dotto/repository/setting_user_info.dart';
+import 'package:dotto/theme/v1/animation.dart';
 import 'package:dotto/widget/app_tutorial.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:settings_ui/settings_ui.dart';
@@ -16,7 +16,7 @@ import 'package:url_launcher/url_launcher.dart';
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
 
-  void launchUrlInExternal(Uri url) async {
+  Future<void> launchUrlInExternal(Uri url) async {
     if (await canLaunchUrl(url)) {
       launchUrl(url, mode: LaunchMode.externalApplication);
     } else {
@@ -98,7 +98,7 @@ class SettingsScreen extends ConsumerWidget {
               // 学年
               SettingsTile.navigation(
                 onPressed: (context) async {
-                  String? returnText = await showDialog(
+                  final returnText = await showDialog(
                       context: context,
                       builder: (_) {
                         return listDialog(context, '学年', UserPreferenceKeys.grade,
@@ -115,7 +115,7 @@ class SettingsScreen extends ConsumerWidget {
               // コース
               SettingsTile.navigation(
                 onPressed: (context) async {
-                  String? returnText = await showDialog(
+                  final returnText = await showDialog(
                       context: context,
                       builder: (_) {
                         return listDialog(context, 'コース', UserPreferenceKeys.course,
@@ -145,7 +145,7 @@ class SettingsScreen extends ConsumerWidget {
               SettingsTile.navigation(
                 title: const Text('ユーザーキーの設定は下記リンクから'),
                 description: const SelectableText(
-                  "https://dotto.web.app/",
+                  'https://dotto.web.app/',
                 ),
                 trailing: const Icon(null),
               ),
@@ -196,7 +196,7 @@ class SettingsScreen extends ConsumerWidget {
                   future: PackageInfo.fromPlatform(),
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
-                      var data = snapshot.data!;
+                      final data = snapshot.data!;
                       return Text(data.version);
                     } else {
                       return const Text('');

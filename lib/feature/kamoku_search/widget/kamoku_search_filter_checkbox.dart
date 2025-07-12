@@ -1,10 +1,10 @@
-import 'package:dotto/importer.dart';
 import 'package:dotto/feature/kamoku_search/controller/kamoku_search_controller.dart';
 import 'package:dotto/feature/kamoku_search/domain/kamoku_search_choices.dart';
+import 'package:dotto/importer.dart';
 
 class KamokuSearchFilterCheckbox extends ConsumerWidget {
   const KamokuSearchFilterCheckbox(
-      {super.key, required this.kamokuSearchChoices});
+      {required this.kamokuSearchChoices, super.key});
 
   final KamokuSearchChoices kamokuSearchChoices;
 
@@ -16,11 +16,10 @@ class KamokuSearchFilterCheckbox extends ConsumerWidget {
     final checkedList =
         kamokuSearchController.checkboxStatusMap[kamokuSearchChoices]!;
     return Align(
-      alignment: const AlignmentDirectional(-1.00, 0.00),
+      alignment: const AlignmentDirectional(-1, 0),
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             for (int i = 0; i < kamokuSearchChoices.choice.length; i++)
               SizedBox(

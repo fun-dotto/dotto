@@ -1,12 +1,11 @@
+import 'package:dotto/feature/kamoku_detail/repository/kamoku_detail_repository.dart';
+import 'package:dotto/feature/kamoku_detail/widget/kamoku_detail_feedback_list.dart';
+import 'package:dotto/theme/v1/color_fun.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
-import 'package:dotto/theme/v1/color_fun.dart';
-import 'package:dotto/feature/kamoku_detail/repository/kamoku_detail_repository.dart';
-import 'package:dotto/feature/kamoku_detail/widget/kamoku_detail_feedback_list.dart';
-
 class KamokuFeedbackScreen extends StatefulWidget {
-  const KamokuFeedbackScreen({super.key, required this.lessonId});
+  const KamokuFeedbackScreen({required this.lessonId, super.key});
 
   final int lessonId;
 
@@ -72,9 +71,9 @@ class _KamokuFeedbackScreenState extends State<KamokuFeedbackScreen> {
               onTap: () => FocusScope.of(context).unfocus(),
               child: AlertDialog(
                 surfaceTintColor: Theme.of(context).colorScheme.surface,
-                insetPadding: const EdgeInsets.all(8.0),
+                insetPadding: const EdgeInsets.all(8),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0),
+                  borderRadius: BorderRadius.circular(10),
                 ),
                 content: SingleChildScrollView(
                   child: Column(
@@ -110,7 +109,7 @@ class _KamokuFeedbackScreenState extends State<KamokuFeedbackScreen> {
                         ],
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(top: 1.0, bottom: 1.0),
+                        padding: const EdgeInsets.only(top: 1, bottom: 1),
                         child: Text(
                           showErrorMessage ? '満足度が入力されていません' : '',
                           style: TextStyle(color: Colors.red, fontSize: dialogHeight * 0.045),

@@ -1,7 +1,6 @@
+import 'package:dotto/feature/map/controller/map_controller.dart';
 import 'package:dotto/feature/map/widget/map_detail_bottom_sheet.dart';
 import 'package:dotto/importer.dart';
-import 'package:dotto/feature/map/controller/map_controller.dart';
-import 'package:dotto/feature/map/domain/map_detail.dart';
 
 class MapSearchBar extends ConsumerWidget {
   const MapSearchBar({super.key});
@@ -31,7 +30,6 @@ class MapSearchBar extends ConsumerWidget {
       decoration: const InputDecoration(
         hintText: '検索(部屋名、教員名、メールアドレスなど)',
       ),
-      autofocus: false,
       onChanged: (text) {
         _onChangedSearchTextField(ref, text);
       },
@@ -94,7 +92,7 @@ class MapBarrierOnSearch extends ConsumerWidget {
     final mapSearchList = ref.watch(mapSearchListProvider);
     final mapSearchListNotifier = ref.watch(mapSearchListProvider.notifier);
     if (mapSearchList.isNotEmpty) {
-      return Container(
+      return ColoredBox(
         color: Colors.white.withValues(alpha: 0.9),
         child: GestureDetector(
           behavior: HitTestBehavior.translucent,
@@ -131,12 +129,12 @@ class MapSearchListView extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text("検索結果"),
+            const Text('検索結果'),
             Flexible(
               child: ListView.separated(
                 itemCount: mapSearchList.length,
                 itemBuilder: (context, int index) {
-                  final MapDetail item = mapSearchListNotifier.state[index];
+                  final item = mapSearchListNotifier.state[index];
                   return ListTile(
                     onTap: () {
                       mapSearchListNotifier.state = [];

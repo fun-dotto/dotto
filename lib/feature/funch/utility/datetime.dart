@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 final class DateTimeUtility {
   /// Returns the first day of the month for the given date.
   static DateTime firstDateOfMonth(DateTime datetime) {
-    return DateTime(datetime.year, datetime.month, 1);
+    return DateTime(datetime.year, datetime.month);
   }
 
   /// Returns the start of the day (00:00:00) for the given date.

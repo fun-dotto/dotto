@@ -3,8 +3,8 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dotto/feature/funch/domain/firestore_funch_menu.dart';
 import 'package:dotto/feature/funch/domain/funch_menu.dart';
-import 'package:dotto/repository/read_json_file.dart';
 import 'package:dotto/feature/funch/utility/datetime.dart';
+import 'package:dotto/repository/read_json_file.dart';
 
 abstract interface class FunchRepositoryInterface {
   Future<List<FunchCommonMenu>> getAllCommonMenu();
@@ -19,9 +19,9 @@ abstract interface class FunchRepositoryInterface {
 final class FunchRepositoryImpl implements FunchRepositoryInterface {
   @override
   Future<List<FunchCommonMenu>> getAllCommonMenu() async {
-    String fileName = 'funch/menu.json';
-    String jsonString = await readJsonFile(fileName);
-    List<dynamic> jsonData = json.decode(jsonString);
+    const fileName = 'funch/menu.json';
+    final jsonString = await readJsonFile(fileName);
+    final List<dynamic> jsonData = json.decode(jsonString);
     return jsonData.map((e) => FunchCommonMenu.fromJson(e)).toList();
   }
 
@@ -69,11 +69,11 @@ final class FunchRepositoryImpl implements FunchRepositoryInterface {
         ));
     }
     final query = ref
-        .where("date", isGreaterThanOrEqualTo: correctedDateFrom)
-        .where("date", isLessThan: correctedDateTo);
+        .where('date', isGreaterThanOrEqualTo: correctedDateFrom)
+        .where('date', isLessThan: correctedDateTo);
     final data = await query.get();
-    final Map<String, FirestoreFunchMenu> firestoreFunchMenuList = {};
-    for (var doc in data.docs) {
+    final firestoreFunchMenuList = <String, FirestoreFunchMenu>{};
+    for (final doc in data.docs) {
       final menu = FirestoreFunchMenu.fromJson(doc.data());
       firestoreFunchMenuList[DateTimeUtility.dateKey(menu.date)] = menu;
     }
@@ -83,8 +83,8 @@ final class FunchRepositoryImpl implements FunchRepositoryInterface {
 }
 
 enum MenuCollection {
-  monthly("funch_monthly_menu"),
-  daily("funch_daily_menu");
+  monthly('funch_monthly_menu'),
+  daily('funch_daily_menu');
 
   final String name;
 

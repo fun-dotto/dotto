@@ -1,9 +1,9 @@
-import 'package:dotto/importer.dart';
 import 'package:dotto/feature/map/controller/map_controller.dart';
 import 'package:dotto/feature/map/widget/map_bottom_info.dart';
 import 'package:dotto/feature/map/widget/map_floor_button.dart';
-import 'package:dotto/feature/map/widget/map_search.dart';
 import 'package:dotto/feature/map/widget/map_grid.dart';
+import 'package:dotto/feature/map/widget/map_search.dart';
+import 'package:dotto/importer.dart';
 
 class MapScreen extends StatelessWidget {
   const MapScreen({super.key});
@@ -39,7 +39,7 @@ class MapScreen extends StatelessWidget {
       builder: (context, ref, child) {
         final mapViewTransformationController = ref.watch(mapViewTransformationControllerProvider);
         return InteractiveViewer(
-          maxScale: 10.0,
+          maxScale: 10,
           // 倍率行列Matrix4
           transformationController: mapViewTransformationController,
           child: const Padding(

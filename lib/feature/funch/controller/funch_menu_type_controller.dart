@@ -10,7 +10,7 @@ class FunchMenuCategoryNotifier extends Notifier<FunchMenuCategory> {
   // 初期値を設定する
   @override
   FunchMenuCategory build() {
-    final category = FunchMenuCategory.set;
+    const category = FunchMenuCategory.set;
     return category;
   }
 

@@ -1,9 +1,9 @@
+import 'package:dotto/feature/timetable/controller/timetable_controller.dart';
+import 'package:dotto/feature/timetable/personal_select_lesson.dart';
 import 'package:dotto/importer.dart';
 import 'package:dotto/theme/v1/animation.dart';
 import 'package:dotto/theme/v1/color_fun.dart';
 import 'package:dotto/widget/loading_circular.dart';
-import 'package:dotto/feature/timetable/personal_select_lesson.dart';
-import 'package:dotto/feature/timetable/controller/timetable_controller.dart';
 
 class PersonalTimeTableScreen extends ConsumerWidget {
   const PersonalTimeTableScreen({super.key});
@@ -16,12 +16,12 @@ class PersonalTimeTableScreen extends ConsumerWidget {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: const Text("取得してる科目一覧"),
+            title: const Text('取得してる科目一覧'),
             content: SizedBox(
               width: double.maxFinite,
               child: weekPeriodAllRecords.when(
                 data: (data) {
-                  List<Map<String, dynamic>> seasonList = data.where((record) {
+                  final seasonList = data.where((record) {
                     return personalLessonIdList.contains(record['lessonId']);
                   }).toList();
                   return ListView.builder(
@@ -36,7 +36,7 @@ class PersonalTimeTableScreen extends ConsumerWidget {
                 error: (error, stackTrace) => const Center(
                   child: Text('データを取得できませんでした'),
                 ),
-                loading: () => Center(
+                loading: () => const Center(
                   child: LoadingCircular(),
                 ),
               ),
@@ -57,7 +57,7 @@ class PersonalTimeTableScreen extends ConsumerWidget {
     List<Map<String, dynamic>> records,
   ) {
     final personalLessonIdList = ref.watch(personalLessonIdListProvider);
-    List<Map<String, dynamic>> selectedLessonList = records.where((record) {
+    final selectedLessonList = records.where((record) {
       return record['week'] == week &&
           record['period'] == period &&
           (record['開講時期'] == term || record['開講時期'] == 0) &&
@@ -73,7 +73,6 @@ class PersonalTimeTableScreen extends ConsumerWidget {
                 children: selectedLessonList
                     .map(
                       (lesson) => Expanded(
-                        flex: 1,
                         child: Container(
                           width: double.infinity,
                           decoration: BoxDecoration(
@@ -120,16 +119,16 @@ class PersonalTimeTableScreen extends ConsumerWidget {
     final weekString = ['月', '火', '水', '木', '金'];
     return SingleChildScrollView(
       child: Padding(
-        padding: const EdgeInsets.all(10.0),
+        padding: const EdgeInsets.all(10),
         child: weekPeriodAllRecords.when(
           data: (data) => Table(
             columnWidths: const <int, TableColumnWidth>{
-              1: FlexColumnWidth(1),
-              2: FlexColumnWidth(1),
-              3: FlexColumnWidth(1),
-              4: FlexColumnWidth(1),
-              5: FlexColumnWidth(1),
-              6: FlexColumnWidth(1),
+              1: FlexColumnWidth(),
+              2: FlexColumnWidth(),
+              3: FlexColumnWidth(),
+              4: FlexColumnWidth(),
+              5: FlexColumnWidth(),
+              6: FlexColumnWidth(),
             },
             children: <TableRow>[
               TableRow(
@@ -147,7 +146,7 @@ class PersonalTimeTableScreen extends ConsumerWidget {
                 TableRow(
                   children: [
                     for (int j = 1; j <= 5; j++) ...{
-                      tableText(context, ref, "${weekString[j - 1]}曜$i限", j, i, seasonnumber, data),
+                      tableText(context, ref, '${weekString[j - 1]}曜$i限', j, i, seasonnumber, data),
                     }
                   ],
                 )
@@ -155,9 +154,9 @@ class PersonalTimeTableScreen extends ConsumerWidget {
             ],
           ),
           error: (error, stackTrace) => const Center(
-            child: Text("データを取得できませんでした。"),
+            child: Text('データを取得できませんでした。'),
           ),
-          loading: () => Center(
+          loading: () => const Center(
             child: LoadingCircular(),
           ),
         ),

@@ -1,5 +1,5 @@
+import 'package:dotto/theme/colors/semantic_colors.dart';
 import 'package:flutter/material.dart';
-import 'semantic_colors.dart';
 
 /// Extension for accessing semantic colors through the theme
 @immutable

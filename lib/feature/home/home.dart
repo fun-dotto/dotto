@@ -1,19 +1,19 @@
 import 'package:collection/collection.dart';
-import 'package:dotto/theme/v1/animation.dart';
-import 'package:dotto/theme/v1/color_fun.dart';
 import 'package:dotto/controller/config_controller.dart';
-import 'package:dotto/feature/bus/widget/bus_card_home.dart';
-import 'package:dotto/feature/funch/funch.dart';
-import 'package:dotto/feature/funch/widget/funch_mypage_card.dart';
 import 'package:dotto/feature/announcement/controller/news_controller.dart';
 import 'package:dotto/feature/announcement/news_detail.dart';
 import 'package:dotto/feature/announcement/widget/my_page_news.dart';
+import 'package:dotto/feature/bus/widget/bus_card_home.dart';
+import 'package:dotto/feature/funch/funch.dart';
+import 'package:dotto/feature/funch/widget/funch_mypage_card.dart';
 import 'package:dotto/feature/timetable/controller/timetable_controller.dart';
 import 'package:dotto/feature/timetable/course_cancellation.dart';
 import 'package:dotto/feature/timetable/personal_time_table.dart';
 import 'package:dotto/feature/timetable/repository/timetable_repository.dart';
 import 'package:dotto/feature/timetable/widget/my_page_timetable.dart';
 import 'package:dotto/importer.dart';
+import 'package:dotto/theme/v1/animation.dart';
+import 'package:dotto/theme/v1/color_fun.dart';
 import 'package:dotto/widget/file_viewer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -27,7 +27,7 @@ class HomeScreen extends ConsumerStatefulWidget {
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   List<int> personalTimeTableList = [];
 
-  void launchUrlInExternal(Uri url) async {
+  Future<void> launchUrlInExternal(Uri url) async {
     if (await canLaunchUrl(url)) {
       launchUrl(url, mode: LaunchMode.externalApplication);
     } else {
@@ -57,7 +57,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 
   Widget infoButton(BuildContext context, void Function() onPressed, IconData icon, String title) {
-    final double width = MediaQuery.sizeOf(context).width * 0.26;
+    final width = MediaQuery.sizeOf(context).width * 0.26;
     const double height = 100;
     return Container(
       margin: const EdgeInsets.all(5),
@@ -134,15 +134,15 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     final config = ref.watch(configControllerProvider);
     WidgetsBinding.instance.addPostFrameCallback((_) => _showPushNotificationNews(context, ref));
 
-    final double infoBoxWidth = MediaQuery.sizeOf(context).width * 0.4;
+    final infoBoxWidth = MediaQuery.sizeOf(context).width * 0.4;
 
-    const Map<String, String> fileNamePath = {
+    const fileNamePath = <String, String>{
       // 'バス時刻表': 'home/hakodatebus55.pdf',
       '学年暦': 'home/academic_calendar.pdf',
       '前期時間割': 'home/timetable_first.pdf',
       '後期時間割': 'home/timetable_second.pdf',
     };
-    List<Widget> infoTiles = [];
+    final infoTiles = <Widget>[];
     infoTiles.add(infoButton(context, () {
       Navigator.of(context).push(
         PageRouteBuilder(
@@ -216,7 +216,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     });
                   },
                   child: Text(
-                    "時間割を設定する ⇀",
+                    '時間割を設定する ⇀',
                     style: TextStyle(
                       color: Colors.blue.shade700,
                       decoration: TextDecoration.underline,
@@ -227,7 +227,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               const SizedBox(height: 20),
               const BusCardHome(),
               const SizedBox(height: 20),
-              config.isFunchEnabled ? const FunchMyPageCard() : const SizedBox.shrink(),
+              if (config.isFunchEnabled) const FunchMyPageCard() else const SizedBox.shrink(),
               const SizedBox(height: 20),
               const MyPageNews(),
               const SizedBox(height: 20),

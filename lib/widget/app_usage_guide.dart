@@ -10,7 +10,7 @@ class AppGuideScreen extends StatelessWidget {
         title: const Text('使い方ガイド'),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(20.0),
+        padding: const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -36,7 +36,7 @@ class AppGuideScreen extends StatelessWidget {
             const SizedBox(height: 20),
             const Center(
               child: Text(
-                "https://dotto.web.app/",
+                'https://dotto.web.app/',
                 style: TextStyle(
                   fontSize: 18,
                 ),

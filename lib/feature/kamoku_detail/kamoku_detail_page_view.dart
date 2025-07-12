@@ -1,13 +1,12 @@
-import 'package:dotto/importer.dart';
-
-import 'package:dotto/theme/v1/color_fun.dart';
-import 'package:dotto/feature/kamoku_detail/kamoku_detail_syllabus.dart';
-import 'package:dotto/feature/kamoku_detail/kamoku_detail_kakomon_list.dart';
 import 'package:dotto/feature/kamoku_detail/kamoku_detail_feedback.dart';
+import 'package:dotto/feature/kamoku_detail/kamoku_detail_kakomon_list.dart';
+import 'package:dotto/feature/kamoku_detail/kamoku_detail_syllabus.dart';
+import 'package:dotto/importer.dart';
+import 'package:dotto/theme/v1/color_fun.dart';
 
 class KamokuDetailPageScreen extends StatefulWidget {
   const KamokuDetailPageScreen(
-      {super.key, required this.lessonId, required this.lessonName, this.kakomonLessonId});
+      {required this.lessonId, required this.lessonName, super.key, this.kakomonLessonId});
   final int lessonId;
   final String lessonName;
   final int? kakomonLessonId;

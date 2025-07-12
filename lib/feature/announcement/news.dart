@@ -8,7 +8,7 @@ class NewsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Dottoからのお知らせ"),
+        title: const Text('Dottoからのお知らせ'),
       ),
       body: const NewsList(),
     );

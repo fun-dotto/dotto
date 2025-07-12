@@ -1,7 +1,7 @@
-import 'package:dotto/importer.dart';
-import 'package:dotto/theme/v1/color_fun.dart';
 import 'package:dotto/feature/map/controller/map_controller.dart';
 import 'package:dotto/feature/map/domain/map_detail.dart';
+import 'package:dotto/importer.dart';
+import 'package:dotto/theme/v1/color_fun.dart';
 
 class MapFloorButton extends ConsumerWidget {
   const MapFloorButton({super.key});
@@ -15,13 +15,13 @@ class MapFloorButton extends ConsumerWidget {
     final mapViewTransformationControllerProviderNotifier =
         ref.watch(mapViewTransformationControllerProvider.notifier);
     final mapFocusMapDetailNotifier = ref.watch(mapFocusMapDetailProvider.notifier);
-    TextStyle floorBarTextStyle = const TextStyle(fontSize: 18.0, color: Colors.black87);
-    TextStyle floorBarSelectedTextStyle = const TextStyle(fontSize: 18.0, color: customFunColor);
+    const floorBarTextStyle = TextStyle(fontSize: 18, color: Colors.black87);
+    const floorBarSelectedTextStyle = TextStyle(fontSize: 18, color: customFunColor);
     // 350以下なら計算
-    double floorButtonWidth = (MediaQuery.of(context).size.width - 30 < 350)
+    final floorButtonWidth = (MediaQuery.of(context).size.width - 30 < 350)
         ? MediaQuery.of(context).size.width - 30
         : 350;
-    double floorButtonHeight = 50;
+    const double floorButtonHeight = 50;
 
     return Padding(
         padding: const EdgeInsets.only(top: 15),

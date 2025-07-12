@@ -1,11 +1,11 @@
+import 'package:dotto/domain/remote_config_keys.dart';
+import 'package:dotto/repository/remote_config_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../repository/remote_config_repository.dart';
-import '../domain/remote_config_keys.dart';
 
 class ConfigController extends StateNotifier<ConfigState> {
-  final RemoteConfigRepository _remoteConfigRepository;
 
   ConfigController(this._remoteConfigRepository) : super(const ConfigState());
+  final RemoteConfigRepository _remoteConfigRepository;
 
   Future<void> fetchConfigs() async {
     state = state.copyWith(isLoading: true);
@@ -31,6 +31,14 @@ class ConfigController extends StateNotifier<ConfigState> {
 }
 
 class ConfigState {
+
+  const ConfigState({
+    this.isDesignV2Enabled = false,
+    this.isFunchEnabled = false,
+    this.isValidAppVersion = true,
+    this.isLoading = false,
+    this.error,
+  });
   static const String cloudflareR2Endpoint = String.fromEnvironment('CLOUDFLARE_R2_ENDPOINT');
   static const String cloudflareR2AccessKeyId =
       String.fromEnvironment('CLOUDFLARE_R2_ACCESS_KEY_ID');
@@ -44,14 +52,6 @@ class ConfigState {
 
   final bool isLoading;
   final String? error;
-
-  const ConfigState({
-    this.isDesignV2Enabled = false,
-    this.isFunchEnabled = false,
-    this.isValidAppVersion = true,
-    this.isLoading = false,
-    this.error,
-  });
 
   ConfigState copyWith({
     bool? isDesignV2Enabled,

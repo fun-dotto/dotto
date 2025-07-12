@@ -12,7 +12,6 @@ class MapBottomInfo extends ConsumerWidget {
 
   Widget _mapInfoTile(Color color, String text) {
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Container(
           decoration: BoxDecoration(color: color, border: Border.all()),
@@ -34,12 +33,12 @@ class MapBottomInfo extends ConsumerWidget {
     if (user == null) {
       return const SizedBox();
     }
-    double floorButtonHeight = 45;
-    DateTime now = DateTime.now();
-    DateTime today = DateTime(now.year, now.month, now.day);
-    DateTime monday = today.subtract(Duration(days: today.weekday - 1));
-    DateTime nextSunday = monday.add(const Duration(days: 14, minutes: -1));
-    Map<String, DateTime> timeMap = {
+    const double floorButtonHeight = 45;
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    final monday = today.subtract(Duration(days: today.weekday - 1));
+    final nextSunday = monday.add(const Duration(days: 14, minutes: -1));
+    final timeMap = <String, DateTime>{
       '1限': today.add(const Duration(hours: 9)),
       '2限': today.add(const Duration(hours: 10, minutes: 40)),
       '3限': today.add(const Duration(hours: 13, minutes: 10)),
@@ -62,7 +61,7 @@ class MapBottomInfo extends ConsumerWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                _mapInfoTile(MapColors.using, "下記設定時間に授業等で使用中の部屋"),
+                _mapInfoTile(MapColors.using, '下記設定時間に授業等で使用中の部屋'),
                 _mapInfoTile(MapTileType.wc.backgroundColor, 'トイレ及び給湯室'),
                 _mapInfoTile(Colors.red, '検索結果'),
               ],
@@ -81,7 +80,6 @@ class MapBottomInfo extends ConsumerWidget {
                   return Row(
                     children: [
                       ...timeMap.entries.map((item) => Expanded(
-                            flex: 1,
                             child: Center(
                               child: TextButton(
                                 style: TextButton.styleFrom(
@@ -91,7 +89,7 @@ class MapBottomInfo extends ConsumerWidget {
                                   textStyle: const TextStyle(fontSize: 12),
                                 ),
                                 onPressed: () async {
-                                  DateTime setDate = item.value;
+                                  var setDate = item.value;
                                   if (setDate.hour == 0) {
                                     setDate = DateTime.now();
                                   }
@@ -120,7 +118,6 @@ class MapBottomInfo extends ConsumerWidget {
                                 context,
                                 minTime: monday,
                                 maxTime: nextSunday,
-                                showTitleActions: true,
                                 onConfirm: (date) async {
                                   searchDatetimeNotifier.set(date);
                                   mapUsingMapNotifier.state =

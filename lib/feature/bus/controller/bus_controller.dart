@@ -1,13 +1,13 @@
 import 'dart:async';
 
-import 'package:dotto/repository/setting_user_info.dart';
 import 'package:dotto/feature/bus/domain/bus_stop.dart';
 import 'package:dotto/feature/bus/domain/bus_trip.dart';
 import 'package:dotto/feature/bus/repository/bus_repository.dart';
 import 'package:dotto/importer.dart';
+import 'package:dotto/repository/setting_user_info.dart';
 
 final allBusStopsProvider =
-    NotifierProvider<AllBusStopsNotifier, List<BusStop>?>(() => AllBusStopsNotifier());
+    NotifierProvider<AllBusStopsNotifier, List<BusStop>?>(AllBusStopsNotifier.new);
 
 class AllBusStopsNotifier extends Notifier<List<BusStop>?> {
   @override
@@ -24,7 +24,7 @@ class AllBusStopsNotifier extends Notifier<List<BusStop>?> {
 /// 1つ目のStringキー: from_fun, to_fun
 /// 2つ目のStringキー: holiday, weekday
 final busDataProvider = NotifierProvider<BusDataNotifier, Map<String, Map<String, List<BusTrip>>>?>(
-    () => BusDataNotifier());
+    BusDataNotifier.new);
 
 class BusDataNotifier extends Notifier<Map<String, Map<String, List<BusTrip>>>?> {
   @override
@@ -50,7 +50,7 @@ class MyBusStopNotifier extends Notifier<BusStop> {
   @override
   BusStop build() {
     return const BusStop(
-        14013, "亀田支所前", ["50", "55", "55A", "55B", "55C", "55E", "55F", "55G", "55H"]);
+        14013, '亀田支所前', ['50', '55', '55A', '55B', '55C', '55E', '55F', '55G', '55H']);
   }
 
   Future<void> init() async {
@@ -68,7 +68,7 @@ class MyBusStopNotifier extends Notifier<BusStop> {
   }
 }
 
-final busIsToProvider = NotifierProvider<BusIsToNotifier, bool>(() => BusIsToNotifier());
+final busIsToProvider = NotifierProvider<BusIsToNotifier, bool>(BusIsToNotifier.new);
 
 class BusIsToNotifier extends Notifier<bool> {
   @override
@@ -82,7 +82,7 @@ class BusIsToNotifier extends Notifier<bool> {
 }
 
 final busRefreshProvider =
-    NotifierProvider<BusRefreshNotifier, DateTime>(() => BusRefreshNotifier());
+    NotifierProvider<BusRefreshNotifier, DateTime>(BusRefreshNotifier.new);
 
 class BusRefreshNotifier extends Notifier<DateTime> {
   @override
@@ -98,7 +98,7 @@ class BusRefreshNotifier extends Notifier<DateTime> {
 }
 
 final busIsWeekdayNotifier =
-    NotifierProvider<BusIsWeekdayNotifier, bool>(() => BusIsWeekdayNotifier());
+    NotifierProvider<BusIsWeekdayNotifier, bool>(BusIsWeekdayNotifier.new);
 
 class BusIsWeekdayNotifier extends Notifier<bool> {
   @override

@@ -3,12 +3,12 @@ import 'dart:io';
 
 import 'package:collection/collection.dart';
 import 'package:dotto/feature/assignment/domain/kadai.dart';
-import 'package:dotto/repository/setting_user_info.dart';
-import 'package:dotto/widget/loading_circular.dart';
+import 'package:dotto/feature/assignment/kadai_hidden_list.dart';
 import 'package:dotto/feature/setting/controller/settings_controller.dart';
 import 'package:dotto/importer.dart';
 import 'package:dotto/repository/firebase_get_kadai.dart';
-import 'package:dotto/feature/assignment/kadai_hidden_list.dart';
+import 'package:dotto/repository/setting_user_info.dart';
+import 'package:dotto/widget/loading_circular.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
@@ -31,7 +31,7 @@ class _KadaiListScreenState extends State<KadaiListScreen> {
   List<KadaiList> filteredData = [];
   List<Kadai> deletedKadai = [];
   String? userKey;
-  var deepEq = const DeepCollectionEquality().equals;
+  bool Function(Object? e1, Object? e2) deepEq = const DeepCollectionEquality().equals;
   //ScrollController _scrollController = ScrollController();
 
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -54,14 +54,12 @@ class _KadaiListScreenState extends State<KadaiListScreen> {
   }
 
   Future<void> initNotification() async {
-    const AndroidInitializationSettings initializationSettingsAndroid =
+    const initializationSettingsAndroid =
         AndroidInitializationSettings('app_icon');
-    final DarwinInitializationSettings initializationSettingsIOS = DarwinInitializationSettings(
-      requestAlertPermission: true,
-      requestBadgePermission: true,
-      requestSoundPermission: true,
+    const initializationSettingsIOS = DarwinInitializationSettings(
+      
     );
-    final InitializationSettings initializationSettings = InitializationSettings(
+    const initializationSettings = InitializationSettings(
       android: initializationSettingsAndroid,
       iOS: initializationSettingsIOS,
     );
@@ -75,10 +73,10 @@ class _KadaiListScreenState extends State<KadaiListScreen> {
   }
 
   Future<void> _zonedScheduleNotification(Kadai kadai) async {
-    DateTime t = kadai.endtime!;
+    final t = kadai.endtime!;
     // iは通知のID 同じ数字を使うと上書きされる
-    final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
-    tz.TZDateTime scheduledDate =
+    final now = tz.TZDateTime.now(tz.local);
+    final scheduledDate =
         tz.TZDateTime(tz.local, now.year, t.month, t.day, t.hour, t.minute)
             .subtract(const Duration(days: 1));
     if (scheduledDate.isAfter(now)) {
@@ -106,7 +104,7 @@ class _KadaiListScreenState extends State<KadaiListScreen> {
     await flutterLocalNotificationsPlugin.cancel(i);
   }
 
-  void launchUrlInExternal(Uri url) async {
+  Future<void> launchUrlInExternal(Uri url) async {
     if (await canLaunchUrl(url)) {
       launchUrl(url, mode: LaunchMode.externalApplication);
     } else {
@@ -171,7 +169,7 @@ class _KadaiListScreenState extends State<KadaiListScreen> {
 
   String stringFromDateTime(DateTime? dt) {
     if (dt == null) {
-      return "";
+      return '';
     }
     return DateFormat('yyyy年MM月dd日 HH時mm分ss秒').format(dt);
   }
@@ -244,7 +242,7 @@ class _KadaiListScreenState extends State<KadaiListScreen> {
             TextButton(
               onPressed: () {
                 setState(() {
-                  for (Kadai kadai in listkadai.listKadai) {
+                  for (final kadai in listkadai.listKadai) {
                     deleteList.add(kadai.id!);
                     if (alertList.contains(kadai.id)) {
                       setState(() {
@@ -321,7 +319,6 @@ class _KadaiListScreenState extends State<KadaiListScreen> {
   ActionPane _kadaiEndSlidable(Kadai kadai) {
     return ActionPane(
       motion: const StretchMotion(),
-      extentRatio: 0.5,
       dismissible: DismissiblePane(onDismissed: () {
         setState(() {
           deleteList.add(kadai.id!);
@@ -370,7 +367,7 @@ class _KadaiListScreenState extends State<KadaiListScreen> {
 
   bool listAllCheck(List<int> checklist, KadaiList listKadai) {
     if (listKadai.hiddenKadai(checklist).isNotEmpty) {
-      for (Kadai kadai in listKadai.hiddenKadai(checklist)) {
+      for (final kadai in listKadai.hiddenKadai(checklist)) {
         if (!deleteList.contains(kadai.id)) {
           return false;
         }
@@ -382,9 +379,9 @@ class _KadaiListScreenState extends State<KadaiListScreen> {
   }
 
   int unFinishedList(KadaiList listkadai) {
-    int count = 0;
+    var count = 0;
     if (listkadai.hiddenKadai(finishList).isNotEmpty) {
-      for (Kadai kadai in listkadai.hiddenKadai(finishList)) {
+      for (final kadai in listkadai.hiddenKadai(finishList)) {
         if (!deleteList.contains(kadai.id)) {
           count++;
         }
@@ -409,7 +406,7 @@ class _KadaiListScreenState extends State<KadaiListScreen> {
           onPressed: (context) {
             if (listAllCheck(alertList, kadaiList)) {
               setState(() {
-                for (Kadai kadai in kadaiList.hiddenKadai(deleteList)) {
+                for (final kadai in kadaiList.hiddenKadai(deleteList)) {
                   alertList.removeWhere((item) => item == kadai.id);
                   if (kadai.id != null) {
                     _cancelNotification(kadai.id!);
@@ -419,7 +416,7 @@ class _KadaiListScreenState extends State<KadaiListScreen> {
               });
             } else {
               setState(() {
-                for (Kadai kadai in kadaiList.hiddenKadai(deleteList)) {
+                for (final kadai in kadaiList.hiddenKadai(deleteList)) {
                   alertList.add(kadai.id!);
                   if (kadai.endtime != null && kadai.id != null) {
                     _zonedScheduleNotification(kadai);
@@ -437,10 +434,9 @@ class _KadaiListScreenState extends State<KadaiListScreen> {
   ActionPane tmpKadaiEndSlidable(KadaiList kadaiList) {
     return ActionPane(
       motion: const StretchMotion(),
-      extentRatio: 0.5,
       dismissible: DismissiblePane(onDismissed: () {
         setState(() {
-          for (Kadai kadai in kadaiList.hiddenKadai(deleteList)) {
+          for (final kadai in kadaiList.hiddenKadai(deleteList)) {
             deleteList.add(kadai.id!);
             if (alertList.contains(kadai.id)) {
               setState(() {
@@ -463,14 +459,14 @@ class _KadaiListScreenState extends State<KadaiListScreen> {
           onPressed: (context) {
             if (listAllCheck(finishList, kadaiList)) {
               setState(() {
-                for (Kadai kadai in kadaiList.hiddenKadai(deleteList)) {
+                for (final kadai in kadaiList.hiddenKadai(deleteList)) {
                   finishList.removeWhere((item) => item == kadai.id);
                 }
                 saveFinishList();
               });
             } else {
               setState(() {
-                for (Kadai kadai in kadaiList.hiddenKadai(deleteList)) {
+                for (final kadai in kadaiList.hiddenKadai(deleteList)) {
                   finishList.add(kadai.id!);
                 }
                 saveFinishList();
@@ -506,10 +502,10 @@ class _KadaiListScreenState extends State<KadaiListScreen> {
   }
 
   bool endtimeCheck(KadaiList kadailist) {
-    var now = DateTime.now();
-    DateTime today = DateTime(now.year, now.month, now.day);
-    DateTime tomorrow = today.add(const Duration(days: 2));
-    for (Kadai kadai in kadailist.listKadai) {
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    final tomorrow = today.add(const Duration(days: 2));
+    for (final kadai in kadailist.listKadai) {
       if (kadai.endtime != null) {
         if (kadai.endtime!.isAfter(today) && kadai.endtime!.isBefore(tomorrow)) {
           return true;
@@ -520,7 +516,7 @@ class _KadaiListScreenState extends State<KadaiListScreen> {
   }
 
   bool startActionPaneBool(DateTime? endtime) {
-    DateTime now = DateTime.now().subtract(const Duration(days: 1));
+    final now = DateTime.now().subtract(const Duration(days: 1));
     if (endtime != null) {
       if (endtime.isBefore(now)) {
         return false;
@@ -542,7 +538,7 @@ class _KadaiListScreenState extends State<KadaiListScreen> {
           return Container();
         } else if (data[index].hiddenKadai(deleteList).length == 1) {
           // 1個の場合
-          var kadai = data[index].hiddenKadai(deleteList).first;
+          final kadai = data[index].hiddenKadai(deleteList).first;
           return Slidable(
             key: UniqueKey(),
             startActionPane: startActionPaneBool(kadai.endtime) ? _kadaiStartSlidable(kadai) : null,
@@ -570,9 +566,9 @@ class _KadaiListScreenState extends State<KadaiListScreen> {
                       color: finishList.contains(kadai.id) ? Colors.green : Colors.black54,
                     ),
                   ),
-                  if ((kadai.endtime != null))
+                  if (kadai.endtime != null)
                     Text(
-                      "終了：${stringFromDateTime(kadai.endtime)}",
+                      '終了：${stringFromDateTime(kadai.endtime)}',
                       style: TextStyle(
                         fontSize: 11,
                         color: finishList.contains(kadai.id)
@@ -613,7 +609,6 @@ class _KadaiListScreenState extends State<KadaiListScreen> {
             ),
             child: ExpansionTile(
               childrenPadding: const EdgeInsets.all(0),
-              onExpansionChanged: null,
               backgroundColor: Colors.white,
               collapsedBackgroundColor: Colors.white,
               title: Row(
@@ -638,17 +633,17 @@ class _KadaiListScreenState extends State<KadaiListScreen> {
                         //"${data[index].hiddenKadai(deleteList).length.toString()}個の課題",
                         //),
                         Text(
-                          "${unFinishedList(data[index])}個の課題",
+                          '${unFinishedList(data[index])}個の課題',
                           style: _subtitleTextStyle(listAllCheck(finishList, data[index])),
                         ),
-                        if ((data[index].endtime != null))
+                        if (data[index].endtime != null)
                           Text(
-                            "終了：${stringFromDateTime(data[index].endtime)}",
+                            '終了：${stringFromDateTime(data[index].endtime)}',
                             style: _subtitleTextStyle(listAllCheck(finishList, data[index])),
                           ),
                         if (data[index].endtime == null)
                           Text(
-                            "期限なし",
+                            '期限なし',
                             style: _subtitleTextStyle(listAllCheck(finishList, data[index])),
                           ),
                       ],
@@ -673,7 +668,6 @@ class _KadaiListScreenState extends State<KadaiListScreen> {
                           tileColor: Colors.white,
                           minLeadingWidth: 0,
                           leading: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Icon(
@@ -684,12 +678,12 @@ class _KadaiListScreenState extends State<KadaiListScreen> {
                             ],
                           ),
                           title: Text(
-                            kadai.name ?? "",
+                            kadai.name ?? '',
                             style: TextStyle(
                                 color: finishList.contains(kadai.id) ? Colors.green : Colors.black),
                           ),
                           onTap: () {
-                            final url = Uri.parse(kadai.url ?? "");
+                            final url = Uri.parse(kadai.url ?? '');
                             launchUrlInExternal(url);
                           },
                         ),
@@ -707,11 +701,11 @@ class _KadaiListScreenState extends State<KadaiListScreen> {
 
   Widget animation(BuildContext context, Animation<double> animation,
       Animation<double> secondaryAnimation, Widget child) {
-    const Offset begin = Offset(1.0, 0.0); // 開始位置（画面外から）
-    const Offset end = Offset.zero; // 終了位置（画面内へ）
-    final Animatable<Offset> tween =
+    const begin = Offset(1, 0); // 開始位置（画面外から）
+    const end = Offset.zero; // 終了位置（画面内へ）
+    final tween =
         Tween(begin: begin, end: end).chain(CurveTween(curve: Curves.easeInOut));
-    final Animation<Offset> offsetAnimation = animation.drive(tween);
+    final offsetAnimation = animation.drive(tween);
 
     // お洒落なアニメーションの追加例
     return FadeTransition(
@@ -740,7 +734,7 @@ class _KadaiListScreenState extends State<KadaiListScreen> {
                 );
 
                 // 画面遷移から戻ってきた際の処理
-                if (result == "back") {
+                if (result == 'back') {
                   setState(() {
                     loadDeleteList();
                     const FirebaseGetKadai().getKadaiFromFirebase();
@@ -748,7 +742,7 @@ class _KadaiListScreenState extends State<KadaiListScreen> {
                 }
               },
               child: const Text(
-                "非表示リスト →",
+                '非表示リスト →',
                 style: TextStyle(fontSize: 20, color: Colors.white),
               ),
             )
@@ -786,28 +780,28 @@ class _KadaiListScreenState extends State<KadaiListScreen> {
                               children: [
                                 SizedBox(height: 20),
                                 Text(
-                                  "ユーザーキーを設定すると課題が表示されます",
+                                  'ユーザーキーを設定すると課題が表示されます',
                                 ),
                                 Text(
-                                  "以下のURLからユーザーキーを設定してください",
+                                  '以下のURLからユーザーキーを設定してください',
                                 ),
                                 Text(
-                                  "パソコンで以下のリンクを開くことをおすすめします",
+                                  'パソコンで以下のリンクを開くことをおすすめします',
                                 ),
                                 SelectableText(
-                                  "https://dotto.web.app/",
+                                  'https://dotto.web.app/',
                                   style: TextStyle(fontSize: 18),
                                 ),
                                 SizedBox(height: 20),
                                 Text(
-                                  "ユーザーキーを設定しても表示されない場合は上からスワイプしてください",
+                                  'ユーザーキーを設定しても表示されない場合は上からスワイプしてください',
                                 ),
                               ],
                             )),
                           ],
                         );
                       } else {
-                        return LoadingCircular();
+                        return const LoadingCircular();
                       }
                     },
                   ),

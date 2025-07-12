@@ -1,17 +1,16 @@
 import 'package:dotto/feature/funch/domain/funch_price.dart';
 
 class FunchMenu {
+
+  FunchMenu(this.id, this.name, this.categoryId, this.prices, this.imageUrl);
   final String id;
   final String name;
   final int categoryId;
   final FunchPrice prices;
   final String imageUrl;
-
-  FunchMenu(this.id, this.name, this.categoryId, this.prices, this.imageUrl);
 }
 
 final class FunchCommonMenu extends FunchMenu {
-  final int energy;
 
   FunchCommonMenu(
     super.id,
@@ -35,14 +34,15 @@ final class FunchCommonMenu extends FunchMenu {
       throw ArgumentError(
           'JSON must contain item_code, title, price, category, image, and energy keys');
     }
-    final id = json["item_code"].toString();
-    final name = json["title"];
-    final prices = FunchPrice.fromJson(json["price"]);
-    final category = json["category"];
-    final imageUrl = json["image"];
-    final energy = json["energy"];
+    final id = json['item_code'].toString();
+    final name = json['title'];
+    final prices = FunchPrice.fromJson(json['price']);
+    final category = json['category'];
+    final imageUrl = json['image'];
+    final energy = json['energy'];
     return FunchCommonMenu(id, name, category, prices, imageUrl, energy);
   }
+  final int energy;
 }
 
 final class FunchOriginalMenu extends FunchMenu {
@@ -69,7 +69,7 @@ final class FunchOriginalMenu extends FunchMenu {
     final categoryId = json['category_id'];
     final prices = FunchPrice.fromJson(json['prices'] as Map<String, dynamic>);
     final imageUrl =
-        "https://firebasestorage.googleapis.com/v0/b/swift2023groupc.appspot.com/o/funch%2Fimages%2F$id.webp?alt=media";
+        'https://firebasestorage.googleapis.com/v0/b/swift2023groupc.appspot.com/o/funch%2Fimages%2F$id.webp?alt=media';
     return FunchOriginalMenu(id, name, categoryId, prices, imageUrl);
   }
 }

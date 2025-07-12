@@ -1,5 +1,5 @@
-import 'package:dotto/importer.dart';
 import 'package:dotto/feature/kamoku_search/controller/kamoku_search_controller.dart';
+import 'package:dotto/importer.dart';
 
 class KamokuSearchFilterRadio extends ConsumerWidget {
   const KamokuSearchFilterRadio({super.key});
@@ -10,11 +10,10 @@ class KamokuSearchFilterRadio extends ConsumerWidget {
     final kamokuSearchControllerNotifier =
         ref.watch(kamokuSearchControllerProvider.notifier);
     return Align(
-      alignment: const AlignmentDirectional(-1.00, 0.00),
+      alignment: const AlignmentDirectional(-1, 0),
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             for (int i = 0;
                 i < kamokuSearchControllerNotifier.checkboxSenmonKyoyo.length;
@@ -25,9 +24,7 @@ class KamokuSearchFilterRadio extends ConsumerWidget {
                   children: [
                     Radio(
                       value: i,
-                      onChanged: (value) {
-                        kamokuSearchControllerNotifier.radioOnChanged(value);
-                      },
+                      onChanged: kamokuSearchControllerNotifier.radioOnChanged,
                       groupValue: kamokuSearchController.senmonKyoyoStatus,
                     ),
                     Text(kamokuSearchControllerNotifier.checkboxSenmonKyoyo[i]),

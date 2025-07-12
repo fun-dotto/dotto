@@ -1,12 +1,12 @@
-import 'package:dotto/importer.dart';
-import 'package:dotto/theme/v1/animation.dart';
-import 'package:dotto/theme/v1/color_fun.dart';
-import 'package:dotto/widget/loading_circular.dart';
 import 'package:dotto/controller/user_controller.dart';
 import 'package:dotto/feature/kamoku_detail/kamoku_detail_page_view.dart';
 import 'package:dotto/feature/timetable/controller/timetable_controller.dart';
 import 'package:dotto/feature/timetable/domain/timetable_course.dart';
 import 'package:dotto/feature/timetable/repository/timetable_repository.dart';
+import 'package:dotto/importer.dart';
+import 'package:dotto/theme/v1/animation.dart';
+import 'package:dotto/theme/v1/color_fun.dart';
+import 'package:dotto/widget/loading_circular.dart';
 import 'package:intl/intl.dart';
 
 class MyPageTimetable extends ConsumerWidget {
@@ -15,13 +15,13 @@ class MyPageTimetable extends ConsumerWidget {
   Widget timeTableLessonButton(
       BuildContext context, TimeTableCourse? timeTableCourse, bool loading, WidgetRef ref) {
     final user = ref.watch(userProvider);
-    Color foregroundColor = Colors.black;
+    var foregroundColor = Colors.black;
     if (timeTableCourse != null && user != null) {
       if (timeTableCourse.cancel) {
         foregroundColor = Colors.grey;
       }
     }
-    Map<int, String> roomName = {
+    final var roomName = <int, String>{
       1: '講堂',
       2: '大講義室',
       3: '493',
@@ -52,7 +52,7 @@ class MyPageTimetable extends ConsumerWidget {
         onTap: (timeTableCourse == null)
             ? null
             : () async {
-                Map<String, dynamic>? record =
+                final record =
                     await TimetableRepository().fetchDB(timeTableCourse.lessonId);
                 if (record == null) return;
                 if (context.mounted) {
@@ -71,7 +71,7 @@ class MyPageTimetable extends ConsumerWidget {
                 }
               },
         child: Material(
-          elevation: 2.0,
+          elevation: 2,
           borderRadius: const BorderRadius.all(Radius.circular(5)),
           child: Container(
             height: 40,
@@ -90,7 +90,7 @@ class MyPageTimetable extends ConsumerWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: loading
                         ? [
-                            SizedBox(
+                            const SizedBox(
                               width: 20,
                               height: 20,
                               child: LoadingCircular(),
@@ -134,7 +134,7 @@ class MyPageTimetable extends ConsumerWidget {
                           color: Colors.red,
                         ),
                         Text(
-                          "休講",
+                          '休講',
                           style: TextStyle(color: Colors.red),
                         ),
                       ],
@@ -147,7 +147,7 @@ class MyPageTimetable extends ConsumerWidget {
                           color: Colors.orange,
                         ),
                         Text(
-                          "補講",
+                          '補講',
                           style: TextStyle(color: Colors.orange),
                         ),
                       ],
@@ -218,7 +218,7 @@ class MyPageTimetable extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    const List<TimeOfDay> beginPeriod = [
+    const beginPeriod = <TimeOfDay>[
       TimeOfDay(hour: 9, minute: 0),
       TimeOfDay(hour: 10, minute: 40),
       TimeOfDay(hour: 13, minute: 10),
@@ -226,7 +226,7 @@ class MyPageTimetable extends ConsumerWidget {
       TimeOfDay(hour: 16, minute: 30),
       TimeOfDay(hour: 18, minute: 10),
     ];
-    const List<TimeOfDay> finishPeriod = [
+    const finishPeriod = <TimeOfDay>[
       TimeOfDay(hour: 10, minute: 30),
       TimeOfDay(hour: 12, minute: 10),
       TimeOfDay(hour: 14, minute: 40),
@@ -234,9 +234,9 @@ class MyPageTimetable extends ConsumerWidget {
       TimeOfDay(hour: 18, minute: 00),
       TimeOfDay(hour: 19, minute: 40),
     ];
-    List<DateTime> dates = TimetableRepository().getDateRange();
-    List<String> weekString = ['月', '火', '水', '木', '金', '土', '日'];
-    List<Color> weekColors = [
+    final dates = TimetableRepository().getDateRange();
+    final var weekString = <String>['月', '火', '水', '木', '金', '土', '日'];
+    final var weekColors = <Color>[
       Colors.black,
       Colors.black,
       Colors.black,
@@ -246,13 +246,13 @@ class MyPageTimetable extends ConsumerWidget {
       Colors.red
     ];
     final deviceWidth = MediaQuery.of(context).size.width;
-    double buttonSize = 50;
-    double buttonPadding = 8;
+    const double buttonSize = 50;
+    const double buttonPadding = 8;
     final deviceCenter = deviceWidth / 2 - (buttonSize / 2 + buttonPadding);
     final buttonPosition = (DateTime.now().weekday - 1) * (buttonSize + buttonPadding);
-    double initialScrollOffset =
+    final initialScrollOffset =
         (buttonPosition > deviceCenter) ? buttonPosition - deviceCenter : 0;
-    ScrollController controller = ScrollController(initialScrollOffset: initialScrollOffset);
+    final controller = ScrollController(initialScrollOffset: initialScrollOffset);
     return Consumer(
       builder: (context, ref, child) {
         ref.watch(saveTimetableProvider);
@@ -265,12 +265,12 @@ class MyPageTimetable extends ConsumerWidget {
               scrollDirection: Axis.horizontal,
               child: Padding(
                 padding:
-                    EdgeInsets.symmetric(vertical: buttonPadding, horizontal: buttonPadding / 2),
+                    const EdgeInsets.symmetric(vertical: buttonPadding, horizontal: buttonPadding / 2),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: dates.map((date) {
                     return Padding(
-                      padding: EdgeInsets.symmetric(horizontal: buttonPadding / 2),
+                      padding: const EdgeInsets.symmetric(horizontal: buttonPadding / 2),
                       child: ElevatedButton(
                         onPressed: () async {
                           setFocusTimeTableDay(date, ref);
@@ -283,13 +283,11 @@ class MyPageTimetable extends ConsumerWidget {
                               focusTimeTableDay.day == date.day ? Colors.white : Colors.black,
                           shape: const CircleBorder(
                             side: BorderSide(
-                              color: Colors.black,
-                              width: 1,
-                              style: BorderStyle.solid,
+                              
                             ),
                           ),
-                          minimumSize: Size(buttonSize, buttonSize),
-                          fixedSize: Size(buttonSize, buttonSize),
+                          minimumSize: const Size(buttonSize, buttonSize),
+                          fixedSize: const Size(buttonSize, buttonSize),
                           padding: const EdgeInsets.all(0),
                         ),
                         // 日付表示

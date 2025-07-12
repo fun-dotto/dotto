@@ -1,8 +1,8 @@
-import 'package:dotto/theme/v1/app_color.dart';
 import 'package:dotto/feature/bus/controller/bus_controller.dart';
 import 'package:dotto/feature/bus/domain/bus_type.dart';
 import 'package:dotto/feature/bus/repository/bus_repository.dart';
 import 'package:dotto/importer.dart';
+import 'package:dotto/theme/v1/app_color.dart';
 
 class BusCard extends ConsumerWidget {
   const BusCard(this.route, this.beginTime, this.endTime, this.arriveAt,
@@ -15,13 +15,13 @@ class BusCard extends ConsumerWidget {
   final bool home;
 
   BusType getType() {
-    if (["55", "55A", "55B", "55C", "55E", "55F"].contains(route)) {
+    if (['55', '55A', '55B', '55C', '55E', '55F'].contains(route)) {
       return BusType.goryokaku;
     }
-    if (route == "55G") {
+    if (route == '55G') {
       return BusType.syowa;
     }
-    if (route == "55H") {
+    if (route == '55H') {
       return BusType.kameda;
     }
     return BusType.other;
@@ -32,7 +32,7 @@ class BusCard extends ConsumerWidget {
     final busIsTo = ref.watch(busIsToProvider);
     final myBusStop = ref.watch(myBusStopProvider);
     final tripType = getType();
-    final headerText = tripType != BusType.other ? tripType.where + (busIsTo ? "から" : "行き") : "";
+    final headerText = tripType != BusType.other ? tripType.where + (busIsTo ? 'から' : '行き') : '';
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
       color: Colors.white,
@@ -49,7 +49,7 @@ class BusCard extends ConsumerWidget {
                 children: [
                   Expanded(
                     child: Text(
-                      busIsTo ? "${myBusStop.name} → 未来大" : "未来大 → ${myBusStop.name}",
+                      busIsTo ? '${myBusStop.name} → 未来大' : '未来大 → ${myBusStop.name}',
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
@@ -69,11 +69,11 @@ class BusCard extends ConsumerWidget {
                   ),
                 ],
               ),
-            if (route != "0")
+            if (route != '0')
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("$route $headerText"),
+                  Text('$route $headerText'),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
@@ -111,13 +111,13 @@ class BusCard extends ConsumerWidget {
                 ],
               )
             else
-              const Text("今日の運行は終了しました。"),
+              const Text('今日の運行は終了しました。'),
             if (home)
               const Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Text(
-                    "バス一覧",
+                    'バス一覧',
                     style: TextStyle(
                       color: AppColor.linkTextBlue,
                     ),

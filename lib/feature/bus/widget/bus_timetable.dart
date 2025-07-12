@@ -3,14 +3,14 @@ import 'package:dotto/feature/bus/repository/bus_repository.dart';
 import 'package:dotto/importer.dart';
 
 class BusTimetableScreen extends StatelessWidget {
-  final BusTrip busTrip;
   const BusTimetableScreen(this.busTrip, {super.key});
+  final BusTrip busTrip;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("${busTrip.route} 時刻表"),
+        title: Text('${busTrip.route} 時刻表'),
       ),
       body: ListView(
         children: busTrip.stops.map((busTripStop) {
@@ -21,7 +21,7 @@ class BusTimetableScreen extends StatelessWidget {
               BusRepository().formatDuration(busTripStop.time),
               style: const TextStyle(fontSize: 14),
             ),
-            subtitle: terminal != null ? Text("$terminal番乗り場") : null,
+            subtitle: terminal != null ? Text('$terminal番乗り場') : null,
           );
         }).toList(),
       ),

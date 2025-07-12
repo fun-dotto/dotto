@@ -1,5 +1,5 @@
-import 'package:dotto/importer.dart';
 import 'package:dotto/feature/kamoku_search/controller/kamoku_search_controller.dart';
+import 'package:dotto/importer.dart';
 
 class KamokuSearchBox extends ConsumerWidget {
   const KamokuSearchBox({super.key});
@@ -28,9 +28,7 @@ class KamokuSearchBox extends ConsumerWidget {
               )
             : null,
       ),
-      onChanged: (text) {
-        kamokuSearchControllerNotifier.setSearchWord(text);
-      },
+      onChanged: kamokuSearchControllerNotifier.setSearchWord,
     );
   }
 }

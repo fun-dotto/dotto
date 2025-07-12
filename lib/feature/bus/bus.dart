@@ -1,22 +1,21 @@
 import 'package:collection/collection.dart';
 import 'package:dotto/asset.dart';
-import 'package:dotto/theme/v1/app_color.dart';
-import 'package:dotto/widget/loading_circular.dart';
-import 'package:dotto/feature/bus/widget/bus_timetable.dart';
 import 'package:dotto/feature/bus/controller/bus_controller.dart';
-import 'package:dotto/feature/bus/domain/bus_trip.dart';
 import 'package:dotto/feature/bus/widget/bus_card.dart';
 import 'package:dotto/feature/bus/widget/bus_stop_select.dart';
+import 'package:dotto/feature/bus/widget/bus_timetable.dart';
 import 'package:dotto/importer.dart';
+import 'package:dotto/theme/v1/app_color.dart';
+import 'package:dotto/widget/loading_circular.dart';
 
-final busKey = GlobalKey();
+final GlobalKey<State<StatefulWidget>> busKey = GlobalKey();
 
 class BusScreen extends ConsumerWidget {
   const BusScreen({super.key});
 
   Widget busStopButton(
       BuildContext context, void Function()? onPressed, IconData icon, String title) {
-    final double width = MediaQuery.sizeOf(context).width * 0.3;
+    final width = MediaQuery.sizeOf(context).width * 0.3;
     const double height = 80;
     return Container(
       margin: const EdgeInsets.all(5),
@@ -30,7 +29,7 @@ class BusScreen extends ConsumerWidget {
           fixedSize: Size(width, height),
           padding: const EdgeInsets.all(3),
           shape: ContinuousRectangleBorder(borderRadius: BorderRadius.circular(15)),
-          elevation: title == "未来大" ? 0 : null,
+          elevation: title == '未来大' ? 0 : null,
         ),
         onPressed: onPressed,
         child: Container(
@@ -67,15 +66,15 @@ class BusScreen extends ConsumerWidget {
     final busIsWeekday = ref.watch(busIsWeekdayNotifier);
     final busScrolled = ref.watch(busScrolledProvider);
 
-    Widget myBusStopButton = busStopButton(context, () {
+    final myBusStopButton = busStopButton(context, () {
       Navigator.of(context).push(MaterialPageRoute(
         builder: (context) => const BusStopSelectScreen(),
       ));
     }, Icons.directions_bus, myBusStop.name);
-    Widget funBusStopButton = busStopButton(context, null, Icons.school, '未来大');
-    Widget departure = busIsTo ? myBusStopButton : funBusStopButton;
-    Widget destination = busIsTo ? funBusStopButton : myBusStopButton;
-    String fromToString = busIsTo ? "to_fun" : "from_fun";
+    final funBusStopButton = busStopButton(context, null, Icons.school, '未来大');
+    final departure = busIsTo ? myBusStopButton : funBusStopButton;
+    final destination = busIsTo ? funBusStopButton : myBusStopButton;
+    final var fromToString = busIsTo ? 'to_fun' : 'from_fun';
 
     final btnChange = IconButton(
       iconSize: 20,
@@ -89,17 +88,17 @@ class BusScreen extends ConsumerWidget {
       ),
     );
 
-    bool arriveAtSoon = true;
+    var arriveAtSoon = true;
     final busListWidget = busData != null
-        ? busData[fromToString]![busIsWeekday ? "weekday" : "holiday"]!.map((busTrip) {
+        ? busData[fromToString]![busIsWeekday ? 'weekday' : 'holiday']!.map((busTrip) {
             final funBusTripStop =
                 busTrip.stops.firstWhereOrNull((element) => element.stop.id == 14023);
             if (funBusTripStop == null) {
               return Container();
             }
-            BusTripStop? targetBusTripStop =
+            var targetBusTripStop =
                 busTrip.stops.firstWhereOrNull((element) => element.stop.id == myBusStop.id);
-            bool kameda = false;
+            var kameda = false;
             if (targetBusTripStop == null) {
               targetBusTripStop = busTrip.stops.firstWhere((element) => element.stop.id == 14013);
               kameda = true;
@@ -109,7 +108,7 @@ class BusScreen extends ConsumerWidget {
             final now = busRefresh;
             final nowDuration = Duration(hours: now.hour, minutes: now.minute);
             final arriveAt = fromBusTripStop.time - nowDuration;
-            bool hasKey = false;
+            var hasKey = false;
             if (arriveAtSoon && arriveAt > Duration.zero) {
               arriveAtSoon = false;
               hasKey = true;
@@ -142,7 +141,7 @@ class BusScreen extends ConsumerWidget {
       if (busScrolled) return;
       final currentContext = busKey.currentContext;
       if (currentContext == null) return;
-      final box = currentContext.findRenderObject() as RenderBox;
+      final box = currentContext.findRenderObject()! as RenderBox;
       final position = box.localToGlobal(Offset.zero);
       scrollController.animateTo(
         scrollController.offset + position.dy - 300,
@@ -207,7 +206,7 @@ class BusScreen extends ConsumerWidget {
                       children: busListWidget,
                     ),
                   )
-                : LoadingCircular(),
+                : const LoadingCircular(),
           ),
         ],
       ),

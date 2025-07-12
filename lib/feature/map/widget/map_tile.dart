@@ -1,7 +1,7 @@
-import 'package:dotto/importer.dart';
 import 'package:dotto/feature/map/controller/map_controller.dart';
 import 'package:dotto/feature/map/domain/map_tile_type.dart';
 import 'package:dotto/feature/map/widget/map_detail_bottom_sheet.dart';
+import 'package:dotto/importer.dart';
 
 abstract final class MapColors {
   static Color get using => Colors.orange.shade300;
@@ -11,10 +11,10 @@ abstract final class MapColors {
 
 // 階段の時の描画設定
 class MapStairType {
+  const MapStairType(this.direction, this.up, this.down);
   final Axis direction;
   final bool up;
   final bool down;
-  const MapStairType(this.direction, this.up, this.down);
   Axis getDirection() {
     return direction;
   }
@@ -25,27 +25,6 @@ class MapStairType {
 /// top, right, bottom, left: Borderサイズ, txt
 // ignore: must_be_immutable
 class MapTile extends StatelessWidget {
-  final int width;
-  final int height;
-  final MapTileType ttype;
-  final double top;
-  final double right;
-  final double bottom;
-  final double left;
-  final String txt;
-  final String? classroomNo;
-  List<String>? lessonIds;
-  final int wc; // 0x Man: 1000, Woman: 0100, WheelChair: 0010, Kettle: 0001
-  bool using;
-  double fontSize;
-  late Color tileColor;
-  late Color fontColor;
-  final MapStairType stairType;
-  DateTime? useEndTime;
-  final Widget? innerWidget;
-  final bool? food;
-  final bool? drink;
-  final int? outlet;
 
   MapTile(
     this.width,
@@ -81,6 +60,27 @@ class MapTile extends StatelessWidget {
       }
     }
   }
+  final int width;
+  final int height;
+  final MapTileType ttype;
+  final double top;
+  final double right;
+  final double bottom;
+  final double left;
+  final String txt;
+  final String? classroomNo;
+  List<String>? lessonIds;
+  final int wc; // 0x Man: 1000, Woman: 0100, WheelChair: 0010, Kettle: 0001
+  bool using;
+  double fontSize;
+  late Color tileColor;
+  late Color fontColor;
+  final MapStairType stairType;
+  DateTime? useEndTime;
+  final Widget? innerWidget;
+  final bool? food;
+  final bool? drink;
+  final int? outlet;
 
   void setColors() {
     tileColor = ttype.backgroundColor;
@@ -109,7 +109,7 @@ class MapTile extends StatelessWidget {
 
   Widget stackTextIcon() {
     double iconSize = 8;
-    int iconLength =
+    final iconLength =
         (wc & 0x0001) + (wc & 0x0010) ~/ 0x0010 + (wc & 0x0100) ~/ 0x0100 + (wc & 0x1000) ~/ 0x1000;
     if (width == 1) {
       iconSize = 6;
@@ -117,7 +117,7 @@ class MapTile extends StatelessWidget {
       iconSize = 6;
     }
     if (wc > 0) {
-      List<Icon> icons = [];
+      final icons = <Icon>[];
       if (wc & 0x1000 > 0) {
         icons.add(Icon(
           Icons.man,
@@ -202,9 +202,9 @@ class MapTile extends StatelessWidget {
 
   BorderSide oneBorderSide(double n, bool focus) {
     if (focus) {
-      return const BorderSide(width: 1, color: Colors.red);
+      return const BorderSide(color: Colors.red);
     } else if (n > 0) {
-      return BorderSide(width: n, color: Colors.black);
+      return BorderSide(width: n);
     } else {
       return BorderSide.none;
     }
@@ -221,8 +221,8 @@ class MapTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<String> floorBarString = ['1', '2', '3', '4', '5', 'R6', 'R7'];
-    List<Widget> widgetList = [];
+    final floorBarString = <String>['1', '2', '3', '4', '5', 'R6', 'R7'];
+    final widgetList = <Widget>[];
     widgetList.add(SizedBox.expand(child: Consumer(
       builder: (context, ref, child) {
         final mapFocusMapDetail = ref.watch(mapFocusMapDetailProvider);
@@ -239,7 +239,7 @@ class MapTile extends StatelessWidget {
             }
           }
         }
-        bool focus = false;
+        var focus = false;
         if (mapFocusMapDetail.floor == floorBarString[mapPage]) {
           if (mapFocusMapDetail.roomName == txt) {
             focus = true;
@@ -320,7 +320,7 @@ class MapTile extends StatelessWidget {
               }
             : null,
         child: Stack(
-            alignment: AlignmentDirectional.center, fit: StackFit.loose, children: widgetList),
+            alignment: AlignmentDirectional.center, children: widgetList),
       );
     });
   }

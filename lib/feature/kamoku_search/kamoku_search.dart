@@ -1,11 +1,11 @@
-import 'package:dotto/importer.dart';
-import 'package:dotto/theme/v1/color_fun.dart';
 import 'package:dotto/feature/kamoku_search/controller/kamoku_search_controller.dart';
 import 'package:dotto/feature/kamoku_search/domain/kamoku_search_choices.dart';
 import 'package:dotto/feature/kamoku_search/widget/kamoku_search_box.dart';
 import 'package:dotto/feature/kamoku_search/widget/kamoku_search_filter_checkbox.dart';
 import 'package:dotto/feature/kamoku_search/widget/kamoku_search_filter_radio.dart';
 import 'package:dotto/feature/kamoku_search/widget/kamoku_search_result.dart';
+import 'package:dotto/importer.dart';
+import 'package:dotto/theme/v1/color_fun.dart';
 
 class KamokuSearchScreen extends ConsumerWidget {
   const KamokuSearchScreen({super.key});
@@ -49,9 +49,7 @@ class KamokuSearchScreen extends ConsumerWidget {
                   Padding(
                     padding: const EdgeInsets.only(left: 5),
                     child: TextButton(
-                        onPressed: () {
-                          kamokuSearchControllerNotifier.reset();
-                        },
+                        onPressed: kamokuSearchControllerNotifier.reset,
                         child: const Text('リセット')),
                   ),
                   Center(

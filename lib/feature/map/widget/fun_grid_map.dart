@@ -1,12 +1,11 @@
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-
-import 'package:dotto/importer.dart';
 import 'package:dotto/feature/map/domain/map_tile_type.dart';
 import 'package:dotto/feature/map/widget/map_tile.dart';
+import 'package:dotto/importer.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 abstract final class FunGridMaps {
   static final Map<String, List<MapTile>> mapTileListMap = {
-    "1": [
+    '1': [
       MapTile(48, 18, MapTileType.empty),
       MapTile(40, 7, MapTileType.empty),
       MapTile(8, 7, MapTileType.otherroom, left: 1, top: 1, right: 1),
@@ -87,7 +86,7 @@ abstract final class FunGridMaps {
       MapTile(2, 2, MapTileType.otherroom, txt: '出入口'),
       MapTile(2, 2, MapTileType.road, bottom: 1),
     ],
-    "2": [
+    '2': [
       MapTile(48, 18, MapTileType.empty),
       MapTile(40, 1, MapTileType.road, left: 1, top: 1),
       MapTile(2, 3, MapTileType.otherroom, top: 1),
@@ -162,7 +161,7 @@ abstract final class FunGridMaps {
       MapTile(8, 1, MapTileType.empty), //empty
       MapTile(10, 1, MapTileType.empty, left: 1), //empty
     ],
-    "3": [
+    '3': [
       MapTile(12, 18, MapTileType.classroom,
           txt: '体育館', top: 1, left: 1, classroomNo: '51', food: false, drink: true),
       MapTile(6, 6, MapTileType.subroom, top: 1, txt: 'トレーニングルーム', food: false, drink: true),
@@ -318,7 +317,7 @@ abstract final class FunGridMaps {
       MapTile(2, 1, MapTileType.empty),
       MapTile(4, 1, MapTileType.empty, left: 1),
     ],
-    "4": [
+    '4': [
       MapTile(12, 18, MapTileType.otherroom,
           txt: '体育館', top: 1, left: 1, bottom: 1, right: 1, food: false, drink: true),
       //Tile(6, 6, TileType.empty, left: 1.5),  一応吹き抜けでトレーニングルーム見える
@@ -340,8 +339,7 @@ abstract final class FunGridMaps {
       MapTile(2, 2, MapTileType.stair,
           top: 1,
           right: 1,
-          bottom: 1,
-          stairType: const MapStairType(Axis.horizontal, true, true)), // 体育館側階段
+          bottom: 1), // 体育館側階段
       MapTile(30, 1, MapTileType.road),
       MapTile(2, 13, MapTileType.road),
       MapTile(2, 5, MapTileType.otherroom, txt: '406', right: 1, bottom: 1),
@@ -471,7 +469,7 @@ abstract final class FunGridMaps {
       MapTile(2, 2, MapTileType.empty, right: 1, bottom: 1),
       MapTile(6, 2, MapTileType.road, bottom: 1)
     ],
-    "5": [
+    '5': [
       MapTile(14, 2, MapTileType.otherroom,
           top: 1, left: 1, innerWidget: subTile(9, mapCircle7To15TileList)), //サークル1
       MapTile(2, 10, MapTileType.otherroom,
@@ -604,7 +602,7 @@ abstract final class FunGridMaps {
       MapTile(42, 7, MapTileType.empty), //empty ev横
       MapTile(6, 7, MapTileType.empty), //empty
     ],
-    "R6": [
+    'R6': [
       MapTile(4, 2, MapTileType.teacherroom, txt: 'R611', top: 1, left: 1),
       MapTile(1, 30, MapTileType.road, top: 1, bottom: 1),
       MapTile(3, 3, MapTileType.otherroom, top: 1),
@@ -671,7 +669,7 @@ abstract final class FunGridMaps {
       MapTile(4, 2, MapTileType.subroom, bottom: 1),
       MapTile(1, 2, MapTileType.subroom, bottom: 1, right: 1),
     ],
-    "R7": [
+    'R7': [
       MapTile(4, 2, MapTileType.subroom, txt: 'R711', top: 1, left: 1, food: true, drink: true),
       MapTile(1, 30, MapTileType.road, top: 1, bottom: 1),
       MapTile(3, 3, MapTileType.empty, bottom: 1, left: 1),

@@ -1,9 +1,8 @@
+import 'package:dotto/controller/tab_controller.dart';
+import 'package:dotto/domain/tab_item.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-
-import 'package:dotto/controller/tab_controller.dart';
-import 'package:dotto/domain/tab_item.dart';
 
 final tabItemProvider = NotifierProvider<TabNotifier, TabItem>(() {
   return TabNotifier();

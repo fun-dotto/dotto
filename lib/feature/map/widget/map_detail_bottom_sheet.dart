@@ -1,4 +1,3 @@
-import 'package:dotto/widget/loading_circular.dart';
 import 'package:dotto/controller/tab_controller.dart';
 import 'package:dotto/controller/user_controller.dart';
 import 'package:dotto/domain/tab_item.dart';
@@ -8,10 +7,11 @@ import 'package:dotto/feature/map/domain/map_room_available_type.dart';
 import 'package:dotto/feature/map/widget/fun_grid_map.dart';
 import 'package:dotto/feature/map/widget/map_tile.dart';
 import 'package:dotto/importer.dart';
+import 'package:dotto/widget/loading_circular.dart';
 import 'package:intl/intl.dart';
 
 class MapDetailBottomSheet extends ConsumerWidget {
-  const MapDetailBottomSheet({super.key, required this.floor, required this.roomName});
+  const MapDetailBottomSheet({required this.floor, required this.roomName, super.key});
   final String floor;
   final String roomName;
 
@@ -68,7 +68,7 @@ class MapDetailBottomSheet extends ConsumerWidget {
 
   Widget roomAvailable(RoomAvailableType type, int status) {
     const fontColor = Colors.white;
-    IconData icon = Icons.close_outlined;
+    var icon = Icons.close_outlined;
     if (status == 1) {
       icon = Icons.change_history_outlined;
     } else if (status == 2) {
@@ -84,7 +84,6 @@ class MapDetailBottomSheet extends ConsumerWidget {
       margin: const EdgeInsets.symmetric(vertical: 5),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Icon(
             type.icon,
@@ -112,9 +111,9 @@ class MapDetailBottomSheet extends ConsumerWidget {
     final mapDetailMap = ref.watch(mapDetailMapProvider);
     final searchDatetime = ref.watch(searchDatetimeProvider);
     final user = ref.watch(userProvider);
-    String roomTitle = roomName;
+    var roomTitle = roomName;
     MapDetail? mapDetail;
-    bool loading = false;
+    var loading = false;
     if (user != null) {
       mapDetailMap.when(
         data: (data) {
@@ -148,19 +147,18 @@ class MapDetailBottomSheet extends ConsumerWidget {
         boxShadow: [
           BoxShadow(
             color: Colors.black26,
-            spreadRadius: 2.0,
-            blurRadius: 8.0,
+            spreadRadius: 2,
+            blurRadius: 8,
           )
         ],
       ),
-      padding: EdgeInsets.symmetric(horizontal: 18),
+      padding: const EdgeInsets.symmetric(horizontal: 18),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: EdgeInsets.only(top: 10),
+            padding: const EdgeInsets.only(top: 10),
             child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Expanded(
                   child: SelectableText(
@@ -184,15 +182,14 @@ class MapDetailBottomSheet extends ConsumerWidget {
               ],
             ),
           ),
-          user != null
-              ? !loading
+          if (user != null) !loading
                   ? Expanded(
                       child: SingleChildScrollView(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             if (gridMap != null) ...[
-                              SizedBox(
+                              const SizedBox(
                                 height: 5,
                               ),
                               Wrap(
@@ -206,7 +203,7 @@ class MapDetailBottomSheet extends ConsumerWidget {
                                     roomAvailable(RoomAvailableType.outlet, gridMap.outlet!),
                                 ],
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 10,
                               ),
                             ],
@@ -229,23 +226,22 @@ class MapDetailBottomSheet extends ConsumerWidget {
                                     SelectableText('${mapDetail!.mail}@fun.ac.jp'),
                                 ],
                               ),
-                            SizedBox(
+                            const SizedBox(
                               height: 15,
                             ),
                           ],
                         ),
                       ),
                     )
-                  : SizedBox(
+                  : const SizedBox(
                       width: double.infinity,
                       height: 150,
                       child: Center(
                         child: LoadingCircular(),
                       ),
-                    )
-              : Column(
+                    ) else Column(
                   children: [
-                    const Text("詳細は未来大Googleアカウントでログインすることで表示できます。"),
+                    const Text('詳細は未来大Googleアカウントでログインすることで表示できます。'),
                     OutlinedButton(
                       onPressed: () {
                         final tabItemNotifier = ref.read(tabItemProvider.notifier);
@@ -258,7 +254,7 @@ class MapDetailBottomSheet extends ConsumerWidget {
                           borderRadius: BorderRadius.circular(5),
                         ),
                       ),
-                      child: const Text("設定"),
+                      child: const Text('設定'),
                     ),
                   ],
                 ),

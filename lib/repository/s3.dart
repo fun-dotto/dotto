@@ -1,10 +1,10 @@
+import 'package:dotto/controller/config_controller.dart';
 import 'package:minio/minio.dart';
 import 'package:minio/models.dart';
-import 'package:dotto/controller/config_controller.dart';
 
 class S3 {
-  Minio? _minio;
   S3._();
+  Minio? _minio;
 
   static final instance = S3._();
   Minio getMinio() {
@@ -12,7 +12,6 @@ class S3 {
       endPoint: ConfigState.cloudflareR2Endpoint,
       accessKey: ConfigState.cloudflareR2AccessKeyId,
       secretKey: ConfigState.cloudflareR2SecretAccessKey,
-      useSSL: true,
     );
     return _minio!;
   }
@@ -24,7 +23,7 @@ class S3 {
   }) async* {
     MinioInvalidBucketNameError.check(bucket);
     MinioInvalidPrefixError.check(prefix);
-    final delimiter = '';
+    const delimiter = '';
 
     bool? isTruncated = false;
     String? continuationToken;
@@ -49,9 +48,9 @@ class S3 {
 
   Future<List<String>> getListObjectsKey({required String url}) async {
     instance.getMinio();
-    List<String> returnStr = [];
-    await for (var value in listObjectsV2('kakomon', prefix: url)) {
-      for (var obj in value.objects) {
+    final returnStr = <String>[];
+    await for (final value in listObjectsV2('kakomon', prefix: url)) {
+      for (final obj in value.objects) {
         returnStr.add(obj.key!);
       }
     }

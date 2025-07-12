@@ -1,23 +1,23 @@
-import 'package:dotto/importer.dart';
-import 'package:dotto/theme/v1/animation.dart';
-import 'package:dotto/widget/loading_circular.dart';
 import 'package:dotto/feature/kamoku_detail/kamoku_detail_page_view.dart';
 import 'package:dotto/feature/kamoku_search/controller/kamoku_search_controller.dart';
 import 'package:dotto/feature/kamoku_search/repository/kamoku_search_repository.dart';
 import 'package:dotto/feature/timetable/controller/timetable_controller.dart';
 import 'package:dotto/feature/timetable/repository/timetable_repository.dart';
 import 'package:dotto/feature/timetable/widget/timetable_is_over_selected_snack_bar.dart';
+import 'package:dotto/importer.dart';
+import 'package:dotto/theme/v1/animation.dart';
+import 'package:dotto/widget/loading_circular.dart';
 
 class KamokuSearchResults extends ConsumerWidget {
+
+  const KamokuSearchResults({required this.records, super.key});
   final List<Map<String, dynamic>> records;
 
-  const KamokuSearchResults({super.key, required this.records});
-
   Future<Map<int, String>> getWeekPeriod(List<int> lessonIdList) async {
-    List<Map<String, dynamic>> records =
+    final records =
         await KamokuSearchRepository().fetchWeekPeriodDB(lessonIdList);
-    Map<int, Map<int, List<int>>> weekPeriodMap = {};
-    for (var record in records) {
+    final var weekPeriodMap = <int, Map<int, List<int>>>{};
+    for (final record in records) {
       final int lessonId = record['lessonId'];
       final int week = record['week'];
       final int period = record['period'];
@@ -33,9 +33,9 @@ class KamokuSearchResults extends ConsumerWidget {
         };
       }
     }
-    Map<int, String> weekPeriodStringMap = weekPeriodMap.map((lessonId, value) {
-      List<String> weekString = ['', '月', '火', '水', '木', '金', '土', '日'];
-      List<String> s = [];
+    final weekPeriodStringMap = weekPeriodMap.map((lessonId, value) {
+      final var weekString = <String>['', '月', '火', '水', '木', '金', '土', '日'];
+      final s = <String>[];
       value.forEach(
         (week, periodList) {
           if (week != 0) {
@@ -58,7 +58,7 @@ class KamokuSearchResults extends ConsumerWidget {
       future: getWeekPeriod(records.map((e) => e['LessonId'] as int).toList()),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          Map<int, String> weekPeriodStringMap = snapshot.data!;
+          final var weekPeriodStringMap = snapshot.data!;
           return ListView.separated(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
@@ -111,7 +111,7 @@ class KamokuSearchResults extends ConsumerWidget {
             ),
           );
         } else {
-          return Center(
+          return const Center(
             child: LoadingCircular(),
           );
         }

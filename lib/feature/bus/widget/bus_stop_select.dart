@@ -1,7 +1,7 @@
-import 'package:dotto/repository/setting_user_info.dart';
-import 'package:dotto/widget/loading_circular.dart';
 import 'package:dotto/feature/bus/controller/bus_controller.dart';
 import 'package:dotto/importer.dart';
+import 'package:dotto/repository/setting_user_info.dart';
+import 'package:dotto/widget/loading_circular.dart';
 
 class BusStopSelectScreen extends ConsumerWidget {
   const BusStopSelectScreen({super.key});
@@ -15,7 +15,7 @@ class BusStopSelectScreen extends ConsumerWidget {
     final allBusStop = ref.watch(allBusStopsProvider);
     return Scaffold(
       appBar: AppBar(
-        title: const Text("バス停選択"),
+        title: const Text('バス停選択'),
       ),
       body: allBusStop != null
           ? ListView(
@@ -36,7 +36,7 @@ class BusStopSelectScreen extends ConsumerWidget {
                   )
                   .toList(),
             )
-          : LoadingCircular(),
+          : const LoadingCircular(),
     );
   }
 }

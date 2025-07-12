@@ -1,11 +1,10 @@
 import 'package:collection/collection.dart';
-import 'package:dotto/theme/v1/animation.dart';
-import 'package:dotto/widget/loading_circular.dart';
 import 'package:dotto/feature/bus/bus.dart';
 import 'package:dotto/feature/bus/controller/bus_controller.dart';
-import 'package:dotto/feature/bus/domain/bus_trip.dart';
 import 'package:dotto/feature/bus/widget/bus_card.dart';
 import 'package:dotto/importer.dart';
+import 'package:dotto/theme/v1/animation.dart';
+import 'package:dotto/widget/loading_circular.dart';
 
 class BusCardHome extends ConsumerWidget {
   const BusCardHome({super.key});
@@ -18,19 +17,19 @@ class BusCardHome extends ConsumerWidget {
     final busRefresh = ref.watch(busRefreshProvider);
     final busIsWeekday = ref.watch(busIsWeekdayNotifier);
 
-    String fromToString = busIsTo ? "to_fun" : "from_fun";
+    final fromToString = busIsTo ? 'to_fun' : 'from_fun';
 
     if (busData != null) {
-      final data = busData[fromToString]![busIsWeekday ? "weekday" : "holiday"]!;
-      for (var busTrip in data) {
+      final data = busData[fromToString]![busIsWeekday ? 'weekday' : 'holiday']!;
+      for (final busTrip in data) {
         final funBusTripStop =
             busTrip.stops.firstWhereOrNull((element) => element.stop.id == 14023);
         if (funBusTripStop == null) {
           continue;
         }
-        BusTripStop? targetBusTripStop =
+        var targetBusTripStop =
             busTrip.stops.firstWhereOrNull((element) => element.stop.id == myBusStop.id);
-        bool kameda = false;
+        var kameda = false;
         if (targetBusTripStop == null) {
           targetBusTripStop = busTrip.stops.firstWhere((element) => element.stop.id == 14013);
           kameda = true;
@@ -67,10 +66,10 @@ class BusCardHome extends ConsumerWidget {
             ),
           );
         },
-        child: const BusCard("0", Duration.zero, Duration.zero, Duration.zero, home: true),
+        child: const BusCard('0', Duration.zero, Duration.zero, Duration.zero, home: true),
       );
     } else {
-      return LoadingCircular();
+      return const LoadingCircular();
     }
   }
 }
