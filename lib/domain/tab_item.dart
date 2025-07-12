@@ -1,6 +1,6 @@
 import 'package:dotto/feature/kamoku_search/kamoku_search.dart';
 import 'package:dotto/feature/map/map.dart';
-import 'package:dotto/feature/my_page/home.dart';
+import 'package:dotto/feature/home/home.dart';
 import 'package:dotto/importer.dart';
 import 'package:dotto/feature/assignment/kadai_list.dart';
 import 'package:dotto/feature/settings/settings.dart';
