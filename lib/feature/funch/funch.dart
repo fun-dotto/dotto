@@ -176,10 +176,10 @@ class FunchScreen extends ConsumerWidget {
                     final monthMenu = funchMonthMenu[funchDate.month];
                     if (dayMenu == null || monthMenu == null) return Text("この日の学食はありません。");
                     final funchCategorizedMenu = [
-                      ...dayMenu.getMenuByCategories(nowMenuType.categories),
-                      ...dayMenu.getOriginalMenuByCategories(nowMenuType.categories),
-                      ...monthMenu.getMenuByCategories(nowMenuType.categories),
-                      ...monthMenu.getOriginalMenuByCategories(nowMenuType.categories),
+                      ...dayMenu.getMenuByCategories(nowMenuType.categoryIds),
+                      ...dayMenu.getOriginalMenuByCategories(nowMenuType.categoryIds),
+                      ...monthMenu.getMenuByCategories(nowMenuType.categoryIds),
+                      ...monthMenu.getOriginalMenuByCategories(nowMenuType.categoryIds),
                     ];
 
                     if (funchCategorizedMenu.isEmpty) return Text("このカテゴリーの学食はありません。");
