@@ -5,6 +5,7 @@
 ```zsh
 git clone git@github.com:fun-dotto/dotto.git
 ```
+
 ```zsh
 cd dotto
 ```
@@ -22,6 +23,7 @@ Firebase の情報をセットアップします。
 ```zsh
 dart pub global activate flutterfire_cli
 ```
+
 ```zsh
 flutterfire configure
 ```
@@ -53,6 +55,7 @@ Mac と iPhone を接続します。
 ```zsh
 make match_development
 ```
+
 ```zsh
 make run
 ```

@@ -21,6 +21,7 @@ macOS のためのパッケージ管理ツールです。
 ```zsh
 echo 'eval $(/opt/homebrew/bin/brew shellenv)' >> ~/.zprofile
 ```
+
 ```zsh
 eval $(/opt/homebrew/bin/brew shellenv)
 ```
@@ -30,6 +31,7 @@ brew -v
 ```
 
 出力例
+
 ```
 Homebrew X.X.X
 ```

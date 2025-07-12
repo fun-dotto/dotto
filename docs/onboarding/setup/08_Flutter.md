@@ -8,11 +8,11 @@ Flutter とは、iOS、macOS、Android、Windows、Web など、複数のプラ�
 
 Flutter のバージョンを管理するためのアプリケーション`fvm`をインストールします。
 
-```Bash
+````Bash
 brew tap leoafarias/fvm
 ```Bash
 brew install fvm
-```
+````
 
 Flutter の最新バージョンを確認します。
 
@@ -25,6 +25,7 @@ Flutter の最新バージョンをインストールします。
 ```Bash
 fvm install <最新バージョン番号>
 ```
+
 ```Bash
 fvm global <最新バージョン番号>
 ```
@@ -34,12 +35,15 @@ fvm global <最新バージョン番号>
 ```Bash
 echo 'export PATH="$HOME/fvm/default/bin:$PATH"' >> ~/.zshrc
 ```
+
 ```Bash
 echo 'export PATH="$PATH":"$HOME/.pub-cache/bin"' >> ~/.zshrc
 ```
+
 ```Bash
-echo '[[ -f $HOME/.dart-cli-completion/zsh-config.zsh ]] && . $HOME/.dart-cli-completion/zsh-config.zsh || true' >> ~/.zshrc  
+echo '[[ -f $HOME/.dart-cli-completion/zsh-config.zsh ]] && . $HOME/.dart-cli-completion/zsh-config.zsh || true' >> ~/.zshrc
 ```
+
 ```Bash
 source ~/.zshrc
 ```
@@ -90,6 +94,7 @@ Flutter のバージョン番号が表示されれば成功です。
 ```pwsh
 flutter –-version
 ```
+
 ```
 Flutter 3.29.3 • channel stable • https://github.com/flutter/flutter.git
 Framework • revision ea121f8859 (9 days ago) • 2025-04-11 19:10:07 +0000
@@ -114,6 +119,7 @@ Flutter の最新バージョンをインストールします。
 ```pwsh
 fvm install <最新バージョン番号>
 ```
+
 ```pwsh
 fvm global <最新バージョン番号>
 ```

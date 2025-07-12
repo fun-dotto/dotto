@@ -20,6 +20,7 @@ xcodes list
 ```
 
 出力例
+
 ```
 ...
 16.0 Beta (16A5171c)
@@ -47,6 +48,7 @@ xcodes list
 16.4 Beta (16F1t)
 16.4 (16F6)
 ```
+
 ```zsh
 xcodes install 16.4
 ```
@@ -59,7 +61,9 @@ iOS SDK の最新版をインストールします。
 ```zsh
 xcodes runtimes
 ```
+
 出力例
+
 ```
 -- iOS --
 ...
@@ -76,6 +80,7 @@ visionOS 2.5
 
 Note: Bundled runtimes are indicated for the currently selected Xcode, more bundled runtimes may exist in other Xcode(s)
 ```
+
 ```zsh
 xcodes runtimes install 'iOS 18.5'
 ```

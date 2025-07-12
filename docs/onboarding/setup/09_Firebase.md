@@ -11,18 +11,23 @@ Node.js のバージョンを管理するためのアプリケーション`nvm`�
 ```zsh
 brew install nvm
 ```
+
 ```zsh
 mkdir ~/.nvm
 ```
+
 ```zsh
 echo 'export NVM_DIR="$HOME/.nvm"' >> ~/.zshrc
 ```
+
 ```zsh
 echo '[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm' >> ~/.zshrc
 ```
+
 ```zsh
 echo '[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion' >> ~/.zshrc
 ```
+
 ```zsh
 source ~/.zshrc
 ```
@@ -64,12 +69,13 @@ nvm install <最新安定バージョン番号>
 ```zsh
 node -v
 ```
-```zsh
+
+````zsh
 nvm current
 ```zsh
 ```zsh
 npm -v
-```
+````
 
 ## [Windows] Node.js をインストール
 
