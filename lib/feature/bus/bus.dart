@@ -68,7 +68,7 @@ final class BusScreen extends ConsumerWidget {
     final busScrolled = ref.watch(busScrolledProvider);
 
     final myBusStopButton = busStopButton(context, () {
-      Navigator.of(context).push(MaterialPageRoute(
+      Navigator.of(context).push(MaterialPageRoute<void>(
         builder: (context) => const BusStopSelectScreen(),
       ));
     }, Icons.directions_bus, myBusStop.name);
@@ -123,7 +123,7 @@ final class BusScreen extends ConsumerWidget {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
+                  MaterialPageRoute<void>(
                     builder: (context) => BusTimetableScreen(busTrip),
                   ),
                 );

@@ -49,7 +49,7 @@ final class BusCardHome extends ConsumerWidget {
             ref.read(busScrolledProvider.notifier).state = false;
             Navigator.push(
               context,
-              PageRouteBuilder(
+              PageRouteBuilder<void>(
                 pageBuilder: (context, animation, secondaryAnimation) =>
                     const BusScreen(),
                 transitionsBuilder: fromRightAnimation,
@@ -65,7 +65,7 @@ final class BusCardHome extends ConsumerWidget {
         onTap: () {
           Navigator.push(
             context,
-            MaterialPageRoute(
+            MaterialPageRoute<void>(
               builder: (context) => const BusScreen(),
             ),
           );

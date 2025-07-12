@@ -57,7 +57,7 @@ final class MyPageTimetable extends ConsumerWidget {
                 if (record == null) return;
                 if (context.mounted) {
                   Navigator.of(context).push(
-                    PageRouteBuilder(
+                    PageRouteBuilder<void>(
                       pageBuilder: (context, animation, secondaryAnimation) {
                         return KamokuDetailPageScreen(
                           lessonId: record['LessonId'] as int,

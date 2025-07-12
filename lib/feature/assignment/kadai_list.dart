@@ -182,7 +182,7 @@ final class _KadaiListScreenState extends State<KadaiListScreen> {
   }
 
   void _showDeleteConfirmation(Kadai kadai) {
-    showDialog(
+    showDialog<void>(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
@@ -228,7 +228,7 @@ final class _KadaiListScreenState extends State<KadaiListScreen> {
   }
 
   void tmpShowDeleteConfirmation(KadaiList listkadai) {
-    showDialog(
+    showDialog<void>(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
@@ -759,7 +759,7 @@ final class _KadaiListScreenState extends State<KadaiListScreen> {
             TextButton(
               onPressed: () async {
                 final result = await Navigator.of(context).push(
-                  PageRouteBuilder(
+                  PageRouteBuilder<void>(
                       pageBuilder: (context, animation, secondaryAnimation) =>
                           KadaiHiddenScreen(deletedKadaiLists: delete),
                       transitionsBuilder: animation),
@@ -787,7 +787,7 @@ final class _KadaiListScreenState extends State<KadaiListScreen> {
               setState(() {
                 const FirebaseGetKadai().getKadaiFromFirebase();
               });
-              await Future.delayed(const Duration(seconds: 1));
+              await Future<void>.delayed(const Duration(seconds: 1));
             },
             child: Consumer(
               builder: (context, ref, child) {

@@ -10,7 +10,7 @@ Future<String> readJsonFile(String fileName) async {
     // ファイルの内容を文字列として読み込む
     final content = await file.readAsString();
     if (content == '') {
-      await Future.delayed(const Duration(milliseconds: 100));
+      await Future<void>.delayed(const Duration(milliseconds: 100));
       return readJsonFile(fileName);
     }
     return content;
