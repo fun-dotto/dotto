@@ -29,7 +29,7 @@ class NewsList extends ConsumerWidget { // Trueなら3つ
               style: TextStyle(fontSize: isHome ? 10 : 12),
             ),
             onTap: () => Navigator.of(context).push(
-              PageRouteBuilder(
+              PageRouteBuilder<void>(
                 pageBuilder: (context, animation, secondaryAnimation) => NewsDetailScreen(news),
                 transitionsBuilder: fromRightAnimation,
               ),

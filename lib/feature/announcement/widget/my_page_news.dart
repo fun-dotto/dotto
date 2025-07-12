@@ -36,7 +36,7 @@ class MyPageNews extends StatelessWidget {
           ),
           GestureDetector(
             onTap: () => Navigator.of(context).push(
-              PageRouteBuilder(
+              PageRouteBuilder<void>(
                 pageBuilder: (context, animation, secondaryAnimation) => const NewsScreen(),
                 transitionsBuilder: fromRightAnimation,
               ),
