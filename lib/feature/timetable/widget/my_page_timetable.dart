@@ -252,7 +252,7 @@ class MyPageTimetable extends ConsumerWidget {
     final buttonPosition = (DateTime.now().weekday - 1) * (buttonSize + buttonPadding);
     final initialScrollOffset =
         (buttonPosition > deviceCenter) ? buttonPosition - deviceCenter : 0;
-    final controller = ScrollController(initialScrollOffset: initialScrollOffset);
+    final controller = ScrollController(initialScrollOffset: initialScrollOffset.toDouble());
     return Consumer(
       builder: (context, ref, child) {
         ref.watch(saveTimetableProvider);

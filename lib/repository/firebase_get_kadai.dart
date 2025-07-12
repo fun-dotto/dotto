@@ -12,7 +12,7 @@ class FirebaseGetKadai {
     if (snapshot.exists) {
       final data = snapshot.value! as Map;
       data.forEach((key, value) {
-        kadaiList.add(Kadai.fromFirebase(key, value));
+        kadaiList.add(Kadai.fromFirebase(key as String, value as Map<String, dynamic>));
       });
     } else {
       throw Exception();
