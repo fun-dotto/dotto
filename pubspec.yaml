@@ -69,6 +69,7 @@ dependencies:
   geolocator: ^14.0.0
   app_links: ^6.4.0
   cupertino_icons: ^1.0.8
+  image_picker: ^1.1.2
   carousel_slider: ^5.0.0
   firebase_remote_config: ^5.4.7
   firebase_analytics: ^11.5.2
