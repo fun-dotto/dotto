@@ -1,4 +1,4 @@
-import 'package:dotto/components/color_fun.dart';
+import 'package:dotto/theme/v1/color_fun.dart';
 import 'package:dotto/feature/funch/controller/funch_all_daily_menu_controller.dart';
 import 'package:dotto/feature/funch/controller/funch_date_controller.dart';
 import 'package:dotto/feature/funch/controller/funch_menu_type_controller.dart';

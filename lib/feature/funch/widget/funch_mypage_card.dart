@@ -1,5 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:dotto/components/app_color.dart';
+import 'package:dotto/theme/v1/app_color.dart';
 import 'package:dotto/widget/loading_circular.dart';
 import 'package:dotto/feature/funch/controller/funch_today_daily_menu_controller.dart';
 import 'package:dotto/feature/funch/controller/funch_mypage_card_index_controller.dart';

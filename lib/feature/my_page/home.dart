@@ -1,6 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:dotto/components/animation.dart';
-import 'package:dotto/components/color_fun.dart';
+import 'package:dotto/theme/v1/color_fun.dart';
 import 'package:dotto/controller/config_controller.dart';
 import 'package:dotto/feature/my_page/feature/bus/widget/bus_card_home.dart';
 import 'package:dotto/feature/funch/funch.dart';

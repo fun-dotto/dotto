@@ -1,4 +1,4 @@
-import 'package:dotto/components/app_color.dart';
+import 'package:dotto/theme/v1/app_color.dart';
 import 'package:dotto/feature/funch/domain/funch_menu.dart';
 import 'package:dotto/feature/funch/widget/funch_price_list.dart';
 import 'package:dotto/importer.dart';

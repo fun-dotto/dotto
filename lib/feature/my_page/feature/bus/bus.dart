@@ -1,5 +1,5 @@
 import 'package:collection/collection.dart';
-import 'package:dotto/components/app_color.dart';
+import 'package:dotto/theme/v1/app_color.dart';
 import 'package:dotto/widget/loading_circular.dart';
 import 'package:dotto/feature/my_page/feature/bus/widget/bus_timetable.dart';
 import 'package:dotto/feature/my_page/feature/bus/controller/bus_controller.dart';

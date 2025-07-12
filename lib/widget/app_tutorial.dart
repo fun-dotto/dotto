@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_overboard/flutter_overboard.dart';
-import 'package:dotto/components/color_fun.dart';
+import 'package:dotto/theme/v1/color_fun.dart';
 
 class AppTutorial extends StatelessWidget {
   const AppTutorial({super.key});
 
-  Widget _withImage(double topMargin, String imagePath, String title,
-      String body, Color backgroundColor) {
+  Widget _withImage(
+      double topMargin, String imagePath, String title, String body, Color backgroundColor) {
     return Padding(
       padding: const EdgeInsets.all(25.0),
       child: Stack(children: [
@@ -44,8 +44,7 @@ class AppTutorial extends StatelessWidget {
               children: [
                 Text(
                   title,
-                  style: const TextStyle(
-                      fontSize: 28, fontWeight: FontWeight.bold),
+                  style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 20),
                 Text(

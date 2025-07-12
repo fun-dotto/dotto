@@ -1,16 +1,13 @@
 import 'package:dotto/importer.dart';
 
-import 'package:dotto/components/color_fun.dart';
+import 'package:dotto/theme/v1/color_fun.dart';
 import 'package:dotto/feature/kamoku_detail/kamoku_detail_syllabus.dart';
 import 'package:dotto/feature/kamoku_detail/kamoku_detail_kakomon_list.dart';
 import 'package:dotto/feature/kamoku_detail/kamoku_detail_feedback.dart';
 
 class KamokuDetailPageScreen extends StatefulWidget {
   const KamokuDetailPageScreen(
-      {super.key,
-      required this.lessonId,
-      required this.lessonName,
-      this.kakomonLessonId});
+      {super.key, required this.lessonId, required this.lessonName, this.kakomonLessonId});
   final int lessonId;
   final String lessonName;
   final int? kakomonLessonId;
@@ -31,8 +28,7 @@ class _KamokuDetailPageScreenState extends State<KamokuDetailPageScreen> {
     return Scaffold(
       appBar: AppBar(
         title: GestureDetector(
-          child:
-              Text(appBarText ? widget.lessonId.toString() : widget.lessonName),
+          child: Text(appBarText ? widget.lessonId.toString() : widget.lessonName),
           onDoubleTap: () {
             setState(() {
               appBarText = !appBarText;
@@ -74,9 +70,7 @@ class _KamokuDetailPageScreenState extends State<KamokuDetailPageScreen> {
                       style: TextStyle(
                         fontSize: deviceWidth / 25,
                         fontWeight: FontWeight.bold,
-                        color: index == _currentPageIndex
-                            ? customFunColor.shade400
-                            : Colors.black,
+                        color: index == _currentPageIndex ? customFunColor.shade400 : Colors.black,
                       ),
                     ),
                   ),
@@ -95,8 +89,7 @@ class _KamokuDetailPageScreenState extends State<KamokuDetailPageScreen> {
               children: [
                 KamokuDetailSyllabusScreen(lessonId: widget.lessonId),
                 KamokuFeedbackScreen(lessonId: widget.lessonId),
-                KamokuDetailKakomonListScreen(
-                    url: widget.kakomonLessonId ?? widget.lessonId),
+                KamokuDetailKakomonListScreen(url: widget.kakomonLessonId ?? widget.lessonId),
               ],
             ),
           ),

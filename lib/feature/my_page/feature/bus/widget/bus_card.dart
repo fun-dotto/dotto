@@ -1,4 +1,4 @@
-import 'package:dotto/components/app_color.dart';
+import 'package:dotto/theme/v1/app_color.dart';
 import 'package:dotto/feature/my_page/feature/bus/controller/bus_controller.dart';
 import 'package:dotto/feature/my_page/feature/bus/domain/bus_type.dart';
 import 'package:dotto/feature/my_page/feature/bus/repository/bus_repository.dart';

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
-import 'package:dotto/components/color_fun.dart';
+import 'package:dotto/theme/v1/color_fun.dart';
 import 'package:dotto/feature/kamoku_detail/repository/kamoku_detail_repository.dart';
 import 'package:dotto/feature/kamoku_detail/widget/kamoku_detail_feedback_list.dart';
 

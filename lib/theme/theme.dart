@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'colors/theme_extension.dart';
-import 'package:dotto/components/color_fun.dart';
+import 'package:dotto/theme/v1/color_fun.dart';
 
 class DottoTheme {
   static ThemeData get v2 {
