@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
-import 'package:dotto/widget/progress_indicator.dart';
+import 'package:dotto/widget/loading_circular.dart';
 import 'package:dotto/feature/kamoku_detail/repository/kamoku_detail_repository.dart';
 
 class KamokuDetailFeedbackList extends StatefulWidget {
@@ -65,7 +65,7 @@ class _KamokuDetailFeedbackListState extends State<KamokuDetailFeedbackList> {
           return Text('エラー: ${snapshot.error}');
         }
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return createProgressIndicator();
+          return LoadingCircular();
         }
         if (snapshot.hasData) {
           final querySnapshot = snapshot.data!;

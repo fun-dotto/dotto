@@ -1,7 +1,7 @@
 import 'package:dotto/importer.dart';
 import 'package:dotto/components/animation.dart';
 import 'package:dotto/components/color_fun.dart';
-import 'package:dotto/widget/progress_indicator.dart';
+import 'package:dotto/widget/loading_circular.dart';
 import 'package:dotto/feature/my_page/feature/timetable/personal_select_lesson.dart';
 import 'package:dotto/feature/my_page/feature/timetable/controller/timetable_controller.dart';
 
@@ -37,7 +37,7 @@ class PersonalTimeTableScreen extends ConsumerWidget {
                   child: Text('データを取得できませんでした'),
                 ),
                 loading: () => Center(
-                  child: createProgressIndicator(),
+                  child: LoadingCircular(),
                 ),
               ),
             ),
@@ -158,7 +158,7 @@ class PersonalTimeTableScreen extends ConsumerWidget {
             child: Text("データを取得できませんでした。"),
           ),
           loading: () => Center(
-            child: createProgressIndicator(),
+            child: LoadingCircular(),
           ),
         ),
       ),

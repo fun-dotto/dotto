@@ -8,7 +8,7 @@ import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:dotto/components/s3.dart';
 import 'dart:typed_data';
-import 'package:dotto/widget/progress_indicator.dart';
+import 'package:dotto/widget/loading_circular.dart';
 import 'package:share_plus/share_plus.dart';
 
 enum StorageService { cloudflare, firebase }
@@ -71,7 +71,7 @@ class _FileViewerScreenState extends State<FileViewerScreen> {
                   if (snapshot.hasData) {
                     return KakomonObjectIfType(url: widget.url, data: snapshot.data!);
                   } else {
-                    return Center(child: createProgressIndicator());
+                    return Center(child: LoadingCircular());
                   }
                 })
             : FutureBuilder(
@@ -84,7 +84,7 @@ class _FileViewerScreenState extends State<FileViewerScreen> {
                       return const Center(child: Text("エラー"));
                     }
                   } else {
-                    return Center(child: createProgressIndicator());
+                    return Center(child: LoadingCircular());
                   }
                 },
               ));

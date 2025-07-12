@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:dotto/components/s3.dart';
-import 'package:dotto/widget/progress_indicator.dart';
+import 'package:dotto/widget/loading_circular.dart';
 import 'package:dotto/feature/kamoku_detail/repository/kamoku_detail_repository.dart';
 import 'package:dotto/feature/kamoku_detail/widget/kamoku_detail_kakomon_list_objects.dart';
 
@@ -36,7 +36,7 @@ class _KamokuDetailKakomonListScreenState extends State<KamokuDetailKakomonListS
                           .toList(),
                     );
                   } else {
-                    return createProgressIndicator();
+                    return LoadingCircular();
                   }
                 },
               )

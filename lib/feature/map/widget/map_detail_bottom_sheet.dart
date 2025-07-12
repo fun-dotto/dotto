@@ -1,4 +1,4 @@
-import 'package:dotto/widget/progress_indicator.dart';
+import 'package:dotto/widget/loading_circular.dart';
 import 'package:dotto/controller/tab_controller.dart';
 import 'package:dotto/controller/user_controller.dart';
 import 'package:dotto/domain/tab_item.dart';
@@ -240,7 +240,7 @@ class MapDetailBottomSheet extends ConsumerWidget {
                       width: double.infinity,
                       height: 150,
                       child: Center(
-                        child: createProgressIndicator(),
+                        child: LoadingCircular(),
                       ),
                     )
               : Column(

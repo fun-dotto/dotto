@@ -1,6 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dotto/components/app_color.dart';
-import 'package:dotto/widget/progress_indicator.dart';
+import 'package:dotto/widget/loading_circular.dart';
 import 'package:dotto/feature/funch/controller/funch_today_daily_menu_controller.dart';
 import 'package:dotto/feature/funch/controller/funch_mypage_card_index_controller.dart';
 import 'package:dotto/feature/funch/domain/funch_menu.dart';
@@ -57,7 +57,7 @@ final class FunchMyPageCard extends ConsumerWidget {
 
     final content = funchDailyMenuList.when(
       loading: () {
-        return createProgressIndicator();
+        return LoadingCircular();
       },
       error: (error, stackTrace) {
         return _buildEmptyCard(context, date);

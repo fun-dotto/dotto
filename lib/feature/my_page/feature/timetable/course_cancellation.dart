@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:dotto/controller/user_controller.dart';
 import 'package:dotto/feature/my_page/feature/timetable/controller/timetable_controller.dart';
 import 'package:dotto/importer.dart';
-import 'package:dotto/widget/progress_indicator.dart';
+import 'package:dotto/widget/loading_circular.dart';
 import 'package:dotto/feature/my_page/feature/timetable/repository/timetable_repository.dart';
 import 'package:dotto/repository/read_json_file.dart';
 
@@ -124,7 +124,7 @@ class CourseCancellationScreen extends ConsumerWidget {
               );
             }
           }
-          return Center(child: createProgressIndicator());
+          return Center(child: LoadingCircular());
         },
       ),
     );

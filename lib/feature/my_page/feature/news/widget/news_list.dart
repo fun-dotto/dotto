@@ -1,5 +1,5 @@
 import 'package:dotto/components/animation.dart';
-import 'package:dotto/widget/progress_indicator.dart';
+import 'package:dotto/widget/loading_circular.dart';
 import 'package:dotto/feature/my_page/feature/news/controller/news_controller.dart';
 import 'package:dotto/feature/my_page/feature/news/news_detail.dart';
 import 'package:dotto/importer.dart';
@@ -43,6 +43,6 @@ class NewsList extends ConsumerWidget {
         shrinkWrap: isHome,
       );
     }
-    return createProgressIndicator();
+    return LoadingCircular();
   }
 }

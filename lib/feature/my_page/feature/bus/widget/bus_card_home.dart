@@ -1,6 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:dotto/components/animation.dart';
-import 'package:dotto/widget/progress_indicator.dart';
+import 'package:dotto/widget/loading_circular.dart';
 import 'package:dotto/feature/my_page/feature/bus/bus.dart';
 import 'package:dotto/feature/my_page/feature/bus/controller/bus_controller.dart';
 import 'package:dotto/feature/my_page/feature/bus/domain/bus_trip.dart';
@@ -70,7 +70,7 @@ class BusCardHome extends ConsumerWidget {
         child: const BusCard("0", Duration.zero, Duration.zero, Duration.zero, home: true),
       );
     } else {
-      return createProgressIndicator();
+      return LoadingCircular();
     }
   }
 }

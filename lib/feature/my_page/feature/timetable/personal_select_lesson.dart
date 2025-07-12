@@ -1,6 +1,6 @@
 import 'package:dotto/importer.dart';
 import 'package:dotto/components/color_fun.dart';
-import 'package:dotto/widget/progress_indicator.dart';
+import 'package:dotto/widget/loading_circular.dart';
 import 'package:dotto/feature/my_page/feature/timetable/controller/timetable_controller.dart';
 import 'package:dotto/feature/my_page/feature/timetable/repository/timetable_repository.dart';
 import 'package:dotto/feature/my_page/feature/timetable/widget/timetable_is_over_selected_snack_bar.dart';
@@ -84,7 +84,7 @@ class PersonalSelectLessonScreen extends StatelessWidget {
             error: (error, stackTrace) => const Center(
               child: Text('データを取得できませんでした。'),
             ),
-            loading: () => Center(child: createProgressIndicator()),
+            loading: () => Center(child: LoadingCircular()),
           );
         },
       ),
