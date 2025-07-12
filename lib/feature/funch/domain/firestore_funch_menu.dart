@@ -23,8 +23,8 @@ final class FirestoreFunchMenu {
     }
     return FirestoreFunchMenu(
       date: timestamp.toDate(),
-      commonMenuIds: List<int>.from(json['common_menu_ids']),
-      originalMenuIds: List<String>.from(json['original_menu_ids']),
+      commonMenuIds: List<int>.from(json['common_menu_ids'] as List),
+      originalMenuIds: List<String>.from(json['original_menu_ids'] as List),
     );
   }
   final DateTime date; // Monthly: 当月の1日 (JST), Daily: 当日の0時 (JST)

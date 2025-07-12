@@ -36,11 +36,11 @@ final class FunchCommonMenu extends FunchMenu {
     }
     final id = json['item_code'].toString();
     final name = json['title'];
-    final prices = FunchPrice.fromJson(json['price']);
+    final prices = FunchPrice.fromJson(json['price'] as Map);
     final category = json['category'];
     final imageUrl = json['image'];
     final energy = json['energy'];
-    return FunchCommonMenu(id, name, category, prices, imageUrl, energy);
+    return FunchCommonMenu(id, name as String, category as int, prices, imageUrl as String, energy as int);
   }
   final int energy;
 }
