@@ -15,7 +15,7 @@ cd dotto
 プロジェクトの依存関係のインストールをします。
 
 ```zsh
-make install
+task install
 ```
 
 Firebase の情報をセットアップします。
@@ -33,7 +33,7 @@ flutterfire configure
 必要なコードを生成します。
 
 ```zsh
-make build
+task build
 ```
 
 ## [macOS] iOS Simulator で起動する
@@ -43,7 +43,7 @@ make build
 以下のコマンドを実行します。
 
 ```zsh
-make run
+task run
 ```
 
 ## [macOS] iOS 端末で起動する
@@ -53,11 +53,11 @@ Mac と iPhone を接続します。
 以下のコマンドを実行します。
 
 ```zsh
-make match_development
+task match_development
 ```
 
 ```zsh
-make run
+task run
 ```
 
 ## [macOS] Android Emulator で起動する
@@ -67,7 +67,7 @@ Visual Studio Code から Android エミュレータを起動します。
 以下のコマンドを実行します。
 
 ```zsh
-make run
+task run
 ```
 
 q キーを押して、一度終了します。
@@ -93,7 +93,7 @@ set PATH=<コピーしたパスをペースト>;%PATH%
 以下のコマンドを実行します。
 
 ```pwsh
-make run
+task run
 ```
 
 q キーを押して、一度終了します。
