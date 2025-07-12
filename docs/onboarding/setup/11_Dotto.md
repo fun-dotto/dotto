@@ -28,7 +28,7 @@ dart pub global activate flutterfire_cli
 flutterfire configure
 ```
 
-メンバーに`.env.dev`ファイルをもらい、プロジェクト直下に配置します。
+メンバーに`.env`ファイルをもらい、プロジェクト直下に配置します。
 
 必要なコードを生成します。
 
@@ -49,6 +49,8 @@ task run
 ## [macOS] iOS 端末で起動する
 
 Mac と iPhone を接続します。
+
+メンバーに iOS Fastlane の`.env`ファイルをもらい、`ios/fastlane/`に配置します。
 
 以下のコマンドを実行します。
 
