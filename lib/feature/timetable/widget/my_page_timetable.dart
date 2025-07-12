@@ -21,7 +21,7 @@ class MyPageTimetable extends ConsumerWidget {
         foregroundColor = Colors.grey;
       }
     }
-    final var roomName = <int, String>{
+    final roomName = <int, String>{
       1: '講堂',
       2: '大講義室',
       3: '493',
@@ -60,9 +60,9 @@ class MyPageTimetable extends ConsumerWidget {
                     PageRouteBuilder(
                       pageBuilder: (context, animation, secondaryAnimation) {
                         return KamokuDetailPageScreen(
-                          lessonId: record['LessonId'],
-                          lessonName: record['授業名'],
-                          kakomonLessonId: record['過去問'],
+                          lessonId: record['LessonId'] as int,
+                          lessonName: record['授業名'] as String,
+                          kakomonLessonId: record['過去問'] as int?,
                         );
                       },
                       transitionsBuilder: fromRightAnimation,
@@ -235,8 +235,8 @@ class MyPageTimetable extends ConsumerWidget {
       TimeOfDay(hour: 19, minute: 40),
     ];
     final dates = TimetableRepository().getDateRange();
-    final var weekString = <String>['月', '火', '水', '木', '金', '土', '日'];
-    final var weekColors = <Color>[
+    final weekString = <String>['月', '火', '水', '木', '金', '土', '日'];
+    final weekColors = <Color>[
       Colors.black,
       Colors.black,
       Colors.black,

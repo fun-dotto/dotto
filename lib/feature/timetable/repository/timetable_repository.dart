@@ -401,7 +401,7 @@ class TimetableRepository {
         final int term = record['開講時期'] as int;
         final int week = record['week'] as int;
         final int period = record['period'] as int;
-        final var selectedLessonList = weekPeriodAllRecords.where((record) {
+        final selectedLessonList = weekPeriodAllRecords.where((record) {
           return record['week'] == week &&
               record['period'] == period &&
               (record['開講時期'] == term || record['開講時期'] == 0) &&
