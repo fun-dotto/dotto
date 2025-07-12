@@ -311,20 +311,20 @@ class TimetableRepository {
 // 時間を入れたらその日の授業を返す
   Future<Map<int, List<TimeTableCourse>>> dailyLessonSchedule(
       DateTime selectTime, WidgetRef ref) async {
-    final var periodData = <int, Map<int, TimeTableCourse>>{1: {}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}};
+    final periodData = <int, Map<int, TimeTableCourse>>{1: {}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}};
     final returnData = <int, List<TimeTableCourse>>{};
 
     final lessonData = await filterTimeTable(ref);
 
     for (final item in lessonData) {
-      final lessonTime = DateTime.parse(item['start']);
+      final lessonTime = DateTime.parse(item['start'] as String);
 
       if (selectTime.day == lessonTime.day) {
-        final int period = item['period'];
-        final lessonId = int.parse(item['lessonId']);
+        final int period = item['period'] as int;
+        final lessonId = int.parse(item['lessonId'] as String);
         final resourceId = <int>[];
         try {
-          resourceId.add(int.parse(item['resourceId']));
+          resourceId.add(int.parse(item['resourceId'] as String));
         } catch (e) {
           // resourceIdが空白
         }
@@ -334,22 +334,22 @@ class TimetableRepository {
             continue;
           }
         }
-        periodData[period]![lessonId] = TimeTableCourse(lessonId, item['title'], resourceId);
+        periodData[period]![lessonId] = TimeTableCourse(lessonId, item['title'] as String, resourceId);
       }
     }
 
     var jsonData = await readJsonFile('home/cancel_lecture.json');
-    final List<dynamic> cancelLectureData = jsonDecode(jsonData);
+    final List<dynamic> cancelLectureData = jsonDecode(jsonData) as List<dynamic>;
     jsonData = await readJsonFile('home/sup_lecture.json');
-    final List<dynamic> supLectureData = jsonDecode(jsonData);
+    final List<dynamic> supLectureData = jsonDecode(jsonData) as List<dynamic>;
     final loadPersonalTimeTableMap = await loadPersonalTimeTableMapString(ref);
 
     for (final cancelLecture in cancelLectureData) {
-      final dt = DateTime.parse(cancelLecture['date']);
+      final dt = DateTime.parse(cancelLecture['date'] as String);
       if (dt.month == selectTime.month && dt.day == selectTime.day) {
-        final String lessonName = cancelLecture['lessonName'];
+        final String lessonName = cancelLecture['lessonName'] as String;
         if (loadPersonalTimeTableMap.containsKey(lessonName)) {
-          final var lessonId = loadPersonalTimeTableMap[lessonName]!;
+          final lessonId = loadPersonalTimeTableMap[lessonName]!;
           periodData[cancelLecture['period']]![lessonId] =
               TimeTableCourse(lessonId, lessonName, [], cancel: true);
         }
@@ -357,9 +357,9 @@ class TimetableRepository {
     }
 
     for (final supLecture in supLectureData) {
-      final var dt = DateTime.parse(supLecture['date']);
+      final dt = DateTime.parse(supLecture['date'] as String);
       if (dt.month == selectTime.month && dt.day == selectTime.day) {
-        final String lessonName = supLecture['lessonName'];
+        final String lessonName = supLecture['lessonName'] as String;
         if (loadPersonalTimeTableMap.containsKey(lessonName)) {
           final lessonId = loadPersonalTimeTableMap[lessonName]!;
           periodData[supLecture['period']]![lessonId]!.sup = true;
@@ -398,9 +398,9 @@ class TimetableRepository {
       final removeLessonIdList = <int>{};
       var flag = false;
       for (final record in targetWeekPeriod) {
-        final int term = record['開講時期'];
-        final int week = record['week'];
-        final int period = record['period'];
+        final int term = record['開講時期'] as int;
+        final int week = record['week'] as int;
+        final int period = record['period'] as int;
         final var selectedLessonList = weekPeriodAllRecords.where((record) {
           return record['week'] == week &&
               record['period'] == period &&
