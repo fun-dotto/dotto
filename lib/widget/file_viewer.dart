@@ -180,9 +180,7 @@ class ImageScreen extends StatelessWidget {
     } else {
       image = Image.file(File(filePath!));
     }
-    return SizedBox(
-      width: double.infinity,
-      height: double.infinity,
+    return SizedBox.expand(
       child: InteractiveViewer(maxScale: 10, child: image),
     );
   }
