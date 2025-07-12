@@ -22,12 +22,12 @@ class BusRepository {
     final negativeSign = d.isNegative ? '-' : '';
 
     // 各値の絶対値を取得
-    final var hour = d.inHours.abs();
-    final var min = d.inMinutes.remainder(60).abs();
+    final hour = d.inHours.abs();
+    final min = d.inMinutes.remainder(60).abs();
 
     // 各値を2桁の文字列に変換
     final strHour = twoDigits(hour);
-    final var strMin = twoDigits(min);
+    final strMin = twoDigits(min);
 
     // フォーマット
     return "$negativeSign$strHour:$strMin";
@@ -37,7 +37,7 @@ class BusRepository {
     final snapshot = await GetFirebaseRealtimeDB.getData('bus/stops'); //firebaseから情報取得
     if (snapshot.exists) {
       final busDataStops = snapshot.value! as List;
-      return busDataStops.map((e) => BusStop.fromFirebase(e)).toList();
+      return busDataStops.map((e) => BusStop.fromFirebase(e as Map)).toList();
     } else {
       throw Exception();
     }
@@ -54,9 +54,9 @@ class BusRepository {
       };
       busTripsData.forEach(
         (key, value) {
-          final String fromTo = key;
+          final String fromTo = key as String;
           (value as Map).forEach((key2, value2) {
-            final String week = key2;
+            final String week = key2 as String;
             allBusTrips[fromTo]![week] =
                 (value2 as List).map((e) => BusTrip.fromFirebase(e as Map, allBusStops)).toList();
           });
