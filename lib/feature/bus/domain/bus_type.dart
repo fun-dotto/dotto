@@ -7,7 +7,8 @@ enum BusType {
   syowa('昭和方面', AppColor.linkTextBlue),
   other('', Colors.grey);
 
+  const BusType(this.where, this.dividerColor);
+
   final String where;
   final Color dividerColor;
-  const BusType(this.where, this.dividerColor);
 }

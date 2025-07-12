@@ -2,7 +2,7 @@ final class BusStop {
   const BusStop(this.id, this.name, this.routeList,
       {this.reverse, this.selectable});
 
-  factory BusStop.fromFirebase(Map map) {
+  factory BusStop.fromFirebase(Map<String, dynamic> map) {
     final routeList = (map['route'] as List).map((e) => e.toString()).toList();
     return BusStop(map['id'] as int, map['name'] as String, routeList,
         reverse: map['reverse'] as bool?,

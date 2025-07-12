@@ -68,8 +68,8 @@ final class MyBusStopNotifier extends Notifier<BusStop> {
     }
   }
 
-  void set(BusStop myBusStop) {
-    state = myBusStop;
+  set myBusStop(BusStop value) {
+    state = value;
   }
 }
 
