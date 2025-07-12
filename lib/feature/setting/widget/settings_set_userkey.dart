@@ -1,5 +1,5 @@
-import 'package:dotto/feature/settings/controller/settings_controller.dart';
-import 'package:dotto/feature/settings/repository/settings_repository.dart';
+import 'package:dotto/feature/setting/controller/settings_controller.dart';
+import 'package:dotto/feature/setting/repository/settings_repository.dart';
 import 'package:dotto/importer.dart';
 import 'package:flutter/services.dart';
 

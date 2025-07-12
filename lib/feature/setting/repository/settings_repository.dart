@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dotto/repository/setting_user_info.dart';
 import 'package:dotto/feature/timetable/repository/timetable_repository.dart';
-import 'package:dotto/feature/settings/controller/settings_controller.dart';
+import 'package:dotto/feature/setting/controller/settings_controller.dart';
 import 'package:dotto/importer.dart';
 import 'package:dotto/repository/firebase_auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
