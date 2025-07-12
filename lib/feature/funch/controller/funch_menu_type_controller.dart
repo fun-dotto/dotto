@@ -14,7 +14,9 @@ final class FunchMenuCategoryNotifier extends Notifier<FunchMenuCategory> {
     return category;
   }
 
-  void set(FunchMenuCategory type) {
+  FunchMenuCategory get menuCategory => state;
+  
+  set menuCategory(FunchMenuCategory type) {
     state = type;
   }
 }

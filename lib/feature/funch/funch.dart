@@ -119,7 +119,7 @@ final class FunchScreen extends ConsumerWidget {
       children: [
         ElevatedButton(
           onPressed: () {
-            ref.read(funchMenuCategoryProvider.notifier).set(menuType);
+            ref.read(funchMenuCategoryProvider.notifier).menuCategory = menuType;
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: funchMenuType == menuType ? customFunColor : Colors.white,
