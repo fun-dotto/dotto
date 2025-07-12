@@ -12,8 +12,12 @@ import 'package:intl/intl.dart';
 final class MyPageTimetable extends ConsumerWidget {
   const MyPageTimetable({super.key});
 
-  Widget timeTableLessonButton(BuildContext context,
-      TimeTableCourse? timeTableCourse, bool loading, WidgetRef ref) {
+  Widget timeTableLessonButton(
+    BuildContext context,
+    TimeTableCourse? timeTableCourse,
+    WidgetRef ref, {
+    required bool loading,
+  }) {
     final user = ref.watch(userProvider);
     var foregroundColor = Colors.black;
     if (timeTableCourse != null && user != null) {
@@ -56,7 +60,7 @@ final class MyPageTimetable extends ConsumerWidget {
                     .fetchDB(timeTableCourse.lessonId);
                 if (record == null) return;
                 if (context.mounted) {
-                  Navigator.of(context).push(
+                  await Navigator.of(context).push(
                     PageRouteBuilder<void>(
                       pageBuilder: (context, animation, secondaryAnimation) {
                         return KamokuDetailPageScreen(
@@ -169,8 +173,9 @@ final class MyPageTimetable extends ConsumerWidget {
       TimeOfDay beginTime,
       TimeOfDay finishTime,
       List<TimeTableCourse> timeTableCourseList,
-      bool loading,
-      WidgetRef ref) {
+      WidgetRef ref, {
+      required bool loading,
+    }) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 5),
       margin: const EdgeInsets.symmetric(vertical: 5),
@@ -191,7 +196,8 @@ final class MyPageTimetable extends ConsumerWidget {
                 FittedBox(
                   fit: BoxFit.scaleDown,
                   child: Text(
-                    '${beginTime.format(context)} ~ ${finishTime.format(context)}',
+                    '${beginTime.format(context)} ~ '
+                    '${finishTime.format(context)}',
                   ),
                 ),
               ],
@@ -205,11 +211,11 @@ final class MyPageTimetable extends ConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 if (timeTableCourseList.isEmpty)
-                  timeTableLessonButton(context, null, loading, ref)
+                  timeTableLessonButton(context, null, ref, loading: loading)
                 else
                   ...timeTableCourseList.map((timeTableCourse) =>
                       timeTableLessonButton(
-                          context, timeTableCourse, false, ref)),
+                          context, timeTableCourse, ref, loading: false)),
               ],
             ),
           ),
@@ -341,8 +347,8 @@ final class MyPageTimetable extends ConsumerWidget {
                           ? twoWeekTimeTableData[focusTimeTableDay]![i] ?? []
                           : []
                       : [],
-                  twoWeekTimeTableData == null,
-                  ref)
+                  ref,
+                  loading: twoWeekTimeTableData == null)
             },
           ],
         );

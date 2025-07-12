@@ -29,9 +29,9 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   Future<void> launchUrlInExternal(Uri url) async {
     if (await canLaunchUrl(url)) {
-      launchUrl(url, mode: LaunchMode.externalApplication);
+      await launchUrl(url, mode: LaunchMode.externalApplication);
     } else {
-      throw 'Could not launch $url';
+      throw Exception('Could not launch $url');
     }
   }
 
@@ -113,7 +113,7 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
         if (pushNews != null) {
           Navigator.of(context)
               .push(
-            PageRouteBuilder(
+            PageRouteBuilder<void>(
               pageBuilder: (context, animation, secondaryAnimation) =>
                   NewsDetailScreen(pushNews),
               transitionsBuilder: fromRightAnimation,
@@ -146,45 +146,44 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
       '前期時間割': 'home/timetable_first.pdf',
       '後期時間割': 'home/timetable_second.pdf',
     };
-    final infoTiles = <Widget>[];
-    infoTiles.add(infoButton(context, () {
-      Navigator.of(context).push(
-        PageRouteBuilder(
-          pageBuilder: (context, animation, secondaryAnimation) {
-            return const CourseCancellationScreen();
-          },
-          transitionsBuilder: fromRightAnimation,
-        ),
-      );
-    }, Icons.event_busy, '休講情報'));
-    if (config.isFunchEnabled) {
-      infoTiles.add(infoButton(context, () {
+    final infoTiles = <Widget>[
+      infoButton(context, () {
         Navigator.of(context).push(
-          PageRouteBuilder(
+          PageRouteBuilder<void>(
             pageBuilder: (context, animation, secondaryAnimation) {
-              return const FunchScreen();
+              return const CourseCancellationScreen();
             },
             transitionsBuilder: fromRightAnimation,
           ),
         );
-      }, Icons.lunch_dining_outlined, '学食'));
-    }
-    infoTiles.addAll(fileNamePath.entries
-        .map((item) => infoButton(context, () {
-              Navigator.of(context).push(
-                PageRouteBuilder(
-                  pageBuilder: (context, animation, secondaryAnimation) {
-                    return FileViewerScreen(
-                      filename: item.key,
-                      url: item.value,
-                      storage: StorageService.firebase,
-                    );
-                  },
-                  transitionsBuilder: fromRightAnimation,
-                ),
-              );
-            }, Icons.picture_as_pdf, item.key))
-        .toList());
+      }, Icons.event_busy, '休講情報'),
+      if (config.isFunchEnabled)
+        infoButton(context, () {
+          Navigator.of(context).push(
+            PageRouteBuilder<void>(
+              pageBuilder: (context, animation, secondaryAnimation) {
+                return const FunchScreen();
+              },
+              transitionsBuilder: fromRightAnimation,
+            ),
+          );
+        }, Icons.lunch_dining_outlined, '学食'),
+      ...fileNamePath.entries
+          .map((item) => infoButton(context, () {
+                Navigator.of(context).push(
+                  PageRouteBuilder<void>(
+                    pageBuilder: (context, animation, secondaryAnimation) {
+                      return FileViewerScreen(
+                        filename: item.key,
+                        url: item.value,
+                        storage: StorageService.firebase,
+                      );
+                    },
+                    transitionsBuilder: fromRightAnimation,
+                  ),
+                );
+              }, Icons.picture_as_pdf, item.key)),
+    ];
 
     final twoWeekTimeTableDataNotifier =
         ref.read(twoWeekTimeTableDataProvider.notifier);
@@ -208,7 +207,7 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
                   onPressed: () {
                     Navigator.of(context)
                         .push(
-                      PageRouteBuilder(
+                      PageRouteBuilder<void>(
                         pageBuilder: (context, animation, secondaryAnimation) {
                           return const PersonalTimeTableScreen();
                         },
@@ -249,7 +248,7 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
                     onPressed: () async {
                       const formUrl = 'https://forms.gle/ruo8iBxLMmvScNMFA';
                       final url = Uri.parse(formUrl);
-                      launchUrlInExternal(url);
+                      await launchUrlInExternal(url);
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blue,
