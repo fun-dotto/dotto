@@ -147,16 +147,7 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - images/
     - assets/
-    - assets/images/
-    - assets/bus.png
-    - assets/syllabus.db
-    - assets/tutorial/home.png
-    - assets/tutorial/kadai.png
-    - assets/tutorial/kamoku_detail.png
-    - assets/tutorial/kamoku.png
-    - assets/tutorial/map.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 
@@ -187,9 +178,9 @@ flutter_launcher_icons:
   android: true
   ios: true
   web: false
-  image_path: "assets/icon_logo.png"
+  image_path: "assets/icon1024x1024.png"
   remove_alpha_ios: true
 
 flutter_native_splash:
   color: "#ffffff"
-  image: "assets/dotto_icon.png"
+  image: "assets/icon768x768.png"

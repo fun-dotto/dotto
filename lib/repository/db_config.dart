@@ -1,8 +1,8 @@
 import 'dart:io';
 
-import 'package:flutter/services.dart';
+import 'package:dotto/asset.dart';
 import 'package:dotto/repository/get_application_path.dart';
-import 'package:path/path.dart';
+import 'package:flutter/services.dart';
 
 class SyllabusDBConfig {
   SyllabusDBConfig._internal();
@@ -10,7 +10,7 @@ class SyllabusDBConfig {
   static String dbPath = "";
 
   static Future<void> setDB() async {
-    final assetDbPath = join('assets', 'syllabus.db');
+    final assetDbPath = Asset.syllabus;
     final copiedDbPath = await getApplicationFilePath('syllabus.db');
 
     ByteData data = await rootBundle.load(assetDbPath);

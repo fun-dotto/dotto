@@ -4,19 +4,13 @@
     ".dart_tool": true,
     ".firebase": true,
     ".fvm": true,
-    "android": true,
     "build": true,
-    "coverage": true,
-    "ios": true
   },
   "files.watcherExclude": {
     ".dart_tool": true,
     ".firebase": true,
     ".fvm": true,
-    "android": true,
     "build": true,
-    "coverage": true,
-    "ios": true
   },
   "dart.lineLength": 100
 }

@@ -1,4 +1,4 @@
-import 'package:dotto/feature/my_page/feature/news/controller/news_controller.dart';
+import 'package:dotto/feature/announcement/controller/news_controller.dart';
 import 'package:dotto/importer.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:dotto/components/widgets/progress_indicator.dart';
+import 'package:dotto/widget/loading_circular.dart';
 import 'package:dotto/feature/kamoku_detail/repository/kamoku_detail_repository.dart';
 
 class KamokuDetailSyllabusScreen extends StatelessWidget {
@@ -34,7 +34,7 @@ class KamokuDetailSyllabusScreen extends StatelessWidget {
               ),
             );
           } else {
-            return createProgressIndicator();
+            return LoadingCircular();
           }
         },
       ),
