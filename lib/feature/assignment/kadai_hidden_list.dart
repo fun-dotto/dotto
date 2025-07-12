@@ -51,9 +51,9 @@ final class _KadaiHiddenScreenState extends State<KadaiHiddenScreen> {
 
   Future<void> launchUrlInExternal(Uri url) async {
     if (await canLaunchUrl(url)) {
-      launchUrl(url, mode: LaunchMode.externalApplication);
+      await launchUrl(url, mode: LaunchMode.externalApplication);
     } else {
-      throw 'Could not launch $url';
+      throw Exception('Could not launch $url');
     }
   }
 
