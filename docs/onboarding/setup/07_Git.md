@@ -29,6 +29,7 @@
 ```zsh
 git config --global user.name "<自分の名前: フルネームを `Given Family` の形式で>"
 ```
+
 ```zsh
 git config --global user.email "<メールアドレス: GitHubで登録したものと同一のもの>"
 ```
@@ -40,11 +41,13 @@ git config --global user.email "<メールアドレス: GitHubで登録したも
 ```zsh
 mkdir ~/.ssh
 ```
+
 ```zsh
 ssh-keygen -t ed25519 -C "<メールアドレス>"
 ```
 
 出力例
+
 ```
 Enter a file in which to save the key (/Users/<username>/.ssh/id_ed25519): /Users/<username>/.ssh/github
 Enter passphrase (empty for no passphrase): <Enterキーを押下>
@@ -56,30 +59,34 @@ Enter same passphrase again: <Enterキーを押下>
 ```pwsh
 mkdir ~/.ssh
 ```
+
 ```pwsh
 ssh-keygen -t ed25519 -C "<メールアドレス>"
 ```
-```pwsh
+
+````pwsh
 Enter a file in which to save the key (C:\Users\<username>\.ssh\id_ed25519): C:\Users\<username>\.ssh\github
 Enter passphrase (empty for no passphrase): <Enterキーを押下>
 Enter same passphrase again: <Enterキーを押下>
 ```pwsh
 Get-Service -Name ssh-agent | Set-Service -StartupType Manual
 Start-Service ssh-agent
-```
+````
 
 ### [macOS] SSH Agent に秘密鍵を登録
 
 ```zsh
 eval "$(ssh-agent -s)"
+```
+
+```zsh
 echo "Host github.com
-```
-```
   AddKeysToAgent yes
   UseKeychain yes
   IdentityFile ~/.ssh/github
 " >> ~/.ssh/config
 ```
+
 ```zsh
 ssh-add --apple-use-keychain ~/.ssh/github
 ```
@@ -90,6 +97,7 @@ ssh-add --apple-use-keychain ~/.ssh/github
 Get-Service -Name ssh-agent | Set-Service -StartupType Manual
 Start-Service ssh-agent
 ```
+
 ```pwsh
 ssh-add ~/.ssh/github
 ```
@@ -125,6 +133,7 @@ cat ~/.ssh/github.pub | clip
 ```zsh
 ssh -T git@github.com
 ```
+
 ```
 Hi <username>! You've successfully authenticated, but GitHub does not provide shell access.
 ```
