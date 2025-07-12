@@ -44,16 +44,16 @@ final class SettingsRepository {
           'last_updated': Timestamp.now(),
         });
       }
-      UserPreferences.setBool(UserPreferenceKeys.didSaveFCMToken, true);
+      await UserPreferences.setBool(UserPreferenceKeys.didSaveFCMToken, true);
     }
   }
 
   Future<void> onLogin(
-      BuildContext context, Function login, WidgetRef ref) async {
+      BuildContext context, void Function(User?) login, WidgetRef ref) async {
     final user = await FirebaseAuthRepository().signIn();
     if (user != null) {
       login(user);
-      saveFCMToken(user);
+      await saveFCMToken(user);
       if (context.mounted) {
         await TimetableRepository()
             .loadPersonalTimeTableListOnLogin(context, ref);
@@ -67,7 +67,7 @@ final class SettingsRepository {
     }
   }
 
-  Future<void> onLogout(Function logout) async {
+  Future<void> onLogout(void Function() logout) async {
     await FirebaseAuthRepository().signOut();
     logout();
   }

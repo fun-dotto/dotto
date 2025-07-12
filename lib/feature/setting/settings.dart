@@ -1,7 +1,10 @@
 import 'dart:io';
 
-import 'package:dotto/controller/user_controller.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:package_info_plus/package_info_plus.dart';
+import 'package:settings_ui/settings_ui.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:dotto/controller/user_controller.dart';
 import 'package:dotto/feature/setting/controller/settings_controller.dart';
 import 'package:dotto/feature/setting/repository/settings_repository.dart';
 import 'package:dotto/feature/setting/widget/license.dart';
@@ -10,23 +13,20 @@ import 'package:dotto/importer.dart';
 import 'package:dotto/repository/setting_user_info.dart';
 import 'package:dotto/theme/v1/animation.dart';
 import 'package:dotto/widget/app_tutorial.dart';
-import 'package:package_info_plus/package_info_plus.dart';
-import 'package:settings_ui/settings_ui.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 final class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
 
   Future<void> launchUrlInExternal(Uri url) async {
     if (await canLaunchUrl(url)) {
-      launchUrl(url, mode: LaunchMode.externalApplication);
+      await launchUrl(url, mode: LaunchMode.externalApplication);
     } else {
-      throw 'Could not launch $url';
+      throw Exception('Could not launch $url');
     }
   }
 
   Widget listDialog(BuildContext context, String title,
-      UserPreferenceKeys userPreferenceKeys, List list) {
+      UserPreferenceKeys userPreferenceKeys, List<String> list) {
     return AlertDialog(
       title: Text(title),
       shape: const RoundedRectangleBorder(
@@ -46,10 +46,10 @@ final class SettingsScreen extends ConsumerWidget {
                     itemCount: list.length,
                     itemBuilder: (BuildContext context, int index) {
                       return ListTile(
-                        title: Text(list[index].toString()),
+                        title: Text(list[index]),
                         onTap: () async {
                           await UserPreferences.setString(
-                              userPreferenceKeys, list[index] as String);
+                              userPreferenceKeys, list[index]);
                           if (context.mounted) {
                             Navigator.pop(context, list[index]);
                           }
@@ -101,13 +101,13 @@ final class SettingsScreen extends ConsumerWidget {
                 leading: Icon((user == null) ? Icons.login : Icons.logout),
                 onPressed: (user == null)
                     ? (c) => SettingsRepository().onLogin(
-                        c, (user) => userNotifier.user = user as User?, ref)
+                        c, (User? user) => userNotifier.user = user, ref)
                     : (_) => SettingsRepository().onLogout(userNotifier.logout),
               ),
               // 学年
               SettingsTile.navigation(
                 onPressed: (context) async {
-                  final returnText = await showDialog(
+                  final returnText = await showDialog<String>(
                       context: context,
                       builder: (_) {
                         return listDialog(
@@ -128,7 +128,7 @@ final class SettingsScreen extends ConsumerWidget {
               // コース
               SettingsTile.navigation(
                 onPressed: (context) async {
-                  final returnText = await showDialog(
+                  final returnText = await showDialog<String>(
                       context: context,
                       builder: (_) {
                         return listDialog(
@@ -153,7 +153,7 @@ final class SettingsScreen extends ConsumerWidget {
                     Text(ref.watch(settingsUserKeyProvider).valueOrNull ?? ''),
                 leading: const Icon(Icons.assignment),
                 onPressed: (context) {
-                  Navigator.of(context).push(PageRouteBuilder(
+                  Navigator.of(context).push(PageRouteBuilder<void>(
                     pageBuilder: (context, animation, secondaryAnimation) =>
                         SettingsSetUserkeyScreen(),
                     transitionsBuilder: fromRightAnimation,
@@ -179,7 +179,7 @@ final class SettingsScreen extends ConsumerWidget {
                 title: const Text('アプリの使い方'),
                 leading: const Icon(Icons.assignment),
                 onPressed: (context) {
-                  Navigator.of(context).push(PageRouteBuilder(
+                  Navigator.of(context).push(PageRouteBuilder<void>(
                     pageBuilder: (context, animation, secondaryAnimation) =>
                         const AppTutorial(),
                     transitionsBuilder: fromRightAnimation,
@@ -200,7 +200,7 @@ final class SettingsScreen extends ConsumerWidget {
                 title: const Text('ライセンス'),
                 leading: const Icon(Icons.info),
                 onPressed: (context) {
-                  Navigator.of(context).push(PageRouteBuilder(
+                  Navigator.of(context).push(PageRouteBuilder<void>(
                     pageBuilder: (context, animation, secondaryAnimation) =>
                         const SettingsLicenseScreen(),
                     transitionsBuilder: fromRightAnimation,
