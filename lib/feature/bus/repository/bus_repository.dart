@@ -30,7 +30,7 @@ final class BusRepository {
     final strMin = twoDigits(min);
 
     // フォーマット
-    return "$negativeSign$strHour:$strMin";
+    return '$negativeSign$strHour:$strMin';
   }
 
   Future<List<BusStop>> getAllBusStopsFromFirebase() async {
@@ -38,7 +38,7 @@ final class BusRepository {
         await GetFirebaseRealtimeDB.getData('bus/stops'); //firebaseから情報取得
     if (snapshot.exists) {
       final busDataStops = snapshot.value! as List;
-      return busDataStops.map((e) => BusStop.fromFirebase(e as Map)).toList();
+      return busDataStops.map((e) => BusStop.fromFirebase(e as Map<String, dynamic>)).toList();
     } else {
       throw Exception();
     }
@@ -56,11 +56,11 @@ final class BusRepository {
       };
       busTripsData.forEach(
         (key, value) {
-          final String fromTo = key as String;
+          final fromTo = key as String;
           (value as Map).forEach((key2, value2) {
-            final String week = key2 as String;
+            final week = key2 as String;
             allBusTrips[fromTo]![week] = (value2 as List)
-                .map((e) => BusTrip.fromFirebase(e as Map, allBusStops))
+                .map((e) => BusTrip.fromFirebase(e as Map<String, dynamic>, allBusStops))
                 .toList();
           });
         },

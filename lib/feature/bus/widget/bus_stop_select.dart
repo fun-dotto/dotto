@@ -20,7 +20,7 @@ final class BusStopSelectScreen extends ConsumerWidget {
       body: allBusStop != null
           ? ListView(
               children: allBusStop
-                  .where((busStop) => busStop.selectable != false)
+                  .where((busStop) => busStop.selectable ?? true)
                   .map(
                     (e) => ListTile(
                       onTap: () async {

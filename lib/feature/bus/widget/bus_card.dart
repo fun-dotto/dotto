@@ -94,7 +94,8 @@ final class BusCard extends ConsumerWidget {
                       Transform.translate(
                         offset: const Offset(0, -5),
                         child: Text(
-                            '${BusRepository().formatDuration(endTime)}${isKameda && !busIsTo ? '亀田支所着' : '着'}'),
+                            '${BusRepository().formatDuration(endTime)}'
+                            '${isKameda && !busIsTo ? '亀田支所着' : '着'}'),
                       )
                     ],
                   ),
