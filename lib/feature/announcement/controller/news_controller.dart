@@ -15,8 +15,8 @@ final class NewsFromPushNotificationNotifier extends Notifier<String?> {
     return null;
   }
 
-  void set(String newsId) {
-    state = newsId;
+  set newsId(String value) {
+    state = value;
   }
 
   void reset() {
@@ -30,7 +30,7 @@ final class NewsListNotifier extends Notifier<List<News>?> {
     return null;
   }
 
-  void update(List<News> news) {
-    state = news;
+  set news(List<News> value) {
+    state = value;
   }
 }
