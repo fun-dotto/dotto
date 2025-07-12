@@ -44,7 +44,7 @@ final StateProvider<DateTime> focusTimeTableDayProvider = StateProvider((ref) {
 });
 final FutureProvider<List<Map<String, dynamic>>> weekPeriodAllRecordsProvider = FutureProvider(
   (ref) async {
-    final var database = await openDatabase(SyllabusDBConfig.dbPath);
+    final database = await openDatabase(SyllabusDBConfig.dbPath);
     final List<Map<String, dynamic>> records =
         await database.rawQuery('SELECT * FROM week_period order by lessonId');
     return records;

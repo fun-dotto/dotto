@@ -115,7 +115,7 @@ class MapRepository {
       '51': false
     };
 
-    final var resourceIds = await MapRepository().getUsingRoom(dateTime);
+    final resourceIds = await MapRepository().getUsingRoom(dateTime);
     if (resourceIds.isNotEmpty) {
       resourceIds.forEach((String resourceId, DateTime useEndTime) {
         debugPrint(resourceId);

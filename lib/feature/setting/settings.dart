@@ -46,7 +46,7 @@ class SettingsScreen extends ConsumerWidget {
                       return ListTile(
                         title: Text(list[index].toString()),
                         onTap: () async {
-                          await UserPreferences.setString(userPreferenceKeys, list[index]);
+                          await UserPreferences.setString(userPreferenceKeys, list[index] as String);
                           if (context.mounted) {
                             Navigator.pop(context, list[index]);
                           }
@@ -92,7 +92,7 @@ class SettingsScreen extends ConsumerWidget {
                     : null,
                 leading: Icon((user == null) ? Icons.login : Icons.logout),
                 onPressed: (user == null)
-                    ? (c) => SettingsRepository().onLogin(c, userNotifier.login, ref)
+                    ? (c) => SettingsRepository().onLogin(c, (user) => userNotifier.user = user, ref)
                     : (_) => SettingsRepository().onLogout(userNotifier.logout),
               ),
               // 学年

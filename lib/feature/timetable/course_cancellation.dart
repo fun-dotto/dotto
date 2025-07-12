@@ -14,7 +14,7 @@ class CourseCancellationScreen extends ConsumerWidget {
     final courseCancellationFilterEnabled = ref.watch(courseCancellationFilterEnabledProvider);
     try {
       final jsonData = await readJsonFile('home/cancel_lecture.json');
-      final List<dynamic> decodedData = jsonDecode(jsonData);
+      final List<dynamic> decodedData = jsonDecode(jsonData) as List<dynamic>;
 
       if (courseCancellationFilterEnabled) {
         final personalTimeTableMap =

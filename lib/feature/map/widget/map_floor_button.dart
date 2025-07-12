@@ -20,7 +20,7 @@ class MapFloorButton extends ConsumerWidget {
     // 350以下なら計算
     final floorButtonWidth = (MediaQuery.of(context).size.width - 30 < 350)
         ? MediaQuery.of(context).size.width - 30
-        : 350;
+        : 350.0;
     const double floorButtonHeight = 50;
 
     return Padding(
