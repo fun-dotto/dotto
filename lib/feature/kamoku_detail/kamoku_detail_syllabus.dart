@@ -24,7 +24,7 @@ class KamokuDetailSyllabusScreen extends StatelessWidget {
                   ...details.keys.map(
                     (e) {
                       if (details[e] is String) {
-                        return syllabusItem(e, details[e]);
+                        return syllabusItem(e, details[e] as String?);
                       }
                       return Container();
                     },

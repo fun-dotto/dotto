@@ -18,9 +18,9 @@ class _KamokuDetailFeedbackListState extends State<KamokuDetailFeedbackList> {
 
   // 平均満足度の計算
   double _computeAverageScore(List<DocumentSnapshot<Map<String, dynamic>>> documents) {
-    var totalScore = 0;
+    var totalScore = 0.0;
     for (final document in documents) {
-      final score = (document.get('score') ?? 0.0).toDouble();
+      final score = (document.get('score') as num? ?? 0.0).toDouble();
       totalScore += score;
     }
     return documents.isEmpty ? 0.0 : totalScore / documents.length;
@@ -151,7 +151,7 @@ class _KamokuDetailFeedbackListState extends State<KamokuDetailFeedbackList> {
                     itemBuilder: (BuildContext context, int index) {
                       final document = documents[index];
                       final detail = document.get('detail');
-                      final score = (document.get('score') ?? 0).toDouble();
+                      final score = (document.get('score') as num? ?? 0).toDouble();
 
                       if (detail == null || detail.toString().trim().isEmpty) {
                         return const SizedBox.shrink(); // detailがnullまたは空の場合は何も表示しない

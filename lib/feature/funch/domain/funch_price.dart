@@ -12,7 +12,7 @@ class FunchPrice {
     final large = map['large'];
     final medium = map['medium'];
     final small = map['small'];
-    return FunchPrice(large, medium, small);
+    return FunchPrice(large as int?, medium as int, small as int?);
   }
   final int? large;
   final int medium;

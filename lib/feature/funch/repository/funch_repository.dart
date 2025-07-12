@@ -21,8 +21,8 @@ final class FunchRepositoryImpl implements FunchRepositoryInterface {
   Future<List<FunchCommonMenu>> getAllCommonMenu() async {
     const fileName = 'funch/menu.json';
     final jsonString = await readJsonFile(fileName);
-    final List<dynamic> jsonData = json.decode(jsonString);
-    return jsonData.map((e) => FunchCommonMenu.fromJson(e)).toList();
+    final List<dynamic> jsonData = json.decode(jsonString) as List<dynamic>;
+    return jsonData.map((e) => FunchCommonMenu.fromJson(e as Map<String, dynamic>)).toList();
   }
 
   @override

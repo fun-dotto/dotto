@@ -70,6 +70,6 @@ final class FunchOriginalMenu extends FunchMenu {
     final prices = FunchPrice.fromJson(json['prices'] as Map<String, dynamic>);
     final imageUrl =
         'https://firebasestorage.googleapis.com/v0/b/swift2023groupc.appspot.com/o/funch%2Fimages%2F$id.webp?alt=media';
-    return FunchOriginalMenu(id, name, categoryId, prices, imageUrl);
+    return FunchOriginalMenu(id as String, name as String, categoryId as int, prices, imageUrl);
   }
 }
