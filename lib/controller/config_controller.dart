@@ -11,11 +11,9 @@ class ConfigController extends StateNotifier<ConfigState> {
     state = state.copyWith(isLoading: true);
 
     try {
-      final isDesignV2Enabled =
-          _remoteConfigRepository.getBool(RemoteConfigKeys.isDesignV2Enabled);
+      final isDesignV2Enabled = _remoteConfigRepository.getBool(RemoteConfigKeys.isDesignV2Enabled);
       final isFunchEnabled = _remoteConfigRepository.getBool(RemoteConfigKeys.isFunchEnabled);
-      final isValidAppVersion =
-          _remoteConfigRepository.getBool(RemoteConfigKeys.isValidAppVersion);
+      final isValidAppVersion = _remoteConfigRepository.getBool(RemoteConfigKeys.isValidAppVersion);
 
       state = state.copyWith(
         isDesignV2Enabled: isDesignV2Enabled,
@@ -33,9 +31,17 @@ class ConfigController extends StateNotifier<ConfigState> {
 }
 
 class ConfigState {
+  static const String cloudflareR2Endpoint = String.fromEnvironment('CLOUDFLARE_R2_ENDPOINT');
+  static const String cloudflareR2AccessKeyId =
+      String.fromEnvironment('CLOUDFLARE_R2_ACCESS_KEY_ID');
+  static const String cloudflareR2SecretAccessKey =
+      String.fromEnvironment('CLOUDFLARE_R2_SECRET_ACCESS_KEY');
+  static const String cloudflareR2BucketName = String.fromEnvironment('CLOUDFLARE_R2_BUCKET_NAME');
+
   final bool isDesignV2Enabled;
   final bool isFunchEnabled;
   final bool isValidAppVersion;
+
   final bool isLoading;
   final String? error;
 

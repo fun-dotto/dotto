@@ -25,4 +25,5 @@ classDiagram
 - [Git](setup/07_Git.md)
 - [Flutter](setup/08_Flutter.md)
 - [Firebase](setup/09_Firebase.md)
-- [Dotto](setup/10_Dotto.md)
+- [Task](setup/10_Task.md)
+- [Dotto](setup/11_Dotto.md)
