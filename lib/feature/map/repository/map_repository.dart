@@ -15,7 +15,7 @@ class MapRepository {
   Future<Map<String, Map<String, MapDetail>>> getMapDetailMapFromFirebase() async {
     final snapshot = await GetFirebaseRealtimeDB.getData('map'); //firebaseから情報取得
     final snapshotRoom = await GetFirebaseRealtimeDB.getData('map_room_schedule'); //firebaseから情報取得
-    final var returnList = <String, Map<String, MapDetail>>{
+    final returnList = <String, Map<String, MapDetail>>{
       '1': {},
       '2': {},
       '3': {},
@@ -27,8 +27,8 @@ class MapRepository {
     if (snapshot.exists && snapshotRoom.exists) {
       (snapshot.value! as Map).forEach((floor, value) {
         (value as Map).forEach((roomName, value2) {
-          returnList[floor]!.addAll({
-            roomName: MapDetail.fromFirebase(floor, roomName, value2, snapshotRoom.value! as Map)
+          returnList[floor as String]!.addAll({
+            roomName as String: MapDetail.fromFirebase(floor, roomName, value2, snapshotRoom.value! as Map)
           });
         });
       });

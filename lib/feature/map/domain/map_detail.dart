@@ -11,9 +11,9 @@ class MapDetail {
     }
     List<RoomSchedule>? roomScheduleList;
     if (roomScheduleMap.containsKey(roomName)) {
-      final var scheduleList = roomScheduleMap[roomName] as List;
+      final scheduleList = roomScheduleMap[roomName] as List;
       roomScheduleList = scheduleList.map((e) {
-        return RoomSchedule.fromFirebase(e);
+        return RoomSchedule.fromFirebase(e as Map);
       }).toList();
       roomScheduleList.sort(
         (a, b) {
@@ -21,8 +21,8 @@ class MapDetail {
         },
       );
     }
-    return MapDetail(floor, roomName, value['classroomNo'], value['header'], value['detail'],
-        value['mail'], sWordList,
+    return MapDetail(floor as int?, roomName as String, value['classroomNo'] as String?, value['header'] as String?,
+        value['detail'] as String?, value['mail'] as String?, sWordList,
         scheduleList: roomScheduleList);
   }
   final String floor;
@@ -55,10 +55,10 @@ class RoomSchedule {
   const RoomSchedule(this.begin, this.end, this.title);
 
   factory RoomSchedule.fromFirebase(Map map) {
-    final beginDatetime = DateTime.parse(map['begin_datetime']);
-    final endDatetime = DateTime.parse(map['end_datetime']);
+    final beginDatetime = DateTime.parse(map['begin_datetime'] as String);
+    final endDatetime = DateTime.parse(map['end_datetime'] as String);
     final title = map['title'];
-    return RoomSchedule(beginDatetime, endDatetime, title);
+    return RoomSchedule(beginDatetime, endDatetime, title as String);
   }
   final DateTime begin;
   final DateTime end;
