@@ -1,6 +1,6 @@
 import 'package:dotto/components/color_fun.dart';
 import 'package:dotto/feature/funch/domain/funch_menu.dart';
-import 'package:dotto/feature/funch/domain/funch_menu_type.dart';
+import 'package:dotto/feature/funch/domain/funch_menu_category.dart';
 import 'package:dotto/importer.dart';
 
 class FunchPriceList extends StatelessWidget {
@@ -11,7 +11,7 @@ class FunchPriceList extends StatelessWidget {
 
   List<Widget> priceText() {
     List<Widget> priceText = [];
-    if (![...FunchMenuType.donCurry.categories, ...FunchMenuType.noodle.categories]
+    if (![...FunchMenuCategory.donCurry.categories, ...FunchMenuCategory.noodle.categories]
         .contains(menu.category)) {
       return [
         Text(

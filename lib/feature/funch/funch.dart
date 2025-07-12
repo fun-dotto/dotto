@@ -1,7 +1,7 @@
 import 'package:dotto/components/color_fun.dart';
 import 'package:dotto/feature/funch/controller/funch_providers.dart';
 import 'package:dotto/feature/funch/domain/funch_menu.dart';
-import 'package:dotto/feature/funch/domain/funch_menu_type.dart';
+import 'package:dotto/feature/funch/domain/funch_menu_category.dart';
 import 'package:dotto/feature/funch/widget/funch_menu_card.dart';
 import 'package:dotto/importer.dart';
 import 'package:intl/intl.dart';
@@ -9,7 +9,7 @@ import 'package:intl/intl.dart';
 class FunchScreen extends ConsumerWidget {
   const FunchScreen({super.key});
 
-  Widget makeMenuTypeButton(FunchMenuType menuType, WidgetRef ref) {
+  Widget makeMenuTypeButton(FunchMenuCategory menuType, WidgetRef ref) {
     final buttonSize = 50.0;
     final funchMenuType = ref.watch(funchMenuTypeProvider);
 
@@ -55,7 +55,7 @@ class FunchScreen extends ConsumerWidget {
   }
 
   List<Widget> menuTypeButton(WidgetRef ref) {
-    return FunchMenuType.values.map((e) => makeMenuTypeButton(e, ref)).toList();
+    return FunchMenuCategory.values.map((e) => makeMenuTypeButton(e, ref)).toList();
   }
 
   Future<List<DateTime>> getMenuDates(WidgetRef ref) async {
