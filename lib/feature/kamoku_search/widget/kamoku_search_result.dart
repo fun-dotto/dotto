@@ -16,11 +16,11 @@ class KamokuSearchResults extends ConsumerWidget {
   Future<Map<int, String>> getWeekPeriod(List<int> lessonIdList) async {
     final records =
         await KamokuSearchRepository().fetchWeekPeriodDB(lessonIdList);
-    final var weekPeriodMap = <int, Map<int, List<int>>>{};
+    final weekPeriodMap = <int, Map<int, List<int>>>{};
     for (final record in records) {
-      final int lessonId = record['lessonId'];
-      final int week = record['week'];
-      final int period = record['period'];
+      final int lessonId = record['lessonId'] as int;
+      final int week = record['week'] as int;
+      final int period = record['period'] as int;
       if (weekPeriodMap.containsKey(lessonId)) {
         if (weekPeriodMap[lessonId]!.containsKey(week)) {
           weekPeriodMap[lessonId]![week]!.add(period);
@@ -34,7 +34,7 @@ class KamokuSearchResults extends ConsumerWidget {
       }
     }
     final weekPeriodStringMap = weekPeriodMap.map((lessonId, value) {
-      final var weekString = <String>['', '月', '火', '水', '木', '金', '土', '日'];
+      final weekString = <String>['', '月', '火', '水', '木', '金', '土', '日'];
       final s = <String>[];
       value.forEach(
         (week, periodList) {
@@ -58,16 +58,16 @@ class KamokuSearchResults extends ConsumerWidget {
       future: getWeekPeriod(records.map((e) => e['LessonId'] as int).toList()),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          final var weekPeriodStringMap = snapshot.data!;
+          final weekPeriodStringMap = snapshot.data!;
           return ListView.separated(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemCount: records.length,
             itemBuilder: (context, index) {
               final record = records[index];
-              final int lessonId = record['LessonId'];
+              final int lessonId = record['LessonId'] as int;
               return ListTile(
-                title: Text(record['授業名'] ?? ''),
+                title: Text(record['授業名'] as String? ?? ''),
                 subtitle: Text(weekPeriodStringMap[lessonId] ?? ''),
                 onTap: () async {
                   await Navigator.of(context).push(
@@ -75,8 +75,8 @@ class KamokuSearchResults extends ConsumerWidget {
                       pageBuilder: (context, animation, secondaryAnimation) {
                         return KamokuDetailPageScreen(
                           lessonId: lessonId,
-                          lessonName: record['授業名'],
-                          kakomonLessonId: record['過去問'],
+                          lessonName: record['授業名'] as String,
+                          kakomonLessonId: record['過去問'] as int?,
                         );
                       },
                       transitionsBuilder: fromRightAnimation,

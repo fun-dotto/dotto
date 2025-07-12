@@ -39,8 +39,8 @@ class KamokuSearchControllerProvider extends StateNotifier<KamokuSearchControlle
   }
 
   Future<void> updateCheckListFromPreferences() async {
-    final var savedGrade = await UserPreferences.getString(UserPreferenceKeys.grade);
-    final var savedCourse = await UserPreferences.getString(UserPreferenceKeys.course);
+    final savedGrade = await UserPreferences.getString(UserPreferenceKeys.grade);
+    final savedCourse = await UserPreferences.getString(UserPreferenceKeys.course);
     final checkboxStatusMap = state.checkboxStatusMap;
     if (savedGrade != null) {
       final index = KamokuSearchChoices.grade.choice.indexOf(savedGrade);
