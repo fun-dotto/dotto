@@ -28,7 +28,7 @@ class MapRepository {
       (snapshot.value! as Map).forEach((floor, value) {
         (value as Map).forEach((roomName, value2) {
           returnList[floor as String]!.addAll({
-            roomName as String: MapDetail.fromFirebase(floor, roomName, value2, snapshotRoom.value! as Map)
+            roomName as String: MapDetail.fromFirebase(floor as String, roomName as String, value2 as Map, snapshotRoom.value! as Map)
           });
         });
       });
@@ -47,24 +47,24 @@ class MapRepository {
       throw Exception('Expected a list of JSON objects');
     }
 
-    final var resourceIds = <String, DateTime>{};
+    final resourceIds = <String, DateTime>{};
 
     for (final item in decodedData) {
       if (item is Map<String, dynamic>) {
         // スタート時間・エンド時間をDateTimeにかえる
         // スタートを10分前から
-        final var startTime = DateTime.parse(item['start']).add(const Duration(minutes: -10));
-        final endTime = DateTime.parse(item['end']);
+        final startTime = DateTime.parse(item['start'] as String).add(const Duration(minutes: -10));
+        final endTime = DateTime.parse(item['end'] as String);
 
         //現在時刻が開始時刻と終了時刻の間であればresourceIdを取得
         if (dateTime.isAfter(startTime) && dateTime.isBefore(endTime)) {
           if (resourceIds.containsKey(item['resourceId'])) {
-            debugPrint(item['resourceId']);
+            debugPrint(item['resourceId'] as String?);
             if (resourceIds[item['resourceId']]!.isBefore(endTime)) {
-              resourceIds[item['resourceId']] = endTime;
+              resourceIds[item['resourceId'] as String] = endTime;
             }
           } else {
-            resourceIds.addAll({item['resourceId']: endTime});
+            resourceIds.addAll({item['resourceId'] as String: endTime});
           }
         }
       }
@@ -77,7 +77,7 @@ class MapRepository {
     const scheduleFilePath = 'map/oneweek_schedule.json';
     var resourceIds = <String, DateTime>{};
     try {
-      final var fileContent = await readJsonFile(scheduleFilePath);
+      final fileContent = await readJsonFile(scheduleFilePath);
       resourceIds = findRoomsInUse(fileContent, dateTime);
     } catch (e) {
       debugPrint(e.toString());

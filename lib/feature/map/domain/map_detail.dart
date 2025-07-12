@@ -21,7 +21,7 @@ class MapDetail {
         },
       );
     }
-    return MapDetail(floor as int?, roomName as String, value['classroomNo'] as String?, value['header'] as String?,
+    return MapDetail(floor as String, roomName as String, value['classroomNo'] as int?, value['header'] as String,
         value['detail'] as String?, value['mail'] as String?, sWordList,
         scheduleList: roomScheduleList);
   }
