@@ -116,7 +116,7 @@ class _KadaiListScreenState extends State<KadaiListScreen> {
     final jsonString = await UserPreferences.getString(UserPreferenceKeys.kadaiFinishList);
     if (jsonString != null) {
       setState(() {
-        finishList = List<int>.from(json.decode(jsonString));
+        finishList = List<int>.from(json.decode(jsonString) as List);
       });
     }
   }
@@ -129,7 +129,7 @@ class _KadaiListScreenState extends State<KadaiListScreen> {
     final jsonString = await UserPreferences.getString(UserPreferenceKeys.kadaiAlertList);
     if (jsonString != null) {
       setState(() {
-        alertList = List<int>.from(json.decode(jsonString));
+        alertList = List<int>.from(json.decode(jsonString) as List);
       });
     }
   }
@@ -142,7 +142,7 @@ class _KadaiListScreenState extends State<KadaiListScreen> {
     final jsonString = await UserPreferences.getString(UserPreferenceKeys.kadaiDeleteList);
     if (jsonString != null) {
       setState(() {
-        deleteList = List<int>.from(json.decode(jsonString));
+        deleteList = List<int>.from(json.decode(jsonString) as List);
       });
     }
   }

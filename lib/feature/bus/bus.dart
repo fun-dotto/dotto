@@ -74,7 +74,7 @@ class BusScreen extends ConsumerWidget {
     final funBusStopButton = busStopButton(context, null, Icons.school, '未来大');
     final departure = busIsTo ? myBusStopButton : funBusStopButton;
     final destination = busIsTo ? funBusStopButton : myBusStopButton;
-    final var fromToString = busIsTo ? 'to_fun' : 'from_fun';
+    final fromToString = busIsTo ? 'to_fun' : 'from_fun';
 
     final btnChange = IconButton(
       iconSize: 20,

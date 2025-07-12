@@ -27,7 +27,7 @@ class _KadaiHiddenScreenState extends State<KadaiHiddenScreen> {
     final jsonString = await UserPreferences.getString(UserPreferenceKeys.kadaiDeleteList);
     if (jsonString != null) {
       setState(() {
-        deleteList = List<int>.from(json.decode(jsonString));
+        deleteList = List<int>.from(json.decode(jsonString) as List);
       });
     }
   }
