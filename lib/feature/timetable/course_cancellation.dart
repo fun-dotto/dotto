@@ -136,7 +136,7 @@ class CourseCancellationScreen extends ConsumerWidget {
         child: ListView.builder(
           itemCount: data.length,
           itemBuilder: (context, index) {
-            final Map<String, dynamic> item = data[index];
+            final Map<String, dynamic> item = data[index] as Map<String, dynamic>;
 
             // 各データをリストタイルで表示
             return ListTile(

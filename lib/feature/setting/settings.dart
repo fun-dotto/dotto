@@ -92,7 +92,7 @@ class SettingsScreen extends ConsumerWidget {
                     : null,
                 leading: Icon((user == null) ? Icons.login : Icons.logout),
                 onPressed: (user == null)
-                    ? (c) => SettingsRepository().onLogin(c, (user) => userNotifier.user = user, ref)
+                    ? (c) => SettingsRepository().onLogin(c, (user) => userNotifier.user = user as User?, ref)
                     : (_) => SettingsRepository().onLogout(userNotifier.logout),
               ),
               // 学年

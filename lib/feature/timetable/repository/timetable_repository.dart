@@ -56,11 +56,11 @@ class TimetableRepository {
   }
 
   Future<List<String>> getLessonNameList(List<int> lessonIdList) async {
-    final var database = await openDatabase(SyllabusDBConfig.dbPath);
+    final database = await openDatabase(SyllabusDBConfig.dbPath);
 
     final List<Map<String, dynamic>> records = await database
         .rawQuery('SELECT 授業名 FROM sort WHERE LessonId in (${lessonIdList.join(",")})');
-    final var lessonNameList = records.map((e) => e['授業名'] as String).toList();
+    final lessonNameList = records.map((e) => e['授業名'] as String).toList();
     return lessonNameList;
   }
 

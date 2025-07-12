@@ -28,7 +28,7 @@ class PersonalTimeTableScreen extends ConsumerWidget {
                     itemCount: seasonList.length,
                     itemBuilder: (context, index) {
                       return ListTile(
-                        title: Text(seasonList[index]['授業名']),
+                        title: Text(seasonList[index]['授業名'] as String),
                       );
                     },
                   );
@@ -82,7 +82,7 @@ class PersonalTimeTableScreen extends ConsumerWidget {
                           ),
                           padding: const EdgeInsets.all(2),
                           child: Text(
-                            lesson['授業名'],
+                            lesson['授業名'] as String,
                             textAlign: TextAlign.center,
                             style: const TextStyle(fontSize: 8),
                           ),
@@ -106,7 +106,7 @@ class PersonalTimeTableScreen extends ConsumerWidget {
         Navigator.of(context).push(
           PageRouteBuilder(
             pageBuilder: (context, animation, secondaryAnimation) =>
-                PersonalSelectLessonScreen(term, week, period),
+                PersonalSelectLessonScreen(term as int, week as int, period),
             transitionsBuilder: fromRightAnimation,
           ),
         );

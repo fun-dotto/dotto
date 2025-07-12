@@ -36,9 +36,9 @@ class PersonalSelectLessonScreen extends StatelessWidget {
                 return ListView.builder(
                   itemCount: termList.length,
                   itemBuilder: (context, index) {
-                    final int lessonId = termList[index]['lessonId'];
+                    final int lessonId = termList[index]['lessonId'] as int;
                     return ListTile(
-                      title: Text(termList[index]['授業名']),
+                      title: Text(termList[index]['授業名'] as String),
                       trailing: personalLessonIdList.contains(termList[index]['lessonId'])
                           ? ElevatedButton(
                               style: ElevatedButton.styleFrom(
@@ -61,7 +61,7 @@ class PersonalSelectLessonScreen extends StatelessWidget {
                               ),
                               onPressed: () async {
                                 if (await TimetableRepository()
-                                    .isOverSeleted(termList[index]['lessonId'], ref)) {
+                                    .isOverSeleted(termList[index]['lessonId'] as int, ref)) {
                                   if (context.mounted) {
                                     timetableIsOverSelectedSnackBar(context);
                                   }
