@@ -19,7 +19,6 @@ import 'package:dotto/feature/my_page/feature/timetable/controller/timetable_con
 import 'package:dotto/feature/my_page/feature/timetable/repository/timetable_repository.dart';
 import 'package:dotto/feature/settings/repository/settings_repository.dart';
 import 'package:dotto/importer.dart';
-import 'package:dotto/repository/download_file_from_firebase.dart';
 import 'package:dotto/repository/notification.dart';
 import 'package:dotto/screens/app_tutorial.dart';
 import 'package:dotto/theme/importer.dart';
@@ -84,7 +83,7 @@ class BasePage extends ConsumerStatefulWidget {
 class _BasePageState extends ConsumerState<BasePage> {
   late List<String?> parameter;
 
-  Future<void> initUniLinks() async {
+  Future<void> setupUniversalLinks() async {
     final appLinks = AppLinks();
     appLinks.uriLinkStream.listen((event) {
       if (event.path == "/config/" && event.hasQuery) {
@@ -101,13 +100,13 @@ class _BasePageState extends ConsumerState<BasePage> {
     });
   }
 
-  Future<void> setPersonalLessonIdList() async {
+  Future<void> getPersonalLessonIdList() async {
     await TimetableRepository().loadPersonalTimeTableList(ref);
     ref.read(twoWeekTimeTableDataProvider.notifier).state =
         await TimetableRepository().get2WeekLessonSchedule(ref);
   }
 
-  Future<void> initBus() async {
+  Future<void> getBus() async {
     await ref.read(allBusStopsProvider.notifier).init();
     await ref.read(busDataProvider.notifier).init();
     ref.read(myBusStopProvider.notifier).init();
@@ -121,7 +120,7 @@ class _BasePageState extends ConsumerState<BasePage> {
 
   Future<void> saveFCMToken() async {
     final didSave = await UserPreferences.getBool(UserPreferenceKeys.didSaveFCMToken) ?? false;
-    debugPrint("didSave: $didSave");
+    debugPrint("didSaveFCMToken: $didSave");
     if (didSave) {
       return;
     }
@@ -145,39 +144,19 @@ class _BasePageState extends ConsumerState<BasePage> {
     }
   }
 
-  Future<void> init() async {
-    initUniLinks();
-    initBus();
+  void init() async {
     NotificationRepository().setupInteractedMessage(ref);
-    setPersonalLessonIdList();
-    // await downloadFiles();
-    await getNews();
-
+    setupUniversalLinks();
+    getPersonalLessonIdList();
+    getBus();
+    getNews();
     saveFCMToken();
   }
 
   @override
   void initState() {
     super.initState();
-    Future(() async {
-      await init();
-    });
-  }
-
-  Future<void> downloadFiles() async {
-    await Future(
-      () {
-        // Firebaseからファイルをダウンロード
-        List<String> filePaths = [
-          'map/oneweek_schedule.json',
-          'home/cancel_lecture.json',
-          'home/sup_lecture.json',
-        ];
-        for (var path in filePaths) {
-          downloadFileFromFirebase(path);
-        }
-      },
-    );
+    init();
   }
 
   void _onItemTapped(int index) async {

@@ -81,7 +81,6 @@ class _KadaiListScreenState extends State<KadaiListScreen> {
     tz.TZDateTime scheduledDate =
         tz.TZDateTime(tz.local, now.year, t.month, t.day, t.hour, t.minute)
             .subtract(const Duration(days: 1));
-    debugPrint(scheduledDate.toString());
     if (scheduledDate.isAfter(now)) {
       await flutterLocalNotificationsPlugin.zonedSchedule(
         kadai.id!,
