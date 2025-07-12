@@ -1,4 +1,4 @@
-import 'package:dotto/components/setting_user_info.dart';
+import 'package:dotto/repository/setting_user_info.dart';
 import 'package:dotto/widget/loading_circular.dart';
 import 'package:dotto/feature/my_page/feature/bus/controller/bus_controller.dart';
 import 'package:dotto/importer.dart';

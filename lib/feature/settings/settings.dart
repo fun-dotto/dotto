@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:dotto/theme/v1/animation.dart';
-import 'package:dotto/components/setting_user_info.dart';
+import 'package:dotto/repository/setting_user_info.dart';
 import 'package:dotto/controller/user_controller.dart';
 import 'package:dotto/feature/settings/controller/settings_controller.dart';
 import 'package:dotto/feature/settings/repository/settings_repository.dart';

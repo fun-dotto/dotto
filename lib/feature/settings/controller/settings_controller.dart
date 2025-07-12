@@ -1,4 +1,4 @@
-import 'package:dotto/components/setting_user_info.dart';
+import 'package:dotto/repository/setting_user_info.dart';
 import 'package:dotto/importer.dart';
 
 FutureProvider<String> settingsGradeProvider = FutureProvider((ref) async {

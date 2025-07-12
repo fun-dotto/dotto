@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:dotto/components/setting_user_info.dart';
+import 'package:dotto/repository/setting_user_info.dart';
 import 'package:sqflite/sqflite.dart';
 
 import 'package:dotto/importer.dart';

@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:collection/collection.dart';
 import 'package:dotto/feature/assignment/domain/kadai.dart';
-import 'package:dotto/components/setting_user_info.dart';
+import 'package:dotto/repository/setting_user_info.dart';
 import 'package:dotto/widget/loading_circular.dart';
 import 'package:dotto/feature/settings/controller/settings_controller.dart';
 import 'package:dotto/importer.dart';

@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:dotto/components/setting_user_info.dart';
+import 'package:dotto/repository/setting_user_info.dart';
 import 'package:dotto/feature/my_page/feature/bus/domain/bus_stop.dart';
 import 'package:dotto/feature/my_page/feature/bus/domain/bus_trip.dart';
 import 'package:dotto/feature/my_page/feature/bus/repository/bus_repository.dart';

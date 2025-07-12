@@ -6,7 +6,7 @@ import 'package:dotto/repository/download_file_from_firebase.dart';
 import 'package:dotto/repository/get_application_path.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:dotto/components/s3.dart';
+import 'package:dotto/repository/s3.dart';
 import 'dart:typed_data';
 import 'package:dotto/widget/loading_circular.dart';
 import 'package:share_plus/share_plus.dart';

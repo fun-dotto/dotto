@@ -3,7 +3,7 @@ import 'package:dotto/feature/assignment/domain/kadai.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:dotto/components/setting_user_info.dart';
+import 'package:dotto/repository/setting_user_info.dart';
 import 'dart:convert';
 import 'package:dotto/repository/firebase_get_kadai.dart';
 
