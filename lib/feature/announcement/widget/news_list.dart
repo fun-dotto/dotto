@@ -5,7 +5,8 @@ import 'package:dotto/theme/v1/animation.dart';
 import 'package:dotto/widget/loading_circular.dart';
 import 'package:intl/intl.dart';
 
-class NewsList extends ConsumerWidget { // Trueなら3つ
+final class NewsList extends ConsumerWidget {
+  // Trueなら3つ
   const NewsList({this.isHome = false, super.key});
   final bool isHome;
 
@@ -30,7 +31,8 @@ class NewsList extends ConsumerWidget { // Trueなら3つ
             ),
             onTap: () => Navigator.of(context).push(
               PageRouteBuilder<void>(
-                pageBuilder: (context, animation, secondaryAnimation) => NewsDetailScreen(news),
+                pageBuilder: (context, animation, secondaryAnimation) =>
+                    NewsDetailScreen(news),
                 transitionsBuilder: fromRightAnimation,
               ),
             ),

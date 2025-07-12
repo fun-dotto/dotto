@@ -1,5 +1,4 @@
-class FunchPrice {
-
+final class FunchPrice {
   FunchPrice(this.large, this.medium, this.small);
 
   factory FunchPrice.fromJson(Map map) {
@@ -19,9 +18,9 @@ class FunchPrice {
   final int? small;
 }
 
-class FunchOriginalPrice extends FunchPrice {
-
-  FunchOriginalPrice(super.large, super.medium, super.small, this.id, this.categories);
+final class FunchOriginalPrice extends FunchPrice {
+  FunchOriginalPrice(
+      super.large, super.medium, super.small, this.id, this.categories);
   final String id;
   final List<int> categories;
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class AppGuideScreen extends StatelessWidget {
+final class AppGuideScreen extends StatelessWidget {
   const AppGuideScreen({super.key});
 
   @override

@@ -1,10 +1,10 @@
-class MapDetail {
-
-  const MapDetail(this.floor, this.roomName, this.classroomNo, this.header, this.detail, this.mail,
-      this.searchWordList,
+final class MapDetail {
+  const MapDetail(this.floor, this.roomName, this.classroomNo, this.header,
+      this.detail, this.mail, this.searchWordList,
       {this.scheduleList});
 
-  factory MapDetail.fromFirebase(String floor, String roomName, Map value, Map roomScheduleMap) {
+  factory MapDetail.fromFirebase(
+      String floor, String roomName, Map value, Map roomScheduleMap) {
     List<String>? sWordList;
     if (value.containsKey('searchWordList')) {
       sWordList = (value['searchWordList'] as String).split(',');
@@ -21,8 +21,14 @@ class MapDetail {
         },
       );
     }
-    return MapDetail(floor as String, roomName as String, value['classroomNo'] as int?, value['header'] as String,
-        value['detail'] as String?, value['mail'] as String?, sWordList,
+    return MapDetail(
+        floor as String,
+        roomName as String,
+        value['classroomNo'] as int?,
+        value['header'] as String,
+        value['detail'] as String?,
+        value['mail'] as String?,
+        sWordList,
         scheduleList: roomScheduleList);
   }
   final String floor;
@@ -34,7 +40,8 @@ class MapDetail {
   final String? mail;
   final List<String>? searchWordList;
 
-  static const MapDetail none = MapDetail('1', '0', null, '0', null, null, null);
+  static const MapDetail none =
+      MapDetail('1', '0', null, '0', null, null, null);
 
   List<RoomSchedule> getScheduleListByDate(DateTime dateTime) {
     final list = scheduleList;
@@ -45,13 +52,13 @@ class MapDetail {
     final targetTomorrowDay = targetDay.add(const Duration(days: 1));
     return list
         .where((roomSchedule) =>
-            roomSchedule.begin.isBefore(targetTomorrowDay) && roomSchedule.end.isAfter(targetDay))
+            roomSchedule.begin.isBefore(targetTomorrowDay) &&
+            roomSchedule.end.isAfter(targetDay))
         .toList();
   }
 }
 
-class RoomSchedule {
-
+final class RoomSchedule {
   const RoomSchedule(this.begin, this.end, this.title);
 
   factory RoomSchedule.fromFirebase(Map map) {
@@ -65,8 +72,7 @@ class RoomSchedule {
   final String title;
 }
 
-class MapDetailMap {
-
+final class MapDetailMap {
   MapDetailMap(this.mapDetailList);
   final Map<String, Map<String, MapDetail>> mapDetailList;
 

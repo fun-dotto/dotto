@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dotto/feature/announcement/domain/news_model.dart';
 
-class NewsRepository {
+final class NewsRepository {
   factory NewsRepository() {
     return _instance;
   }
@@ -16,7 +16,10 @@ class NewsRepository {
         .get();
     return data.docs.map((snapshot) {
       final d = snapshot.data();
-      final news = News(snapshot.id, d['title'] as String, List<String>.from(d['body'] as List),
+      final news = News(
+          snapshot.id,
+          d['title'] as String,
+          List<String>.from(d['body'] as List),
           (d['date'] as Timestamp).toDate(),
           image: (d['image'] as bool?) ?? false);
       return news;

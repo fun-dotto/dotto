@@ -6,7 +6,7 @@ final funchMenuCategoryProvider =
   return FunchMenuCategoryNotifier();
 });
 
-class FunchMenuCategoryNotifier extends Notifier<FunchMenuCategory> {
+final class FunchMenuCategoryNotifier extends Notifier<FunchMenuCategory> {
   // 初期値を設定する
   @override
   FunchMenuCategory build() {

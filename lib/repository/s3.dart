@@ -2,7 +2,7 @@ import 'package:dotto/controller/config_controller.dart';
 import 'package:minio/minio.dart';
 import 'package:minio/models.dart';
 
-class S3 {
+final class S3 {
   S3._();
   Minio? _minio;
 

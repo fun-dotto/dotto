@@ -2,12 +2,13 @@ import 'package:dotto/importer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-class FirebaseAuthRepository {
+final class FirebaseAuthRepository {
   factory FirebaseAuthRepository() {
     return _instance;
   }
   FirebaseAuthRepository._internal();
-  static final FirebaseAuthRepository _instance = FirebaseAuthRepository._internal();
+  static final FirebaseAuthRepository _instance =
+      FirebaseAuthRepository._internal();
 
   Future<UserCredential?> signInWithGoogle() async {
     // Trigger the authentication flow

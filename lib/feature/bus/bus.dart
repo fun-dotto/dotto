@@ -10,11 +10,11 @@ import 'package:dotto/widget/loading_circular.dart';
 
 final GlobalKey<State<StatefulWidget>> busKey = GlobalKey();
 
-class BusScreen extends ConsumerWidget {
+final class BusScreen extends ConsumerWidget {
   const BusScreen({super.key});
 
-  Widget busStopButton(
-      BuildContext context, void Function()? onPressed, IconData icon, String title) {
+  Widget busStopButton(BuildContext context, void Function()? onPressed,
+      IconData icon, String title) {
     final width = MediaQuery.sizeOf(context).width * 0.3;
     const double height = 80;
     return Container(
@@ -28,7 +28,8 @@ class BusScreen extends ConsumerWidget {
           backgroundColor: Colors.white,
           fixedSize: Size(width, height),
           padding: const EdgeInsets.all(3),
-          shape: ContinuousRectangleBorder(borderRadius: BorderRadius.circular(15)),
+          shape: ContinuousRectangleBorder(
+              borderRadius: BorderRadius.circular(15)),
           elevation: title == '未来大' ? 0 : null,
         ),
         onPressed: onPressed,
@@ -90,20 +91,23 @@ class BusScreen extends ConsumerWidget {
 
     var arriveAtSoon = true;
     final busListWidget = busData != null
-        ? busData[fromToString]![busIsWeekday ? 'weekday' : 'holiday']!.map((busTrip) {
-            final funBusTripStop =
-                busTrip.stops.firstWhereOrNull((element) => element.stop.id == 14023);
+        ? busData[fromToString]![busIsWeekday ? 'weekday' : 'holiday']!
+            .map((busTrip) {
+            final funBusTripStop = busTrip.stops
+                .firstWhereOrNull((element) => element.stop.id == 14023);
             if (funBusTripStop == null) {
               return Container();
             }
-            var targetBusTripStop =
-                busTrip.stops.firstWhereOrNull((element) => element.stop.id == myBusStop.id);
+            var targetBusTripStop = busTrip.stops
+                .firstWhereOrNull((element) => element.stop.id == myBusStop.id);
             var kameda = false;
             if (targetBusTripStop == null) {
-              targetBusTripStop = busTrip.stops.firstWhere((element) => element.stop.id == 14013);
+              targetBusTripStop = busTrip.stops
+                  .firstWhere((element) => element.stop.id == 14013);
               kameda = true;
             }
-            final fromBusTripStop = busIsTo ? targetBusTripStop : funBusTripStop;
+            final fromBusTripStop =
+                busIsTo ? targetBusTripStop : funBusTripStop;
             final toBusTripStop = busIsTo ? funBusTripStop : targetBusTripStop;
             final now = busRefresh;
             final nowDuration = Duration(hours: now.hour, minutes: now.minute);

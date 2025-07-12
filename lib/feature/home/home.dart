@@ -17,14 +17,14 @@ import 'package:dotto/theme/v1/color_fun.dart';
 import 'package:dotto/widget/file_viewer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class HomeScreen extends ConsumerStatefulWidget {
+final class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
 
   @override
   ConsumerState<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends ConsumerState<HomeScreen> {
+final class _HomeScreenState extends ConsumerState<HomeScreen> {
   List<int> personalTimeTableList = [];
 
   Future<void> launchUrlInExternal(Uri url) async {
@@ -56,7 +56,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     );
   }
 
-  Widget infoButton(BuildContext context, void Function() onPressed, IconData icon, String title) {
+  Widget infoButton(BuildContext context, void Function() onPressed,
+      IconData icon, String title) {
     final width = MediaQuery.sizeOf(context).width * 0.26;
     const double height = 100;
     return Container(
@@ -107,12 +108,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     if (newsList != null) {
       final newsId = ref.watch(newsFromPushNotificationProvider);
       if (newsId != null) {
-        final pushNews = newsList.firstWhereOrNull((element) => element.id == newsId);
+        final pushNews =
+            newsList.firstWhereOrNull((element) => element.id == newsId);
         if (pushNews != null) {
           Navigator.of(context)
               .push(
             PageRouteBuilder(
-              pageBuilder: (context, animation, secondaryAnimation) => NewsDetailScreen(pushNews),
+              pageBuilder: (context, animation, secondaryAnimation) =>
+                  NewsDetailScreen(pushNews),
               transitionsBuilder: fromRightAnimation,
             ),
           )
@@ -132,7 +135,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final config = ref.watch(configControllerProvider);
-    WidgetsBinding.instance.addPostFrameCallback((_) => _showPushNotificationNews(context, ref));
+    WidgetsBinding.instance
+        .addPostFrameCallback((_) => _showPushNotificationNews(context, ref));
 
     final infoBoxWidth = MediaQuery.sizeOf(context).width * 0.4;
 
@@ -182,7 +186,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             }, Icons.picture_as_pdf, item.key))
         .toList());
 
-    final twoWeekTimeTableDataNotifier = ref.read(twoWeekTimeTableDataProvider.notifier);
+    final twoWeekTimeTableDataNotifier =
+        ref.read(twoWeekTimeTableDataProvider.notifier);
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -212,7 +217,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     )
                         .then((value) async {
                       twoWeekTimeTableDataNotifier.state =
-                          await TimetableRepository().get2WeekLessonSchedule(ref);
+                          await TimetableRepository()
+                              .get2WeekLessonSchedule(ref);
                     });
                   },
                   child: Text(
@@ -227,7 +233,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               const SizedBox(height: 20),
               const BusCardHome(),
               const SizedBox(height: 20),
-              if (config.isFunchEnabled) const FunchMyPageCard() else const SizedBox.shrink(),
+              if (config.isFunchEnabled)
+                const FunchMyPageCard()
+              else
+                const SizedBox.shrink(),
               const SizedBox(height: 20),
               const MyPageNews(),
               const SizedBox(height: 20),

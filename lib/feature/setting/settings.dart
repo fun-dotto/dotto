@@ -14,7 +14,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:settings_ui/settings_ui.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class SettingsScreen extends ConsumerWidget {
+final class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
 
   Future<void> launchUrlInExternal(Uri url) async {
@@ -25,11 +25,12 @@ class SettingsScreen extends ConsumerWidget {
     }
   }
 
-  Widget listDialog(
-      BuildContext context, String title, UserPreferenceKeys userPreferenceKeys, List list) {
+  Widget listDialog(BuildContext context, String title,
+      UserPreferenceKeys userPreferenceKeys, List list) {
     return AlertDialog(
       title: Text(title),
-      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(10))),
       content: SingleChildScrollView(
         child: SizedBox(
           width: double.maxFinite,
@@ -47,7 +48,8 @@ class SettingsScreen extends ConsumerWidget {
                       return ListTile(
                         title: Text(list[index].toString()),
                         onTap: () async {
-                          await UserPreferences.setString(userPreferenceKeys, list[index] as String);
+                          await UserPreferences.setString(
+                              userPreferenceKeys, list[index] as String);
                           if (context.mounted) {
                             Navigator.pop(context, list[index]);
                           }
@@ -72,7 +74,8 @@ class SettingsScreen extends ConsumerWidget {
       child: SettingsList(
         lightTheme: SettingsThemeData(
           settingsListBackground: Colors.white,
-          settingsSectionBackground: (Platform.isIOS) ? const Color(0xFFF7F7F7) : null,
+          settingsSectionBackground:
+              (Platform.isIOS) ? const Color(0xFFF7F7F7) : null,
         ),
         sections: [
           SettingsSection(
@@ -87,13 +90,18 @@ class SettingsScreen extends ConsumerWidget {
                     ? (user == null)
                         ? null
                         : const Text('ログアウト')
-                    : Text((user == null) ? '未来大Googleアカウント' : '${user.email}でログイン中'),
+                    : Text((user == null)
+                        ? '未来大Googleアカウント'
+                        : '${user.email}でログイン中'),
                 description: (Platform.isIOS)
-                    ? Text((user == null) ? '未来大Googleアカウント' : '${user.email}でログイン中')
+                    ? Text((user == null)
+                        ? '未来大Googleアカウント'
+                        : '${user.email}でログイン中')
                     : null,
                 leading: Icon((user == null) ? Icons.login : Icons.logout),
                 onPressed: (user == null)
-                    ? (c) => SettingsRepository().onLogin(c, (user) => userNotifier.user = user as User?, ref)
+                    ? (c) => SettingsRepository().onLogin(
+                        c, (user) => userNotifier.user = user as User?, ref)
                     : (_) => SettingsRepository().onLogout(userNotifier.logout),
               ),
               // 学年
@@ -102,7 +110,10 @@ class SettingsScreen extends ConsumerWidget {
                   final returnText = await showDialog(
                       context: context,
                       builder: (_) {
-                        return listDialog(context, '学年', UserPreferenceKeys.grade,
+                        return listDialog(
+                            context,
+                            '学年',
+                            UserPreferenceKeys.grade,
                             ['なし', '1年', '2年', '3年', '4年']);
                       });
                   if (returnText != null) {
@@ -111,7 +122,8 @@ class SettingsScreen extends ConsumerWidget {
                 },
                 leading: const Icon(Icons.school),
                 title: const Text('学年'),
-                value: Text(ref.watch(settingsGradeProvider).valueOrNull ?? 'なし'),
+                value:
+                    Text(ref.watch(settingsGradeProvider).valueOrNull ?? 'なし'),
               ),
               // コース
               SettingsTile.navigation(
@@ -119,7 +131,10 @@ class SettingsScreen extends ConsumerWidget {
                   final returnText = await showDialog(
                       context: context,
                       builder: (_) {
-                        return listDialog(context, 'コース', UserPreferenceKeys.course,
+                        return listDialog(
+                            context,
+                            'コース',
+                            UserPreferenceKeys.course,
                             ['なし', '情報システム', '情報デザイン', '知能', '複雑', '高度ICT']);
                       });
                   if (returnText != null) {
@@ -128,12 +143,14 @@ class SettingsScreen extends ConsumerWidget {
                 },
                 leading: const Icon(Icons.school),
                 title: const Text('コース'),
-                value: Text(ref.watch(settingsCourseProvider).valueOrNull ?? 'なし'),
+                value:
+                    Text(ref.watch(settingsCourseProvider).valueOrNull ?? 'なし'),
               ),
               // ユーザーキー
               SettingsTile.navigation(
                 title: const Text('課題のユーザーキー'),
-                value: Text(ref.watch(settingsUserKeyProvider).valueOrNull ?? ''),
+                value:
+                    Text(ref.watch(settingsUserKeyProvider).valueOrNull ?? ''),
                 leading: const Icon(Icons.assignment),
                 onPressed: (context) {
                   Navigator.of(context).push(PageRouteBuilder(
@@ -163,7 +180,8 @@ class SettingsScreen extends ConsumerWidget {
                 leading: const Icon(Icons.assignment),
                 onPressed: (context) {
                   Navigator.of(context).push(PageRouteBuilder(
-                    pageBuilder: (context, animation, secondaryAnimation) => const AppTutorial(),
+                    pageBuilder: (context, animation, secondaryAnimation) =>
+                        const AppTutorial(),
                     transitionsBuilder: fromRightAnimation,
                   ));
                 },

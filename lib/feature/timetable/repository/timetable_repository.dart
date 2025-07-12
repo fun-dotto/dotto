@@ -12,14 +12,14 @@ import 'package:dotto/repository/setting_user_info.dart';
 import 'package:sqflite/sqflite.dart';
 
 /// 時間割データの取得・管理を行うリポジトリクラス
-class TimetableRepository {
-  
+final class TimetableRepository {
   /// ファクトリーコンストラクタ
   factory TimetableRepository() {
     return _instance;
   }
-  
+
   TimetableRepository._internal();
+
   /// シングルトンインスタンス
   static final TimetableRepository _instance = TimetableRepository._internal();
 
@@ -58,21 +58,23 @@ class TimetableRepository {
   Future<List<String>> getLessonNameList(List<int> lessonIdList) async {
     final database = await openDatabase(SyllabusDBConfig.dbPath);
 
-    final List<Map<String, dynamic>> records = await database
-        .rawQuery('SELECT 授業名 FROM sort WHERE LessonId in (${lessonIdList.join(",")})');
+    final List<Map<String, dynamic>> records = await database.rawQuery(
+        'SELECT 授業名 FROM sort WHERE LessonId in (${lessonIdList.join(",")})');
     final lessonNameList = records.map((e) => e['授業名'] as String).toList();
     return lessonNameList;
   }
 
   Future<List<int>> loadLocalPersonalTimeTableList() async {
-    final jsonString = await UserPreferences.getString(UserPreferenceKeys.personalTimetableListKey);
+    final jsonString = await UserPreferences.getString(
+        UserPreferenceKeys.personalTimetableListKey);
     if (jsonString != null) {
       return List<int>.from(json.decode(jsonString) as List);
     }
     return [];
   }
 
-  Future<void> loadPersonalTimeTableListOnLogin(BuildContext context, WidgetRef ref) async {
+  Future<void> loadPersonalTimeTableListOnLogin(
+      BuildContext context, WidgetRef ref) async {
     final user = ref.read(userProvider);
     if (user == null) {
       return;
@@ -84,9 +86,11 @@ class TimetableRepository {
       final data = docSnapshot.data();
       if (data != null) {
         final firestoreLastUpdated = data['last_updated'] as Timestamp;
-        final localLastUpdated =
-            await UserPreferences.getInt(UserPreferenceKeys.personalTimetableLastUpdateKey) ?? 0;
-        final diff = localLastUpdated - firestoreLastUpdated.millisecondsSinceEpoch;
+        final localLastUpdated = await UserPreferences.getInt(
+                UserPreferenceKeys.personalTimetableLastUpdateKey) ??
+            0;
+        final diff =
+            localLastUpdated - firestoreLastUpdated.millisecondsSinceEpoch;
         final firestoreList = List<int>.from(data['2025'] as List);
         final localList = await loadLocalPersonalTimeTableList();
         if (localList.isEmpty) {
@@ -98,14 +102,15 @@ class TimetableRepository {
           final firestoreSet = firestoreList.toSet();
           final localSet = localList.toSet();
           // firestoreList と locallist のIDが同じかどうか確認
-          if (firestoreSet.containsAll(localSet) && localSet.containsAll(firestoreSet)) {
+          if (firestoreSet.containsAll(localSet) &&
+              localSet.containsAll(firestoreSet)) {
             personalTimeTableList = firestoreList;
           } else {
             // LessonName取得
-            final firestoreLessonNameList =
-                await getLessonNameList(firestoreSet.difference(localSet).toList());
-            final localLessonNameList =
-                await getLessonNameList(localSet.difference(firestoreSet).toList());
+            final firestoreLessonNameList = await getLessonNameList(
+                firestoreSet.difference(localSet).toList());
+            final localLessonNameList = await getLessonNameList(
+                localSet.difference(firestoreSet).toList());
             if (context.mounted) {
               showDialog(
                 barrierDismissible: false,
@@ -116,7 +121,8 @@ class TimetableRepository {
                     content: SingleChildScrollView(
                       child: Column(
                         children: <Widget>[
-                          const Text('アカウントに紐づいている時間割とローカルの時間割が異なっています。どちらを残しますか？'),
+                          const Text(
+                              'アカウントに紐づいている時間割とローカルの時間割が異なっています。どちらを残しますか？'),
                           const Text('-- アカウント側に多い科目 --'),
                           ...firestoreLessonNameList.map(Text.new),
                           const SizedBox(height: 10),
@@ -136,7 +142,8 @@ class TimetableRepository {
                       TextButton(
                         onPressed: () async {
                           personalTimeTableList = localList;
-                          savePersonalTimeTableListToFirestore(personalTimeTableList, ref);
+                          savePersonalTimeTableListToFirestore(
+                              personalTimeTableList, ref);
                           Navigator.of(context).pop();
                         },
                         child: const Text('ローカル方を残す'),
@@ -173,11 +180,14 @@ class TimetableRepository {
         final data = docSnapshot.data();
         if (data != null) {
           final firestoreLastUpdated = data['last_updated'] as Timestamp;
-          final localLastUpdated =
-              await UserPreferences.getInt(UserPreferenceKeys.personalTimetableLastUpdateKey) ?? 0;
-          final diff = localLastUpdated - firestoreLastUpdated.millisecondsSinceEpoch;
+          final localLastUpdated = await UserPreferences.getInt(
+                  UserPreferenceKeys.personalTimetableLastUpdateKey) ??
+              0;
+          final diff =
+              localLastUpdated - firestoreLastUpdated.millisecondsSinceEpoch;
           final firestoreList = List<int>.from(data['2025'] as List);
-          final localList = await loadLocalPersonalTimeTableList(); // ここなぜか取得できない
+          final localList =
+              await loadLocalPersonalTimeTableList(); // ここなぜか取得できない
           if (localList.isEmpty) {
             personalTimeTableList = firestoreList;
           } else if (firestoreList.isEmpty || diff > 600000) {
@@ -199,7 +209,8 @@ class TimetableRepository {
     return personalTimeTableList;
   }
 
-  Future<void> addPersonalTimeTableListToFirestore(int lessonId, WidgetRef ref) async {
+  Future<void> addPersonalTimeTableListToFirestore(
+      int lessonId, WidgetRef ref) async {
     final user = ref.read(userProvider);
     if (user == null) {
       return;
@@ -214,7 +225,8 @@ class TimetableRepository {
     // });
   }
 
-  Future<void> removePersonalTimeTableListFromFirestore(int lessonId, WidgetRef ref) async {
+  Future<void> removePersonalTimeTableListFromFirestore(
+      int lessonId, WidgetRef ref) async {
     final user = ref.read(userProvider);
     if (user == null) {
       return;
@@ -242,7 +254,8 @@ class TimetableRepository {
     });
   }
 
-  Future<void> savePersonalTimeTableList(List<int> personalTimeTableList, WidgetRef ref) async {
+  Future<void> savePersonalTimeTableList(
+      List<int> personalTimeTableList, WidgetRef ref) async {
     ref.read(personalLessonIdListProvider.notifier).set(personalTimeTableList);
   }
 
@@ -311,7 +324,14 @@ class TimetableRepository {
 // 時間を入れたらその日の授業を返す
   Future<Map<int, List<TimeTableCourse>>> dailyLessonSchedule(
       DateTime selectTime, WidgetRef ref) async {
-    final periodData = <int, Map<int, TimeTableCourse>>{1: {}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}};
+    final periodData = <int, Map<int, TimeTableCourse>>{
+      1: {},
+      2: {},
+      3: {},
+      4: {},
+      5: {},
+      6: {}
+    };
     final returnData = <int, List<TimeTableCourse>>{};
 
     final lessonData = await filterTimeTable(ref);
@@ -334,12 +354,14 @@ class TimetableRepository {
             continue;
           }
         }
-        periodData[period]![lessonId] = TimeTableCourse(lessonId, item['title'] as String, resourceId);
+        periodData[period]![lessonId] =
+            TimeTableCourse(lessonId, item['title'] as String, resourceId);
       }
     }
 
     var jsonData = await readJsonFile('home/cancel_lecture.json');
-    final List<dynamic> cancelLectureData = jsonDecode(jsonData) as List<dynamic>;
+    final List<dynamic> cancelLectureData =
+        jsonDecode(jsonData) as List<dynamic>;
     jsonData = await readJsonFile('home/sup_lecture.json');
     final List<dynamic> supLectureData = jsonDecode(jsonData) as List<dynamic>;
     final loadPersonalTimeTableMap = await loadPersonalTimeTableMapString(ref);
@@ -384,11 +406,13 @@ class TimetableRepository {
     final personalLessonIdList = ref.watch(personalLessonIdListProvider);
     final weekPeriodAllRecords = ref.watch(weekPeriodAllRecordsProvider).value;
     if (weekPeriodAllRecords != null) {
-      final filterWeekPeriod =
-          weekPeriodAllRecords.where((element) => element['lessonId'] == lessonId).toList();
+      final filterWeekPeriod = weekPeriodAllRecords
+          .where((element) => element['lessonId'] == lessonId)
+          .toList();
       final targetWeekPeriod =
           filterWeekPeriod.where((element) => element['開講時期'] != 0).toList();
-      for (final element in filterWeekPeriod.where((element) => element['開講時期'] == 0)) {
+      for (final element
+          in filterWeekPeriod.where((element) => element['開講時期'] == 0)) {
         final e1 = <String, dynamic>{...element};
         final e2 = <String, dynamic>{...element};
         e1['開講時期'] = 10;
@@ -408,9 +432,11 @@ class TimetableRepository {
               personalLessonIdList.contains(record['lessonId']);
         }).toList();
         if (selectedLessonList.length > 1) {
-          final removeLessonList = selectedLessonList.sublist(2, selectedLessonList.length);
+          final removeLessonList =
+              selectedLessonList.sublist(2, selectedLessonList.length);
           if (removeLessonList.isNotEmpty) {
-            removeLessonIdList.addAll(removeLessonList.map((e) => e['lessonId'] as int).toSet());
+            removeLessonIdList.addAll(
+                removeLessonList.map((e) => e['lessonId'] as int).toSet());
           }
           flag = true;
         }

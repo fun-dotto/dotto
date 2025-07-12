@@ -7,26 +7,33 @@ import 'package:sqflite/sqflite.dart';
 
 part 'kamoku_search_controller.freezed.dart';
 
-final kamokuSearchControllerProvider =
-    StateNotifierProvider<KamokuSearchControllerProvider, KamokuSearchController>(
-        (ref) => KamokuSearchControllerProvider());
+final kamokuSearchControllerProvider = StateNotifierProvider<
+    KamokuSearchControllerProvider,
+    KamokuSearchController>((ref) => KamokuSearchControllerProvider());
 
 @freezed
 abstract class KamokuSearchController with _$KamokuSearchController {
   const factory KamokuSearchController({
     required int senmonKyoyoStatus,
     required Map<KamokuSearchChoices, List<bool>> checkboxStatusMap,
-    required List<Map<String, dynamic>>? searchResults, required TextEditingController textEditingController, required FocusNode searchBoxFocusNode, @Default({KamokuSearchChoices.term}) Set<KamokuSearchChoices> visibilityStatus,
+    required List<Map<String, dynamic>>? searchResults,
+    required TextEditingController textEditingController,
+    required FocusNode searchBoxFocusNode,
+    @Default({KamokuSearchChoices.term})
+    Set<KamokuSearchChoices> visibilityStatus,
     @Default('') String searchWord,
   }) = _KamokuSearchController;
 }
 
-class KamokuSearchControllerProvider extends StateNotifier<KamokuSearchController> {
+final class KamokuSearchControllerProvider
+    extends StateNotifier<KamokuSearchController> {
   KamokuSearchControllerProvider()
       : super(KamokuSearchController(
           senmonKyoyoStatus: -1,
-          checkboxStatusMap: Map.fromIterables(KamokuSearchChoices.values,
-              KamokuSearchChoices.values.map((e) => List.filled(e.choice.length, false))),
+          checkboxStatusMap: Map.fromIterables(
+              KamokuSearchChoices.values,
+              KamokuSearchChoices.values
+                  .map((e) => List.filled(e.choice.length, false))),
           searchResults: null,
           textEditingController: TextEditingController(),
           searchBoxFocusNode: FocusNode(),
@@ -39,18 +46,22 @@ class KamokuSearchControllerProvider extends StateNotifier<KamokuSearchControlle
   }
 
   Future<void> updateCheckListFromPreferences() async {
-    final savedGrade = await UserPreferences.getString(UserPreferenceKeys.grade);
-    final savedCourse = await UserPreferences.getString(UserPreferenceKeys.course);
+    final savedGrade =
+        await UserPreferences.getString(UserPreferenceKeys.grade);
+    final savedCourse =
+        await UserPreferences.getString(UserPreferenceKeys.course);
     final checkboxStatusMap = state.checkboxStatusMap;
     if (savedGrade != null) {
       final index = KamokuSearchChoices.grade.choice.indexOf(savedGrade);
-      if (index != -1 && index < checkboxStatusMap[KamokuSearchChoices.grade]!.length) {
+      if (index != -1 &&
+          index < checkboxStatusMap[KamokuSearchChoices.grade]!.length) {
         checkboxStatusMap[KamokuSearchChoices.grade]![index] = true;
       }
     }
     if (savedCourse != null) {
       final index = KamokuSearchChoices.course.choice.indexOf(savedCourse);
-      if (index != -1 && index < checkboxStatusMap[KamokuSearchChoices.course]!.length) {
+      if (index != -1 &&
+          index < checkboxStatusMap[KamokuSearchChoices.course]!.length) {
         checkboxStatusMap[KamokuSearchChoices.course]![index] = true;
       }
     }
@@ -61,9 +72,11 @@ class KamokuSearchControllerProvider extends StateNotifier<KamokuSearchControlle
   final List<String> checkboxSenmonKyoyo = ['専門', '教養', '大学院'];
 
   void reset() {
-    final checkboxStatusMap = Map<KamokuSearchChoices, List<bool>>.fromIterables(
-        KamokuSearchChoices.values,
-        KamokuSearchChoices.values.map((e) => List.filled(e.choice.length, false)));
+    final checkboxStatusMap =
+        Map<KamokuSearchChoices, List<bool>>.fromIterables(
+            KamokuSearchChoices.values,
+            KamokuSearchChoices.values
+                .map((e) => List.filled(e.choice.length, false)));
     final visibilityStatus = <KamokuSearchChoices>{KamokuSearchChoices.term};
     const searchWord = '';
     state.textEditingController.clear();
@@ -79,7 +92,8 @@ class KamokuSearchControllerProvider extends StateNotifier<KamokuSearchControlle
     state = state.copyWith(searchWord: word);
   }
 
-  void checkboxOnChanged(bool? value, KamokuSearchChoices kamokuSearchChoices, int index) {
+  void checkboxOnChanged(
+      bool? value, KamokuSearchChoices kamokuSearchChoices, int index) {
     final checkboxStatusMap = state.checkboxStatusMap;
     checkboxStatusMap[kamokuSearchChoices]![index] = value ?? false;
     if (kamokuSearchChoices == KamokuSearchChoices.grade &&
@@ -87,16 +101,20 @@ class KamokuSearchControllerProvider extends StateNotifier<KamokuSearchControlle
         checkboxStatusMap[KamokuSearchChoices.grade]![0]) {
       checkboxStatusMap[KamokuSearchChoices.grade]![0] = false;
     }
-    if (checkboxStatusMap[KamokuSearchChoices.grade]!.any((element) => element)) {
+    if (checkboxStatusMap[KamokuSearchChoices.grade]!
+        .any((element) => element)) {
       if (checkboxStatusMap[KamokuSearchChoices.grade]![0]) {
-        for (var i = 1; i < checkboxStatusMap[KamokuSearchChoices.grade]!.length; i++) {
+        for (var i = 1;
+            i < checkboxStatusMap[KamokuSearchChoices.grade]!.length;
+            i++) {
           checkboxStatusMap[KamokuSearchChoices.grade]![i] = false;
         }
       }
     }
     state = state.copyWith(
       checkboxStatusMap: checkboxStatusMap,
-      visibilityStatus: setVisibilityStatus(checkboxStatusMap, state.senmonKyoyoStatus),
+      visibilityStatus:
+          setVisibilityStatus(checkboxStatusMap, state.senmonKyoyoStatus),
     );
   }
 
@@ -105,13 +123,15 @@ class KamokuSearchControllerProvider extends StateNotifier<KamokuSearchControlle
     final senmonKyoyoStatus = value ?? -1;
     state = state.copyWith(
       senmonKyoyoStatus: senmonKyoyoStatus,
-      visibilityStatus: setVisibilityStatus(state.checkboxStatusMap, senmonKyoyoStatus),
+      visibilityStatus:
+          setVisibilityStatus(state.checkboxStatusMap, senmonKyoyoStatus),
     );
   }
 
   // Radioボタンが押されたときの処理 2
   Set<KamokuSearchChoices> setVisibilityStatus(
-      Map<KamokuSearchChoices, List<bool>> checkboxStatusMap, int senmonKyoyoStatus) {
+      Map<KamokuSearchChoices, List<bool>> checkboxStatusMap,
+      int senmonKyoyoStatus) {
     var visibilityStatus = state.visibilityStatus;
     if (senmonKyoyoStatus == 0) {
       // 専門
@@ -119,8 +139,10 @@ class KamokuSearchControllerProvider extends StateNotifier<KamokuSearchControlle
         KamokuSearchChoices.term,
         KamokuSearchChoices.grade,
       };
-      if (checkboxStatusMap[KamokuSearchChoices.grade]!.any((element) => element) ||
-          checkboxStatusMap[KamokuSearchChoices.course]!.any((element) => element)) {
+      if (checkboxStatusMap[KamokuSearchChoices.grade]!
+              .any((element) => element) ||
+          checkboxStatusMap[KamokuSearchChoices.course]!
+              .any((element) => element)) {
         visibilityStatus.add(KamokuSearchChoices.classification);
         if (!checkboxStatusMap[KamokuSearchChoices.grade]![0]) {
           visibilityStatus.add(KamokuSearchChoices.course);
@@ -162,9 +184,12 @@ class KamokuSearchControllerProvider extends StateNotifier<KamokuSearchControlle
     final sqlWhereListKyoyo = <String>[];
     var sqlWhere = '';
 
-    final termCheckList = state.checkboxStatusMap[KamokuSearchChoices.term] ?? [];
-    final gradeCheckList = state.checkboxStatusMap[KamokuSearchChoices.grade] ?? [];
-    final courseCheckList = state.checkboxStatusMap[KamokuSearchChoices.course] ?? [];
+    final termCheckList =
+        state.checkboxStatusMap[KamokuSearchChoices.term] ?? [];
+    final gradeCheckList =
+        state.checkboxStatusMap[KamokuSearchChoices.grade] ?? [];
+    final courseCheckList =
+        state.checkboxStatusMap[KamokuSearchChoices.course] ?? [];
     final classificationCheckList =
         state.checkboxStatusMap[KamokuSearchChoices.classification] ?? [];
     final educationCheckList =
@@ -228,8 +253,8 @@ class KamokuSearchControllerProvider extends StateNotifier<KamokuSearchControlle
                 if (isNotAllTrueOrAllFalse(classificationCheckList)) {
                   for (var j = 0; j < classificationCheckList.length; j++) {
                     if (classificationCheckList[j]) {
-                      sqlWhereCourseClassification
-                          .add('sort.${courseName[i]}=${classificationName[j]}');
+                      sqlWhereCourseClassification.add(
+                          'sort.${courseName[i]}=${classificationName[j]}');
                     }
                   }
                 } else {
@@ -293,7 +318,8 @@ class KamokuSearchControllerProvider extends StateNotifier<KamokuSearchControlle
         'SELECT * FROM sort detail INNER JOIN sort ON sort.LessonId=detail.LessonId WHERE $sqlWhere');
     state = state.copyWith(
         searchResults: records
-            .where((record) => record['授業名'].toString().contains(state.searchWord))
+            .where(
+                (record) => record['授業名'].toString().contains(state.searchWord))
             .toList());
   }
 }

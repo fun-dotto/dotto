@@ -4,23 +4,27 @@ import 'package:dotto/repository/s3.dart';
 import 'package:dotto/widget/loading_circular.dart';
 import 'package:flutter/material.dart';
 
-class KamokuDetailKakomonListScreen extends StatefulWidget {
+final class KamokuDetailKakomonListScreen extends StatefulWidget {
   const KamokuDetailKakomonListScreen({required this.url, super.key});
   final int url;
 
   @override
-  State<KamokuDetailKakomonListScreen> createState() => _KamokuDetailKakomonListScreenState();
+  State<KamokuDetailKakomonListScreen> createState() =>
+      _KamokuDetailKakomonListScreenState();
 }
 
-class _KamokuDetailKakomonListScreenState extends State<KamokuDetailKakomonListScreen> {
+final class _KamokuDetailKakomonListScreenState
+    extends State<KamokuDetailKakomonListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
         child: (KamokuDetailRepository().isLoggedinGoogle())
             ? FutureBuilder(
-                future: S3.instance.getListObjectsKey(url: widget.url.toString()),
-                builder: (BuildContext context, AsyncSnapshot<List<String>> snapshot) {
+                future:
+                    S3.instance.getListObjectsKey(url: widget.url.toString()),
+                builder: (BuildContext context,
+                    AsyncSnapshot<List<String>> snapshot) {
                   if (snapshot.hasData) {
                     if (snapshot.data!.isEmpty) {
                       return const Center(

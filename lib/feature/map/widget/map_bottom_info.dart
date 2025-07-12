@@ -7,7 +7,7 @@ import 'package:dotto/importer.dart';
 import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart';
 import 'package:intl/intl.dart';
 
-class MapBottomInfo extends ConsumerWidget {
+final class MapBottomInfo extends ConsumerWidget {
   const MapBottomInfo({super.key});
 
   Widget _mapInfoTile(Color color, String text) {
@@ -75,8 +75,10 @@ class MapBottomInfo extends ConsumerWidget {
               child: Consumer(
                 builder: (context, ref, child) {
                   final searchDatetime = ref.watch(searchDatetimeProvider);
-                  final searchDatetimeNotifier = ref.read(searchDatetimeProvider.notifier);
-                  final mapUsingMapNotifier = ref.watch(mapUsingMapProvider.notifier);
+                  final searchDatetimeNotifier =
+                      ref.read(searchDatetimeProvider.notifier);
+                  final mapUsingMapNotifier =
+                      ref.watch(mapUsingMapProvider.notifier);
                   return Row(
                     children: [
                       ...timeMap.entries.map((item) => Expanded(
@@ -95,7 +97,8 @@ class MapBottomInfo extends ConsumerWidget {
                                   }
                                   searchDatetimeNotifier.set(setDate);
                                   mapUsingMapNotifier.state =
-                                      await MapRepository().setUsingColor(setDate, ref);
+                                      await MapRepository()
+                                          .setUsingColor(setDate, ref);
                                 },
                                 child: Center(
                                   child: Text(item.key),
@@ -121,7 +124,8 @@ class MapBottomInfo extends ConsumerWidget {
                                 onConfirm: (date) async {
                                   searchDatetimeNotifier.set(date);
                                   mapUsingMapNotifier.state =
-                                      await MapRepository().setUsingColor(date, ref);
+                                      await MapRepository()
+                                          .setUsingColor(date, ref);
                                 },
                                 currentTime: searchDatetime,
                                 locale: LocaleType.jp,
@@ -131,8 +135,10 @@ class MapBottomInfo extends ConsumerWidget {
                                 child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text(DateFormat('MM月dd日').format(searchDatetime)),
-                                Text(DateFormat('HH:mm').format(searchDatetime)),
+                                Text(DateFormat('MM月dd日')
+                                    .format(searchDatetime)),
+                                Text(
+                                    DateFormat('HH:mm').format(searchDatetime)),
                               ],
                             )),
                           ),

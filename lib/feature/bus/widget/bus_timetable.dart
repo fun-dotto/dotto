@@ -2,7 +2,7 @@ import 'package:dotto/feature/bus/domain/bus_trip.dart';
 import 'package:dotto/feature/bus/repository/bus_repository.dart';
 import 'package:dotto/importer.dart';
 
-class BusTimetableScreen extends StatelessWidget {
+final class BusTimetableScreen extends StatelessWidget {
   const BusTimetableScreen(this.busTrip, {super.key});
   final BusTrip busTrip;
 

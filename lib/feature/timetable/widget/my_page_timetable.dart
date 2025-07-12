@@ -9,11 +9,11 @@ import 'package:dotto/theme/v1/color_fun.dart';
 import 'package:dotto/widget/loading_circular.dart';
 import 'package:intl/intl.dart';
 
-class MyPageTimetable extends ConsumerWidget {
+final class MyPageTimetable extends ConsumerWidget {
   const MyPageTimetable({super.key});
 
-  Widget timeTableLessonButton(
-      BuildContext context, TimeTableCourse? timeTableCourse, bool loading, WidgetRef ref) {
+  Widget timeTableLessonButton(BuildContext context,
+      TimeTableCourse? timeTableCourse, bool loading, WidgetRef ref) {
     final user = ref.watch(userProvider);
     var foregroundColor = Colors.black;
     if (timeTableCourse != null && user != null) {
@@ -52,8 +52,8 @@ class MyPageTimetable extends ConsumerWidget {
         onTap: (timeTableCourse == null)
             ? null
             : () async {
-                final record =
-                    await TimetableRepository().fetchDB(timeTableCourse.lessonId);
+                final record = await TimetableRepository()
+                    .fetchDB(timeTableCourse.lessonId);
                 if (record == null) return;
                 if (context.mounted) {
                   Navigator.of(context).push(
@@ -98,7 +98,9 @@ class MyPageTimetable extends ConsumerWidget {
                           ]
                         : [
                             Text(
-                              (timeTableCourse != null) ? timeTableCourse.title : '-',
+                              (timeTableCourse != null)
+                                  ? timeTableCourse.title
+                                  : '-',
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
@@ -110,9 +112,10 @@ class MyPageTimetable extends ConsumerWidget {
                             if (timeTableCourse != null)
                               Text(
                                 timeTableCourse.resourseIds
-                                    .map((resourceId) => roomName.containsKey(resourceId)
-                                        ? roomName[resourceId]
-                                        : null)
+                                    .map((resourceId) =>
+                                        roomName.containsKey(resourceId)
+                                            ? roomName[resourceId]
+                                            : null)
                                     .toList()
                                     .join(', '),
                                 style: const TextStyle(
@@ -171,7 +174,9 @@ class MyPageTimetable extends ConsumerWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 5),
       margin: const EdgeInsets.symmetric(vertical: 5),
-      height: timeTableCourseList.isEmpty ? 40 : timeTableCourseList.length * 50 - 10,
+      height: timeTableCourseList.isEmpty
+          ? 40
+          : timeTableCourseList.length * 50 - 10,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -203,7 +208,8 @@ class MyPageTimetable extends ConsumerWidget {
                   timeTableLessonButton(context, null, loading, ref)
                 else
                   ...timeTableCourseList.map((timeTableCourse) =>
-                      timeTableLessonButton(context, timeTableCourse, false, ref)),
+                      timeTableLessonButton(
+                          context, timeTableCourse, false, ref)),
               ],
             ),
           ),
@@ -249,10 +255,12 @@ class MyPageTimetable extends ConsumerWidget {
     const double buttonSize = 50;
     const double buttonPadding = 8;
     final deviceCenter = deviceWidth / 2 - (buttonSize / 2 + buttonPadding);
-    final buttonPosition = (DateTime.now().weekday - 1) * (buttonSize + buttonPadding);
+    final buttonPosition =
+        (DateTime.now().weekday - 1) * (buttonSize + buttonPadding);
     final initialScrollOffset =
         (buttonPosition > deviceCenter) ? buttonPosition - deviceCenter : 0;
-    final controller = ScrollController(initialScrollOffset: initialScrollOffset.toDouble());
+    final controller =
+        ScrollController(initialScrollOffset: initialScrollOffset.toDouble());
     return Consumer(
       builder: (context, ref, child) {
         ref.watch(saveTimetableProvider);
@@ -264,27 +272,28 @@ class MyPageTimetable extends ConsumerWidget {
               controller: controller,
               scrollDirection: Axis.horizontal,
               child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: buttonPadding, horizontal: buttonPadding / 2),
+                padding: const EdgeInsets.symmetric(
+                    vertical: buttonPadding, horizontal: buttonPadding / 2),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: dates.map((date) {
                     return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: buttonPadding / 2),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: buttonPadding / 2),
                       child: ElevatedButton(
                         onPressed: () async {
                           setFocusTimeTableDay(date, ref);
                         },
                         style: ElevatedButton.styleFrom(
                           surfaceTintColor: Colors.white,
-                          backgroundColor:
-                              focusTimeTableDay.day == date.day ? customFunColor : Colors.white,
-                          foregroundColor:
-                              focusTimeTableDay.day == date.day ? Colors.white : Colors.black,
+                          backgroundColor: focusTimeTableDay.day == date.day
+                              ? customFunColor
+                              : Colors.white,
+                          foregroundColor: focusTimeTableDay.day == date.day
+                              ? Colors.white
+                              : Colors.black,
                           shape: const CircleBorder(
-                            side: BorderSide(
-                              
-                            ),
+                            side: BorderSide(),
                           ),
                           minimumSize: const Size(buttonSize, buttonSize),
                           fixedSize: const Size(buttonSize, buttonSize),
@@ -297,8 +306,9 @@ class MyPageTimetable extends ConsumerWidget {
                             Text(
                               DateFormat('dd').format(date),
                               style: TextStyle(
-                                fontWeight:
-                                    (focusTimeTableDay.day == date.day) ? FontWeight.bold : null,
+                                fontWeight: (focusTimeTableDay.day == date.day)
+                                    ? FontWeight.bold
+                                    : null,
                                 fontSize: 13,
                               ),
                             ),

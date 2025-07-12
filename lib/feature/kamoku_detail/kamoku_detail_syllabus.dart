@@ -2,7 +2,7 @@ import 'package:dotto/feature/kamoku_detail/repository/kamoku_detail_repository.
 import 'package:dotto/widget/loading_circular.dart';
 import 'package:flutter/material.dart';
 
-class KamokuDetailSyllabusScreen extends StatelessWidget {
+final class KamokuDetailSyllabusScreen extends StatelessWidget {
   const KamokuDetailSyllabusScreen({required this.lessonId, super.key});
 
   final int lessonId;

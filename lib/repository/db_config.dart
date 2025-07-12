@@ -4,7 +4,7 @@ import 'package:dotto/asset.dart';
 import 'package:dotto/repository/get_application_path.dart';
 import 'package:flutter/services.dart';
 
-class SyllabusDBConfig {
+final class SyllabusDBConfig {
   SyllabusDBConfig._internal();
   static final SyllabusDBConfig instance = SyllabusDBConfig._internal();
   static String dbPath = '';

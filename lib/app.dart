@@ -26,14 +26,14 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
-class MyApp extends ConsumerStatefulWidget {
+final class MyApp extends ConsumerStatefulWidget {
   const MyApp({super.key});
 
   @override
   ConsumerState<MyApp> createState() => _MyAppState();
 }
 
-class _MyAppState extends ConsumerState<MyApp> {
+final class _MyAppState extends ConsumerState<MyApp> {
   @override
   void initState() {
     super.initState();
@@ -87,14 +87,14 @@ class _MyAppState extends ConsumerState<MyApp> {
   }
 }
 
-class BasePage extends ConsumerStatefulWidget {
+final class BasePage extends ConsumerStatefulWidget {
   const BasePage({super.key});
 
   @override
   ConsumerState<BasePage> createState() => _BasePageState();
 }
 
-class _BasePageState extends ConsumerState<BasePage> {
+final class _BasePageState extends ConsumerState<BasePage> {
   late List<String?> parameter;
 
   Future<void> setupUniversalLinks() async {

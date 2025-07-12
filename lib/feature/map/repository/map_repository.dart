@@ -5,16 +5,19 @@ import 'package:dotto/importer.dart';
 import 'package:dotto/repository/get_firebase_realtime_db.dart';
 import 'package:dotto/repository/read_json_file.dart';
 
-class MapRepository {
+final class MapRepository {
   factory MapRepository() {
     return _instance;
   }
   MapRepository._internal();
   static final MapRepository _instance = MapRepository._internal();
 
-  Future<Map<String, Map<String, MapDetail>>> getMapDetailMapFromFirebase() async {
-    final snapshot = await GetFirebaseRealtimeDB.getData('map'); //firebaseから情報取得
-    final snapshotRoom = await GetFirebaseRealtimeDB.getData('map_room_schedule'); //firebaseから情報取得
+  Future<Map<String, Map<String, MapDetail>>>
+      getMapDetailMapFromFirebase() async {
+    final snapshot =
+        await GetFirebaseRealtimeDB.getData('map'); //firebaseから情報取得
+    final snapshotRoom = await GetFirebaseRealtimeDB.getData(
+        'map_room_schedule'); //firebaseから情報取得
     final returnList = <String, Map<String, MapDetail>>{
       '1': {},
       '2': {},
@@ -28,7 +31,8 @@ class MapRepository {
       (snapshot.value! as Map).forEach((floor, value) {
         (value as Map).forEach((roomName, value2) {
           returnList[floor as String]!.addAll({
-            roomName as String: MapDetail.fromFirebase(floor as String, roomName as String, value2 as Map, snapshotRoom.value! as Map)
+            roomName as String: MapDetail.fromFirebase(floor as String,
+                roomName as String, value2 as Map, snapshotRoom.value! as Map)
           });
         });
       });
@@ -53,7 +57,8 @@ class MapRepository {
       if (item is Map<String, dynamic>) {
         // スタート時間・エンド時間をDateTimeにかえる
         // スタートを10分前から
-        final startTime = DateTime.parse(item['start'] as String).add(const Duration(minutes: -10));
+        final startTime = DateTime.parse(item['start'] as String)
+            .add(const Duration(minutes: -10));
         final endTime = DateTime.parse(item['end'] as String);
 
         //現在時刻が開始時刻と終了時刻の間であればresourceIdを取得
@@ -86,7 +91,8 @@ class MapRepository {
   }
 
 //使用されているかどうかで色を変える設定をする
-  Future<Map<String, bool>> setUsingColor(DateTime dateTime, WidgetRef ref) async {
+  Future<Map<String, bool>> setUsingColor(
+      DateTime dateTime, WidgetRef ref) async {
     final user = ref.watch(userProvider);
     if (user == null) {
       return {};

@@ -8,8 +8,7 @@ import 'package:dotto/importer.dart';
 import 'package:dotto/theme/v1/animation.dart';
 import 'package:dotto/widget/loading_circular.dart';
 
-class KamokuSearchResults extends ConsumerWidget {
-
+final class KamokuSearchResults extends ConsumerWidget {
   const KamokuSearchResults({required this.records, super.key});
   final List<Map<String, dynamic>> records;
 
@@ -52,7 +51,8 @@ class KamokuSearchResults extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final personalLessonIdList = ref.watch(personalLessonIdListProvider);
     final kamokuSearchController = ref.read(kamokuSearchControllerProvider);
-    final twoWeekTimeTableDataNotifier = ref.read(twoWeekTimeTableDataProvider.notifier);
+    final twoWeekTimeTableDataNotifier =
+        ref.read(twoWeekTimeTableDataProvider.notifier);
     //loadPersonalTimeTableList();
     return FutureBuilder(
       future: getWeekPeriod(records.map((e) => e['LessonId'] as int).toList()),
@@ -87,18 +87,23 @@ class KamokuSearchResults extends ConsumerWidget {
                 trailing: const Icon(Icons.chevron_right),
                 leading: IconButton(
                   icon: Icon(Icons.playlist_add,
-                      color: personalLessonIdList.contains(lessonId) ? Colors.green : Colors.black),
+                      color: personalLessonIdList.contains(lessonId)
+                          ? Colors.green
+                          : Colors.black),
                   onPressed: () async {
                     if (!personalLessonIdList.contains(lessonId)) {
-                      if (await TimetableRepository().isOverSeleted(lessonId, ref)) {
+                      if (await TimetableRepository()
+                          .isOverSeleted(lessonId, ref)) {
                         if (context.mounted) {
                           timetableIsOverSelectedSnackBar(context);
                         }
                       } else {
-                        TimetableRepository().addPersonalTimeTableList(lessonId, ref);
+                        TimetableRepository()
+                            .addPersonalTimeTableList(lessonId, ref);
                       }
                     } else {
-                      TimetableRepository().removePersonalTimeTableList(lessonId, ref);
+                      TimetableRepository()
+                          .removePersonalTimeTableList(lessonId, ref);
                     }
                     twoWeekTimeTableDataNotifier.state =
                         await TimetableRepository().get2WeekLessonSchedule(ref);

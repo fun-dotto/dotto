@@ -1,7 +1,7 @@
 import 'package:dotto/controller/config_controller.dart';
 import 'package:minio/minio.dart';
 
-class S3Repository {
+final class S3Repository {
   factory S3Repository() {
     return _instance;
   }
@@ -19,7 +19,8 @@ class S3Repository {
 
   static Future<List<String>> getListObjectsKey({required String url}) async {
     final returnStr = <String>[];
-    await for (final value in _s3.listObjectsV2(_bucketName, prefix: url, recursive: true)) {
+    await for (final value
+        in _s3.listObjectsV2(_bucketName, prefix: url, recursive: true)) {
       for (final obj in value.objects) {
         returnStr.add(obj.key!);
       }

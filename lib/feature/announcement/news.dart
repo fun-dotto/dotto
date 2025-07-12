@@ -1,7 +1,7 @@
 import 'package:dotto/feature/announcement/widget/news_list.dart';
 import 'package:dotto/importer.dart';
 
-class NewsScreen extends StatelessWidget {
+final class NewsScreen extends StatelessWidget {
   const NewsScreen({super.key});
 
   @override

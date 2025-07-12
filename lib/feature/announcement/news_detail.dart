@@ -3,7 +3,7 @@ import 'package:dotto/importer.dart';
 import 'package:dotto/repository/download_file_from_firebase.dart';
 import 'package:intl/intl.dart';
 
-class NewsDetailScreen extends StatelessWidget {
+final class NewsDetailScreen extends StatelessWidget {
   const NewsDetailScreen(this.news, {super.key});
   final News news;
 

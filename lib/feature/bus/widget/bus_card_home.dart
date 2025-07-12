@@ -6,7 +6,7 @@ import 'package:dotto/importer.dart';
 import 'package:dotto/theme/v1/animation.dart';
 import 'package:dotto/widget/loading_circular.dart';
 
-class BusCardHome extends ConsumerWidget {
+final class BusCardHome extends ConsumerWidget {
   const BusCardHome({super.key});
 
   @override
@@ -20,18 +20,20 @@ class BusCardHome extends ConsumerWidget {
     final fromToString = busIsTo ? 'to_fun' : 'from_fun';
 
     if (busData != null) {
-      final data = busData[fromToString]![busIsWeekday ? 'weekday' : 'holiday']!;
+      final data =
+          busData[fromToString]![busIsWeekday ? 'weekday' : 'holiday']!;
       for (final busTrip in data) {
-        final funBusTripStop =
-            busTrip.stops.firstWhereOrNull((element) => element.stop.id == 14023);
+        final funBusTripStop = busTrip.stops
+            .firstWhereOrNull((element) => element.stop.id == 14023);
         if (funBusTripStop == null) {
           continue;
         }
-        var targetBusTripStop =
-            busTrip.stops.firstWhereOrNull((element) => element.stop.id == myBusStop.id);
+        var targetBusTripStop = busTrip.stops
+            .firstWhereOrNull((element) => element.stop.id == myBusStop.id);
         var kameda = false;
         if (targetBusTripStop == null) {
-          targetBusTripStop = busTrip.stops.firstWhere((element) => element.stop.id == 14013);
+          targetBusTripStop =
+              busTrip.stops.firstWhere((element) => element.stop.id == 14013);
           kameda = true;
         }
         final fromBusTripStop = busIsTo ? targetBusTripStop : funBusTripStop;
@@ -48,12 +50,14 @@ class BusCardHome extends ConsumerWidget {
             Navigator.push(
               context,
               PageRouteBuilder(
-                pageBuilder: (context, animation, secondaryAnimation) => const BusScreen(),
+                pageBuilder: (context, animation, secondaryAnimation) =>
+                    const BusScreen(),
                 transitionsBuilder: fromRightAnimation,
               ),
             );
           },
-          child: BusCard(busTrip.route, fromBusTripStop.time, toBusTripStop.time, arriveAt,
+          child: BusCard(
+              busTrip.route, fromBusTripStop.time, toBusTripStop.time, arriveAt,
               isKameda: kameda, home: true),
         );
       }
@@ -66,7 +70,8 @@ class BusCardHome extends ConsumerWidget {
             ),
           );
         },
-        child: const BusCard('0', Duration.zero, Duration.zero, Duration.zero, home: true),
+        child: const BusCard('0', Duration.zero, Duration.zero, Duration.zero,
+            home: true),
       );
     } else {
       return const LoadingCircular();

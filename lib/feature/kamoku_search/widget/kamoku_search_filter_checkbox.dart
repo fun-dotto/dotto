@@ -2,7 +2,7 @@ import 'package:dotto/feature/kamoku_search/controller/kamoku_search_controller.
 import 'package:dotto/feature/kamoku_search/domain/kamoku_search_choices.dart';
 import 'package:dotto/importer.dart';
 
-class KamokuSearchFilterCheckbox extends ConsumerWidget {
+final class KamokuSearchFilterCheckbox extends ConsumerWidget {
   const KamokuSearchFilterCheckbox(
       {required this.kamokuSearchChoices, super.key});
 

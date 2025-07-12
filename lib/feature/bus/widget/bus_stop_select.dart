@@ -3,7 +3,7 @@ import 'package:dotto/importer.dart';
 import 'package:dotto/repository/setting_user_info.dart';
 import 'package:dotto/widget/loading_circular.dart';
 
-class BusStopSelectScreen extends ConsumerWidget {
+final class BusStopSelectScreen extends ConsumerWidget {
   const BusStopSelectScreen({super.key});
 
   Future<void> setMyBusStop(int id) async {
@@ -24,8 +24,10 @@ class BusStopSelectScreen extends ConsumerWidget {
                   .map(
                     (e) => ListTile(
                       onTap: () async {
-                        final myBusStopNotifier = ref.read(myBusStopProvider.notifier);
-                        await UserPreferences.setInt(UserPreferenceKeys.myBusStop, e.id);
+                        final myBusStopNotifier =
+                            ref.read(myBusStopProvider.notifier);
+                        await UserPreferences.setInt(
+                            UserPreferenceKeys.myBusStop, e.id);
                         myBusStopNotifier.set(e);
                         if (context.mounted) {
                           Navigator.of(context).pop();

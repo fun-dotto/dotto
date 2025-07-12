@@ -1,5 +1,4 @@
-class TimeTableCourse {
-
+final class TimeTableCourse {
   TimeTableCourse(this.lessonId, this.title, this.resourseIds,
       {this.cancel = false, this.sup = false});
   final int lessonId;

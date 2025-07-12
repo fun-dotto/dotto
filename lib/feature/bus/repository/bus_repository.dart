@@ -5,7 +5,7 @@ import 'package:dotto/importer.dart';
 import 'package:dotto/repository/get_firebase_realtime_db.dart';
 import 'package:dotto/repository/location.dart';
 
-class BusRepository {
+final class BusRepository {
   factory BusRepository() {
     return _instance;
   }
@@ -34,7 +34,8 @@ class BusRepository {
   }
 
   Future<List<BusStop>> getAllBusStopsFromFirebase() async {
-    final snapshot = await GetFirebaseRealtimeDB.getData('bus/stops'); //firebaseから情報取得
+    final snapshot =
+        await GetFirebaseRealtimeDB.getData('bus/stops'); //firebaseから情報取得
     if (snapshot.exists) {
       final busDataStops = snapshot.value! as List;
       return busDataStops.map((e) => BusStop.fromFirebase(e as Map)).toList();
@@ -45,7 +46,8 @@ class BusRepository {
 
   Future<Map<String, Map<String, List<BusTrip>>>> getBusDataFromFirebase(
       List<BusStop> allBusStops) async {
-    final snapshot = await GetFirebaseRealtimeDB.getData('bus/trips'); //firebaseから情報取得
+    final snapshot =
+        await GetFirebaseRealtimeDB.getData('bus/trips'); //firebaseから情報取得
     if (snapshot.exists) {
       final busTripsData = snapshot.value! as Map;
       final allBusTrips = <String, Map<String, List<BusTrip>>>{
@@ -57,8 +59,9 @@ class BusRepository {
           final String fromTo = key as String;
           (value as Map).forEach((key2, value2) {
             final String week = key2 as String;
-            allBusTrips[fromTo]![week] =
-                (value2 as List).map((e) => BusTrip.fromFirebase(e as Map, allBusStops)).toList();
+            allBusTrips[fromTo]![week] = (value2 as List)
+                .map((e) => BusTrip.fromFirebase(e as Map, allBusStops))
+                .toList();
           });
         },
       );

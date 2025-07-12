@@ -13,9 +13,12 @@ import 'package:share_plus/share_plus.dart';
 
 enum StorageService { cloudflare, firebase }
 
-class FileViewerScreen extends StatefulWidget {
+final class FileViewerScreen extends StatefulWidget {
   const FileViewerScreen(
-      {required this.url, required this.filename, required this.storage, super.key});
+      {required this.url,
+      required this.filename,
+      required this.storage,
+      super.key});
   final String url;
   final String filename;
   final StorageService storage;
@@ -24,7 +27,7 @@ class FileViewerScreen extends StatefulWidget {
   State<FileViewerScreen> createState() => _FileViewerScreenState();
 }
 
-class _FileViewerScreenState extends State<FileViewerScreen> {
+final class _FileViewerScreenState extends State<FileViewerScreen> {
   Uint8List? dataUint;
   final GlobalKey _iconButtonKey = GlobalKey();
 
@@ -38,7 +41,8 @@ class _FileViewerScreenState extends State<FileViewerScreen> {
               key: _iconButtonKey,
               icon: const Icon(Icons.share),
               onPressed: () async {
-                if (dataUint != null || widget.storage == StorageService.firebase) {
+                if (dataUint != null ||
+                    widget.storage == StorageService.firebase) {
                   var path = '';
                   if (widget.storage == StorageService.cloudflare) {
                     final temp = await getTemporaryDirectory();
@@ -53,7 +57,8 @@ class _FileViewerScreenState extends State<FileViewerScreen> {
                       final box = content.findRenderObject() as RenderBox?;
                       if (box != null) {
                         await Share.shareXFiles([XFile(path)],
-                            sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size);
+                            sharePositionOrigin:
+                                box.localToGlobal(Offset.zero) & box.size);
                       } else {
                         await Share.shareXFiles([XFile(path)]);
                       }
@@ -67,9 +72,11 @@ class _FileViewerScreenState extends State<FileViewerScreen> {
         body: (widget.storage == StorageService.cloudflare)
             ? FutureBuilder(
                 future: getListObjectsString(),
-                builder: (BuildContext context, AsyncSnapshot<Uint8List> snapshot) {
+                builder:
+                    (BuildContext context, AsyncSnapshot<Uint8List> snapshot) {
                   if (snapshot.hasData) {
-                    return KakomonObjectIfType(url: widget.url, data: snapshot.data);
+                    return KakomonObjectIfType(
+                        url: widget.url, data: snapshot.data);
                   } else {
                     return const Center(child: LoadingCircular());
                   }
@@ -79,7 +86,8 @@ class _FileViewerScreenState extends State<FileViewerScreen> {
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.done) {
                     if (snapshot.hasData) {
-                      return KakomonObjectIfType(url: widget.url, filepath: snapshot.data);
+                      return KakomonObjectIfType(
+                          url: widget.url, filepath: snapshot.data);
                     } else {
                       return const Center(child: Text('エラー'));
                     }
@@ -108,8 +116,9 @@ class _FileViewerScreenState extends State<FileViewerScreen> {
   }
 }
 
-class KakomonObjectIfType extends StatelessWidget {
-  const KakomonObjectIfType({required this.url, super.key, this.data, this.filepath});
+final class KakomonObjectIfType extends StatelessWidget {
+  const KakomonObjectIfType(
+      {required this.url, super.key, this.data, this.filepath});
   final String url;
   final Uint8List? data;
   final String? filepath;
@@ -134,8 +143,7 @@ class KakomonObjectIfType extends StatelessWidget {
   }
 }
 
-class PDFScreen extends StatefulWidget {
-
+final class PDFScreen extends StatefulWidget {
   const PDFScreen({super.key, this.pdfData, this.filePath});
   final Uint8List? pdfData;
   final String? filePath;
@@ -144,7 +152,8 @@ class PDFScreen extends StatefulWidget {
   State<PDFScreen> createState() => _PDFScreenState();
 }
 
-class _PDFScreenState extends State<PDFScreen> with WidgetsBindingObserver {
+final class _PDFScreenState extends State<PDFScreen>
+    with WidgetsBindingObserver {
   //final Completer<PDFViewController> _controller = Completer<PDFViewController>();
   int pages = 0;
   int currentPage = 0;
@@ -167,7 +176,7 @@ class _PDFScreenState extends State<PDFScreen> with WidgetsBindingObserver {
   }
 }
 
-class ImageScreen extends StatelessWidget {
+final class ImageScreen extends StatelessWidget {
   const ImageScreen({super.key, this.imageData, this.filePath});
   final Uint8List? imageData;
   final String? filePath;

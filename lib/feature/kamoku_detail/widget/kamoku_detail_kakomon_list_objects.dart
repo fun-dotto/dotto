@@ -1,15 +1,17 @@
 import 'package:dotto/widget/file_viewer.dart';
 import 'package:flutter/material.dart';
 
-class KamokuDetailKakomonListObjects extends StatefulWidget {
+final class KamokuDetailKakomonListObjects extends StatefulWidget {
   const KamokuDetailKakomonListObjects({required this.url, super.key});
   final String url;
 
   @override
-  State<KamokuDetailKakomonListObjects> createState() => _KamokuDetailKakomonListObjectsState();
+  State<KamokuDetailKakomonListObjects> createState() =>
+      _KamokuDetailKakomonListObjectsState();
 }
 
-class _KamokuDetailKakomonListObjectsState extends State<KamokuDetailKakomonListObjects> {
+final class _KamokuDetailKakomonListObjectsState
+    extends State<KamokuDetailKakomonListObjects> {
   bool _checkbox = false;
 
   @override
@@ -30,11 +32,12 @@ class _KamokuDetailKakomonListObjectsState extends State<KamokuDetailKakomonList
                     storage: StorageService.cloudflare,
                   );
                 },
-                transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                transitionsBuilder:
+                    (context, animation, secondaryAnimation, child) {
                   const begin = Offset(0, 1); // 下から上
                   const end = Offset.zero;
-                  final tween =
-                      Tween(begin: begin, end: end).chain(CurveTween(curve: Curves.easeInOut));
+                  final tween = Tween(begin: begin, end: end)
+                      .chain(CurveTween(curve: Curves.easeInOut));
                   final offsetAnimation = animation.drive(tween);
                   return SlideTransition(
                     position: offsetAnimation,

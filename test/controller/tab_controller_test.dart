@@ -8,7 +8,7 @@ final tabItemProvider = NotifierProvider<TabNotifier, TabItem>(() {
   return TabNotifier();
 });
 
-class Listener extends Mock {
+final class Listener extends Mock {
   void call(TabItem? previous, TabItem value);
 }
 

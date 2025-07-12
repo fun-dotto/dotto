@@ -1,7 +1,7 @@
 import 'package:dotto/feature/kamoku_search/controller/kamoku_search_controller.dart';
 import 'package:dotto/importer.dart';
 
-class KamokuSearchFilterRadio extends ConsumerWidget {
+final class KamokuSearchFilterRadio extends ConsumerWidget {
   const KamokuSearchFilterRadio({super.key});
 
   @override

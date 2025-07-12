@@ -7,7 +7,7 @@ import 'package:dotto/repository/setting_user_info.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
-class SettingsRepository {
+final class SettingsRepository {
   factory SettingsRepository() {
     return _instance;
   }
@@ -32,8 +32,9 @@ class SettingsRepository {
     if (fcmToken != null) {
       final db = FirebaseFirestore.instance;
       final tokenRef = db.collection('fcm_token');
-      final tokenQuery =
-          tokenRef.where('uid', isEqualTo: user.uid).where('token', isEqualTo: fcmToken);
+      final tokenQuery = tokenRef
+          .where('uid', isEqualTo: user.uid)
+          .where('token', isEqualTo: fcmToken);
       final tokenQuerySnapshot = await tokenQuery.get();
       final tokenDocs = tokenQuerySnapshot.docs;
       if (tokenDocs.isEmpty) {
@@ -47,13 +48,15 @@ class SettingsRepository {
     }
   }
 
-  Future<void> onLogin(BuildContext context, Function login, WidgetRef ref) async {
+  Future<void> onLogin(
+      BuildContext context, Function login, WidgetRef ref) async {
     final user = await FirebaseAuthRepository().signIn();
     if (user != null) {
       login(user);
       saveFCMToken(user);
       if (context.mounted) {
-        await TimetableRepository().loadPersonalTimeTableListOnLogin(context, ref);
+        await TimetableRepository()
+            .loadPersonalTimeTableListOnLogin(context, ref);
       }
     } else {
       if (context.mounted) {

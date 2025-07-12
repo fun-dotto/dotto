@@ -7,9 +7,10 @@ import 'package:dotto/importer.dart';
 import 'package:dotto/repository/setting_user_info.dart';
 
 final allBusStopsProvider =
-    NotifierProvider<AllBusStopsNotifier, List<BusStop>?>(AllBusStopsNotifier.new);
+    NotifierProvider<AllBusStopsNotifier, List<BusStop>?>(
+        AllBusStopsNotifier.new);
 
-class AllBusStopsNotifier extends Notifier<List<BusStop>?> {
+final class AllBusStopsNotifier extends Notifier<List<BusStop>?> {
   @override
   List<BusStop>? build() {
     return null;
@@ -23,10 +24,12 @@ class AllBusStopsNotifier extends Notifier<List<BusStop>?> {
 /// Map&lt;String, Map&lt;String, List&lt;BusTrip&gt;&gt;&gt;
 /// 1つ目のStringキー: from_fun, to_fun
 /// 2つ目のStringキー: holiday, weekday
-final busDataProvider = NotifierProvider<BusDataNotifier, Map<String, Map<String, List<BusTrip>>>?>(
-    BusDataNotifier.new);
+final busDataProvider =
+    NotifierProvider<BusDataNotifier, Map<String, Map<String, List<BusTrip>>>?>(
+        BusDataNotifier.new);
 
-class BusDataNotifier extends Notifier<Map<String, Map<String, List<BusTrip>>>?> {
+final class BusDataNotifier
+    extends Notifier<Map<String, Map<String, List<BusTrip>>>?> {
   @override
   Map<String, Map<String, List<BusTrip>>>? build() {
     return null;
@@ -46,18 +49,20 @@ final myBusStopProvider = NotifierProvider<MyBusStopNotifier, BusStop>(() {
   return MyBusStopNotifier();
 });
 
-class MyBusStopNotifier extends Notifier<BusStop> {
+final class MyBusStopNotifier extends Notifier<BusStop> {
   @override
   BusStop build() {
-    return const BusStop(
-        14013, '亀田支所前', ['50', '55', '55A', '55B', '55C', '55E', '55F', '55G', '55H']);
+    return const BusStop(14013, '亀田支所前',
+        ['50', '55', '55A', '55B', '55C', '55E', '55F', '55G', '55H']);
   }
 
   Future<void> init() async {
-    final myBusStopPreference = await UserPreferences.getInt(UserPreferenceKeys.myBusStop);
+    final myBusStopPreference =
+        await UserPreferences.getInt(UserPreferenceKeys.myBusStop);
     final allBusStop = ref.watch(allBusStopsProvider);
     if (allBusStop != null) {
-      state = allBusStop.firstWhere((busStop) => busStop.id == (myBusStopPreference ?? 14013));
+      state = allBusStop.firstWhere(
+          (busStop) => busStop.id == (myBusStopPreference ?? 14013));
     } else {
       await init();
     }
@@ -68,9 +73,10 @@ class MyBusStopNotifier extends Notifier<BusStop> {
   }
 }
 
-final busIsToProvider = NotifierProvider<BusIsToNotifier, bool>(BusIsToNotifier.new);
+final busIsToProvider =
+    NotifierProvider<BusIsToNotifier, bool>(BusIsToNotifier.new);
 
-class BusIsToNotifier extends Notifier<bool> {
+final class BusIsToNotifier extends Notifier<bool> {
   @override
   bool build() {
     return true;
@@ -84,7 +90,7 @@ class BusIsToNotifier extends Notifier<bool> {
 final busRefreshProvider =
     NotifierProvider<BusRefreshNotifier, DateTime>(BusRefreshNotifier.new);
 
-class BusRefreshNotifier extends Notifier<DateTime> {
+final class BusRefreshNotifier extends Notifier<DateTime> {
   @override
   DateTime build() {
     return DateTime.now();
@@ -100,7 +106,7 @@ class BusRefreshNotifier extends Notifier<DateTime> {
 final busIsWeekdayNotifier =
     NotifierProvider<BusIsWeekdayNotifier, bool>(BusIsWeekdayNotifier.new);
 
-class BusIsWeekdayNotifier extends Notifier<bool> {
+final class BusIsWeekdayNotifier extends Notifier<bool> {
   @override
   bool build() {
     final now = DateTime.now().weekday;

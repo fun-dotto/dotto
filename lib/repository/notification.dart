@@ -2,19 +2,18 @@ import 'package:dotto/feature/announcement/controller/news_controller.dart';
 import 'package:dotto/importer.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
-class NotificationRepository {
+final class NotificationRepository {
   factory NotificationRepository() {
     return _instance;
   }
   NotificationRepository._internal();
-  static final NotificationRepository _instance = NotificationRepository._internal();
+  static final NotificationRepository _instance =
+      NotificationRepository._internal();
 
   final FirebaseMessaging messaging = FirebaseMessaging.instance;
 
   Future<void> init() async {
-    await messaging.requestPermission(
-      
-    );
+    await messaging.requestPermission();
     final token = await messaging.getToken();
     if (token != null) {
       debugPrint('FCM Token: $token');

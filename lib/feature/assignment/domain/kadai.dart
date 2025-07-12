@@ -1,4 +1,4 @@
-class Kadai {
+final class Kadai {
   Kadai(
     this.id,
     this.courseId,
@@ -18,10 +18,12 @@ class Kadai {
         data['url'] as String?,
         data['starttime'] == 0
             ? null
-            : DateTime.fromMillisecondsSinceEpoch((data['starttime'] as int) * 1000),
+            : DateTime.fromMillisecondsSinceEpoch(
+                (data['starttime'] as int) * 1000),
         data['endtime'] == 0
             ? null
-            : DateTime.fromMillisecondsSinceEpoch((data['endtime'] as int) * 1000));
+            : DateTime.fromMillisecondsSinceEpoch(
+                (data['endtime'] as int) * 1000));
   }
   final int? id;
   final int? courseId;
@@ -32,7 +34,7 @@ class Kadai {
   final DateTime? endtime;
 }
 
-class KadaiList {
+final class KadaiList {
   KadaiList(
     this.courseId,
     this.courseName,

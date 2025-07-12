@@ -3,7 +3,7 @@ import 'package:dotto/feature/setting/repository/settings_repository.dart';
 import 'package:dotto/importer.dart';
 import 'package:flutter/services.dart';
 
-class SettingsSetUserkeyScreen extends StatelessWidget {
+final class SettingsSetUserkeyScreen extends StatelessWidget {
   SettingsSetUserkeyScreen({super.key});
   final TextEditingController controller = TextEditingController();
 

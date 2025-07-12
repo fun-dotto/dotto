@@ -4,7 +4,7 @@ import 'package:dotto/theme/v1/color_fun.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
-class KamokuFeedbackScreen extends StatefulWidget {
+final class KamokuFeedbackScreen extends StatefulWidget {
   const KamokuFeedbackScreen({required this.lessonId, super.key});
 
   final int lessonId;
@@ -13,7 +13,7 @@ class KamokuFeedbackScreen extends StatefulWidget {
   State<KamokuFeedbackScreen> createState() => _KamokuFeedbackScreenState();
 }
 
-class _KamokuFeedbackScreenState extends State<KamokuFeedbackScreen> {
+final class _KamokuFeedbackScreenState extends State<KamokuFeedbackScreen> {
   final userController = TextEditingController();
   double? selectedScore;
   final detailController = TextEditingController();
@@ -112,14 +112,18 @@ class _KamokuFeedbackScreenState extends State<KamokuFeedbackScreen> {
                         padding: const EdgeInsets.only(top: 1, bottom: 1),
                         child: Text(
                           showErrorMessage ? '満足度が入力されていません' : '',
-                          style: TextStyle(color: Colors.red, fontSize: dialogHeight * 0.045),
+                          style: TextStyle(
+                              color: Colors.red,
+                              fontSize: dialogHeight * 0.045),
                         ),
                       ),
                       Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
                           'フィードバック (推奨)',
-                          style: TextStyle(fontSize: dialogWidth * 0.03, color: customFunColor),
+                          style: TextStyle(
+                              fontSize: dialogWidth * 0.03,
+                              color: customFunColor),
                         ),
                       ),
                       SizedBox(
@@ -130,7 +134,8 @@ class _KamokuFeedbackScreenState extends State<KamokuFeedbackScreen> {
                           maxLength: 30,
                           keyboardType: TextInputType.multiline,
                           decoration: InputDecoration(
-                            floatingLabelAlignment: FloatingLabelAlignment.start,
+                            floatingLabelAlignment:
+                                FloatingLabelAlignment.start,
                             border: const OutlineInputBorder(),
                             hintText: '単位、出席、テストの情報など...',
                             hintStyle: TextStyle(fontSize: dialogHeight * 0.05),

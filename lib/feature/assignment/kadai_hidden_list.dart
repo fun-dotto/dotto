@@ -8,9 +8,10 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class KadaiHiddenScreen extends StatefulWidget {
+final class KadaiHiddenScreen extends StatefulWidget {
   const KadaiHiddenScreen({
-    required this.deletedKadaiLists, super.key,
+    required this.deletedKadaiLists,
+    super.key,
   });
 
   final List<KadaiList> deletedKadaiLists;
@@ -19,12 +20,13 @@ class KadaiHiddenScreen extends StatefulWidget {
   State<KadaiHiddenScreen> createState() => _KadaiHiddenScreenState();
 }
 
-class _KadaiHiddenScreenState extends State<KadaiHiddenScreen> {
+final class _KadaiHiddenScreenState extends State<KadaiHiddenScreen> {
   List<int> deleteList = [];
   List<Kadai> hiddenKadai = [];
 
   Future<void> loadDeleteList() async {
-    final jsonString = await UserPreferences.getString(UserPreferenceKeys.kadaiDeleteList);
+    final jsonString =
+        await UserPreferences.getString(UserPreferenceKeys.kadaiDeleteList);
     if (jsonString != null) {
       setState(() {
         deleteList = List<int>.from(json.decode(jsonString) as List);
@@ -33,7 +35,8 @@ class _KadaiHiddenScreenState extends State<KadaiHiddenScreen> {
   }
 
   Future<void> saveDeleteList() async {
-    await UserPreferences.setString(UserPreferenceKeys.kadaiDeleteList, json.encode(deleteList));
+    await UserPreferences.setString(
+        UserPreferenceKeys.kadaiDeleteList, json.encode(deleteList));
   }
 
   Future<void> hiddenKadaiList() async {
@@ -138,7 +141,8 @@ class _KadaiHiddenScreenState extends State<KadaiHiddenScreen> {
                       leading: const SizedBox(
                         width: 20,
                       ),
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                      contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 8),
                       title: Text(
                         hiddenKadai[index].name!,
                         style: const TextStyle(

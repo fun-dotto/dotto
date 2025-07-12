@@ -4,7 +4,7 @@ import 'package:dotto/feature/bus/repository/bus_repository.dart';
 import 'package:dotto/importer.dart';
 import 'package:dotto/theme/v1/app_color.dart';
 
-class BusCard extends ConsumerWidget {
+final class BusCard extends ConsumerWidget {
   const BusCard(this.route, this.beginTime, this.endTime, this.arriveAt,
       {super.key, this.isKameda = false, this.home = false});
   final String route;
@@ -32,13 +32,16 @@ class BusCard extends ConsumerWidget {
     final busIsTo = ref.watch(busIsToProvider);
     final myBusStop = ref.watch(myBusStopProvider);
     final tripType = getType();
-    final headerText = tripType != BusType.other ? tripType.where + (busIsTo ? 'から' : '行き') : '';
+    final headerText = tripType != BusType.other
+        ? tripType.where + (busIsTo ? 'から' : '行き')
+        : '';
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
       color: Colors.white,
       shadowColor: Colors.black,
       child: Container(
-        padding: EdgeInsets.only(left: 10, right: 10, bottom: 10, top: (home ? 0 : 10)),
+        padding: EdgeInsets.only(
+            left: 10, right: 10, bottom: 10, top: (home ? 0 : 10)),
         width: MediaQuery.of(context).size.width * 0.85,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -49,7 +52,9 @@ class BusCard extends ConsumerWidget {
                 children: [
                   Expanded(
                     child: Text(
-                      busIsTo ? '${myBusStop.name} → 未来大' : '未来大 → ${myBusStop.name}',
+                      busIsTo
+                          ? '${myBusStop.name} → 未来大'
+                          : '未来大 → ${myBusStop.name}',
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),

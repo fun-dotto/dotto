@@ -10,7 +10,7 @@ abstract final class MapColors {
 }
 
 // 階段の時の描画設定
-class MapStairType {
+final class MapStairType {
   const MapStairType(this.direction, this.up, this.down);
   final Axis direction;
   final bool up;
@@ -24,8 +24,7 @@ class MapStairType {
 ///
 /// top, right, bottom, left: Borderサイズ, txt
 // ignore: must_be_immutable
-class MapTile extends StatelessWidget {
-
+final class MapTile extends StatelessWidget {
   MapTile(
     this.width,
     this.height,
@@ -109,8 +108,10 @@ class MapTile extends StatelessWidget {
 
   Widget stackTextIcon() {
     double iconSize = 8;
-    final iconLength =
-        (wc & 0x0001) + (wc & 0x0010) ~/ 0x0010 + (wc & 0x0100) ~/ 0x0100 + (wc & 0x1000) ~/ 0x1000;
+    final iconLength = (wc & 0x0001) +
+        (wc & 0x0010) ~/ 0x0010 +
+        (wc & 0x0100) ~/ 0x0100 +
+        (wc & 0x1000) ~/ 0x1000;
     if (width == 1) {
       iconSize = 6;
     } else if (width * height / iconLength <= 2) {
@@ -253,7 +254,9 @@ class MapTile extends StatelessWidget {
                   right: oneBorderSide(right, focus),
                   bottom: oneBorderSide(bottom, focus),
                   left: oneBorderSide(left, focus)),
-              color: (ttype == MapTileType.empty) ? tileColor : MapTileType.road.backgroundColor,
+              color: (ttype == MapTileType.empty)
+                  ? tileColor
+                  : MapTileType.road.backgroundColor,
             ),
             child: SizedBox.expand(
               child: (innerWidget == null)
@@ -305,7 +308,8 @@ class MapTile extends StatelessWidget {
     }
     return Consumer(builder: (context, ref, child) {
       final mapPage = ref.watch(mapPageProvider);
-      final mapSearchBarFocusNotifier = ref.watch(mapSearchBarFocusProvider.notifier);
+      final mapSearchBarFocusNotifier =
+          ref.watch(mapSearchBarFocusProvider.notifier);
       ref.watch(mapUsingMapProvider);
       return GestureDetector(
         onTap: (txt.isNotEmpty && ttype.index <= MapTileType.subroom.index)
@@ -313,14 +317,15 @@ class MapTile extends StatelessWidget {
                 showBottomSheet(
                   context: context,
                   builder: (BuildContext context) {
-                    return MapDetailBottomSheet(floor: floorBarString[mapPage], roomName: txt);
+                    return MapDetailBottomSheet(
+                        floor: floorBarString[mapPage], roomName: txt);
                   },
                 );
                 mapSearchBarFocusNotifier.state.unfocus();
               }
             : null,
-        child: Stack(
-            alignment: AlignmentDirectional.center, children: widgetList),
+        child:
+            Stack(alignment: AlignmentDirectional.center, children: widgetList),
       );
     });
   }

@@ -5,14 +5,14 @@ final userProvider = NotifierProvider<UserNotifier, User?>(() {
   return UserNotifier();
 });
 
-class UserNotifier extends Notifier<User?> {
+final class UserNotifier extends Notifier<User?> {
   @override
   User? build() {
     return FirebaseAuth.instance.currentUser;
   }
 
   User? get user => state;
-  
+
   set user(User? user) {
     state = user;
   }

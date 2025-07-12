@@ -2,7 +2,7 @@ import 'package:dotto/theme/colors/theme_extension.dart';
 import 'package:dotto/theme/v1/color_fun.dart';
 import 'package:flutter/material.dart';
 
-class DottoTheme {
+final class DottoTheme {
   static ThemeData get v2 {
     return ThemeData(
       colorScheme: const ColorScheme.light(),

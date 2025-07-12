@@ -3,7 +3,7 @@ import 'package:dotto/repository/db_config.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:sqflite/sqflite.dart';
 
-class KamokuDetailRepository {
+final class KamokuDetailRepository {
   factory KamokuDetailRepository() {
     return _instance;
   }

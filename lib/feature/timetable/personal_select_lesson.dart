@@ -5,8 +5,9 @@ import 'package:dotto/importer.dart';
 import 'package:dotto/theme/v1/color_fun.dart';
 import 'package:dotto/widget/loading_circular.dart';
 
-class PersonalSelectLessonScreen extends StatelessWidget {
-  const PersonalSelectLessonScreen(this.term, this.week, this.period, {super.key});
+final class PersonalSelectLessonScreen extends StatelessWidget {
+  const PersonalSelectLessonScreen(this.term, this.week, this.period,
+      {super.key});
 
   final int term;
   final int week;
@@ -39,15 +40,18 @@ class PersonalSelectLessonScreen extends StatelessWidget {
                     final int lessonId = termList[index]['lessonId'] as int;
                     return ListTile(
                       title: Text(termList[index]['授業名'] as String),
-                      trailing: personalLessonIdList.contains(termList[index]['lessonId'])
+                      trailing: personalLessonIdList
+                              .contains(termList[index]['lessonId'])
                           ? ElevatedButton(
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.blue,
                                 foregroundColor: Colors.white,
-                                padding: const EdgeInsets.symmetric(horizontal: 10),
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 10),
                               ),
                               onPressed: () async {
-                                TimetableRepository().removePersonalTimeTableList(lessonId, ref);
+                                TimetableRepository()
+                                    .removePersonalTimeTableList(lessonId, ref);
                                 if (context.mounted) {
                                   Navigator.of(context).pop();
                                 }
@@ -57,16 +61,18 @@ class PersonalSelectLessonScreen extends StatelessWidget {
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: customFunColor,
                                 foregroundColor: Colors.white,
-                                padding: const EdgeInsets.symmetric(horizontal: 10),
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 10),
                               ),
                               onPressed: () async {
-                                if (await TimetableRepository()
-                                    .isOverSeleted(termList[index]['lessonId'] as int, ref)) {
+                                if (await TimetableRepository().isOverSeleted(
+                                    termList[index]['lessonId'] as int, ref)) {
                                   if (context.mounted) {
                                     timetableIsOverSelectedSnackBar(context);
                                   }
                                 } else {
-                                  TimetableRepository().addPersonalTimeTableList(lessonId, ref);
+                                  TimetableRepository()
+                                      .addPersonalTimeTableList(lessonId, ref);
                                   if (context.mounted) {
                                     Navigator.of(context).pop();
                                   }

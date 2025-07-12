@@ -5,7 +5,7 @@ import 'package:dotto/feature/map/widget/map_grid.dart';
 import 'package:dotto/feature/map/widget/map_search.dart';
 import 'package:dotto/importer.dart';
 
-class MapScreen extends StatelessWidget {
+final class MapScreen extends StatelessWidget {
   const MapScreen({super.key});
 
   @override
@@ -37,7 +37,8 @@ class MapScreen extends StatelessWidget {
   Widget _mapView() {
     return Consumer(
       builder: (context, ref, child) {
-        final mapViewTransformationController = ref.watch(mapViewTransformationControllerProvider);
+        final mapViewTransformationController =
+            ref.watch(mapViewTransformationControllerProvider);
         return InteractiveViewer(
           maxScale: 10,
           // 倍率行列Matrix4

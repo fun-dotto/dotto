@@ -9,7 +9,7 @@ final newsListProvider = NotifierProvider<NewsListNotifier, List<News>?>(() {
   return NewsListNotifier();
 });
 
-class NewsFromPushNotificationNotifier extends Notifier<String?> {
+final class NewsFromPushNotificationNotifier extends Notifier<String?> {
   @override
   String? build() {
     return null;
@@ -24,7 +24,7 @@ class NewsFromPushNotificationNotifier extends Notifier<String?> {
   }
 }
 
-class NewsListNotifier extends Notifier<List<News>?> {
+final class NewsListNotifier extends Notifier<List<News>?> {
   @override
   List<News>? build() {
     return null;

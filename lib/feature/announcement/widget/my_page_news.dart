@@ -5,7 +5,7 @@ import 'package:dotto/theme/v1/animation.dart';
 import 'package:dotto/theme/v1/app_color.dart';
 import 'package:flutter/material.dart';
 
-class MyPageNews extends StatelessWidget {
+final class MyPageNews extends StatelessWidget {
   const MyPageNews({super.key});
 
   @override
@@ -37,7 +37,8 @@ class MyPageNews extends StatelessWidget {
           GestureDetector(
             onTap: () => Navigator.of(context).push(
               PageRouteBuilder<void>(
-                pageBuilder: (context, animation, secondaryAnimation) => const NewsScreen(),
+                pageBuilder: (context, animation, secondaryAnimation) =>
+                    const NewsScreen(),
                 transitionsBuilder: fromRightAnimation,
               ),
             ),

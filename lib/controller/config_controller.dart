@@ -2,8 +2,7 @@ import 'package:dotto/domain/remote_config_keys.dart';
 import 'package:dotto/repository/remote_config_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class ConfigController extends StateNotifier<ConfigState> {
-
+final class ConfigController extends StateNotifier<ConfigState> {
   ConfigController(this._remoteConfigRepository) : super(const ConfigState());
   final RemoteConfigRepository _remoteConfigRepository;
 
@@ -11,9 +10,12 @@ class ConfigController extends StateNotifier<ConfigState> {
     state = state.copyWith(isLoading: true);
 
     try {
-      final isDesignV2Enabled = _remoteConfigRepository.getBool(RemoteConfigKeys.isDesignV2Enabled);
-      final isFunchEnabled = _remoteConfigRepository.getBool(RemoteConfigKeys.isFunchEnabled);
-      final isValidAppVersion = _remoteConfigRepository.getBool(RemoteConfigKeys.isValidAppVersion);
+      final isDesignV2Enabled =
+          _remoteConfigRepository.getBool(RemoteConfigKeys.isDesignV2Enabled);
+      final isFunchEnabled =
+          _remoteConfigRepository.getBool(RemoteConfigKeys.isFunchEnabled);
+      final isValidAppVersion =
+          _remoteConfigRepository.getBool(RemoteConfigKeys.isValidAppVersion);
 
       state = state.copyWith(
         isDesignV2Enabled: isDesignV2Enabled,
@@ -30,8 +32,7 @@ class ConfigController extends StateNotifier<ConfigState> {
   }
 }
 
-class ConfigState {
-
+final class ConfigState {
   const ConfigState({
     this.isDesignV2Enabled = false,
     this.isFunchEnabled = false,
@@ -39,12 +40,14 @@ class ConfigState {
     this.isLoading = false,
     this.error,
   });
-  static const String cloudflareR2Endpoint = String.fromEnvironment('CLOUDFLARE_R2_ENDPOINT');
+  static const String cloudflareR2Endpoint =
+      String.fromEnvironment('CLOUDFLARE_R2_ENDPOINT');
   static const String cloudflareR2AccessKeyId =
       String.fromEnvironment('CLOUDFLARE_R2_ACCESS_KEY_ID');
   static const String cloudflareR2SecretAccessKey =
       String.fromEnvironment('CLOUDFLARE_R2_SECRET_ACCESS_KEY');
-  static const String cloudflareR2BucketName = String.fromEnvironment('CLOUDFLARE_R2_BUCKET_NAME');
+  static const String cloudflareR2BucketName =
+      String.fromEnvironment('CLOUDFLARE_R2_BUCKET_NAME');
 
   final bool isDesignV2Enabled;
   final bool isFunchEnabled;
@@ -74,6 +77,7 @@ final remoteConfigRepositoryProvider = Provider<RemoteConfigRepository>((ref) {
   return RemoteConfigRepository();
 });
 
-final configControllerProvider = StateNotifierProvider<ConfigController, ConfigState>((ref) {
+final configControllerProvider =
+    StateNotifierProvider<ConfigController, ConfigState>((ref) {
   return ConfigController(ref.read(remoteConfigRepositoryProvider));
 });

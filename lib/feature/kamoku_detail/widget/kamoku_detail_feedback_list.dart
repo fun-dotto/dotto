@@ -4,20 +4,23 @@ import 'package:dotto/widget/loading_circular.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
-class KamokuDetailFeedbackList extends StatefulWidget {
+final class KamokuDetailFeedbackList extends StatefulWidget {
   const KamokuDetailFeedbackList({required this.lessonId, super.key});
 
   final int lessonId;
 
   @override
-  State<KamokuDetailFeedbackList> createState() => _KamokuDetailFeedbackListState();
+  State<KamokuDetailFeedbackList> createState() =>
+      _KamokuDetailFeedbackListState();
 }
 
-class _KamokuDetailFeedbackListState extends State<KamokuDetailFeedbackList> {
+final class _KamokuDetailFeedbackListState
+    extends State<KamokuDetailFeedbackList> {
   double averageScore = 0;
 
   // 平均満足度の計算
-  double _computeAverageScore(List<DocumentSnapshot<Map<String, dynamic>>> documents) {
+  double _computeAverageScore(
+      List<DocumentSnapshot<Map<String, dynamic>>> documents) {
     var totalScore = 0.0;
     for (final document in documents) {
       final score = (document.get('score') as num? ?? 0.0).toDouble();
@@ -27,7 +30,8 @@ class _KamokuDetailFeedbackListState extends State<KamokuDetailFeedbackList> {
   }
 
   // 各点の満足度の割合を計算
-  double _percentageOfRating(List<DocumentSnapshot<Map<String, dynamic>>> documents, int rating) {
+  double _percentageOfRating(
+      List<DocumentSnapshot<Map<String, dynamic>>> documents, int rating) {
     var count = 0;
     for (final document in documents) {
       if (document.get('score') == rating) {
@@ -58,8 +62,10 @@ class _KamokuDetailFeedbackListState extends State<KamokuDetailFeedbackList> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-      stream: KamokuDetailRepository().getFeedbackListFromFirestore(widget.lessonId),
-      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+      stream: KamokuDetailRepository()
+          .getFeedbackListFromFirestore(widget.lessonId),
+      builder: (BuildContext context,
+          AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
         if (snapshot.hasError) {
           return Text('エラー: ${snapshot.error}');
         }
@@ -151,10 +157,12 @@ class _KamokuDetailFeedbackListState extends State<KamokuDetailFeedbackList> {
                     itemBuilder: (BuildContext context, int index) {
                       final document = documents[index];
                       final detail = document.get('detail');
-                      final score = (document.get('score') as num? ?? 0).toDouble();
+                      final score =
+                          (document.get('score') as num? ?? 0).toDouble();
 
                       if (detail == null || detail.toString().trim().isEmpty) {
-                        return const SizedBox.shrink(); // detailがnullまたは空の場合は何も表示しない
+                        return const SizedBox
+                            .shrink(); // detailがnullまたは空の場合は何も表示しない
                       }
 
                       return Container(
