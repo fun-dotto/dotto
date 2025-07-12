@@ -1,22 +1,6 @@
-import 'package:dotto/feature/funch/repository/funch_repository.dart';
-import 'package:dotto/importer.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final funchDateProvider = NotifierProvider<FunchDateNotifier, DateTime>(() {
-  return FunchDateNotifier();
+final funchDateProvider = StateProvider<DateTime>((ref) {
+  final now = DateTime.now();
+  return DateTime(now.year, now.month, now.day);
 });
-
-class FunchDateNotifier extends Notifier<DateTime> {
-  // 初期値を設定する
-  @override
-  DateTime build() {
-    return FunchRepository().nextDay();
-  }
-
-  void set(DateTime dt) {
-    state = dt;
-  }
-
-  void today() {
-    state = DateTime.now();
-  }
-}

@@ -12,7 +12,6 @@ import 'package:dotto/domain/tab_item.dart';
 import 'package:dotto/feature/map/controller/map_controller.dart';
 import 'package:dotto/feature/map/repository/map_repository.dart';
 import 'package:dotto/feature/my_page/feature/bus/controller/bus_controller.dart';
-import 'package:dotto/feature/funch/controller/funch_providers.dart';
 import 'package:dotto/feature/my_page/feature/bus/repository/bus_repository.dart';
 import 'package:dotto/feature/my_page/feature/news/controller/news_controller.dart';
 import 'package:dotto/feature/my_page/feature/news/repository/news_repository.dart';
@@ -119,10 +118,6 @@ class _BasePageState extends ConsumerState<BasePage> {
     ref.read(newsListProvider.notifier).update(await NewsRepository().getNewsListFromFirestore());
   }
 
-  Future<void> getFunchMenuList() async {
-    ref.read(funchAllCoopMenuProvider.notifier).fetchAllCoopMenu();
-  }
-
   Future<void> saveFCMToken() async {
     final didSave = await UserPreferences.getBool(UserPreferenceKeys.didSaveFCMToken) ?? false;
     debugPrint("didSaveFCMToken: $didSave");
@@ -154,7 +149,6 @@ class _BasePageState extends ConsumerState<BasePage> {
     setupUniversalLinks();
     getPersonalLessonIdList();
     getBus();
-    getFunchMenuList();
     getNews();
     saveFCMToken();
   }

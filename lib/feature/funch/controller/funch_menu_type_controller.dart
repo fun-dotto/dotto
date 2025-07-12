@@ -1,11 +1,12 @@
 import 'package:dotto/feature/funch/domain/funch_menu_category.dart';
-import 'package:dotto/importer.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final funchMenuTypeProvider = NotifierProvider<FunchMenuTypeNotifier, FunchMenuCategory>(() {
-  return FunchMenuTypeNotifier();
+final funchMenuCategoryProvider =
+    NotifierProvider<FunchMenuCategoryNotifier, FunchMenuCategory>(() {
+  return FunchMenuCategoryNotifier();
 });
 
-class FunchMenuTypeNotifier extends Notifier<FunchMenuCategory> {
+class FunchMenuCategoryNotifier extends Notifier<FunchMenuCategory> {
   // 初期値を設定する
   @override
   FunchMenuCategory build() {
@@ -17,5 +18,3 @@ class FunchMenuTypeNotifier extends Notifier<FunchMenuCategory> {
     state = type;
   }
 }
-
-final funchMyPageIndexProvider = StateProvider((ref) => 0);

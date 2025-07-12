@@ -1,23 +1,125 @@
 import 'package:dotto/components/color_fun.dart';
-import 'package:dotto/feature/funch/controller/funch_providers.dart';
-import 'package:dotto/feature/funch/domain/funch_menu.dart';
+import 'package:dotto/feature/funch/controller/funch_all_daily_menu_controller.dart';
+import 'package:dotto/feature/funch/controller/funch_date_controller.dart';
+import 'package:dotto/feature/funch/controller/funch_menu_type_controller.dart';
 import 'package:dotto/feature/funch/domain/funch_menu_category.dart';
+import 'package:dotto/feature/funch/domain/funch_daily_menu.dart';
+import 'package:dotto/feature/funch/utility/datetime.dart';
 import 'package:dotto/feature/funch/widget/funch_menu_card.dart';
 import 'package:dotto/importer.dart';
 import 'package:intl/intl.dart';
 
-class FunchScreen extends ConsumerWidget {
+final class FunchScreen extends ConsumerWidget {
   const FunchScreen({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final dailyMenuList = ref.watch(funchAllDailyMenuListProvider);
+    final date = ref.watch(funchDateProvider);
+    final category = ref.watch(funchMenuCategoryProvider);
+
+    final content = dailyMenuList.when(
+      loading: () {
+        return const SizedBox.shrink();
+      },
+      error: (error, stackTrace) {
+        return const SizedBox.shrink();
+      },
+      data: (data) {
+        final dailyMenu = data[DateTimeUtility.dateKey(date)];
+        if (dailyMenu == null) {
+          return const SizedBox.shrink();
+        }
+        return _menuListByCategory(dailyMenu, category);
+      },
+    );
+
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: TextButton(
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(
+                Icons.expand_more,
+                color: Colors.white,
+                size: 30,
+              ), // アイコンの配置
+              SizedBox(width: 8),
+              Text(
+                getDateString(date),
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 20,
+                ),
+              ),
+            ],
+          ),
+          onPressed: () async {
+            if (context.mounted) {
+              _showModalBottomSheet(context, ref);
+            }
+          },
+        ),
+      ),
+      body: Column(
+        children: [
+          // 均等配置
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 16),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly, // 均等配置
+              children: menuTypeButton(ref),
+            ),
+          ),
+          Expanded(
+            child: SingleChildScrollView(
+              child: content,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _menuListByCategory(
+    FunchDailyMenu funchDailyMenu,
+    FunchMenuCategory category,
+  ) {
+    if (funchDailyMenu.menuItems.isEmpty) {
+      return Padding(
+        padding: EdgeInsets.symmetric(vertical: 10),
+        child: Text("情報がみつかりません。"),
+      );
+    }
+
+    final filteredItems = funchDailyMenu.getMenuByCategory(category);
+
+    if (filteredItems.isEmpty) {
+      return Padding(
+        padding: EdgeInsets.symmetric(vertical: 10),
+        child: Text("このカテゴリーのメニューはありません。"),
+      );
+    }
+
+    return Column(
+      children: filteredItems.map((menu) {
+        return MenuCard(menu);
+      }).toList(),
+    );
+  }
 
   Widget makeMenuTypeButton(FunchMenuCategory menuType, WidgetRef ref) {
     final buttonSize = 50.0;
-    final funchMenuType = ref.watch(funchMenuTypeProvider);
+    final funchMenuType = ref.watch(funchMenuCategoryProvider);
 
     return Column(
       children: [
         ElevatedButton(
           onPressed: () {
-            ref.read(funchMenuTypeProvider.notifier).set(menuType);
+            ref.read(funchMenuCategoryProvider.notifier).set(menuType);
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: funchMenuType == menuType ? customFunColor : Colors.white,
@@ -58,18 +160,54 @@ class FunchScreen extends ConsumerWidget {
     return FunchMenuCategory.values.map((e) => makeMenuTypeButton(e, ref)).toList();
   }
 
-  Future<List<DateTime>> getMenuDates(WidgetRef ref) async {
-    final funchDate = await ref.watch(funchDaysMenuProvider);
-    return funchDate.keys.toList();
-  }
-
-  Future<List<Map>> _getMenu(WidgetRef ref) async {
-    return [await ref.watch(funchDaysMenuProvider), await ref.watch(funchMonthMenuProvider)];
+  String getDateString(DateTime date) {
+    return '${DateFormat.yMd('ja').format(date)} (${DateFormat.E('ja').format(date)})';
   }
 
   void _showModalBottomSheet(BuildContext context, WidgetRef ref) async {
-    final dates = await getMenuDates(ref);
-    List<String> weekString = ['月', '火', '水', '木', '金', '土', '日'];
+    final funchDailyMenuList = ref.watch(funchAllDailyMenuListProvider);
+
+    final content = funchDailyMenuList.when(
+      loading: () {
+        const List<Widget> content = [];
+        return content;
+      },
+      error: (error, stackTrace) {
+        const List<Widget> content = [];
+        return content;
+      },
+      data: (data) {
+        return data.keys.map((e) {
+          return InkWell(
+            onTap: () {
+              ref.read(funchDateProvider.notifier).state = DateTimeUtility.parseDateKey(e);
+              Navigator.pop(context);
+            },
+            child: Container(
+              padding: EdgeInsets.symmetric(vertical: 10),
+              decoration: BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(color: Colors.grey),
+                ),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    getDateString(DateTimeUtility.parseDateKey(e)),
+                    style: TextStyle(
+                      fontSize: 15,
+                      color: Colors.black,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        }).toList();
+      },
+    );
+
     if (context.mounted) {
       showModalBottomSheet(
         context: context,
@@ -78,124 +216,11 @@ class FunchScreen extends ConsumerWidget {
             height: MediaQuery.of(context).size.height * 0.3,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: dates.map((toElement) {
-                return InkWell(
-                  onTap: () {
-                    ref.read(funchDateProvider.notifier).set(toElement);
-                    Navigator.pop(context);
-                  },
-                  child: Container(
-                    padding: EdgeInsets.symmetric(vertical: 10),
-                    decoration: BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide(color: Colors.grey),
-                      ),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          DateFormat('MM月dd日 ${weekString[toElement.weekday - 1]}曜日')
-                              .format(toElement),
-                          style: TextStyle(
-                            fontSize: 15,
-                            color: Colors.black,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              }).toList(),
+              children: content,
             ),
           );
         },
       );
     }
-  }
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final funchDate = ref.watch(funchDateProvider);
-    final nowMenuType = ref.watch(funchMenuTypeProvider);
-
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: TextButton(
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Icon(
-                Icons.expand_more,
-                color: Colors.white,
-                size: 30,
-              ), // アイコンの配置
-              SizedBox(width: 8),
-              Text(
-                DateFormat('MM月dd日の学食').format(funchDate),
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 20,
-                ),
-              ),
-            ],
-          ),
-          onPressed: () async {
-            if (context.mounted) {
-              _showModalBottomSheet(context, ref);
-            }
-          },
-        ),
-      ),
-      body: Column(
-        children: [
-          // 均等配置
-          Padding(
-            padding: EdgeInsets.symmetric(vertical: 16),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly, // 均等配置
-              children: menuTypeButton(ref),
-            ),
-          ),
-          Expanded(
-            child: SingleChildScrollView(
-              child: FutureBuilder(
-                future: _getMenu(ref),
-                builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const CircularProgressIndicator();
-                  } else if (snapshot.hasError) {
-                    return Text('Error: ${snapshot.error}');
-                  } else {
-                    final Map<DateTime, FunchDaysMenu> funchDaysMenu = snapshot.data![0];
-                    final Map<int, FunchMonthMenu> funchMonthMenu = snapshot.data![1];
-
-                    final dayMenu = funchDaysMenu[funchDate];
-                    final monthMenu = funchMonthMenu[funchDate.month];
-                    if (dayMenu == null || monthMenu == null) return Text("この日の学食はありません。");
-                    final funchCategorizedMenu = [
-                      ...dayMenu.getMenuByCategories(nowMenuType.categoryIds),
-                      ...dayMenu.getOriginalMenuByCategories(nowMenuType.categoryIds),
-                      ...monthMenu.getMenuByCategories(nowMenuType.categoryIds),
-                      ...monthMenu.getOriginalMenuByCategories(nowMenuType.categoryIds),
-                    ];
-
-                    if (funchCategorizedMenu.isEmpty) return Text("このカテゴリーの学食はありません。");
-
-                    return Column(
-                      children: funchCategorizedMenu.map((menu) {
-                        return MenuCard(menu);
-                      }).toList(),
-                    );
-                  }
-                },
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
   }
 }

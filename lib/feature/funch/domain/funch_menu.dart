@@ -1,69 +1,75 @@
 import 'package:dotto/feature/funch/domain/funch_price.dart';
 
 class FunchMenu {
-  final String name;
-  final FunchPrice price;
-  final int category;
-  final String imageUrl;
-  final int? energy;
-
-  FunchMenu(this.name, this.price, this.category, this.imageUrl, this.energy);
-}
-
-class FunchCoopMenu extends FunchMenu {
-  final int itemCode;
-
-  FunchCoopMenu(
-      this.itemCode, super.name, super.price, super.category, super.imageUrl, int super.energy);
-
-  factory FunchCoopMenu.fromMenuJson(Map map) {
-    final itemCode = map["item_code"];
-    final name = map["title"];
-    final price = FunchPrice.fromJson(map["price"]);
-    final category = map["category"];
-    final imageUrl = map["image"];
-    final energy = map["energy"];
-    return FunchCoopMenu(itemCode, name, price, category, imageUrl, energy);
-  }
-}
-
-class FunchOriginalMenu extends FunchMenu {
   final String id;
+  final String name;
+  final int categoryId;
+  final FunchPrice prices;
+  final String imageUrl;
 
-  FunchOriginalMenu(this.id, super.name, super.price, super.category, super.imageUrl, super.energy);
+  FunchMenu(this.id, this.name, this.categoryId, this.prices, this.imageUrl);
 }
 
-class FunchMenuSet {
-  final List<FunchCoopMenu> menu;
-  final List<FunchOriginalMenu> originalMenu;
+final class FunchCommonMenu extends FunchMenu {
+  final int energy;
 
-  FunchMenuSet(this.menu, this.originalMenu);
+  FunchCommonMenu(
+    super.id,
+    super.name,
+    super.categoryId,
+    super.prices,
+    super.imageUrl,
+    this.energy,
+  );
 
-  List<FunchCoopMenu> getMenuByCategory(int category) {
-    return menu.where((element) => element.category == category).toList();
-  }
-
-  List<FunchCoopMenu> getMenuByCategories(List<int> categories) {
-    return menu.where((element) => categories.contains(element.category)).toList();
-  }
-
-  List<FunchOriginalMenu> getOriginalMenuByCategory(int category) {
-    return originalMenu.where((element) => element.category == category).toList();
-  }
-
-  List<FunchOriginalMenu> getOriginalMenuByCategories(List<int> categories) {
-    return originalMenu.where((element) => categories.contains(element.category)).toList();
+  factory FunchCommonMenu.fromJson(Map<String, dynamic> json) {
+    if (json.isEmpty) {
+      throw ArgumentError('JSON cannot be empty');
+    }
+    if (!json.containsKey('item_code') ||
+        !json.containsKey('title') ||
+        !json.containsKey('price') ||
+        !json.containsKey('category') ||
+        !json.containsKey('image') ||
+        !json.containsKey('energy')) {
+      throw ArgumentError(
+          'JSON must contain item_code, title, price, category, image, and energy keys');
+    }
+    final id = json["item_code"].toString();
+    final name = json["title"];
+    final prices = FunchPrice.fromJson(json["price"]);
+    final category = json["category"];
+    final imageUrl = json["image"];
+    final energy = json["energy"];
+    return FunchCommonMenu(id, name, category, prices, imageUrl, energy);
   }
 }
 
-class FunchDaysMenu extends FunchMenuSet {
-  final DateTime date;
+final class FunchOriginalMenu extends FunchMenu {
+  FunchOriginalMenu(
+    super.id,
+    super.name,
+    super.categoryId,
+    super.prices,
+    super.imageUrl,
+  );
 
-  FunchDaysMenu(this.date, super.menu, super.originalMenu);
-}
-
-class FunchMonthMenu extends FunchMenuSet {
-  final int month;
-
-  FunchMonthMenu(this.month, super.menu, super.originalMenu);
+  factory FunchOriginalMenu.fromJson(Map<String, dynamic> json) {
+    if (json.isEmpty) {
+      throw ArgumentError('JSON cannot be empty');
+    }
+    if (!json.containsKey('id') ||
+        !json.containsKey('name') ||
+        !json.containsKey('category_id') ||
+        !json.containsKey('prices')) {
+      throw ArgumentError('JSON must contain id, name, category_id, and prices keys');
+    }
+    final id = json['id'];
+    final name = json['name'];
+    final categoryId = json['category_id'];
+    final prices = FunchPrice.fromJson(json['prices'] as Map<String, dynamic>);
+    final imageUrl =
+        "https://firebasestorage.googleapis.com/v0/b/swift2023groupc.appspot.com/o/funch%2Fimages%2F$id.webp?alt=media";
+    return FunchOriginalMenu(id, name, categoryId, prices, imageUrl);
+  }
 }

@@ -1,4 +1,4 @@
-import 'package:dotto/importer.dart';
+import 'package:flutter/material.dart';
 
 enum FunchMenuCategory {
   set("セット・単品", [1, 7, 8], Icons.restaurant),

@@ -79,7 +79,6 @@ class _FileViewerScreenState extends State<FileViewerScreen> {
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.done) {
                     if (snapshot.hasData) {
-                      debugPrint(snapshot.data);
                       return KakomonObjectIfType(url: widget.url, filepath: snapshot.data!);
                     } else {
                       return const Center(child: Text("エラー"));

@@ -3,25 +3,34 @@ import 'package:dotto/feature/funch/domain/funch_menu.dart';
 import 'package:dotto/feature/funch/domain/funch_menu_category.dart';
 import 'package:dotto/importer.dart';
 
-class FunchPriceList extends StatelessWidget {
+final class FunchPriceList extends StatelessWidget {
   final FunchMenu menu;
   final bool isHome;
 
   const FunchPriceList(this.menu, {super.key, this.isHome = false});
 
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: priceText(),
+    );
+  }
+
   List<Widget> priceText() {
     List<Widget> priceText = [];
     if (![...FunchMenuCategory.donCurry.categoryIds, ...FunchMenuCategory.noodle.categoryIds]
-        .contains(menu.category)) {
+        .contains(menu.categoryId)) {
       return [
         Text(
-          '¥${menu.price.medium}',
+          '¥${menu.prices.medium}',
           style: const TextStyle(fontSize: 20),
         )
       ];
     }
     final sizeStr = ["大", "中", "小"];
-    final price = [menu.price.large, menu.price.medium, menu.price.small];
+    final price = [menu.prices.large, menu.prices.medium, menu.prices.small];
 
     for (int i = 0; i < price.length; i++) {
       final p = price[i];
@@ -64,14 +73,5 @@ class FunchPriceList extends StatelessWidget {
       );
     }
     return priceText;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: priceText(),
-    );
   }
 }

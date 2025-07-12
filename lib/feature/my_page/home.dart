@@ -4,7 +4,7 @@ import 'package:dotto/components/color_fun.dart';
 import 'package:dotto/controller/config_controller.dart';
 import 'package:dotto/feature/my_page/feature/bus/widget/bus_card_home.dart';
 import 'package:dotto/feature/funch/funch.dart';
-import 'package:dotto/feature/funch/widget/mypage_funch_card.dart';
+import 'package:dotto/feature/funch/widget/funch_mypage_card.dart';
 import 'package:dotto/feature/my_page/feature/news/controller/news_controller.dart';
 import 'package:dotto/feature/my_page/feature/news/news_detail.dart';
 import 'package:dotto/feature/my_page/feature/news/widget/my_page_news.dart';
@@ -125,6 +125,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final config = ref.watch(configControllerProvider);
     WidgetsBinding.instance.addPostFrameCallback((_) => _showPushNotificationNews(context, ref));
@@ -222,7 +227,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               const SizedBox(height: 20),
               const BusCardHome(),
               const SizedBox(height: 20),
-              config.isFunchEnabled ? const MyPageFunchCard() : const SizedBox.shrink(),
+              config.isFunchEnabled ? const FunchMyPageCard() : const SizedBox.shrink(),
               const SizedBox(height: 20),
               const MyPageNews(),
               const SizedBox(height: 20),
