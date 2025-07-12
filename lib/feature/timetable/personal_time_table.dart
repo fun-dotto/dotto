@@ -106,7 +106,7 @@ class PersonalTimeTableScreen extends ConsumerWidget {
         Navigator.of(context).push(
           PageRouteBuilder(
             pageBuilder: (context, animation, secondaryAnimation) =>
-                PersonalSelectLessonScreen(term as int, week as int, period),
+                PersonalSelectLessonScreen(term as int, week as int, period as int),
             transitionsBuilder: fromRightAnimation,
           ),
         );

@@ -67,7 +67,7 @@ class TimetableRepository {
   Future<List<int>> loadLocalPersonalTimeTableList() async {
     final jsonString = await UserPreferences.getString(UserPreferenceKeys.personalTimetableListKey);
     if (jsonString != null) {
-      return List<int>.from(json.decode(jsonString));
+      return List<int>.from(json.decode(jsonString) as List);
     }
     return [];
   }
@@ -87,7 +87,7 @@ class TimetableRepository {
         final localLastUpdated =
             await UserPreferences.getInt(UserPreferenceKeys.personalTimetableLastUpdateKey) ?? 0;
         final diff = localLastUpdated - firestoreLastUpdated.millisecondsSinceEpoch;
-        final firestoreList = List<int>.from(data['2025']);
+        final firestoreList = List<int>.from(data['2025'] as List);
         final localList = await loadLocalPersonalTimeTableList();
         if (localList.isEmpty) {
           personalTimeTableList = firestoreList;
@@ -176,7 +176,7 @@ class TimetableRepository {
           final localLastUpdated =
               await UserPreferences.getInt(UserPreferenceKeys.personalTimetableLastUpdateKey) ?? 0;
           final diff = localLastUpdated - firestoreLastUpdated.millisecondsSinceEpoch;
-          final firestoreList = List<int>.from(data['2025']);
+          final firestoreList = List<int>.from(data['2025'] as List);
           final localList = await loadLocalPersonalTimeTableList(); // ここなぜか取得できない
           if (localList.isEmpty) {
             personalTimeTableList = firestoreList;
@@ -257,15 +257,15 @@ class TimetableRepository {
   }
 
   Future<Map<String, int>> loadPersonalTimeTableMapString(WidgetRef ref) async {
-    final var personalTimeTableListInt = ref.read(personalLessonIdListProvider);
+    final personalTimeTableListInt = ref.read(personalLessonIdListProvider);
 
-    final var database = await openDatabase(SyllabusDBConfig.dbPath);
-    final var loadPersonalTimeTableMap = <String, int>{};
+    final database = await openDatabase(SyllabusDBConfig.dbPath);
+    final loadPersonalTimeTableMap = <String, int>{};
     final List<Map<String, dynamic>> records = await database.rawQuery(
         'select LessonId, 授業名 from sort where LessonId in (${personalTimeTableListInt.join(",")})');
     for (final record in records) {
-      final String lessonName = record['授業名'];
-      final int lessonId = record['LessonId'];
+      final String lessonName = record['授業名'] as String;
+      final int lessonId = record['LessonId'] as int;
       loadPersonalTimeTableMap[lessonName] = lessonId;
     }
     return loadPersonalTimeTableMap;
@@ -276,9 +276,9 @@ class TimetableRepository {
     const fileName = 'map/oneweek_schedule.json';
     try {
       final jsonString = await readJsonFile(fileName);
-      final List<dynamic> jsonData = json.decode(jsonString);
+      final List<dynamic> jsonData = json.decode(jsonString) as List<dynamic>;
 
-      final var personalTimeTableList = ref.read(personalLessonIdListProvider);
+      final personalTimeTableList = ref.read(personalLessonIdListProvider);
 
       final filteredData = <dynamic>[];
       for (final lessonId in personalTimeTableList) {

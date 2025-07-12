@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dotto/controller/user_controller.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:dotto/feature/setting/controller/settings_controller.dart';
 import 'package:dotto/feature/setting/repository/settings_repository.dart';
 import 'package:dotto/feature/setting/widget/license.dart';
