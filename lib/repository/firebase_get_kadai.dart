@@ -1,5 +1,5 @@
-import 'package:dotto/components/kadai.dart';
-import 'package:dotto/components/setting_user_info.dart';
+import 'package:dotto/feature/assignment/domain/kadai.dart';
+import 'package:dotto/repository/setting_user_info.dart';
 import 'package:dotto/repository/get_firebase_realtime_db.dart';
 
 class FirebaseGetKadai {

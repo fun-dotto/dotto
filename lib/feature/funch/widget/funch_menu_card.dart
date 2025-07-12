@@ -1,4 +1,5 @@
-import 'package:dotto/components/app_color.dart';
+import 'package:dotto/asset.dart';
+import 'package:dotto/theme/v1/app_color.dart';
 import 'package:dotto/feature/funch/domain/funch_menu.dart';
 import 'package:dotto/feature/funch/widget/funch_price_list.dart';
 import 'package:dotto/importer.dart';
@@ -38,14 +39,14 @@ final class MenuCard extends StatelessWidget {
                         menu.imageUrl,
                         errorBuilder: (context, error, stackTrace) {
                           return Image.asset(
-                            "assets/images/no_image.png",
+                            Asset.noImage,
                             width: double.infinity,
                             fit: BoxFit.fill,
                           );
                         },
                       )
                     : Image.asset(
-                        "assets/images/no_image.png",
+                        Asset.noImage,
                         width: double.infinity,
                         fit: BoxFit.fill,
                       ),
