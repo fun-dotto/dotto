@@ -759,7 +759,7 @@ final class _KadaiListScreenState extends State<KadaiListScreen> {
             TextButton(
               onPressed: () async {
                 final result = await Navigator.of(context).push(
-                  PageRouteBuilder<void>(
+                  PageRouteBuilder<String?>(
                       pageBuilder: (context, animation, secondaryAnimation) =>
                           KadaiHiddenScreen(deletedKadaiLists: delete),
                       transitionsBuilder: animation),
