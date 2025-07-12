@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dotto/feature/news/domain/news_model.dart';
+import 'package:dotto/feature/announcement/domain/news_model.dart';
 
 class NewsRepository {
   static final NewsRepository _instance = NewsRepository._internal();

@@ -1,4 +1,4 @@
-import 'package:dotto/feature/news/widget/news_list.dart';
+import 'package:dotto/feature/announcement/widget/news_list.dart';
 import 'package:dotto/importer.dart';
 
 class NewsScreen extends StatelessWidget {

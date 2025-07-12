@@ -1,7 +1,7 @@
 import 'package:dotto/theme/v1/animation.dart';
 import 'package:dotto/widget/loading_circular.dart';
-import 'package:dotto/feature/news/controller/news_controller.dart';
-import 'package:dotto/feature/news/news_detail.dart';
+import 'package:dotto/feature/announcement/controller/news_controller.dart';
+import 'package:dotto/feature/announcement/news_detail.dart';
 import 'package:dotto/importer.dart';
 import 'package:intl/intl.dart';
 

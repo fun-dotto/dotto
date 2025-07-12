@@ -1,7 +1,7 @@
 import 'package:dotto/theme/v1/animation.dart';
 import 'package:dotto/theme/v1/app_color.dart';
-import 'package:dotto/feature/news/news.dart';
-import 'package:dotto/feature/news/widget/news_list.dart';
+import 'package:dotto/feature/announcement/news.dart';
+import 'package:dotto/feature/announcement/widget/news_list.dart';
 import 'package:dotto/importer.dart';
 import 'package:flutter/material.dart';
 

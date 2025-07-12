@@ -1,4 +1,4 @@
-import 'package:dotto/feature/news/domain/news_model.dart';
+import 'package:dotto/feature/announcement/domain/news_model.dart';
 import 'package:dotto/importer.dart';
 
 final newsFromPushNotificationProvider =
