@@ -38,7 +38,7 @@ tasks:
   run:
     desc: Run the Flutter app
     cmds:
-      - "{{.FLUTTER}} run"
+      - "{{.FLUTTER}} run --dart-define-from-file=./.env"
 
   clean:
     desc: Clean Flutter build files
@@ -66,12 +66,12 @@ tasks:
   build-ios:
     desc: Build iOS release
     cmds:
-      - "{{.FLUTTER}} build ios --release"
+      - "{{.FLUTTER}} build ios --release --dart-define-from-file=./.env"
 
   build-android:
     desc: Build Android release appbundle
     cmds:
-      - "{{.FLUTTER}} build appbundle --release"
+      - "{{.FLUTTER}} build appbundle --release --dart-define-from-file=./.env"
 
   deploy-ios-firebase-app-distribution:
     desc: Deploy iOS to Firebase App Distribution
