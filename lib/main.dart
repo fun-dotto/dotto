@@ -51,14 +51,13 @@ Future<void> main() async {
   FirebaseDatabase.instance.setPersistenceEnabled(true);
 
   // 画面の向きを固定
-  SystemChrome.setPreferredOrientations([
+  await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
 
   // ローカルタイムゾーンの設定
   await _configureLocalTimeZone();
-  Timer(const Duration(seconds: 1), () {});
 
   // Firebase Messagingのバックグラウンドハンドラーを設定
   await NotificationRepository().init();
@@ -103,7 +102,7 @@ Future<void> _downloadFiles() async {
         }
       },
     );
-  } catch (e) {
+  } on Exception catch (e) {
     debugPrint(e.toString());
   }
 }
