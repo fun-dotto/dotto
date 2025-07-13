@@ -130,7 +130,7 @@ final class _BasePageState extends ConsumerState<BasePage> {
 
   Future<void> getNews() async {
     final newsList = await NewsRepository().getNewsListFromFirestore();
-    ref.read(newsListProvider.notifier).update(newsList);
+    ref.read(newsListProvider.notifier).news = newsList;
   }
 
   Future<void> saveFCMToken() async {
@@ -161,7 +161,7 @@ final class _BasePageState extends ConsumerState<BasePage> {
       }
       await UserPreferences.setBool(
         UserPreferenceKeys.didSaveFCMToken,
-        true,
+        value: true,
       );
     }
   }
@@ -213,7 +213,7 @@ final class _BasePageState extends ConsumerState<BasePage> {
         ));
         await UserPreferences.setBool(
           UserPreferenceKeys.isAppTutorialComplete,
-          true,
+          value: true,
         );
       }
     }

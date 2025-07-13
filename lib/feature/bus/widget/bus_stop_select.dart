@@ -28,7 +28,7 @@ final class BusStopSelectScreen extends ConsumerWidget {
                             ref.read(myBusStopProvider.notifier);
                         await UserPreferences.setInt(
                             UserPreferenceKeys.myBusStop, e.id);
-                        myBusStopNotifier.set(e);
+                        myBusStopNotifier.myBusStop = e;
                         if (context.mounted) {
                           Navigator.of(context).pop();
                         }
