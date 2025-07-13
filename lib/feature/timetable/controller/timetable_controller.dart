@@ -29,7 +29,7 @@ final class PersonalLessonIdListNotifier extends Notifier<List<int>> {
   }
 }
 
-final Provider<Future<Null>> saveTimetableProvider = Provider((ref) async {
+final Provider<Future<void>> saveTimetableProvider = Provider((ref) async {
   final personalLessonIdList = ref.watch(personalLessonIdListProvider);
   await UserPreferences.setString(UserPreferenceKeys.personalTimetableListKey,
       json.encode(personalLessonIdList));

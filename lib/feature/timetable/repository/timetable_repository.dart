@@ -60,7 +60,8 @@ final class TimetableRepository {
 
     final List<Map<String, dynamic>> records = await database.rawQuery(
         'SELECT 授業名 FROM sort WHERE LessonId in (${lessonIdList.join(",")})');
-    final lessonNameList = records.map((e) => e['授業名'] as String).toList();
+    final lessonNameList =
+        records.map((e) => e['授業名'] as String).toList();
     return lessonNameList;
   }
 
@@ -89,15 +90,16 @@ final class TimetableRepository {
         final localLastUpdated = await UserPreferences.getInt(
                 UserPreferenceKeys.personalTimetableLastUpdateKey) ??
             0;
-        final diff =
-            localLastUpdated - firestoreLastUpdated.millisecondsSinceEpoch;
+        final diff = localLastUpdated -
+            firestoreLastUpdated.millisecondsSinceEpoch;
         final firestoreList = List<int>.from(data['2025'] as List);
         final localList = await loadLocalPersonalTimeTableList();
         if (localList.isEmpty) {
           personalTimeTableList = firestoreList;
         } else if (firestoreList.isEmpty) {
           personalTimeTableList = localList;
-          savePersonalTimeTableListToFirestore(personalTimeTableList, ref);
+          await savePersonalTimeTableListToFirestore(
+              personalTimeTableList, ref);
         } else if (diff.abs() > 300000) {
           final firestoreSet = firestoreList.toSet();
           final localSet = localList.toSet();
@@ -112,7 +114,7 @@ final class TimetableRepository {
             final localLessonNameList = await getLessonNameList(
                 localSet.difference(firestoreSet).toList());
             if (context.mounted) {
-              showDialog(
+              await showDialog<void>(
                 barrierDismissible: false,
                 context: context,
                 builder: (context) {
@@ -122,7 +124,8 @@ final class TimetableRepository {
                       child: Column(
                         children: <Widget>[
                           const Text(
-                              'アカウントに紐づいている時間割とローカルの時間割が異なっています。どちらを残しますか？'),
+                              'アカウントに紐づいている時間割とローカルの時間割が'
+                              '異なっています。どちらを残しますか？'),
                           const Text('-- アカウント側に多い科目 --'),
                           ...firestoreLessonNameList.map(Text.new),
                           const SizedBox(height: 10),
@@ -142,9 +145,11 @@ final class TimetableRepository {
                       TextButton(
                         onPressed: () async {
                           personalTimeTableList = localList;
-                          savePersonalTimeTableListToFirestore(
+                          await savePersonalTimeTableListToFirestore(
                               personalTimeTableList, ref);
-                          Navigator.of(context).pop();
+                          if (context.mounted) {
+                            Navigator.of(context).pop();
+                          }
                         },
                         child: const Text('ローカル方を残す'),
                       ),
@@ -159,11 +164,13 @@ final class TimetableRepository {
         }
       } else {
         personalTimeTableList = await loadLocalPersonalTimeTableList();
-        savePersonalTimeTableListToFirestore(personalTimeTableList, ref);
+        await savePersonalTimeTableListToFirestore(
+            personalTimeTableList, ref);
       }
     } else {
       personalTimeTableList = await loadLocalPersonalTimeTableList();
-      savePersonalTimeTableListToFirestore(personalTimeTableList, ref);
+      await savePersonalTimeTableListToFirestore(
+          personalTimeTableList, ref);
     }
   }
 
@@ -171,7 +178,6 @@ final class TimetableRepository {
     final user = ref.read(userProvider);
     var personalTimeTableList = <int>[];
     if (user == null) {
-      Timer(const Duration(seconds: 1), () {});
       personalTimeTableList = await loadLocalPersonalTimeTableList();
     } else {
       final doc = db.collection('user_taking_course').doc(user.uid);
@@ -183,26 +189,28 @@ final class TimetableRepository {
           final localLastUpdated = await UserPreferences.getInt(
                   UserPreferenceKeys.personalTimetableLastUpdateKey) ??
               0;
-          final diff =
-              localLastUpdated - firestoreLastUpdated.millisecondsSinceEpoch;
+          final diff = localLastUpdated -
+              firestoreLastUpdated.millisecondsSinceEpoch;
           final firestoreList = List<int>.from(data['2025'] as List);
-          final localList =
-              await loadLocalPersonalTimeTableList(); // ここなぜか取得できない
+          final localList = await loadLocalPersonalTimeTableList();
+          // ここなぜか取得できない
           if (localList.isEmpty) {
             personalTimeTableList = firestoreList;
           } else if (firestoreList.isEmpty || diff > 600000) {
             personalTimeTableList = localList;
-            savePersonalTimeTableListToFirestore(personalTimeTableList, ref);
+            await savePersonalTimeTableListToFirestore(
+                personalTimeTableList, ref);
           } else {
             personalTimeTableList = firestoreList;
           }
         } else {
           personalTimeTableList = await loadLocalPersonalTimeTableList();
-          savePersonalTimeTableListToFirestore(personalTimeTableList, ref);
+          await savePersonalTimeTableListToFirestore(
+              personalTimeTableList, ref);
         }
       } else {
         personalTimeTableList = await loadLocalPersonalTimeTableList();
-        savePersonalTimeTableListToFirestore(personalTimeTableList, ref);
+        await savePersonalTimeTableListToFirestore(personalTimeTableList, ref);
       }
     }
     await savePersonalTimeTableList(personalTimeTableList, ref);
@@ -275,10 +283,11 @@ final class TimetableRepository {
     final database = await openDatabase(SyllabusDBConfig.dbPath);
     final loadPersonalTimeTableMap = <String, int>{};
     final List<Map<String, dynamic>> records = await database.rawQuery(
-        'select LessonId, 授業名 from sort where LessonId in (${personalTimeTableListInt.join(",")})');
+        'select LessonId, 授業名 from sort where LessonId in '
+        '(${personalTimeTableListInt.join(",")})');
     for (final record in records) {
-      final String lessonName = record['授業名'] as String;
-      final int lessonId = record['LessonId'] as int;
+      final lessonName = record['授業名'] as String;
+      final lessonId = record['LessonId'] as int;
       loadPersonalTimeTableMap[lessonName] = lessonId;
     }
     return loadPersonalTimeTableMap;
@@ -289,20 +298,21 @@ final class TimetableRepository {
     const fileName = 'map/oneweek_schedule.json';
     try {
       final jsonString = await readJsonFile(fileName);
-      final List<dynamic> jsonData = json.decode(jsonString) as List<dynamic>;
+      final jsonData = json.decode(jsonString) as List<dynamic>;
 
       final personalTimeTableList = ref.read(personalLessonIdListProvider);
 
       final filteredData = <dynamic>[];
       for (final lessonId in personalTimeTableList) {
         for (final item in jsonData) {
-          if (item['lessonId'] == lessonId.toString()) {
+          final itemMap = item as Map<String, dynamic>;
+          if (itemMap['lessonId'] == lessonId.toString()) {
             filteredData.add(item);
           }
         }
       }
       return filteredData;
-    } catch (e) {
+    } on Exception {
       return [];
     }
   }
@@ -316,7 +326,7 @@ final class TimetableRepository {
         twoWeekLessonSchedule[date] = await dailyLessonSchedule(date, ref);
       }
       return twoWeekLessonSchedule;
-    } catch (e) {
+    } on Exception {
       return twoWeekLessonSchedule;
     }
   }
@@ -337,15 +347,16 @@ final class TimetableRepository {
     final lessonData = await filterTimeTable(ref);
 
     for (final item in lessonData) {
-      final lessonTime = DateTime.parse(item['start'] as String);
+      final itemMap = item as Map<String, dynamic>;
+      final lessonTime = DateTime.parse(itemMap['start'] as String);
 
       if (selectTime.day == lessonTime.day) {
-        final int period = item['period'] as int;
-        final lessonId = int.parse(item['lessonId'] as String);
+        final period = itemMap['period'] as int;
+        final lessonId = int.parse(itemMap['lessonId'] as String);
         final resourceId = <int>[];
         try {
-          resourceId.add(int.parse(item['resourceId'] as String));
-        } catch (e) {
+          resourceId.add(int.parse(itemMap['resourceId'] as String));
+        } on FormatException {
           // resourceIdが空白
         }
         if (periodData.containsKey(period)) {
@@ -355,36 +366,38 @@ final class TimetableRepository {
           }
         }
         periodData[period]![lessonId] =
-            TimeTableCourse(lessonId, item['title'] as String, resourceId);
+            TimeTableCourse(lessonId, itemMap['title'] as String, resourceId);
       }
     }
 
     var jsonData = await readJsonFile('home/cancel_lecture.json');
-    final List<dynamic> cancelLectureData =
-        jsonDecode(jsonData) as List<dynamic>;
+    final cancelLectureData = jsonDecode(jsonData) as List<dynamic>;
     jsonData = await readJsonFile('home/sup_lecture.json');
-    final List<dynamic> supLectureData = jsonDecode(jsonData) as List<dynamic>;
+    final supLectureData = jsonDecode(jsonData) as List<dynamic>;
     final loadPersonalTimeTableMap = await loadPersonalTimeTableMapString(ref);
 
     for (final cancelLecture in cancelLectureData) {
-      final dt = DateTime.parse(cancelLecture['date'] as String);
+      final cancelMap = cancelLecture as Map<String, dynamic>;
+      final dt = DateTime.parse(cancelMap['date'] as String);
       if (dt.month == selectTime.month && dt.day == selectTime.day) {
-        final String lessonName = cancelLecture['lessonName'] as String;
+        final lessonName = cancelMap['lessonName'] as String;
         if (loadPersonalTimeTableMap.containsKey(lessonName)) {
           final lessonId = loadPersonalTimeTableMap[lessonName]!;
-          periodData[cancelLecture['period']]![lessonId] =
+          periodData[cancelMap['period'] as int]![lessonId] =
               TimeTableCourse(lessonId, lessonName, [], cancel: true);
         }
       }
     }
 
     for (final supLecture in supLectureData) {
-      final dt = DateTime.parse(supLecture['date'] as String);
+      final supMap = supLecture as Map<String, dynamic>;
+      final dt = DateTime.parse(supMap['date'] as String);
       if (dt.month == selectTime.month && dt.day == selectTime.day) {
-        final String lessonName = supLecture['lessonName'] as String;
+        final lessonName = supMap['lessonName'] as String;
         if (loadPersonalTimeTableMap.containsKey(lessonName)) {
           final lessonId = loadPersonalTimeTableMap[lessonName]!;
-          periodData[supLecture['period']]![lessonId]!.sup = true;
+          periodData[supMap['period'] as int]![lessonId] =
+              periodData[supMap['period'] as int]![lessonId]!.withSup();
         }
       }
     }
@@ -422,9 +435,9 @@ final class TimetableRepository {
       final removeLessonIdList = <int>{};
       var flag = false;
       for (final record in targetWeekPeriod) {
-        final int term = record['開講時期'] as int;
-        final int week = record['week'] as int;
-        final int period = record['period'] as int;
+        final term = record['開講時期'] as int;
+        final week = record['week'] as int;
+        final period = record['period'] as int;
         final selectedLessonList = weekPeriodAllRecords.where((record) {
           return record['week'] == week &&
               record['period'] == period &&

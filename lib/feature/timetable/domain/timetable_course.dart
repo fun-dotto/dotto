@@ -5,7 +5,18 @@ final class TimeTableCourse {
   final String title;
   final List<int> resourseIds;
   final bool cancel;
-  bool sup;
+  final bool sup;
+
+  /// Create a copy of this course with sup set to true
+  TimeTableCourse withSup() {
+    return TimeTableCourse(
+      lessonId,
+      title,
+      resourseIds,
+      cancel: cancel,
+      sup: true,
+    );
+  }
 
   @override
   String toString() {
