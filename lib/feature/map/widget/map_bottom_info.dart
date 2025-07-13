@@ -95,7 +95,7 @@ final class MapBottomInfo extends ConsumerWidget {
                                   if (setDate.hour == 0) {
                                     setDate = DateTime.now();
                                   }
-                                  searchDatetimeNotifier.setDatetime(setDate);
+                                  searchDatetimeNotifier.datetime = setDate;
                                   mapUsingMapNotifier.state =
                                       await MapRepository()
                                           .setUsingColor(setDate, ref);
@@ -122,7 +122,7 @@ final class MapBottomInfo extends ConsumerWidget {
                                 minTime: monday,
                                 maxTime: nextSunday,
                                 onConfirm: (date) async {
-                                  searchDatetimeNotifier.setDatetime(date);
+                                  searchDatetimeNotifier.datetime = date;
                                   mapUsingMapNotifier.state =
                                       await MapRepository()
                                           .setUsingColor(date, ref);

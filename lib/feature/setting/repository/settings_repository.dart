@@ -44,7 +44,10 @@ final class SettingsRepository {
           'last_updated': Timestamp.now(),
         });
       }
-      await UserPreferences.setBool(UserPreferenceKeys.didSaveFCMToken, value: true);
+      await UserPreferences.setBool(
+        UserPreferenceKeys.didSaveFCMToken,
+        value: true,
+      );
     }
   }
 

@@ -86,23 +86,28 @@ final class MapTile extends StatelessWidget {
     fontColor = ttype.textColor;
   }
 
+  bool get isUsing => using;
   set isUsing(bool b) {
     using = b;
   }
 
+  Color get tileBackgroundColor => tileColor;
   set tileBackgroundColor(Color c) {
     tileColor = c;
   }
 
+  Color get textColor => fontColor;
   set textColor(Color c) {
     fontColor = c;
   }
 
-  set endTime(DateTime dt) {
+  DateTime? get endTime => useEndTime;
+  set endTime(DateTime? dt) {
     useEndTime = dt;
   }
 
-  set lessonIdList(List<String> lIds) {
+  List<String>? get lessonIdList => lessonIds;
+  set lessonIdList(List<String>? lIds) {
     lessonIds = lIds;
   }
 

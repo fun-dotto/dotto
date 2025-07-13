@@ -133,11 +133,11 @@ final class MapDetailBottomSheet extends ConsumerWidget {
       );
     }
     MapTile? gridMap;
-    try {
-      gridMap = FunGridMaps.mapTileListMap[floor]!
-          .firstWhere((element) => element.txt == roomName);
-    } on StateError {
-      gridMap = null;
+    final mapTileList = FunGridMaps.mapTileListMap[floor];
+    if (mapTileList != null) {
+      final foundTiles = 
+          mapTileList.where((element) => element.txt == roomName);
+      gridMap = foundTiles.isNotEmpty ? foundTiles.first : null;
     }
     return Container(
       height: 250,

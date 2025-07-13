@@ -32,7 +32,9 @@ final class SearchDatetimeNotifier extends Notifier<DateTime> {
     return DateTime.now();
   }
 
-  void setDatetime(DateTime dt) {
+  DateTime get datetime => state;
+
+  set datetime(DateTime dt) {
     state = dt;
   }
 
