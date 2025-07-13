@@ -14,7 +14,9 @@ final class KamokuSearchRepository {
     final database = await openDatabase(SyllabusDBConfig.dbPath);
 
     final List<Map<String, dynamic>> records = await database.rawQuery(
-        'SELECT * FROM week_period where lessonId in (${lessonIdList.join(',')})');
+      'SELECT * FROM week_period '
+      'where lessonId in (${lessonIdList.join(',')})',
+    );
     return records;
   }
 }

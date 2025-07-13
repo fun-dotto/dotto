@@ -42,7 +42,7 @@ final class FunchMyPageCard extends ConsumerWidget {
         GestureDetector(
           onTap: () => Navigator.push(
             context,
-            MaterialPageRoute(
+            MaterialPageRoute<void>(
               builder: (context) => const FunchScreen(),
             ),
           ),
@@ -198,7 +198,11 @@ final class FunchMyPageCard extends ConsumerWidget {
     );
   }
 
-  Widget _buildCarouselIndicators(BuildContext context, WidgetRef ref, List<FunchMenu> menuList) {
+  Widget _buildCarouselIndicators(
+    BuildContext context,
+    WidgetRef ref,
+    List<FunchMenu> menuList,
+  ) {
     final selectedIndex = ref.watch(funchMyPageCardIndexProvider);
 
     return Row(
@@ -208,7 +212,10 @@ final class FunchMyPageCard extends ConsumerWidget {
         return Container(
           width: 8,
           height: 8,
-          margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
+          margin: const EdgeInsets.symmetric(
+            vertical: 8,
+            horizontal: 4,
+          ),
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             color: (Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black)

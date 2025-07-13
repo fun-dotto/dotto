@@ -14,8 +14,8 @@ final class MapDetail {
       final scheduleList = roomScheduleMap[roomName] as List;
       roomScheduleList = scheduleList.map((e) {
         return RoomSchedule.fromFirebase(e as Map<String, dynamic>);
-      }).toList();
-      roomScheduleList.sort(
+      }).toList()
+        ..sort(
         (a, b) {
           return a.begin.compareTo(b.begin);
         },

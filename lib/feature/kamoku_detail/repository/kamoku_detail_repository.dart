@@ -42,7 +42,7 @@ final class KamokuDetailRepository {
             'score': selectedScore,
             'detail': text,
           },
-        );
+        ).ignore();
       } else {
         // 既存のフィードバックが存在しなかったら新しいドキュメントを作成
         FirebaseFirestore.instance.collection('feedback').add(
@@ -52,7 +52,7 @@ final class KamokuDetailRepository {
             'score': selectedScore,
             'detail': text,
           },
-        );
+        ).ignore();
       }
       return true;
     } else {

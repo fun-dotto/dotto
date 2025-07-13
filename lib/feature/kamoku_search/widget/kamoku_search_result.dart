@@ -71,7 +71,7 @@ final class KamokuSearchResults extends ConsumerWidget {
                 subtitle: Text(weekPeriodStringMap[lessonId] ?? ''),
                 onTap: () async {
                   await Navigator.of(context).push(
-                    PageRouteBuilder(
+                    PageRouteBuilder<void>(
                       pageBuilder: (context, animation, secondaryAnimation) {
                         return KamokuDetailPageScreen(
                           lessonId: lessonId,
@@ -99,11 +99,13 @@ final class KamokuSearchResults extends ConsumerWidget {
                         }
                       } else {
                         TimetableRepository()
-                            .addPersonalTimeTableList(lessonId, ref);
+                            .addPersonalTimeTableList(lessonId, ref)
+                            .ignore();
                       }
                     } else {
                       TimetableRepository()
-                          .removePersonalTimeTableList(lessonId, ref);
+                          .removePersonalTimeTableList(lessonId, ref)
+                          .ignore();
                     }
                     twoWeekTimeTableDataNotifier.state =
                         await TimetableRepository().get2WeekLessonSchedule(ref);

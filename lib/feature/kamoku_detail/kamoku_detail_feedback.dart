@@ -59,7 +59,7 @@ final class _KamokuFeedbackScreenState extends State<KamokuFeedbackScreen> {
     final dialogHeight = deviceHeight * 0.30;
     final dialogWidth = deviceWidth;
 
-    showDialog(
+    showDialog<void>(
       barrierDismissible: false,
       context: context,
       builder: (BuildContext context) {

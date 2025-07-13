@@ -19,7 +19,10 @@ final class FunchPriceList extends StatelessWidget {
 
   List<Widget> priceText() {
     final priceText = <Widget>[];
-    if (![...FunchMenuCategory.donCurry.categoryIds, ...FunchMenuCategory.noodle.categoryIds]
+    if (![
+      ...FunchMenuCategory.donCurry.categoryIds,
+      ...FunchMenuCategory.noodle.categoryIds,
+    ]
         .contains(menu.categoryId)) {
       return [
         Text(

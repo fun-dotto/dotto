@@ -24,7 +24,7 @@ final class _KamokuDetailKakomonListObjectsState
         TextButton(
           onPressed: () {
             Navigator.of(context).push(
-              PageRouteBuilder(
+              PageRouteBuilder<void>(
                 pageBuilder: (context, animation, secondaryAnimation) {
                   return FileViewerScreen(
                     url: widget.url,
