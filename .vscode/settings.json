@@ -4,13 +4,13 @@
     ".dart_tool": true,
     ".firebase": true,
     ".fvm": true,
-    "build": true,
+    "build": true
   },
   "files.watcherExclude": {
     ".dart_tool": true,
     ".firebase": true,
     ".fvm": true,
-    "build": true,
+    "build": true
   },
   "dart.lineLength": 80
 }
