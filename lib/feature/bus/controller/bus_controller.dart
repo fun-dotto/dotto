@@ -68,6 +68,8 @@ final class MyBusStopNotifier extends Notifier<BusStop> {
     }
   }
 
+  BusStop get myBusStop => state;
+  
   set myBusStop(BusStop value) {
     state = value;
   }
