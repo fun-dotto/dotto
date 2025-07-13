@@ -15,20 +15,21 @@ final class CourseCancellationScreen extends ConsumerWidget {
         ref.watch(courseCancellationFilterEnabledProvider);
     try {
       final jsonData = await readJsonFile('home/cancel_lecture.json');
-      final List<dynamic> decodedData = jsonDecode(jsonData) as List<dynamic>;
+      final decodedData = jsonDecode(jsonData) as List<dynamic>;
 
       if (courseCancellationFilterEnabled) {
         final personalTimeTableMap =
             await TimetableRepository().loadPersonalTimeTableMapString(ref);
         // デコードされたJSONデータをフィルタリング
-        final filteredData = decodedData.where((item) {
-          return personalTimeTableMap.keys.contains(item['lessonName']);
+        final filteredData = decodedData.where((dynamic item) {
+          final itemMap = item as Map<String, dynamic>;
+          return personalTimeTableMap.keys.contains(itemMap['lessonName'] as String);
         }).toList();
         return filteredData;
       } else {
         return decodedData;
       }
-    } catch (e) {
+    } on Exception {
       return [];
     }
   }
@@ -100,8 +101,10 @@ final class CourseCancellationScreen extends ConsumerWidget {
               final filteredData = courseCancellationSelectedType == 'すべて'
                   ? displayData
                   : displayData
-                      .where((item) =>
-                          item['type'] == courseCancellationSelectedType)
+                      .where((dynamic item) {
+                        final itemMap = item as Map<String, dynamic>;
+                        return itemMap['type'] as String == courseCancellationSelectedType;
+                      })
                       .toList();
 
               return Column(
@@ -142,8 +145,7 @@ final class CourseCancellationScreen extends ConsumerWidget {
         child: ListView.builder(
           itemCount: data.length,
           itemBuilder: (context, index) {
-            final Map<String, dynamic> item =
-                data[index] as Map<String, dynamic>;
+            final item = data[index] as Map<String, dynamic>;
 
             // 各データをリストタイルで表示
             return ListTile(

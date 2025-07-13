@@ -59,7 +59,7 @@ final class FunchScreen extends ConsumerWidget {
           ),
           onPressed: () async {
             if (context.mounted) {
-              _showModalBottomSheet(context, ref);
+              await _showModalBottomSheet(context, ref);
             }
           },
         ),
@@ -207,7 +207,7 @@ final class FunchScreen extends ConsumerWidget {
     );
 
     if (context.mounted) {
-      showModalBottomSheet(
+      await showModalBottomSheet<void>(
         context: context,
         builder: (BuildContext context) {
           return SizedBox(

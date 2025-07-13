@@ -1,7 +1,7 @@
 final class FunchPrice {
   FunchPrice(this.large, this.medium, this.small);
 
-  factory FunchPrice.fromJson(Map map) {
+  factory FunchPrice.fromJson(Map<String, dynamic> map) {
     if (map.isEmpty) {
       throw ArgumentError('JSON cannot be empty');
     }

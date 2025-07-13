@@ -37,7 +37,7 @@ final class PersonalSelectLessonScreen extends StatelessWidget {
                 return ListView.builder(
                   itemCount: termList.length,
                   itemBuilder: (context, index) {
-                    final int lessonId = termList[index]['lessonId'] as int;
+                    final lessonId = termList[index]['lessonId'] as int;
                     return ListTile(
                       title: Text(termList[index]['授業名'] as String),
                       trailing: personalLessonIdList
@@ -50,7 +50,7 @@ final class PersonalSelectLessonScreen extends StatelessWidget {
                                     const EdgeInsets.symmetric(horizontal: 10),
                               ),
                               onPressed: () async {
-                                TimetableRepository()
+                                await TimetableRepository()
                                     .removePersonalTimeTableList(lessonId, ref);
                                 if (context.mounted) {
                                   Navigator.of(context).pop();
@@ -71,7 +71,7 @@ final class PersonalSelectLessonScreen extends StatelessWidget {
                                     timetableIsOverSelectedSnackBar(context);
                                   }
                                 } else {
-                                  TimetableRepository()
+                                  await TimetableRepository()
                                       .addPersonalTimeTableList(lessonId, ref);
                                   if (context.mounted) {
                                     Navigator.of(context).pop();

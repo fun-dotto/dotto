@@ -12,7 +12,7 @@ final class PersonalTimeTableScreen extends ConsumerWidget {
     final personalLessonIdList = ref.watch(personalLessonIdListProvider);
     final weekPeriodAllRecords = ref.watch(weekPeriodAllRecordsProvider);
     if (context.mounted) {
-      showDialog(
+      await showDialog<void>(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
@@ -52,8 +52,8 @@ final class PersonalTimeTableScreen extends ConsumerWidget {
     WidgetRef ref,
     String name,
     int week,
-    period,
-    term,
+    int period,
+    int term,
     List<Map<String, dynamic>> records,
   ) {
     final personalLessonIdList = ref.watch(personalLessonIdListProvider);
@@ -105,10 +105,10 @@ final class PersonalTimeTableScreen extends ConsumerWidget {
       ),
       onTap: () {
         Navigator.of(context).push(
-          PageRouteBuilder(
+          PageRouteBuilder<void>(
             pageBuilder: (context, animation, secondaryAnimation) =>
                 PersonalSelectLessonScreen(
-                    term as int, week as int, period as int),
+                    term, week, period),
             transitionsBuilder: fromRightAnimation,
           ),
         );
