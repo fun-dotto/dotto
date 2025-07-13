@@ -88,7 +88,7 @@ enum MenuCollection {
   monthly('funch_monthly_menu'),
   daily('funch_daily_menu');
 
-  final String name;
-
   const MenuCollection(this.name);
+
+  final String name;
 }

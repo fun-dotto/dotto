@@ -7,9 +7,9 @@ enum FunchMenuCategory {
   sideDish('副菜', [2, 9], Icons.eco),
   dessert('デザート', [3], Icons.cake);
 
+  const FunchMenuCategory(this.title, this.categoryIds, this.icon);
+
   final String title;
   final List<int> categoryIds;
   final IconData icon;
-
-  const FunchMenuCategory(this.title, this.categoryIds, this.icon);
 }
