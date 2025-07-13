@@ -223,8 +223,7 @@ final class MapTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final floorBarString = <String>['1', '2', '3', '4', '5', 'R6', 'R7'];
-    final widgetList = <Widget>[]
-      ..add(SizedBox.expand(child: Consumer(
+    final widgetList = <Widget>[SizedBox.expand(child: Consumer(
       builder: (context, ref, child) {
         final mapFocusMapDetail = ref.watch(mapFocusMapDetailProvider);
         final mapPage = ref.watch(mapPageProvider);
@@ -267,8 +266,7 @@ final class MapTile extends StatelessWidget {
                   : innerWidget,
             ));
       },
-    )))
-      ..add(stackTextIcon());
+    )), stackTextIcon()];
     if (ttype == MapTileType.stair) {
       if (stairType.up && !stairType.down) {
         widgetList.add(SizedBox.expand(

@@ -136,7 +136,7 @@ final class MapDetailBottomSheet extends ConsumerWidget {
     try {
       gridMap = FunGridMaps.mapTileListMap[floor]!
           .firstWhere((element) => element.txt == roomName);
-    } on StateError catch (e) {
+    } catch (_) {
       gridMap = null;
     }
     return Container(
@@ -261,8 +261,7 @@ final class MapDetailBottomSheet extends ConsumerWidget {
                 const Text('詳細は未来大Googleアカウントでログインすることで表示できます。'),
                 OutlinedButton(
                   onPressed: () {
-                    ref.read(tabItemProvider.notifier)
-                      ..selected(TabItem.setting);
+                    ref.read(tabItemProvider.notifier).selected(TabItem.setting);
                   },
                   style: OutlinedButton.styleFrom(
                     foregroundColor: Colors.grey.shade700,

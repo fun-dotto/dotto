@@ -17,9 +17,9 @@ final class KamokuSearchResults extends ConsumerWidget {
         await KamokuSearchRepository().fetchWeekPeriodDB(lessonIdList);
     final weekPeriodMap = <int, Map<int, List<int>>>{};
     for (final record in records) {
-      final int lessonId = record['lessonId'] as int;
-      final int week = record['week'] as int;
-      final int period = record['period'] as int;
+      final lessonId = record['lessonId'] as int;
+      final week = record['week'] as int;
+      final period = record['period'] as int;
       if (weekPeriodMap.containsKey(lessonId)) {
         if (weekPeriodMap[lessonId]!.containsKey(week)) {
           weekPeriodMap[lessonId]![week]!.add(period);
@@ -65,7 +65,7 @@ final class KamokuSearchResults extends ConsumerWidget {
             itemCount: records.length,
             itemBuilder: (context, index) {
               final record = records[index];
-              final int lessonId = record['LessonId'] as int;
+              final lessonId = record['LessonId'] as int;
               return ListTile(
                 title: Text(record['授業名'] as String? ?? ''),
                 subtitle: Text(weekPeriodStringMap[lessonId] ?? ''),
