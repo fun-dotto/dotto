@@ -25,7 +25,8 @@ enum UserPreferenceKeys {
 }
 
 final class UserPreferences {
-  static Future<void> setBool(UserPreferenceKeys key, bool value) async {
+  static Future<void> setBool(
+      UserPreferenceKeys key, {required bool value}) async {
     final prefs = await SharedPreferences.getInstance();
     if (key.type == bool) {
       await prefs.setBool(key.keyName, value);

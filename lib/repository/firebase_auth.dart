@@ -33,7 +33,7 @@ final class FirebaseAuthRepository {
         return null;
       }
       return null;
-    } catch (e) {
+    } on Exception {
       return null;
     }
   }

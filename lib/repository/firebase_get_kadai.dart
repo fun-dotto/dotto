@@ -5,17 +5,17 @@ import 'package:dotto/repository/setting_user_info.dart';
 final class FirebaseGetKadai {
   const FirebaseGetKadai();
   Future<List<KadaiList>> getKadaiFromFirebase() async {
-    final userKey =
-        'dotto_hope_user_key_${await UserPreferences.getString(UserPreferenceKeys.userKey)}';
+    final userKey = 'dotto_hope_user_key_'
+        '${await UserPreferences.getString(UserPreferenceKeys.userKey)}';
     final kadaiList = <Kadai>[];
     final snapshot =
         await GetFirebaseRealtimeDB.getData('hope/users/$userKey/data');
     if (snapshot.exists) {
       final data = snapshot.value! as Map;
-      data.forEach((key, value) {
-        kadaiList.add(
-            Kadai.fromFirebase(key as String, value as Map<String, dynamic>));
-      });
+      for (final entry in data.entries) {
+        kadaiList.add(Kadai.fromFirebase(
+            entry.key as String, entry.value as Map<String, dynamic>));
+      }
     } else {
       throw Exception();
     }

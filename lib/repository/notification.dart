@@ -37,7 +37,8 @@ final class NotificationRepository {
   void _handleMessage(RemoteMessage message, WidgetRef ref) {
     final newsId = message.data['news'];
     if (newsId != null) {
-      ref.read(newsFromPushNotificationProvider.notifier).set(newsId as String);
+      ref.read(newsFromPushNotificationProvider.notifier).newsId =
+          newsId as String;
     }
   }
 }

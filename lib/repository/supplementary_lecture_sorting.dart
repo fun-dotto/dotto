@@ -13,8 +13,9 @@ Future<Map<String, dynamic>> sortSupplementaryLectures(
     '未定': [],
   };
 
-  for (final course in jsonData as List) {
-    final String comment = course['comment'] as String? ?? ''; // nullの場合
+  for (final course in jsonData as List<dynamic>) {
+    final comment =
+        (course as Map<String, dynamic>)['comment'] as String? ?? ''; // nullの場合
 
     // コメントの内容に応じて分類
     if (comment.contains('補講あり')) {

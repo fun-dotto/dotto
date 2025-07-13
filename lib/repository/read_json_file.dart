@@ -6,7 +6,7 @@ Future<String> readJsonFile(String fileName) async {
   final file = File(filePath);
 
   // ファイルの存在確認
-  if (await file.exists()) {
+  if (file.existsSync()) {
     // ファイルの内容を文字列として読み込む
     final content = await file.readAsString();
     if (content == '') {
