@@ -14,7 +14,8 @@ final class FirebaseGetKadai {
       final data = snapshot.value! as Map;
       for (final entry in data.entries) {
         kadaiList.add(Kadai.fromFirebase(
-            entry.key as String, entry.value as Map<String, dynamic>));
+            entry.key as String,
+            Map<String, dynamic>.from(entry.value as Map)));
       }
     } else {
       throw Exception();

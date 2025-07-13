@@ -27,7 +27,7 @@ final class BusTrip {
         map['route'] as String,
         stopsList.map(
           (e) {
-            final stopMap = e as Map<String, dynamic>;
+            final stopMap = Map<String, dynamic>.from(e as Map);
             final id = stopMap['id'] as int;
             final targetBusStop =
                 allStops.firstWhere((busStop) => busStop.id == id);

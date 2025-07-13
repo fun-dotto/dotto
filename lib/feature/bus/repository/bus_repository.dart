@@ -39,7 +39,7 @@ final class BusRepository {
     if (snapshot.exists) {
       final busDataStops = snapshot.value! as List;
       return busDataStops
-          .map((e) => BusStop.fromFirebase(e as Map<String, dynamic>))
+          .map((e) => BusStop.fromFirebase(Map<String, dynamic>.from(e as Map)))
           .toList();
     } else {
       throw Exception();
@@ -63,7 +63,7 @@ final class BusRepository {
             final week = key2 as String;
             allBusTrips[fromTo]![week] = (value2 as List)
                 .map((e) => BusTrip.fromFirebase(
-                      e as Map<String, dynamic>,
+                      Map<String, dynamic>.from(e as Map),
                       allBusStops,
                     ))
                 .toList();
