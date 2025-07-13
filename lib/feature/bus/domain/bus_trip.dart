@@ -27,12 +27,13 @@ final class BusTrip {
         map['route'] as String,
         stopsList.map(
           (e) {
-            final id = e['id'] as int;
+            final stopMap = e as Map<String, dynamic>;
+            final id = stopMap['id'] as int;
             final targetBusStop =
                 allStops.firstWhere((busStop) => busStop.id == id);
             return BusTripStop.fromFirebase(
               targetBusStop,
-              e as Map<String, dynamic>,
+              stopMap,
             );
           },
         ).toList());

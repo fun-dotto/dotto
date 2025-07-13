@@ -13,7 +13,7 @@ final class MapDetail {
     if (roomScheduleMap.containsKey(roomName)) {
       final scheduleList = roomScheduleMap[roomName] as List;
       roomScheduleList = scheduleList.map((e) {
-        return RoomSchedule.fromFirebase(e as Map);
+        return RoomSchedule.fromFirebase(e as Map<String, dynamic>);
       }).toList();
       roomScheduleList.sort(
         (a, b) {
