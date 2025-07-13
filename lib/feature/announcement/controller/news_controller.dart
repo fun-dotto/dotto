@@ -17,7 +17,7 @@ final class NewsFromPushNotificationNotifier extends Notifier<String?> {
 
   String? get newsId => state;
   
-  set newsId(String value) {
+  set newsId(String? value) {
     state = value;
   }
 
@@ -34,7 +34,7 @@ final class NewsListNotifier extends Notifier<List<News>?> {
 
   List<News>? get news => state;
   
-  set news(List<News> value) {
+  set news(List<News>? value) {
     state = value;
   }
 }
