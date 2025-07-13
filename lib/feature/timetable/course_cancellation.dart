@@ -23,7 +23,8 @@ final class CourseCancellationScreen extends ConsumerWidget {
         // デコードされたJSONデータをフィルタリング
         final filteredData = decodedData.where((dynamic item) {
           final itemMap = item as Map<String, dynamic>;
-          return personalTimeTableMap.keys.contains(itemMap['lessonName'] as String);
+          return personalTimeTableMap.keys
+              .contains(itemMap['lessonName'] as String);
         }).toList();
         return filteredData;
       } else {
@@ -100,12 +101,11 @@ final class CourseCancellationScreen extends ConsumerWidget {
               // タイプごとにフィルタリング
               final filteredData = courseCancellationSelectedType == 'すべて'
                   ? displayData
-                  : displayData
-                      .where((dynamic item) {
-                        final itemMap = item as Map<String, dynamic>;
-                        return itemMap['type'] as String == courseCancellationSelectedType;
-                      })
-                      .toList();
+                  : displayData.where((dynamic item) {
+                      final itemMap = item as Map<String, dynamic>;
+                      return itemMap['type'] as String ==
+                          courseCancellationSelectedType;
+                    }).toList();
 
               return Column(
                 children: [

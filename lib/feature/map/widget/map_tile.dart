@@ -223,50 +223,53 @@ final class MapTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final floorBarString = <String>['1', '2', '3', '4', '5', 'R6', 'R7'];
-    final widgetList = <Widget>[SizedBox.expand(child: Consumer(
-      builder: (context, ref, child) {
-        final mapFocusMapDetail = ref.watch(mapFocusMapDetailProvider);
-        final mapPage = ref.watch(mapPageProvider);
-        final mapUsingMap = ref.watch(mapUsingMapProvider);
-        if (classroomNo != null) {
-          if (mapUsingMap.containsKey(classroomNo)) {
-            if (mapUsingMap[classroomNo]!) {
-              using = true;
-              tileColor = MapColors.using;
-            } else {
-              using = false;
-              setColors();
+    final widgetList = <Widget>[
+      SizedBox.expand(child: Consumer(
+        builder: (context, ref, child) {
+          final mapFocusMapDetail = ref.watch(mapFocusMapDetailProvider);
+          final mapPage = ref.watch(mapPageProvider);
+          final mapUsingMap = ref.watch(mapUsingMapProvider);
+          if (classroomNo != null) {
+            if (mapUsingMap.containsKey(classroomNo)) {
+              if (mapUsingMap[classroomNo]!) {
+                using = true;
+                tileColor = MapColors.using;
+              } else {
+                using = false;
+                setColors();
+              }
             }
           }
-        }
-        var focus = false;
-        if (mapFocusMapDetail.floor == floorBarString[mapPage]) {
-          if (mapFocusMapDetail.roomName == txt) {
-            focus = true;
+          var focus = false;
+          if (mapFocusMapDetail.floor == floorBarString[mapPage]) {
+            if (mapFocusMapDetail.roomName == txt) {
+              focus = true;
+            }
           }
-        }
-        return Container(
-            padding: edgeInsets(focus: focus),
-            decoration: BoxDecoration(
-              border: Border(
-                  top: oneBorderSide(top, focus: focus),
-                  right: oneBorderSide(right, focus: focus),
-                  bottom: oneBorderSide(bottom, focus: focus),
-                  left: oneBorderSide(left, focus: focus)),
-              color: (ttype == MapTileType.empty)
-                  ? tileColor
-                  : MapTileType.road.backgroundColor,
-            ),
-            child: SizedBox.expand(
-              child: (innerWidget == null)
-                  ? Container(
-                      padding: EdgeInsets.zero,
-                      color: focus ? Colors.red : tileColor,
-                    )
-                  : innerWidget,
-            ));
-      },
-    )), stackTextIcon()];
+          return Container(
+              padding: edgeInsets(focus: focus),
+              decoration: BoxDecoration(
+                border: Border(
+                    top: oneBorderSide(top, focus: focus),
+                    right: oneBorderSide(right, focus: focus),
+                    bottom: oneBorderSide(bottom, focus: focus),
+                    left: oneBorderSide(left, focus: focus)),
+                color: (ttype == MapTileType.empty)
+                    ? tileColor
+                    : MapTileType.road.backgroundColor,
+              ),
+              child: SizedBox.expand(
+                child: (innerWidget == null)
+                    ? Container(
+                        padding: EdgeInsets.zero,
+                        color: focus ? Colors.red : tileColor,
+                      )
+                    : innerWidget,
+              ));
+        },
+      )),
+      stackTextIcon()
+    ];
     if (ttype == MapTileType.stair) {
       if (stairType.up && !stairType.down) {
         widgetList.add(SizedBox.expand(

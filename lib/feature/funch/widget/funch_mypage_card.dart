@@ -218,7 +218,9 @@ final class FunchMyPageCard extends ConsumerWidget {
           ),
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color: (Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black)
+            color: (Theme.of(context).brightness == Brightness.dark
+                    ? Colors.white
+                    : Colors.black)
                 .withValues(alpha: selectedIndex == index ? 0.9 : 0.4),
           ),
         );

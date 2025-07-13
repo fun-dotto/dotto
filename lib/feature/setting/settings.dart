@@ -1,10 +1,5 @@
 import 'dart:io';
 
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:package_info_plus/package_info_plus.dart';
-import 'package:settings_ui/settings_ui.dart';
-import 'package:url_launcher/url_launcher.dart';
-
 import 'package:dotto/controller/user_controller.dart';
 import 'package:dotto/feature/setting/controller/settings_controller.dart';
 import 'package:dotto/feature/setting/repository/settings_repository.dart';
@@ -14,6 +9,10 @@ import 'package:dotto/importer.dart';
 import 'package:dotto/repository/setting_user_info.dart';
 import 'package:dotto/theme/v1/animation.dart';
 import 'package:dotto/widget/app_tutorial.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:package_info_plus/package_info_plus.dart';
+import 'package:settings_ui/settings_ui.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 final class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
