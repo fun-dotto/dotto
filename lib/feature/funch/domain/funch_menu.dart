@@ -30,7 +30,8 @@ final class FunchCommonMenu extends FunchMenu {
         !json.containsKey('image') ||
         !json.containsKey('energy')) {
       throw ArgumentError(
-          'JSON must contain item_code, title, price, category, image, and energy keys');
+          'JSON must contain item_code, title, price, category, image, and '
+          'energy keys');
     }
     final id = json['item_code'].toString();
     final name = json['title'];
@@ -69,7 +70,8 @@ final class FunchOriginalMenu extends FunchMenu {
     final categoryId = json['category_id'];
     final prices = FunchPrice.fromJson(json['prices'] as Map<String, dynamic>);
     final imageUrl =
-        'https://firebasestorage.googleapis.com/v0/b/swift2023groupc.appspot.com/o/funch%2Fimages%2F$id.webp?alt=media';
+        'https://firebasestorage.googleapis.com/v0/b/'
+        'swift2023groupc.appspot.com/o/funch%2Fimages%2F$id.webp?alt=media';
     return FunchOriginalMenu(
         id as String, name as String, categoryId as int, prices, imageUrl);
   }

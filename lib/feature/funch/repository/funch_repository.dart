@@ -22,7 +22,9 @@ final class FunchRepositoryImpl implements FunchRepositoryInterface {
     const fileName = 'funch/menu.json';
     final jsonString = await readJsonFile(fileName);
     final List<dynamic> jsonData = json.decode(jsonString) as List<dynamic>;
-    return jsonData.map((e) => FunchCommonMenu.fromJson(e as Map<String, dynamic>)).toList();
+    return jsonData
+        .map((e) => FunchCommonMenu.fromJson(e as Map<String, dynamic>))
+        .toList();
   }
 
   @override

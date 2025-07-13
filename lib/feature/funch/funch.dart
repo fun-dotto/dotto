@@ -1,4 +1,5 @@
-import 'package:dotto/feature/funch/controller/funch_all_daily_menu_controller.dart';
+import 'package:dotto/feature/funch/controller/'
+    'funch_all_daily_menu_controller.dart';
 import 'package:dotto/feature/funch/controller/funch_date_controller.dart';
 import 'package:dotto/feature/funch/controller/funch_menu_type_controller.dart';
 import 'package:dotto/feature/funch/domain/funch_daily_menu.dart';
@@ -119,10 +120,12 @@ final class FunchScreen extends ConsumerWidget {
       children: [
         ElevatedButton(
           onPressed: () {
-            ref.read(funchMenuCategoryProvider.notifier).menuCategory = menuType;
+            ref.read(funchMenuCategoryProvider.notifier).menuCategory =
+                menuType;
           },
           style: ElevatedButton.styleFrom(
-            backgroundColor: funchMenuType == menuType ? customFunColor : Colors.white,
+            backgroundColor:
+                funchMenuType == menuType ? customFunColor : Colors.white,
             shape: const CircleBorder(
               side: BorderSide(
                 
@@ -138,7 +141,9 @@ final class FunchScreen extends ConsumerWidget {
             children: [
               Icon(
                 menuType.icon,
-                color: funchMenuType == menuType ? Colors.white : customFunColor,
+                color: funchMenuType == menuType
+                    ? Colors.white
+                    : customFunColor,
               ),
             ],
           ),
@@ -155,14 +160,20 @@ final class FunchScreen extends ConsumerWidget {
   }
 
   List<Widget> menuTypeButton(WidgetRef ref) {
-    return FunchMenuCategory.values.map((e) => makeMenuTypeButton(e, ref)).toList();
+    return FunchMenuCategory.values
+        .map((e) => makeMenuTypeButton(e, ref))
+        .toList();
   }
 
   String getDateString(DateTime date) {
-    return '${DateFormat.yMd('ja').format(date)} (${DateFormat.E('ja').format(date)})';
+    return '${DateFormat.yMd('ja').format(date)} '
+        '(${DateFormat.E('ja').format(date)})';
   }
 
-  Future<void> _showModalBottomSheet(BuildContext context, WidgetRef ref) async {
+  Future<void> _showModalBottomSheet(
+    BuildContext context,
+    WidgetRef ref,
+  ) async {
     final funchDailyMenuList = ref.watch(funchAllDailyMenuListProvider);
 
     final content = funchDailyMenuList.when(
@@ -178,7 +189,8 @@ final class FunchScreen extends ConsumerWidget {
         return data.keys.map((e) {
           return InkWell(
             onTap: () {
-              ref.read(funchDateProvider.notifier).state = DateTimeUtility.parseDateKey(e);
+              ref.read(funchDateProvider.notifier).state =
+                  DateTimeUtility.parseDateKey(e);
               Navigator.pop(context);
             },
             child: Container(

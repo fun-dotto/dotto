@@ -7,6 +7,8 @@ final class FunchDailyMenu {
   final List<FunchMenu> menuItems;
 
   List<FunchMenu> getMenuByCategory(FunchMenuCategory category) {
-    return menuItems.where((element) => category.categoryIds.contains(element.categoryId)).toList();
+    return menuItems
+        .where((element) => category.categoryIds.contains(element.categoryId))
+        .toList();
   }
 }

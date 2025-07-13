@@ -38,7 +38,9 @@ final class BusRepository {
         await GetFirebaseRealtimeDB.getData('bus/stops'); //firebaseから情報取得
     if (snapshot.exists) {
       final busDataStops = snapshot.value! as List;
-      return busDataStops.map((e) => BusStop.fromFirebase(e as Map<String, dynamic>)).toList();
+      return busDataStops
+          .map((e) => BusStop.fromFirebase(e as Map<String, dynamic>))
+          .toList();
     } else {
       throw Exception();
     }
@@ -60,7 +62,10 @@ final class BusRepository {
           (value as Map).forEach((key2, value2) {
             final week = key2 as String;
             allBusTrips[fromTo]![week] = (value2 as List)
-                .map((e) => BusTrip.fromFirebase(e as Map<String, dynamic>, allBusStops))
+                .map((e) => BusTrip.fromFirebase(
+                      e as Map<String, dynamic>,
+                      allBusStops,
+                    ))
                 .toList();
           });
         },

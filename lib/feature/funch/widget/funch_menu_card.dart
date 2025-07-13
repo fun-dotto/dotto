@@ -11,7 +11,8 @@ final class MenuCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final energy = menu is FunchCommonMenu ? (menu as FunchCommonMenu).energy : null;
+    final energy =
+        menu is FunchCommonMenu ? (menu as FunchCommonMenu).energy : null;
     const double borderRadius = 10;
     return Card(
       margin: const EdgeInsets.all(10),

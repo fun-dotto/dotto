@@ -18,7 +18,10 @@ final class BusTripStop {
 final class BusTrip {
   const BusTrip(this.route, this.stops);
 
-  factory BusTrip.fromFirebase(Map<String, dynamic> map, List<BusStop> allStops) {
+  factory BusTrip.fromFirebase(
+    Map<String, dynamic> map,
+    List<BusStop> allStops,
+  ) {
     final stopsList = map['stops'] as List;
     return BusTrip(
         map['route'] as String,
@@ -27,7 +30,10 @@ final class BusTrip {
             final id = e['id'] as int;
             final targetBusStop =
                 allStops.firstWhere((busStop) => busStop.id == id);
-            return BusTripStop.fromFirebase(targetBusStop, e as Map<String, dynamic>);
+            return BusTripStop.fromFirebase(
+              targetBusStop,
+              e as Map<String, dynamic>,
+            );
           },
         ).toList());
   }
