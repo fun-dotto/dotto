@@ -136,7 +136,7 @@ final class MapDetailBottomSheet extends ConsumerWidget {
     try {
       gridMap = FunGridMaps.mapTileListMap[floor]!
           .firstWhere((element) => element.txt == roomName);
-    } catch (_) {
+    } on StateError {
       gridMap = null;
     }
     return Container(
