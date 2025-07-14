@@ -171,7 +171,7 @@ final class SettingsScreen extends ConsumerWidget {
                 title: const Text('課題のユーザーキー設定'),
                 leading: const Icon(Icons.assignment),
                 onPressed: (context) {
-                  final formUrl = configState.userKeySettingUrl;
+                  final formUrl = configState.assignmentSetupUrl;
                   final url = Uri.parse(formUrl);
                   launchUrlInAppBrowserView(url);
                 },
@@ -193,6 +193,16 @@ final class SettingsScreen extends ConsumerWidget {
                         const AppTutorial(),
                     transitionsBuilder: fromRightAnimation,
                   ));
+                },
+              ),
+              // 意見要望
+              SettingsTile.navigation(
+                title: const Text('意見要望はこちら'),
+                leading: const Icon(Icons.messenger_rounded),
+                onPressed: (context) {
+                  final formUrl = configState.feedbackFormUrl;
+                  final url = Uri.parse(formUrl);
+                  launchUrlInAppBrowserView(url);
                 },
               ),
               // 利用規約

@@ -152,8 +152,6 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
     WidgetsBinding.instance
         .addPostFrameCallback((_) => _showPushNotificationNews(context, ref));
 
-    final infoBoxWidth = MediaQuery.sizeOf(context).width * 0.4;
-
     const fileNamePath = <String, String>{
       // 'バス時刻表': 'home/hakodatebus55.pdf',
       '学年暦': 'home/academic_calendar.pdf',
@@ -254,30 +252,6 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
               const SizedBox(height: 20),
               infoTile(infoTiles),
               const SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  ElevatedButton(
-                    onPressed: () async {
-                      const formUrl = 'https://forms.gle/ruo8iBxLMmvScNMFA';
-                      final url = Uri.parse(formUrl);
-                      await launchUrlInExternal(url);
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blue,
-                      fixedSize: Size(infoBoxWidth, 80),
-                      foregroundColor: Colors.white,
-                    ),
-                    child: const Text(
-                      '意見要望\nお聞かせください！',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 10,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
               const SizedBox(height: 20),
             ],
           ),

@@ -16,14 +16,17 @@ final class ConfigController extends StateNotifier<ConfigState> {
           _remoteConfigRepository.getBool(RemoteConfigKeys.isFunchEnabled);
       final isValidAppVersion =
           _remoteConfigRepository.getBool(RemoteConfigKeys.isValidAppVersion);
-      final userKeySettingUrl =
-          _remoteConfigRepository.getString(RemoteConfigKeys.userKeySettingUrl);
+      final assignmentSetupUrl = _remoteConfigRepository
+          .getString(RemoteConfigKeys.assignmentSetupUrl);
+      final feedbackFormUrl =
+          _remoteConfigRepository.getString(RemoteConfigKeys.feedbackFormUrl);
 
       state = state.copyWith(
         isDesignV2Enabled: isDesignV2Enabled,
         isFunchEnabled: isFunchEnabled,
         isValidAppVersion: isValidAppVersion,
-        userKeySettingUrl: userKeySettingUrl,
+        assignmentSetupUrl: assignmentSetupUrl,
+        feedbackFormUrl: feedbackFormUrl,
         isLoading: false,
       );
     } on Exception catch (e) {
@@ -40,7 +43,8 @@ final class ConfigState {
     this.isDesignV2Enabled = false,
     this.isFunchEnabled = false,
     this.isValidAppVersion = false,
-    this.userKeySettingUrl = '',
+    this.assignmentSetupUrl = '',
+    this.feedbackFormUrl = '',
     this.isLoading = false,
     this.error,
   });
@@ -56,7 +60,8 @@ final class ConfigState {
   final bool isDesignV2Enabled;
   final bool isFunchEnabled;
   final bool isValidAppVersion;
-  final String userKeySettingUrl;
+  final String assignmentSetupUrl;
+  final String feedbackFormUrl;
 
   final bool isLoading;
   final String? error;
@@ -65,7 +70,8 @@ final class ConfigState {
     bool? isDesignV2Enabled,
     bool? isFunchEnabled,
     bool? isValidAppVersion,
-    String? userKeySettingUrl,
+    String? assignmentSetupUrl,
+    String? feedbackFormUrl,
     bool? isLoading,
     String? error,
   }) {
@@ -73,7 +79,8 @@ final class ConfigState {
       isDesignV2Enabled: isDesignV2Enabled ?? this.isDesignV2Enabled,
       isFunchEnabled: isFunchEnabled ?? this.isFunchEnabled,
       isValidAppVersion: isValidAppVersion ?? this.isValidAppVersion,
-      userKeySettingUrl: userKeySettingUrl ?? this.userKeySettingUrl,
+      assignmentSetupUrl: assignmentSetupUrl ?? this.assignmentSetupUrl,
+      feedbackFormUrl: feedbackFormUrl ?? this.feedbackFormUrl,
       isLoading: isLoading ?? this.isLoading,
       error: error ?? this.error,
     );
