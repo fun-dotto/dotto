@@ -25,6 +25,7 @@ final class RemoteConfigRepository {
         RemoteConfigKeys.isFunchEnabled: true,
         RemoteConfigKeys.isValidAppVersion: true,
         RemoteConfigKeys.userKeySettingUrl: 'https://dotto.web.app/',
+        RemoteConfigKeys.opinionKeySettingUrl: 'https://forms.gle/ruo8iBxLMmvScNMFA',
       });
     } else {
       await remoteConfig.setDefaults(const {
@@ -32,6 +33,7 @@ final class RemoteConfigRepository {
         RemoteConfigKeys.isFunchEnabled: false,
         RemoteConfigKeys.isValidAppVersion: true,
         RemoteConfigKeys.userKeySettingUrl: 'https://dotto.web.app/',
+        RemoteConfigKeys.opinionKeySettingUrl: 'https://forms.gle/ruo8iBxLMmvScNMFA',
       });
     }
 

@@ -3,4 +3,5 @@ class RemoteConfigKeys {
   static const String isFunchEnabled = 'is_funch_enabled';
   static const String isValidAppVersion = 'is_valid_app_version';
   static const String userKeySettingUrl = 'user_key_setting_url';
+  static const String opinionKeySettingUrl = 'opinion_key_setting_url';
 }

@@ -16,12 +16,15 @@ class ConfigController extends StateNotifier<ConfigState> {
       final isValidAppVersion = _remoteConfigRepository.getBool(RemoteConfigKeys.isValidAppVersion);
       final userKeySettingUrl =
           _remoteConfigRepository.getString(RemoteConfigKeys.userKeySettingUrl);
+      final opinionKeySettingUrl =
+          _remoteConfigRepository.getString(RemoteConfigKeys.opinionKeySettingUrl);
 
       state = state.copyWith(
         isDesignV2Enabled: isDesignV2Enabled,
         isFunchEnabled: isFunchEnabled,
         isValidAppVersion: isValidAppVersion,
         userKeySettingUrl: userKeySettingUrl,
+        opinionKeySettingUrl: opinionKeySettingUrl,
         isLoading: false,
       );
     } catch (e) {
@@ -45,6 +48,7 @@ class ConfigState {
   final bool isFunchEnabled;
   final bool isValidAppVersion;
   final String userKeySettingUrl;
+  final String opinionKeySettingUrl;
   final bool isLoading;
   final String? error;
 
@@ -53,6 +57,7 @@ class ConfigState {
     this.isFunchEnabled = false,
     this.isValidAppVersion = false,
     this.userKeySettingUrl = '',
+    this.opinionKeySettingUrl = '',
     this.isLoading = false,
     this.error,
   });
@@ -62,6 +67,7 @@ class ConfigState {
     bool? isFunchEnabled,
     bool? isValidAppVersion,
     String? userKeySettingUrl,
+    String? opinionKeySettingUrl,
     bool? isLoading,
     String? error,
   }) {
@@ -70,6 +76,7 @@ class ConfigState {
       isFunchEnabled: isFunchEnabled ?? this.isFunchEnabled,
       isValidAppVersion: isValidAppVersion ?? this.isValidAppVersion,
       userKeySettingUrl: userKeySettingUrl ?? this.userKeySettingUrl,
+      opinionKeySettingUrl: opinionKeySettingUrl ?? this.opinionKeySettingUrl,
       isLoading: isLoading ?? this.isLoading,
       error: error ?? this.error,
     );
