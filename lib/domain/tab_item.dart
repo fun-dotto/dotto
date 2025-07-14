@@ -1,7 +1,7 @@
 import 'package:dotto/feature/assignment/kadai_list.dart';
 import 'package:dotto/feature/home/home.dart';
 import 'package:dotto/feature/map/map.dart';
-import 'package:dotto/feature/search_course/kamoku_search.dart';
+import 'package:dotto/feature/search_course/search_course_screen.dart';
 import 'package:dotto/feature/setting/settings.dart';
 import 'package:dotto/importer.dart';
 
@@ -22,7 +22,7 @@ enum TabItem {
     title: '科目情報',
     icon: Icons.search_outlined,
     activeIcon: Icons.search,
-    page: KamokuSearchScreen(),
+    page: SearchCourseScreen(),
   ),
   kadai(
     title: '課題',

@@ -6,8 +6,8 @@ import 'package:dotto/feature/search_course/widget/kamoku_search_results_section
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final class KamokuSearchScreen extends ConsumerWidget {
-  const KamokuSearchScreen({super.key});
+final class SearchCourseScreen extends ConsumerWidget {
+  const SearchCourseScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
