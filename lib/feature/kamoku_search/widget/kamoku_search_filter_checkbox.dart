@@ -1,26 +1,23 @@
-import 'package:dotto/importer.dart';
 import 'package:dotto/feature/kamoku_search/controller/kamoku_search_controller.dart';
 import 'package:dotto/feature/kamoku_search/domain/kamoku_search_choices.dart';
+import 'package:dotto/importer.dart';
 
-class KamokuSearchFilterCheckbox extends ConsumerWidget {
+final class KamokuSearchFilterCheckbox extends ConsumerWidget {
   const KamokuSearchFilterCheckbox(
-      {super.key, required this.kamokuSearchChoices});
+      {required this.kamokuSearchChoices, super.key});
 
   final KamokuSearchChoices kamokuSearchChoices;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final kamokuSearchController = ref.watch(kamokuSearchControllerProvider);
-    final kamokuSearchControllerNotifier =
-        ref.watch(kamokuSearchControllerProvider.notifier);
     final checkedList =
         kamokuSearchController.checkboxStatusMap[kamokuSearchChoices]!;
     return Align(
-      alignment: const AlignmentDirectional(-1.00, 0.00),
+      alignment: AlignmentDirectional.centerStart,
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             for (int i = 0; i < kamokuSearchChoices.choice.length; i++)
               SizedBox(
@@ -30,8 +27,13 @@ class KamokuSearchFilterCheckbox extends ConsumerWidget {
                     Checkbox(
                       value: checkedList[i],
                       onChanged: (value) {
-                        kamokuSearchControllerNotifier.checkboxOnChanged(
-                            value, kamokuSearchChoices, i);
+                        ref
+                            .read(kamokuSearchControllerProvider.notifier)
+                            .checkboxOnChanged(
+                              value: value,
+                              kamokuSearchChoices: kamokuSearchChoices,
+                              index: i,
+                            );
                       },
                     ),
                     Text(kamokuSearchChoices.displayString?[i] ??

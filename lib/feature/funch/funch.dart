@@ -1,12 +1,13 @@
-import 'package:dotto/theme/v1/color_fun.dart';
-import 'package:dotto/feature/funch/controller/funch_all_daily_menu_controller.dart';
+import 'package:dotto/feature/funch/controller/'
+    'funch_all_daily_menu_controller.dart';
 import 'package:dotto/feature/funch/controller/funch_date_controller.dart';
 import 'package:dotto/feature/funch/controller/funch_menu_type_controller.dart';
-import 'package:dotto/feature/funch/domain/funch_menu_category.dart';
 import 'package:dotto/feature/funch/domain/funch_daily_menu.dart';
+import 'package:dotto/feature/funch/domain/funch_menu_category.dart';
 import 'package:dotto/feature/funch/utility/datetime.dart';
 import 'package:dotto/feature/funch/widget/funch_menu_card.dart';
 import 'package:dotto/importer.dart';
+import 'package:dotto/theme/v1/color_fun.dart';
 import 'package:intl/intl.dart';
 
 final class FunchScreen extends ConsumerWidget {
@@ -47,7 +48,7 @@ final class FunchScreen extends ConsumerWidget {
                 color: Colors.white,
                 size: 30,
               ), // アイコンの配置
-              SizedBox(width: 8),
+              const SizedBox(width: 8),
               Text(
                 getDateString(date),
                 style: const TextStyle(
@@ -59,7 +60,7 @@ final class FunchScreen extends ConsumerWidget {
           ),
           onPressed: () async {
             if (context.mounted) {
-              _showModalBottomSheet(context, ref);
+              await _showModalBottomSheet(context, ref);
             }
           },
         ),
@@ -68,7 +69,7 @@ final class FunchScreen extends ConsumerWidget {
         children: [
           // 均等配置
           Padding(
-            padding: EdgeInsets.symmetric(vertical: 16),
+            padding: const EdgeInsets.symmetric(vertical: 16),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly, // 均等配置
               children: menuTypeButton(ref),
@@ -89,18 +90,18 @@ final class FunchScreen extends ConsumerWidget {
     FunchMenuCategory category,
   ) {
     if (funchDailyMenu.menuItems.isEmpty) {
-      return Padding(
+      return const Padding(
         padding: EdgeInsets.symmetric(vertical: 10),
-        child: Text("情報がみつかりません。"),
+        child: Text('情報がみつかりません。'),
       );
     }
 
     final filteredItems = funchDailyMenu.getMenuByCategory(category);
 
     if (filteredItems.isEmpty) {
-      return Padding(
+      return const Padding(
         padding: EdgeInsets.symmetric(vertical: 10),
-        child: Text("このカテゴリーのメニューはありません。"),
+        child: Text('このカテゴリーのメニューはありません。'),
       );
     }
 
@@ -112,27 +113,27 @@ final class FunchScreen extends ConsumerWidget {
   }
 
   Widget makeMenuTypeButton(FunchMenuCategory menuType, WidgetRef ref) {
-    final buttonSize = 50.0;
+    const buttonSize = 50.0;
     final funchMenuType = ref.watch(funchMenuCategoryProvider);
 
     return Column(
       children: [
         ElevatedButton(
           onPressed: () {
-            ref.read(funchMenuCategoryProvider.notifier).set(menuType);
+            ref.read(funchMenuCategoryProvider.notifier).menuCategory =
+                menuType;
           },
           style: ElevatedButton.styleFrom(
-            backgroundColor: funchMenuType == menuType ? customFunColor : Colors.white,
+            backgroundColor:
+                funchMenuType == menuType ? customFunColor : Colors.white,
             shape: const CircleBorder(
               side: BorderSide(
-                color: Colors.black,
-                width: 1,
-                style: BorderStyle.solid,
+                
               ),
             ),
-            minimumSize: Size(buttonSize, buttonSize),
-            fixedSize: Size(buttonSize, buttonSize),
-            padding: const EdgeInsets.all(0),
+            minimumSize: const Size(buttonSize, buttonSize),
+            fixedSize: const Size(buttonSize, buttonSize),
+            padding: EdgeInsets.zero,
           ),
           // アイコンの配置
           child: Column(
@@ -140,14 +141,16 @@ final class FunchScreen extends ConsumerWidget {
             children: [
               Icon(
                 menuType.icon,
-                color: funchMenuType == menuType ? Colors.white : customFunColor,
+                color: funchMenuType == menuType
+                    ? Colors.white
+                    : customFunColor,
               ),
             ],
           ),
         ),
         Text(
           menuType.title,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 10,
             color: Colors.black,
           ),
@@ -157,35 +160,42 @@ final class FunchScreen extends ConsumerWidget {
   }
 
   List<Widget> menuTypeButton(WidgetRef ref) {
-    return FunchMenuCategory.values.map((e) => makeMenuTypeButton(e, ref)).toList();
+    return FunchMenuCategory.values
+        .map((e) => makeMenuTypeButton(e, ref))
+        .toList();
   }
 
   String getDateString(DateTime date) {
-    return '${DateFormat.yMd('ja').format(date)} (${DateFormat.E('ja').format(date)})';
+    return '${DateFormat.yMd('ja').format(date)} '
+        '(${DateFormat.E('ja').format(date)})';
   }
 
-  void _showModalBottomSheet(BuildContext context, WidgetRef ref) async {
+  Future<void> _showModalBottomSheet(
+    BuildContext context,
+    WidgetRef ref,
+  ) async {
     final funchDailyMenuList = ref.watch(funchAllDailyMenuListProvider);
 
     final content = funchDailyMenuList.when(
       loading: () {
-        const List<Widget> content = [];
+        const content = <Widget>[];
         return content;
       },
       error: (error, stackTrace) {
-        const List<Widget> content = [];
+        const content = <Widget>[];
         return content;
       },
       data: (data) {
         return data.keys.map((e) {
           return InkWell(
             onTap: () {
-              ref.read(funchDateProvider.notifier).state = DateTimeUtility.parseDateKey(e);
+              ref.read(funchDateProvider.notifier).state =
+                  DateTimeUtility.parseDateKey(e);
               Navigator.pop(context);
             },
             child: Container(
-              padding: EdgeInsets.symmetric(vertical: 10),
-              decoration: BoxDecoration(
+              padding: const EdgeInsets.symmetric(vertical: 10),
+              decoration: const BoxDecoration(
                 border: Border(
                   bottom: BorderSide(color: Colors.grey),
                 ),
@@ -195,7 +205,7 @@ final class FunchScreen extends ConsumerWidget {
                 children: [
                   Text(
                     getDateString(DateTimeUtility.parseDateKey(e)),
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 15,
                       color: Colors.black,
                     ),
@@ -209,7 +219,7 @@ final class FunchScreen extends ConsumerWidget {
     );
 
     if (context.mounted) {
-      showModalBottomSheet(
+      await showModalBottomSheet<void>(
         context: context,
         builder: (BuildContext context) {
           return SizedBox(

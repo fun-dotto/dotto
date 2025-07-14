@@ -4,17 +4,18 @@ import 'dart:convert';
 Future<Map<String, dynamic>> sortSupplementaryLectures(
     String jsonString) async {
   // JSON文字列をデコードしてMapに変換
-  var jsonData = jsonDecode(jsonString);
+  final jsonData = jsonDecode(jsonString);
 
   // 補講情報を保持するためのMapを初期化
-  Map<String, List<dynamic>> sortedCourse = {
+  final sortedCourse = <String, List<dynamic>>{
     'あり': [],
     'なし': [],
     '未定': [],
   };
 
-  for (var course in jsonData) {
-    String comment = course['comment'] ?? ''; // nullの場合
+  for (final course in jsonData as List<dynamic>) {
+    final comment =
+        (course as Map<String, dynamic>)['comment'] as String? ?? ''; // nullの場合
 
     // コメントの内容に応じて分類
     if (comment.contains('補講あり')) {

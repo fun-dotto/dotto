@@ -1,4 +1,3 @@
-import 'package:dotto/widget/loading_circular.dart';
 import 'package:dotto/controller/tab_controller.dart';
 import 'package:dotto/controller/user_controller.dart';
 import 'package:dotto/domain/tab_item.dart';
@@ -8,16 +7,19 @@ import 'package:dotto/feature/map/domain/map_room_available_type.dart';
 import 'package:dotto/feature/map/widget/fun_grid_map.dart';
 import 'package:dotto/feature/map/widget/map_tile.dart';
 import 'package:dotto/importer.dart';
+import 'package:dotto/widget/loading_circular.dart';
 import 'package:intl/intl.dart';
 
-class MapDetailBottomSheet extends ConsumerWidget {
-  const MapDetailBottomSheet({super.key, required this.floor, required this.roomName});
+final class MapDetailBottomSheet extends ConsumerWidget {
+  const MapDetailBottomSheet(
+      {required this.floor, required this.roomName, super.key});
   final String floor;
   final String roomName;
 
   static const Color blue = Color(0xFF4A90E2);
 
-  Widget scheduleTile(BuildContext context, DateTime begin, DateTime end, String title) {
+  Widget scheduleTile(
+      BuildContext context, DateTime begin, DateTime end, String title) {
     return Container(
       width: MediaQuery.of(context).size.width,
       margin: const EdgeInsets.symmetric(vertical: 5),
@@ -52,7 +54,8 @@ class MapDetailBottomSheet extends ConsumerWidget {
               ),
               const SizedBox(width: 5),
               Text(
-                "${DateFormat('HH:mm').format(begin)} ~ ${DateFormat('HH:mm').format(end)}",
+                '${DateFormat('HH:mm').format(begin)} ~ '
+                '${DateFormat('HH:mm').format(end)}',
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 18,
@@ -68,7 +71,7 @@ class MapDetailBottomSheet extends ConsumerWidget {
 
   Widget roomAvailable(RoomAvailableType type, int status) {
     const fontColor = Colors.white;
-    IconData icon = Icons.close_outlined;
+    var icon = Icons.close_outlined;
     if (status == 1) {
       icon = Icons.change_history_outlined;
     } else if (status == 2) {
@@ -84,7 +87,6 @@ class MapDetailBottomSheet extends ConsumerWidget {
       margin: const EdgeInsets.symmetric(vertical: 5),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Icon(
             type.icon,
@@ -112,9 +114,9 @@ class MapDetailBottomSheet extends ConsumerWidget {
     final mapDetailMap = ref.watch(mapDetailMapProvider);
     final searchDatetime = ref.watch(searchDatetimeProvider);
     final user = ref.watch(userProvider);
-    String roomTitle = roomName;
+    var roomTitle = roomName;
     MapDetail? mapDetail;
-    bool loading = false;
+    var loading = false;
     if (user != null) {
       mapDetailMap.when(
         data: (data) {
@@ -131,10 +133,11 @@ class MapDetailBottomSheet extends ConsumerWidget {
       );
     }
     MapTile? gridMap;
-    try {
-      gridMap = FunGridMaps.mapTileListMap[floor]!.firstWhere((element) => element.txt == roomName);
-    } catch (e) {
-      gridMap = null;
+    final mapTileList = FunGridMaps.mapTileListMap[floor];
+    if (mapTileList != null) {
+      final foundTiles = 
+          mapTileList.where((element) => element.txt == roomName);
+      gridMap = foundTiles.isNotEmpty ? foundTiles.first : null;
     }
     return Container(
       height: 250,
@@ -148,24 +151,24 @@ class MapDetailBottomSheet extends ConsumerWidget {
         boxShadow: [
           BoxShadow(
             color: Colors.black26,
-            spreadRadius: 2.0,
-            blurRadius: 8.0,
+            spreadRadius: 2,
+            blurRadius: 8,
           )
         ],
       ),
-      padding: EdgeInsets.symmetric(horizontal: 18),
+      padding: const EdgeInsets.symmetric(horizontal: 18),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: EdgeInsets.only(top: 10),
+            padding: const EdgeInsets.only(top: 10),
             child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Expanded(
                   child: SelectableText(
                     roomTitle,
-                    style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                        fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                 ),
                 SizedBox(
@@ -184,84 +187,95 @@ class MapDetailBottomSheet extends ConsumerWidget {
               ],
             ),
           ),
-          user != null
-              ? !loading
-                  ? Expanded(
-                      child: SingleChildScrollView(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            if (gridMap != null) ...[
-                              SizedBox(
-                                height: 5,
-                              ),
-                              Wrap(
-                                spacing: 10,
-                                children: [
-                                  if (gridMap.food != null && gridMap.drink != null) ...[
-                                    roomAvailable(RoomAvailableType.food, gridMap.food! ? 2 : 0),
-                                    roomAvailable(RoomAvailableType.drink, gridMap.drink! ? 2 : 0),
-                                  ],
-                                  if (gridMap.outlet != null)
-                                    roomAvailable(RoomAvailableType.outlet, gridMap.outlet!),
+          if (user != null)
+            !loading
+                ? Expanded(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          if (gridMap != null) ...[
+                            const SizedBox(
+                              height: 5,
+                            ),
+                            Wrap(
+                              spacing: 10,
+                              children: [
+                                if (gridMap.food != null &&
+                                    gridMap.drink != null) ...[
+                                  roomAvailable(RoomAvailableType.food,
+                                      gridMap.food! ? 2 : 0),
+                                  roomAvailable(RoomAvailableType.drink,
+                                      gridMap.drink! ? 2 : 0),
                                 ],
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                            ],
-                            if (mapDetail != null)
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  if (mapDetail!.scheduleList != null)
-                                    Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        ...mapDetail!.getScheduleListByDate(searchDatetime).map(
-                                              (e) => scheduleTile(context, e.begin, e.end, e.title),
-                                            ),
-                                      ],
-                                    )
-                                  else if (mapDetail!.detail != null)
-                                    SelectableText(mapDetail!.detail!),
-                                  if (mapDetail!.mail != null)
-                                    SelectableText('${mapDetail!.mail}@fun.ac.jp'),
-                                ],
-                              ),
-                            SizedBox(
-                              height: 15,
+                                if (gridMap.outlet != null)
+                                  roomAvailable(RoomAvailableType.outlet,
+                                      gridMap.outlet!),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 10,
                             ),
                           ],
-                        ),
+                          if (mapDetail != null)
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                if (mapDetail!.scheduleList != null)
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      ...mapDetail!
+                                          .getScheduleListByDate(searchDatetime)
+                                          .map(
+                                            (e) => scheduleTile(context,
+                                                e.begin, e.end, e.title),
+                                          ),
+                                    ],
+                                  )
+                                else if (mapDetail!.detail != null)
+                                  SelectableText(mapDetail!.detail!),
+                                if (mapDetail!.mail != null)
+                                  SelectableText(
+                                      '${mapDetail!.mail}@fun.ac.jp'),
+                              ],
+                            ),
+                          const SizedBox(
+                            height: 15,
+                          ),
+                        ],
                       ),
-                    )
-                  : SizedBox(
-                      width: double.infinity,
-                      height: 150,
-                      child: Center(
-                        child: LoadingCircular(),
-                      ),
-                    )
-              : Column(
-                  children: [
-                    const Text("詳細は未来大Googleアカウントでログインすることで表示できます。"),
-                    OutlinedButton(
-                      onPressed: () {
-                        final tabItemNotifier = ref.read(tabItemProvider.notifier);
-                        tabItemNotifier.selected(TabItem.setting);
-                      },
-                      style: OutlinedButton.styleFrom(
-                        foregroundColor: Colors.grey.shade700,
-                        shape: RoundedRectangleBorder(
-                          side: const BorderSide(color: Colors.grey),
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                      ),
-                      child: const Text("設定"),
                     ),
-                  ],
+                  )
+                : const SizedBox(
+                    width: double.infinity,
+                    height: 150,
+                    child: Center(
+                      child: LoadingCircular(),
+                    ),
+                  )
+          else
+            Column(
+              children: [
+                const Text('詳細は未来大Googleアカウントでログインすることで表示できます。'),
+                OutlinedButton(
+                  onPressed: () {
+                    ref
+                        .read(tabItemProvider.notifier)
+                        .selected(TabItem.setting);
+                  },
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: Colors.grey.shade700,
+                    shape: RoundedRectangleBorder(
+                      side: const BorderSide(color: Colors.grey),
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                  ),
+                  child: const Text('設定'),
                 ),
+              ],
+            ),
         ],
       ),
     );

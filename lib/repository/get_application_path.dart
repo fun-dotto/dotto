@@ -1,20 +1,20 @@
 import 'dart:io';
 
-import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
 
 Future<String> getApplicationFilePath(String path) async {
   final appDocDir = await getTemporaryDirectory();
   final splitPath = split(path);
   if (splitPath.length > 1) {
-    String p = appDocDir.path;
+    final buffer = StringBuffer(appDocDir.path);
     for (var i = 0; i < splitPath.length - 1; i++) {
-      p += "/${splitPath[i]}";
-      Directory d = Directory(p);
-      if (!(await d.exists())) {
-        d.create();
+      buffer.write('/${splitPath[i]}');
+      final d = Directory(buffer.toString());
+      if (!d.existsSync()) {
+        await d.create();
       }
     }
   }
-  return "${appDocDir.path}/$path";
+  return '${appDocDir.path}/$path';
 }

@@ -1,19 +1,18 @@
-import 'package:dotto/importer.dart';
-import 'package:dotto/theme/v1/color_fun.dart';
 import 'package:dotto/feature/kamoku_search/controller/kamoku_search_controller.dart';
 import 'package:dotto/feature/kamoku_search/domain/kamoku_search_choices.dart';
 import 'package:dotto/feature/kamoku_search/widget/kamoku_search_box.dart';
 import 'package:dotto/feature/kamoku_search/widget/kamoku_search_filter_checkbox.dart';
 import 'package:dotto/feature/kamoku_search/widget/kamoku_search_filter_radio.dart';
 import 'package:dotto/feature/kamoku_search/widget/kamoku_search_result.dart';
+import 'package:dotto/importer.dart';
+import 'package:dotto/theme/v1/color_fun.dart';
 
-class KamokuSearchScreen extends ConsumerWidget {
+final class KamokuSearchScreen extends ConsumerWidget {
   const KamokuSearchScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final kamokuSearchController = ref.watch(kamokuSearchControllerProvider);
-    final kamokuSearchControllerNotifier = ref.watch(kamokuSearchControllerProvider.notifier);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: GestureDetector(
@@ -35,7 +34,8 @@ class KamokuSearchScreen extends ConsumerWidget {
                   const KamokuSearchFilterRadio(),
                   ...KamokuSearchChoices.values.map(
                     (e) => Visibility(
-                      visible: kamokuSearchController.visibilityStatus.contains(e),
+                      visible:
+                          kamokuSearchController.visibilityStatus.contains(e),
                       child: KamokuSearchFilterCheckbox(
                         kamokuSearchChoices: e,
                       ),
@@ -49,9 +49,9 @@ class KamokuSearchScreen extends ConsumerWidget {
                   Padding(
                     padding: const EdgeInsets.only(left: 5),
                     child: TextButton(
-                        onPressed: () {
-                          kamokuSearchControllerNotifier.reset();
-                        },
+                        onPressed: ref
+                            .read(kamokuSearchControllerProvider.notifier)
+                            .reset,
                         child: const Text('リセット')),
                   ),
                   Center(
@@ -63,7 +63,9 @@ class KamokuSearchScreen extends ConsumerWidget {
                       ),
                       onPressed: () async {
                         FocusScope.of(context).unfocus();
-                        await kamokuSearchControllerNotifier.search();
+                        await ref
+                            .read(kamokuSearchControllerProvider.notifier)
+                            .search();
                       },
                       child: const SizedBox(
                         width: 120,
@@ -97,7 +99,8 @@ class KamokuSearchScreen extends ConsumerWidget {
               ),
               if (kamokuSearchController.searchResults != null)
                 if (kamokuSearchController.searchResults!.isNotEmpty)
-                  KamokuSearchResults(records: kamokuSearchController.searchResults!)
+                  KamokuSearchResults(
+                      records: kamokuSearchController.searchResults!)
                 else
                   const Center(
                     child: Text('検索結果は見つかりませんでした'),

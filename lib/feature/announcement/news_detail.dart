@@ -3,13 +3,13 @@ import 'package:dotto/importer.dart';
 import 'package:dotto/repository/download_file_from_firebase.dart';
 import 'package:intl/intl.dart';
 
-class NewsDetailScreen extends StatelessWidget {
-  final News news;
+final class NewsDetailScreen extends StatelessWidget {
   const NewsDetailScreen(this.news, {super.key});
+  final News news;
 
   Future<Image?> _getNewsImage() async {
     if (news.image) {
-      final data = await getFileFromFirebase("news/${news.id}.png");
+      final data = await getFileFromFirebase('news/${news.id}.png');
       if (data != null) {
         return Image.memory(data);
       }
@@ -22,7 +22,7 @@ class NewsDetailScreen extends StatelessWidget {
     final formatter = DateFormat('yyyy年M月d日 HH:mm');
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Dottoからのお知らせ"),
+        title: const Text('Dottoからのお知らせ'),
       ),
       body: SingleChildScrollView(
         child: Padding(
