@@ -51,8 +51,8 @@ class ConfigState {
   const ConfigState({
     this.isDesignV2Enabled = false,
     this.isFunchEnabled = false,
-    this.isValidAppVersion = true,
-    this.userKeySettingUrl = 'https://dotto.web.app/',
+    this.isValidAppVersion = false,
+    this.userKeySettingUrl = '',
     this.isLoading = false,
     this.error,
   });
