@@ -1,3 +1,4 @@
+import 'package:dotto/feature/kamoku_detail/past_question_upload/past_question_upload.dart';
 import 'package:dotto/feature/kamoku_detail/repository/kamoku_detail_repository.dart';
 import 'package:dotto/feature/kamoku_detail/widget/kamoku_detail_kakomon_list_objects.dart';
 import 'package:dotto/repository/s3.dart';
@@ -44,6 +45,21 @@ final class _KamokuDetailKakomonListScreenState
                 },
               )
             : const Text('未来大Googleアカウントでログインが必要です'),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          if (KamokuDetailRepository().isLoggedinGoogle()) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const UploadScreen()),
+            );
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('未来大Googleアカウントでログインが必要です')),
+            );
+          }
+        },
+        child: const Icon(Icons.add),
       ),
     );
   }
