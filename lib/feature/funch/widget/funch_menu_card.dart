@@ -1,17 +1,18 @@
 import 'package:dotto/asset.dart';
-import 'package:dotto/theme/v1/app_color.dart';
 import 'package:dotto/feature/funch/domain/funch_menu.dart';
 import 'package:dotto/feature/funch/widget/funch_price_list.dart';
 import 'package:dotto/importer.dart';
+import 'package:dotto/theme/v1/app_color.dart';
 
 final class MenuCard extends StatelessWidget {
-  final FunchMenu menu;
 
   const MenuCard(this.menu, {super.key});
+  final FunchMenu menu;
 
   @override
   Widget build(BuildContext context) {
-    final energy = menu is FunchCommonMenu ? (menu as FunchCommonMenu).energy : null;
+    final energy =
+        menu is FunchCommonMenu ? (menu as FunchCommonMenu).energy : null;
     const double borderRadius = 10;
     return Card(
       margin: const EdgeInsets.all(10),
@@ -28,7 +29,7 @@ final class MenuCard extends StatelessWidget {
           children: [
             Expanded(
               child: ClipRRect(
-                borderRadius: BorderRadius.only(
+                borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(borderRadius),
                   topRight: Radius.circular(borderRadius),
                 ),
@@ -53,7 +54,7 @@ final class MenuCard extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -66,14 +67,14 @@ final class MenuCard extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        Text("${energy}kcal"),
+                        Text('${energy}kcal'),
                       ],
                     ),
-                  Divider(
+                  const Divider(
                     height: 6,
                     color: AppColor.dividerGrey,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 5,
                   ),
                   FunchPriceList(menu),

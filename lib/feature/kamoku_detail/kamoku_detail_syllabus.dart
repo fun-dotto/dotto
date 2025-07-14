@@ -1,10 +1,9 @@
+import 'package:dotto/feature/kamoku_detail/repository/kamoku_detail_repository.dart';
+import 'package:dotto/widget/loading_circular.dart';
 import 'package:flutter/material.dart';
 
-import 'package:dotto/widget/loading_circular.dart';
-import 'package:dotto/feature/kamoku_detail/repository/kamoku_detail_repository.dart';
-
-class KamokuDetailSyllabusScreen extends StatelessWidget {
-  const KamokuDetailSyllabusScreen({super.key, required this.lessonId});
+final class KamokuDetailSyllabusScreen extends StatelessWidget {
+  const KamokuDetailSyllabusScreen({required this.lessonId, super.key});
 
   final int lessonId;
 
@@ -15,7 +14,7 @@ class KamokuDetailSyllabusScreen extends StatelessWidget {
         future: KamokuDetailRepository().fetchDetails(lessonId),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            Map<String, dynamic> details = snapshot.data!;
+            final details = snapshot.data!;
             return SingleChildScrollView(
               padding: const EdgeInsets.symmetric(horizontal: 15),
               child: Column(
@@ -25,7 +24,7 @@ class KamokuDetailSyllabusScreen extends StatelessWidget {
                   ...details.keys.map(
                     (e) {
                       if (details[e] is String) {
-                        return syllabusItem(e, details[e]);
+                        return syllabusItem(e, details[e] as String?);
                       }
                       return Container();
                     },
@@ -34,7 +33,7 @@ class KamokuDetailSyllabusScreen extends StatelessWidget {
               ),
             );
           } else {
-            return LoadingCircular();
+            return const LoadingCircular();
           }
         },
       ),

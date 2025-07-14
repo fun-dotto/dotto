@@ -2,38 +2,37 @@ import 'dart:async';
 
 import 'package:app_links/app_links.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dotto/theme/v1/animation.dart';
-import 'package:dotto/theme/v1/color_fun.dart';
-import 'package:dotto/repository/setting_user_info.dart';
+import 'package:dotto/controller/config_controller.dart';
 import 'package:dotto/controller/tab_controller.dart';
 import 'package:dotto/controller/user_controller.dart';
-import 'package:dotto/controller/config_controller.dart';
 import 'package:dotto/domain/tab_item.dart';
-import 'package:dotto/feature/map/controller/map_controller.dart';
-import 'package:dotto/feature/map/repository/map_repository.dart';
+import 'package:dotto/feature/announcement/controller/news_from_push_notification_controller.dart';
 import 'package:dotto/feature/bus/controller/bus_controller.dart';
 import 'package:dotto/feature/bus/repository/bus_repository.dart';
-import 'package:dotto/feature/announcement/controller/news_controller.dart';
-import 'package:dotto/feature/announcement/repository/news_repository.dart';
+import 'package:dotto/feature/map/controller/map_controller.dart';
+import 'package:dotto/feature/map/repository/map_repository.dart';
+import 'package:dotto/feature/setting/repository/settings_repository.dart';
 import 'package:dotto/feature/timetable/controller/timetable_controller.dart';
 import 'package:dotto/feature/timetable/repository/timetable_repository.dart';
-import 'package:dotto/feature/setting/repository/settings_repository.dart';
 import 'package:dotto/importer.dart';
 import 'package:dotto/repository/notification.dart';
-import 'package:dotto/widget/app_tutorial.dart';
+import 'package:dotto/repository/setting_user_info.dart';
 import 'package:dotto/theme/importer.dart';
+import 'package:dotto/theme/v1/animation.dart';
+import 'package:dotto/theme/v1/color_fun.dart';
+import 'package:dotto/widget/app_tutorial.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
-class MyApp extends ConsumerStatefulWidget {
+final class MyApp extends ConsumerStatefulWidget {
   const MyApp({super.key});
 
   @override
   ConsumerState<MyApp> createState() => _MyAppState();
 }
 
-class _MyAppState extends ConsumerState<MyApp> {
+final class _MyAppState extends ConsumerState<MyApp> {
   @override
   void initState() {
     super.initState();
@@ -41,14 +40,28 @@ class _MyAppState extends ConsumerState<MyApp> {
       await ref.read(configControllerProvider.notifier).fetchConfigs();
 
       if (kDebugMode) {
-        debugPrint("isDesignV2Enabled: ${ref.read(configControllerProvider).isDesignV2Enabled}");
-        debugPrint("isFunchEnabled: ${ref.read(configControllerProvider).isFunchEnabled}");
-        debugPrint("isValidAppVersion: ${ref.read(configControllerProvider).isValidAppVersion}");
+        final configState = ref.read(configControllerProvider);
+        debugPrint(
+          'isDesignV2Enabled: ${configState.isDesignV2Enabled}',
+        );
+        debugPrint('isFunchEnabled: ${configState.isFunchEnabled}');
+        debugPrint('isValidAppVersion: ${configState.isValidAppVersion}');
 
-        debugPrint("CLOUDFLARE_R2_ENDPOINT: ${ConfigState.cloudflareR2Endpoint}");
-        debugPrint("CLOUDFLARE_R2_ACCESS_KEY_ID: ${ConfigState.cloudflareR2AccessKeyId}");
-        debugPrint("CLOUDFLARE_R2_SECRET_ACCESS_KEY: ${ConfigState.cloudflareR2SecretAccessKey}");
-        debugPrint("CLOUDFLARE_R2_BUCKET_NAME: ${ConfigState.cloudflareR2BucketName}");
+        debugPrint(
+          'CLOUDFLARE_R2_ENDPOINT: ${ConfigState.cloudflareR2Endpoint}',
+        );
+        debugPrint(
+          'CLOUDFLARE_R2_ACCESS_KEY_ID: '
+          '${ConfigState.cloudflareR2AccessKeyId}',
+        );
+        debugPrint(
+          'CLOUDFLARE_R2_SECRET_ACCESS_KEY: '
+          '${ConfigState.cloudflareR2SecretAccessKey}',
+        );
+        debugPrint(
+          'CLOUDFLARE_R2_BUCKET_NAME: '
+          '${ConfigState.cloudflareR2BucketName}',
+        );
       }
     });
   }
@@ -73,20 +86,20 @@ class _MyAppState extends ConsumerState<MyApp> {
   }
 }
 
-class BasePage extends ConsumerStatefulWidget {
+final class BasePage extends ConsumerStatefulWidget {
   const BasePage({super.key});
 
   @override
   ConsumerState<BasePage> createState() => _BasePageState();
 }
 
-class _BasePageState extends ConsumerState<BasePage> {
+final class _BasePageState extends ConsumerState<BasePage> {
   late List<String?> parameter;
 
   Future<void> setupUniversalLinks() async {
     final appLinks = AppLinks();
     appLinks.uriLinkStream.listen((event) {
-      if (event.path == "/config/" && event.hasQuery) {
+      if (event.path == '/config/' && event.hasQuery) {
         final query = event.queryParameters;
         if (query.containsKey('userkey')) {
           final userKey = query['userkey'];
@@ -95,7 +108,7 @@ class _BasePageState extends ConsumerState<BasePage> {
           }
         }
       }
-    }).onError((error, stackTrace) {
+    }).onError((Object error, StackTrace stackTrace) {
       debugPrint(error.toString());
     });
   }
@@ -109,18 +122,17 @@ class _BasePageState extends ConsumerState<BasePage> {
   Future<void> getBus() async {
     await ref.read(allBusStopsProvider.notifier).init();
     await ref.read(busDataProvider.notifier).init();
-    ref.read(myBusStopProvider.notifier).init();
+    await ref.read(myBusStopProvider.notifier).init();
     ref.read(busRefreshProvider.notifier).start();
-    BusRepository().changeDirectionOnCurrentLocation(ref);
-  }
-
-  Future<void> getNews() async {
-    ref.read(newsListProvider.notifier).update(await NewsRepository().getNewsListFromFirestore());
+    await BusRepository().changeDirectionOnCurrentLocation(ref);
   }
 
   Future<void> saveFCMToken() async {
-    final didSave = await UserPreferences.getBool(UserPreferenceKeys.didSaveFCMToken) ?? false;
-    debugPrint("didSaveFCMToken: $didSave");
+    final didSave = await UserPreferences.getBool(
+          UserPreferenceKeys.didSaveFCMToken,
+        ) ??
+        false;
+    debugPrint('didSaveFCMToken: $didSave');
     if (didSave) {
       return;
     }
@@ -128,9 +140,10 @@ class _BasePageState extends ConsumerState<BasePage> {
     final fcmToken = await FirebaseMessaging.instance.getToken();
     if (fcmToken != null && user != null) {
       final db = FirebaseFirestore.instance;
-      final tokenRef = db.collection("fcm_token");
-      final tokenQuery =
-          tokenRef.where('uid', isEqualTo: user.uid).where('token', isEqualTo: fcmToken);
+      final tokenRef = db.collection('fcm_token');
+      final tokenQuery = tokenRef
+          .where('uid', isEqualTo: user.uid)
+          .where('token', isEqualTo: fcmToken);
       final tokenQuerySnapshot = await tokenQuery.get();
       final tokenDocs = tokenQuerySnapshot.docs;
       if (tokenDocs.isEmpty) {
@@ -140,60 +153,70 @@ class _BasePageState extends ConsumerState<BasePage> {
           'last_updated': Timestamp.now(),
         });
       }
-      UserPreferences.setBool(UserPreferenceKeys.didSaveFCMToken, true);
+      await UserPreferences.setBool(
+        UserPreferenceKeys.didSaveFCMToken,
+        value: true,
+      );
     }
   }
 
-  void init() async {
-    NotificationRepository().setupInteractedMessage(ref);
-    setupUniversalLinks();
-    getPersonalLessonIdList();
-    getBus();
-    getNews();
-    saveFCMToken();
+  Future<void> init() async {
+    await NotificationRepository().setupInteractedMessage(ref);
+    await setupUniversalLinks();
+    await getPersonalLessonIdList();
+    await getBus();
+    await saveFCMToken();
   }
 
   @override
   void initState() {
     super.initState();
-    init();
+    unawaited(init());
   }
 
-  void _onItemTapped(int index) async {
+  Future<void> _onItemTapped(int index) async {
     ref.read(newsFromPushNotificationProvider.notifier).reset();
     final selectedTab = TabItem.values[index];
 
     if (selectedTab == TabItem.map) {
       final mapUsingMapNotifier = ref.watch(mapUsingMapProvider.notifier);
-      final searchDatetimeNotifier = ref.read(searchDatetimeProvider.notifier);
-      searchDatetimeNotifier.reset();
-      mapUsingMapNotifier.state = await MapRepository().setUsingColor(DateTime.now(), ref);
+      ref.read(searchDatetimeProvider.notifier).reset();
+      mapUsingMapNotifier.state =
+          await MapRepository().setUsingColor(DateTime.now(), ref);
     }
 
-    final tabItemNotifier = ref.read(tabItemProvider.notifier);
-    tabItemNotifier.selected(selectedTab);
+    ref.read(tabItemProvider.notifier).selected(selectedTab);
   }
 
   Future<bool> isAppTutorialCompleted() async {
-    return await UserPreferences.getBool(UserPreferenceKeys.isAppTutorialComplete) ?? false;
+    return await UserPreferences.getBool(
+          UserPreferenceKeys.isAppTutorialComplete,
+        ) ??
+        false;
   }
 
-  void _showAppTutorial(BuildContext context) async {
+  Future<void> _showAppTutorial(BuildContext context) async {
     if (!await isAppTutorialCompleted()) {
       if (context.mounted) {
-        Navigator.of(context).push(PageRouteBuilder(
-          pageBuilder: (context, animation, secondaryAnimation) => const AppTutorial(),
+        await Navigator.of(context).push<void>(PageRouteBuilder<void>(
+          pageBuilder: (context, animation, secondaryAnimation) =>
+              const AppTutorial(),
           fullscreenDialog: true,
           transitionsBuilder: fromRightAnimation,
         ));
-        UserPreferences.setBool(UserPreferenceKeys.isAppTutorialComplete, true);
+        await UserPreferences.setBool(
+          UserPreferenceKeys.isAppTutorialComplete,
+          value: true,
+        );
       }
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback((_) => _showAppTutorial(context));
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) => _showAppTutorial(context),
+    );
     final tabItem = ref.watch(tabItemProvider);
     return PopScope(
       canPop: false,
@@ -201,8 +224,9 @@ class _BasePageState extends ConsumerState<BasePage> {
         if (didPop) {
           return;
         }
-        final NavigatorState navigator = Navigator.of(context);
-        final bool shouldPop = !await tabNavigatorKeyMaps[tabItem]!.currentState!.maybePop();
+        final navigator = Navigator.of(context);
+        final shouldPop =
+            !await tabNavigatorKeyMaps[tabItem]!.currentState!.maybePop();
         if (shouldPop) {
           if (navigator.canPop()) {
             navigator.pop();

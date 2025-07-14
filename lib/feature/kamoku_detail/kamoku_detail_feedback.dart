@@ -1,12 +1,11 @@
+import 'package:dotto/feature/kamoku_detail/repository/kamoku_detail_repository.dart';
+import 'package:dotto/feature/kamoku_detail/widget/kamoku_detail_feedback_list.dart';
+import 'package:dotto/theme/v1/color_fun.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
-import 'package:dotto/theme/v1/color_fun.dart';
-import 'package:dotto/feature/kamoku_detail/repository/kamoku_detail_repository.dart';
-import 'package:dotto/feature/kamoku_detail/widget/kamoku_detail_feedback_list.dart';
-
-class KamokuFeedbackScreen extends StatefulWidget {
-  const KamokuFeedbackScreen({super.key, required this.lessonId});
+final class KamokuFeedbackScreen extends StatefulWidget {
+  const KamokuFeedbackScreen({required this.lessonId, super.key});
 
   final int lessonId;
 
@@ -14,7 +13,7 @@ class KamokuFeedbackScreen extends StatefulWidget {
   State<KamokuFeedbackScreen> createState() => _KamokuFeedbackScreenState();
 }
 
-class _KamokuFeedbackScreenState extends State<KamokuFeedbackScreen> {
+final class _KamokuFeedbackScreenState extends State<KamokuFeedbackScreen> {
   final userController = TextEditingController();
   double? selectedScore;
   final detailController = TextEditingController();
@@ -60,7 +59,7 @@ class _KamokuFeedbackScreenState extends State<KamokuFeedbackScreen> {
     final dialogHeight = deviceHeight * 0.30;
     final dialogWidth = deviceWidth;
 
-    showDialog(
+    showDialog<void>(
       barrierDismissible: false,
       context: context,
       builder: (BuildContext context) {
@@ -72,9 +71,9 @@ class _KamokuFeedbackScreenState extends State<KamokuFeedbackScreen> {
               onTap: () => FocusScope.of(context).unfocus(),
               child: AlertDialog(
                 surfaceTintColor: Theme.of(context).colorScheme.surface,
-                insetPadding: const EdgeInsets.all(8.0),
+                insetPadding: const EdgeInsets.all(8),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0),
+                  borderRadius: BorderRadius.circular(10),
                 ),
                 content: SingleChildScrollView(
                   child: Column(
@@ -110,17 +109,21 @@ class _KamokuFeedbackScreenState extends State<KamokuFeedbackScreen> {
                         ],
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(top: 1.0, bottom: 1.0),
+                        padding: const EdgeInsets.only(top: 1, bottom: 1),
                         child: Text(
                           showErrorMessage ? '満足度が入力されていません' : '',
-                          style: TextStyle(color: Colors.red, fontSize: dialogHeight * 0.045),
+                          style: TextStyle(
+                              color: Colors.red,
+                              fontSize: dialogHeight * 0.045),
                         ),
                       ),
                       Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
                           'フィードバック (推奨)',
-                          style: TextStyle(fontSize: dialogWidth * 0.03, color: customFunColor),
+                          style: TextStyle(
+                              fontSize: dialogWidth * 0.03,
+                              color: customFunColor),
                         ),
                       ),
                       SizedBox(
@@ -131,7 +134,8 @@ class _KamokuFeedbackScreenState extends State<KamokuFeedbackScreen> {
                           maxLength: 30,
                           keyboardType: TextInputType.multiline,
                           decoration: InputDecoration(
-                            floatingLabelAlignment: FloatingLabelAlignment.start,
+                            floatingLabelAlignment:
+                                FloatingLabelAlignment.start,
                             border: const OutlineInputBorder(),
                             hintText: '単位、出席、テストの情報など...',
                             hintStyle: TextStyle(fontSize: dialogHeight * 0.05),

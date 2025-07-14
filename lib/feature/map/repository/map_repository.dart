@@ -5,17 +5,20 @@ import 'package:dotto/importer.dart';
 import 'package:dotto/repository/get_firebase_realtime_db.dart';
 import 'package:dotto/repository/read_json_file.dart';
 
-class MapRepository {
-  static final MapRepository _instance = MapRepository._internal();
+final class MapRepository {
   factory MapRepository() {
     return _instance;
   }
   MapRepository._internal();
+  static final MapRepository _instance = MapRepository._internal();
 
-  Future<Map<String, Map<String, MapDetail>>> getMapDetailMapFromFirebase() async {
-    final snapshot = await GetFirebaseRealtimeDB.getData('map'); //firebaseから情報取得
-    final snapshotRoom = await GetFirebaseRealtimeDB.getData('map_room_schedule'); //firebaseから情報取得
-    Map<String, Map<String, MapDetail>> returnList = {
+  Future<Map<String, Map<String, MapDetail>>>
+      getMapDetailMapFromFirebase() async {
+    final snapshot =
+        await GetFirebaseRealtimeDB.getData('map'); //firebaseから情報取得
+    final snapshotRoom = await GetFirebaseRealtimeDB.getData(
+        'map_room_schedule'); //firebaseから情報取得
+    final returnList = <String, Map<String, MapDetail>>{
       '1': {},
       '2': {},
       '3': {},
@@ -25,10 +28,15 @@ class MapRepository {
       'R7': {}
     };
     if (snapshot.exists && snapshotRoom.exists) {
-      (snapshot.value as Map).forEach((floor, value) {
+      (snapshot.value! as Map).forEach((floor, value) {
         (value as Map).forEach((roomName, value2) {
-          returnList[floor]!.addAll({
-            roomName: MapDetail.fromFirebase(floor, roomName, value2, (snapshotRoom.value as Map))
+          returnList[floor as String]!.addAll({
+            roomName as String: MapDetail.fromFirebase(
+                floor,
+                roomName,
+                value2 as Map<String, dynamic>,
+                snapshotRoom.value! as Map<String, dynamic>,
+              )
           });
         });
       });
@@ -40,31 +48,32 @@ class MapRepository {
   }
 
   Map<String, DateTime> findRoomsInUse(String jsonString, DateTime dateTime) {
-    var decodedData = jsonDecode(jsonString);
+    final decodedData = jsonDecode(jsonString);
 
     // JSONデータがリストでない場合はエラー
     if (decodedData is! List) {
-      throw Exception("Expected a list of JSON objects");
+      throw Exception('Expected a list of JSON objects');
     }
 
-    Map<String, DateTime> resourceIds = {};
+    final resourceIds = <String, DateTime>{};
 
-    for (var item in decodedData) {
+    for (final item in decodedData) {
       if (item is Map<String, dynamic>) {
         // スタート時間・エンド時間をDateTimeにかえる
         // スタートを10分前から
-        DateTime startTime = DateTime.parse(item['start']).add(const Duration(minutes: -10));
-        DateTime endTime = DateTime.parse(item['end']);
+        final startTime = DateTime.parse(item['start'] as String)
+            .add(const Duration(minutes: -10));
+        final endTime = DateTime.parse(item['end'] as String);
 
         //現在時刻が開始時刻と終了時刻の間であればresourceIdを取得
         if (dateTime.isAfter(startTime) && dateTime.isBefore(endTime)) {
           if (resourceIds.containsKey(item['resourceId'])) {
-            debugPrint(item['resourceId']);
+            debugPrint(item['resourceId'] as String?);
             if (resourceIds[item['resourceId']]!.isBefore(endTime)) {
-              resourceIds[item['resourceId']] = endTime;
+              resourceIds[item['resourceId'] as String] = endTime;
             }
           } else {
-            resourceIds.addAll({item['resourceId']: endTime});
+            resourceIds.addAll({item['resourceId'] as String: endTime});
           }
         }
       }
@@ -74,48 +83,49 @@ class MapRepository {
   }
 
   Future<Map<String, DateTime>> getUsingRoom(DateTime dateTime) async {
-    String scheduleFilePath = 'map/oneweek_schedule.json';
-    Map<String, DateTime> resourceIds = {};
+    const scheduleFilePath = 'map/oneweek_schedule.json';
+    var resourceIds = <String, DateTime>{};
     try {
-      String fileContent = await readJsonFile(scheduleFilePath);
+      final fileContent = await readJsonFile(scheduleFilePath);
       resourceIds = findRoomsInUse(fileContent, dateTime);
-    } catch (e) {
+    } on Exception catch (e) {
       debugPrint(e.toString());
     }
     return resourceIds;
   }
 
 //使用されているかどうかで色を変える設定をする
-  Future<Map<String, bool>> setUsingColor(DateTime dateTime, WidgetRef ref) async {
+  Future<Map<String, bool>> setUsingColor(
+      DateTime dateTime, WidgetRef ref) async {
     final user = ref.watch(userProvider);
     if (user == null) {
       return {};
     }
-    final Map<String, bool> classroomNoFloorMap = {
-      "1": false,
-      "2": false,
-      "3": false,
-      "4": false,
-      "5": false,
-      "6": false,
-      "7": false,
-      "8": false,
-      "9": false,
-      "10": false,
-      "11": false,
-      "12": false,
-      "13": false,
-      "14": false,
-      "15": false,
-      "16": false,
-      "17": false,
-      "18": false,
-      "19": false,
-      "50": false,
-      "51": false
+    final classroomNoFloorMap = <String, bool>{
+      '1': false,
+      '2': false,
+      '3': false,
+      '4': false,
+      '5': false,
+      '6': false,
+      '7': false,
+      '8': false,
+      '9': false,
+      '10': false,
+      '11': false,
+      '12': false,
+      '13': false,
+      '14': false,
+      '15': false,
+      '16': false,
+      '17': false,
+      '18': false,
+      '19': false,
+      '50': false,
+      '51': false
     };
 
-    Map<String, DateTime> resourceIds = await MapRepository().getUsingRoom(dateTime);
+    final resourceIds = await MapRepository().getUsingRoom(dateTime);
     if (resourceIds.isNotEmpty) {
       resourceIds.forEach((String resourceId, DateTime useEndTime) {
         debugPrint(resourceId);

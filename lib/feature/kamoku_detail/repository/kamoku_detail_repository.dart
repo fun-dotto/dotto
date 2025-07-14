@@ -1,16 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dotto/repository/db_config.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:sqflite/sqflite.dart';
 
-import 'package:dotto/repository/db_config.dart';
-
-class KamokuDetailRepository {
-  static final KamokuDetailRepository _instance =
-      KamokuDetailRepository._internal();
+final class KamokuDetailRepository {
   factory KamokuDetailRepository() {
     return _instance;
   }
   KamokuDetailRepository._internal();
+  static final KamokuDetailRepository _instance =
+      KamokuDetailRepository._internal();
 
   Stream<QuerySnapshot<Map<String, dynamic>>> getFeedbackListFromFirestore(
       int lessonId) {
@@ -26,8 +25,8 @@ class KamokuDetailRepository {
 
   Future<bool> postFeedback(
       int lessonId, double? selectedScore, String text) async {
-    final String? userKey = FirebaseAuth.instance.currentUser?.uid;
-    if (userKey != "" && selectedScore != null) {
+    final userKey = FirebaseAuth.instance.currentUser?.uid;
+    if (userKey != '' && selectedScore != null) {
       // Firestoreで同じUserKeyとlessonIdを持つフィードバックを検索
       final querySnapshot = await FirebaseFirestore.instance
           .collection('feedback')
@@ -43,7 +42,7 @@ class KamokuDetailRepository {
             'score': selectedScore,
             'detail': text,
           },
-        );
+        ).ignore();
       } else {
         // 既存のフィードバックが存在しなかったら新しいドキュメントを作成
         FirebaseFirestore.instance.collection('feedback').add(
@@ -53,7 +52,7 @@ class KamokuDetailRepository {
             'score': selectedScore,
             'detail': text,
           },
-        );
+        ).ignore();
       }
       return true;
     } else {
@@ -62,8 +61,8 @@ class KamokuDetailRepository {
   }
 
   Future<Map<String, dynamic>> fetchDetails(int lessonId) async {
-    Database database = await openDatabase(SyllabusDBConfig.dbPath);
-    List<Map<String, dynamic>> details = await database
+    final database = await openDatabase(SyllabusDBConfig.dbPath);
+    final List<Map<String, dynamic>> details = await database
         .query('detail', where: 'LessonId = ?', whereArgs: [lessonId]);
 
     if (details.isNotEmpty) {

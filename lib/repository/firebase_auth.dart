@@ -2,22 +2,23 @@ import 'package:dotto/importer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-class FirebaseAuthRepository {
-  static final FirebaseAuthRepository _instance = FirebaseAuthRepository._internal();
+final class FirebaseAuthRepository {
   factory FirebaseAuthRepository() {
     return _instance;
   }
   FirebaseAuthRepository._internal();
+  static final FirebaseAuthRepository _instance =
+      FirebaseAuthRepository._internal();
 
   Future<UserCredential?> signInWithGoogle() async {
     // Trigger the authentication flow
-    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+    final googleUser = await GoogleSignIn().signIn();
 
     if (googleUser == null) {
       return null;
     }
     // Obtain the auth details from the request
-    final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+    final googleAuth = await googleUser.authentication;
 
     try {
       // Create a new credential
@@ -32,7 +33,7 @@ class FirebaseAuthRepository {
         return null;
       }
       return null;
-    } catch (e) {
+    } on Exception {
       return null;
     }
   }

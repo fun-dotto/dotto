@@ -1,4 +1,7 @@
 enum KamokuSearchChoices {
+  senmonKyoyo(
+    choice: ['専門', '教養', '大学院'],
+  ),
   term(
     choice: ['前期', '後期', '通年'],
   ),
