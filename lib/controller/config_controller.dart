@@ -14,11 +14,14 @@ class ConfigController extends StateNotifier<ConfigState> {
       final isDesignV2Enabled = _remoteConfigRepository.getBool(RemoteConfigKeys.isDesignV2Enabled);
       final isFunchEnabled = _remoteConfigRepository.getBool(RemoteConfigKeys.isFunchEnabled);
       final isValidAppVersion = _remoteConfigRepository.getBool(RemoteConfigKeys.isValidAppVersion);
+      final userKeySettingUrl =
+          _remoteConfigRepository.getString(RemoteConfigKeys.userKeySettingUrl);
 
       state = state.copyWith(
         isDesignV2Enabled: isDesignV2Enabled,
         isFunchEnabled: isFunchEnabled,
         isValidAppVersion: isValidAppVersion,
+        userKeySettingUrl: userKeySettingUrl,
         isLoading: false,
       );
     } catch (e) {
@@ -41,14 +44,15 @@ class ConfigState {
   final bool isDesignV2Enabled;
   final bool isFunchEnabled;
   final bool isValidAppVersion;
-
+  final String userKeySettingUrl;
   final bool isLoading;
   final String? error;
 
   const ConfigState({
     this.isDesignV2Enabled = false,
     this.isFunchEnabled = false,
-    this.isValidAppVersion = true,
+    this.isValidAppVersion = false,
+    this.userKeySettingUrl = '',
     this.isLoading = false,
     this.error,
   });
@@ -57,6 +61,7 @@ class ConfigState {
     bool? isDesignV2Enabled,
     bool? isFunchEnabled,
     bool? isValidAppVersion,
+    String? userKeySettingUrl,
     bool? isLoading,
     String? error,
   }) {
@@ -64,6 +69,7 @@ class ConfigState {
       isDesignV2Enabled: isDesignV2Enabled ?? this.isDesignV2Enabled,
       isFunchEnabled: isFunchEnabled ?? this.isFunchEnabled,
       isValidAppVersion: isValidAppVersion ?? this.isValidAppVersion,
+      userKeySettingUrl: userKeySettingUrl ?? this.userKeySettingUrl,
       isLoading: isLoading ?? this.isLoading,
       error: error ?? this.error,
     );
