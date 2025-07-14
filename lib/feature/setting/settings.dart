@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:dotto/controller/config_controller.dart';
 import 'package:dotto/controller/user_controller.dart';
 import 'package:dotto/feature/setting/controller/settings_controller.dart';
 import 'package:dotto/feature/setting/repository/settings_repository.dart';
@@ -17,9 +18,9 @@ import 'package:url_launcher/url_launcher.dart';
 final class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
 
-  Future<void> launchUrlInExternal(Uri url) async {
+  Future<void> launchUrlInAppBrowserView(Uri url) async {
     if (await canLaunchUrl(url)) {
-      await launchUrl(url, mode: LaunchMode.externalApplication);
+      await launchUrl(url, mode: LaunchMode.inAppBrowserView);
     } else {
       throw Exception('Could not launch $url');
     }
@@ -68,6 +69,12 @@ final class SettingsScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final userNotifier = ref.read(userProvider.notifier);
     final user = ref.watch(userProvider);
+    final configState = ref.watch(configControllerProvider);
+
+    // 設定を取得
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(configControllerProvider.notifier).fetchConfigs();
+    });
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () => FocusScope.of(context).unfocus(),
@@ -161,11 +168,13 @@ final class SettingsScreen extends ConsumerWidget {
                 },
               ),
               SettingsTile.navigation(
-                title: const Text('ユーザーキーの設定は下記リンクから'),
-                description: const SelectableText(
-                  'https://dotto.web.app/',
-                ),
-                trailing: const Icon(null),
+                title: const Text('課題のユーザーキー設定'),
+                leading: const Icon(Icons.assignment),
+                onPressed: (context) {
+                  final formUrl = configState.userKeySettingUrl;
+                  final url = Uri.parse(formUrl);
+                  launchUrlInAppBrowserView(url);
+                },
               ),
             ],
           ),
@@ -193,7 +202,7 @@ final class SettingsScreen extends ConsumerWidget {
                 onPressed: (context) {
                   const formUrl = 'https://dotto.web.app/privacypolicy.html';
                   final url = Uri.parse(formUrl);
-                  launchUrlInExternal(url);
+                  launchUrlInAppBrowserView(url);
                 },
               ),
               SettingsTile.navigation(
