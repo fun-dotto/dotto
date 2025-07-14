@@ -24,7 +24,6 @@ final class KamokuSearchBox extends ConsumerWidget {
                   ref
                       .read(kamokuSearchControllerProvider.notifier)
                       .setSearchWord('');
-                  kamokuSearchController.searchBoxFocusNode.unfocus();
                 },
               )
             : null,
