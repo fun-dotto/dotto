@@ -1,8 +1,8 @@
 import 'package:dotto/feature/search_course/controller/kamoku_search_controller.dart';
 import 'package:dotto/importer.dart';
 
-final class KamokuSearchBox extends ConsumerWidget {
-  const KamokuSearchBox({super.key});
+final class SearchCourseBox extends ConsumerWidget {
+  const SearchCourseBox({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -11,7 +11,7 @@ final class KamokuSearchBox extends ConsumerWidget {
       controller: kamokuSearchController.textEditingController,
       focusNode: kamokuSearchController.searchBoxFocusNode,
       style: const TextStyle(
-        fontSize: 18,
+        fontSize: 16,
         color: Colors.black,
       ),
       decoration: InputDecoration(
