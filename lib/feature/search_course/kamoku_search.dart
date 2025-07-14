@@ -4,8 +4,9 @@ import 'package:dotto/feature/search_course/widget/kamoku_search_box.dart';
 import 'package:dotto/feature/search_course/widget/kamoku_search_filter_checkbox.dart';
 import 'package:dotto/feature/search_course/widget/kamoku_search_filter_radio.dart';
 import 'package:dotto/feature/search_course/widget/kamoku_search_result.dart';
-import 'package:dotto/importer.dart';
 import 'package:dotto/theme/v1/color_fun.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final class KamokuSearchScreen extends ConsumerWidget {
   const KamokuSearchScreen({super.key});
