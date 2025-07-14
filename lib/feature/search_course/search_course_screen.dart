@@ -1,7 +1,6 @@
 import 'package:dotto/feature/search_course/widget/kamoku_search_action_buttons.dart';
 import 'package:dotto/feature/search_course/widget/kamoku_search_box.dart';
 import 'package:dotto/feature/search_course/widget/kamoku_search_filter_section.dart';
-import 'package:dotto/feature/search_course/widget/kamoku_search_results_header.dart';
 import 'package:dotto/feature/search_course/widget/kamoku_search_results_section.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -29,7 +28,6 @@ final class SearchCourseScreen extends ConsumerWidget {
               ),
               KamokuSearchFilterSection(),
               KamokuSearchActionButtons(),
-              KamokuSearchResultsHeader(),
               KamokuSearchResultsSection(),
             ],
           ),
