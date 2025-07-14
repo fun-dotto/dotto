@@ -10,7 +10,6 @@ import 'package:dotto/feature/setting/widget/license.dart';
 import 'package:dotto/feature/setting/widget/settings_set_userkey.dart';
 import 'package:dotto/importer.dart';
 import 'package:dotto/widget/app_tutorial.dart';
-import 'package:flutter/gestures.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:settings_ui/settings_ui.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -18,9 +17,9 @@ import 'package:url_launcher/url_launcher.dart';
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
 
-  void launchUrlInExternal(Uri url) async {
+  void launchUrlInAppBrowserView(Uri url) async {
     if (await canLaunchUrl(url)) {
-      launchUrl(url, mode: LaunchMode.externalApplication);
+      launchUrl(url, mode: LaunchMode.inAppBrowserView);
     } else {
       throw 'Could not launch $url';
     }
@@ -151,18 +150,14 @@ class SettingsScreen extends ConsumerWidget {
                 },
               ),
               SettingsTile.navigation(
-                  title: RichText(
-                text: TextSpan(
-                  text: 'ユーザーキーの設定は下記リンクから',
-                  style: const TextStyle(color: Colors.black, fontSize: 16),
-                  recognizer: TapGestureRecognizer()
-                    ..onTap = () {
-                      final formUrl = configState.userKeySettingUrl;
-                      final url = Uri.parse(formUrl);
-                      launchUrlInExternal(url);
-                    },
-                ),
-              )),
+                title: const Text('課題のユーザーキー設定'),
+                leading: const Icon(Icons.assignment),
+                onPressed: (context) {
+                  final formUrl = configState.userKeySettingUrl;
+                  final url = Uri.parse(formUrl);
+                  launchUrlInAppBrowserView(url);
+                },
+              ),
             ],
           ),
 
@@ -188,7 +183,7 @@ class SettingsScreen extends ConsumerWidget {
                 onPressed: (context) {
                   const formUrl = 'https://dotto.web.app/privacypolicy.html';
                   final url = Uri.parse(formUrl);
-                  launchUrlInExternal(url);
+                  launchUrlInAppBrowserView(url);
                 },
               ),
               SettingsTile.navigation(
