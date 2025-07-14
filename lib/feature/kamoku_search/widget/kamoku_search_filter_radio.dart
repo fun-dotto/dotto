@@ -1,4 +1,5 @@
 import 'package:dotto/feature/kamoku_search/controller/kamoku_search_controller.dart';
+import 'package:dotto/feature/kamoku_search/domain/kamoku_search_choices.dart';
 import 'package:dotto/importer.dart';
 
 final class KamokuSearchFilterRadio extends ConsumerWidget {
@@ -7,32 +8,32 @@ final class KamokuSearchFilterRadio extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final kamokuSearchController = ref.watch(kamokuSearchControllerProvider);
-    final kamokuSearchControllerNotifier =
-        ref.watch(kamokuSearchControllerProvider.notifier);
+
     return Align(
       alignment: AlignmentDirectional.centerStart,
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(
-          children: [
-            for (int i = 0;
-                i < kamokuSearchControllerNotifier.checkboxSenmonKyoyo.length;
-                i++)
-              SizedBox(
-                width: 100,
-                child: Row(
-                  children: [
-                    Radio(
-                      value: i,
-                      onChanged: kamokuSearchControllerNotifier.radioOnChanged,
-                      groupValue: kamokuSearchController.senmonKyoyoStatus,
-                    ),
-                    Text(kamokuSearchControllerNotifier.checkboxSenmonKyoyo[i]),
-                  ],
-                ),
-              ),
-            const SizedBox(width: 10),
-          ],
+          children: KamokuSearchChoices.senmonKyoyo.choice
+                  .map((e) => SizedBox(
+                        width: 100,
+                        child: Row(
+                          children: [
+                            Radio(
+                              value: KamokuSearchChoices.senmonKyoyo.choice
+                                  .indexOf(e),
+                              onChanged: ref
+                                  .read(kamokuSearchControllerProvider.notifier)
+                                  .radioOnChanged,
+                              groupValue:
+                                  kamokuSearchController.senmonKyoyoStatus,
+                            ),
+                            Text(e),
+                          ],
+                        ),
+                      ))
+                  .toList() +
+              [const SizedBox(width: 10)],
         ),
       ),
     );

@@ -13,8 +13,6 @@ final class KamokuSearchScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final kamokuSearchController = ref.watch(kamokuSearchControllerProvider);
-    final kamokuSearchControllerNotifier =
-        ref.watch(kamokuSearchControllerProvider.notifier);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: GestureDetector(
@@ -51,7 +49,9 @@ final class KamokuSearchScreen extends ConsumerWidget {
                   Padding(
                     padding: const EdgeInsets.only(left: 5),
                     child: TextButton(
-                        onPressed: kamokuSearchControllerNotifier.reset,
+                        onPressed: ref
+                            .read(kamokuSearchControllerProvider.notifier)
+                            .reset,
                         child: const Text('リセット')),
                   ),
                   Center(
@@ -63,7 +63,9 @@ final class KamokuSearchScreen extends ConsumerWidget {
                       ),
                       onPressed: () async {
                         FocusScope.of(context).unfocus();
-                        await kamokuSearchControllerNotifier.search();
+                        await ref
+                            .read(kamokuSearchControllerProvider.notifier)
+                            .search();
                       },
                       child: const SizedBox(
                         width: 120,

@@ -11,8 +11,6 @@ final class KamokuSearchFilterCheckbox extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final kamokuSearchController = ref.watch(kamokuSearchControllerProvider);
-    final kamokuSearchControllerNotifier =
-        ref.watch(kamokuSearchControllerProvider.notifier);
     final checkedList =
         kamokuSearchController.checkboxStatusMap[kamokuSearchChoices]!;
     return Align(
@@ -29,11 +27,13 @@ final class KamokuSearchFilterCheckbox extends ConsumerWidget {
                     Checkbox(
                       value: checkedList[i],
                       onChanged: (value) {
-                        kamokuSearchControllerNotifier.checkboxOnChanged(
-                          value: value,
-                          kamokuSearchChoices: kamokuSearchChoices,
-                          index: i,
-                        );
+                        ref
+                            .read(kamokuSearchControllerProvider.notifier)
+                            .checkboxOnChanged(
+                              value: value,
+                              kamokuSearchChoices: kamokuSearchChoices,
+                              index: i,
+                            );
                       },
                     ),
                     Text(kamokuSearchChoices.displayString?[i] ??

@@ -50,10 +50,7 @@ final class KamokuSearchResults extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final personalLessonIdList = ref.watch(personalLessonIdListProvider);
-    final kamokuSearchController = ref.read(kamokuSearchControllerProvider);
-    final twoWeekTimeTableDataNotifier =
-        ref.read(twoWeekTimeTableDataProvider.notifier);
-    //loadPersonalTimeTableList();
+    final kamokuSearchController = ref.watch(kamokuSearchControllerProvider);
     return FutureBuilder(
       future: getWeekPeriod(records.map((e) => e['LessonId'] as int).toList()),
       builder: (context, snapshot) {
@@ -107,7 +104,7 @@ final class KamokuSearchResults extends ConsumerWidget {
                           .removePersonalTimeTableList(lessonId, ref)
                           .ignore();
                     }
-                    twoWeekTimeTableDataNotifier.state =
+                    ref.read(twoWeekTimeTableDataProvider.notifier).state =
                         await TimetableRepository().get2WeekLessonSchedule(ref);
                   },
                 ),
