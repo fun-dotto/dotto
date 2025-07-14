@@ -153,7 +153,7 @@ class SettingsScreen extends ConsumerWidget {
                 title: const Text('課題のユーザーキー設定'),
                 leading: const Icon(Icons.assignment),
                 onPressed: (context) {
-                  final formUrl = configState.opinionKeySettingUrl;
+                  final formUrl = configState.assignmentSetupUrl;
                   final url = Uri.parse(formUrl);
                   launchUrlInAppBrowserView(url);
                 },
@@ -181,7 +181,7 @@ class SettingsScreen extends ConsumerWidget {
                 title: const Text('意見要望はこちら'),
                 leading: const Icon(Icons.messenger_rounded),
                 onPressed: (context) {
-                  final formUrl = configState.opinionKeySettingUrl;
+                  final formUrl = configState.feedbackFormUrl;
                   final url = Uri.parse(formUrl);
                   launchUrlInAppBrowserView(url);
                 },
