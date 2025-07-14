@@ -162,13 +162,7 @@ class SettingsScreen extends ConsumerWidget {
                       launchUrlInExternal(url);
                     },
                 ),
-              )
-                  // title: const Text('ユーザーキーの設定は下記リンクから'),
-                  // description: const SelectableText(
-                  //   "https://dotto.web.app/",
-                  // ),
-                  // trailing: const Icon(null),
-                  ),
+              )),
             ],
           ),
 
