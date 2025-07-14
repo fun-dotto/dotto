@@ -19,7 +19,7 @@ enum TabItem {
     page: MapScreen(),
   ),
   kamoku(
-    title: '科目情報',
+    title: '科目',
     icon: Icons.search_outlined,
     activeIcon: Icons.search,
     page: SearchCourseScreen(),
