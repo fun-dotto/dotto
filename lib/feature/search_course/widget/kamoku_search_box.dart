@@ -15,7 +15,7 @@ final class KamokuSearchBox extends ConsumerWidget {
         color: Colors.black,
       ),
       decoration: InputDecoration(
-        hintText: '科目名を検索',
+        hintText: '科目名で検索',
         suffixIcon: kamokuSearchController.textEditingController.text.isNotEmpty
             ? IconButton(
                 icon: const Icon(Icons.close),
