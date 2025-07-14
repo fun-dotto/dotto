@@ -16,17 +16,14 @@ final class SearchCourseScreen extends ConsumerWidget {
         behavior: HitTestBehavior.opaque,
         onTap: () => FocusScope.of(context).unfocus(),
         child: const SingleChildScrollView(
-          child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SearchCourseBox(),
-                SearchCourseFilterSection(),
-                SearchCourseActionButtons(),
-                SearchCourseResultSection(),
-              ],
-            ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SearchCourseBox(),
+              SearchCourseFilterSection(),
+              SearchCourseActionButtons(),
+              SearchCourseResultSection(),
+            ],
           ),
         ),
       ),
