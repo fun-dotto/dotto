@@ -1,4 +1,4 @@
-import 'package:dotto/feature/kamoku_search/domain/kamoku_search_choices.dart';
+import 'package:dotto/feature/search_course/domain/kamoku_search_choices.dart';
 import 'package:dotto/importer.dart';
 import 'package:dotto/repository/db_config.dart';
 import 'package:dotto/repository/setting_user_info.dart';

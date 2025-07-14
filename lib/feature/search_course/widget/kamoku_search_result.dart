@@ -1,6 +1,6 @@
 import 'package:dotto/feature/kamoku_detail/kamoku_detail_page_view.dart';
-import 'package:dotto/feature/kamoku_search/controller/kamoku_search_controller.dart';
-import 'package:dotto/feature/kamoku_search/repository/kamoku_search_repository.dart';
+import 'package:dotto/feature/search_course/controller/kamoku_search_controller.dart';
+import 'package:dotto/feature/search_course/repository/kamoku_search_repository.dart';
 import 'package:dotto/feature/timetable/controller/timetable_controller.dart';
 import 'package:dotto/feature/timetable/repository/timetable_repository.dart';
 import 'package:dotto/feature/timetable/widget/timetable_is_over_selected_snack_bar.dart';

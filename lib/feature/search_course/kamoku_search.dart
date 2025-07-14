@@ -1,9 +1,9 @@
-import 'package:dotto/feature/kamoku_search/controller/kamoku_search_controller.dart';
-import 'package:dotto/feature/kamoku_search/domain/kamoku_search_choices.dart';
-import 'package:dotto/feature/kamoku_search/widget/kamoku_search_box.dart';
-import 'package:dotto/feature/kamoku_search/widget/kamoku_search_filter_checkbox.dart';
-import 'package:dotto/feature/kamoku_search/widget/kamoku_search_filter_radio.dart';
-import 'package:dotto/feature/kamoku_search/widget/kamoku_search_result.dart';
+import 'package:dotto/feature/search_course/controller/kamoku_search_controller.dart';
+import 'package:dotto/feature/search_course/domain/kamoku_search_choices.dart';
+import 'package:dotto/feature/search_course/widget/kamoku_search_box.dart';
+import 'package:dotto/feature/search_course/widget/kamoku_search_filter_checkbox.dart';
+import 'package:dotto/feature/search_course/widget/kamoku_search_filter_radio.dart';
+import 'package:dotto/feature/search_course/widget/kamoku_search_result.dart';
 import 'package:dotto/importer.dart';
 import 'package:dotto/theme/v1/color_fun.dart';
 
