@@ -1,4 +1,36 @@
-class MapDetail {
+final class MapDetail {
+  const MapDetail(this.floor, this.roomName, this.classroomNo, this.header,
+      this.detail, this.mail, this.searchWordList,
+      {this.scheduleList});
+
+  factory MapDetail.fromFirebase(String floor, String roomName,
+      Map<String, dynamic> value, Map<String, dynamic> roomScheduleMap) {
+    List<String>? sWordList;
+    if (value.containsKey('searchWordList')) {
+      sWordList = (value['searchWordList'] as String).split(',');
+    }
+    List<RoomSchedule>? roomScheduleList;
+    if (roomScheduleMap.containsKey(roomName)) {
+      final scheduleList = roomScheduleMap[roomName] as List;
+      roomScheduleList = scheduleList.map((e) {
+        return RoomSchedule.fromFirebase(e as Map<String, dynamic>);
+      }).toList()
+        ..sort(
+        (a, b) {
+          return a.begin.compareTo(b.begin);
+        },
+      );
+    }
+    return MapDetail(
+        floor,
+        roomName,
+        value['classroomNo'] as int?,
+        value['header'] as String,
+        value['detail'] as String?,
+        value['mail'] as String?,
+        sWordList,
+        scheduleList: roomScheduleList);
+  }
   final String floor;
   final String roomName;
   final int? classroomNo;
@@ -8,33 +40,8 @@ class MapDetail {
   final String? mail;
   final List<String>? searchWordList;
 
-  const MapDetail(this.floor, this.roomName, this.classroomNo, this.header, this.detail, this.mail,
-      this.searchWordList,
-      {this.scheduleList});
-
-  factory MapDetail.fromFirebase(String floor, String roomName, Map value, Map roomScheduleMap) {
-    List<String>? sWordList;
-    if (value.containsKey('searchWordList')) {
-      sWordList = (value['searchWordList'] as String).split(',');
-    }
-    List<RoomSchedule>? roomScheduleList;
-    if (roomScheduleMap.containsKey(roomName)) {
-      List scheduleList = roomScheduleMap[roomName] as List;
-      roomScheduleList = scheduleList.map((e) {
-        return RoomSchedule.fromFirebase(e);
-      }).toList();
-      roomScheduleList.sort(
-        (a, b) {
-          return a.begin.compareTo(b.begin);
-        },
-      );
-    }
-    return MapDetail(floor, roomName, value['classroomNo'], value['header'], value['detail'],
-        value['mail'], sWordList,
-        scheduleList: roomScheduleList);
-  }
-
-  static const MapDetail none = MapDetail('1', '0', null, '0', null, null, null);
+  static const MapDetail none =
+      MapDetail('1', '0', null, '0', null, null, null);
 
   List<RoomSchedule> getScheduleListByDate(DateTime dateTime) {
     final list = scheduleList;
@@ -45,30 +52,29 @@ class MapDetail {
     final targetTomorrowDay = targetDay.add(const Duration(days: 1));
     return list
         .where((roomSchedule) =>
-            roomSchedule.begin.isBefore(targetTomorrowDay) && roomSchedule.end.isAfter(targetDay))
+            roomSchedule.begin.isBefore(targetTomorrowDay) &&
+            roomSchedule.end.isAfter(targetDay))
         .toList();
   }
 }
 
-class RoomSchedule {
+final class RoomSchedule {
+  const RoomSchedule(this.begin, this.end, this.title);
+
+  factory RoomSchedule.fromFirebase(Map<String, dynamic> map) {
+    final beginDatetime = DateTime.parse(map['begin_datetime'] as String);
+    final endDatetime = DateTime.parse(map['end_datetime'] as String);
+    final title = map['title'];
+    return RoomSchedule(beginDatetime, endDatetime, title as String);
+  }
   final DateTime begin;
   final DateTime end;
   final String title;
-
-  const RoomSchedule(this.begin, this.end, this.title);
-
-  factory RoomSchedule.fromFirebase(Map map) {
-    final beginDatetime = DateTime.parse(map['begin_datetime']);
-    final endDatetime = DateTime.parse(map['end_datetime']);
-    final title = map['title'];
-    return RoomSchedule(beginDatetime, endDatetime, title);
-  }
 }
 
-class MapDetailMap {
-  final Map<String, Map<String, MapDetail>> mapDetailList;
-
+final class MapDetailMap {
   MapDetailMap(this.mapDetailList);
+  final Map<String, Map<String, MapDetail>> mapDetailList;
 
   MapDetail? searchOnce(String floor, String roomName) {
     if (mapDetailList.containsKey(floor)) {
@@ -80,19 +86,19 @@ class MapDetailMap {
   }
 
   List<MapDetail> searchAll(String searchText) {
-    List<MapDetail> results = [];
-    List<MapDetail> results2 = [];
-    List<MapDetail> results3 = [];
-    List<MapDetail> results4 = [];
+    final results = <MapDetail>[];
+    final results2 = <MapDetail>[];
+    final results3 = <MapDetail>[];
+    final results4 = <MapDetail>[];
     mapDetailList.forEach((_, value) {
-      for (var mapDetail in value.values) {
+      for (final mapDetail in value.values) {
         if (mapDetail.roomName == searchText) {
           results.add(mapDetail);
           continue;
         }
         if (mapDetail.searchWordList != null) {
-          bool matchFlag = false;
-          for (var word in mapDetail.searchWordList!) {
+          var matchFlag = false;
+          for (final word in mapDetail.searchWordList!) {
             if (word.contains(searchText)) {
               results2.add(mapDetail);
               matchFlag = true;

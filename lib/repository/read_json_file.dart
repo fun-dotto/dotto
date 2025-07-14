@@ -6,15 +6,15 @@ Future<String> readJsonFile(String fileName) async {
   final file = File(filePath);
 
   // ファイルの存在確認
-  if (await file.exists()) {
+  if (file.existsSync()) {
     // ファイルの内容を文字列として読み込む
-    String content = await file.readAsString();
-    if (content == "") {
-      await Future.delayed(const Duration(milliseconds: 100));
-      return await readJsonFile(fileName);
+    final content = await file.readAsString();
+    if (content == '') {
+      await Future<void>.delayed(const Duration(milliseconds: 100));
+      return readJsonFile(fileName);
     }
     return content;
   } else {
-    throw Exception("File does not exist");
+    throw Exception('File does not exist');
   }
 }

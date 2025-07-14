@@ -1,4 +1,4 @@
-class Kadai {
+final class Kadai {
   Kadai(
     this.id,
     this.courseId,
@@ -8,6 +8,23 @@ class Kadai {
     this.starttime,
     this.endtime,
   );
+
+  factory Kadai.fromFirebase(String id, Map<String, dynamic> data) {
+    return Kadai(
+        int.parse(id),
+        data['course_id'] as int?,
+        data['course_name'] as String?,
+        data['name'] as String?,
+        data['url'] as String?,
+        data['starttime'] == 0
+            ? null
+            : DateTime.fromMillisecondsSinceEpoch(
+                (data['starttime'] as int) * 1000),
+        data['endtime'] == 0
+            ? null
+            : DateTime.fromMillisecondsSinceEpoch(
+                (data['endtime'] as int) * 1000));
+  }
   final int? id;
   final int? courseId;
   final String? courseName;
@@ -15,24 +32,9 @@ class Kadai {
   final String? url;
   final DateTime? starttime;
   final DateTime? endtime;
-
-  factory Kadai.fromFirebase(String id, Map data) {
-    return Kadai(
-        int.parse(id),
-        data["course_id"],
-        data["course_name"],
-        data["name"],
-        data["url"],
-        data["starttime"] == 0
-            ? null
-            : DateTime.fromMillisecondsSinceEpoch(data["starttime"] * 1000),
-        data["endtime"] == 0
-            ? null
-            : DateTime.fromMillisecondsSinceEpoch(data["endtime"] * 1000));
-  }
 }
 
-class KadaiList {
+final class KadaiList {
   KadaiList(
     this.courseId,
     this.courseName,
@@ -45,7 +47,7 @@ class KadaiList {
   final DateTime? endtime;
   List<Kadai> listKadai;
 
-  get kadaiList => null;
+  List<Kadai> get kadaiList => listKadai;
 
   bool isListLength1() {
     return listKadai.length == 1;
@@ -57,8 +59,8 @@ class KadaiList {
 
   //対象のリストに含まれないリスト作成
   List<Kadai> hiddenKadai(List<int> deleteList) {
-    List<Kadai> returnList = [];
-    for (var kadai in listKadai) {
+    final returnList = <Kadai>[];
+    for (final kadai in listKadai) {
       if (!deleteList.contains(kadai.id)) {
         returnList.add(kadai);
       }

@@ -1,5 +1,5 @@
-import 'package:dotto/repository/setting_user_info.dart';
 import 'package:dotto/importer.dart';
+import 'package:dotto/repository/setting_user_info.dart';
 
 FutureProvider<String> settingsGradeProvider = FutureProvider((ref) async {
   return await UserPreferences.getString(UserPreferenceKeys.grade) ?? 'なし';

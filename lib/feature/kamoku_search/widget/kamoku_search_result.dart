@@ -1,26 +1,25 @@
-import 'package:dotto/importer.dart';
-import 'package:dotto/theme/v1/animation.dart';
-import 'package:dotto/widget/loading_circular.dart';
 import 'package:dotto/feature/kamoku_detail/kamoku_detail_page_view.dart';
 import 'package:dotto/feature/kamoku_search/controller/kamoku_search_controller.dart';
 import 'package:dotto/feature/kamoku_search/repository/kamoku_search_repository.dart';
 import 'package:dotto/feature/timetable/controller/timetable_controller.dart';
 import 'package:dotto/feature/timetable/repository/timetable_repository.dart';
 import 'package:dotto/feature/timetable/widget/timetable_is_over_selected_snack_bar.dart';
+import 'package:dotto/importer.dart';
+import 'package:dotto/theme/v1/animation.dart';
+import 'package:dotto/widget/loading_circular.dart';
 
-class KamokuSearchResults extends ConsumerWidget {
+final class KamokuSearchResults extends ConsumerWidget {
+  const KamokuSearchResults({required this.records, super.key});
   final List<Map<String, dynamic>> records;
 
-  const KamokuSearchResults({super.key, required this.records});
-
   Future<Map<int, String>> getWeekPeriod(List<int> lessonIdList) async {
-    List<Map<String, dynamic>> records =
+    final records =
         await KamokuSearchRepository().fetchWeekPeriodDB(lessonIdList);
-    Map<int, Map<int, List<int>>> weekPeriodMap = {};
-    for (var record in records) {
-      final int lessonId = record['lessonId'];
-      final int week = record['week'];
-      final int period = record['period'];
+    final weekPeriodMap = <int, Map<int, List<int>>>{};
+    for (final record in records) {
+      final lessonId = record['lessonId'] as int;
+      final week = record['week'] as int;
+      final period = record['period'] as int;
       if (weekPeriodMap.containsKey(lessonId)) {
         if (weekPeriodMap[lessonId]!.containsKey(week)) {
           weekPeriodMap[lessonId]![week]!.add(period);
@@ -33,9 +32,9 @@ class KamokuSearchResults extends ConsumerWidget {
         };
       }
     }
-    Map<int, String> weekPeriodStringMap = weekPeriodMap.map((lessonId, value) {
-      List<String> weekString = ['', '月', '火', '水', '木', '金', '土', '日'];
-      List<String> s = [];
+    final weekPeriodStringMap = weekPeriodMap.map((lessonId, value) {
+      final weekString = <String>['', '月', '火', '水', '木', '金', '土', '日'];
+      final s = <String>[];
       value.forEach(
         (week, periodList) {
           if (week != 0) {
@@ -51,32 +50,30 @@ class KamokuSearchResults extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final personalLessonIdList = ref.watch(personalLessonIdListProvider);
-    final kamokuSearchController = ref.read(kamokuSearchControllerProvider);
-    final twoWeekTimeTableDataNotifier = ref.read(twoWeekTimeTableDataProvider.notifier);
-    //loadPersonalTimeTableList();
+    final kamokuSearchController = ref.watch(kamokuSearchControllerProvider);
     return FutureBuilder(
       future: getWeekPeriod(records.map((e) => e['LessonId'] as int).toList()),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          Map<int, String> weekPeriodStringMap = snapshot.data!;
+          final weekPeriodStringMap = snapshot.data!;
           return ListView.separated(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemCount: records.length,
             itemBuilder: (context, index) {
               final record = records[index];
-              final int lessonId = record['LessonId'];
+              final lessonId = record['LessonId'] as int;
               return ListTile(
-                title: Text(record['授業名'] ?? ''),
+                title: Text(record['授業名'] as String? ?? ''),
                 subtitle: Text(weekPeriodStringMap[lessonId] ?? ''),
                 onTap: () async {
                   await Navigator.of(context).push(
-                    PageRouteBuilder(
+                    PageRouteBuilder<void>(
                       pageBuilder: (context, animation, secondaryAnimation) {
                         return KamokuDetailPageScreen(
                           lessonId: lessonId,
-                          lessonName: record['授業名'],
-                          kakomonLessonId: record['過去問'],
+                          lessonName: record['授業名'] as String,
+                          kakomonLessonId: record['過去問'] as int?,
                         );
                       },
                       transitionsBuilder: fromRightAnimation,
@@ -87,20 +84,27 @@ class KamokuSearchResults extends ConsumerWidget {
                 trailing: const Icon(Icons.chevron_right),
                 leading: IconButton(
                   icon: Icon(Icons.playlist_add,
-                      color: personalLessonIdList.contains(lessonId) ? Colors.green : Colors.black),
+                      color: personalLessonIdList.contains(lessonId)
+                          ? Colors.green
+                          : Colors.black),
                   onPressed: () async {
                     if (!personalLessonIdList.contains(lessonId)) {
-                      if (await TimetableRepository().isOverSeleted(lessonId, ref)) {
+                      if (await TimetableRepository()
+                          .isOverSeleted(lessonId, ref)) {
                         if (context.mounted) {
                           timetableIsOverSelectedSnackBar(context);
                         }
                       } else {
-                        TimetableRepository().addPersonalTimeTableList(lessonId, ref);
+                        TimetableRepository()
+                            .addPersonalTimeTableList(lessonId, ref)
+                            .ignore();
                       }
                     } else {
-                      TimetableRepository().removePersonalTimeTableList(lessonId, ref);
+                      TimetableRepository()
+                          .removePersonalTimeTableList(lessonId, ref)
+                          .ignore();
                     }
-                    twoWeekTimeTableDataNotifier.state =
+                    ref.read(twoWeekTimeTableDataProvider.notifier).state =
                         await TimetableRepository().get2WeekLessonSchedule(ref);
                   },
                 ),
@@ -111,7 +115,7 @@ class KamokuSearchResults extends ConsumerWidget {
             ),
           );
         } else {
-          return Center(
+          return const Center(
             child: LoadingCircular(),
           );
         }

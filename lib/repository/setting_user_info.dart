@@ -7,8 +7,10 @@ enum UserPreferenceKeys {
   kadaiFinishList(keyName: 'finishListKey', type: String),
   kadaiAlertList(keyName: 'alertListKey', type: String),
   kadaiDeleteList(keyName: 'deleteListKey', type: String),
-  personalTimetableListKey(keyName: 'personalTimeTableListKey2025', type: String),
-  personalTimetableLastUpdateKey(keyName: 'personalTimeTableLastUpdateKey', type: int),
+  personalTimetableListKey(
+      keyName: 'personalTimeTableListKey2025', type: String),
+  personalTimetableLastUpdateKey(
+      keyName: 'personalTimeTableLastUpdateKey', type: int),
   isAppTutorialComplete(keyName: 'isAppTutorialCompleted', type: bool),
   isKadaiTutorialComplete(keyName: 'isKadaiTutorialCompleted', type: bool),
   myBusStop(keyName: 'myBusStop', type: int),
@@ -22,8 +24,9 @@ enum UserPreferenceKeys {
   final Type type;
 }
 
-class UserPreferences {
-  static Future<void> setBool(UserPreferenceKeys key, bool value) async {
+final class UserPreferences {
+  static Future<void> setBool(
+      UserPreferenceKeys key, {required bool value}) async {
     final prefs = await SharedPreferences.getInstance();
     if (key.type == bool) {
       await prefs.setBool(key.keyName, value);

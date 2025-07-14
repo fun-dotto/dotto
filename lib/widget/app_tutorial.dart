@@ -3,13 +3,13 @@ import 'package:dotto/theme/v1/color_fun.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_overboard/flutter_overboard.dart';
 
-class AppTutorial extends StatelessWidget {
+final class AppTutorial extends StatelessWidget {
   const AppTutorial({super.key});
 
-  Widget _withImage(
-      double topMargin, String imagePath, String title, String body, Color backgroundColor) {
+  Widget _withImage(double topMargin, String imagePath, String title,
+      String body, Color backgroundColor) {
     return Padding(
-      padding: const EdgeInsets.all(25.0),
+      padding: const EdgeInsets.all(25),
       child: Stack(children: [
         Container(
           width: double.infinity,
@@ -28,7 +28,7 @@ class AppTutorial extends StatelessWidget {
               // ③グラデーション
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
-                end: const Alignment(0.0, 0.4),
+                end: const Alignment(0, 0.4),
                 // ④透明→白
                 colors: [
                   Colors.transparent,
@@ -45,7 +45,8 @@ class AppTutorial extends StatelessWidget {
               children: [
                 Text(
                   title,
-                  style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+                  style: const TextStyle(
+                      fontSize: 28, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 20),
                 Text(
@@ -60,8 +61,8 @@ class AppTutorial extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double topMargin = MediaQuery.of(context).size.height / 2;
-    final Color backgroundColor = customFunColor.shade50;
+    final topMargin = MediaQuery.of(context).size.height / 2;
+    final backgroundColor = customFunColor.shade50;
     final pages = [
       PageModel.withChild(
         child: _withImage(
@@ -105,9 +106,9 @@ class AppTutorial extends StatelessWidget {
       ),
       PageModel.withChild(
         child: const Padding(
-            padding: EdgeInsets.only(bottom: 25.0),
+            padding: EdgeInsets.only(bottom: 25),
             child: Text(
-              "さあ、始めましょう！",
+              'さあ、始めましょう！',
               style: TextStyle(
                 color: Colors.black,
                 fontWeight: FontWeight.bold,
@@ -130,7 +131,6 @@ class AppTutorial extends StatelessWidget {
         finishText: '閉じる',
         skipText: '閉じる',
         pages: pages,
-        showBullets: true,
         skipCallback: () {
           // when user select SKIP
           Navigator.pop(context);

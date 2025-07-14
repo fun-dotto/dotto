@@ -23,7 +23,8 @@ Future<bool> requestLocationPermission() async {
   }
   // 永久に拒否されている場合のエラーを返す
   if (permission == LocationPermission.deniedForever) {
-    debugPrint('Location permissions are permanently denied, we cannot request permissions.');
+    debugPrint('Location permissions are permanently denied, '
+        'we cannot request permissions.');
     return false;
   }
   return true;
@@ -32,7 +33,7 @@ Future<bool> requestLocationPermission() async {
 /// 位置情報サービスが有効でない場合、または許可されていない場合、null
 Future<Position?> determinePosition() async {
   if (await requestLocationPermission()) {
-    return await Geolocator.getCurrentPosition();
+    return Geolocator.getCurrentPosition();
   } else {
     return null;
   }

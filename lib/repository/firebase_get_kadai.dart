@@ -1,23 +1,26 @@
 import 'package:dotto/feature/assignment/domain/kadai.dart';
-import 'package:dotto/repository/setting_user_info.dart';
 import 'package:dotto/repository/get_firebase_realtime_db.dart';
+import 'package:dotto/repository/setting_user_info.dart';
 
-class FirebaseGetKadai {
+final class FirebaseGetKadai {
   const FirebaseGetKadai();
   Future<List<KadaiList>> getKadaiFromFirebase() async {
-    final String userKey =
-        "dotto_hope_user_key_${await UserPreferences.getString(UserPreferenceKeys.userKey)}";
-    List<Kadai> kadaiList = [];
-    final snapshot = await GetFirebaseRealtimeDB.getData('hope/users/$userKey/data');
+    final userKey = 'dotto_hope_user_key_'
+        '${await UserPreferences.getString(UserPreferenceKeys.userKey)}';
+    final kadaiList = <Kadai>[];
+    final snapshot =
+        await GetFirebaseRealtimeDB.getData('hope/users/$userKey/data');
     if (snapshot.exists) {
-      final data = snapshot.value as Map;
-      data.forEach((key, value) {
-        kadaiList.add(Kadai.fromFirebase(key, value));
-      });
+      final data = snapshot.value! as Map;
+      for (final entry in data.entries) {
+        kadaiList.add(Kadai.fromFirebase(
+            entry.key as String,
+            Map<String, dynamic>.from(entry.value as Map)));
+      }
     } else {
       throw Exception();
     }
-    kadaiList.sort(((a, b) {
+    kadaiList.sort((a, b) {
       if (a.endtime == null) {
         return 1;
       }
@@ -31,19 +34,19 @@ class FirebaseGetKadai {
         return a.courseId!.compareTo(b.courseId!);
       }
       return a.endtime!.compareTo(b.endtime!);
-    }));
+    });
     int? courseId;
     DateTime? endtime;
-    List<Kadai>? kadaiListTmp = [];
-    List<KadaiList> returnList = [];
-    for (var kadai in kadaiList) {
+    final kadaiListTmp = <Kadai>[];
+    final returnList = <KadaiList>[];
+    for (final kadai in kadaiList) {
       if (endtime == kadai.endtime && courseId == kadai.courseId) {
         kadaiListTmp.add(kadai);
       } else {
         if (courseId != null) {
           if (kadaiListTmp.isNotEmpty) {
-            returnList.add(
-                KadaiList(courseId, kadaiListTmp[0].courseName!, endtime, List.of(kadaiListTmp)));
+            returnList.add(KadaiList(courseId, kadaiListTmp[0].courseName!,
+                endtime, List.of(kadaiListTmp)));
             kadaiListTmp.clear();
           }
         }

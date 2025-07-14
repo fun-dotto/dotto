@@ -5,7 +5,7 @@ final tabItemProvider = NotifierProvider<TabNotifier, TabItem>(() {
   return TabNotifier();
 });
 
-class TabNotifier extends Notifier<TabItem> {
+final class TabNotifier extends Notifier<TabItem> {
   @override
   TabItem build() {
     return TabItem.home;

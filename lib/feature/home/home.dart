@@ -1,37 +1,39 @@
 import 'package:collection/collection.dart';
-import 'package:dotto/theme/v1/animation.dart';
-import 'package:dotto/theme/v1/color_fun.dart';
+
 import 'package:dotto/controller/config_controller.dart';
+import 'package:dotto/feature/announcement/controller/news_from_push_notification_controller.dart';
+import 'package:dotto/feature/announcement/controller/news_list_controller.dart';
+import 'package:dotto/feature/announcement/news_detail.dart';
+import 'package:dotto/feature/announcement/widget/my_page_news.dart';
 import 'package:dotto/feature/bus/widget/bus_card_home.dart';
 import 'package:dotto/feature/funch/funch.dart';
 import 'package:dotto/feature/funch/widget/funch_mypage_card.dart';
-import 'package:dotto/feature/announcement/controller/news_controller.dart';
-import 'package:dotto/feature/announcement/news_detail.dart';
-import 'package:dotto/feature/announcement/widget/my_page_news.dart';
 import 'package:dotto/feature/timetable/controller/timetable_controller.dart';
 import 'package:dotto/feature/timetable/course_cancellation.dart';
 import 'package:dotto/feature/timetable/personal_time_table.dart';
 import 'package:dotto/feature/timetable/repository/timetable_repository.dart';
 import 'package:dotto/feature/timetable/widget/my_page_timetable.dart';
 import 'package:dotto/importer.dart';
+import 'package:dotto/theme/v1/animation.dart';
+import 'package:dotto/theme/v1/color_fun.dart';
 import 'package:dotto/widget/file_viewer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class HomeScreen extends ConsumerStatefulWidget {
+final class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
 
   @override
   ConsumerState<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends ConsumerState<HomeScreen> {
+final class _HomeScreenState extends ConsumerState<HomeScreen> {
   List<int> personalTimeTableList = [];
 
-  void launchUrlInExternal(Uri url) async {
+  Future<void> launchUrlInExternal(Uri url) async {
     if (await canLaunchUrl(url)) {
-      launchUrl(url, mode: LaunchMode.externalApplication);
+      await launchUrl(url, mode: LaunchMode.externalApplication);
     } else {
-      throw 'Could not launch $url';
+      throw Exception('Could not launch $url');
     }
   }
 
@@ -56,8 +58,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     );
   }
 
-  Widget infoButton(BuildContext context, void Function() onPressed, IconData icon, String title) {
-    final double width = MediaQuery.sizeOf(context).width * 0.26;
+  Widget infoButton(BuildContext context, void Function() onPressed,
+      IconData icon, String title) {
+    final width = MediaQuery.sizeOf(context).width * 0.26;
     const double height = 100;
     return Container(
       margin: const EdgeInsets.all(5),
@@ -102,26 +105,40 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 
   void _showPushNotificationNews(BuildContext context, WidgetRef ref) {
+    final newsIdFromPushNotification =
+        ref.watch(newsFromPushNotificationProvider);
     final newsList = ref.watch(newsListProvider);
 
-    if (newsList != null) {
-      final newsId = ref.watch(newsFromPushNotificationProvider);
-      if (newsId != null) {
-        final pushNews = newsList.firstWhereOrNull((element) => element.id == newsId);
-        if (pushNews != null) {
-          Navigator.of(context)
-              .push(
-            PageRouteBuilder(
-              pageBuilder: (context, animation, secondaryAnimation) => NewsDetailScreen(pushNews),
-              transitionsBuilder: fromRightAnimation,
-            ),
-          )
-              .whenComplete(() {
-            ref.read(newsFromPushNotificationProvider.notifier).reset();
-          });
-        }
-      }
+    if (newsIdFromPushNotification == null) {
+      return;
     }
+
+    newsList.when(
+      data: (data) {
+        final news =
+            data.firstWhereOrNull((e) => e.id == newsIdFromPushNotification);
+        if (news == null) {
+          return;
+        }
+        Navigator.of(context)
+            .push(
+          PageRouteBuilder<void>(
+            pageBuilder: (context, animation, secondaryAnimation) =>
+                NewsDetailScreen(news),
+            transitionsBuilder: fromRightAnimation,
+          ),
+        )
+            .whenComplete(() {
+          ref.read(newsFromPushNotificationProvider.notifier).reset();
+        });
+      },
+      loading: () {
+        return;
+      },
+      error: (error, stackTrace) {
+        return;
+      },
+    );
   }
 
   @override
@@ -132,57 +149,55 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final config = ref.watch(configControllerProvider);
-    WidgetsBinding.instance.addPostFrameCallback((_) => _showPushNotificationNews(context, ref));
+    WidgetsBinding.instance
+        .addPostFrameCallback((_) => _showPushNotificationNews(context, ref));
 
-    final double infoBoxWidth = MediaQuery.sizeOf(context).width * 0.4;
-
-    const Map<String, String> fileNamePath = {
+    const fileNamePath = <String, String>{
       // 'バス時刻表': 'home/hakodatebus55.pdf',
       '学年暦': 'home/academic_calendar.pdf',
       '前期時間割': 'home/timetable_first.pdf',
       '後期時間割': 'home/timetable_second.pdf',
     };
-    List<Widget> infoTiles = [];
-    infoTiles.add(infoButton(context, () {
-      Navigator.of(context).push(
-        PageRouteBuilder(
-          pageBuilder: (context, animation, secondaryAnimation) {
-            return const CourseCancellationScreen();
-          },
-          transitionsBuilder: fromRightAnimation,
-        ),
-      );
-    }, Icons.event_busy, '休講情報'));
-    if (config.isFunchEnabled) {
-      infoTiles.add(infoButton(context, () {
+    final infoTiles = <Widget>[
+      infoButton(context, () {
         Navigator.of(context).push(
-          PageRouteBuilder(
+          PageRouteBuilder<void>(
             pageBuilder: (context, animation, secondaryAnimation) {
-              return const FunchScreen();
+              return const CourseCancellationScreen();
             },
             transitionsBuilder: fromRightAnimation,
           ),
         );
-      }, Icons.lunch_dining_outlined, '学食'));
-    }
-    infoTiles.addAll(fileNamePath.entries
-        .map((item) => infoButton(context, () {
-              Navigator.of(context).push(
-                PageRouteBuilder(
-                  pageBuilder: (context, animation, secondaryAnimation) {
-                    return FileViewerScreen(
-                      filename: item.key,
-                      url: item.value,
-                      storage: StorageService.firebase,
-                    );
-                  },
-                  transitionsBuilder: fromRightAnimation,
-                ),
-              );
-            }, Icons.picture_as_pdf, item.key))
-        .toList());
+      }, Icons.event_busy, '休講情報'),
+      if (config.isFunchEnabled)
+        infoButton(context, () {
+          Navigator.of(context).push(
+            PageRouteBuilder<void>(
+              pageBuilder: (context, animation, secondaryAnimation) {
+                return const FunchScreen();
+              },
+              transitionsBuilder: fromRightAnimation,
+            ),
+          );
+        }, Icons.lunch_dining_outlined, '学食'),
+      ...fileNamePath.entries.map((item) => infoButton(context, () {
+            Navigator.of(context).push(
+              PageRouteBuilder<void>(
+                pageBuilder: (context, animation, secondaryAnimation) {
+                  return FileViewerScreen(
+                    filename: item.key,
+                    url: item.value,
+                    storage: StorageService.firebase,
+                  );
+                },
+                transitionsBuilder: fromRightAnimation,
+              ),
+            );
+          }, Icons.picture_as_pdf, item.key)),
+    ];
 
-    final twoWeekTimeTableDataNotifier = ref.read(twoWeekTimeTableDataProvider.notifier);
+    final twoWeekTimeTableDataNotifier =
+        ref.read(twoWeekTimeTableDataProvider.notifier);
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -203,7 +218,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   onPressed: () {
                     Navigator.of(context)
                         .push(
-                      PageRouteBuilder(
+                      PageRouteBuilder<void>(
                         pageBuilder: (context, animation, secondaryAnimation) {
                           return const PersonalTimeTableScreen();
                         },
@@ -212,11 +227,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     )
                         .then((value) async {
                       twoWeekTimeTableDataNotifier.state =
-                          await TimetableRepository().get2WeekLessonSchedule(ref);
+                          await TimetableRepository()
+                              .get2WeekLessonSchedule(ref);
                     });
                   },
                   child: Text(
-                    "時間割を設定する ⇀",
+                    '時間割を設定する ⇀',
                     style: TextStyle(
                       color: Colors.blue.shade700,
                       decoration: TextDecoration.underline,
@@ -227,7 +243,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               const SizedBox(height: 20),
               const BusCardHome(),
               const SizedBox(height: 20),
-              config.isFunchEnabled ? const FunchMyPageCard() : const SizedBox.shrink(),
+              if (config.isFunchEnabled)
+                const FunchMyPageCard()
+              else
+                const SizedBox.shrink(),
               const SizedBox(height: 20),
               const MyPageNews(),
               const SizedBox(height: 20),

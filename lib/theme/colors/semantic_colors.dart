@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 /// Semantic colors from Dotto Design System
-class SemanticColors {
+final class SemanticColors {
   // Text Colors
   static const textPrimary = Color(0xFF3C373C);
   static const textSecondary = Color(0xBF3C373C); // 0.75 opacity
