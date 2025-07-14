@@ -3,12 +3,14 @@ import 'dart:io';
 import 'package:dotto/components/animation.dart';
 import 'package:dotto/components/setting_user_info.dart';
 import 'package:dotto/controller/user_controller.dart';
+import 'package:dotto/controller/config_controller.dart';
 import 'package:dotto/feature/settings/controller/settings_controller.dart';
 import 'package:dotto/feature/settings/repository/settings_repository.dart';
 import 'package:dotto/feature/settings/widget/license.dart';
 import 'package:dotto/feature/settings/widget/settings_set_userkey.dart';
 import 'package:dotto/importer.dart';
 import 'package:dotto/screens/app_tutorial.dart';
+import 'package:flutter/gestures.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:settings_ui/settings_ui.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -65,6 +67,12 @@ class SettingsScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final userNotifier = ref.read(userProvider.notifier);
     final user = ref.watch(userProvider);
+    final configState = ref.watch(configControllerProvider);
+
+    // 設定を取得
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(configControllerProvider.notifier).fetchConfigs();
+    });
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () => FocusScope.of(context).unfocus(),
@@ -143,12 +151,24 @@ class SettingsScreen extends ConsumerWidget {
                 },
               ),
               SettingsTile.navigation(
-                title: const Text('ユーザーキーの設定は下記リンクから'),
-                description: const SelectableText(
-                  "https://dotto.web.app/",
+                  title: RichText(
+                text: TextSpan(
+                  text: 'ユーザーキーの設定は下記リンクから',
+                  style: const TextStyle(color: Colors.black, fontSize: 16),
+                  recognizer: TapGestureRecognizer()
+                    ..onTap = () {
+                      final formUrl = configState.userKeySettingUrl;
+                      final url = Uri.parse(formUrl);
+                      launchUrlInExternal(url);
+                    },
                 ),
-                trailing: const Icon(null),
-              ),
+              )
+                  // title: const Text('ユーザーキーの設定は下記リンクから'),
+                  // description: const SelectableText(
+                  //   "https://dotto.web.app/",
+                  // ),
+                  // trailing: const Icon(null),
+                  ),
             ],
           ),
 
