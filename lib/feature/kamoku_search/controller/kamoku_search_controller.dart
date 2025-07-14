@@ -68,9 +68,6 @@ final class KamokuSearchControllerProvider
     state = state.copyWith(checkboxStatusMap: checkboxStatusMap);
   }
 
-  // Radioボタン Text
-  final List<String> checkboxSenmonKyoyo = ['専門', '教養', '大学院'];
-
   void reset() {
     final checkboxStatusMap =
         Map<KamokuSearchChoices, List<bool>>.fromIterables(
@@ -317,9 +314,9 @@ final class KamokuSearchControllerProvider
     debugPrint(sqlWhere);
     List<Map<String, dynamic>> records;
     sqlWhere = (sqlWhere == '') ? '1' : sqlWhere;
-    records = await database.rawQuery(
-        'SELECT * FROM sort detail INNER JOIN sort ON '
-        'sort.LessonId=detail.LessonId WHERE $sqlWhere');
+    records =
+        await database.rawQuery('SELECT * FROM sort detail INNER JOIN sort ON '
+            'sort.LessonId=detail.LessonId WHERE $sqlWhere');
     state = state.copyWith(
         searchResults: records
             .where(

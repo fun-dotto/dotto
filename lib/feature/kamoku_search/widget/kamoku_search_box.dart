@@ -7,8 +7,6 @@ final class KamokuSearchBox extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final kamokuSearchController = ref.watch(kamokuSearchControllerProvider);
-    final kamokuSearchControllerNotifier =
-        ref.watch(kamokuSearchControllerProvider.notifier);
     return TextField(
       controller: kamokuSearchController.textEditingController,
       focusNode: kamokuSearchController.searchBoxFocusNode,
@@ -23,13 +21,16 @@ final class KamokuSearchBox extends ConsumerWidget {
                 icon: const Icon(Icons.close),
                 onPressed: () {
                   kamokuSearchController.textEditingController.clear();
-                  kamokuSearchControllerNotifier.setSearchWord('');
+                  ref
+                      .read(kamokuSearchControllerProvider.notifier)
+                      .setSearchWord('');
                   kamokuSearchController.searchBoxFocusNode.unfocus();
                 },
               )
             : null,
       ),
-      onChanged: kamokuSearchControllerNotifier.setSearchWord,
+      onChanged:
+          ref.read(kamokuSearchControllerProvider.notifier).setSearchWord,
     );
   }
 }
