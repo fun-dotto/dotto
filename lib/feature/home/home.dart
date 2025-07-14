@@ -1,6 +1,8 @@
 import 'package:collection/collection.dart';
+
 import 'package:dotto/controller/config_controller.dart';
-import 'package:dotto/feature/announcement/controller/news_controller.dart';
+import 'package:dotto/feature/announcement/controller/news_from_push_notification_controller.dart';
+import 'package:dotto/feature/announcement/controller/news_list_controller.dart';
 import 'package:dotto/feature/announcement/news_detail.dart';
 import 'package:dotto/feature/announcement/widget/my_page_news.dart';
 import 'package:dotto/feature/bus/widget/bus_card_home.dart';
@@ -103,28 +105,40 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 
   void _showPushNotificationNews(BuildContext context, WidgetRef ref) {
+    final newsIdFromPushNotification =
+        ref.watch(newsFromPushNotificationProvider);
     final newsList = ref.watch(newsListProvider);
 
-    if (newsList != null) {
-      final newsId = ref.watch(newsFromPushNotificationProvider);
-      if (newsId != null) {
-        final pushNews =
-            newsList.firstWhereOrNull((element) => element.id == newsId);
-        if (pushNews != null) {
-          Navigator.of(context)
-              .push(
-            PageRouteBuilder<void>(
-              pageBuilder: (context, animation, secondaryAnimation) =>
-                  NewsDetailScreen(pushNews),
-              transitionsBuilder: fromRightAnimation,
-            ),
-          )
-              .whenComplete(() {
-            ref.read(newsFromPushNotificationProvider.notifier).reset();
-          });
-        }
-      }
+    if (newsIdFromPushNotification == null) {
+      return;
     }
+
+    newsList.when(
+      data: (data) {
+        final news =
+            data.firstWhereOrNull((e) => e.id == newsIdFromPushNotification);
+        if (news == null) {
+          return;
+        }
+        Navigator.of(context)
+            .push(
+          PageRouteBuilder<void>(
+            pageBuilder: (context, animation, secondaryAnimation) =>
+                NewsDetailScreen(news),
+            transitionsBuilder: fromRightAnimation,
+          ),
+        )
+            .whenComplete(() {
+          ref.read(newsFromPushNotificationProvider.notifier).reset();
+        });
+      },
+      loading: () {
+        return;
+      },
+      error: (error, stackTrace) {
+        return;
+      },
+    );
   }
 
   @override
@@ -168,21 +182,20 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
             ),
           );
         }, Icons.lunch_dining_outlined, '学食'),
-      ...fileNamePath.entries
-          .map((item) => infoButton(context, () {
-                Navigator.of(context).push(
-                  PageRouteBuilder<void>(
-                    pageBuilder: (context, animation, secondaryAnimation) {
-                      return FileViewerScreen(
-                        filename: item.key,
-                        url: item.value,
-                        storage: StorageService.firebase,
-                      );
-                    },
-                    transitionsBuilder: fromRightAnimation,
-                  ),
-                );
-              }, Icons.picture_as_pdf, item.key)),
+      ...fileNamePath.entries.map((item) => infoButton(context, () {
+            Navigator.of(context).push(
+              PageRouteBuilder<void>(
+                pageBuilder: (context, animation, secondaryAnimation) {
+                  return FileViewerScreen(
+                    filename: item.key,
+                    url: item.value,
+                    storage: StorageService.firebase,
+                  );
+                },
+                transitionsBuilder: fromRightAnimation,
+              ),
+            );
+          }, Icons.picture_as_pdf, item.key)),
     ];
 
     final twoWeekTimeTableDataNotifier =

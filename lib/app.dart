@@ -6,8 +6,7 @@ import 'package:dotto/controller/config_controller.dart';
 import 'package:dotto/controller/tab_controller.dart';
 import 'package:dotto/controller/user_controller.dart';
 import 'package:dotto/domain/tab_item.dart';
-import 'package:dotto/feature/announcement/controller/news_controller.dart';
-import 'package:dotto/feature/announcement/repository/news_repository.dart';
+import 'package:dotto/feature/announcement/controller/news_from_push_notification_controller.dart';
 import 'package:dotto/feature/bus/controller/bus_controller.dart';
 import 'package:dotto/feature/bus/repository/bus_repository.dart';
 import 'package:dotto/feature/map/controller/map_controller.dart';
@@ -128,11 +127,6 @@ final class _BasePageState extends ConsumerState<BasePage> {
     await BusRepository().changeDirectionOnCurrentLocation(ref);
   }
 
-  Future<void> getNews() async {
-    final newsList = await NewsRepository().getNewsListFromFirestore();
-    ref.read(newsListProvider.notifier).news = newsList;
-  }
-
   Future<void> saveFCMToken() async {
     final didSave = await UserPreferences.getBool(
           UserPreferenceKeys.didSaveFCMToken,
@@ -171,7 +165,6 @@ final class _BasePageState extends ConsumerState<BasePage> {
     await setupUniversalLinks();
     await getPersonalLessonIdList();
     await getBus();
-    await getNews();
     await saveFCMToken();
   }
 
