@@ -1,10 +1,8 @@
-import 'package:dotto/feature/search_course/controller/kamoku_search_controller.dart';
-import 'package:dotto/feature/search_course/domain/kamoku_search_choices.dart';
+import 'package:dotto/feature/search_course/widget/kamoku_search_action_buttons.dart';
 import 'package:dotto/feature/search_course/widget/kamoku_search_box.dart';
-import 'package:dotto/feature/search_course/widget/kamoku_search_filter_checkbox.dart';
-import 'package:dotto/feature/search_course/widget/kamoku_search_filter_radio.dart';
-import 'package:dotto/feature/search_course/widget/kamoku_search_result.dart';
-import 'package:dotto/theme/v1/color_fun.dart';
+import 'package:dotto/feature/search_course/widget/kamoku_search_filter_section.dart';
+import 'package:dotto/feature/search_course/widget/kamoku_search_results_header.dart';
+import 'package:dotto/feature/search_course/widget/kamoku_search_results_section.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -13,99 +11,26 @@ final class KamokuSearchScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final kamokuSearchController = ref.watch(kamokuSearchControllerProvider);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: GestureDetector(
         behavior: HitTestBehavior.opaque,
         onTap: () => FocusScope.of(context).unfocus(),
-        child: SingleChildScrollView(
+        child: const SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Padding(
+              Padding(
                 padding: EdgeInsets.symmetric(
                   vertical: 12,
                   horizontal: 24,
                 ),
                 child: KamokuSearchBox(),
               ),
-              Column(
-                children: [
-                  const KamokuSearchFilterRadio(),
-                  ...KamokuSearchChoices.values.map(
-                    (e) => Visibility(
-                      visible:
-                          kamokuSearchController.visibilityStatus.contains(e),
-                      child: KamokuSearchFilterCheckbox(
-                        kamokuSearchChoices: e,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              Stack(
-                alignment: Alignment.topLeft,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 5),
-                    child: TextButton(
-                        onPressed: ref
-                            .read(kamokuSearchControllerProvider.notifier)
-                            .reset,
-                        child: const Text('リセット')),
-                  ),
-                  Center(
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: customFunColor,
-                        foregroundColor: Colors.white,
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                      ),
-                      onPressed: () async {
-                        FocusScope.of(context).unfocus();
-                        await ref
-                            .read(kamokuSearchControllerProvider.notifier)
-                            .search();
-                      },
-                      child: const SizedBox(
-                        width: 120,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Text(
-                              '科目検索',
-                              style: TextStyle(fontSize: 20),
-                            ),
-                            Icon(
-                              Icons.search,
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              const Align(
-                alignment: Alignment.centerLeft,
-                child: Padding(
-                  padding: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-                  child: Text(
-                    '結果一覧',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
-                  ),
-                ),
-              ),
-              if (kamokuSearchController.searchResults != null)
-                if (kamokuSearchController.searchResults!.isNotEmpty)
-                  KamokuSearchResults(
-                      records: kamokuSearchController.searchResults!)
-                else
-                  const Center(
-                    child: Text('検索結果は見つかりませんでした'),
-                  ),
+              KamokuSearchFilterSection(),
+              KamokuSearchActionButtons(),
+              KamokuSearchResultsHeader(),
+              KamokuSearchResultsSection(),
             ],
           ),
         ),
