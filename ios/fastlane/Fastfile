@@ -29,7 +29,7 @@ platform :ios do
   lane :build_adhoc do
     match_adhoc_readonly
     sh( "fvm", "flutter", "clean" )
-    sh( "fvm", "flutter", "build", "ios", "--release" )
+    sh( "fvm", "flutter", "build", "ios", "--release", "--dart-define-from-file=./.env" )
     build_app(
       clean: true,
       export_method: "ad-hoc",
@@ -45,7 +45,7 @@ platform :ios do
   lane :build_appstore do
     match_appstore_readonly
     sh( "fvm", "flutter", "clean" )
-    sh( "fvm", "flutter", "build", "ios", "--release" )
+    sh( "fvm", "flutter", "build", "ios", "--release", "--dart-define-from-file=./.env" )
     build_app(
       export_method: "app-store",
       export_options: {
@@ -85,15 +85,9 @@ platform :ios do
 
   desc "Deploy to TestFlight"
   lane :deploy_testflight do
-    if latest_testflight_build_number.nil?
-      reset_build_number
-    else
-      increment_build_number({
-        build_number: latest_testflight_build_number + 1
-      })
-    end
     build_appstore
     upload_to_testflight(skip_submission: true)
+    reset_build_number
   end
 
   desc "Match development"

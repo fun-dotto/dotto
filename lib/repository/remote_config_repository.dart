@@ -22,7 +22,7 @@ final class RemoteConfigRepository {
     if (kDebugMode) {
       await remoteConfig.setDefaults(const {
         RemoteConfigKeys.isDesignV2Enabled: false,
-        RemoteConfigKeys.isFunchEnabled: false,
+        RemoteConfigKeys.isFunchEnabled: true,
         RemoteConfigKeys.isValidAppVersion: true,
         RemoteConfigKeys.userKeySettingUrl: 'https://dotto.web.app/',
       });

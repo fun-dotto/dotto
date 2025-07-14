@@ -9,6 +9,10 @@ Future<String> readJsonFile(String fileName) async {
   if (await file.exists()) {
     // ファイルの内容を文字列として読み込む
     String content = await file.readAsString();
+    if (content == "") {
+      await Future.delayed(const Duration(milliseconds: 100));
+      return await readJsonFile(fileName);
+    }
     return content;
   } else {
     throw Exception("File does not exist");

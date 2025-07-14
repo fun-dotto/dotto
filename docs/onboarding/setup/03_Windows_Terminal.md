@@ -10,12 +10,12 @@ Windows ターミナルでは、Powershell を使用します。デフォルト�
 
 既存の PowerShell をアンインストールします。
 
-```
-$ winget uninstall PowerShell
+```pwsh
+winget uninstall PowerShell
 ```
 
 新規 PowerShell をインストールします。
 
-```
-$ winget install --id Microsoft.Powershell --source winget
+```pwsh
+winget install --id Microsoft.Powershell --source winget
 ```

@@ -1,6 +1,5 @@
-import 'package:flutter/material.dart';
-import 'package:dotto/components/kadai.dart';
-import 'package:dotto/components/setting_user_info.dart';
+import 'package:dotto/feature/assignment/domain/kadai.dart';
+import 'package:dotto/repository/setting_user_info.dart';
 import 'package:dotto/repository/get_firebase_realtime_db.dart';
 
 class FirebaseGetKadai {
@@ -9,15 +8,13 @@ class FirebaseGetKadai {
     final String userKey =
         "dotto_hope_user_key_${await UserPreferences.getString(UserPreferenceKeys.userKey)}";
     List<Kadai> kadaiList = [];
-    final snapshot =
-        await GetFirebaseRealtimeDB.getData('hope/users/$userKey/data');
+    final snapshot = await GetFirebaseRealtimeDB.getData('hope/users/$userKey/data');
     if (snapshot.exists) {
       final data = snapshot.value as Map;
       data.forEach((key, value) {
         kadaiList.add(Kadai.fromFirebase(key, value));
       });
     } else {
-      debugPrint('No kadai data available.');
       throw Exception();
     }
     kadaiList.sort(((a, b) {
@@ -45,8 +42,8 @@ class FirebaseGetKadai {
       } else {
         if (courseId != null) {
           if (kadaiListTmp.isNotEmpty) {
-            returnList.add(KadaiList(courseId, kadaiListTmp[0].courseName!,
-                endtime, List.of(kadaiListTmp)));
+            returnList.add(
+                KadaiList(courseId, kadaiListTmp[0].courseName!, endtime, List.of(kadaiListTmp)));
             kadaiListTmp.clear();
           }
         }

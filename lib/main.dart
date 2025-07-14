@@ -14,7 +14,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:dotto/firebase_options.dart';
 import 'package:dotto/app.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:timezone/data/latest.dart' as tz;
@@ -35,9 +34,6 @@ Future<void> main() async {
     return true;
   };
 
-  // Firebase Realtime Databaseのパーシステンスを有効化
-  FirebaseDatabase.instance.setPersistenceEnabled(true);
-
   // Firebase App Checkの初期化
   await FirebaseAppCheck.instance.activate(
     androidProvider: kReleaseMode ? AndroidProvider.playIntegrity : AndroidProvider.debug,
@@ -47,10 +43,10 @@ Future<void> main() async {
   // Firebase Remote Configの初期化
   await RemoteConfigRepository.initialize();
 
-  // .envファイルの読み込み
-  await dotenv.load(fileName: ".env.dev");
+  // Firebase Realtime Databaseのパーシステンスを有効化
+  FirebaseDatabase.instance.setPersistenceEnabled(true);
 
-  // 画面の向きを固定.
+  // 画面の向きを固定
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
@@ -96,6 +92,7 @@ Future<void> _downloadFiles() async {
           'map/oneweek_schedule.json',
           'home/cancel_lecture.json',
           'home/sup_lecture.json',
+          'funch/menu.json',
         ];
         for (var path in filePaths) {
           downloadFileFromFirebase(path);

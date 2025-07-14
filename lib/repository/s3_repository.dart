@@ -1,17 +1,17 @@
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:minio/minio.dart';
+import 'package:dotto/controller/config_controller.dart';
 
 class S3Repository {
   static late Minio _s3;
   static late String _bucketName;
   S3Repository._internal() {
     _s3 = Minio(
-      endPoint: dotenv.env['END_POINT']!,
-      accessKey: dotenv.env['ACCESS_KEY']!,
-      secretKey: dotenv.env['SECRET_KEY']!,
+      endPoint: ConfigState.cloudflareR2Endpoint,
+      accessKey: ConfigState.cloudflareR2AccessKeyId,
+      secretKey: ConfigState.cloudflareR2SecretAccessKey,
       useSSL: true,
     );
-    _bucketName = dotenv.env['BUCKET']!;
+    _bucketName = ConfigState.cloudflareR2BucketName;
   }
   static final S3Repository _instance = S3Repository._internal();
   factory S3Repository() {
