@@ -66,6 +66,8 @@ dev_dependencies:
 flutter:
   assets:
     - assets/
+    - assets/map/
+    - assets/tutorial/
   fonts:
     - family: NotoSansJP
       fonts:
