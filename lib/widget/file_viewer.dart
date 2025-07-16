@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:dotto/repository/download_file_from_firebase.dart';
+import 'package:dotto/repository/firebase_storage_repository.dart';
 import 'package:dotto/repository/get_application_path.dart';
 import 'package:dotto/repository/s3_repository.dart';
 import 'package:dotto/widget/loading_circular.dart';
@@ -111,7 +111,7 @@ final class _FileViewerScreenState extends State<FileViewerScreen> {
 
   Future<String> getFilePathFirebase() async {
     // downloadTask
-    await downloadFileFromFirebase(widget.url);
+    await FirebaseStorageRepository().download(widget.url);
     return getApplicationFilePath(widget.url);
   }
 }

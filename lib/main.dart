@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:dotto/app.dart';
 import 'package:dotto/firebase_options.dart';
-import 'package:dotto/repository/download_file_from_firebase.dart';
+import 'package:dotto/repository/firebase_storage_repository.dart';
 import 'package:dotto/repository/location_repository.dart';
 import 'package:dotto/repository/notification_repository.dart';
 import 'package:dotto/repository/remote_config_repository.dart';
@@ -91,7 +91,7 @@ Future<void> _downloadFiles() async {
           'funch/menu.json',
         ];
         for (final path in filePaths) {
-          downloadFileFromFirebase(path);
+          FirebaseStorageRepository().download(path);
         }
       },
     );
