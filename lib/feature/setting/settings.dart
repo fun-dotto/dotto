@@ -85,7 +85,6 @@ final class SettingsScreen extends ConsumerWidget {
         ),
         sections: [
           SettingsSection(
-            title: const Text('全般'),
             tiles: <SettingsTile>[
               // Googleでログイン
               SettingsTile.navigation(
@@ -180,7 +179,6 @@ final class SettingsScreen extends ConsumerWidget {
 
           // その他
           SettingsSection(
-            title: const Text('その他'),
             tiles: <SettingsTile>[
               // お知らせ
               SettingsTile.navigation(
