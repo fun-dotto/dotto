@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:dotto/app.dart';
 import 'package:dotto/firebase_options.dart';
 import 'package:dotto/repository/download_file_from_firebase.dart';
-import 'package:dotto/repository/location.dart';
+import 'package:dotto/repository/location_repository.dart';
 import 'package:dotto/repository/notification.dart';
 import 'package:dotto/repository/remote_config_repository.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
@@ -60,7 +60,7 @@ Future<void> main() async {
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
   // 位置情報の許可をリクエスト
-  await requestLocationPermission();
+  await LocationRepository().requestLocationPermission();
 
   // ファイルをダウンロード
   await _downloadFiles();

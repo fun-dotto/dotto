@@ -1,9 +1,10 @@
 import 'dart:convert';
 
-import 'package:dotto/feature/timetable/domain/timetable_course.dart';
-import 'package:dotto/importer.dart';
 import 'package:dotto/feature/search_course/repository/syllabus_database_config.dart';
+import 'package:dotto/feature/timetable/domain/timetable_course.dart';
 import 'package:dotto/repository/setting_user_info.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sqflite/sqflite.dart';
 
 final personalLessonIdListProvider =
