@@ -2,12 +2,13 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:collection/collection.dart';
+import 'package:dotto/domain/user_preference_keys.dart';
 import 'package:dotto/feature/assignment/domain/kadai.dart';
 import 'package:dotto/feature/assignment/kadai_hidden_list.dart';
+import 'package:dotto/feature/assignment/repository/assignment_repository.dart';
 import 'package:dotto/feature/setting/controller/settings_controller.dart';
 import 'package:dotto/importer.dart';
-import 'package:dotto/repository/firebase_get_kadai.dart';
-import 'package:dotto/repository/setting_user_info.dart';
+import 'package:dotto/repository/user_preference_repository.dart';
 import 'package:dotto/widget/loading_circular.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -114,8 +115,8 @@ final class _KadaiListScreenState extends State<KadaiListScreen> {
   }
 
   Future<void> loadFinishList() async {
-    final jsonString =
-        await UserPreferences.getString(UserPreferenceKeys.kadaiFinishList);
+    final jsonString = await UserPreferenceRepository.getString(
+        UserPreferenceKeys.kadaiFinishList);
     if (jsonString != null) {
       setState(() {
         finishList = List<int>.from(json.decode(jsonString) as List);
@@ -124,13 +125,13 @@ final class _KadaiListScreenState extends State<KadaiListScreen> {
   }
 
   Future<void> saveFinishList() async {
-    await UserPreferences.setString(
+    await UserPreferenceRepository.setString(
         UserPreferenceKeys.kadaiFinishList, json.encode(finishList));
   }
 
   Future<void> loadAlertList() async {
-    final jsonString =
-        await UserPreferences.getString(UserPreferenceKeys.kadaiAlertList);
+    final jsonString = await UserPreferenceRepository.getString(
+        UserPreferenceKeys.kadaiAlertList);
     if (jsonString != null) {
       setState(() {
         alertList = List<int>.from(json.decode(jsonString) as List);
@@ -139,13 +140,13 @@ final class _KadaiListScreenState extends State<KadaiListScreen> {
   }
 
   Future<void> saveAlertList() async {
-    await UserPreferences.setString(
+    await UserPreferenceRepository.setString(
         UserPreferenceKeys.kadaiAlertList, json.encode(alertList));
   }
 
   Future<void> loadDeleteList() async {
-    final jsonString =
-        await UserPreferences.getString(UserPreferenceKeys.kadaiDeleteList);
+    final jsonString = await UserPreferenceRepository.getString(
+        UserPreferenceKeys.kadaiDeleteList);
     if (jsonString != null) {
       setState(() {
         deleteList = List<int>.from(json.decode(jsonString) as List);
@@ -154,7 +155,7 @@ final class _KadaiListScreenState extends State<KadaiListScreen> {
   }
 
   Future<void> saveDeleteList() async {
-    await UserPreferences.setString(
+    await UserPreferenceRepository.setString(
         UserPreferenceKeys.kadaiDeleteList, json.encode(deleteList));
   }
 
@@ -171,7 +172,8 @@ final class _KadaiListScreenState extends State<KadaiListScreen> {
   }*/
 
   Future<void> getUserKey() async {
-    userKey = await UserPreferences.getString(UserPreferenceKeys.userKey);
+    userKey =
+        await UserPreferenceRepository.getString(UserPreferenceKeys.userKey);
   }
 
   String stringFromDateTime(DateTime? dt) {
@@ -769,7 +771,7 @@ final class _KadaiListScreenState extends State<KadaiListScreen> {
                 if (result == 'back') {
                   setState(() {
                     loadDeleteList();
-                    const FirebaseGetKadai().getKadaiFromFirebase();
+                    const AssignmentRepository().getKadaiFromFirebase();
                   });
                 }
               },
@@ -785,7 +787,7 @@ final class _KadaiListScreenState extends State<KadaiListScreen> {
             onRefresh: () async {
               //await Future.delayed(const Duration(seconds: 1));
               setState(() {
-                const FirebaseGetKadai().getKadaiFromFirebase();
+                const AssignmentRepository().getKadaiFromFirebase();
               });
               await Future<void>.delayed(const Duration(seconds: 1));
             },
@@ -795,7 +797,7 @@ final class _KadaiListScreenState extends State<KadaiListScreen> {
                 return GestureDetector(
                   onPanDown: (details) => Slidable.of(context)?.close(),
                   child: FutureBuilder(
-                    future: const FirebaseGetKadai().getKadaiFromFirebase(),
+                    future: const AssignmentRepository().getKadaiFromFirebase(),
                     builder: (
                       BuildContext context,
                       AsyncSnapshot<List<KadaiList>>? snapshot,

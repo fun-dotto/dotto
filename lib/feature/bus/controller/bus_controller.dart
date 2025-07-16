@@ -1,10 +1,11 @@
 import 'dart:async';
 
+import 'package:dotto/domain/user_preference_keys.dart';
 import 'package:dotto/feature/bus/domain/bus_stop.dart';
 import 'package:dotto/feature/bus/domain/bus_trip.dart';
 import 'package:dotto/feature/bus/repository/bus_repository.dart';
 import 'package:dotto/importer.dart';
-import 'package:dotto/repository/setting_user_info.dart';
+import 'package:dotto/repository/user_preference_repository.dart';
 
 final allBusStopsProvider =
     NotifierProvider<AllBusStopsNotifier, List<BusStop>?>(
@@ -58,7 +59,7 @@ final class MyBusStopNotifier extends Notifier<BusStop> {
 
   Future<void> init() async {
     final myBusStopPreference =
-        await UserPreferences.getInt(UserPreferenceKeys.myBusStop);
+        await UserPreferenceRepository.getInt(UserPreferenceKeys.myBusStop);
     final allBusStop = ref.watch(allBusStopsProvider);
     if (allBusStop != null) {
       state = allBusStop.firstWhere(
@@ -69,7 +70,7 @@ final class MyBusStopNotifier extends Notifier<BusStop> {
   }
 
   BusStop get myBusStop => state;
-  
+
   set myBusStop(BusStop value) {
     state = value;
   }

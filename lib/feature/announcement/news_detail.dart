@@ -1,6 +1,6 @@
 import 'package:dotto/feature/announcement/domain/news_model.dart';
 import 'package:dotto/importer.dart';
-import 'package:dotto/repository/download_file_from_firebase.dart';
+import 'package:dotto/repository/firebase_storage_repository.dart';
 import 'package:intl/intl.dart';
 
 final class NewsDetailScreen extends StatelessWidget {
@@ -8,13 +8,15 @@ final class NewsDetailScreen extends StatelessWidget {
   final News news;
 
   Future<Image?> _getNewsImage() async {
-    if (news.image) {
-      final data = await getFileFromFirebase('news/${news.id}.png');
-      if (data != null) {
-        return Image.memory(data);
-      }
+    if (!news.image) {
+      return null;
     }
-    return null;
+    final data =
+        await FirebaseStorageRepository().getData('news/${news.id}.png');
+    if (data == null) {
+      return null;
+    }
+    return Image.memory(data);
   }
 
   @override

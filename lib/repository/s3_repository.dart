@@ -1,5 +1,6 @@
-import 'package:dotto/controller/config_controller.dart';
+import 'package:dotto/domain/config.dart';
 import 'package:minio/minio.dart';
+import 'package:minio/models.dart';
 
 final class S3Repository {
   factory S3Repository() {
@@ -7,17 +8,18 @@ final class S3Repository {
   }
   S3Repository._internal() {
     _s3 = Minio(
-      endPoint: ConfigState.cloudflareR2Endpoint,
-      accessKey: ConfigState.cloudflareR2AccessKeyId,
-      secretKey: ConfigState.cloudflareR2SecretAccessKey,
+      endPoint: Config.cloudflareR2Endpoint,
+      accessKey: Config.cloudflareR2AccessKeyId,
+      secretKey: Config.cloudflareR2SecretAccessKey,
     );
-    _bucketName = ConfigState.cloudflareR2BucketName;
+    _bucketName = Config.cloudflareR2BucketName;
   }
-  static late Minio _s3;
-  static late String _bucketName;
   static final S3Repository _instance = S3Repository._internal();
 
-  static Future<List<String>> getListObjectsKey({required String url}) async {
+  late Minio _s3;
+  late String _bucketName;
+
+  Future<List<String>> getListObjectsKey({required String url}) async {
     final returnStr = <String>[];
     await for (final value
         in _s3.listObjectsV2(_bucketName, prefix: url, recursive: true)) {
@@ -28,7 +30,36 @@ final class S3Repository {
     return returnStr;
   }
 
-  static Future<MinioByteStream> getObject({required String url}) async {
+  Future<MinioByteStream> getObject({required String url}) async {
     return _s3.getObject(_bucketName, url);
+  }
+
+  Stream<ListObjectsResult> listObjectsV2({
+    String prefix = '',
+    String? startAfter,
+  }) async* {
+    MinioInvalidBucketNameError.check(_bucketName);
+    MinioInvalidPrefixError.check(prefix);
+    const delimiter = '';
+
+    bool? isTruncated = false;
+    String? continuationToken;
+
+    do {
+      final resp = await _s3.listObjectsV2Query(
+        _bucketName,
+        prefix,
+        continuationToken,
+        delimiter,
+        null,
+        startAfter,
+      );
+      isTruncated = resp.isTruncated;
+      continuationToken = resp.nextContinuationToken;
+      yield ListObjectsResult(
+        objects: resp.contents!,
+        prefixes: resp.commonPrefixes.map((e) => e.prefix!).toList(),
+      );
+    } while (isTruncated!);
   }
 }

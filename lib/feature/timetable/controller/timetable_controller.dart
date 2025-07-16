@@ -1,9 +1,11 @@
 import 'dart:convert';
 
+import 'package:dotto/domain/user_preference_keys.dart';
+import 'package:dotto/feature/search_course/repository/syllabus_database_config.dart';
 import 'package:dotto/feature/timetable/domain/timetable_course.dart';
-import 'package:dotto/importer.dart';
-import 'package:dotto/repository/db_config.dart';
-import 'package:dotto/repository/setting_user_info.dart';
+import 'package:dotto/repository/user_preference_repository.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sqflite/sqflite.dart';
 
 final personalLessonIdListProvider =
@@ -31,9 +33,10 @@ final class PersonalLessonIdListNotifier extends Notifier<List<int>> {
 
 final Provider<Future<void>> saveTimetableProvider = Provider((ref) async {
   final personalLessonIdList = ref.watch(personalLessonIdListProvider);
-  await UserPreferences.setString(UserPreferenceKeys.personalTimetableListKey,
+  await UserPreferenceRepository.setString(
+      UserPreferenceKeys.personalTimetableListKey,
       json.encode(personalLessonIdList));
-  await UserPreferences.setInt(
+  await UserPreferenceRepository.setInt(
       UserPreferenceKeys.personalTimetableLastUpdateKey,
       DateTime.now().millisecondsSinceEpoch);
 });
@@ -47,7 +50,8 @@ final StateProvider<DateTime> focusTimeTableDayProvider = StateProvider((ref) {
 final FutureProvider<List<Map<String, dynamic>>> weekPeriodAllRecordsProvider =
     FutureProvider(
   (ref) async {
-    final database = await openDatabase(SyllabusDBConfig.dbPath);
+    final dbPath = await SyllabusDatabaseConfig().getDBPath();
+    final database = await openDatabase(dbPath);
     final List<Map<String, dynamic>> records =
         await database.rawQuery('SELECT * FROM week_period order by lessonId');
     return records;

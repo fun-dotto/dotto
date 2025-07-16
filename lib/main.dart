@@ -2,10 +2,9 @@ import 'dart:async';
 
 import 'package:dotto/app.dart';
 import 'package:dotto/firebase_options.dart';
-import 'package:dotto/repository/db_config.dart';
-import 'package:dotto/repository/download_file_from_firebase.dart';
-import 'package:dotto/repository/location.dart';
-import 'package:dotto/repository/notification.dart';
+import 'package:dotto/repository/firebase_storage_repository.dart';
+import 'package:dotto/repository/location_repository.dart';
+import 'package:dotto/repository/notification_repository.dart';
 import 'package:dotto/repository/remote_config_repository.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -36,12 +35,9 @@ Future<void> main() async {
 
   // Firebase App Checkの初期化
   await FirebaseAppCheck.instance.activate(
-    androidProvider: kReleaseMode
-        ? AndroidProvider.playIntegrity
-        : AndroidProvider.debug,
-    appleProvider: kReleaseMode
-        ? AppleProvider.appAttest
-        : AppleProvider.debug,
+    androidProvider:
+        kReleaseMode ? AndroidProvider.playIntegrity : AndroidProvider.debug,
+    appleProvider: kReleaseMode ? AppleProvider.appAttest : AppleProvider.debug,
   );
 
   // Firebase Remote Configの初期化
@@ -64,13 +60,10 @@ Future<void> main() async {
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
   // 位置情報の許可をリクエスト
-  await requestLocationPermission();
+  await LocationRepository().requestLocationPermission();
 
   // ファイルをダウンロード
   await _downloadFiles();
-
-  // データベースの初期化
-  await SyllabusDBConfig.setDB();
 
   // アプリの起動
   runApp(const ProviderScope(child: MyApp()));
@@ -98,7 +91,7 @@ Future<void> _downloadFiles() async {
           'funch/menu.json',
         ];
         for (final path in filePaths) {
-          downloadFileFromFirebase(path);
+          FirebaseStorageRepository().download(path);
         }
       },
     );

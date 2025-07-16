@@ -2,12 +2,13 @@ import 'dart:io';
 
 import 'package:dotto/controller/config_controller.dart';
 import 'package:dotto/controller/user_controller.dart';
+import 'package:dotto/domain/user_preference_keys.dart';
 import 'package:dotto/feature/setting/controller/settings_controller.dart';
 import 'package:dotto/feature/setting/repository/settings_repository.dart';
 import 'package:dotto/feature/setting/widget/license.dart';
 import 'package:dotto/feature/setting/widget/settings_set_userkey.dart';
 import 'package:dotto/importer.dart';
-import 'package:dotto/repository/setting_user_info.dart';
+import 'package:dotto/repository/user_preference_repository.dart';
 import 'package:dotto/theme/v1/animation.dart';
 import 'package:dotto/widget/app_tutorial.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -49,7 +50,7 @@ final class SettingsScreen extends ConsumerWidget {
                       return ListTile(
                         title: Text(list[index]),
                         onTap: () async {
-                          await UserPreferences.setString(
+                          await UserPreferenceRepository.setString(
                               userPreferenceKeys, list[index]);
                           if (context.mounted) {
                             Navigator.pop(context, list[index]);
@@ -69,12 +70,9 @@ final class SettingsScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final userNotifier = ref.read(userProvider.notifier);
     final user = ref.watch(userProvider);
-    final configState = ref.watch(configControllerProvider);
+    final config = ref.watch(configControllerProvider);
 
     // 設定を取得
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(configControllerProvider.notifier).fetchConfigs();
-    });
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () => FocusScope.of(context).unfocus(),
@@ -171,7 +169,7 @@ final class SettingsScreen extends ConsumerWidget {
                 title: const Text('課題のユーザーキー設定'),
                 leading: const Icon(Icons.assignment),
                 onPressed: (context) {
-                  final formUrl = configState.assignmentSetupUrl;
+                  final formUrl = config.assignmentSetupUrl;
                   final url = Uri.parse(formUrl);
                   launchUrlInAppBrowserView(url);
                 },
@@ -200,7 +198,7 @@ final class SettingsScreen extends ConsumerWidget {
                 title: const Text('意見要望はこちら'),
                 leading: const Icon(Icons.messenger_rounded),
                 onPressed: (context) {
-                  final formUrl = configState.feedbackFormUrl;
+                  final formUrl = config.feedbackFormUrl;
                   final url = Uri.parse(formUrl);
                   launchUrlInAppBrowserView(url);
                 },

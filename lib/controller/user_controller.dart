@@ -1,9 +1,7 @@
-import 'package:dotto/importer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final userProvider = NotifierProvider<UserNotifier, User?>(() {
-  return UserNotifier();
-});
+final userProvider = NotifierProvider<UserNotifier, User?>(UserNotifier.new);
 
 final class UserNotifier extends Notifier<User?> {
   @override

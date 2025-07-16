@@ -6,6 +6,7 @@ import 'package:dotto/controller/config_controller.dart';
 import 'package:dotto/controller/tab_controller.dart';
 import 'package:dotto/controller/user_controller.dart';
 import 'package:dotto/domain/tab_item.dart';
+import 'package:dotto/domain/user_preference_keys.dart';
 import 'package:dotto/feature/announcement/controller/news_from_push_notification_controller.dart';
 import 'package:dotto/feature/bus/controller/bus_controller.dart';
 import 'package:dotto/feature/bus/repository/bus_repository.dart';
@@ -15,14 +16,13 @@ import 'package:dotto/feature/setting/repository/settings_repository.dart';
 import 'package:dotto/feature/timetable/controller/timetable_controller.dart';
 import 'package:dotto/feature/timetable/repository/timetable_repository.dart';
 import 'package:dotto/importer.dart';
-import 'package:dotto/repository/notification.dart';
-import 'package:dotto/repository/setting_user_info.dart';
+import 'package:dotto/repository/notification_repository.dart';
+import 'package:dotto/repository/user_preference_repository.dart';
 import 'package:dotto/theme/importer.dart';
 import 'package:dotto/theme/v1/animation.dart';
 import 'package:dotto/theme/v1/color_fun.dart';
 import 'package:dotto/widget/app_tutorial.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 final class MyApp extends ConsumerStatefulWidget {
@@ -36,34 +36,6 @@ final class _MyAppState extends ConsumerState<MyApp> {
   @override
   void initState() {
     super.initState();
-    Future(() async {
-      await ref.read(configControllerProvider.notifier).fetchConfigs();
-
-      if (kDebugMode) {
-        final configState = ref.read(configControllerProvider);
-        debugPrint(
-          'isDesignV2Enabled: ${configState.isDesignV2Enabled}',
-        );
-        debugPrint('isFunchEnabled: ${configState.isFunchEnabled}');
-        debugPrint('isValidAppVersion: ${configState.isValidAppVersion}');
-
-        debugPrint(
-          'CLOUDFLARE_R2_ENDPOINT: ${ConfigState.cloudflareR2Endpoint}',
-        );
-        debugPrint(
-          'CLOUDFLARE_R2_ACCESS_KEY_ID: '
-          '${ConfigState.cloudflareR2AccessKeyId}',
-        );
-        debugPrint(
-          'CLOUDFLARE_R2_SECRET_ACCESS_KEY: '
-          '${ConfigState.cloudflareR2SecretAccessKey}',
-        );
-        debugPrint(
-          'CLOUDFLARE_R2_BUCKET_NAME: '
-          '${ConfigState.cloudflareR2BucketName}',
-        );
-      }
-    });
   }
 
   @override
@@ -128,7 +100,7 @@ final class _BasePageState extends ConsumerState<BasePage> {
   }
 
   Future<void> saveFCMToken() async {
-    final didSave = await UserPreferences.getBool(
+    final didSave = await UserPreferenceRepository.getBool(
           UserPreferenceKeys.didSaveFCMToken,
         ) ??
         false;
@@ -153,7 +125,7 @@ final class _BasePageState extends ConsumerState<BasePage> {
           'last_updated': Timestamp.now(),
         });
       }
-      await UserPreferences.setBool(
+      await UserPreferenceRepository.setBool(
         UserPreferenceKeys.didSaveFCMToken,
         value: true,
       );
@@ -189,7 +161,7 @@ final class _BasePageState extends ConsumerState<BasePage> {
   }
 
   Future<bool> isAppTutorialCompleted() async {
-    return await UserPreferences.getBool(
+    return await UserPreferenceRepository.getBool(
           UserPreferenceKeys.isAppTutorialComplete,
         ) ??
         false;
@@ -204,7 +176,7 @@ final class _BasePageState extends ConsumerState<BasePage> {
           fullscreenDialog: true,
           transitionsBuilder: fromRightAnimation,
         ));
-        await UserPreferences.setBool(
+        await UserPreferenceRepository.setBool(
           UserPreferenceKeys.isAppTutorialComplete,
           value: true,
         );
