@@ -1,97 +1,36 @@
+import 'package:dotto/domain/config.dart';
 import 'package:dotto/domain/remote_config_keys.dart';
 import 'package:dotto/repository/remote_config_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final class ConfigController extends StateNotifier<ConfigState> {
-  ConfigController(this._remoteConfigRepository) : super(const ConfigState());
-  final RemoteConfigRepository _remoteConfigRepository;
+final configControllerProvider =
+    NotifierProvider<ConfigController, Config>(ConfigController.new);
 
-  Future<void> fetchConfigs() async {
-    state = state.copyWith(isLoading: true);
+final remoteConfigRepositoryProvider =
+    Provider<RemoteConfigRepository>((ref) => RemoteConfigRepository());
 
-    try {
-      final isDesignV2Enabled =
-          _remoteConfigRepository.getBool(RemoteConfigKeys.isDesignV2Enabled);
-      final isFunchEnabled =
-          _remoteConfigRepository.getBool(RemoteConfigKeys.isFunchEnabled);
-      final isValidAppVersion =
-          _remoteConfigRepository.getBool(RemoteConfigKeys.isValidAppVersion);
-      final assignmentSetupUrl = _remoteConfigRepository
-          .getString(RemoteConfigKeys.assignmentSetupUrl);
-      final feedbackFormUrl =
-          _remoteConfigRepository.getString(RemoteConfigKeys.feedbackFormUrl);
+final class ConfigController extends Notifier<Config> {
+  @override
+  Config build() {
+    final remoteConfigRepository = ref.read(remoteConfigRepositoryProvider);
 
-      state = state.copyWith(
-        isDesignV2Enabled: isDesignV2Enabled,
-        isFunchEnabled: isFunchEnabled,
-        isValidAppVersion: isValidAppVersion,
-        assignmentSetupUrl: assignmentSetupUrl,
-        feedbackFormUrl: feedbackFormUrl,
-        isLoading: false,
-      );
-    } on Exception catch (e) {
-      state = state.copyWith(
-        isLoading: false,
-        error: e.toString(),
-      );
-    }
-  }
-}
+    final isDesignV2Enabled =
+        remoteConfigRepository.getBool(RemoteConfigKeys.isDesignV2Enabled);
+    final isFunchEnabled =
+        remoteConfigRepository.getBool(RemoteConfigKeys.isFunchEnabled);
+    final isValidAppVersion =
+        remoteConfigRepository.getBool(RemoteConfigKeys.isValidAppVersion);
+    final assignmentSetupUrl =
+        remoteConfigRepository.getString(RemoteConfigKeys.assignmentSetupUrl);
+    final feedbackFormUrl =
+        remoteConfigRepository.getString(RemoteConfigKeys.feedbackFormUrl);
 
-final class ConfigState {
-  const ConfigState({
-    this.isDesignV2Enabled = false,
-    this.isFunchEnabled = false,
-    this.isValidAppVersion = false,
-    this.assignmentSetupUrl = '',
-    this.feedbackFormUrl = '',
-    this.isLoading = false,
-    this.error,
-  });
-  static const String cloudflareR2Endpoint =
-      String.fromEnvironment('CLOUDFLARE_R2_ENDPOINT');
-  static const String cloudflareR2AccessKeyId =
-      String.fromEnvironment('CLOUDFLARE_R2_ACCESS_KEY_ID');
-  static const String cloudflareR2SecretAccessKey =
-      String.fromEnvironment('CLOUDFLARE_R2_SECRET_ACCESS_KEY');
-  static const String cloudflareR2BucketName =
-      String.fromEnvironment('CLOUDFLARE_R2_BUCKET_NAME');
-
-  final bool isDesignV2Enabled;
-  final bool isFunchEnabled;
-  final bool isValidAppVersion;
-  final String assignmentSetupUrl;
-  final String feedbackFormUrl;
-
-  final bool isLoading;
-  final String? error;
-
-  ConfigState copyWith({
-    bool? isDesignV2Enabled,
-    bool? isFunchEnabled,
-    bool? isValidAppVersion,
-    String? assignmentSetupUrl,
-    String? feedbackFormUrl,
-    bool? isLoading,
-    String? error,
-  }) {
-    return ConfigState(
-      isDesignV2Enabled: isDesignV2Enabled ?? this.isDesignV2Enabled,
-      isFunchEnabled: isFunchEnabled ?? this.isFunchEnabled,
-      isValidAppVersion: isValidAppVersion ?? this.isValidAppVersion,
-      assignmentSetupUrl: assignmentSetupUrl ?? this.assignmentSetupUrl,
-      feedbackFormUrl: feedbackFormUrl ?? this.feedbackFormUrl,
-      isLoading: isLoading ?? this.isLoading,
-      error: error ?? this.error,
+    return Config(
+      isDesignV2Enabled: isDesignV2Enabled,
+      isFunchEnabled: isFunchEnabled,
+      isValidAppVersion: isValidAppVersion,
+      assignmentSetupUrl: assignmentSetupUrl,
+      feedbackFormUrl: feedbackFormUrl,
     );
   }
 }
-
-final remoteConfigRepositoryProvider = Provider<RemoteConfigRepository>((ref) {
-  return RemoteConfigRepository();
-});
-
-final configControllerProvider =
-    StateNotifierProvider<ConfigController, ConfigState>((ref) {
-  return ConfigController(ref.read(remoteConfigRepositoryProvider));
-});

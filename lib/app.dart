@@ -23,7 +23,6 @@ import 'package:dotto/theme/v1/animation.dart';
 import 'package:dotto/theme/v1/color_fun.dart';
 import 'package:dotto/widget/app_tutorial.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 final class MyApp extends ConsumerStatefulWidget {
@@ -37,34 +36,6 @@ final class _MyAppState extends ConsumerState<MyApp> {
   @override
   void initState() {
     super.initState();
-    Future(() async {
-      await ref.read(configControllerProvider.notifier).fetchConfigs();
-
-      if (kDebugMode) {
-        final configState = ref.read(configControllerProvider);
-        debugPrint(
-          'isDesignV2Enabled: ${configState.isDesignV2Enabled}',
-        );
-        debugPrint('isFunchEnabled: ${configState.isFunchEnabled}');
-        debugPrint('isValidAppVersion: ${configState.isValidAppVersion}');
-
-        debugPrint(
-          'CLOUDFLARE_R2_ENDPOINT: ${ConfigState.cloudflareR2Endpoint}',
-        );
-        debugPrint(
-          'CLOUDFLARE_R2_ACCESS_KEY_ID: '
-          '${ConfigState.cloudflareR2AccessKeyId}',
-        );
-        debugPrint(
-          'CLOUDFLARE_R2_SECRET_ACCESS_KEY: '
-          '${ConfigState.cloudflareR2SecretAccessKey}',
-        );
-        debugPrint(
-          'CLOUDFLARE_R2_BUCKET_NAME: '
-          '${ConfigState.cloudflareR2BucketName}',
-        );
-      }
-    });
   }
 
   @override
