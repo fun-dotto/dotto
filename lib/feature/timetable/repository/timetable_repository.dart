@@ -3,12 +3,13 @@ import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dotto/controller/user_controller.dart';
+import 'package:dotto/feature/search_course/repository/syllabus_database_config.dart';
 import 'package:dotto/feature/timetable/controller/timetable_controller.dart';
 import 'package:dotto/feature/timetable/domain/timetable_course.dart';
-import 'package:dotto/importer.dart';
-import 'package:dotto/repository/db_config.dart';
 import 'package:dotto/repository/read_json_file.dart';
 import 'package:dotto/repository/setting_user_info.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sqflite/sqflite.dart';
 
 /// 時間割データの取得・管理を行うリポジトリクラス
@@ -43,7 +44,8 @@ final class TimetableRepository {
 
   /// 指定された授業IDでデータベースから授業情報を取得する
   Future<Map<String, dynamic>?> fetchDB(int lessonId) async {
-    final database = await openDatabase(SyllabusDBConfig.dbPath);
+    final dbPath = await SyllabusDatabaseConfig().getDBPath();
+    final database = await openDatabase(dbPath);
 
     final records = await database.rawQuery(
       'SELECT LessonId, 過去問, 授業名 FROM sort where LessonId = ?',
@@ -56,12 +58,12 @@ final class TimetableRepository {
   }
 
   Future<List<String>> getLessonNameList(List<int> lessonIdList) async {
-    final database = await openDatabase(SyllabusDBConfig.dbPath);
+    final dbPath = await SyllabusDatabaseConfig().getDBPath();
+    final database = await openDatabase(dbPath);
 
     final List<Map<String, dynamic>> records = await database.rawQuery(
         'SELECT 授業名 FROM sort WHERE LessonId in (${lessonIdList.join(",")})');
-    final lessonNameList =
-        records.map((e) => e['授業名'] as String).toList();
+    final lessonNameList = records.map((e) => e['授業名'] as String).toList();
     return lessonNameList;
   }
 
@@ -90,8 +92,8 @@ final class TimetableRepository {
         final localLastUpdated = await UserPreferences.getInt(
                 UserPreferenceKeys.personalTimetableLastUpdateKey) ??
             0;
-        final diff = localLastUpdated -
-            firestoreLastUpdated.millisecondsSinceEpoch;
+        final diff =
+            localLastUpdated - firestoreLastUpdated.millisecondsSinceEpoch;
         final firestoreList = List<int>.from(data['2025'] as List);
         final localList = await loadLocalPersonalTimeTableList();
         if (localList.isEmpty) {
@@ -123,8 +125,7 @@ final class TimetableRepository {
                     content: SingleChildScrollView(
                       child: Column(
                         children: <Widget>[
-                          const Text(
-                              'アカウントに紐づいている時間割とローカルの時間割が'
+                          const Text('アカウントに紐づいている時間割とローカルの時間割が'
                               '異なっています。どちらを残しますか？'),
                           const Text('-- アカウント側に多い科目 --'),
                           ...firestoreLessonNameList.map(Text.new),
@@ -164,13 +165,11 @@ final class TimetableRepository {
         }
       } else {
         personalTimeTableList = await loadLocalPersonalTimeTableList();
-        await savePersonalTimeTableListToFirestore(
-            personalTimeTableList, ref);
+        await savePersonalTimeTableListToFirestore(personalTimeTableList, ref);
       }
     } else {
       personalTimeTableList = await loadLocalPersonalTimeTableList();
-      await savePersonalTimeTableListToFirestore(
-          personalTimeTableList, ref);
+      await savePersonalTimeTableListToFirestore(personalTimeTableList, ref);
     }
   }
 
@@ -189,8 +188,8 @@ final class TimetableRepository {
           final localLastUpdated = await UserPreferences.getInt(
                   UserPreferenceKeys.personalTimetableLastUpdateKey) ??
               0;
-          final diff = localLastUpdated -
-              firestoreLastUpdated.millisecondsSinceEpoch;
+          final diff =
+              localLastUpdated - firestoreLastUpdated.millisecondsSinceEpoch;
           final firestoreList = List<int>.from(data['2025'] as List);
           final localList = await loadLocalPersonalTimeTableList();
           // ここなぜか取得できない
@@ -280,11 +279,12 @@ final class TimetableRepository {
   Future<Map<String, int>> loadPersonalTimeTableMapString(WidgetRef ref) async {
     final personalTimeTableListInt = ref.read(personalLessonIdListProvider);
 
-    final database = await openDatabase(SyllabusDBConfig.dbPath);
+    final dbPath = await SyllabusDatabaseConfig().getDBPath();
+    final database = await openDatabase(dbPath);
     final loadPersonalTimeTableMap = <String, int>{};
-    final List<Map<String, dynamic>> records = await database.rawQuery(
-        'select LessonId, 授業名 from sort where LessonId in '
-        '(${personalTimeTableListInt.join(",")})');
+    final List<Map<String, dynamic>> records = await database
+        .rawQuery('select LessonId, 授業名 from sort where LessonId in '
+            '(${personalTimeTableListInt.join(",")})');
     for (final record in records) {
       final lessonName = record['授業名'] as String;
       final lessonId = record['LessonId'] as int;
@@ -408,7 +408,8 @@ final class TimetableRepository {
   }
 
   Future<List<Map<String, dynamic>>> fetchRecords() async {
-    final database = await openDatabase(SyllabusDBConfig.dbPath);
+    final dbPath = await SyllabusDatabaseConfig().getDBPath();
+    final database = await openDatabase(dbPath);
 
     final List<Map<String, dynamic>> records =
         await database.rawQuery('SELECT * FROM week_period order by lessonId');

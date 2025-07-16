@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:dotto/app.dart';
 import 'package:dotto/firebase_options.dart';
-import 'package:dotto/repository/db_config.dart';
 import 'package:dotto/repository/download_file_from_firebase.dart';
 import 'package:dotto/repository/location.dart';
 import 'package:dotto/repository/notification.dart';
@@ -36,12 +35,9 @@ Future<void> main() async {
 
   // Firebase App Checkの初期化
   await FirebaseAppCheck.instance.activate(
-    androidProvider: kReleaseMode
-        ? AndroidProvider.playIntegrity
-        : AndroidProvider.debug,
-    appleProvider: kReleaseMode
-        ? AppleProvider.appAttest
-        : AppleProvider.debug,
+    androidProvider:
+        kReleaseMode ? AndroidProvider.playIntegrity : AndroidProvider.debug,
+    appleProvider: kReleaseMode ? AppleProvider.appAttest : AppleProvider.debug,
   );
 
   // Firebase Remote Configの初期化
@@ -68,9 +64,6 @@ Future<void> main() async {
 
   // ファイルをダウンロード
   await _downloadFiles();
-
-  // データベースの初期化
-  await SyllabusDBConfig.setDB();
 
   // アプリの起動
   runApp(const ProviderScope(child: MyApp()));

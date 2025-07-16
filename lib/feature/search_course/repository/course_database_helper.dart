@@ -1,4 +1,4 @@
-import 'package:dotto/repository/db_config.dart';
+import 'package:dotto/feature/search_course/repository/syllabus_database_config.dart';
 import 'package:sqflite/sqflite.dart';
 
 final class CourseDatabaseHelper {
@@ -15,7 +15,8 @@ final class CourseDatabaseHelper {
 
   static Future<Database> _getDatabase() async {
     try {
-      return await openDatabase(SyllabusDBConfig.dbPath);
+      final dbPath = await SyllabusDatabaseConfig().getDBPath();
+      return await openDatabase(dbPath);
     } catch (e) {
       throw DatabaseException('データベースの接続に失敗しました: $e');
     }
