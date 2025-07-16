@@ -67,7 +67,10 @@ final class SearchCourseResult extends ConsumerWidget {
           );
         } else {
           return const Center(
-            child: LoadingCircular(),
+            child: Padding(
+              padding: EdgeInsets.all(16),
+              child: LoadingCircular(),
+            ),
           );
         }
       },

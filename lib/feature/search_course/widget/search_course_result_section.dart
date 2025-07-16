@@ -19,7 +19,10 @@ final class SearchCourseResultSection extends ConsumerWidget {
       );
     }
     return const Center(
-      child: Text('見つかりませんでした'),
+      child: Padding(
+        padding: EdgeInsets.all(16),
+        child: Text('見つかりませんでした'),
+      ),
     );
   }
 }
