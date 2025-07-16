@@ -11,10 +11,6 @@ final class SearchCourseActionButtons extends ConsumerWidget {
     return Center(
       child: Column(
         children: [
-          // TextButton(
-          //   onPressed: ref.read(kamokuSearchControllerProvider.notifier).reset,
-          //   child: const Text('フィルタをクリア'),
-          // ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
               backgroundColor: customFunColor,

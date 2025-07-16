@@ -4,13 +4,13 @@ import 'package:dotto/feature/search_course/repository/course_filter_extractor.d
 import 'package:dotto/feature/search_course/repository/course_search_query_builder.dart';
 import 'package:dotto/importer.dart';
 
-final class KamokuSearchRepository {
-  factory KamokuSearchRepository() {
+final class SearchCourseRepository {
+  factory SearchCourseRepository() {
     return _instance;
   }
-  KamokuSearchRepository._internal();
-  static final KamokuSearchRepository _instance =
-      KamokuSearchRepository._internal();
+  SearchCourseRepository._internal();
+  static final SearchCourseRepository _instance =
+      SearchCourseRepository._internal();
 
   Future<List<Map<String, dynamic>>> fetchWeekPeriodDB(
       List<int> lessonIdList) async {
@@ -23,9 +23,7 @@ final class KamokuSearchRepository {
   }) async {
     try {
       final filterData = CourseFilterExtractor.extractFilters(filterSelections);
-      final queryBuilder = CourseSearchQueryBuilder();
-
-      queryBuilder
+      final queryBuilder = CourseSearchQueryBuilder()
         ..addTermFilter(filterData.termCheckList)
         ..addCategoryFilters(
           largeCategoryCheckList: filterData.largeCategoryCheckList,

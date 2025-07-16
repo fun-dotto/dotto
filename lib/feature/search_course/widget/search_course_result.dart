@@ -1,4 +1,4 @@
-import 'package:dotto/feature/search_course/repository/kamoku_search_repository.dart';
+import 'package:dotto/feature/search_course/repository/search_course_repository.dart';
 import 'package:dotto/feature/search_course/widget/search_course_result_item.dart';
 import 'package:dotto/importer.dart';
 import 'package:dotto/widget/loading_circular.dart';
@@ -9,7 +9,7 @@ final class SearchCourseResult extends ConsumerWidget {
 
   Future<Map<int, String>> getWeekPeriod(List<int> lessonIdList) async {
     final records =
-        await KamokuSearchRepository().fetchWeekPeriodDB(lessonIdList);
+        await SearchCourseRepository().fetchWeekPeriodDB(lessonIdList);
     final weekPeriodMap = <int, Map<int, List<int>>>{};
     for (final record in records) {
       final lessonId = record['lessonId'] as int;

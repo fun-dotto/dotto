@@ -1,5 +1,5 @@
 import 'package:dotto/feature/search_course/domain/search_course_filter_options.dart';
-import 'package:dotto/feature/search_course/repository/kamoku_search_repository.dart';
+import 'package:dotto/feature/search_course/repository/search_course_repository.dart';
 import 'package:dotto/importer.dart';
 import 'package:dotto/repository/setting_user_info.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -145,8 +145,9 @@ final class KamokuSearchControllerProvider
 
     // 教養が選択されている場合
     if (largeCategorySelections[1]) {
-      visibilityStatus.add(SearchCourseFilterOptions.educationField);
-      visibilityStatus.add(SearchCourseFilterOptions.classification);
+      visibilityStatus
+        ..add(SearchCourseFilterOptions.educationField)
+        ..add(SearchCourseFilterOptions.classification);
     }
 
     // 大学院が選択されている場合
@@ -159,7 +160,7 @@ final class KamokuSearchControllerProvider
 
   // 科目検索ボタンが押されたときの処理
   Future<void> search() async {
-    final repository = KamokuSearchRepository();
+    final repository = SearchCourseRepository();
     final searchResults = await repository.searchCourses(
       filterSelections: state.filterSelections,
       searchWord: state.searchWord,
