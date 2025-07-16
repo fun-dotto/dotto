@@ -5,11 +5,12 @@ part 'config.freezed.dart';
 @freezed
 abstract class Config with _$Config {
   const factory Config({
-    @Default(false) bool isDesignV2Enabled,
-    @Default(false) bool isFunchEnabled,
-    @Default(false) bool isValidAppVersion,
-    @Default('') String assignmentSetupUrl,
-    @Default('') String feedbackFormUrl,
+    required bool isDesignV2Enabled,
+    required bool isFunchEnabled,
+    required bool isValidAppVersion,
+    required String announcementsUrl,
+    required String assignmentSetupUrl,
+    required String feedbackFormUrl,
   }) = _Config;
 
   static const String cloudflareR2Endpoint =

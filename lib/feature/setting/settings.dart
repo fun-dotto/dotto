@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dotto/controller/config_controller.dart';
 import 'package:dotto/controller/user_controller.dart';
 import 'package:dotto/domain/user_preference_keys.dart';
+import 'package:dotto/feature/announcement/announcement_screen.dart';
 import 'package:dotto/feature/setting/controller/settings_controller.dart';
 import 'package:dotto/feature/setting/repository/settings_repository.dart';
 import 'package:dotto/feature/setting/widget/license.dart';
@@ -181,6 +182,28 @@ final class SettingsScreen extends ConsumerWidget {
           SettingsSection(
             title: const Text('その他'),
             tiles: <SettingsTile>[
+              // お知らせ
+              SettingsTile.navigation(
+                title: const Text('お知らせ'),
+                leading: const Icon(Icons.notifications),
+                onPressed: (context) {
+                  Navigator.of(context).push(PageRouteBuilder<void>(
+                    pageBuilder: (context, animation, secondaryAnimation) =>
+                        const AnnouncementScreen(),
+                    transitionsBuilder: fromRightAnimation,
+                  ));
+                },
+              ),
+              // フィードバック
+              SettingsTile.navigation(
+                title: const Text('フィードバックを送る'),
+                leading: const Icon(Icons.messenger_rounded),
+                onPressed: (context) {
+                  final formUrl = config.feedbackFormUrl;
+                  final url = Uri.parse(formUrl);
+                  launchUrlInAppBrowserView(url);
+                },
+              ),
               // アプリの使い方
               SettingsTile.navigation(
                 title: const Text('アプリの使い方'),
@@ -191,16 +214,6 @@ final class SettingsScreen extends ConsumerWidget {
                         const AppTutorial(),
                     transitionsBuilder: fromRightAnimation,
                   ));
-                },
-              ),
-              // 意見要望
-              SettingsTile.navigation(
-                title: const Text('意見要望はこちら'),
-                leading: const Icon(Icons.messenger_rounded),
-                onPressed: (context) {
-                  final formUrl = config.feedbackFormUrl;
-                  final url = Uri.parse(formUrl);
-                  launchUrlInAppBrowserView(url);
                 },
               ),
               // 利用規約
@@ -233,7 +246,7 @@ final class SettingsScreen extends ConsumerWidget {
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       final data = snapshot.data!;
-                      return Text(data.version);
+                      return Text('${data.version} (${data.buildNumber})');
                     } else {
                       return const Text('');
                     }

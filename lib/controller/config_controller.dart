@@ -20,6 +20,8 @@ final class ConfigController extends Notifier<Config> {
         remoteConfigRepository.getBool(RemoteConfigKeys.isFunchEnabled);
     final isValidAppVersion =
         remoteConfigRepository.getBool(RemoteConfigKeys.isValidAppVersion);
+    final announcementsUrl =
+        remoteConfigRepository.getString(RemoteConfigKeys.announcementsUrl);
     final assignmentSetupUrl =
         remoteConfigRepository.getString(RemoteConfigKeys.assignmentSetupUrl);
     final feedbackFormUrl =
@@ -29,6 +31,7 @@ final class ConfigController extends Notifier<Config> {
       isDesignV2Enabled: isDesignV2Enabled,
       isFunchEnabled: isFunchEnabled,
       isValidAppVersion: isValidAppVersion,
+      announcementsUrl: announcementsUrl,
       assignmentSetupUrl: assignmentSetupUrl,
       feedbackFormUrl: feedbackFormUrl,
     );

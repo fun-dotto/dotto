@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dotto/feature/announcement/domain/announcement.dart';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
 abstract class AnnouncementRepository {
@@ -10,16 +11,21 @@ abstract class AnnouncementRepository {
 final class AnnouncementRepositoryImpl implements AnnouncementRepository {
   @override
   Future<List<Announcement>> getAnnouncements(Uri url) async {
-    final response = await http.get(url);
-    if (response.statusCode < 200 || response.statusCode > 299) {
-      return [];
+    try {
+      final response = await http.get(url);
+      if (response.statusCode < 200 || response.statusCode > 299) {
+        return [];
+      }
+      final json = response.body;
+      final list = jsonDecode(json) as List<dynamic>;
+      final announcements = list
+          .map<Announcement>(
+              (e) => Announcement.fromJson(e as Map<String, dynamic>))
+          .toList();
+      return announcements;
+    } catch (e) {
+      debugPrint(e.toString());
+      rethrow;
     }
-    final json = response.body;
-    final list = jsonDecode(json) as List<dynamic>;
-    final announcements = list
-        .map<Announcement>(
-            (e) => Announcement.fromJson(e as Map<String, dynamic>))
-        .toList();
-    return announcements;
   }
 }
