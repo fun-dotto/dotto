@@ -40,18 +40,18 @@ final class FirebaseAuthRepository {
 
   Future<User?> signIn() async {
     final userCredential = await signInWithGoogle();
-    if (userCredential != null) {
-      final user = userCredential.user;
-      if (user != null) {
-        debugPrint(user.uid);
-        if (user.email != null) {
-          return user;
-        } else {
-          await user.delete();
-          return null;
-        }
-      }
+    if (userCredential == null) {
+      return null;
     }
+    final user = userCredential.user;
+    if (user == null) {
+      return null;
+    }
+    debugPrint(user.uid);
+    if (user.email != null) {
+      return user;
+    }
+    await user.delete();
     return null;
   }
 
