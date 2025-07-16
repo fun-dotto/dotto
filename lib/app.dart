@@ -7,7 +7,7 @@ import 'package:dotto/controller/tab_controller.dart';
 import 'package:dotto/controller/user_controller.dart';
 import 'package:dotto/domain/tab_item.dart';
 import 'package:dotto/domain/user_preference_keys.dart';
-import 'package:dotto/feature/announcement/controller/news_from_push_notification_controller.dart';
+import 'package:dotto/feature/announcement/controller/announcement_from_push_notification_controller.dart';
 import 'package:dotto/feature/bus/controller/bus_controller.dart';
 import 'package:dotto/feature/bus/repository/bus_repository.dart';
 import 'package:dotto/feature/map/controller/map_controller.dart';
@@ -147,7 +147,7 @@ final class _BasePageState extends ConsumerState<BasePage> {
   }
 
   Future<void> _onItemTapped(int index) async {
-    ref.read(newsFromPushNotificationProvider.notifier).reset();
+    ref.read(announcementFromPushNotificationProvider.notifier).reset();
     final selectedTab = TabItem.values[index];
 
     if (selectedTab == TabItem.map) {
