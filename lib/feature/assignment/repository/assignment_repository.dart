@@ -1,5 +1,5 @@
 import 'package:dotto/feature/assignment/domain/kadai.dart';
-import 'package:dotto/repository/get_firebase_realtime_db.dart';
+import 'package:dotto/repository/firebase_realtime_database_repository.dart';
 import 'package:dotto/repository/setting_user_info.dart';
 
 final class AssignmentRepository {
