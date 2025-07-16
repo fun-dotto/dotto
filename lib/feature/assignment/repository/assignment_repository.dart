@@ -9,8 +9,8 @@ final class AssignmentRepository {
     final userKey = 'dotto_hope_user_key_'
         '${await UserPreferences.getString(UserPreferenceKeys.userKey)}';
     final kadaiList = <Kadai>[];
-    final snapshot =
-        await GetFirebaseRealtimeDB.getData('hope/users/$userKey/data');
+    final snapshot = await FirebaseRealtimeDatabaseRepository()
+        .getData('hope/users/$userKey/data');
     if (snapshot.exists) {
       final data = snapshot.value! as Map;
       for (final entry in data.entries) {

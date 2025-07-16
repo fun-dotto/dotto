@@ -2,7 +2,7 @@ import 'package:dotto/feature/bus/controller/bus_controller.dart';
 import 'package:dotto/feature/bus/domain/bus_stop.dart';
 import 'package:dotto/feature/bus/domain/bus_trip.dart';
 import 'package:dotto/importer.dart';
-import 'package:dotto/repository/get_firebase_realtime_db.dart';
+import 'package:dotto/repository/firebase_realtime_database_repository.dart';
 import 'package:dotto/repository/location_repository.dart';
 
 final class BusRepository {
@@ -34,8 +34,8 @@ final class BusRepository {
   }
 
   Future<List<BusStop>> getAllBusStopsFromFirebase() async {
-    final snapshot =
-        await GetFirebaseRealtimeDB.getData('bus/stops'); //firebaseから情報取得
+    final snapshot = await FirebaseRealtimeDatabaseRepository()
+        .getData('bus/stops'); //firebaseから情報取得
     if (snapshot.exists) {
       final busDataStops = snapshot.value! as List;
       return busDataStops
@@ -48,8 +48,8 @@ final class BusRepository {
 
   Future<Map<String, Map<String, List<BusTrip>>>> getBusDataFromFirebase(
       List<BusStop> allBusStops) async {
-    final snapshot =
-        await GetFirebaseRealtimeDB.getData('bus/trips'); //firebaseから情報取得
+    final snapshot = await FirebaseRealtimeDatabaseRepository()
+        .getData('bus/trips'); //firebaseから情報取得
     if (snapshot.exists) {
       final busTripsData = snapshot.value! as Map;
       final allBusTrips = <String, Map<String, List<BusTrip>>>{

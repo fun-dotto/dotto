@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:dotto/controller/user_controller.dart';
 import 'package:dotto/feature/map/domain/map_detail.dart';
 import 'package:dotto/importer.dart';
-import 'package:dotto/repository/get_firebase_realtime_db.dart';
+import 'package:dotto/repository/firebase_realtime_database_repository.dart';
 import 'package:dotto/repository/read_json_file.dart';
 
 final class MapRepository {
@@ -14,10 +14,10 @@ final class MapRepository {
 
   Future<Map<String, Map<String, MapDetail>>>
       getMapDetailMapFromFirebase() async {
-    final snapshot =
-        await GetFirebaseRealtimeDB.getData('map'); //firebaseから情報取得
-    final snapshotRoom = await GetFirebaseRealtimeDB.getData(
-        'map_room_schedule'); //firebaseから情報取得
+    final snapshot = await FirebaseRealtimeDatabaseRepository()
+        .getData('map'); //firebaseから情報取得
+    final snapshotRoom = await FirebaseRealtimeDatabaseRepository()
+        .getData('map_room_schedule'); //firebaseから情報取得
     final returnList = <String, Map<String, MapDetail>>{
       '1': {},
       '2': {},
@@ -32,11 +32,11 @@ final class MapRepository {
         (value as Map).forEach((roomName, value2) {
           returnList[floor as String]!.addAll({
             roomName as String: MapDetail.fromFirebase(
-                floor,
-                roomName,
-                value2 as Map<String, dynamic>,
-                snapshotRoom.value! as Map<String, dynamic>,
-              )
+              floor,
+              roomName,
+              value2 as Map<String, dynamic>,
+              snapshotRoom.value! as Map<String, dynamic>,
+            )
           });
         });
       });
