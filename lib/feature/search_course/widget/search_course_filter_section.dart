@@ -15,7 +15,9 @@ final class SearchCourseFilterSection extends ConsumerWidget {
     return Column(
       children: [
         const SearchCourseFilterRadio(),
-        ...SearchCourseFilterOptions.values.map(
+        ...SearchCourseFilterOptions.values
+            .where((e) => e != SearchCourseFilterOptions.largeCategory)
+            .map(
           (e) => Visibility(
             visible: kamokuSearchController.visibilityStatus.contains(e),
             child: SearchCourseFilterCheckbox(
