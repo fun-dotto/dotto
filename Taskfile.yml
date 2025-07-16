@@ -50,8 +50,6 @@ tasks:
   test:
     desc: Run Flutter tests
     cmds:
-      - task install
-      - task build
       - "{{.FLUTTER}} test"
 
   test-with-coverage:
