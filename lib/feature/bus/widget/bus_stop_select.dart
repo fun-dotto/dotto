@@ -1,13 +1,14 @@
+import 'package:dotto/domain/user_preference_keys.dart';
 import 'package:dotto/feature/bus/controller/bus_controller.dart';
 import 'package:dotto/importer.dart';
-import 'package:dotto/repository/setting_user_info.dart';
+import 'package:dotto/repository/user_preference_repository.dart';
 import 'package:dotto/widget/loading_circular.dart';
 
 final class BusStopSelectScreen extends ConsumerWidget {
   const BusStopSelectScreen({super.key});
 
   Future<void> setMyBusStop(int id) async {
-    await UserPreferences.setInt(UserPreferenceKeys.myBusStop, id);
+    await UserPreferenceRepository.setInt(UserPreferenceKeys.myBusStop, id);
   }
 
   @override
@@ -26,7 +27,7 @@ final class BusStopSelectScreen extends ConsumerWidget {
                       onTap: () async {
                         final myBusStopNotifier =
                             ref.read(myBusStopProvider.notifier);
-                        await UserPreferences.setInt(
+                        await UserPreferenceRepository.setInt(
                             UserPreferenceKeys.myBusStop, e.id);
                         myBusStopNotifier.myBusStop = e;
                         if (context.mounted) {

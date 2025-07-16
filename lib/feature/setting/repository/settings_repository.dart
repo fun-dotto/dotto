@@ -1,9 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dotto/domain/user_preference_keys.dart';
 import 'package:dotto/feature/setting/controller/settings_controller.dart';
 import 'package:dotto/feature/timetable/repository/timetable_repository.dart';
 import 'package:dotto/importer.dart';
 import 'package:dotto/repository/firebase_auth_repository.dart';
-import 'package:dotto/repository/setting_user_info.dart';
+import 'package:dotto/repository/user_preference_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
@@ -17,12 +18,14 @@ final class SettingsRepository {
   Future<void> setUserKey(String userKey, WidgetRef ref) async {
     final userKeyPattern = RegExp(r'^[a-zA-Z0-9]{16}$');
     if (userKey.length == 16 && userKeyPattern.hasMatch(userKey)) {
-      await UserPreferences.setString(UserPreferenceKeys.userKey, userKey);
+      await UserPreferenceRepository.setString(
+          UserPreferenceKeys.userKey, userKey);
       ref.invalidate(settingsUserKeyProvider);
       return;
     }
     if (userKey.isEmpty) {
-      await UserPreferences.setString(UserPreferenceKeys.userKey, userKey);
+      await UserPreferenceRepository.setString(
+          UserPreferenceKeys.userKey, userKey);
       ref.invalidate(settingsUserKeyProvider);
     }
   }
@@ -46,7 +49,7 @@ final class SettingsRepository {
         'last_updated': Timestamp.now(),
       });
     }
-    await UserPreferences.setBool(
+    await UserPreferenceRepository.setBool(
       UserPreferenceKeys.didSaveFCMToken,
       value: true,
     );

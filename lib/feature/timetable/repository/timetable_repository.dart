@@ -3,11 +3,12 @@ import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dotto/controller/user_controller.dart';
+import 'package:dotto/domain/user_preference_keys.dart';
 import 'package:dotto/feature/search_course/repository/syllabus_database_config.dart';
 import 'package:dotto/feature/timetable/controller/timetable_controller.dart';
 import 'package:dotto/feature/timetable/domain/timetable_course.dart';
 import 'package:dotto/repository/read_json_file.dart';
-import 'package:dotto/repository/setting_user_info.dart';
+import 'package:dotto/repository/user_preference_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sqflite/sqflite.dart';
@@ -68,7 +69,7 @@ final class TimetableRepository {
   }
 
   Future<List<int>> loadLocalPersonalTimeTableList() async {
-    final jsonString = await UserPreferences.getString(
+    final jsonString = await UserPreferenceRepository.getString(
         UserPreferenceKeys.personalTimetableListKey);
     if (jsonString != null) {
       return List<int>.from(json.decode(jsonString) as List);
@@ -89,7 +90,7 @@ final class TimetableRepository {
       final data = docSnapshot.data();
       if (data != null) {
         final firestoreLastUpdated = data['last_updated'] as Timestamp;
-        final localLastUpdated = await UserPreferences.getInt(
+        final localLastUpdated = await UserPreferenceRepository.getInt(
                 UserPreferenceKeys.personalTimetableLastUpdateKey) ??
             0;
         final diff =
@@ -185,7 +186,7 @@ final class TimetableRepository {
         final data = docSnapshot.data();
         if (data != null) {
           final firestoreLastUpdated = data['last_updated'] as Timestamp;
-          final localLastUpdated = await UserPreferences.getInt(
+          final localLastUpdated = await UserPreferenceRepository.getInt(
                   UserPreferenceKeys.personalTimetableLastUpdateKey) ??
               0;
           final diff =

@@ -1,8 +1,9 @@
 import 'dart:convert';
 
+import 'package:dotto/domain/user_preference_keys.dart';
 import 'package:dotto/feature/assignment/domain/kadai.dart';
 import 'package:dotto/feature/assignment/repository/assignment_repository.dart';
-import 'package:dotto/repository/setting_user_info.dart';
+import 'package:dotto/repository/user_preference_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
@@ -25,8 +26,8 @@ final class _KadaiHiddenScreenState extends State<KadaiHiddenScreen> {
   List<Kadai> hiddenKadai = [];
 
   Future<void> loadDeleteList() async {
-    final jsonString =
-        await UserPreferences.getString(UserPreferenceKeys.kadaiDeleteList);
+    final jsonString = await UserPreferenceRepository.getString(
+        UserPreferenceKeys.kadaiDeleteList);
     if (jsonString != null) {
       setState(() {
         deleteList = List<int>.from(json.decode(jsonString) as List);
@@ -35,7 +36,7 @@ final class _KadaiHiddenScreenState extends State<KadaiHiddenScreen> {
   }
 
   Future<void> saveDeleteList() async {
-    await UserPreferences.setString(
+    await UserPreferenceRepository.setString(
         UserPreferenceKeys.kadaiDeleteList, json.encode(deleteList));
   }
 

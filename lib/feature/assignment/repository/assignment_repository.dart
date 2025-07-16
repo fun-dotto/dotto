@@ -1,13 +1,16 @@
+import 'package:dotto/domain/user_preference_keys.dart';
 import 'package:dotto/feature/assignment/domain/kadai.dart';
 import 'package:dotto/repository/firebase_realtime_database_repository.dart';
-import 'package:dotto/repository/setting_user_info.dart';
+import 'package:dotto/repository/user_preference_repository.dart';
 
 final class AssignmentRepository {
   const AssignmentRepository();
 
   Future<List<KadaiList>> getKadaiFromFirebase() async {
     final userKey = 'dotto_hope_user_key_'
-        '${await UserPreferences.getString(UserPreferenceKeys.userKey)}';
+        '${await UserPreferenceRepository.getString(
+      UserPreferenceKeys.userKey,
+    )}';
     final kadaiList = <Kadai>[];
     final snapshot = await FirebaseRealtimeDatabaseRepository()
         .getData('hope/users/$userKey/data');

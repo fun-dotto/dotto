@@ -2,12 +2,13 @@ import 'dart:io';
 
 import 'package:dotto/controller/config_controller.dart';
 import 'package:dotto/controller/user_controller.dart';
+import 'package:dotto/domain/user_preference_keys.dart';
 import 'package:dotto/feature/setting/controller/settings_controller.dart';
 import 'package:dotto/feature/setting/repository/settings_repository.dart';
 import 'package:dotto/feature/setting/widget/license.dart';
 import 'package:dotto/feature/setting/widget/settings_set_userkey.dart';
 import 'package:dotto/importer.dart';
-import 'package:dotto/repository/setting_user_info.dart';
+import 'package:dotto/repository/user_preference_repository.dart';
 import 'package:dotto/theme/v1/animation.dart';
 import 'package:dotto/widget/app_tutorial.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -49,7 +50,7 @@ final class SettingsScreen extends ConsumerWidget {
                       return ListTile(
                         title: Text(list[index]),
                         onTap: () async {
-                          await UserPreferences.setString(
+                          await UserPreferenceRepository.setString(
                               userPreferenceKeys, list[index]);
                           if (context.mounted) {
                             Navigator.pop(context, list[index]);
