@@ -38,6 +38,8 @@ tasks:
   run:
     desc: Run the Flutter app
     cmds:
+      - task install
+      - task build
       - "{{.FLUTTER}} run --dart-define-from-file=./.env"
 
   clean:
@@ -48,11 +50,15 @@ tasks:
   test:
     desc: Run Flutter tests
     cmds:
+      - task install
+      - task build
       - "{{.FLUTTER}} test"
 
   test-with-coverage:
     desc: Run Flutter tests with coverage report
     cmds:
+      - task install
+      - task build
       - "{{.FLUTTER}} test --coverage"
       - "lcov --remove coverage/lcov.info 'lib/**.g.dart' -o coverage/new_lcov.info --ignore-errors unused"
       - "genhtml coverage/new_lcov.info -o coverage/html"
@@ -61,36 +67,61 @@ tasks:
   analyze:
     desc: Analyze Dart code
     cmds:
+      - task install
+      - task build
       - "{{.FLUTTER}} analyze ./lib/ ./test/"
 
   build-ios:
     desc: Build iOS release
     cmds:
+      - task install
+      - xcodes select
+      - task build
       - "{{.FLUTTER}} build ios --release --dart-define-from-file=./.env"
 
   build-android:
     desc: Build Android release appbundle
     cmds:
+      - task install
+      - task build
       - "{{.FLUTTER}} build appbundle --release --dart-define-from-file=./.env"
 
   deploy-ios-firebase-app-distribution:
     desc: Deploy iOS to Firebase App Distribution
     cmds:
+      - task install
+      - task bundle-install
+      - xcodes select
+      - task clean
+      - task build
       - cd ./ios && {{.FASTLANE}} deploy_firebase_app_distribution
 
   deploy-android-firebase-app-distribution:
     desc: Deploy Android to Firebase App Distribution
     cmds:
+      - task install
+      - task bundle-install
+      - task clean
+      - task build
       - cd ./android && {{.FASTLANE}} deploy_firebase_app_distribution
 
   deploy-ios-testflight:
     desc: Deploy iOS to TestFlight
     cmds:
+      - task install
+      - task bundle-install
+      - xcodes select
+      - task clean
+      - task build
       - cd ./ios && {{.FASTLANE}} deploy_testflight
 
   deploy-android-google-play:
     desc: Deploy Android to Google Play
     cmds:
+      - task install
+      - task bundle-install
+      - task clean
+      - task build
       - cd ./android && {{.FASTLANE}} deploy_google_play
 
   match-development:
