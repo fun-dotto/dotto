@@ -4,9 +4,9 @@ import 'dart:io';
 import 'package:collection/collection.dart';
 import 'package:dotto/feature/assignment/domain/kadai.dart';
 import 'package:dotto/feature/assignment/kadai_hidden_list.dart';
+import 'package:dotto/feature/assignment/repository/assignment_repository.dart';
 import 'package:dotto/feature/setting/controller/settings_controller.dart';
 import 'package:dotto/importer.dart';
-import 'package:dotto/repository/firebase_get_kadai.dart';
 import 'package:dotto/repository/setting_user_info.dart';
 import 'package:dotto/widget/loading_circular.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -769,7 +769,7 @@ final class _KadaiListScreenState extends State<KadaiListScreen> {
                 if (result == 'back') {
                   setState(() {
                     loadDeleteList();
-                    const FirebaseGetKadai().getKadaiFromFirebase();
+                    const AssignmentRepository().getKadaiFromFirebase();
                   });
                 }
               },
@@ -785,7 +785,7 @@ final class _KadaiListScreenState extends State<KadaiListScreen> {
             onRefresh: () async {
               //await Future.delayed(const Duration(seconds: 1));
               setState(() {
-                const FirebaseGetKadai().getKadaiFromFirebase();
+                const AssignmentRepository().getKadaiFromFirebase();
               });
               await Future<void>.delayed(const Duration(seconds: 1));
             },
@@ -795,7 +795,7 @@ final class _KadaiListScreenState extends State<KadaiListScreen> {
                 return GestureDetector(
                   onPanDown: (details) => Slidable.of(context)?.close(),
                   child: FutureBuilder(
-                    future: const FirebaseGetKadai().getKadaiFromFirebase(),
+                    future: const AssignmentRepository().getKadaiFromFirebase(),
                     builder: (
                       BuildContext context,
                       AsyncSnapshot<List<KadaiList>>? snapshot,

@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:dotto/feature/assignment/domain/kadai.dart';
-import 'package:dotto/repository/firebase_get_kadai.dart';
+import 'package:dotto/feature/assignment/repository/assignment_repository.dart';
 import 'package:dotto/repository/setting_user_info.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -93,7 +93,7 @@ final class _KadaiHiddenScreenState extends State<KadaiHiddenScreen> {
         onRefresh: () async {
           setState(() {
             setState(() {
-              const FirebaseGetKadai().getKadaiFromFirebase();
+              const AssignmentRepository().getKadaiFromFirebase();
             });
             hiddenKadaiList();
             hiddenKadai = hiddenKadai.toSet().toList();
