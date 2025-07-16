@@ -19,7 +19,8 @@ final class AnnouncementsController extends AsyncNotifier<List<Announcement>> {
       final config = ref.read(configControllerProvider);
       final url = Uri.parse(config.announcementsUrl);
       final announcements = await announcementRepository.getAnnouncements(url);
-      return announcements.where((e) => e.isActive).toList();
+      return announcements.where((e) => e.isActive).toList()
+        ..sort((lhs, rhs) => rhs.date.compareTo(lhs.date));
     } catch (e) {
       debugPrint(e.toString());
       rethrow;
