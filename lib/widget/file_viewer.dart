@@ -4,7 +4,7 @@ import 'dart:typed_data';
 
 import 'package:dotto/repository/download_file_from_firebase.dart';
 import 'package:dotto/repository/get_application_path.dart';
-import 'package:dotto/repository/s3.dart';
+import 'package:dotto/repository/s3_repository.dart';
 import 'package:dotto/widget/loading_circular.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
@@ -99,7 +99,7 @@ final class _FileViewerScreenState extends State<FileViewerScreen> {
   }
 
   Future<Uint8List> getListObjectsString() async {
-    final stream = await S3.instance.getObject(url: widget.url);
+    final stream = await S3Repository().getObject(url: widget.url);
     final memory = <int>[];
 
     await for (final value in stream) {
