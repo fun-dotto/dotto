@@ -14,12 +14,15 @@ final class TabNotifier extends Notifier<TabItem> {
       state = selectedTab;
       return;
     }
+    // 同じタブを押すとルートまでPop
     final navigatorKey = tabNavigatorKeyMaps[selectedTab];
-    if (navigatorKey != null) {
-      final currentState = navigatorKey.currentState;
-      if (currentState != null) {
-        currentState.popUntil((route) => route.isFirst);
-      }
+    if (navigatorKey == null) {
+      return;
     }
+    final currentState = navigatorKey.currentState;
+    if (currentState == null) {
+      return;
+    }
+    currentState.popUntil((route) => route.isFirst);
   }
 }
