@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:dotto/asset.dart';
-import 'package:dotto/repository/get_application_path.dart';
+import 'package:dotto/repository/local_repository.dart';
 import 'package:flutter/services.dart';
 
 final class SyllabusDatabaseConfig {
@@ -14,18 +14,18 @@ final class SyllabusDatabaseConfig {
   static final SyllabusDatabaseConfig _instance =
       SyllabusDatabaseConfig._internal();
 
-  String _dbPath = '';
+  String _path = '';
 
   Future<String> getDBPath() async {
-    if (_dbPath.isNotEmpty) {
-      return _dbPath;
+    if (_path.isNotEmpty) {
+      return _path;
     }
 
     final data = await rootBundle.load(Asset.syllabus);
-    final copiedDbPath = await getApplicationFilePath('syllabus.db');
+    final path = await LocalRepository().getApplicationFilePath('syllabus.db');
     final List<int> bytes = data.buffer.asUint8List();
-    await File(copiedDbPath).writeAsBytes(bytes);
+    await File(path).writeAsBytes(bytes);
 
-    return _dbPath = copiedDbPath;
+    return _path = path;
   }
 }
