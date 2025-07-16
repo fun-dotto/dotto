@@ -1,4 +1,4 @@
-import 'package:dotto/feature/announcement/controller/news_from_push_notification_controller.dart';
+import 'package:dotto/feature/announcement/controller/announcement_from_push_notification_controller.dart';
 import 'package:dotto/importer.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
@@ -35,10 +35,10 @@ final class NotificationRepository {
   }
 
   void _handleMessage(RemoteMessage message, WidgetRef ref) {
-    final newsId = message.data['news'];
-    if (newsId != null) {
-      ref.read(newsFromPushNotificationProvider.notifier).newsId =
-          newsId as String;
+    final announcementUrl = message.data['announcement_url'];
+    if (announcementUrl != null) {
+      ref.read(announcementFromPushNotificationProvider.notifier).url =
+          Uri.parse(announcementUrl as String);
     }
   }
 }

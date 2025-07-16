@@ -1,10 +1,5 @@
-import 'package:collection/collection.dart';
-
 import 'package:dotto/controller/config_controller.dart';
-import 'package:dotto/feature/announcement/controller/news_from_push_notification_controller.dart';
-import 'package:dotto/feature/announcement/controller/news_list_controller.dart';
-import 'package:dotto/feature/announcement/news_detail.dart';
-import 'package:dotto/feature/announcement/widget/my_page_news.dart';
+import 'package:dotto/feature/announcement/controller/announcement_from_push_notification_controller.dart';
 import 'package:dotto/feature/bus/widget/bus_card_home.dart';
 import 'package:dotto/feature/funch/funch.dart';
 import 'package:dotto/feature/funch/widget/funch_mypage_card.dart';
@@ -29,9 +24,9 @@ final class HomeScreen extends ConsumerStatefulWidget {
 final class _HomeScreenState extends ConsumerState<HomeScreen> {
   List<int> personalTimeTableList = [];
 
-  Future<void> launchUrlInExternal(Uri url) async {
+  Future<void> launchUrlInAppBrowserView(Uri url) async {
     if (await canLaunchUrl(url)) {
-      await launchUrl(url, mode: LaunchMode.externalApplication);
+      await launchUrl(url, mode: LaunchMode.inAppBrowserView);
     } else {
       throw Exception('Could not launch $url');
     }
@@ -105,40 +100,14 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 
   void _showPushNotificationNews(BuildContext context, WidgetRef ref) {
-    final newsIdFromPushNotification =
-        ref.watch(newsFromPushNotificationProvider);
-    final newsList = ref.watch(newsListProvider);
+    final announcementUrlFromPushNotification =
+        ref.watch(announcementFromPushNotificationProvider);
 
-    if (newsIdFromPushNotification == null) {
+    if (announcementUrlFromPushNotification == null) {
       return;
     }
 
-    newsList.when(
-      data: (data) {
-        final news =
-            data.firstWhereOrNull((e) => e.id == newsIdFromPushNotification);
-        if (news == null) {
-          return;
-        }
-        Navigator.of(context)
-            .push(
-          PageRouteBuilder<void>(
-            pageBuilder: (context, animation, secondaryAnimation) =>
-                NewsDetailScreen(news),
-            transitionsBuilder: fromRightAnimation,
-          ),
-        )
-            .whenComplete(() {
-          ref.read(newsFromPushNotificationProvider.notifier).reset();
-        });
-      },
-      loading: () {
-        return;
-      },
-      error: (error, stackTrace) {
-        return;
-      },
-    );
+    launchUrlInAppBrowserView(announcementUrlFromPushNotification);
   }
 
   @override
@@ -248,7 +217,6 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
               else
                 const SizedBox.shrink(),
               const SizedBox(height: 20),
-              const MyPageNews(),
               const SizedBox(height: 20),
               infoTile(infoTiles),
               const SizedBox(height: 20),
