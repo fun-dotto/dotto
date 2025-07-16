@@ -15,7 +15,7 @@ import 'package:dotto/feature/setting/repository/settings_repository.dart';
 import 'package:dotto/feature/timetable/controller/timetable_controller.dart';
 import 'package:dotto/feature/timetable/repository/timetable_repository.dart';
 import 'package:dotto/importer.dart';
-import 'package:dotto/repository/notification.dart';
+import 'package:dotto/repository/notification_repository.dart';
 import 'package:dotto/repository/setting_user_info.dart';
 import 'package:dotto/theme/importer.dart';
 import 'package:dotto/theme/v1/animation.dart';

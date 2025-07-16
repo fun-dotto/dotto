@@ -4,7 +4,7 @@ import 'package:dotto/app.dart';
 import 'package:dotto/firebase_options.dart';
 import 'package:dotto/repository/download_file_from_firebase.dart';
 import 'package:dotto/repository/location_repository.dart';
-import 'package:dotto/repository/notification.dart';
+import 'package:dotto/repository/notification_repository.dart';
 import 'package:dotto/repository/remote_config_repository.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
