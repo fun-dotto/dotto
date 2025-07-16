@@ -1,4 +1,4 @@
-import 'package:dotto/feature/search_course/domain/kamoku_search_choices.dart';
+import 'package:dotto/feature/search_course/domain/search_course_filter_options.dart';
 import 'package:dotto/feature/search_course/widget/search_course_radio_item.dart';
 import 'package:dotto/importer.dart';
 
@@ -12,7 +12,7 @@ final class SearchCourseFilterRadio extends ConsumerWidget {
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(
-          children: KamokuSearchChoices.senmonKyoyo.choice
+          children: SearchCourseFilterOptions.largeCategory.labels
               .asMap()
               .entries
               .map((entry) => SearchCourseRadioItem(

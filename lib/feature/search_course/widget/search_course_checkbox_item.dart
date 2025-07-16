@@ -1,22 +1,22 @@
 import 'package:dotto/feature/search_course/controller/kamoku_search_controller.dart';
-import 'package:dotto/feature/search_course/domain/kamoku_search_choices.dart';
+import 'package:dotto/feature/search_course/domain/search_course_filter_options.dart';
 import 'package:dotto/importer.dart';
 
 final class SearchCourseCheckboxItem extends ConsumerWidget {
   const SearchCourseCheckboxItem({
-    required this.kamokuSearchChoices,
+    required this.filterOption,
     required this.index,
     super.key,
   });
 
-  final KamokuSearchChoices kamokuSearchChoices;
+  final SearchCourseFilterOptions filterOption;
   final int index;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final kamokuSearchController = ref.watch(kamokuSearchControllerProvider);
     final checkedList =
-        kamokuSearchController.checkboxStatusMap[kamokuSearchChoices]!;
+        kamokuSearchController.filterSelections[filterOption]!;
 
     return SizedBox(
       width: 100,
@@ -29,13 +29,12 @@ final class SearchCourseCheckboxItem extends ConsumerWidget {
                   .read(kamokuSearchControllerProvider.notifier)
                   .checkboxOnChanged(
                     value: value,
-                    kamokuSearchChoices: kamokuSearchChoices,
+                    filterOption: filterOption,
                     index: index,
                   );
             },
           ),
-          Text(kamokuSearchChoices.displayString?[index] ??
-              kamokuSearchChoices.choice[index]),
+          Text(filterOption.labels[index]),
         ],
       ),
     );

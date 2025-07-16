@@ -1,5 +1,5 @@
 import 'package:dotto/feature/search_course/controller/kamoku_search_controller.dart';
-import 'package:dotto/feature/search_course/domain/kamoku_search_choices.dart';
+import 'package:dotto/feature/search_course/domain/search_course_filter_options.dart';
 import 'package:dotto/feature/search_course/widget/search_course_filter_checkbox.dart';
 import 'package:dotto/feature/search_course/widget/search_course_filter_radio.dart';
 import 'package:flutter/material.dart';
@@ -15,11 +15,11 @@ final class SearchCourseFilterSection extends ConsumerWidget {
     return Column(
       children: [
         const SearchCourseFilterRadio(),
-        ...KamokuSearchChoices.values.map(
+        ...SearchCourseFilterOptions.values.map(
           (e) => Visibility(
             visible: kamokuSearchController.visibilityStatus.contains(e),
             child: SearchCourseFilterCheckbox(
-              kamokuSearchChoices: e,
+              filterOption: e,
             ),
           ),
         ),

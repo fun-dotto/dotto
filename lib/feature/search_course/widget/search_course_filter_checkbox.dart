@@ -1,12 +1,12 @@
-import 'package:dotto/feature/search_course/domain/kamoku_search_choices.dart';
+import 'package:dotto/feature/search_course/domain/search_course_filter_options.dart';
 import 'package:dotto/feature/search_course/widget/search_course_checkbox_item.dart';
 import 'package:dotto/importer.dart';
 
 final class SearchCourseFilterCheckbox extends ConsumerWidget {
   const SearchCourseFilterCheckbox(
-      {required this.kamokuSearchChoices, super.key});
+      {required this.filterOption, super.key});
 
-  final KamokuSearchChoices kamokuSearchChoices;
+  final SearchCourseFilterOptions filterOption;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -15,11 +15,11 @@ final class SearchCourseFilterCheckbox extends ConsumerWidget {
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(
-          children: kamokuSearchChoices.choice
+          children: filterOption.labels
               .asMap()
               .entries
               .map((entry) => SearchCourseCheckboxItem(
-                    kamokuSearchChoices: kamokuSearchChoices,
+                    filterOption: filterOption,
                     index: entry.key,
                   ))
               .toList(),
