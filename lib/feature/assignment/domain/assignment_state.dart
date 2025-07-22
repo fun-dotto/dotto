@@ -7,12 +7,12 @@ part 'assignment_state.freezed.dart';
 @freezed
 abstract class AssignmentState with _$AssignmentState {
   factory AssignmentState({
-    @Default([]) List<int> doneList,
-    @Default([]) List<int> alertList,
-    @Default([]) List<int> deletedList,
-    @Default([]) List<AssignmentList> data,
-    @Default([]) List<AssignmentList> deleted,
-    @Default([]) List<AssignmentList> filteredData,
+    @Default([]) List<int> doneAssignmentIds,
+    @Default([]) List<int> alertAssignmentIds,
+    @Default([]) List<int> hiddenAssignmentIds,
+    @Default([]) List<AssignmentList> assignments,
+    @Default([]) List<AssignmentList> deletedAssignments,
+    @Default([]) List<AssignmentList> filteredAssignments,
     @Default([]) List<Assignment> deletedAssignment,
   }) = _AssignmentState;
 }

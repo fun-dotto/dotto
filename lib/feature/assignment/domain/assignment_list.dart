@@ -21,10 +21,10 @@ final class AssignmentList {
     return assignments.first;
   }
 
-  List<Assignment> hiddenAssignment(List<int> deleteList) {
+  List<Assignment> hiddenAssignment(List<int> hiddenAssignmentIds) {
     final returnList = <Assignment>[];
     for (final assignment in assignments) {
-      if (!deleteList.contains(assignment.id)) {
+      if (!hiddenAssignmentIds.contains(assignment.id)) {
         returnList.add(assignment);
       }
     }
