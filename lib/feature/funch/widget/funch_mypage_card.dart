@@ -205,26 +205,29 @@ final class FunchMyPageCard extends ConsumerWidget {
   ) {
     final selectedIndex = ref.watch(funchMyPageCardIndexProvider);
 
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: menuList.map((menu) {
-        final index = menuList.indexOf(menu);
-        return Container(
-          width: 8,
-          height: 8,
-          margin: const EdgeInsets.symmetric(
-            vertical: 8,
-            horizontal: 4,
-          ),
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: (Theme.of(context).brightness == Brightness.dark
-                    ? Colors.white
-                    : Colors.black)
-                .withValues(alpha: selectedIndex == index ? 0.9 : 0.4),
-          ),
-        );
-      }).toList(),
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: menuList.map((menu) {
+          final index = menuList.indexOf(menu);
+          return Container(
+            width: 8,
+            height: 8,
+            margin: const EdgeInsets.symmetric(
+              vertical: 8,
+              horizontal: 4,
+            ),
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: (Theme.of(context).brightness == Brightness.dark
+                      ? Colors.white
+                      : Colors.black)
+                  .withValues(alpha: selectedIndex == index ? 0.9 : 0.4),
+            ),
+          );
+        }).toList(),
+      ),
     );
   }
 }
