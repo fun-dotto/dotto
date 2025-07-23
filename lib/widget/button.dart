@@ -8,11 +8,12 @@ class ContainedElevatedButtons {
     Color foregroundColor = Colors.white,
   }) {
     return ElevatedButton(
-        onPressed: onPressed,
-        style: ElevatedButton.styleFrom(
-          backgroundColor: backgroundColor,
-          foregroundColor: foregroundColor,
-        ),
-        child: child);
+      onPressed: onPressed,
+      style: ElevatedButton.styleFrom(
+        backgroundColor: backgroundColor,
+        foregroundColor: foregroundColor,
+      ),
+      child: child,
+    );
   }
 }
