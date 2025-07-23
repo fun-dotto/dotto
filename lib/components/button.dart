@@ -1,17 +1,18 @@
 import 'package:dotto/importer.dart';
 
 class ContainedElevatedButtons {
-  ElevatedButton containedButton = ElevatedButton(
-    onPressed: () {},
-    style: ElevatedButton.styleFrom(
-      backgroundColor: Color(0xFF990000),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8.0),
-      ),
-    ),
-    child: Text(
-      "Button",
-      style: TextStyle(color: Colors.white),
-    ),
-  );
+  ElevatedButton containedButton({
+    required VoidCallback onPressed,
+    required Widget child,
+    Color backgroundColor = const Color(0xFF990000),
+    Color foregroundColor = Colors.white,
+  }) {
+    return ElevatedButton(
+        onPressed: onPressed,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: backgroundColor,
+          foregroundColor: foregroundColor,
+        ),
+        child: child);
+  }
 }
