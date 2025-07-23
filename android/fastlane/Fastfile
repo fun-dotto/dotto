@@ -1,0 +1,61 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:android)
+
+platform :android do
+  ENV["FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT"] = "30"
+
+  desc "Deploy to Firebase App Distribution"
+  lane :deploy_firebase_app_distribution do
+    sh( "fvm", "flutter", "build", "appbundle", "--release", "--dart-define-from-file=./.env" )
+    firebase_app_distribution(
+      app: ENV["FIREBASE_APP_ID"],
+      groups: ENV["FIREBASE_APP_DISTRIBUTION_GROUPS"],
+    )
+  end
+
+  desc "Deploy a new version to the Google Play"
+  lane :deploy_google_play do
+    properties_path = "../local.properties"
+    version_name = ""
+    if File.exist?(properties_path)
+      File.open(properties_path, 'r') do |file|
+        file.each_line do |line|
+          if line.include?('flutter.versionName')
+            version_name = line.split('=')[1].strip
+          end
+        end
+      end
+    else
+      UI.error("local.properties is not found.")
+    end
+
+    previous_build_number = google_play_track_version_codes[0]
+    new_version_code = previous_build_number + 1
+
+    sh( "fvm", "flutter", "build", "appbundle", "--release", "--dart-define-from-file=./.env", "--build-number=#{new_version_code}" )
+
+    upload_to_play_store(
+      version_name: "#{new_version_code}(#{version_name})",
+      aab: "../build/app/outputs/bundle/release/app-release.aab",
+      release_status: "draft",
+      skip_upload_apk: true,
+      skip_upload_metadata: true,
+      skip_upload_images: true,
+      skip_upload_screenshots: true
+    )
+  end
+end

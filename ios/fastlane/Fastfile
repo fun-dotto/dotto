@@ -1,0 +1,141 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:ios)
+
+platform :ios do
+  ENV["FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT"] = "30"
+
+  desc "Reset build number"
+  lane :reset_build_number do
+    increment_build_number({
+      build_number: 1
+    })
+  end
+
+  desc "Build for Ad Hoc"
+  lane :build_adhoc do
+    match_adhoc_readonly
+    sh( "fvm", "flutter", "build", "ios", "--release", "--dart-define-from-file=./.env" )
+    build_app(
+      clean: true,
+      export_method: "ad-hoc",
+      export_options: {
+        provisioningProfiles: {
+          "jp.ac.fun.dotto" => "match AdHoc jp.ac.fun.dotto",
+        },
+      },
+    )
+  end
+
+  desc "Build for App Store"
+  lane :build_appstore do
+    match_appstore_readonly
+    sh( "fvm", "flutter", "build", "ios", "--release", "--dart-define-from-file=./.env" )
+    build_app(
+      export_method: "app-store",
+      export_options: {
+        clean: true,
+        provisioningProfiles: {
+          "jp.ac.fun.dotto" => "match AppStore jp.ac.fun.dotto",
+        },
+      },
+    )
+  end
+
+  desc "Deploy to Firebase App Distribution"
+  lane :deploy_firebase_app_distribution do
+    latest_release = firebase_app_distribution_get_latest_release(
+      app: ENV["FIREBASE_APP_ID"],
+    )
+    if latest_release.nil?
+      reset_build_number
+    else
+      increment_build_number(
+        build_number: latest_release[:buildVersion].to_i + 1
+      )
+    end
+    build_adhoc
+    release = firebase_app_distribution(
+      app: ENV["FIREBASE_APP_ID"],
+      groups: ENV["FIREBASE_APP_DISTRIBUTION_GROUPS"],
+    )
+    discord_notifier(
+      webhook_url: ENV["DISCORD_WEBHOOK_URL"],
+      title: "New Release: #{release[:displayVersion]} (#{release[:buildVersion]})",
+      description: "#{release[:testingUri]}",
+      image_url: "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=#{release[:testingUri]}",
+    )
+    reset_build_number
+  end
+
+  desc "Deploy to TestFlight"
+  lane :deploy_testflight do
+    build_appstore
+    upload_to_testflight(skip_submission: true)
+    reset_build_number
+  end
+
+  desc "Match development"
+  lane :match_development do
+    match(
+      type: "development",
+      force_for_new_devices: true
+    )
+  end
+
+  desc "Match adhoc"
+  lane :match_adhoc do
+    match(
+      type: "adhoc",
+      force_for_new_devices: true
+    )
+  end
+
+  desc "Match appstore"
+  lane :match_appstore do
+    match(
+      type: "appstore",
+      force_for_new_devices: true
+    )
+  end
+
+  desc "Match development (readonly)"
+  lane :match_development_readonly do
+    match(
+      type: "development",
+      readonly: true,
+      force_for_new_devices: true
+    )
+  end
+
+  desc "Match adhoc (readonly)"
+  lane :match_adhoc_readonly do
+    match(
+      type: "adhoc",
+      readonly: true,
+      force_for_new_devices: true
+    )
+  end
+
+  desc "Match appstore (readonly)"
+  lane :match_appstore_readonly do
+    match(
+      type: "appstore",
+      readonly: true,
+      force_for_new_devices: true
+    )
+  end
+end

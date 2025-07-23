@@ -1,12 +1,11 @@
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-
-import 'package:dotto/importer.dart';
 import 'package:dotto/feature/map/domain/map_tile_type.dart';
 import 'package:dotto/feature/map/widget/map_tile.dart';
+import 'package:dotto/importer.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 abstract final class FunGridMaps {
   static final Map<String, List<MapTile>> mapTileListMap = {
-    "1": [
+    '1': [
       MapTile(48, 18, MapTileType.empty),
       MapTile(40, 7, MapTileType.empty),
       MapTile(8, 7, MapTileType.otherroom, left: 1, top: 1, right: 1),
@@ -40,7 +39,10 @@ abstract final class FunGridMaps {
       MapTile(2, 4, MapTileType.teacherroom, txt: '132'), //132
       MapTile(2, 4, MapTileType.teacherroom, txt: '131'), //131
       MapTile(2, 4, MapTileType.stair,
-          top: 1, left: 1, right: 1, stairType: const MapStairType(Axis.vertical, true, false)),
+          top: 1,
+          left: 1,
+          right: 1,
+          stairType: const MapStairType(Axis.vertical, up: true, down: false)),
       MapTile(2, 4, MapTileType.teacherroom, txt: '130'), //130
       MapTile(2, 4, MapTileType.teacherroom, txt: '129'), //129
       MapTile(2, 4, MapTileType.teacherroom, txt: '128'), //128
@@ -53,7 +55,10 @@ abstract final class FunGridMaps {
       MapTile(1, 4, MapTileType.otherroom),
       MapTile(2, 4, MapTileType.subroom, txt: '121'), //121
       MapTile(2, 4, MapTileType.stair,
-          top: 1, left: 1, right: 1, stairType: const MapStairType(Axis.vertical, true, false)),
+          top: 1,
+          left: 1,
+          right: 1,
+          stairType: const MapStairType(Axis.vertical, up: true, down: false)),
       MapTile(6, 16, MapTileType.subroom, right: 1, bottom: 1, txt: '食堂'), //食堂
       MapTile(42, 1, MapTileType.road, left: 1),
       MapTile(12, 6, MapTileType.otherroom, left: 1),
@@ -87,7 +92,7 @@ abstract final class FunGridMaps {
       MapTile(2, 2, MapTileType.otherroom, txt: '出入口'),
       MapTile(2, 2, MapTileType.road, bottom: 1),
     ],
-    "2": [
+    '2': [
       MapTile(48, 18, MapTileType.empty),
       MapTile(40, 1, MapTileType.road, left: 1, top: 1),
       MapTile(2, 3, MapTileType.otherroom, top: 1),
@@ -122,7 +127,8 @@ abstract final class FunGridMaps {
           top: 1,
           right: 1,
           left: 1,
-          stairType: const MapStairType(Axis.vertical, true, false)), // アトリエ側階段
+          stairType: const MapStairType(Axis.vertical,
+              up: true, down: false)), // アトリエ側階段
       MapTile(2, 4, MapTileType.teacherroom, txt: '230'), //230
       MapTile(2, 4, MapTileType.teacherroom, txt: '229'), //229
       MapTile(2, 4, MapTileType.teacherroom, txt: '228'), //228
@@ -138,7 +144,8 @@ abstract final class FunGridMaps {
           top: 1,
           right: 1,
           left: 1,
-          stairType: const MapStairType(Axis.vertical, true, false)), // 購買側階段
+          stairType: const MapStairType(Axis.vertical,
+              up: true, down: false)), // 購買側階段
       MapTile(42, 1, MapTileType.road, left: 1),
       MapTile(6, 6, MapTileType.subroom, txt: '購買', right: 1, bottom: 1), //売店
       MapTile(12, 5, MapTileType.otherroom, left: 1, bottom: 1),
@@ -148,10 +155,16 @@ abstract final class FunGridMaps {
       MapTile(6, 1, MapTileType.road),
       MapTile(4, 4, MapTileType.road, bottom: 1),
       MapTile(2, 4, MapTileType.stair,
-          right: 1, bottom: 1, left: 1, stairType: const MapStairType(Axis.vertical, false, true)),
+          right: 1,
+          bottom: 1,
+          left: 1,
+          stairType: const MapStairType(Axis.vertical, up: false, down: true)),
       MapTile(4, 4, MapTileType.road),
       MapTile(2, 4, MapTileType.stair,
-          right: 1, bottom: 1, left: 1, stairType: const MapStairType(Axis.vertical, false, true)),
+          right: 1,
+          bottom: 1,
+          left: 1,
+          stairType: const MapStairType(Axis.vertical, up: false, down: true)),
       MapTile(18, 3, MapTileType.road, bottom: 1),
       MapTile(36, 6, MapTileType.empty), //empty
       MapTile(2, 6, MapTileType.road, left: 1, bottom: 1),
@@ -162,21 +175,29 @@ abstract final class FunGridMaps {
       MapTile(8, 1, MapTileType.empty), //empty
       MapTile(10, 1, MapTileType.empty, left: 1), //empty
     ],
-    "3": [
+    '3': [
       MapTile(12, 18, MapTileType.classroom,
-          txt: '体育館', top: 1, left: 1, classroomNo: '51', food: false, drink: true),
-      MapTile(6, 6, MapTileType.subroom, top: 1, txt: 'トレーニングルーム', food: false, drink: true),
+          txt: '体育館',
+          top: 1,
+          left: 1,
+          classroomNo: '51',
+          food: false,
+          drink: true),
+      MapTile(6, 6, MapTileType.subroom,
+          top: 1, txt: 'トレーニングルーム', food: false, drink: true),
       MapTile(30, 6, MapTileType.empty, left: 1),
       MapTile(4, 4, MapTileType.wc, wc: 0x1110), // 体育館トイレ
       MapTile(2, 4, MapTileType.road),
-      MapTile(6, 12, MapTileType.classroom, txt: '工房', top: 1, food: false, drink: true, outlet: 2),
+      MapTile(6, 12, MapTileType.classroom,
+          txt: '工房', top: 1, food: false, drink: true, outlet: 2),
       MapTile(6, 12, MapTileType.classroom,
           txt: 'エレクトロニクス工房', top: 1, food: false, drink: true, outlet: 2),
       MapTile(6, 2, MapTileType.subroom, txt: '医務室', top: 1),
       MapTile(2, 2, MapTileType.road, txt: '休日夜間入口'),
       MapTile(6, 2, MapTileType.otherroom, top: 1),
       MapTile(4, 3, MapTileType.otherroom, top: 1, right: 1),
-      MapTile(6, 4, MapTileType.subroom, txt: '映像音響スタジオ', food: false, drink: false),
+      MapTile(6, 4, MapTileType.subroom,
+          txt: '映像音響スタジオ', food: false, drink: false),
       MapTile(2, 10, MapTileType.road),
       MapTile(6, 1, MapTileType.road),
       MapTile(4, 3, MapTileType.otherroom),
@@ -187,9 +208,11 @@ abstract final class FunGridMaps {
           top: 1,
           right: 1,
           bottom: 1,
-          stairType: const MapStairType(Axis.horizontal, true, false)), // 体育館側階段
+          stairType: const MapStairType(Axis.horizontal,
+              up: true, down: false)), // 体育館側階段
       MapTile(2, 2, MapTileType.road),
-      MapTile(6, 7, MapTileType.subroom, txt: 'ミュージアム', right: 1, food: false, drink: true),
+      MapTile(6, 7, MapTileType.subroom,
+          txt: 'ミュージアム', right: 1, food: false, drink: true),
       MapTile(6, 2, MapTileType.road),
       MapTile(6, 6, MapTileType.subroom, txt: '社会連携センター'),
       MapTile(2, 6, MapTileType.wc, wc: 0x1100), // 駐車場側トイレ
@@ -197,7 +220,8 @@ abstract final class FunGridMaps {
           top: 1,
           left: 1,
           right: 1,
-          stairType: const MapStairType(Axis.vertical, true, false)), // 事務局行き階段
+          stairType: const MapStairType(Axis.vertical,
+              up: true, down: false)), // 事務局行き階段
       MapTile(4, 4, MapTileType.otherroom),
       MapTile(2, 4, MapTileType.road),
       MapTile(2, 1, MapTileType.road),
@@ -208,7 +232,8 @@ abstract final class FunGridMaps {
           top: 1,
           right: 1,
           bottom: 1,
-          stairType: const MapStairType(Axis.horizontal, true, false)), // モール体育館側階段
+          stairType: const MapStairType(Axis.horizontal,
+              up: true, down: false)), // モール体育館側階段
       MapTile(18, 2, MapTileType.road),
       MapTile(2, 2, MapTileType.ev, top: 1, left: 1, bottom: 1), // モールエレベーター
       MapTile(2, 2, MapTileType.road),
@@ -216,14 +241,21 @@ abstract final class FunGridMaps {
           top: 1,
           right: 1,
           bottom: 1,
-          stairType: const MapStairType(Axis.horizontal, true, false)), // モール入口側階段
+          stairType: const MapStairType(Axis.horizontal,
+              up: true, down: false)), // モール入口側階段
       MapTile(6, 2, MapTileType.road),
       MapTile(2, 2, MapTileType.otherroom, txt: '正面\n入口'),
       MapTile(48, 2, MapTileType.road, left: 1, right: 1), // モール
       MapTile(12, 7, MapTileType.classroom,
-          txt: '大講義室', left: 1, classroomNo: '2', food: false, drink: true, outlet: 2),
+          txt: '大講義室',
+          left: 1,
+          classroomNo: '2',
+          food: false,
+          drink: true,
+          outlet: 2),
       MapTile(1, 7, MapTileType.otherroom),
-      MapTile(3, 5, MapTileType.subroom, txt: '心理学実験室', food: false, drink: false),
+      MapTile(3, 5, MapTileType.subroom,
+          txt: '心理学実験室', food: false, drink: false),
       MapTile(2, 7, MapTileType.road),
       MapTile(6, 7, MapTileType.classroom,
           txt: '365', classroomNo: '18', food: false, drink: false, outlet: 2),
@@ -234,7 +266,13 @@ abstract final class FunGridMaps {
       MapTile(4, 2, MapTileType.otherroom),
       MapTile(2, 7, MapTileType.road),
       MapTile(6, 37, MapTileType.subroom,
-          txt: 'ライブラリ', right: 1, bottom: 1, left: 1, food: false, drink: false, outlet: 2),
+          txt: 'ライブラリ',
+          right: 1,
+          bottom: 1,
+          left: 1,
+          food: false,
+          drink: false,
+          outlet: 2),
       MapTile(2, 5, MapTileType.wc, wc: 0x1000), // 入口側トイレ男
       MapTile(2, 5, MapTileType.otherroom),
       MapTile(3, 2, MapTileType.otherroom),
@@ -290,25 +328,29 @@ abstract final class FunGridMaps {
           bottom: 1,
           left: 1,
           right: 1,
-          stairType: const MapStairType(Axis.vertical, false, true)), // 階段331側下り
+          stairType: const MapStairType(Axis.vertical,
+              up: false, down: true)), // 階段331側下り
       MapTile(2, 4, MapTileType.stair,
           bottom: 1,
           left: 1,
           right: 1,
-          stairType: const MapStairType(Axis.vertical, false, true)), // 階段321側下り
+          stairType: const MapStairType(Axis.vertical,
+              up: false, down: true)), // 階段321側下り
       MapTile(18, 3, MapTileType.road, bottom: 1),
       MapTile(2, 2, MapTileType.road, bottom: 1),
       MapTile(2, 2, MapTileType.stair,
           top: 1,
           right: 1,
           bottom: 1,
-          stairType: const MapStairType(Axis.horizontal, true, false)), // 階段331側上り
+          stairType: const MapStairType(Axis.horizontal,
+              up: true, down: false)), // 階段331側上り
       MapTile(2, 2, MapTileType.road),
       MapTile(2, 2, MapTileType.stair,
           top: 1,
           right: 1,
           bottom: 1,
-          stairType: const MapStairType(Axis.horizontal, true, false)), // 階段321側上り
+          stairType: const MapStairType(Axis.horizontal,
+              up: true, down: false)), // 階段321側上り
       MapTile(36, 12, MapTileType.empty, right: 1),
       MapTile(2, 12, MapTileType.road, bottom: 1),
       MapTile(4, 8, MapTileType.empty, left: 1),
@@ -318,44 +360,75 @@ abstract final class FunGridMaps {
       MapTile(2, 1, MapTileType.empty),
       MapTile(4, 1, MapTileType.empty, left: 1),
     ],
-    "4": [
+    '4': [
       MapTile(12, 18, MapTileType.otherroom,
-          txt: '体育館', top: 1, left: 1, bottom: 1, right: 1, food: false, drink: true),
+          txt: '体育館',
+          top: 1,
+          left: 1,
+          bottom: 1,
+          right: 1,
+          food: false,
+          drink: true),
       //Tile(6, 6, TileType.empty, left: 1.5),  一応吹き抜けでトレーニングルーム見える
       MapTile(36, 6, MapTileType.empty),
       MapTile(2, 6, MapTileType.road, top: 1),
       MapTile(2, 4, MapTileType.wc, top: 1, right: 1, wc: 0x1110), // 体育館側トイレ
       MapTile(2, 6, MapTileType.empty, bottom: 1),
       MapTile(6, 6, MapTileType.classroom,
-          txt: '495C&D', classroomNo: '9', top: 1, left: 1, food: false, drink: false, outlet: 2),
+          txt: '495C&D',
+          classroomNo: '9',
+          top: 1,
+          left: 1,
+          food: false,
+          drink: false,
+          outlet: 2),
       MapTile(6, 6, MapTileType.classroom,
-          txt: '494C&D', classroomNo: '8', top: 1, food: false, drink: false, outlet: 2),
+          txt: '494C&D',
+          classroomNo: '8',
+          top: 1,
+          food: false,
+          drink: false,
+          outlet: 2),
       MapTile(6, 6, MapTileType.classroom,
-          txt: '493', classroomNo: '3', top: 1, food: false, drink: true, outlet: 2),
+          txt: '493',
+          classroomNo: '3',
+          top: 1,
+          food: false,
+          drink: true,
+          outlet: 2),
       MapTile(2, 6, MapTileType.road, top: 1),
       MapTile(2, 6, MapTileType.road, top: 1, bottom: 1),
       MapTile(2, 2, MapTileType.subroom, top: 1, txt: '証明書発行機'),
       MapTile(6, 10, MapTileType.subroom, txt: '事務局', top: 1, right: 1),
       MapTile(2, 4, MapTileType.road),
-      MapTile(2, 2, MapTileType.stair,
-          top: 1,
-          right: 1,
-          bottom: 1,
-          stairType: const MapStairType(Axis.horizontal, true, true)), // 体育館側階段
+      MapTile(2, 2, MapTileType.stair, top: 1, right: 1, bottom: 1), // 体育館側階段
       MapTile(30, 1, MapTileType.road),
       MapTile(2, 13, MapTileType.road),
-      MapTile(2, 5, MapTileType.otherroom, right: 1, bottom: 1),
+      MapTile(2, 5, MapTileType.otherroom, txt: '406', right: 1, bottom: 1),
       MapTile(2, 5, MapTileType.empty, top: 1),
       MapTile(6, 5, MapTileType.classroom,
           txt: '485', left: 1, bottom: 1, food: false, drink: true),
       MapTile(6, 5, MapTileType.classroom,
-          txt: '484', classroomNo: '10', bottom: 1, food: false, drink: true, outlet: 2),
+          txt: '484',
+          classroomNo: '10',
+          bottom: 1,
+          food: false,
+          drink: true,
+          outlet: 2),
       MapTile(6, 5, MapTileType.classroom,
-          txt: '483', classroomNo: '19', bottom: 1, food: false, drink: false, outlet: 2),
+          txt: '483',
+          classroomNo: '19',
+          bottom: 1,
+          food: false,
+          drink: false,
+          outlet: 2),
       MapTile(2, 13, MapTileType.road),
       MapTile(2, 5, MapTileType.wc, bottom: 1, wc: 0x1110), // 事務側トイレ
       MapTile(2, 5, MapTileType.stair,
-          right: 1, bottom: 1, left: 1, stairType: const MapStairType(Axis.vertical, false, true)),
+          right: 1,
+          bottom: 1,
+          left: 1,
+          stairType: const MapStairType(Axis.vertical, up: false, down: true)),
       MapTile(1, 2, MapTileType.road),
       MapTile(5, 2, MapTileType.subroom, txt: '局長室', right: 1, bottom: 1),
       MapTile(12, 6, MapTileType.empty, right: 1),
@@ -370,7 +443,8 @@ abstract final class FunGridMaps {
       MapTile(2, 2, MapTileType.empty, right: 1),
       MapTile(22, 2, MapTileType.empty, left: 1, right: 1),
       MapTile(4, 2, MapTileType.empty, left: 1, right: 1),
-      MapTile(2, 2, MapTileType.subroom, txt: 'S-15', top: 1, left: 1), //文字はみ出してる
+      MapTile(2, 2, MapTileType.subroom,
+          txt: 'S-15', top: 1, left: 1), //文字はみ出してる
       MapTile(2, 2, MapTileType.subroom, txt: 'S-14', top: 1),
       MapTile(2, 2, MapTileType.subroom, txt: 'S-13', top: 1),
       MapTile(2, 2, MapTileType.subroom, txt: 'S-12', top: 1),
@@ -464,34 +538,62 @@ abstract final class FunGridMaps {
           drink: true,
           outlet: 2),
       MapTile(4, 11, MapTileType.subroom,
-          txt: 'デルタビスタ', right: 1, bottom: 1, food: true, drink: true, outlet: 1),
+          txt: 'デルタビスタ',
+          right: 1,
+          bottom: 1,
+          food: true,
+          drink: true,
+          outlet: 1),
       MapTile(20, 11, MapTileType.empty, top: 1, right: 1),
       MapTile(2, 9, MapTileType.road),
       MapTile(2, 2, MapTileType.ev, left: 1, top: 1, right: 1),
       MapTile(2, 2, MapTileType.empty, right: 1, bottom: 1),
       MapTile(6, 2, MapTileType.road, bottom: 1)
     ],
-    "5": [
+    '5': [
       MapTile(14, 2, MapTileType.otherroom,
-          top: 1, left: 1, innerWidget: subTile(9, mapCircle7To15TileList)), //サークル1
+          top: 1,
+          left: 1,
+          innerWidget: subTile(9, mapCircle7To15TileList)), //サークル1
       MapTile(2, 10, MapTileType.otherroom,
-          right: 1, top: 1, innerWidget: subTile(5, mapCircle6To1TileList)), //サークル3
+          right: 1,
+          top: 1,
+          innerWidget: subTile(5, mapCircle6To1TileList)), //サークル3
       MapTile(32, 6, MapTileType.empty), //empty
       MapTile(14, 1, MapTileType.road, left: 1),
       MapTile(1, 14, MapTileType.road, left: 1),
-      MapTile(11, 14, MapTileType.empty, top: 1, right: 1, bottom: 1, left: 1), //empty gym
+      MapTile(11, 14, MapTileType.empty,
+          top: 1, right: 1, bottom: 1, left: 1), //empty gym
       MapTile(2, 9, MapTileType.road),
       MapTile(2, 6, MapTileType.empty, bottom: 1), //empty
       MapTile(6, 6, MapTileType.classroom,
-          txt: '595', classroomNo: '6', top: 1, left: 1, food: false, drink: true, outlet: 2),
+          txt: '595',
+          classroomNo: '6',
+          top: 1,
+          left: 1,
+          food: false,
+          drink: true,
+          outlet: 2),
       MapTile(6, 6, MapTileType.classroom,
-          txt: '594', classroomNo: '5', top: 1, food: false, drink: true, outlet: 2),
+          txt: '594',
+          classroomNo: '5',
+          top: 1,
+          food: false,
+          drink: true,
+          outlet: 2),
       MapTile(6, 6, MapTileType.classroom,
-          txt: '593', classroomNo: '4', top: 1, right: 1, food: false, drink: true, outlet: 2),
+          txt: '593',
+          classroomNo: '4',
+          top: 1,
+          right: 1,
+          food: false,
+          drink: true,
+          outlet: 2),
       MapTile(6, 6, MapTileType.empty, bottom: 1, right: 1), //吹き抜け
-      MapTile(6, 12, MapTileType.subroom, top: 1, right: 1, bottom: 1, txt: '共同研究室'),
+      MapTile(6, 12, MapTileType.subroom,
+          top: 1, right: 1, bottom: 1, txt: '共同研究室'),
       MapTile(2, 2, MapTileType.stair,
-          stairType: const MapStairType(Axis.horizontal, false, true),
+          stairType: const MapStairType(Axis.horizontal, up: false, down: true),
           top: 1,
           right: 1,
           bottom: 1), // 階段体育館側
@@ -500,16 +602,33 @@ abstract final class FunGridMaps {
       MapTile(2, 5, MapTileType.wc, wc: 0x1110, right: 1, bottom: 1), // 体育館側トイレ
       MapTile(2, 5, MapTileType.empty, top: 1), //吹き抜け
       MapTile(6, 5, MapTileType.classroom,
-          txt: '585', classroomNo: '13', left: 1, bottom: 1, food: false, drink: true, outlet: 2),
+          txt: '585',
+          classroomNo: '13',
+          left: 1,
+          bottom: 1,
+          food: false,
+          drink: true,
+          outlet: 2),
       MapTile(6, 5, MapTileType.classroom,
-          txt: '584', classroomNo: '12', bottom: 1, food: false, drink: true, outlet: 2),
+          txt: '584',
+          classroomNo: '12',
+          bottom: 1,
+          food: false,
+          drink: true,
+          outlet: 2),
       MapTile(6, 5, MapTileType.classroom,
-          txt: '583', classroomNo: '11', bottom: 1, food: false, drink: true, outlet: 2),
+          txt: '583',
+          classroomNo: '11',
+          bottom: 1,
+          food: false,
+          drink: true,
+          outlet: 2),
       MapTile(2, 5, MapTileType.road),
       MapTile(2, 5, MapTileType.wc, right: 1, bottom: 1, wc: 0x1100), // 事務側トイレ
       MapTile(2, 5, MapTileType.empty, top: 1, right: 1), //吹き抜け
       MapTile(14, 1, MapTileType.road, left: 1),
-      MapTile(12, 6, MapTileType.empty, top: 1, bottom: 1, right: 1), //empty left
+      MapTile(12, 6, MapTileType.empty,
+          top: 1, bottom: 1, right: 1), //empty left
       MapTile(2, 6, MapTileType.road),
       MapTile(22, 2, MapTileType.empty, left: 1, right: 1), //empty center1
       MapTile(2, 6, MapTileType.road),
@@ -518,16 +637,19 @@ abstract final class FunGridMaps {
           top: 1,
           right: 1,
           bottom: 1,
-          stairType: const MapStairType(Axis.horizontal, false, true)), // 階段center側
+          stairType: const MapStairType(Axis.horizontal,
+              up: false, down: true)), // 階段center側
       MapTile(18, 2, MapTileType.empty), //empty center2
       MapTile(2, 2, MapTileType.ev, top: 1, left: 1, bottom: 1), // エレベーターcenter
       MapTile(2, 2, MapTileType.stair,
           top: 1,
           right: 1,
           bottom: 1,
-          stairType: const MapStairType(Axis.horizontal, false, true)), // 階段right側
+          stairType: const MapStairType(Axis.horizontal,
+              up: false, down: true)), // 階段right側
       MapTile(8, 2, MapTileType.empty), //empty right2
-      MapTile(22, 2, MapTileType.empty, left: 1, right: 1, bottom: 1), //empty center3
+      MapTile(22, 2, MapTileType.empty,
+          left: 1, right: 1, bottom: 1), //empty center3
       MapTile(10, 2, MapTileType.empty, left: 1), //empty right3
       MapTile(38, 1, MapTileType.road, left: 1),
       MapTile(2, 5, MapTileType.otherroom, top: 1, right: 1),
@@ -567,7 +689,8 @@ abstract final class FunGridMaps {
       MapTile(12, 12, MapTileType.empty, right: 1), //empty left
       MapTile(2, 12, MapTileType.road, bottom: 1),
       MapTile(22, 10, MapTileType.empty, left: 1, right: 1), //empty center
-      MapTile(4, 9, MapTileType.empty, left: 1, right: 1, bottom: 1), //empty right
+      MapTile(4, 9, MapTileType.empty,
+          left: 1, right: 1, bottom: 1), //empty right
       MapTile(4, 2, MapTileType.subroom, right: 1, txt: 'M501'),
       MapTile(6, 2, MapTileType.road, right: 1),
       MapTile(1, 5, MapTileType.road),
@@ -579,14 +702,16 @@ abstract final class FunGridMaps {
           top: 1,
           right: 1,
           bottom: 1,
-          stairType: const MapStairType(Axis.horizontal, false, true)), // 階段center側
+          stairType: const MapStairType(Axis.horizontal,
+              up: false, down: true)), // 階段center側
       MapTile(20, 2, MapTileType.empty, right: 1), //empty center
       MapTile(2, 2, MapTileType.road),
       MapTile(2, 2, MapTileType.stair,
           top: 1,
           right: 1,
           bottom: 1,
-          stairType: const MapStairType(Axis.horizontal, false, true)), // 階段講堂側
+          stairType: const MapStairType(Axis.horizontal,
+              up: false, down: true)), // 階段講堂側
       MapTile(2, 2, MapTileType.empty, top: 1, right: 1), //empty 階段横
       MapTile(1, 2, MapTileType.road),
       MapTile(4, 2, MapTileType.otherroom, txt: '調整室'), //調光室
@@ -604,13 +729,15 @@ abstract final class FunGridMaps {
       MapTile(42, 7, MapTileType.empty), //empty ev横
       MapTile(6, 7, MapTileType.empty), //empty
     ],
-    "R6": [
+    'R6': [
       MapTile(4, 2, MapTileType.teacherroom, txt: 'R611', top: 1, left: 1),
       MapTile(1, 30, MapTileType.road, top: 1, bottom: 1),
       MapTile(3, 3, MapTileType.otherroom, top: 1),
-      MapTile(3, 3, MapTileType.subroom, top: 1, txt: 'R627', food: true, drink: true),
+      MapTile(3, 3, MapTileType.subroom,
+          top: 1, txt: 'R627', food: true, drink: true),
       MapTile(2, 30, MapTileType.road, top: 1, bottom: 1),
-      MapTile(4, 4, MapTileType.subroom, top: 1, txt: 'R637', food: true, drink: true),
+      MapTile(4, 4, MapTileType.subroom,
+          top: 1, txt: 'R637', food: true, drink: true),
       MapTile(4, 14, MapTileType.road, top: 1),
       MapTile(1, 24, MapTileType.road, top: 1),
       MapTile(4, 2, MapTileType.subroom, txt: 'R657', top: 1, right: 1),
@@ -624,9 +751,17 @@ abstract final class FunGridMaps {
       MapTile(4, 4, MapTileType.subroom, txt: 'R636', food: true, drink: true),
       MapTile(4, 2, MapTileType.road, right: 1),
       MapTile(4, 2, MapTileType.stair,
-          left: 1, top: 1, bottom: 1, stairType: const MapStairType(Axis.horizontal, true, false)),
+          left: 1,
+          top: 1,
+          bottom: 1,
+          stairType:
+              const MapStairType(Axis.horizontal, up: true, down: false)),
       MapTile(4, 2, MapTileType.stair,
-          right: 1, top: 1, bottom: 1, stairType: const MapStairType(Axis.horizontal, true, false)),
+          right: 1,
+          top: 1,
+          bottom: 1,
+          stairType:
+              const MapStairType(Axis.horizontal, up: true, down: false)),
       MapTile(4, 2, MapTileType.teacherroom, txt: 'R609', left: 1),
       MapTile(3, 4, MapTileType.subroom, txt: 'R625', food: true, drink: true),
       MapTile(4, 3, MapTileType.subroom, txt: 'R635', food: true, drink: true),
@@ -648,14 +783,21 @@ abstract final class FunGridMaps {
       MapTile(4, 6, MapTileType.subroom, right: 1, txt: 'R651'),
       MapTile(4, 2, MapTileType.teacherroom, txt: 'R604', left: 1),
       MapTile(4, 2, MapTileType.stair,
-          left: 1, top: 1, bottom: 1, stairType: const MapStairType(Axis.horizontal, true, false)),
+          left: 1,
+          top: 1,
+          bottom: 1,
+          stairType:
+              const MapStairType(Axis.horizontal, up: true, down: false)),
       MapTile(3, 4, MapTileType.subroom, txt: 'R622', food: true, drink: true),
       MapTile(8, 2, MapTileType.road),
       MapTile(4, 2, MapTileType.road, left: 1),
       MapTile(4, 4, MapTileType.subroom, txt: 'R631'),
       MapTile(2, 2, MapTileType.ev),
       MapTile(2, 2, MapTileType.stair,
-          left: 1, right: 1, bottom: 1, stairType: const MapStairType(Axis.vertical, true, false)),
+          left: 1,
+          right: 1,
+          bottom: 1,
+          stairType: const MapStairType(Axis.vertical, up: true, down: false)),
       MapTile(4, 2, MapTileType.otherroom, right: 1),
       MapTile(4, 2, MapTileType.teacherroom, txt: 'R603', left: 1),
       MapTile(6, 1, MapTileType.road),
@@ -671,8 +813,9 @@ abstract final class FunGridMaps {
       MapTile(4, 2, MapTileType.subroom, bottom: 1),
       MapTile(1, 2, MapTileType.subroom, bottom: 1, right: 1),
     ],
-    "R7": [
-      MapTile(4, 2, MapTileType.subroom, txt: 'R711', top: 1, left: 1, food: true, drink: true),
+    'R7': [
+      MapTile(4, 2, MapTileType.subroom,
+          txt: 'R711', top: 1, left: 1, food: true, drink: true),
       MapTile(1, 30, MapTileType.road, top: 1, bottom: 1),
       MapTile(3, 3, MapTileType.empty, bottom: 1, left: 1),
       MapTile(2, 3, MapTileType.otherroom, left: 1, top: 1, right: 1),
@@ -683,7 +826,8 @@ abstract final class FunGridMaps {
       MapTile(1, 14, MapTileType.road, top: 1),
       MapTile(4, 2, MapTileType.teacherroom, txt: 'R757', top: 1, right: 1),
       MapTile(22, 20, MapTileType.empty, bottom: 1),
-      MapTile(4, 2, MapTileType.subroom, txt: 'R710', left: 1, food: true, drink: true),
+      MapTile(4, 2, MapTileType.subroom,
+          txt: 'R710', left: 1, food: true, drink: true),
       MapTile(4, 2, MapTileType.teacherroom, txt: 'R756', right: 1),
       MapTile(6, 1, MapTileType.road),
       MapTile(2, 22, MapTileType.road),
@@ -692,51 +836,90 @@ abstract final class FunGridMaps {
       MapTile(6, 4, MapTileType.empty, left: 1, top: 1, right: 1),
       MapTile(4, 2, MapTileType.road, right: 1),
       MapTile(4, 2, MapTileType.stair,
-          left: 1, top: 1, bottom: 1, stairType: const MapStairType(Axis.horizontal, false, true)),
+          left: 1,
+          top: 1,
+          bottom: 1,
+          stairType:
+              const MapStairType(Axis.horizontal, up: false, down: true)),
       MapTile(4, 2, MapTileType.stair,
-          right: 1, top: 1, bottom: 1, stairType: const MapStairType(Axis.horizontal, false, true)),
-      MapTile(4, 2, MapTileType.subroom, txt: 'R709', left: 1, food: true, drink: true),
+          right: 1,
+          top: 1,
+          bottom: 1,
+          stairType:
+              const MapStairType(Axis.horizontal, up: false, down: true)),
+      MapTile(4, 2, MapTileType.subroom,
+          txt: 'R709', left: 1, food: true, drink: true),
       MapTile(4, 12, MapTileType.empty, left: 1),
       MapTile(2, 4, MapTileType.subroom,
           txt: 'R725', left: 1, top: 1, food: false, drink: true, outlet: 0),
-      MapTile(4, 2, MapTileType.subroom, txt: 'R755', right: 1, food: true, drink: true),
+      MapTile(4, 2, MapTileType.subroom,
+          txt: 'R755', right: 1, food: true, drink: true),
       MapTile(8, 1, MapTileType.road),
       MapTile(4, 4, MapTileType.otherroom, left: 1),
       MapTile(8, 4, MapTileType.empty, left: 1, top: 1, right: 1, bottom: 1),
-      MapTile(4, 2, MapTileType.subroom, txt: 'R754', right: 1, food: true, drink: true),
-      MapTile(2, 4, MapTileType.subroom, txt: 'R724', left: 1, food: false, drink: true, outlet: 0),
-      MapTile(4, 2, MapTileType.subroom, txt: 'R753', right: 1, food: true, drink: true),
-      MapTile(4, 2, MapTileType.subroom, txt: 'R706', left: 1, food: true, drink: true),
+      MapTile(4, 2, MapTileType.subroom,
+          txt: 'R754', right: 1, food: true, drink: true),
+      MapTile(2, 4, MapTileType.subroom,
+          txt: 'R724', left: 1, food: false, drink: true, outlet: 0),
+      MapTile(4, 2, MapTileType.subroom,
+          txt: 'R753', right: 1, food: true, drink: true),
+      MapTile(4, 2, MapTileType.subroom,
+          txt: 'R706', left: 1, food: true, drink: true),
       MapTile(2, 2, MapTileType.otherroom),
       MapTile(2, 2, MapTileType.otherroom),
       MapTile(9, 6, MapTileType.otherroom, right: 1),
-      MapTile(4, 2, MapTileType.subroom, txt: 'R705', left: 1, food: true, drink: true),
+      MapTile(4, 2, MapTileType.subroom,
+          txt: 'R705', left: 1, food: true, drink: true),
       MapTile(2, 4, MapTileType.subroom,
           txt: 'R723', left: 1, bottom: 1, food: false, drink: true, outlet: 0),
       MapTile(4, 4, MapTileType.subroom, txt: 'R731', food: false, drink: true),
-      MapTile(4, 2, MapTileType.subroom, txt: 'R704', left: 1, food: true, drink: true),
+      MapTile(4, 2, MapTileType.subroom,
+          txt: 'R704', left: 1, food: true, drink: true),
       MapTile(4, 2, MapTileType.stair,
-          left: 1, top: 1, bottom: 1, stairType: const MapStairType(Axis.horizontal, false, true)),
+          left: 1,
+          top: 1,
+          bottom: 1,
+          stairType:
+              const MapStairType(Axis.horizontal, up: false, down: true)),
       MapTile(6, 4, MapTileType.empty, left: 1, bottom: 1, right: 1),
       MapTile(30, 2, MapTileType.road),
       MapTile(5, 10, MapTileType.classroom,
-          txt: 'R791', right: 1, bottom: 1, classroomNo: '7', food: false, drink: true, outlet: 1),
+          txt: 'R791',
+          right: 1,
+          bottom: 1,
+          classroomNo: '7',
+          food: false,
+          drink: true,
+          outlet: 1),
       MapTile(4, 2, MapTileType.road, left: 1),
       MapTile(3, 3, MapTileType.empty, left: 1, top: 1, right: 1),
       MapTile(1, 7, MapTileType.road),
       MapTile(2, 2, MapTileType.ev),
       MapTile(2, 2, MapTileType.stair,
-          left: 1, right: 1, stairType: const MapStairType(Axis.vertical, false, true)),
+          left: 1,
+          right: 1,
+          stairType: const MapStairType(Axis.vertical, up: false, down: true)),
       MapTile(1, 2, MapTileType.otherroom),
       MapTile(4, 2, MapTileType.subroom, txt: 'R751'),
       MapTile(5, 2, MapTileType.otherroom),
       MapTile(4, 8, MapTileType.classroom,
-          txt: 'R781', classroomNo: '14', bottom: 1, food: false, drink: true, outlet: 1),
+          txt: 'R781',
+          classroomNo: '14',
+          bottom: 1,
+          food: false,
+          drink: true,
+          outlet: 1),
       MapTile(4, 8, MapTileType.classroom,
-          txt: 'R782', classroomNo: '15', bottom: 1, food: false, drink: true, outlet: 1),
+          txt: 'R782',
+          classroomNo: '15',
+          bottom: 1,
+          food: false,
+          drink: true,
+          outlet: 1),
       MapTile(2, 2, MapTileType.ev),
       MapTile(2, 2, MapTileType.road),
-      MapTile(4, 2, MapTileType.subroom, txt: 'R703', left: 1, food: true, drink: true),
+      MapTile(4, 2, MapTileType.subroom,
+          txt: 'R703', left: 1, food: true, drink: true),
       MapTile(6, 1, MapTileType.road),
       MapTile(5, 4, MapTileType.empty, top: 1, left: 1),
       MapTile(9, 6, MapTileType.empty, right: 1, top: 1),
@@ -745,13 +928,18 @@ abstract final class FunGridMaps {
       MapTile(2, 5, MapTileType.otherroom, bottom: 1, left: 1),
       MapTile(3, 3, MapTileType.empty, left: 1, top: 1),
       MapTile(3, 1, MapTileType.empty, right: 1),
-      MapTile(4, 2, MapTileType.subroom, txt: 'R702', left: 1, food: true, drink: true),
+      MapTile(4, 2, MapTileType.subroom,
+          txt: 'R702', left: 1, food: true, drink: true),
       MapTile(3, 4, MapTileType.wc, left: 1, top: 1, bottom: 1, wc: 0x1100),
       MapTile(1, 2, MapTileType.stair,
-          right: 1, bottom: 1, left: 1, stairType: const MapStairType(Axis.vertical, true, false)),
+          right: 1,
+          bottom: 1,
+          left: 1,
+          stairType: const MapStairType(Axis.vertical, up: true, down: false)),
       MapTile(1, 2, MapTileType.road),
       MapTile(2, 2, MapTileType.wc, wc: 0x0010),
-      MapTile(4, 2, MapTileType.subroom, txt: 'R701', left: 1, bottom: 1, food: true, drink: true),
+      MapTile(4, 2, MapTileType.subroom,
+          txt: 'R701', left: 1, bottom: 1, food: true, drink: true),
       MapTile(1, 2, MapTileType.otherroom, right: 1, top: 1, bottom: 1),
       MapTile(2, 2, MapTileType.empty),
       MapTile(5, 2, MapTileType.otherroom, bottom: 1, right: 1, top: 1),
@@ -762,15 +950,24 @@ abstract final class FunGridMaps {
   };
 
   static final List<MapTile> mapCircle7To15TileList = [
-    MapTile(1, 1, MapTileType.subroom, txt: 'サークル室15', food: true, drink: true, outlet: 2),
-    MapTile(1, 1, MapTileType.subroom, txt: 'サークル室14', food: true, drink: true, outlet: 2),
-    MapTile(1, 1, MapTileType.subroom, txt: 'サークル室13', food: true, drink: true, outlet: 2),
-    MapTile(1, 1, MapTileType.subroom, txt: 'サークル室12', food: true, drink: true, outlet: 2),
-    MapTile(1, 1, MapTileType.subroom, txt: 'サークル室11', food: true, drink: true, outlet: 2),
-    MapTile(1, 1, MapTileType.subroom, txt: 'サークル室10', food: true, drink: true, outlet: 2),
-    MapTile(1, 1, MapTileType.subroom, txt: 'サークル室9', food: true, drink: true, outlet: 2),
-    MapTile(1, 1, MapTileType.subroom, txt: 'サークル室8', food: true, drink: true, outlet: 2),
-    MapTile(1, 1, MapTileType.subroom, txt: 'サークル室7', food: true, drink: true, outlet: 2),
+    MapTile(1, 1, MapTileType.subroom,
+        txt: 'サークル室15', food: true, drink: true, outlet: 2),
+    MapTile(1, 1, MapTileType.subroom,
+        txt: 'サークル室14', food: true, drink: true, outlet: 2),
+    MapTile(1, 1, MapTileType.subroom,
+        txt: 'サークル室13', food: true, drink: true, outlet: 2),
+    MapTile(1, 1, MapTileType.subroom,
+        txt: 'サークル室12', food: true, drink: true, outlet: 2),
+    MapTile(1, 1, MapTileType.subroom,
+        txt: 'サークル室11', food: true, drink: true, outlet: 2),
+    MapTile(1, 1, MapTileType.subroom,
+        txt: 'サークル室10', food: true, drink: true, outlet: 2),
+    MapTile(1, 1, MapTileType.subroom,
+        txt: 'サークル室9', food: true, drink: true, outlet: 2),
+    MapTile(1, 1, MapTileType.subroom,
+        txt: 'サークル室8', food: true, drink: true, outlet: 2),
+    MapTile(1, 1, MapTileType.subroom,
+        txt: 'サークル室7', food: true, drink: true, outlet: 2),
   ];
 
   static final List<MapTile> mapCircle6To1TileList = [
@@ -795,7 +992,9 @@ abstract final class FunGridMaps {
         ...tileList.map(
           (e) {
             return StaggeredGridTile.count(
-                crossAxisCellCount: e.width, mainAxisCellCount: e.height, child: e);
+                crossAxisCellCount: e.width,
+                mainAxisCellCount: e.height,
+                child: e);
           },
         )
       ],

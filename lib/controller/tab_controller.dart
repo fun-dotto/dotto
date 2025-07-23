@@ -1,28 +1,28 @@
 import 'package:dotto/domain/tab_item.dart';
-import 'package:dotto/importer.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final tabItemProvider = NotifierProvider<TabNotifier, TabItem>(() {
-  return TabNotifier();
-});
+final tabItemProvider = NotifierProvider<TabNotifier, TabItem>(TabNotifier.new);
 
-class TabNotifier extends Notifier<TabItem> {
+final class TabNotifier extends Notifier<TabItem> {
   @override
   TabItem build() {
     return TabItem.home;
   }
 
   void selected(TabItem selectedTab) {
-    // 同じタブを押すと一番上に戻る
-    if (state == selectedTab) {
-      final navigatorKey = tabNavigatorKeyMaps[selectedTab];
-      if (navigatorKey != null) {
-        final currentState = navigatorKey.currentState;
-        if (currentState != null) {
-          currentState.popUntil((route) => route.isFirst);
-        }
-      }
-    } else {
+    if (state != selectedTab) {
       state = selectedTab;
+      return;
     }
+    // 同じタブを押すとルートまでPop
+    final navigatorKey = tabNavigatorKeyMaps[selectedTab];
+    if (navigatorKey == null) {
+      return;
+    }
+    final currentState = navigatorKey.currentState;
+    if (currentState == null) {
+      return;
+    }
+    currentState.popUntil((route) => route.isFirst);
   }
 }

@@ -1,12 +1,11 @@
-import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dotto/feature/kamoku_detail/repository/kamoku_detail_repository.dart';
+import 'package:dotto/widget/loading_circular.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
-import 'package:dotto/components/widgets/progress_indicator.dart';
-import 'package:dotto/feature/kamoku_detail/repository/kamoku_detail_repository.dart';
-
-class KamokuDetailFeedbackList extends StatefulWidget {
-  const KamokuDetailFeedbackList({super.key, required this.lessonId});
+final class KamokuDetailFeedbackList extends StatefulWidget {
+  const KamokuDetailFeedbackList({required this.lessonId, super.key});
 
   final int lessonId;
 
@@ -15,15 +14,16 @@ class KamokuDetailFeedbackList extends StatefulWidget {
       _KamokuDetailFeedbackListState();
 }
 
-class _KamokuDetailFeedbackListState extends State<KamokuDetailFeedbackList> {
-  double averageScore = 0.0;
+final class _KamokuDetailFeedbackListState
+    extends State<KamokuDetailFeedbackList> {
+  double averageScore = 0;
 
   // 平均満足度の計算
   double _computeAverageScore(
       List<DocumentSnapshot<Map<String, dynamic>>> documents) {
-    double totalScore = 0.0;
+    var totalScore = 0.0;
     for (final document in documents) {
-      final score = (document.get('score') ?? 0.0).toDouble();
+      final score = (document.get('score') as num? ?? 0.0).toDouble();
       totalScore += score;
     }
     return documents.isEmpty ? 0.0 : totalScore / documents.length;
@@ -32,7 +32,7 @@ class _KamokuDetailFeedbackListState extends State<KamokuDetailFeedbackList> {
   // 各点の満足度の割合を計算
   double _percentageOfRating(
       List<DocumentSnapshot<Map<String, dynamic>>> documents, int rating) {
-    int count = 0;
+    var count = 0;
     for (final document in documents) {
       if (document.get('score') == rating) {
         count += 1;
@@ -70,7 +70,7 @@ class _KamokuDetailFeedbackListState extends State<KamokuDetailFeedbackList> {
           return Text('エラー: ${snapshot.error}');
         }
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return createProgressIndicator();
+          return const LoadingCircular();
         }
         if (snapshot.hasData) {
           final querySnapshot = snapshot.data!;
@@ -87,7 +87,6 @@ class _KamokuDetailFeedbackListState extends State<KamokuDetailFeedbackList> {
             child: Column(
               children: [
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -106,8 +105,7 @@ class _KamokuDetailFeedbackListState extends State<KamokuDetailFeedbackList> {
                             Icons.star,
                             color: Colors.amber,
                           ),
-                          itemCount: 5,
-                          itemSize: 20.0,
+                          itemSize: 20,
                         ),
                         Text(
                           'BASED OF ${documents.length} REVIEWS',
@@ -159,7 +157,8 @@ class _KamokuDetailFeedbackListState extends State<KamokuDetailFeedbackList> {
                     itemBuilder: (BuildContext context, int index) {
                       final document = documents[index];
                       final detail = document.get('detail');
-                      final score = (document.get('score') ?? 0).toDouble();
+                      final score =
+                          (document.get('score') as num? ?? 0).toDouble();
 
                       if (detail == null || detail.toString().trim().isEmpty) {
                         return const SizedBox
@@ -182,8 +181,7 @@ class _KamokuDetailFeedbackListState extends State<KamokuDetailFeedbackList> {
                               Icons.star,
                               color: Colors.amber,
                             ),
-                            itemCount: 5,
-                            itemSize: 15.0,
+                            itemSize: 15,
                           ),
                           title: Text(
                             '$detail',

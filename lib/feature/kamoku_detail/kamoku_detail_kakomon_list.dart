@@ -1,12 +1,11 @@
-import 'package:flutter/material.dart';
-
-import 'package:dotto/components/s3.dart';
-import 'package:dotto/components/widgets/progress_indicator.dart';
 import 'package:dotto/feature/kamoku_detail/repository/kamoku_detail_repository.dart';
 import 'package:dotto/feature/kamoku_detail/widget/kamoku_detail_kakomon_list_objects.dart';
+import 'package:dotto/repository/s3_repository.dart';
+import 'package:dotto/widget/loading_circular.dart';
+import 'package:flutter/material.dart';
 
-class KamokuDetailKakomonListScreen extends StatefulWidget {
-  const KamokuDetailKakomonListScreen({super.key, required this.url});
+final class KamokuDetailKakomonListScreen extends StatefulWidget {
+  const KamokuDetailKakomonListScreen({required this.url, super.key});
   final int url;
 
   @override
@@ -14,7 +13,7 @@ class KamokuDetailKakomonListScreen extends StatefulWidget {
       _KamokuDetailKakomonListScreenState();
 }
 
-class _KamokuDetailKakomonListScreenState
+final class _KamokuDetailKakomonListScreenState
     extends State<KamokuDetailKakomonListScreen> {
   @override
   Widget build(BuildContext context) {
@@ -22,8 +21,8 @@ class _KamokuDetailKakomonListScreenState
       body: Center(
         child: (KamokuDetailRepository().isLoggedinGoogle())
             ? FutureBuilder(
-                future:
-                    S3.instance.getListObjectsKey(url: widget.url.toString()),
+                future: S3Repository()
+                    .getListObjectsKey(url: widget.url.toString()),
                 builder: (BuildContext context,
                     AsyncSnapshot<List<String>> snapshot) {
                   if (snapshot.hasData) {
@@ -40,7 +39,7 @@ class _KamokuDetailKakomonListScreenState
                           .toList(),
                     );
                   } else {
-                    return createProgressIndicator();
+                    return const LoadingCircular();
                   }
                 },
               )
