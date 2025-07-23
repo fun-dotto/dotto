@@ -4,4 +4,4 @@
 
 ## ようこそ、Dotto 開発チームへ！
 
-[オンボーディング](docs/onboarding/00_README.md)
+[オンボーディング](docs/onboarding/README.md)
