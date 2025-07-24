@@ -12,5 +12,5 @@
   "editor.tabSize": 2,
   "editor.wordWrap": "on",
   "files.insertFinalNewline": true,
-  "git.autofetch": true,
+  "git.autofetch": true
 }
