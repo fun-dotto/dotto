@@ -5,7 +5,7 @@ publish_to: "none"
 version: 1.5.0+0
 
 environment:
-  sdk: ">=3.0.3 <4.0.0"
+  sdk: ^3.7.2
 
 dependencies:
   app_links: ^6.4.0
@@ -13,6 +13,8 @@ dependencies:
   cloud_firestore: ^5.5.0
   collection: ^1.18.0
   cupertino_icons: ^1.0.8
+  dotto_design_system:
+    path: ./dotto_design_system
   firebase_analytics: ^11.5.2
   firebase_app_check: ^0.3.2
   firebase_auth: ^5.4.0

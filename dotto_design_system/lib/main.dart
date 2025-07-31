@@ -1,8 +1,8 @@
+import 'package:dotto_design_system/main.directories.g.dart';
+import 'package:dotto_design_system/style/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:widgetbook/widgetbook.dart';
 import 'package:widgetbook_annotation/widgetbook_annotation.dart' as widgetbook;
-
-import 'widgetbook.directories.g.dart';
 
 void main() {
   runApp(const WidgetbookApp());
@@ -15,12 +15,11 @@ class WidgetbookApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Widgetbook.material(
-      // Use the generated directories variable
       directories: directories,
-      addons: [],
-      integrations: [
-        // To make addons & knobs work with Widgetbook Cloud
-        WidgetbookCloudIntegration(),
+      addons: [
+        MaterialThemeAddon(
+          themes: [WidgetbookTheme(name: 'Light', data: DottoTheme.v2)],
+        ),
       ],
     );
   }
