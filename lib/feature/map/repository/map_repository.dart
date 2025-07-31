@@ -68,7 +68,6 @@ final class MapRepository {
         //現在時刻が開始時刻と終了時刻の間であればresourceIdを取得
         if (dateTime.isAfter(startTime) && dateTime.isBefore(endTime)) {
           if (resourceIds.containsKey(item['resourceId'])) {
-            debugPrint(item['resourceId'] as String?);
             if (resourceIds[item['resourceId']]!.isBefore(endTime)) {
               resourceIds[item['resourceId'] as String] = endTime;
             }
@@ -128,7 +127,6 @@ final class MapRepository {
     final resourceIds = await MapRepository().getUsingRoom(dateTime);
     if (resourceIds.isNotEmpty) {
       resourceIds.forEach((String resourceId, DateTime useEndTime) {
-        debugPrint(resourceId);
         if (classroomNoFloorMap.containsKey(resourceId)) {
           classroomNoFloorMap[resourceId] = true;
         }
