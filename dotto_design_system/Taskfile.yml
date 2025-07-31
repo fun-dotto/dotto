@@ -1,0 +1,37 @@
+# https://taskfile.dev
+
+version: "3"
+
+vars:
+  FLUTTER: fvm flutter
+  DART: fvm dart
+  FASTLANE: bundle exec fastlane
+
+tasks:
+  default:
+    cmds:
+      - task --list-all
+    silent: true
+
+  install:
+    desc: Install dependencies and configure Flutter
+    cmds:
+      - |
+        if [ "$GITHUB_ACTIONS" ]; then
+          {{.FLUTTER}} --version
+        else
+          fvm install
+        fi
+      - "{{.FLUTTER}} config --enable-swift-package-manager"
+      - "{{.FLUTTER}} pub get"
+
+  build:
+    desc: Run build_runner to generate code
+    cmds:
+      - "{{.DART}} run build_runner build --delete-conflicting-outputs"
+
+  run:
+    desc: Run the Flutter app
+    cmds:
+      - task: build
+      - "{{.FLUTTER}} run -d chrome"
