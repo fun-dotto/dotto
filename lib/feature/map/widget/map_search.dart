@@ -1,4 +1,5 @@
 import 'package:dotto/feature/map/controller/map_controller.dart';
+import 'package:dotto/feature/map/controller/map_page_controller.dart';
 import 'package:dotto/feature/map/controller/on_map_search_controller.dart';
 import 'package:dotto/feature/map/controller/search_list_controller.dart';
 import 'package:dotto/feature/map/widget/map_detail_bottom_sheet.dart';
@@ -139,7 +140,7 @@ final class MapSearchListView extends ConsumerWidget {
     final mapSearchListNotifier = ref.read(
       mapSearchListNotifierProvider.notifier,
     );
-    final mapPageNotifier = ref.watch(mapPageProvider.notifier);
+    final mapPageNotifier = ref.watch(mapPageNotifierProvider.notifier);
     final mapFocusMapDetailNotifier = ref.watch(
       mapFocusMapDetailProvider.notifier,
     );
@@ -170,7 +171,7 @@ final class MapSearchListView extends ConsumerWidget {
                           .value
                           .setIdentity();
                       mapFocusMapDetailNotifier.state = item;
-                      mapPageNotifier.state = floorBarString.indexOf(
+                      mapPageNotifier.value = floorBarString.indexOf(
                         item.floor,
                       );
                       showBottomSheet(
