@@ -10,7 +10,7 @@ import 'package:dotto/domain/user_preference_keys.dart';
 import 'package:dotto/feature/announcement/controller/announcement_from_push_notification_controller.dart';
 import 'package:dotto/feature/bus/controller/bus_controller.dart';
 import 'package:dotto/feature/bus/repository/bus_repository.dart';
-import 'package:dotto/feature/map/controller/map_controller.dart';
+import 'package:dotto/feature/map/controller/map_search_datetime_controller.dart';
 import 'package:dotto/feature/map/controller/using_map_controller.dart';
 import 'package:dotto/feature/setting/repository/settings_repository.dart';
 import 'package:dotto/feature/timetable/controller/timetable_controller.dart';
@@ -155,7 +155,8 @@ final class _BasePageState extends ConsumerState<BasePage> {
     final selectedTab = TabItem.values[index];
 
     if (selectedTab == TabItem.map) {
-      ref.read(searchDatetimeProvider.notifier).reset();
+      ref.read(mapSearchDatetimeNotifierProvider.notifier).value =
+          DateTime.now();
       await ref
           .read(usingMapNotifierProvider.notifier)
           .setUsingColor(DateTime.now(), ref);

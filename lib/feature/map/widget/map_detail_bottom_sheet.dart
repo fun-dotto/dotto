@@ -2,6 +2,7 @@ import 'package:dotto/controller/tab_controller.dart';
 import 'package:dotto/controller/user_controller.dart';
 import 'package:dotto/domain/tab_item.dart';
 import 'package:dotto/feature/map/controller/map_controller.dart';
+import 'package:dotto/feature/map/controller/map_search_datetime_controller.dart';
 import 'package:dotto/feature/map/domain/map_detail.dart';
 import 'package:dotto/feature/map/domain/map_room_available_type.dart';
 import 'package:dotto/feature/map/widget/fun_grid_map.dart';
@@ -11,27 +12,29 @@ import 'package:dotto/widget/loading_circular.dart';
 import 'package:intl/intl.dart';
 
 final class MapDetailBottomSheet extends ConsumerWidget {
-  const MapDetailBottomSheet(
-      {required this.floor, required this.roomName, super.key});
+  const MapDetailBottomSheet({
+    required this.floor,
+    required this.roomName,
+    super.key,
+  });
   final String floor;
   final String roomName;
 
   static const Color blue = Color(0xFF4A90E2);
 
   Widget scheduleTile(
-      BuildContext context, DateTime begin, DateTime end, String title) {
+    BuildContext context,
+    DateTime begin,
+    DateTime end,
+    String title,
+  ) {
     return Container(
       width: MediaQuery.of(context).size.width,
       margin: const EdgeInsets.symmetric(vertical: 5),
       padding: const EdgeInsets.all(10),
       decoration: const BoxDecoration(
         color: Colors.white,
-        border: Border(
-          left: BorderSide(
-            width: 5,
-            color: blue,
-          ),
-        ),
+        border: Border(left: BorderSide(width: 5, color: blue)),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -39,18 +42,14 @@ final class MapDetailBottomSheet extends ConsumerWidget {
         children: [
           SelectableText(
             title,
-            style: const TextStyle(
-              overflow: TextOverflow.ellipsis,
-            ),
+            style: const TextStyle(overflow: TextOverflow.ellipsis),
           ),
           Row(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(
                 DateFormat('MM/dd').format(begin),
-                style: const TextStyle(
-                  fontSize: 16,
-                ),
+                style: const TextStyle(fontSize: 16),
               ),
               const SizedBox(width: 5),
               Text(
@@ -62,7 +61,7 @@ final class MapDetailBottomSheet extends ConsumerWidget {
                 ),
               ),
             ],
-          )
+          ),
           // time
         ],
       ),
@@ -88,22 +87,9 @@ final class MapDetailBottomSheet extends ConsumerWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Icon(
-            type.icon,
-            color: fontColor,
-            size: 20,
-          ),
-          Text(
-            type.title,
-            style: const TextStyle(
-              color: fontColor,
-            ),
-          ),
-          Icon(
-            icon,
-            color: fontColor,
-            size: 20,
-          ),
+          Icon(type.icon, color: fontColor, size: 20),
+          Text(type.title, style: const TextStyle(color: fontColor)),
+          Icon(icon, color: fontColor, size: 20),
         ],
       ),
     );
@@ -112,7 +98,7 @@ final class MapDetailBottomSheet extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final mapDetailMap = ref.watch(mapDetailMapProvider);
-    final searchDatetime = ref.watch(searchDatetimeProvider);
+    final searchDatetime = ref.watch(mapSearchDatetimeNotifierProvider);
     final user = ref.watch(userProvider);
     var roomTitle = roomName;
     MapDetail? mapDetail;
@@ -135,8 +121,9 @@ final class MapDetailBottomSheet extends ConsumerWidget {
     MapTile? gridMap;
     final mapTileList = FunGridMaps.mapTileListMap[floor];
     if (mapTileList != null) {
-      final foundTiles = 
-          mapTileList.where((element) => element.txt == roomName);
+      final foundTiles = mapTileList.where(
+        (element) => element.txt == roomName,
+      );
       gridMap = foundTiles.isNotEmpty ? foundTiles.first : null;
     }
     return Container(
@@ -149,11 +136,7 @@ final class MapDetailBottomSheet extends ConsumerWidget {
           topRight: Radius.circular(20),
         ),
         boxShadow: [
-          BoxShadow(
-            color: Colors.black26,
-            spreadRadius: 2,
-            blurRadius: 8,
-          )
+          BoxShadow(color: Colors.black26, spreadRadius: 2, blurRadius: 8),
         ],
       ),
       padding: const EdgeInsets.symmetric(horizontal: 18),
@@ -168,7 +151,9 @@ final class MapDetailBottomSheet extends ConsumerWidget {
                   child: SelectableText(
                     roomTitle,
                     style: const TextStyle(
-                        fontSize: 20, fontWeight: FontWeight.bold),
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
                 SizedBox(
@@ -195,27 +180,29 @@ final class MapDetailBottomSheet extends ConsumerWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           if (gridMap != null) ...[
-                            const SizedBox(
-                              height: 5,
-                            ),
+                            const SizedBox(height: 5),
                             Wrap(
                               spacing: 10,
                               children: [
                                 if (gridMap.food != null &&
                                     gridMap.drink != null) ...[
-                                  roomAvailable(RoomAvailableType.food,
-                                      gridMap.food! ? 2 : 0),
-                                  roomAvailable(RoomAvailableType.drink,
-                                      gridMap.drink! ? 2 : 0),
+                                  roomAvailable(
+                                    RoomAvailableType.food,
+                                    gridMap.food! ? 2 : 0,
+                                  ),
+                                  roomAvailable(
+                                    RoomAvailableType.drink,
+                                    gridMap.drink! ? 2 : 0,
+                                  ),
                                 ],
                                 if (gridMap.outlet != null)
-                                  roomAvailable(RoomAvailableType.outlet,
-                                      gridMap.outlet!),
+                                  roomAvailable(
+                                    RoomAvailableType.outlet,
+                                    gridMap.outlet!,
+                                  ),
                               ],
                             ),
-                            const SizedBox(
-                              height: 10,
-                            ),
+                            const SizedBox(height: 10),
                           ],
                           if (mapDetail != null)
                             Column(
@@ -229,8 +216,12 @@ final class MapDetailBottomSheet extends ConsumerWidget {
                                       ...mapDetail!
                                           .getScheduleListByDate(searchDatetime)
                                           .map(
-                                            (e) => scheduleTile(context,
-                                                e.begin, e.end, e.title),
+                                            (e) => scheduleTile(
+                                              context,
+                                              e.begin,
+                                              e.end,
+                                              e.title,
+                                            ),
                                           ),
                                     ],
                                   )
@@ -238,12 +229,11 @@ final class MapDetailBottomSheet extends ConsumerWidget {
                                   SelectableText(mapDetail!.detail!),
                                 if (mapDetail!.mail != null)
                                   SelectableText(
-                                      '${mapDetail!.mail}@fun.ac.jp'),
+                                    '${mapDetail!.mail}@fun.ac.jp',
+                                  ),
                               ],
                             ),
-                          const SizedBox(
-                            height: 15,
-                          ),
+                          const SizedBox(height: 15),
                         ],
                       ),
                     ),
@@ -251,9 +241,7 @@ final class MapDetailBottomSheet extends ConsumerWidget {
                 : const SizedBox(
                     width: double.infinity,
                     height: 150,
-                    child: Center(
-                      child: LoadingCircular(),
-                    ),
+                    child: Center(child: LoadingCircular()),
                   )
           else
             Column(

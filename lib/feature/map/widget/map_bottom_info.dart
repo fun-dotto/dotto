@@ -1,5 +1,5 @@
 import 'package:dotto/controller/user_controller.dart';
-import 'package:dotto/feature/map/controller/map_controller.dart';
+import 'package:dotto/feature/map/controller/map_search_datetime_controller.dart';
 import 'package:dotto/feature/map/controller/using_map_controller.dart';
 import 'package:dotto/feature/map/domain/map_tile_type.dart';
 import 'package:dotto/feature/map/widget/map_tile.dart';
@@ -71,9 +71,11 @@ final class MapBottomInfo extends ConsumerWidget {
             alignment: Alignment.centerLeft,
             child: Consumer(
               builder: (context, ref, child) {
-                final searchDatetime = ref.watch(searchDatetimeProvider);
+                final searchDatetime = ref.watch(
+                  mapSearchDatetimeNotifierProvider,
+                );
                 final searchDatetimeNotifier = ref.read(
-                  searchDatetimeProvider.notifier,
+                  mapSearchDatetimeNotifierProvider.notifier,
                 );
                 final usingMapNotifier = ref.read(
                   usingMapNotifierProvider.notifier,
@@ -95,7 +97,7 @@ final class MapBottomInfo extends ConsumerWidget {
                               if (setDate.hour == 0) {
                                 setDate = DateTime.now();
                               }
-                              searchDatetimeNotifier.datetime = setDate;
+                              searchDatetimeNotifier.value = setDate;
                               await usingMapNotifier.setUsingColor(
                                 setDate,
                                 ref,
@@ -122,7 +124,7 @@ final class MapBottomInfo extends ConsumerWidget {
                               minTime: monday,
                               maxTime: nextSunday,
                               onConfirm: (date) async {
-                                searchDatetimeNotifier.datetime = date;
+                                searchDatetimeNotifier.value = date;
                                 await usingMapNotifier.setUsingColor(date, ref);
                               },
                               currentTime: searchDatetime,
