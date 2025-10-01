@@ -1,5 +1,6 @@
 import 'package:dotto/feature/map/controller/map_controller.dart';
 import 'package:dotto/feature/map/controller/map_page_controller.dart';
+import 'package:dotto/feature/map/controller/map_search_text_controller.dart';
 import 'package:dotto/feature/map/controller/on_map_search_controller.dart';
 import 'package:dotto/feature/map/controller/search_list_controller.dart';
 import 'package:dotto/feature/map/widget/map_detail_bottom_sheet.dart';
@@ -27,15 +28,13 @@ final class MapSearchBar extends ConsumerWidget {
 
   /// サーチバーのテキストフィールド
   Widget _mapSearchTextField(WidgetRef ref) {
-    final textEditingControllerNotifier = ref.watch(
-      textEditingControllerProvider.notifier,
-    );
+    final textEditingController = ref.watch(mapSearchTextNotifierProvider);
     final mapSearchBarFocusNotifier = ref.watch(
       mapSearchBarFocusProvider.notifier,
     );
     return TextField(
       focusNode: mapSearchBarFocusNotifier.state,
-      controller: textEditingControllerNotifier.state,
+      controller: textEditingController,
       decoration: const InputDecoration(hintText: '検索(部屋名、教員名、メールアドレスなど)'),
       onChanged: (text) {
         _onChangedSearchTextField(ref, text);
@@ -54,9 +53,7 @@ final class MapSearchBar extends ConsumerWidget {
     final mapSearchListNotifier = ref.read(
       mapSearchListNotifierProvider.notifier,
     );
-    final textEditingControllerNotifier = ref.watch(
-      textEditingControllerProvider.notifier,
-    );
+    final textEditingController = ref.watch(mapSearchTextNotifierProvider);
     return Container(
       color: (mapSearchList.isNotEmpty)
           ? Colors.white.withValues(alpha: 0.9)
@@ -82,7 +79,7 @@ final class MapSearchBar extends ConsumerWidget {
                   onPressed: () {
                     mapSearchListNotifier.list = [];
                     onMapSearchNotifier.value = false;
-                    textEditingControllerNotifier.state.clear();
+                    textEditingController.clear();
                   },
                   icon: const Icon(Icons.clear),
                 ),

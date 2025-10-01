@@ -2,8 +2,6 @@ import 'package:dotto/feature/map/domain/map_detail.dart';
 import 'package:dotto/feature/map/repository/map_repository.dart';
 import 'package:dotto/importer.dart';
 
-final StateProvider<TextEditingController> textEditingControllerProvider =
-    StateProvider((ref) => TextEditingController());
 final StateProvider<FocusNode> mapSearchBarFocusProvider = StateProvider(
   (ref) => FocusNode(),
 );
