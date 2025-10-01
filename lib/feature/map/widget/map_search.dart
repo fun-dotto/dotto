@@ -1,5 +1,6 @@
 import 'package:dotto/feature/map/controller/map_controller.dart';
 import 'package:dotto/feature/map/controller/map_on_map_search_controller.dart';
+import 'package:dotto/feature/map/controller/map_search_list_controller.dart';
 import 'package:dotto/feature/map/widget/map_detail_bottom_sheet.dart';
 import 'package:dotto/importer.dart';
 
@@ -7,16 +8,18 @@ final class MapSearchBar extends ConsumerWidget {
   const MapSearchBar({super.key});
 
   void _onChangedSearchTextField(WidgetRef ref, String text) {
-    final mapSearchListNotifier = ref.watch(mapSearchListProvider.notifier);
+    final mapSearchListNotifier = ref.read(
+      mapSearchListNotifierProvider.notifier,
+    );
     final onMapSearchNotifier = ref.read(onMapSearchNotifierProvider.notifier);
     final mapDetailMap = ref.watch(mapDetailMapProvider);
     if (text.isEmpty) {
       onMapSearchNotifier.update(false);
-      mapSearchListNotifier.state = [];
+      mapSearchListNotifier.list = [];
     } else {
       onMapSearchNotifier.update(true);
       mapDetailMap.whenData((data) {
-        mapSearchListNotifier.state = data.searchAll(text);
+        mapSearchListNotifier.list = data.searchAll(text);
       });
     }
   }
@@ -46,8 +49,10 @@ final class MapSearchBar extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final onMapSearch = ref.watch(onMapSearchNotifierProvider);
     final onMapSearchNotifier = ref.read(onMapSearchNotifierProvider.notifier);
-    final mapSearchList = ref.watch(mapSearchListProvider);
-    final mapSearchListNotifier = ref.watch(mapSearchListProvider.notifier);
+    final mapSearchList = ref.watch(mapSearchListNotifierProvider);
+    final mapSearchListNotifier = ref.read(
+      mapSearchListNotifierProvider.notifier,
+    );
     final textEditingControllerNotifier = ref.watch(
       textEditingControllerProvider.notifier,
     );
@@ -74,7 +79,7 @@ final class MapSearchBar extends ConsumerWidget {
                 IconButton(
                   //×が押されたときの動作
                   onPressed: () {
-                    mapSearchListNotifier.state = [];
+                    mapSearchListNotifier.list = [];
                     onMapSearchNotifier.update(false);
                     textEditingControllerNotifier.state.clear();
                   },
@@ -93,8 +98,10 @@ final class MapBarrierOnSearch extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final mapSearchList = ref.watch(mapSearchListProvider);
-    final mapSearchListNotifier = ref.watch(mapSearchListProvider.notifier);
+    final mapSearchList = ref.watch(mapSearchListNotifierProvider);
+    final mapSearchListNotifier = ref.read(
+      mapSearchListNotifierProvider.notifier,
+    );
     if (mapSearchList.isNotEmpty) {
       return ColoredBox(
         color: Colors.white.withValues(alpha: 0.9),
@@ -102,7 +109,7 @@ final class MapBarrierOnSearch extends ConsumerWidget {
           behavior: HitTestBehavior.translucent,
           child: const SizedBox.expand(),
           onTap: () {
-            mapSearchListNotifier.state = [];
+            mapSearchListNotifier.list = [];
           },
         ),
       );
@@ -128,8 +135,10 @@ final class MapSearchListView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final mapSearchListNotifier = ref.watch(mapSearchListProvider.notifier);
-    final mapSearchList = ref.watch(mapSearchListProvider);
+    final mapSearchList = ref.watch(mapSearchListNotifierProvider);
+    final mapSearchListNotifier = ref.read(
+      mapSearchListNotifierProvider.notifier,
+    );
     final mapPageNotifier = ref.watch(mapPageProvider.notifier);
     final mapFocusMapDetailNotifier = ref.watch(
       mapFocusMapDetailProvider.notifier,
@@ -151,10 +160,10 @@ final class MapSearchListView extends ConsumerWidget {
               child: ListView.separated(
                 itemCount: mapSearchList.length,
                 itemBuilder: (context, int index) {
-                  final item = mapSearchListNotifier.state[index];
+                  final item = mapSearchList[index];
                   return ListTile(
                     onTap: () {
-                      mapSearchListNotifier.state = [];
+                      mapSearchListNotifier.list = [];
                       FocusScope.of(context).unfocus();
                       mapViewTransformationControllerProviderNotifier
                           .state
