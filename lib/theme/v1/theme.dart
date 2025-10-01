@@ -32,7 +32,7 @@ final class DottoThemev1 {
         style: ButtonStyle(padding: WidgetStatePropertyAll(EdgeInsets.zero)),
       ),
       dividerTheme: DividerThemeData(color: Colors.grey.shade200),
-      cardTheme: const CardTheme(surfaceTintColor: Colors.white),
+      cardTheme: const CardThemeData(surfaceTintColor: Colors.white),
       fontFamily: 'Murecho',
     );
   }
