@@ -1,4 +1,5 @@
 import 'package:dotto/feature/map/controller/map_controller.dart';
+import 'package:dotto/feature/map/controller/map_using_map_controller.dart';
 import 'package:dotto/feature/map/domain/map_tile_type.dart';
 import 'package:dotto/feature/map/widget/map_detail_bottom_sheet.dart';
 import 'package:dotto/importer.dart';
@@ -113,7 +114,8 @@ final class MapTile extends StatelessWidget {
 
   Widget stackTextIcon() {
     double iconSize = 8;
-    final iconLength = (wc & 0x0001) +
+    final iconLength =
+        (wc & 0x0001) +
         (wc & 0x0010) ~/ 0x0010 +
         (wc & 0x0100) ~/ 0x0100 +
         (wc & 0x1000) ~/ 0x1000;
@@ -125,34 +127,18 @@ final class MapTile extends StatelessWidget {
     if (wc > 0) {
       final icons = <Icon>[];
       if (wc & 0x1000 > 0) {
-        icons.add(Icon(
-          Icons.man,
-          color: MapColors.wcMan,
-          size: iconSize,
-        ));
+        icons.add(Icon(Icons.man, color: MapColors.wcMan, size: iconSize));
       }
       if (wc & 0x0100 > 0) {
-        icons.add(Icon(
-          Icons.woman,
-          color: MapColors.wcWoman,
-          size: iconSize,
-        ));
+        icons.add(Icon(Icons.woman, color: MapColors.wcWoman, size: iconSize));
       }
       if (wc & 0x0010 > 0) {
-        icons.add(Icon(
-          Icons.accessible,
-          size: iconSize,
-        ));
+        icons.add(Icon(Icons.accessible, size: iconSize));
       }
       if (wc & 0x0001 > 0) {
-        icons.add(Icon(
-          Icons.coffee_outlined,
-          size: iconSize,
-        ));
+        icons.add(Icon(Icons.coffee_outlined, size: iconSize));
       }
-      return Wrap(
-        children: icons,
-      );
+      return Wrap(children: icons);
     }
     if (ttype == MapTileType.ev) {
       return const Icon(
@@ -171,39 +157,37 @@ final class MapTile extends StatelessWidget {
             if (stairType.direction == Axis.horizontal)
               for (int i = 0; i < (width * 2.5).toInt(); i++) ...{
                 const Expanded(
-                    child: VerticalDivider(
-                  thickness: 0.3,
-                  color: Colors.black,
-                )),
+                  child: VerticalDivider(thickness: 0.3, color: Colors.black),
+                ),
               }
             else
               for (int i = 0; i < (height * 2.5).toInt(); i++) ...{
                 const Expanded(
-                    child: Divider(
-                  thickness: 0.3,
-                  color: Colors.black,
-                )),
-              }
+                  child: Divider(thickness: 0.3, color: Colors.black),
+                ),
+              },
           ],
         ),
       );
     }
 
-    return Consumer(builder: (context, ref, child) {
-      final mapUsingMap = ref.watch(mapUsingMapProvider);
-      setColors();
-      if (classroomNo != null) {
-        if (mapUsingMap.containsKey(classroomNo)) {
-          if (mapUsingMap[classroomNo]!) {
-            fontColor = Colors.black;
+    return Consumer(
+      builder: (context, ref, child) {
+        final usingMap = ref.watch(usingMapNotifierProvider);
+        setColors();
+        if (classroomNo != null) {
+          if (usingMap.containsKey(classroomNo)) {
+            if (usingMap[classroomNo]!) {
+              fontColor = Colors.black;
+            }
           }
         }
-      }
-      return Text(
-        txt,
-        style: TextStyle(color: fontColor, fontSize: fontSize),
-      );
-    });
+        return Text(
+          txt,
+          style: TextStyle(color: fontColor, fontSize: fontSize),
+        );
+      },
+    );
   }
 
   BorderSide oneBorderSide(double n, {required bool focus}) {
@@ -229,36 +213,38 @@ final class MapTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final floorBarString = <String>['1', '2', '3', '4', '5', 'R6', 'R7'];
     final widgetList = <Widget>[
-      SizedBox.expand(child: Consumer(
-        builder: (context, ref, child) {
-          final mapFocusMapDetail = ref.watch(mapFocusMapDetailProvider);
-          final mapPage = ref.watch(mapPageProvider);
-          final mapUsingMap = ref.watch(mapUsingMapProvider);
-          if (classroomNo != null) {
-            if (mapUsingMap.containsKey(classroomNo)) {
-              if (mapUsingMap[classroomNo]!) {
-                using = true;
-                tileColor = MapColors.using;
-              } else {
-                using = false;
-                setColors();
+      SizedBox.expand(
+        child: Consumer(
+          builder: (context, ref, child) {
+            final mapFocusMapDetail = ref.watch(mapFocusMapDetailProvider);
+            final mapPage = ref.watch(mapPageProvider);
+            final usingMap = ref.watch(usingMapNotifierProvider);
+            if (classroomNo != null) {
+              if (usingMap.containsKey(classroomNo)) {
+                if (usingMap[classroomNo]!) {
+                  using = true;
+                  tileColor = MapColors.using;
+                } else {
+                  using = false;
+                  setColors();
+                }
               }
             }
-          }
-          var focus = false;
-          if (mapFocusMapDetail.floor == floorBarString[mapPage]) {
-            if (mapFocusMapDetail.roomName == txt) {
-              focus = true;
+            var focus = false;
+            if (mapFocusMapDetail.floor == floorBarString[mapPage]) {
+              if (mapFocusMapDetail.roomName == txt) {
+                focus = true;
+              }
             }
-          }
-          return Container(
+            return Container(
               padding: edgeInsets(focus: focus),
               decoration: BoxDecoration(
                 border: Border(
-                    top: oneBorderSide(top, focus: focus),
-                    right: oneBorderSide(right, focus: focus),
-                    bottom: oneBorderSide(bottom, focus: focus),
-                    left: oneBorderSide(left, focus: focus)),
+                  top: oneBorderSide(top, focus: focus),
+                  right: oneBorderSide(right, focus: focus),
+                  bottom: oneBorderSide(bottom, focus: focus),
+                  left: oneBorderSide(left, focus: focus),
+                ),
                 color: (ttype == MapTileType.empty)
                     ? tileColor
                     : MapTileType.road.backgroundColor,
@@ -270,69 +256,81 @@ final class MapTile extends StatelessWidget {
                         color: focus ? Colors.red : tileColor,
                       )
                     : innerWidget,
-              ));
-        },
-      )),
-      stackTextIcon()
+              ),
+            );
+          },
+        ),
+      ),
+      stackTextIcon(),
     ];
     if (ttype == MapTileType.stair) {
       if (stairType.up && !stairType.down) {
-        widgetList.add(SizedBox.expand(
+        widgetList.add(
+          SizedBox.expand(
             child: Center(
-          child: Icon(
-            Icons.arrow_upward_rounded,
-            size: 12,
-            color: Colors.grey.shade700,
+              child: Icon(
+                Icons.arrow_upward_rounded,
+                size: 12,
+                color: Colors.grey.shade700,
+              ),
+            ),
           ),
-        )));
+        );
       } else if (!stairType.up && stairType.down) {
-        widgetList.add(SizedBox.expand(
+        widgetList.add(
+          SizedBox.expand(
             child: Center(
-          child: Icon(
-            Icons.arrow_downward_rounded,
-            size: 12,
-            color: Colors.grey.shade700,
+              child: Icon(
+                Icons.arrow_downward_rounded,
+                size: 12,
+                color: Colors.grey.shade700,
+              ),
+            ),
           ),
-        )));
+        );
       } else if (stairType.up && stairType.down) {
         if (stairType.direction == Axis.horizontal) {
-          widgetList.add(const SizedBox.expand(
-            child: Divider(
-              thickness: 0.3,
-              color: Colors.black,
+          widgetList.add(
+            const SizedBox.expand(
+              child: Divider(thickness: 0.3, color: Colors.black),
             ),
-          ));
+          );
         } else {
-          widgetList.add(const SizedBox.expand(
-            child: VerticalDivider(
-              thickness: 0.3,
-              color: Colors.black,
+          widgetList.add(
+            const SizedBox.expand(
+              child: VerticalDivider(thickness: 0.3, color: Colors.black),
             ),
-          ));
+          );
         }
       }
     }
-    return Consumer(builder: (context, ref, child) {
-      final mapPage = ref.watch(mapPageProvider);
-      final mapSearchBarFocusNotifier =
-          ref.watch(mapSearchBarFocusProvider.notifier);
-      ref.watch(mapUsingMapProvider);
-      return GestureDetector(
-        onTap: (txt.isNotEmpty && ttype.index <= MapTileType.subroom.index)
-            ? () {
-                showBottomSheet(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return MapDetailBottomSheet(
-                        floor: floorBarString[mapPage], roomName: txt);
-                  },
-                );
-                mapSearchBarFocusNotifier.state.unfocus();
-              }
-            : null,
-        child:
-            Stack(alignment: AlignmentDirectional.center, children: widgetList),
-      );
-    });
+    return Consumer(
+      builder: (context, ref, child) {
+        final mapPage = ref.watch(mapPageProvider);
+        final mapSearchBarFocusNotifier = ref.watch(
+          mapSearchBarFocusProvider.notifier,
+        );
+        return GestureDetector(
+          onTap: (txt.isNotEmpty && ttype.index <= MapTileType.subroom.index)
+              ? () {
+                  showBottomSheet(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return MapDetailBottomSheet(
+                        floor: floorBarString[mapPage],
+                        roomName: txt,
+                      );
+                    },
+                  );
+                  mapSearchBarFocusNotifier.state.unfocus();
+                }
+              : null,
+          child: Stack(
+            alignment: AlignmentDirectional.center,
+            children: widgetList,
+          ),
+        );
+      },
+    );
   }
 }
