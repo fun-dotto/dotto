@@ -1,5 +1,6 @@
 import 'package:dotto/feature/map/controller/map_controller.dart';
 import 'package:dotto/feature/map/controller/map_page_controller.dart';
+import 'package:dotto/feature/map/controller/map_search_bar_focus_controller.dart';
 import 'package:dotto/feature/map/controller/map_search_text_controller.dart';
 import 'package:dotto/feature/map/controller/on_map_search_controller.dart';
 import 'package:dotto/feature/map/controller/search_list_controller.dart';
@@ -29,11 +30,9 @@ final class MapSearchBar extends ConsumerWidget {
   /// サーチバーのテキストフィールド
   Widget _mapSearchTextField(WidgetRef ref) {
     final textEditingController = ref.watch(mapSearchTextNotifierProvider);
-    final mapSearchBarFocusNotifier = ref.watch(
-      mapSearchBarFocusProvider.notifier,
-    );
+    final mapSearchBarFocus = ref.watch(mapSearchBarFocusNotifierProvider);
     return TextField(
-      focusNode: mapSearchBarFocusNotifier.state,
+      focusNode: mapSearchBarFocus,
       controller: textEditingController,
       decoration: const InputDecoration(hintText: '検索(部屋名、教員名、メールアドレスなど)'),
       onChanged: (text) {
@@ -145,7 +144,7 @@ final class MapSearchListView extends ConsumerWidget {
       mapViewTransformationControllerProvider.notifier,
     );
     final mapSearchBarFocusNotifier = ref.watch(
-      mapSearchBarFocusProvider.notifier,
+      mapSearchBarFocusNotifierProvider,
     );
     if (mapSearchList.isNotEmpty) {
       return Padding(
@@ -180,7 +179,7 @@ final class MapSearchListView extends ConsumerWidget {
                           );
                         },
                       );
-                      mapSearchBarFocusNotifier.state.unfocus();
+                      mapSearchBarFocusNotifier.unfocus();
                     },
                     title: Text(item.header),
                     leading: Wrap(
