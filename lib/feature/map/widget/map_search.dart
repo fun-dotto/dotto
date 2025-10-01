@@ -135,17 +135,19 @@ final class MapSearchListView extends ConsumerWidget {
     );
     if (mapSearchList.isNotEmpty) {
       return Padding(
-        padding: const EdgeInsets.only(top: 5, right: 15, left: 15),
+        padding: const EdgeInsets.all(4),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('検索結果'),
             Flexible(
               child: ListView.separated(
                 itemCount: mapSearchList.length,
                 itemBuilder: (context, int index) {
                   final item = mapSearchList[index];
                   return ListTile(
+                    leading: Text('${item.floor}F'),
+                    title: Text(item.header),
+                    trailing: const Icon(Icons.chevron_right),
                     onTap: () {
                       mapSearchListNotifier.list = [];
                       FocusScope.of(context).unfocus();
@@ -165,16 +167,6 @@ final class MapSearchListView extends ConsumerWidget {
                       );
                       mapSearchBarFocusNotifier.unfocus();
                     },
-                    title: Text(item.header),
-                    leading: Wrap(
-                      crossAxisAlignment: WrapCrossAlignment.center,
-                      spacing: 10,
-                      children: [
-                        const Icon(Icons.search),
-                        Text('${item.floor}階'),
-                      ],
-                    ),
-                    trailing: const Icon(Icons.chevron_right),
                   );
                 },
                 separatorBuilder: (context, index) => const Divider(height: 1),
