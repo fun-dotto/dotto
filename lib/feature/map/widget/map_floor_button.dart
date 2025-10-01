@@ -1,3 +1,4 @@
+import 'package:dotto/feature/map/controller/focused_map_detail_controller.dart';
 import 'package:dotto/feature/map/controller/map_controller.dart';
 import 'package:dotto/feature/map/controller/map_page_controller.dart';
 import 'package:dotto/feature/map/domain/map_detail.dart';
@@ -24,8 +25,8 @@ final class MapFloorButton extends ConsumerWidget {
     final mapViewTransformationControllerProviderNotifier = ref.watch(
       mapViewTransformationControllerProvider.notifier,
     );
-    final mapFocusMapDetailNotifier = ref.watch(
-      mapFocusMapDetailProvider.notifier,
+    final focusedMapDetailNotifier = ref.read(
+      focusedMapDetailNotifierProvider.notifier,
     );
     const floorBarTextStyle = TextStyle(fontSize: 18, color: Colors.black87);
     const floorBarSelectedTextStyle = TextStyle(
@@ -89,7 +90,7 @@ final class MapFloorButton extends ConsumerWidget {
                               ),
                             );
                         mapPageNotifier.value = i;
-                        mapFocusMapDetailNotifier.state = MapDetail.none;
+                        focusedMapDetailNotifier.value = MapDetail.none;
                         FocusScope.of(context).unfocus();
                       },
                       child: Center(
