@@ -14,10 +14,10 @@ final class MapSearchBar extends ConsumerWidget {
     final onMapSearchNotifier = ref.read(onMapSearchNotifierProvider.notifier);
     final mapDetailMap = ref.watch(mapDetailMapProvider);
     if (text.isEmpty) {
-      onMapSearchNotifier.update(false);
+      onMapSearchNotifier.value = false;
       mapSearchListNotifier.list = [];
     } else {
-      onMapSearchNotifier.update(true);
+      onMapSearchNotifier.value = true;
       mapDetailMap.whenData((data) {
         mapSearchListNotifier.list = data.searchAll(text);
       });
@@ -80,7 +80,7 @@ final class MapSearchBar extends ConsumerWidget {
                   //×が押されたときの動作
                   onPressed: () {
                     mapSearchListNotifier.list = [];
-                    onMapSearchNotifier.update(false);
+                    onMapSearchNotifier.value = false;
                     textEditingControllerNotifier.state.clear();
                   },
                   icon: const Icon(Icons.clear),

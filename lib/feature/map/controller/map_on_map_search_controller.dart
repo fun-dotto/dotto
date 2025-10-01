@@ -8,7 +8,9 @@ class OnMapSearchNotifier extends _$OnMapSearchNotifier {
     return false;
   }
 
-  void update(bool newValue) {
+  bool get value => state;
+
+  set value(bool newValue) {
     state = newValue;
   }
 }
