@@ -1,5 +1,6 @@
 import 'package:dotto/feature/announcement/controller/announcement_from_push_notification_controller.dart';
 import 'package:dotto/importer.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
 final class NotificationRepository {
@@ -14,9 +15,19 @@ final class NotificationRepository {
 
   Future<void> init() async {
     await messaging.requestPermission();
-    final token = await messaging.getToken();
-    if (token != null) {
-      debugPrint('FCM Token: $token');
+    try {
+      final token = await messaging.getToken();
+      if (token != null) {
+        debugPrint('FCM Token: $token');
+      }
+    } on FirebaseException catch (error) {
+      if (error.code == 'apns-token-not-set') {
+        debugPrint(
+          'Skipping FCM token fetch: APNS token not available yet on this device.',
+        );
+        return;
+      }
+      rethrow;
     }
   }
 
