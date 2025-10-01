@@ -20,6 +20,8 @@ tasks:
     desc: Install dependencies and configure Flutter
     cmds:
       - task: dotto_design_system:install
+        vars:
+          FLUTTER: "{{.FLUTTER}}"
       - |
         if [ "$GITHUB_ACTIONS" ]; then
           {{.FLUTTER}} --version
