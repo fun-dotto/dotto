@@ -12,7 +12,7 @@ import 'package:dotto/importer.dart';
 final class MapSearchBar extends ConsumerWidget {
   const MapSearchBar({super.key});
 
-  void _onChangedSearchTextField(WidgetRef ref, String text) {
+  void _onSearchQueryChanged(WidgetRef ref, String text) {
     final mapSearchListNotifier = ref.read(
       mapSearchListNotifierProvider.notifier,
     );
@@ -33,60 +33,45 @@ final class MapSearchBar extends ConsumerWidget {
   Widget _mapSearchTextField(WidgetRef ref) {
     final textEditingController = ref.watch(mapSearchTextNotifierProvider);
     final mapSearchBarFocus = ref.watch(mapSearchBarFocusNotifierProvider);
+    final onMapSearchNotifier = ref.read(onMapSearchNotifierProvider.notifier);
+    final mapSearchListNotifier = ref.read(
+      mapSearchListNotifierProvider.notifier,
+    );
     return TextField(
-      focusNode: mapSearchBarFocus,
       controller: textEditingController,
-      decoration: const InputDecoration(hintText: '検索(部屋名、教員名、メールアドレスなど)'),
+      focusNode: mapSearchBarFocus,
+      decoration: InputDecoration(
+        hintText: '部屋名、教員名、メールアドレスなどで検索',
+        suffixIcon: textEditingController.text.isNotEmpty
+            ? IconButton(
+                icon: const Icon(Icons.close),
+                onPressed: () {
+                  mapSearchListNotifier.list = [];
+                  onMapSearchNotifier.value = false;
+                  textEditingController.clear();
+                },
+              )
+            : null,
+      ),
       onChanged: (text) {
-        _onChangedSearchTextField(ref, text);
+        _onSearchQueryChanged(ref, text);
       },
       onSubmitted: (text) {
-        _onChangedSearchTextField(ref, text);
+        _onSearchQueryChanged(ref, text);
       },
     );
   }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final onMapSearch = ref.watch(onMapSearchNotifierProvider);
-    final onMapSearchNotifier = ref.read(onMapSearchNotifierProvider.notifier);
     final mapSearchList = ref.watch(mapSearchListNotifierProvider);
-    final mapSearchListNotifier = ref.read(
-      mapSearchListNotifierProvider.notifier,
-    );
-    final textEditingController = ref.watch(mapSearchTextNotifierProvider);
     return Container(
       color: (mapSearchList.isNotEmpty)
           ? Colors.white.withValues(alpha: 0.9)
           : Colors.transparent,
       margin: const EdgeInsets.only(top: 15, right: 5, left: 5),
       padding: const EdgeInsets.symmetric(horizontal: 10),
-      child: AppBar(
-        shape: RoundedRectangleBorder(
-          side: const BorderSide(),
-          borderRadius: BorderRadius.circular(20),
-        ),
-        elevation: 5,
-        title: _mapSearchTextField(ref),
-        automaticallyImplyLeading: false,
-        surfaceTintColor: Colors.white,
-        backgroundColor: Colors.grey.shade100,
-        foregroundColor: Colors.black87,
-        //文字が入力されたときのボタンの動作
-        actions: onMapSearch
-            ? [
-                IconButton(
-                  //×が押されたときの動作
-                  onPressed: () {
-                    mapSearchListNotifier.list = [];
-                    onMapSearchNotifier.value = false;
-                    textEditingController.clear();
-                  },
-                  icon: const Icon(Icons.clear),
-                ),
-              ]
-            : [IconButton(onPressed: () {}, icon: const Icon(Icons.search))],
-      ),
+      child: _mapSearchTextField(ref),
     );
   }
 }
