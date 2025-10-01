@@ -1,7 +1,7 @@
 import 'package:dotto/feature/map/repository/map_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-part 'map_using_map_controller.g.dart';
+part 'using_map_controller.g.dart';
 
 @riverpod
 class UsingMapNotifier extends _$UsingMapNotifier {

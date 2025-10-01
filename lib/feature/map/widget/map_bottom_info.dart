@@ -1,6 +1,6 @@
 import 'package:dotto/controller/user_controller.dart';
 import 'package:dotto/feature/map/controller/map_controller.dart';
-import 'package:dotto/feature/map/controller/map_using_map_controller.dart';
+import 'package:dotto/feature/map/controller/using_map_controller.dart';
 import 'package:dotto/feature/map/domain/map_tile_type.dart';
 import 'package:dotto/feature/map/widget/map_tile.dart';
 import 'package:dotto/importer.dart';

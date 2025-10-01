@@ -1,6 +1,6 @@
 import 'package:dotto/feature/map/controller/map_controller.dart';
-import 'package:dotto/feature/map/controller/map_on_map_search_controller.dart';
-import 'package:dotto/feature/map/controller/map_search_list_controller.dart';
+import 'package:dotto/feature/map/controller/on_map_search_controller.dart';
+import 'package:dotto/feature/map/controller/search_list_controller.dart';
 import 'package:dotto/feature/map/widget/map_detail_bottom_sheet.dart';
 import 'package:dotto/importer.dart';
 

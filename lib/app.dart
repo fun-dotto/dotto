@@ -11,7 +11,7 @@ import 'package:dotto/feature/announcement/controller/announcement_from_push_not
 import 'package:dotto/feature/bus/controller/bus_controller.dart';
 import 'package:dotto/feature/bus/repository/bus_repository.dart';
 import 'package:dotto/feature/map/controller/map_controller.dart';
-import 'package:dotto/feature/map/controller/map_using_map_controller.dart';
+import 'package:dotto/feature/map/controller/using_map_controller.dart';
 import 'package:dotto/feature/setting/repository/settings_repository.dart';
 import 'package:dotto/feature/timetable/controller/timetable_controller.dart';
 import 'package:dotto/feature/timetable/repository/timetable_repository.dart';

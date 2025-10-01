@@ -1,6 +1,6 @@
 import 'package:dotto/feature/map/domain/map_detail.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-part 'map_search_list_controller.g.dart';
+part 'search_list_controller.g.dart';
 
 @riverpod
 class MapSearchListNotifier extends _$MapSearchListNotifier {
