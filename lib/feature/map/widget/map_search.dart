@@ -1,4 +1,11 @@
-import 'package:dotto/feature/map/controller/map_controller.dart';
+import 'package:dotto/feature/map/controller/focused_map_detail_controller.dart';
+import 'package:dotto/feature/map/controller/map_detail_map_controller.dart';
+import 'package:dotto/feature/map/controller/map_page_controller.dart';
+import 'package:dotto/feature/map/controller/map_search_bar_focus_controller.dart';
+import 'package:dotto/feature/map/controller/map_search_text_controller.dart';
+import 'package:dotto/feature/map/controller/map_view_transformation_controller.dart';
+import 'package:dotto/feature/map/controller/on_map_search_controller.dart';
+import 'package:dotto/feature/map/controller/search_list_controller.dart';
 import 'package:dotto/feature/map/widget/map_detail_bottom_sheet.dart';
 import 'package:dotto/importer.dart';
 
@@ -6,32 +13,30 @@ final class MapSearchBar extends ConsumerWidget {
   const MapSearchBar({super.key});
 
   void _onChangedSearchTextField(WidgetRef ref, String text) {
-    final mapSearchListNotifier = ref.watch(mapSearchListProvider.notifier);
-    final onMapSearchNotifier = ref.watch(onMapSearchProvider.notifier);
-    final mapDetailMap = ref.watch(mapDetailMapProvider);
+    final mapSearchListNotifier = ref.read(
+      mapSearchListNotifierProvider.notifier,
+    );
+    final onMapSearchNotifier = ref.read(onMapSearchNotifierProvider.notifier);
+    final mapDetailMap = ref.watch(mapDetailMapNotifierProvider);
     if (text.isEmpty) {
-      onMapSearchNotifier.state = false;
-      mapSearchListNotifier.state = [];
+      onMapSearchNotifier.value = false;
+      mapSearchListNotifier.list = [];
     } else {
-      onMapSearchNotifier.state = true;
+      onMapSearchNotifier.value = true;
       mapDetailMap.whenData((data) {
-        mapSearchListNotifier.state = data.searchAll(text);
+        mapSearchListNotifier.list = data.searchAll(text);
       });
     }
   }
 
   /// サーチバーのテキストフィールド
   Widget _mapSearchTextField(WidgetRef ref) {
-    final textEditingControllerNotifier =
-        ref.watch(textEditingControllerProvider.notifier);
-    final mapSearchBarFocusNotifier =
-        ref.watch(mapSearchBarFocusProvider.notifier);
+    final textEditingController = ref.watch(mapSearchTextNotifierProvider);
+    final mapSearchBarFocus = ref.watch(mapSearchBarFocusNotifierProvider);
     return TextField(
-      focusNode: mapSearchBarFocusNotifier.state,
-      controller: textEditingControllerNotifier.state,
-      decoration: const InputDecoration(
-        hintText: '検索(部屋名、教員名、メールアドレスなど)',
-      ),
+      focusNode: mapSearchBarFocus,
+      controller: textEditingController,
+      decoration: const InputDecoration(hintText: '検索(部屋名、教員名、メールアドレスなど)'),
       onChanged: (text) {
         _onChangedSearchTextField(ref, text);
       },
@@ -43,12 +48,13 @@ final class MapSearchBar extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final onMapSearch = ref.watch(onMapSearchProvider);
-    final onMapSearchNotifier = ref.watch(onMapSearchProvider.notifier);
-    final mapSearchList = ref.watch(mapSearchListProvider);
-    final mapSearchListNotifier = ref.watch(mapSearchListProvider.notifier);
-    final textEditingControllerNotifier =
-        ref.watch(textEditingControllerProvider.notifier);
+    final onMapSearch = ref.watch(onMapSearchNotifierProvider);
+    final onMapSearchNotifier = ref.read(onMapSearchNotifierProvider.notifier);
+    final mapSearchList = ref.watch(mapSearchListNotifierProvider);
+    final mapSearchListNotifier = ref.read(
+      mapSearchListNotifierProvider.notifier,
+    );
+    final textEditingController = ref.watch(mapSearchTextNotifierProvider);
     return Container(
       color: (mapSearchList.isNotEmpty)
           ? Colors.white.withValues(alpha: 0.9)
@@ -56,34 +62,31 @@ final class MapSearchBar extends ConsumerWidget {
       margin: const EdgeInsets.only(top: 15, right: 5, left: 5),
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: AppBar(
-          shape: RoundedRectangleBorder(
-            side: const BorderSide(),
-            borderRadius: BorderRadius.circular(20),
-          ),
-          elevation: 5,
-          title: _mapSearchTextField(ref),
-          automaticallyImplyLeading: false,
-          surfaceTintColor: Colors.white,
-          backgroundColor: Colors.grey.shade100,
-          foregroundColor: Colors.black87,
-          //文字が入力されたときのボタンの動作
-          actions: onMapSearch
-              ? [
-                  IconButton(
-                      //×が押されたときの動作
-                      onPressed: () {
-                        mapSearchListNotifier.state = [];
-                        onMapSearchNotifier.state = false;
-                        textEditingControllerNotifier.state.clear();
-                      },
-                      icon: const Icon(Icons.clear)),
-                ]
-              : [
-                  IconButton(
-                    onPressed: () {},
-                    icon: const Icon(Icons.search),
-                  )
-                ]),
+        shape: RoundedRectangleBorder(
+          side: const BorderSide(),
+          borderRadius: BorderRadius.circular(20),
+        ),
+        elevation: 5,
+        title: _mapSearchTextField(ref),
+        automaticallyImplyLeading: false,
+        surfaceTintColor: Colors.white,
+        backgroundColor: Colors.grey.shade100,
+        foregroundColor: Colors.black87,
+        //文字が入力されたときのボタンの動作
+        actions: onMapSearch
+            ? [
+                IconButton(
+                  //×が押されたときの動作
+                  onPressed: () {
+                    mapSearchListNotifier.list = [];
+                    onMapSearchNotifier.value = false;
+                    textEditingController.clear();
+                  },
+                  icon: const Icon(Icons.clear),
+                ),
+              ]
+            : [IconButton(onPressed: () {}, icon: const Icon(Icons.search))],
+      ),
     );
   }
 }
@@ -94,8 +97,10 @@ final class MapBarrierOnSearch extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final mapSearchList = ref.watch(mapSearchListProvider);
-    final mapSearchListNotifier = ref.watch(mapSearchListProvider.notifier);
+    final mapSearchList = ref.watch(mapSearchListNotifierProvider);
+    final mapSearchListNotifier = ref.read(
+      mapSearchListNotifierProvider.notifier,
+    );
     if (mapSearchList.isNotEmpty) {
       return ColoredBox(
         color: Colors.white.withValues(alpha: 0.9),
@@ -103,7 +108,7 @@ final class MapBarrierOnSearch extends ConsumerWidget {
           behavior: HitTestBehavior.translucent,
           child: const SizedBox.expand(),
           onTap: () {
-            mapSearchListNotifier.state = [];
+            mapSearchListNotifier.list = [];
           },
         ),
       );
@@ -124,20 +129,25 @@ final class MapSearchListView extends ConsumerWidget {
     '4',
     '5',
     'R6',
-    'R7'
+    'R7',
   ];
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final mapSearchListNotifier = ref.watch(mapSearchListProvider.notifier);
-    final mapSearchList = ref.watch(mapSearchListProvider);
-    final mapPageNotifier = ref.watch(mapPageProvider.notifier);
-    final mapFocusMapDetailNotifier =
-        ref.watch(mapFocusMapDetailProvider.notifier);
-    final mapViewTransformationControllerProviderNotifier =
-        ref.watch(mapViewTransformationControllerProvider.notifier);
-    final mapSearchBarFocusNotifier =
-        ref.watch(mapSearchBarFocusProvider.notifier);
+    final mapSearchList = ref.watch(mapSearchListNotifierProvider);
+    final mapSearchListNotifier = ref.read(
+      mapSearchListNotifierProvider.notifier,
+    );
+    final mapPageNotifier = ref.watch(mapPageNotifierProvider.notifier);
+    final focusedMapDetailNotifier = ref.watch(
+      focusedMapDetailNotifierProvider.notifier,
+    );
+    final mapViewTransformationNotifier = ref.read(
+      mapViewTransformationNotifierProvider.notifier,
+    );
+    final mapSearchBarFocusNotifier = ref.watch(
+      mapSearchBarFocusNotifierProvider,
+    );
     if (mapSearchList.isNotEmpty) {
       return Padding(
         padding: const EdgeInsets.only(top: 5, right: 15, left: 15),
@@ -149,25 +159,26 @@ final class MapSearchListView extends ConsumerWidget {
               child: ListView.separated(
                 itemCount: mapSearchList.length,
                 itemBuilder: (context, int index) {
-                  final item = mapSearchListNotifier.state[index];
+                  final item = mapSearchList[index];
                   return ListTile(
                     onTap: () {
-                      mapSearchListNotifier.state = [];
+                      mapSearchListNotifier.list = [];
                       FocusScope.of(context).unfocus();
-                      mapViewTransformationControllerProviderNotifier
-                          .state.value
-                          .setIdentity();
-                      mapFocusMapDetailNotifier.state = item;
-                      mapPageNotifier.state =
-                          floorBarString.indexOf(item.floor);
+                      mapViewTransformationNotifier.value.value.setIdentity();
+                      focusedMapDetailNotifier.value = item;
+                      mapPageNotifier.value = floorBarString.indexOf(
+                        item.floor,
+                      );
                       showBottomSheet(
                         context: context,
                         builder: (BuildContext context) {
                           return MapDetailBottomSheet(
-                              floor: item.floor, roomName: item.roomName);
+                            floor: item.floor,
+                            roomName: item.roomName,
+                          );
                         },
                       );
-                      mapSearchBarFocusNotifier.state.unfocus();
+                      mapSearchBarFocusNotifier.unfocus();
                     },
                     title: Text(item.header),
                     leading: Wrap(
@@ -181,9 +192,7 @@ final class MapSearchListView extends ConsumerWidget {
                     trailing: const Icon(Icons.chevron_right),
                   );
                 },
-                separatorBuilder: (context, index) => const Divider(
-                  height: 1,
-                ),
+                separatorBuilder: (context, index) => const Divider(height: 1),
               ),
             ),
           ],

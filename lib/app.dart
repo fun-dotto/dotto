@@ -10,8 +10,8 @@ import 'package:dotto/domain/user_preference_keys.dart';
 import 'package:dotto/feature/announcement/controller/announcement_from_push_notification_controller.dart';
 import 'package:dotto/feature/bus/controller/bus_controller.dart';
 import 'package:dotto/feature/bus/repository/bus_repository.dart';
-import 'package:dotto/feature/map/controller/map_controller.dart';
-import 'package:dotto/feature/map/repository/map_repository.dart';
+import 'package:dotto/feature/map/controller/map_search_datetime_controller.dart';
+import 'package:dotto/feature/map/controller/using_map_controller.dart';
 import 'package:dotto/feature/setting/repository/settings_repository.dart';
 import 'package:dotto/feature/timetable/controller/timetable_controller.dart';
 import 'package:dotto/feature/timetable/repository/timetable_repository.dart';
@@ -90,9 +90,8 @@ final class _BasePageState extends ConsumerState<BasePage> {
 
   Future<void> getPersonalLessonIdList() async {
     await TimetableRepository().loadPersonalTimeTableList(ref);
-    ref
-        .read(twoWeekTimeTableDataProvider.notifier)
-        .state = await TimetableRepository().get2WeekLessonSchedule(ref);
+    ref.read(twoWeekTimeTableDataProvider.notifier).state =
+        await TimetableRepository().get2WeekLessonSchedule(ref);
   }
 
   Future<void> getBus() async {
@@ -156,12 +155,11 @@ final class _BasePageState extends ConsumerState<BasePage> {
     final selectedTab = TabItem.values[index];
 
     if (selectedTab == TabItem.map) {
-      final mapUsingMapNotifier = ref.watch(mapUsingMapProvider.notifier);
-      ref.read(searchDatetimeProvider.notifier).reset();
-      mapUsingMapNotifier.state = await MapRepository().setUsingColor(
-        DateTime.now(),
-        ref,
-      );
+      ref.read(mapSearchDatetimeNotifierProvider.notifier).value =
+          DateTime.now();
+      await ref
+          .read(usingMapNotifierProvider.notifier)
+          .setUsingColor(DateTime.now(), ref);
     }
 
     ref.read(tabItemProvider.notifier).selected(selectedTab);
@@ -179,8 +177,8 @@ final class _BasePageState extends ConsumerState<BasePage> {
       if (context.mounted) {
         await Navigator.of(context).push<void>(
           PageRouteBuilder<void>(
-            pageBuilder:
-                (context, animation, secondaryAnimation) => const AppTutorial(),
+            pageBuilder: (context, animation, secondaryAnimation) =>
+                const AppTutorial(),
             fullscreenDialog: true,
             transitionsBuilder: fromRightAnimation,
           ),
@@ -206,8 +204,8 @@ final class _BasePageState extends ConsumerState<BasePage> {
           return;
         }
         final navigator = Navigator.of(context);
-        final shouldPop =
-            !await tabNavigatorKeyMaps[tabItem]!.currentState!.maybePop();
+        final shouldPop = !await tabNavigatorKeyMaps[tabItem]!.currentState!
+            .maybePop();
         if (shouldPop) {
           if (navigator.canPop()) {
             navigator.pop();
@@ -219,38 +217,36 @@ final class _BasePageState extends ConsumerState<BasePage> {
         backgroundColor: customFunColor,
         body: SafeArea(
           child: Stack(
-            children:
-                TabItem.values
-                    .map(
-                      (tabItemOnce) => Offstage(
-                        offstage: tabItem != tabItemOnce,
-                        child: Navigator(
-                          key: tabNavigatorKeyMaps[tabItemOnce],
-                          onGenerateRoute: (settings) {
-                            return MaterialPageRoute(
-                              builder: (context) => tabItemOnce.page,
-                            );
-                          },
-                        ),
-                      ),
-                    )
-                    .toList(),
+            children: TabItem.values
+                .map(
+                  (tabItemOnce) => Offstage(
+                    offstage: tabItem != tabItemOnce,
+                    child: Navigator(
+                      key: tabNavigatorKeyMaps[tabItemOnce],
+                      onGenerateRoute: (settings) {
+                        return MaterialPageRoute(
+                          builder: (context) => tabItemOnce.page,
+                        );
+                      },
+                    ),
+                  ),
+                )
+                .toList(),
           ),
         ),
         bottomNavigationBar: BottomNavigationBar(
           selectedItemColor: customFunColor,
           type: BottomNavigationBarType.fixed,
           currentIndex: TabItem.values.indexOf(tabItem),
-          items:
-              TabItem.values
-                  .map(
-                    (tabItem) => BottomNavigationBarItem(
-                      icon: Icon(tabItem.icon),
-                      activeIcon: Icon(tabItem.activeIcon),
-                      label: tabItem.title,
-                    ),
-                  )
-                  .toList(),
+          items: TabItem.values
+              .map(
+                (tabItem) => BottomNavigationBarItem(
+                  icon: Icon(tabItem.icon),
+                  activeIcon: Icon(tabItem.activeIcon),
+                  label: tabItem.title,
+                ),
+              )
+              .toList(),
           onTap: _onItemTapped,
         ),
       ),

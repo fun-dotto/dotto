@@ -1,4 +1,4 @@
-import 'package:dotto/feature/map/controller/map_controller.dart';
+import 'package:dotto/feature/map/controller/map_page_controller.dart';
 import 'package:dotto/feature/map/widget/fun_grid_map.dart';
 import 'package:dotto/importer.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -13,25 +13,24 @@ final class MapGridScreen extends StatelessWidget {
     '4',
     '5',
     'R6',
-    'R7'
+    'R7',
   ];
 
   @override
   Widget build(BuildContext context) {
     return Consumer(
       builder: (context, ref, child) {
-        final mapPage = ref.watch(mapPageProvider);
+        final mapPage = ref.watch(mapPageNotifierProvider);
         return StaggeredGrid.count(
           crossAxisCount: 48,
           children: [
-            ...FunGridMaps.mapTileListMap[gridMapsList[mapPage]]!.map(
-              (e) {
-                return StaggeredGridTile.count(
-                    crossAxisCellCount: e.width,
-                    mainAxisCellCount: e.height,
-                    child: e);
-              },
-            )
+            ...FunGridMaps.mapTileListMap[gridMapsList[mapPage]]!.map((e) {
+              return StaggeredGridTile.count(
+                crossAxisCellCount: e.width,
+                mainAxisCellCount: e.height,
+                child: e,
+              );
+            }),
           ],
         );
       },
