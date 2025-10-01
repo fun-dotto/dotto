@@ -1,6 +1,6 @@
 import 'package:dotto/feature/map/controller/focused_map_detail_controller.dart';
-import 'package:dotto/feature/map/controller/map_controller.dart';
 import 'package:dotto/feature/map/controller/map_page_controller.dart';
+import 'package:dotto/feature/map/controller/map_view_transformation_controller.dart';
 import 'package:dotto/feature/map/domain/map_detail.dart';
 import 'package:dotto/importer.dart';
 import 'package:dotto/theme/v1/color_fun.dart';
@@ -22,8 +22,8 @@ final class MapFloorButton extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final mapPage = ref.watch(mapPageNotifierProvider);
     final mapPageNotifier = ref.watch(mapPageNotifierProvider.notifier);
-    final mapViewTransformationControllerProviderNotifier = ref.watch(
-      mapViewTransformationControllerProvider.notifier,
+    final mapViewTransformationNotifier = ref.read(
+      mapViewTransformationNotifierProvider.notifier,
     );
     final focusedMapDetailNotifier = ref.read(
       focusedMapDetailNotifierProvider.notifier,
@@ -68,7 +68,7 @@ final class MapFloorButton extends ConsumerWidget {
                       ),
                       // 階数の変更をProviderに渡す
                       onPressed: () {
-                        mapViewTransformationControllerProviderNotifier.state =
+                        mapViewTransformationNotifier.value =
                             TransformationController(
                               Matrix4(
                                 1,

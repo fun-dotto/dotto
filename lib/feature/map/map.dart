@@ -1,4 +1,4 @@
-import 'package:dotto/feature/map/controller/map_controller.dart';
+import 'package:dotto/feature/map/controller/map_view_transformation_controller.dart';
 import 'package:dotto/feature/map/widget/map_bottom_info.dart';
 import 'package:dotto/feature/map/widget/map_floor_button.dart';
 import 'package:dotto/feature/map/widget/map_grid.dart';
@@ -11,34 +11,38 @@ final class MapScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        resizeToAvoidBottomInset: false,
-        appBar: const PreferredSize(
-          preferredSize: Size.fromHeight(kToolbarHeight + 5),
-          child: MapSearchBar(),
+      resizeToAvoidBottomInset: false,
+      appBar: const PreferredSize(
+        preferredSize: Size.fromHeight(kToolbarHeight + 5),
+        child: MapSearchBar(),
+      ),
+      body: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: Stack(
+          children: [
+            SizedBox(
+              width: double.infinity,
+              height: MediaQuery.of(context).size.height,
+              child: _mapView(),
+            ),
+            // 階選択ボタン
+            const MapFloorButton(),
+            const MapBottomInfo(),
+            const MapBarrierOnSearch(),
+            const MapSearchListView(),
+          ],
         ),
-        body: GestureDetector(
-            behavior: HitTestBehavior.opaque,
-            onTap: () => FocusScope.of(context).unfocus(),
-            child: Stack(
-              children: [
-                SizedBox(
-                    width: double.infinity,
-                    height: MediaQuery.of(context).size.height,
-                    child: _mapView()),
-                // 階選択ボタン
-                const MapFloorButton(),
-                const MapBottomInfo(),
-                const MapBarrierOnSearch(),
-                const MapSearchListView(),
-              ],
-            )));
+      ),
+    );
   }
 
   Widget _mapView() {
     return Consumer(
       builder: (context, ref, child) {
-        final mapViewTransformationController =
-            ref.watch(mapViewTransformationControllerProvider);
+        final mapViewTransformationController = ref.watch(
+          mapViewTransformationNotifierProvider,
+        );
         return InteractiveViewer(
           maxScale: 10,
           // 倍率行列Matrix4

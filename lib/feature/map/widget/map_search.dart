@@ -3,6 +3,7 @@ import 'package:dotto/feature/map/controller/map_controller.dart';
 import 'package:dotto/feature/map/controller/map_page_controller.dart';
 import 'package:dotto/feature/map/controller/map_search_bar_focus_controller.dart';
 import 'package:dotto/feature/map/controller/map_search_text_controller.dart';
+import 'package:dotto/feature/map/controller/map_view_transformation_controller.dart';
 import 'package:dotto/feature/map/controller/on_map_search_controller.dart';
 import 'package:dotto/feature/map/controller/search_list_controller.dart';
 import 'package:dotto/feature/map/widget/map_detail_bottom_sheet.dart';
@@ -141,8 +142,8 @@ final class MapSearchListView extends ConsumerWidget {
     final focusedMapDetailNotifier = ref.watch(
       focusedMapDetailNotifierProvider.notifier,
     );
-    final mapViewTransformationControllerProviderNotifier = ref.watch(
-      mapViewTransformationControllerProvider.notifier,
+    final mapViewTransformationNotifier = ref.read(
+      mapViewTransformationNotifierProvider.notifier,
     );
     final mapSearchBarFocusNotifier = ref.watch(
       mapSearchBarFocusNotifierProvider,
@@ -163,10 +164,7 @@ final class MapSearchListView extends ConsumerWidget {
                     onTap: () {
                       mapSearchListNotifier.list = [];
                       FocusScope.of(context).unfocus();
-                      mapViewTransformationControllerProviderNotifier
-                          .state
-                          .value
-                          .setIdentity();
+                      mapViewTransformationNotifier.value.value.setIdentity();
                       focusedMapDetailNotifier.value = item;
                       mapPageNotifier.value = floorBarString.indexOf(
                         item.floor,
