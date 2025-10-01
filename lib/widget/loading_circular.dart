@@ -1,4 +1,4 @@
-import 'package:dotto/theme/importer.dart';
+import 'package:dotto_design_system/style/semantic_color.dart';
 import 'package:flutter/material.dart';
 
 final class LoadingCircular extends StatelessWidget {
@@ -8,8 +8,8 @@ final class LoadingCircular extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.center,
-      child: const CircularProgressIndicator(
-        color: SemanticColors.primaryMain,
+      child: CircularProgressIndicator(
+        color: SemanticColor.light.accentPrimary,
       ),
     );
   }
