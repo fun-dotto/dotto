@@ -12,27 +12,27 @@ final class SearchCourseBox extends ConsumerWidget {
       child: TextField(
         controller: kamokuSearchController.textEditingController,
         focusNode: kamokuSearchController.searchBoxFocusNode,
-        style: const TextStyle(
-          fontSize: 16,
-          color: Colors.black,
-        ),
         decoration: InputDecoration(
           hintText: '科目名で検索',
           suffixIcon:
               kamokuSearchController.textEditingController.text.isNotEmpty
-                  ? IconButton(
-                      icon: const Icon(Icons.close),
-                      onPressed: () {
-                        kamokuSearchController.textEditingController.clear();
-                        ref
-                            .read(kamokuSearchControllerProvider.notifier)
-                            .setSearchWord('');
-                      },
-                    )
-                  : null,
+              ? IconButton(
+                  icon: const Icon(Icons.close),
+                  onPressed: () {
+                    kamokuSearchController.textEditingController.clear();
+                    ref
+                        .read(kamokuSearchControllerProvider.notifier)
+                        .setSearchWord('');
+                  },
+                )
+              : null,
         ),
-        onChanged:
-            ref.read(kamokuSearchControllerProvider.notifier).setSearchWord,
+        onChanged: ref
+            .read(kamokuSearchControllerProvider.notifier)
+            .setSearchWord,
+        onSubmitted: (_) {
+          ref.read(kamokuSearchControllerProvider.notifier).search();
+        },
       ),
     );
   }

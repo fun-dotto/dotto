@@ -13,7 +13,7 @@ final class MapScreen extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: const PreferredSize(
-        preferredSize: Size.fromHeight(kToolbarHeight + 5),
+        preferredSize: Size.fromHeight(kToolbarHeight),
         child: MapSearchBar(),
       ),
       body: GestureDetector(
