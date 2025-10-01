@@ -1,5 +1,5 @@
 import 'package:dotto/feature/map/controller/focused_map_detail_controller.dart';
-import 'package:dotto/feature/map/controller/map_controller.dart';
+import 'package:dotto/feature/map/controller/map_detail_map_controller.dart';
 import 'package:dotto/feature/map/controller/map_page_controller.dart';
 import 'package:dotto/feature/map/controller/map_search_bar_focus_controller.dart';
 import 'package:dotto/feature/map/controller/map_search_text_controller.dart';
@@ -17,7 +17,7 @@ final class MapSearchBar extends ConsumerWidget {
       mapSearchListNotifierProvider.notifier,
     );
     final onMapSearchNotifier = ref.read(onMapSearchNotifierProvider.notifier);
-    final mapDetailMap = ref.watch(mapDetailMapProvider);
+    final mapDetailMap = ref.watch(mapDetailMapNotifierProvider);
     if (text.isEmpty) {
       onMapSearchNotifier.value = false;
       mapSearchListNotifier.list = [];

@@ -1,7 +1,7 @@
 import 'package:dotto/controller/tab_controller.dart';
 import 'package:dotto/controller/user_controller.dart';
 import 'package:dotto/domain/tab_item.dart';
-import 'package:dotto/feature/map/controller/map_controller.dart';
+import 'package:dotto/feature/map/controller/map_detail_map_controller.dart';
 import 'package:dotto/feature/map/controller/map_search_datetime_controller.dart';
 import 'package:dotto/feature/map/domain/map_detail.dart';
 import 'package:dotto/feature/map/domain/map_room_available_type.dart';
@@ -97,7 +97,7 @@ final class MapDetailBottomSheet extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final mapDetailMap = ref.watch(mapDetailMapProvider);
+    final mapDetailMap = ref.watch(mapDetailMapNotifierProvider);
     final searchDatetime = ref.watch(mapSearchDatetimeNotifierProvider);
     final user = ref.watch(userProvider);
     var roomTitle = roomName;
