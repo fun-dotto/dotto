@@ -1,14 +1,11 @@
-import 'dart:convert';
 import 'dart:io';
-
-import 'package:dotto/domain/user_preference_keys.dart';
+import 'package:dotto/feature/assignment/controller/assignment_preferences_notifier.dart';
 import 'package:dotto/feature/assignment/controller/assignments_controller.dart';
 import 'package:dotto/feature/assignment/domain/assignment_state.dart';
 import 'package:dotto/feature/assignment/domain/kadai.dart';
 import 'package:dotto/feature/assignment/kadai_hidden_list.dart';
 import 'package:dotto/feature/assignment/setup_hope_continuity_screen.dart';
 import 'package:dotto/feature/setting/controller/settings_controller.dart';
-import 'package:dotto/repository/user_preference_repository.dart';
 import 'package:dotto/widget/loading_circular.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -17,190 +14,6 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:url_launcher/url_launcher.dart';
-
-final assignmentPreferencesProvider =
-    StateNotifierProvider<AssignmentPreferencesNotifier, AssignmentState>(
-      (ref) => AssignmentPreferencesNotifier(),
-    );
-
-class AssignmentPreferencesNotifier extends StateNotifier<AssignmentState> {
-  AssignmentPreferencesNotifier() : super(AssignmentState());
-
-  Future<void>? _initialization;
-
-  Future<void> _ensureInitialized() {
-    return _initialization ??= _loadLists();
-  }
-
-  Future<void> reload() {
-    _initialization = _loadLists();
-    return _initialization!;
-  }
-
-  Future<void> _loadLists() async {
-    final done = await _loadList(UserPreferenceKeys.kadaiFinishList);
-    final alerts = await _loadList(UserPreferenceKeys.kadaiAlertList);
-    final hidden = await _loadList(UserPreferenceKeys.kadaiDeleteList);
-    state = state.copyWith(
-      doneAssignmentIds: done,
-      alertAssignmentIds: alerts,
-      hiddenAssignmentIds: hidden,
-    );
-  }
-
-  Future<List<int>> _loadList(UserPreferenceKeys key) async {
-    final jsonString = await UserPreferenceRepository.getString(key);
-    if (jsonString == null || jsonString.isEmpty) {
-      return [];
-    }
-    try {
-      final decoded = json.decode(jsonString);
-      if (decoded is List) {
-        return decoded
-            .map((e) => e is int ? e : int.tryParse(e.toString()))
-            .whereType<int>()
-            .toList()
-          ..sort();
-      }
-    } catch (_) {
-      // ignore decoding errors and fall back to empty list
-    }
-    return [];
-  }
-
-  Future<void> _saveList(UserPreferenceKeys key, List<int> values) async {
-    await UserPreferenceRepository.setString(key, json.encode(values));
-  }
-
-  List<int> _sorted(Iterable<int> ids) {
-    final list = ids.toList()..sort();
-    return list;
-  }
-
-  Future<bool> addDone(int id) async {
-    await _ensureInitialized();
-    final updated = {...state.doneAssignmentIds};
-    final added = updated.add(id);
-    if (!added) return false;
-    final list = _sorted(updated);
-    state = state.copyWith(doneAssignmentIds: list);
-    await _saveList(UserPreferenceKeys.kadaiFinishList, list);
-    return true;
-  }
-
-  Future<bool> removeDone(int id) async {
-    await _ensureInitialized();
-    final updated = {...state.doneAssignmentIds};
-    final removed = updated.remove(id);
-    if (!removed) return false;
-    final list = _sorted(updated);
-    state = state.copyWith(doneAssignmentIds: list);
-    await _saveList(UserPreferenceKeys.kadaiFinishList, list);
-    return true;
-  }
-
-  Future<List<int>> setDoneStatus(Iterable<int> ids, bool isDone) async {
-    await _ensureInitialized();
-    final updated = {...state.doneAssignmentIds};
-    final changed = <int>[];
-    for (final id in ids) {
-      if (isDone) {
-        if (updated.add(id)) changed.add(id);
-      } else {
-        if (updated.remove(id)) changed.add(id);
-      }
-    }
-    if (changed.isEmpty) return changed;
-    final list = _sorted(updated);
-    state = state.copyWith(doneAssignmentIds: list);
-    await _saveList(UserPreferenceKeys.kadaiFinishList, list);
-    return changed;
-  }
-
-  Future<bool> addAlert(int id) async {
-    await _ensureInitialized();
-    final updated = {...state.alertAssignmentIds};
-    final added = updated.add(id);
-    if (!added) return false;
-    final list = _sorted(updated);
-    state = state.copyWith(alertAssignmentIds: list);
-    await _saveList(UserPreferenceKeys.kadaiAlertList, list);
-    return true;
-  }
-
-  Future<bool> removeAlert(int id) async {
-    await _ensureInitialized();
-    final updated = {...state.alertAssignmentIds};
-    final removed = updated.remove(id);
-    if (!removed) return false;
-    final list = _sorted(updated);
-    state = state.copyWith(alertAssignmentIds: list);
-    await _saveList(UserPreferenceKeys.kadaiAlertList, list);
-    return true;
-  }
-
-  Future<List<int>> enableAlerts(Iterable<int> ids) async {
-    await _ensureInitialized();
-    final updated = {...state.alertAssignmentIds};
-    final added = <int>[];
-    for (final id in ids) {
-      if (updated.add(id)) {
-        added.add(id);
-      }
-    }
-    if (added.isEmpty) return added;
-    final list = _sorted(updated);
-    state = state.copyWith(alertAssignmentIds: list);
-    await _saveList(UserPreferenceKeys.kadaiAlertList, list);
-    return added;
-  }
-
-  Future<List<int>> disableAlerts(Iterable<int> ids) async {
-    await _ensureInitialized();
-    final updated = {...state.alertAssignmentIds};
-    final removed = <int>[];
-    for (final id in ids) {
-      if (updated.remove(id)) {
-        removed.add(id);
-      }
-    }
-    if (removed.isEmpty) return removed;
-    final list = _sorted(updated);
-    state = state.copyWith(alertAssignmentIds: list);
-    await _saveList(UserPreferenceKeys.kadaiAlertList, list);
-    return removed;
-  }
-
-  Future<List<int>> hideAssignments(Iterable<int> ids) async {
-    await _ensureInitialized();
-    final hidden = {...state.hiddenAssignmentIds};
-    final alerts = {...state.alertAssignmentIds};
-    final removedAlerts = <int>[];
-    var hiddenChanged = false;
-    for (final id in ids) {
-      if (hidden.add(id)) {
-        hiddenChanged = true;
-      }
-      if (alerts.remove(id)) {
-        removedAlerts.add(id);
-      }
-    }
-    if (!hiddenChanged && removedAlerts.isEmpty) {
-      return removedAlerts;
-    }
-    final hiddenList = _sorted(hidden);
-    final alertList = _sorted(alerts);
-    state = state.copyWith(
-      hiddenAssignmentIds: hiddenList,
-      alertAssignmentIds: alertList,
-    );
-    await Future.wait([
-      _saveList(UserPreferenceKeys.kadaiDeleteList, hiddenList),
-      _saveList(UserPreferenceKeys.kadaiAlertList, alertList),
-    ]);
-    return removedAlerts;
-  }
-}
 
 final class AssignmentListScreen extends ConsumerStatefulWidget {
   const AssignmentListScreen({super.key});
@@ -226,7 +39,9 @@ final class _AssignmentListScreenState
     _initNotifications();
     // Ensure preferences are loaded once the widget mounts
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(assignmentPreferencesProvider.notifier)._ensureInitialized();
+      ref
+          .read(assignmentPreferencesNotifierProvider.notifier)
+          .ensureInitialized();
     });
   }
 
@@ -338,7 +153,7 @@ final class _AssignmentListScreenState
                 final id = kadai.id;
                 if (id == null) return;
                 final removedAlerts = await ref
-                    .read(assignmentPreferencesProvider.notifier)
+                    .read(assignmentPreferencesNotifierProvider.notifier)
                     .hideAssignments([id]);
                 if (removedAlerts.contains(id)) {
                   await _cancelNotification(id);
@@ -372,14 +187,14 @@ final class _AssignmentListScreenState
                 final visible = listKadai
                     .hiddenKadai(
                       ref
-                          .read(assignmentPreferencesProvider)
+                          .read(assignmentPreferencesNotifierProvider)
                           .hiddenAssignmentIds,
                     )
                     .map((kadai) => kadai.id)
                     .whereType<int>()
                     .toList();
                 final removedAlerts = await ref
-                    .read(assignmentPreferencesProvider.notifier)
+                    .read(assignmentPreferencesNotifierProvider.notifier)
                     .hideAssignments(visible);
                 for (final id in removedAlerts) {
                   await _cancelNotification(id);
@@ -468,7 +283,7 @@ final class _AssignmentListScreenState
     AssignmentState assignmentState,
     Kadai kadai,
   ) {
-    final notifier = ref.read(assignmentPreferencesProvider.notifier);
+    final notifier = ref.read(assignmentPreferencesNotifierProvider.notifier);
     final isAlertOn = assignmentState.alertAssignmentIds.contains(kadai.id);
     return ActionPane(
       motion: const StretchMotion(),
@@ -504,7 +319,7 @@ final class _AssignmentListScreenState
     AssignmentState assignmentState,
     Kadai kadai,
   ) {
-    final notifier = ref.read(assignmentPreferencesProvider.notifier);
+    final notifier = ref.read(assignmentPreferencesNotifierProvider.notifier);
     final isDone = assignmentState.doneAssignmentIds.contains(kadai.id);
     return ActionPane(
       motion: const StretchMotion(),
@@ -547,7 +362,7 @@ final class _AssignmentListScreenState
     AssignmentState assignmentState,
     KadaiList kadaiList,
   ) {
-    final notifier = ref.read(assignmentPreferencesProvider.notifier);
+    final notifier = ref.read(assignmentPreferencesNotifierProvider.notifier);
     final hidden = assignmentState.hiddenAssignmentIds;
     final visible = kadaiList.hiddenKadai(hidden);
     final isAlertOn = _listAllCheck(
@@ -591,7 +406,7 @@ final class _AssignmentListScreenState
     AssignmentState assignmentState,
     KadaiList kadaiList,
   ) {
-    final notifier = ref.read(assignmentPreferencesProvider.notifier);
+    final notifier = ref.read(assignmentPreferencesNotifierProvider.notifier);
     final hidden = assignmentState.hiddenAssignmentIds;
     final visible = kadaiList.hiddenKadai(hidden);
     final isDone = _listAllCheck(
@@ -816,7 +631,7 @@ final class _AssignmentListScreenState
   @override
   Widget build(BuildContext context) {
     ref.watch(settingsUserKeyProvider);
-    final assignmentState = ref.watch(assignmentPreferencesProvider);
+    final assignmentState = ref.watch(assignmentPreferencesNotifierProvider);
     final assignments = ref.watch(assignmentsNotifierProvider);
 
     return Scaffold(
@@ -850,7 +665,9 @@ final class _AssignmentListScreenState
                 ),
               );
               if (result == 'back') {
-                await ref.read(assignmentPreferencesProvider.notifier).reload();
+                await ref
+                    .read(assignmentPreferencesNotifierProvider.notifier)
+                    .reload();
                 await ref.read(assignmentsNotifierProvider.notifier).refresh();
               }
             },
@@ -865,13 +682,16 @@ final class _AssignmentListScreenState
         edgeOffset: 50,
         onRefresh: () async {
           await ref.read(assignmentsNotifierProvider.notifier).refresh();
-          await Future<void>.delayed(const Duration(seconds: 1));
         },
         child: GestureDetector(
           onPanDown: (_) => Slidable.of(context)?.close(),
           child: assignments.when(
             data: (data) => _buildList(data, assignmentState),
-            error: (_, __) => ListView(children: [SetupHopeContinuityScreen()]),
+            error: (_, __) => SetupHopeContinuityScreen(
+              onUserKeySaved: () async {
+                await ref.read(assignmentsNotifierProvider.notifier).refresh();
+              },
+            ),
             loading: () => ListView(
               children: const [SizedBox(height: 200, child: LoadingCircular())],
             ),
