@@ -1,5 +1,5 @@
 import 'package:dotto/feature/search_course/controller/kamoku_search_controller.dart';
-import 'package:dotto/theme/v1/color_fun.dart';
+import 'package:dotto_design_system/component/button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -9,42 +9,20 @@ final class SearchCourseActionButtons extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Center(
-      child: Column(
-        children: [
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: customFunColor,
-              foregroundColor: Colors.white,
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-            ),
-            onPressed: () async {
-              FocusScope.of(context).unfocus();
-              await ref.read(kamokuSearchControllerProvider.notifier).search();
-            },
-            child: const Row(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(width: 8),
-                Text(
-                  '検索',
-                  style: TextStyle(fontSize: 18),
-                ),
-                SizedBox(width: 8),
-                Column(
-                  children: [
-                    SizedBox(height: 4),
-                    Icon(
-                      Icons.search,
-                      size: 24,
-                    ),
-                  ],
-                ),
-                SizedBox(width: 8),
-              ],
-            ),
+      child: DottoButton(
+        onPressed: () async {
+          FocusScope.of(context).unfocus();
+          await ref.read(kamokuSearchControllerProvider.notifier).search();
+        },
+        child: const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16),
+          child: Row(
+            spacing: 8,
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [Text('検索'), Icon(Icons.search)],
           ),
-        ],
+        ),
       ),
     );
   }

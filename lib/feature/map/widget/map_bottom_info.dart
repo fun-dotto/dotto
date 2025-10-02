@@ -1,7 +1,7 @@
 import 'package:dotto/controller/user_controller.dart';
-import 'package:dotto/feature/map/controller/map_controller.dart';
+import 'package:dotto/feature/map/controller/map_search_datetime_controller.dart';
+import 'package:dotto/feature/map/controller/using_map_controller.dart';
 import 'package:dotto/feature/map/domain/map_tile_type.dart';
-import 'package:dotto/feature/map/repository/map_repository.dart';
 import 'package:dotto/feature/map/widget/map_tile.dart';
 import 'package:dotto/importer.dart';
 import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart';
@@ -19,10 +19,7 @@ final class MapBottomInfo extends ConsumerWidget {
           height: 11,
         ),
         const SizedBox(width: 5),
-        Text(
-          text,
-          style: const TextStyle(fontSize: 12),
-        )
+        Text(text, style: const TextStyle(fontSize: 12)),
       ],
     );
   }
@@ -69,85 +66,92 @@ final class MapBottomInfo extends ConsumerWidget {
           ),
           const SizedBox(height: 15),
           Container(
-              height: floorButtonHeight,
-              color: Colors.grey.shade400.withValues(alpha: 0.8),
-              alignment: Alignment.centerLeft,
-              child: Consumer(
-                builder: (context, ref, child) {
-                  final searchDatetime = ref.watch(searchDatetimeProvider);
-                  final searchDatetimeNotifier =
-                      ref.read(searchDatetimeProvider.notifier);
-                  final mapUsingMapNotifier =
-                      ref.watch(mapUsingMapProvider.notifier);
-                  return Row(
-                    children: [
-                      ...timeMap.entries.map((item) => Expanded(
-                            child: Center(
-                              child: TextButton(
-                                style: TextButton.styleFrom(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(0),
-                                  ),
-                                  textStyle: const TextStyle(fontSize: 12),
-                                ),
-                                onPressed: () async {
-                                  var setDate = item.value;
-                                  if (setDate.hour == 0) {
-                                    setDate = DateTime.now();
-                                  }
-                                  searchDatetimeNotifier.datetime = setDate;
-                                  mapUsingMapNotifier.state =
-                                      await MapRepository()
-                                          .setUsingColor(setDate, ref);
-                                },
-                                child: Center(
-                                  child: Text(item.key),
-                                ),
-                              ),
-                            ),
-                          )),
-                      Expanded(
-                        flex: 2,
+            height: floorButtonHeight,
+            color: Colors.grey.shade400.withValues(alpha: 0.8),
+            alignment: Alignment.centerLeft,
+            child: Consumer(
+              builder: (context, ref, child) {
+                final searchDatetime = ref.watch(
+                  mapSearchDatetimeNotifierProvider,
+                );
+                final searchDatetimeNotifier = ref.read(
+                  mapSearchDatetimeNotifierProvider.notifier,
+                );
+                final usingMapNotifier = ref.read(
+                  usingMapNotifierProvider.notifier,
+                );
+                return Row(
+                  children: [
+                    ...timeMap.entries.map(
+                      (item) => Expanded(
                         child: Center(
                           child: TextButton(
                             style: TextButton.styleFrom(
-                              padding: EdgeInsets.zero,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(0),
                               ),
+                              textStyle: const TextStyle(fontSize: 12),
                             ),
-                            onPressed: () {
-                              DatePicker.showDateTimePicker(
-                                context,
-                                minTime: monday,
-                                maxTime: nextSunday,
-                                onConfirm: (date) async {
-                                  searchDatetimeNotifier.datetime = date;
-                                  mapUsingMapNotifier.state =
-                                      await MapRepository()
-                                          .setUsingColor(date, ref);
-                                },
-                                currentTime: searchDatetime,
-                                locale: LocaleType.jp,
+                            onPressed: () async {
+                              var setDate = item.value;
+                              if (setDate.hour == 0) {
+                                setDate = DateTime.now();
+                              }
+                              searchDatetimeNotifier.value = setDate;
+                              await usingMapNotifier.setUsingColor(
+                                setDate,
+                                ref,
                               );
                             },
-                            child: Center(
-                                child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(DateFormat('MM月dd日')
-                                    .format(searchDatetime)),
-                                Text(
-                                    DateFormat('HH:mm').format(searchDatetime)),
-                              ],
-                            )),
+                            child: Center(child: Text(item.key)),
                           ),
                         ),
                       ),
-                    ],
-                  );
-                },
-              )),
+                    ),
+                    Expanded(
+                      flex: 2,
+                      child: Center(
+                        child: TextButton(
+                          style: TextButton.styleFrom(
+                            padding: EdgeInsets.zero,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(0),
+                            ),
+                          ),
+                          onPressed: () {
+                            DatePicker.showDateTimePicker(
+                              context,
+                              minTime: monday,
+                              maxTime: nextSunday,
+                              onConfirm: (date) async {
+                                searchDatetimeNotifier.value = date;
+                                await usingMapNotifier.setUsingColor(date, ref);
+                              },
+                              currentTime: searchDatetime,
+                              locale: LocaleType.jp,
+                            );
+                          },
+                          child: Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  DateFormat('MM月dd日').format(searchDatetime),
+                                ),
+                                Text(
+                                  DateFormat('HH:mm').format(searchDatetime),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                );
+              },
+            ),
+          ),
         ],
       ),
     );

@@ -1,6 +1,6 @@
-import 'package:dotto/feature/assignment/kadai_list.dart';
+import 'package:dotto/feature/assignment/assignment_list_screen.dart';
 import 'package:dotto/feature/home/home.dart';
-import 'package:dotto/feature/map/map.dart';
+import 'package:dotto/feature/map/map_screen.dart';
 import 'package:dotto/feature/search_course/search_course_screen.dart';
 import 'package:dotto/feature/setting/settings.dart';
 import 'package:dotto/importer.dart';
@@ -28,7 +28,7 @@ enum TabItem {
     title: '課題',
     icon: Icons.assignment_outlined,
     activeIcon: Icons.assignment,
-    page: KadaiListScreen(),
+    page: AssignmentListScreen(),
   ),
   setting(
     title: '設定',

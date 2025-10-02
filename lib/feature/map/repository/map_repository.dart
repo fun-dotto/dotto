@@ -13,11 +13,13 @@ final class MapRepository {
   static final MapRepository _instance = MapRepository._internal();
 
   Future<Map<String, Map<String, MapDetail>>>
-      getMapDetailMapFromFirebase() async {
-    final snapshot = await FirebaseRealtimeDatabaseRepository()
-        .getData('map'); //firebaseから情報取得
-    final snapshotRoom = await FirebaseRealtimeDatabaseRepository()
-        .getData('map_room_schedule'); //firebaseから情報取得
+  getMapDetailMapFromFirebase() async {
+    final snapshot = await FirebaseRealtimeDatabaseRepository().getData(
+      'map',
+    ); //firebaseから情報取得
+    final snapshotRoom = await FirebaseRealtimeDatabaseRepository().getData(
+      'map_room_schedule',
+    ); //firebaseから情報取得
     final returnList = <String, Map<String, MapDetail>>{
       '1': {},
       '2': {},
@@ -25,24 +27,34 @@ final class MapRepository {
       '4': {},
       '5': {},
       'R6': {},
-      'R7': {}
+      'R7': {},
     };
     if (snapshot.exists && snapshotRoom.exists) {
-      (snapshot.value! as Map).forEach((floor, value) {
+      final mapData = snapshot.value! as Map;
+      final roomScheduleMap = (snapshotRoom.value! as Map).map(
+        (key, value) => MapEntry(key.toString(), value),
+      );
+      mapData.forEach((floor, value) {
+        final floorKey = floor.toString();
+        final roomMap = returnList.putIfAbsent(
+          floorKey,
+          () => <String, MapDetail>{},
+        );
         (value as Map).forEach((roomName, value2) {
-          returnList[floor as String]!.addAll({
-            roomName as String: MapDetail.fromFirebase(
-              floor,
-              roomName,
-              value2 as Map<String, dynamic>,
-              snapshotRoom.value! as Map<String, dynamic>,
-            )
-          });
+          final roomKey = roomName.toString();
+          roomMap[roomKey] = MapDetail.fromFirebase(
+            floorKey,
+            roomKey,
+            (value2 as Map).map(
+              (key, value) => MapEntry(key.toString(), value),
+            ),
+            roomScheduleMap,
+          );
         });
       });
     } else {
       debugPrint('No Map data available.');
-      throw Exception();
+      throw Exception('No Map data available.');
     }
     return returnList;
   }
@@ -61,14 +73,14 @@ final class MapRepository {
       if (item is Map<String, dynamic>) {
         // スタート時間・エンド時間をDateTimeにかえる
         // スタートを10分前から
-        final startTime = DateTime.parse(item['start'] as String)
-            .add(const Duration(minutes: -10));
+        final startTime = DateTime.parse(
+          item['start'] as String,
+        ).add(const Duration(minutes: -10));
         final endTime = DateTime.parse(item['end'] as String);
 
         //現在時刻が開始時刻と終了時刻の間であればresourceIdを取得
         if (dateTime.isAfter(startTime) && dateTime.isBefore(endTime)) {
           if (resourceIds.containsKey(item['resourceId'])) {
-            debugPrint(item['resourceId'] as String?);
             if (resourceIds[item['resourceId']]!.isBefore(endTime)) {
               resourceIds[item['resourceId'] as String] = endTime;
             }
@@ -94,9 +106,11 @@ final class MapRepository {
     return resourceIds;
   }
 
-//使用されているかどうかで色を変える設定をする
+  //使用されているかどうかで色を変える設定をする
   Future<Map<String, bool>> setUsingColor(
-      DateTime dateTime, WidgetRef ref) async {
+    DateTime dateTime,
+    WidgetRef ref,
+  ) async {
     final user = ref.watch(userProvider);
     if (user == null) {
       return {};
@@ -122,13 +136,12 @@ final class MapRepository {
       '18': false,
       '19': false,
       '50': false,
-      '51': false
+      '51': false,
     };
 
     final resourceIds = await MapRepository().getUsingRoom(dateTime);
     if (resourceIds.isNotEmpty) {
       resourceIds.forEach((String resourceId, DateTime useEndTime) {
-        debugPrint(resourceId);
         if (classroomNoFloorMap.containsKey(resourceId)) {
           classroomNoFloorMap[resourceId] = true;
         }

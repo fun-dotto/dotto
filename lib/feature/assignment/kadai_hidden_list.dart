@@ -10,10 +10,7 @@ import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 final class KadaiHiddenScreen extends StatefulWidget {
-  const KadaiHiddenScreen({
-    required this.deletedKadaiLists,
-    super.key,
-  });
+  const KadaiHiddenScreen({required this.deletedKadaiLists, super.key});
 
   final List<KadaiList> deletedKadaiLists;
 
@@ -27,7 +24,8 @@ final class _KadaiHiddenScreenState extends State<KadaiHiddenScreen> {
 
   Future<void> loadDeleteList() async {
     final jsonString = await UserPreferenceRepository.getString(
-        UserPreferenceKeys.kadaiDeleteList);
+      UserPreferenceKeys.kadaiDeleteList,
+    );
     if (jsonString != null) {
       setState(() {
         deleteList = List<int>.from(json.decode(jsonString) as List);
@@ -37,7 +35,9 @@ final class _KadaiHiddenScreenState extends State<KadaiHiddenScreen> {
 
   Future<void> saveDeleteList() async {
     await UserPreferenceRepository.setString(
-        UserPreferenceKeys.kadaiDeleteList, json.encode(deleteList));
+      UserPreferenceKeys.kadaiDeleteList,
+      json.encode(deleteList),
+    );
   }
 
   Future<void> hiddenKadaiList() async {
@@ -77,57 +77,37 @@ final class _KadaiHiddenScreenState extends State<KadaiHiddenScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final deviceWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
           onPressed: () {
             Navigator.of(context).pop('back'); // 画面遷移から戻り値を指定
           },
-          icon: const Icon(
-            Icons.arrow_back,
-            size: 20,
-          ),
+          icon: const Icon(Icons.arrow_back, size: 20),
         ),
       ),
       body: RefreshIndicator(
         onRefresh: () async {
           setState(() {
             setState(() {
-              const AssignmentRepository().getKadaiFromFirebase();
+              AssignmentRepository().getKadaiFromFirebase();
             });
             hiddenKadaiList();
             hiddenKadai = hiddenKadai.toSet().toList();
           });
         },
         child: hiddenKadai.isEmpty
-            ? Center(
-                child: Text(
-                  '非表示なし',
-                  style: TextStyle(fontSize: deviceWidth * 0.1),
-                ),
-              )
+            ? const Center(child: Text('非表示の課題はありません'))
             : ListView.builder(
                 itemCount: hiddenKadai.length,
                 itemBuilder: (context, index) {
                   return Card(
-                      child: Slidable(
-                    key: UniqueKey(),
-                    endActionPane: ActionPane(
-                      motion: const StretchMotion(),
-                      dismissible: DismissiblePane(onDismissed: () {
-                        setState(() {
-                          deleteList.remove(hiddenKadai[index].id);
-                          hiddenKadai.remove(hiddenKadai[index]);
-                          saveDeleteList();
-                        });
-                      }),
-                      children: [
-                        SlidableAction(
-                          label: '表示する',
-                          backgroundColor: Colors.green,
-                          icon: Icons.delete,
-                          onPressed: (context) {
+                    child: Slidable(
+                      key: UniqueKey(),
+                      endActionPane: ActionPane(
+                        motion: const StretchMotion(),
+                        dismissible: DismissiblePane(
+                          onDismissed: () {
                             setState(() {
                               deleteList.remove(hiddenKadai[index].id);
                               hiddenKadai.remove(hiddenKadai[index]);
@@ -135,48 +115,56 @@ final class _KadaiHiddenScreenState extends State<KadaiHiddenScreen> {
                             });
                           },
                         ),
-                      ],
-                    ),
-                    child: ListTile(
-                      minLeadingWidth: 0,
-                      leading: const SizedBox(
-                        width: 20,
-                      ),
-                      contentPadding: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 8),
-                      title: Text(
-                        hiddenKadai[index].name!,
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      subtitle: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            hiddenKadai[index].courseName!,
-                            style: const TextStyle(
-                              fontSize: 14,
-                            ),
+                          SlidableAction(
+                            label: '表示する',
+                            backgroundColor: Colors.green,
+                            icon: Icons.delete,
+                            onPressed: (context) {
+                              setState(() {
+                                deleteList.remove(hiddenKadai[index].id);
+                                hiddenKadai.remove(hiddenKadai[index]);
+                                saveDeleteList();
+                              });
+                            },
                           ),
-                          if (hiddenKadai[index].endtime != null)
-                            Text(
-                              '終了：${stringFromDateTime(
-                                hiddenKadai[index].endtime,
-                              )}',
-                              style: const TextStyle(
-                                fontSize: 12,
-                              ),
-                            ),
                         ],
                       ),
-                      onTap: () {
-                        final url = Uri.parse(hiddenKadai[index].url!);
-                        launchUrlInExternal(url);
-                      },
+                      child: ListTile(
+                        minLeadingWidth: 0,
+                        leading: const SizedBox(width: 20),
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 8,
+                        ),
+                        title: Text(
+                          hiddenKadai[index].name!,
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        subtitle: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              hiddenKadai[index].courseName!,
+                              style: const TextStyle(fontSize: 14),
+                            ),
+                            if (hiddenKadai[index].endtime != null)
+                              Text(
+                                '終了：${stringFromDateTime(hiddenKadai[index].endtime)}',
+                                style: const TextStyle(fontSize: 12),
+                              ),
+                          ],
+                        ),
+                        onTap: () {
+                          final url = Uri.parse(hiddenKadai[index].url!);
+                          launchUrlInExternal(url);
+                        },
+                      ),
                     ),
-                  ));
+                  );
                 },
               ),
       ),
