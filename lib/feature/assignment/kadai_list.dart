@@ -805,7 +805,7 @@ final class _KadaiListScreenState extends State<KadaiListScreen> {
               if (result == 'back') {
                 setState(() {
                   loadDeleteList();
-                  const AssignmentRepository().getKadaiFromFirebase();
+                  AssignmentRepository().getKadaiFromFirebase();
                 });
               }
             },
@@ -817,7 +817,7 @@ final class _KadaiListScreenState extends State<KadaiListScreen> {
         onRefresh: () async {
           //await Future.delayed(const Duration(seconds: 1));
           setState(() {
-            const AssignmentRepository().getKadaiFromFirebase();
+            AssignmentRepository().getKadaiFromFirebase();
           });
           await Future<void>.delayed(const Duration(seconds: 1));
         },
@@ -827,7 +827,7 @@ final class _KadaiListScreenState extends State<KadaiListScreen> {
             return GestureDetector(
               onPanDown: (details) => Slidable.of(context)?.close(),
               child: FutureBuilder(
-                future: const AssignmentRepository().getKadaiFromFirebase(),
+                future: AssignmentRepository().getKadaiFromFirebase(),
                 builder:
                     (
                       BuildContext context,
