@@ -673,7 +673,7 @@ final class _AssignmentListScreenState
             },
             child: const Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.0),
-              child: Text('非表示リスト', style: TextStyle(color: Colors.white)),
+              child: Text('非表示リスト'),
             ),
           ),
         ],

@@ -214,7 +214,6 @@ final class _BasePageState extends ConsumerState<BasePage> {
       },
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        backgroundColor: customFunColor,
         body: SafeArea(
           child: Stack(
             children: TabItem.values

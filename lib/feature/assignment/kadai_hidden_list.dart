@@ -77,7 +77,6 @@ final class _KadaiHiddenScreenState extends State<KadaiHiddenScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final deviceWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -98,12 +97,7 @@ final class _KadaiHiddenScreenState extends State<KadaiHiddenScreen> {
           });
         },
         child: hiddenKadai.isEmpty
-            ? Center(
-                child: Text(
-                  '非表示なし',
-                  style: TextStyle(fontSize: deviceWidth * 0.1),
-                ),
-              )
+            ? const Center(child: Text('非表示の課題はありません'))
             : ListView.builder(
                 itemCount: hiddenKadai.length,
                 itemBuilder: (context, index) {
