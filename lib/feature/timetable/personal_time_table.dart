@@ -16,7 +16,7 @@ final class PersonalTimeTableScreen extends ConsumerWidget {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: const Text('取得してる科目一覧'),
+            title: const Text('履修中の科目'),
             content: SizedBox(
               width: double.maxFinite,
               child: weekPeriodAllRecords.when(
@@ -33,12 +33,9 @@ final class PersonalTimeTableScreen extends ConsumerWidget {
                     },
                   );
                 },
-                error: (error, stackTrace) => const Center(
-                  child: Text('データを取得できませんでした'),
-                ),
-                loading: () => const Center(
-                  child: LoadingCircular(),
-                ),
+                error: (error, stackTrace) =>
+                    const Center(child: Text('データを取得できませんでした')),
+                loading: () => const Center(child: LoadingCircular()),
               ),
             ),
           );
@@ -78,8 +75,9 @@ final class PersonalTimeTableScreen extends ConsumerWidget {
                           decoration: BoxDecoration(
                             border: Border.all(color: Colors.grey),
                             color: Colors.grey.shade300,
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(5)),
+                            borderRadius: const BorderRadius.all(
+                              Radius.circular(5),
+                            ),
                           ),
                           padding: const EdgeInsets.all(2),
                           child: Text(
@@ -107,8 +105,7 @@ final class PersonalTimeTableScreen extends ConsumerWidget {
         Navigator.of(context).push(
           PageRouteBuilder<void>(
             pageBuilder: (context, animation, secondaryAnimation) =>
-                PersonalSelectLessonScreen(
-                    term, week, period),
+                PersonalSelectLessonScreen(term, week, period),
             transitionsBuilder: fromRightAnimation,
           ),
         );
@@ -117,7 +114,10 @@ final class PersonalTimeTableScreen extends ConsumerWidget {
   }
 
   Widget seasonTimeTableList(
-      BuildContext context, WidgetRef ref, int seasonnumber) {
+    BuildContext context,
+    WidgetRef ref,
+    int seasonnumber,
+  ) {
     final weekPeriodAllRecords = ref.watch(weekPeriodAllRecordsProvider);
     final weekString = ['月', '火', '水', '木', '金'];
     return SingleChildScrollView(
@@ -149,20 +149,24 @@ final class PersonalTimeTableScreen extends ConsumerWidget {
                 TableRow(
                   children: [
                     for (int j = 1; j <= 5; j++) ...{
-                      tableText(context, ref, '${weekString[j - 1]}曜$i限', j, i,
-                          seasonnumber, data),
-                    }
+                      tableText(
+                        context,
+                        ref,
+                        '${weekString[j - 1]}曜$i限',
+                        j,
+                        i,
+                        seasonnumber,
+                        data,
+                      ),
+                    },
                   ],
-                )
-              }
+                ),
+              },
             ],
           ),
-          error: (error, stackTrace) => const Center(
-            child: Text('データを取得できませんでした。'),
-          ),
-          loading: () => const Center(
-            child: LoadingCircular(),
-          ),
+          error: (error, stackTrace) =>
+              const Center(child: Text('データを取得できませんでした。')),
+          loading: () => const Center(child: LoadingCircular()),
         ),
       ),
     );
@@ -172,14 +176,16 @@ final class PersonalTimeTableScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final deviceWidth = MediaQuery.of(context).size.width;
     final deviceHeight = MediaQuery.of(context).size.height;
-    final currentTimetablePageIndex =
-        ref.watch(currentTimetablePageIndexProvider);
-    final currentTimetablePageIndexNotifier =
-        ref.read(currentTimetablePageIndexProvider.notifier);
+    final currentTimetablePageIndex = ref.watch(
+      currentTimetablePageIndexProvider,
+    );
+    final currentTimetablePageIndexNotifier = ref.read(
+      currentTimetablePageIndexProvider.notifier,
+    );
     final timetablePageController = ref.read(timetablePageControllerProvider);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('時間割 設定'),
+        title: const Text('時間割'),
         actions: [
           Consumer(
             builder: (context, ref, child) {

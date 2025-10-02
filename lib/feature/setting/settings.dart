@@ -4,10 +4,10 @@ import 'package:dotto/controller/config_controller.dart';
 import 'package:dotto/controller/user_controller.dart';
 import 'package:dotto/domain/user_preference_keys.dart';
 import 'package:dotto/feature/announcement/announcement_screen.dart';
+import 'package:dotto/feature/assignment/setup_hope_continuity_screen.dart';
 import 'package:dotto/feature/setting/controller/settings_controller.dart';
 import 'package:dotto/feature/setting/repository/settings_repository.dart';
 import 'package:dotto/feature/setting/widget/license.dart';
-import 'package:dotto/feature/setting/widget/settings_set_userkey.dart';
 import 'package:dotto/importer.dart';
 import 'package:dotto/repository/user_preference_repository.dart';
 import 'package:dotto/theme/v1/animation.dart';
@@ -108,13 +108,13 @@ final class SettingsScreen extends ConsumerWidget {
                           : const Text('ログアウト')
                     : Text(
                         (user == null)
-                            ? '未来大Googleアカウント'
+                            ? 'Googleアカウント (@fun.ac.jp)'
                             : '${user.email}でログイン中',
                       ),
                 description: (Platform.isIOS)
                     ? Text(
                         (user == null)
-                            ? '未来大Googleアカウント'
+                            ? 'Googleアカウント (@fun.ac.jp)'
                             : '${user.email}でログイン中',
                       )
                     : null,
@@ -175,30 +175,25 @@ final class SettingsScreen extends ConsumerWidget {
                   ref.watch(settingsCourseProvider).valueOrNull ?? 'なし',
                 ),
               ),
-              // ユーザーキー
+              // HOPE連携
               SettingsTile.navigation(
-                title: const Text('課題のユーザーキー'),
-                value: Text(
-                  ref.watch(settingsUserKeyProvider).valueOrNull ?? '',
-                ),
+                title: const Text('HOPE連携'),
                 leading: const Icon(Icons.assignment),
                 onPressed: (context) {
                   Navigator.of(context).push(
                     PageRouteBuilder<void>(
                       pageBuilder: (context, animation, secondaryAnimation) =>
-                          SettingsSetUserkeyScreen(),
+                          Scaffold(
+                            appBar: AppBar(title: const Text('HOPE連携')),
+                            body: SetupHopeContinuityScreen(
+                              onUserKeySaved: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                          ),
                       transitionsBuilder: fromRightAnimation,
                     ),
                   );
-                },
-              ),
-              SettingsTile.navigation(
-                title: const Text('課題のユーザーキー設定'),
-                leading: const Icon(Icons.assignment),
-                onPressed: (context) {
-                  final formUrl = config.assignmentSetupUrl;
-                  final url = Uri.parse(formUrl);
-                  launchUrlInAppBrowserView(url);
                 },
               ),
             ],

@@ -1,7 +1,6 @@
 import 'package:dotto/controller/config_controller.dart';
 import 'package:dotto/feature/announcement/controller/announcement_from_push_notification_controller.dart';
 import 'package:dotto/feature/bus/widget/bus_card_home.dart';
-import 'package:dotto/feature/funch/funch.dart';
 import 'package:dotto/feature/funch/widget/funch_mypage_card.dart';
 import 'package:dotto/feature/timetable/controller/timetable_controller.dart';
 import 'package:dotto/feature/timetable/course_cancellation.dart';
@@ -12,6 +11,7 @@ import 'package:dotto/importer.dart';
 import 'package:dotto/theme/v1/animation.dart';
 import 'package:dotto/theme/v1/color_fun.dart';
 import 'package:dotto/widget/file_viewer.dart';
+import 'package:dotto_design_system/component/button.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 final class HomeScreen extends ConsumerStatefulWidget {
@@ -111,34 +111,51 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
       twoWeekTimeTableDataProvider.notifier,
     );
 
-    return Align(
-      alignment: Alignment.centerRight,
-      child: TextButton(
-        style: TextButton.styleFrom(
-          padding: const EdgeInsets.symmetric(horizontal: 5),
-        ),
-        onPressed: () {
-          Navigator.of(context)
-              .push(
+    return Padding(
+      padding: const EdgeInsetsGeometry.symmetric(horizontal: 16),
+      child: Row(
+        children: [
+          DottoButton(
+            onPressed: () {
+              Navigator.of(context).push(
                 PageRouteBuilder<void>(
                   pageBuilder: (context, animation, secondaryAnimation) {
-                    return const PersonalTimeTableScreen();
+                    return const CourseCancellationScreen();
                   },
                   transitionsBuilder: fromRightAnimation,
                 ),
-              )
-              .then((value) async {
-                twoWeekTimeTableDataNotifier.state = await TimetableRepository()
-                    .get2WeekLessonSchedule(ref);
-              });
-        },
-        child: Text(
-          '時間割を設定する ⇀',
-          style: TextStyle(
-            color: Colors.blue.shade700,
-            decoration: TextDecoration.underline,
+              );
+            },
+            type: DottoButtonType.text,
+            child: const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 4),
+              child: Text('休講・補講'),
+            ),
           ),
-        ),
+          const Spacer(),
+          DottoButton(
+            onPressed: () {
+              Navigator.of(context)
+                  .push(
+                    PageRouteBuilder<void>(
+                      pageBuilder: (context, animation, secondaryAnimation) {
+                        return const PersonalTimeTableScreen();
+                      },
+                      transitionsBuilder: fromRightAnimation,
+                    ),
+                  )
+                  .then((value) async {
+                    twoWeekTimeTableDataNotifier.state =
+                        await TimetableRepository().get2WeekLessonSchedule(ref);
+                  });
+            },
+            type: DottoButtonType.text,
+            child: const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 4),
+              child: Text('時間割を編集'),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -160,43 +177,11 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
     );
 
     const fileNamePath = <String, String>{
-      // 'バス時刻表': 'home/hakodatebus55.pdf',
       '学年暦': 'home/academic_calendar.pdf',
       '前期時間割': 'home/timetable_first.pdf',
       '後期時間割': 'home/timetable_second.pdf',
     };
     final infoTiles = <Widget>[
-      infoButton(
-        context,
-        () {
-          Navigator.of(context).push(
-            PageRouteBuilder<void>(
-              pageBuilder: (context, animation, secondaryAnimation) {
-                return const CourseCancellationScreen();
-              },
-              transitionsBuilder: fromRightAnimation,
-            ),
-          );
-        },
-        Icons.event_busy,
-        '休講情報',
-      ),
-      if (config.isFunchEnabled)
-        infoButton(
-          context,
-          () {
-            Navigator.of(context).push(
-              PageRouteBuilder<void>(
-                pageBuilder: (context, animation, secondaryAnimation) {
-                  return const FunchScreen();
-                },
-                transitionsBuilder: fromRightAnimation,
-              ),
-            );
-          },
-          Icons.lunch_dining_outlined,
-          '学食',
-        ),
       ...fileNamePath.entries.map(
         (item) => infoButton(
           context,
