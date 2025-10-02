@@ -1,7 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dotto/asset.dart';
-import 'package:dotto/feature/funch/controller/funch_today_daily_menu_controller.dart';
 import 'package:dotto/feature/funch/controller/funch_mypage_card_index_controller.dart';
+import 'package:dotto/feature/funch/controller/funch_today_daily_menu_controller.dart';
 import 'package:dotto/feature/funch/domain/funch_menu.dart';
 import 'package:dotto/feature/funch/funch.dart';
 import 'package:dotto/feature/funch/utility/datetime.dart';
@@ -16,9 +16,7 @@ final class FunchMyPageCard extends ConsumerWidget {
 
   ImageProvider<Object> _getBackgroundImage(String imageUrl) {
     if (imageUrl.isNotEmpty) {
-      return NetworkImage(
-        imageUrl,
-      );
+      return NetworkImage(imageUrl);
     } else {
       return const AssetImage(Asset.noImage);
     }
@@ -27,9 +25,9 @@ final class FunchMyPageCard extends ConsumerWidget {
   String _getDayString(DateTime date) {
     final today = DateTime.now();
     if (today.day == date.day) {
-      return "今日";
+      return '今日';
     } else if (today.day + 1 == date.day) {
-      return "明日";
+      return '明日';
     }
     final formatter = DateFormat('MM月dd日');
     return formatter.format(date);
@@ -42,9 +40,7 @@ final class FunchMyPageCard extends ConsumerWidget {
         GestureDetector(
           onTap: () => Navigator.push(
             context,
-            MaterialPageRoute(
-              builder: (context) => const FunchScreen(),
-            ),
+            MaterialPageRoute<void>(builder: (context) => const FunchScreen()),
           ),
           child: _buildMenuCard(context, ref),
         ),
@@ -58,7 +54,7 @@ final class FunchMyPageCard extends ConsumerWidget {
 
     final content = funchDailyMenuList.when(
       loading: () {
-        return LoadingCircular();
+        return const LoadingCircular();
       },
       error: (error, stackTrace) {
         return _buildEmptyCard(context, date);
@@ -107,14 +103,13 @@ final class FunchMyPageCard extends ConsumerWidget {
         boxShadow: [
           BoxShadow(
             color: Colors.grey.withValues(alpha: 0.5),
-            spreadRadius: 0,
             blurRadius: 1,
             offset: const Offset(0, 1.5),
           ),
         ],
       ),
       child: Padding(
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -131,25 +126,22 @@ final class FunchMyPageCard extends ConsumerWidget {
   }
 
   Widget _buildEmptyCard(BuildContext context, DateTime date) {
-    return Padding(
+    return const Padding(
       padding: EdgeInsets.symmetric(vertical: 10),
-      child: Center(
-        child: Text("情報が見つかりません。"),
-      ),
+      child: Center(child: Text('情報が見つかりません。')),
     );
   }
 
   Widget _buildHeader(DateTime date) {
-    return Text("${_getDayString(date)}の学食");
+    return Text('${_getDayString(date)}の学食');
   }
 
   Widget _buildCarousel(WidgetRef ref, List<FunchMenu> menu) {
     return CarouselSlider(
-      items: menu.map((e) => _buildCarouselItem(e)).toList(),
+      items: menu.map(_buildCarouselItem).toList(),
       options: CarouselOptions(
         aspectRatio: 4 / 3,
         autoPlay: true,
-        autoPlayInterval: const Duration(seconds: 4),
         viewportFraction: 1,
         onPageChanged: (index, reason) {
           ref.read(funchMyPageCardIndexProvider.notifier).state = index;
@@ -177,21 +169,13 @@ final class FunchMyPageCard extends ConsumerWidget {
           ),
         ),
         Padding(
-          padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+          padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                menu.name,
-                style: const TextStyle(
-                  fontSize: 18,
-                ),
-              ),
-              Divider(
-                height: 2,
-                color: AppColor.dividerGrey,
-              ),
-              SizedBox(height: 5),
+              Text(menu.name, style: const TextStyle(fontSize: 18)),
+              const Divider(height: 2, color: AppColor.dividerGrey),
+              const SizedBox(height: 5),
               FunchPriceList(menu, isHome: true),
             ],
           ),
@@ -200,24 +184,34 @@ final class FunchMyPageCard extends ConsumerWidget {
     );
   }
 
-  Widget _buildCarouselIndicators(BuildContext context, WidgetRef ref, List<FunchMenu> menuList) {
+  Widget _buildCarouselIndicators(
+    BuildContext context,
+    WidgetRef ref,
+    List<FunchMenu> menuList,
+  ) {
     final selectedIndex = ref.watch(funchMyPageCardIndexProvider);
 
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: menuList.map((menu) {
-        final index = menuList.indexOf(menu);
-        return Container(
-          width: 8.0,
-          height: 8.0,
-          margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: (Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black)
-                .withValues(alpha: selectedIndex == index ? 0.9 : 0.4),
-          ),
-        );
-      }).toList(),
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: menuList.map((menu) {
+          final index = menuList.indexOf(menu);
+          return Container(
+            width: 8,
+            height: 8,
+            margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color:
+                  (Theme.of(context).brightness == Brightness.dark
+                          ? Colors.white
+                          : Colors.black)
+                      .withValues(alpha: selectedIndex == index ? 0.9 : 0.4),
+            ),
+          );
+        }).toList(),
+      ),
     );
   }
 }

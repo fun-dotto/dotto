@@ -1,34 +1,34 @@
+import 'package:dotto/feature/timetable/controller/timetable_controller.dart';
+import 'package:dotto/feature/timetable/personal_select_lesson.dart';
 import 'package:dotto/importer.dart';
 import 'package:dotto/theme/v1/animation.dart';
 import 'package:dotto/theme/v1/color_fun.dart';
 import 'package:dotto/widget/loading_circular.dart';
-import 'package:dotto/feature/timetable/personal_select_lesson.dart';
-import 'package:dotto/feature/timetable/controller/timetable_controller.dart';
 
-class PersonalTimeTableScreen extends ConsumerWidget {
+final class PersonalTimeTableScreen extends ConsumerWidget {
   const PersonalTimeTableScreen({super.key});
 
   Future<void> seasonTimeTable(BuildContext context, WidgetRef ref) async {
     final personalLessonIdList = ref.watch(personalLessonIdListProvider);
     final weekPeriodAllRecords = ref.watch(weekPeriodAllRecordsProvider);
     if (context.mounted) {
-      showDialog(
+      await showDialog<void>(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: const Text("取得してる科目一覧"),
+            title: const Text('取得してる科目一覧'),
             content: SizedBox(
               width: double.maxFinite,
               child: weekPeriodAllRecords.when(
                 data: (data) {
-                  List<Map<String, dynamic>> seasonList = data.where((record) {
+                  final seasonList = data.where((record) {
                     return personalLessonIdList.contains(record['lessonId']);
                   }).toList();
                   return ListView.builder(
                     itemCount: seasonList.length,
                     itemBuilder: (context, index) {
                       return ListTile(
-                        title: Text(seasonList[index]['授業名']),
+                        title: Text(seasonList[index]['授業名'] as String),
                       );
                     },
                   );
@@ -36,7 +36,7 @@ class PersonalTimeTableScreen extends ConsumerWidget {
                 error: (error, stackTrace) => const Center(
                   child: Text('データを取得できませんでした'),
                 ),
-                loading: () => Center(
+                loading: () => const Center(
                   child: LoadingCircular(),
                 ),
               ),
@@ -52,12 +52,12 @@ class PersonalTimeTableScreen extends ConsumerWidget {
     WidgetRef ref,
     String name,
     int week,
-    period,
-    term,
+    int period,
+    int term,
     List<Map<String, dynamic>> records,
   ) {
     final personalLessonIdList = ref.watch(personalLessonIdListProvider);
-    List<Map<String, dynamic>> selectedLessonList = records.where((record) {
+    final selectedLessonList = records.where((record) {
       return record['week'] == week &&
           record['period'] == period &&
           (record['開講時期'] == term || record['開講時期'] == 0) &&
@@ -73,17 +73,17 @@ class PersonalTimeTableScreen extends ConsumerWidget {
                 children: selectedLessonList
                     .map(
                       (lesson) => Expanded(
-                        flex: 1,
                         child: Container(
                           width: double.infinity,
                           decoration: BoxDecoration(
                             border: Border.all(color: Colors.grey),
                             color: Colors.grey.shade300,
-                            borderRadius: const BorderRadius.all(Radius.circular(5)),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(5)),
                           ),
                           padding: const EdgeInsets.all(2),
                           child: Text(
-                            lesson['授業名'],
+                            lesson['授業名'] as String,
                             textAlign: TextAlign.center,
                             style: const TextStyle(fontSize: 8),
                           ),
@@ -105,9 +105,10 @@ class PersonalTimeTableScreen extends ConsumerWidget {
       ),
       onTap: () {
         Navigator.of(context).push(
-          PageRouteBuilder(
+          PageRouteBuilder<void>(
             pageBuilder: (context, animation, secondaryAnimation) =>
-                PersonalSelectLessonScreen(term, week, period),
+                PersonalSelectLessonScreen(
+                    term, week, period),
             transitionsBuilder: fromRightAnimation,
           ),
         );
@@ -115,21 +116,22 @@ class PersonalTimeTableScreen extends ConsumerWidget {
     );
   }
 
-  Widget seasonTimeTableList(BuildContext context, WidgetRef ref, int seasonnumber) {
+  Widget seasonTimeTableList(
+      BuildContext context, WidgetRef ref, int seasonnumber) {
     final weekPeriodAllRecords = ref.watch(weekPeriodAllRecordsProvider);
     final weekString = ['月', '火', '水', '木', '金'];
     return SingleChildScrollView(
       child: Padding(
-        padding: const EdgeInsets.all(10.0),
+        padding: const EdgeInsets.all(10),
         child: weekPeriodAllRecords.when(
           data: (data) => Table(
             columnWidths: const <int, TableColumnWidth>{
-              1: FlexColumnWidth(1),
-              2: FlexColumnWidth(1),
-              3: FlexColumnWidth(1),
-              4: FlexColumnWidth(1),
-              5: FlexColumnWidth(1),
-              6: FlexColumnWidth(1),
+              1: FlexColumnWidth(),
+              2: FlexColumnWidth(),
+              3: FlexColumnWidth(),
+              4: FlexColumnWidth(),
+              5: FlexColumnWidth(),
+              6: FlexColumnWidth(),
             },
             children: <TableRow>[
               TableRow(
@@ -147,7 +149,8 @@ class PersonalTimeTableScreen extends ConsumerWidget {
                 TableRow(
                   children: [
                     for (int j = 1; j <= 5; j++) ...{
-                      tableText(context, ref, "${weekString[j - 1]}曜$i限", j, i, seasonnumber, data),
+                      tableText(context, ref, '${weekString[j - 1]}曜$i限', j, i,
+                          seasonnumber, data),
                     }
                   ],
                 )
@@ -155,9 +158,9 @@ class PersonalTimeTableScreen extends ConsumerWidget {
             ],
           ),
           error: (error, stackTrace) => const Center(
-            child: Text("データを取得できませんでした。"),
+            child: Text('データを取得できませんでした。'),
           ),
-          loading: () => Center(
+          loading: () => const Center(
             child: LoadingCircular(),
           ),
         ),
@@ -169,8 +172,10 @@ class PersonalTimeTableScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final deviceWidth = MediaQuery.of(context).size.width;
     final deviceHeight = MediaQuery.of(context).size.height;
-    final currentTimetablePageIndex = ref.watch(currentTimetablePageIndexProvider);
-    final currentTimetablePageIndexNotifier = ref.read(currentTimetablePageIndexProvider.notifier);
+    final currentTimetablePageIndex =
+        ref.watch(currentTimetablePageIndexProvider);
+    final currentTimetablePageIndexNotifier =
+        ref.read(currentTimetablePageIndexProvider.notifier);
     final timetablePageController = ref.read(timetablePageControllerProvider);
     return Scaffold(
       appBar: AppBar(

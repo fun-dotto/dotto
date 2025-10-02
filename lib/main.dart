@@ -1,9 +1,10 @@
 import 'dart:async';
 
-import 'package:dotto/repository/db_config.dart';
-import 'package:dotto/repository/download_file_from_firebase.dart';
-import 'package:dotto/repository/location.dart';
-import 'package:dotto/repository/notification.dart';
+import 'package:dotto/app.dart';
+import 'package:dotto/firebase_options.dart';
+import 'package:dotto/repository/firebase_storage_repository.dart';
+import 'package:dotto/repository/location_repository.dart';
+import 'package:dotto/repository/notification_repository.dart';
 import 'package:dotto/repository/remote_config_repository.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -12,8 +13,6 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:dotto/firebase_options.dart';
-import 'package:dotto/app.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:timezone/data/latest.dart' as tz;
@@ -36,7 +35,8 @@ Future<void> main() async {
 
   // Firebase App Checkの初期化
   await FirebaseAppCheck.instance.activate(
-    androidProvider: kReleaseMode ? AndroidProvider.playIntegrity : AndroidProvider.debug,
+    androidProvider:
+        kReleaseMode ? AndroidProvider.playIntegrity : AndroidProvider.debug,
     appleProvider: kReleaseMode ? AppleProvider.appAttest : AppleProvider.debug,
   );
 
@@ -47,27 +47,23 @@ Future<void> main() async {
   FirebaseDatabase.instance.setPersistenceEnabled(true);
 
   // 画面の向きを固定
-  SystemChrome.setPreferredOrientations([
+  await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
 
   // ローカルタイムゾーンの設定
   await _configureLocalTimeZone();
-  Timer(const Duration(seconds: 1), () {});
 
   // Firebase Messagingのバックグラウンドハンドラーを設定
   await NotificationRepository().init();
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
   // 位置情報の許可をリクエスト
-  await requestLocationPermission();
+  await LocationRepository().requestLocationPermission();
 
   // ファイルをダウンロード
   await _downloadFiles();
-
-  // データベースの初期化
-  await SyllabusDBConfig.setDB();
 
   // アプリの起動
   runApp(const ProviderScope(child: MyApp()));
@@ -88,18 +84,18 @@ Future<void> _downloadFiles() async {
     await Future(
       () {
         // Firebaseからファイルをダウンロード
-        List<String> filePaths = [
+        final filePaths = <String>[
           'map/oneweek_schedule.json',
           'home/cancel_lecture.json',
           'home/sup_lecture.json',
           'funch/menu.json',
         ];
-        for (var path in filePaths) {
-          downloadFileFromFirebase(path);
+        for (final path in filePaths) {
+          FirebaseStorageRepository().download(path);
         }
       },
     );
-  } catch (e) {
+  } on Exception catch (e) {
     debugPrint(e.toString());
   }
 }

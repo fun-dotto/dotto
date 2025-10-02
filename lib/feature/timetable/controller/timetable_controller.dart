@@ -1,16 +1,18 @@
 import 'dart:convert';
 
-import 'package:dotto/repository/setting_user_info.dart';
+import 'package:dotto/domain/user_preference_keys.dart';
+import 'package:dotto/feature/search_course/repository/syllabus_database_config.dart';
+import 'package:dotto/feature/timetable/domain/timetable_course.dart';
+import 'package:dotto/repository/user_preference_repository.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sqflite/sqflite.dart';
 
-import 'package:dotto/importer.dart';
-import 'package:dotto/feature/timetable/domain/timetable_course.dart';
-import 'package:dotto/repository/db_config.dart';
-
 final personalLessonIdListProvider =
-    NotifierProvider<PersonalLessonIdListNotifier, List<int>>(() => PersonalLessonIdListNotifier());
+    NotifierProvider<PersonalLessonIdListNotifier, List<int>>(
+        PersonalLessonIdListNotifier.new);
 
-class PersonalLessonIdListNotifier extends Notifier<List<int>> {
+final class PersonalLessonIdListNotifier extends Notifier<List<int>> {
   @override
   List<int> build() {
     return [];
@@ -29,41 +31,49 @@ class PersonalLessonIdListNotifier extends Notifier<List<int>> {
   }
 }
 
-final saveTimetableProvider = Provider((ref) async {
+final Provider<Future<void>> saveTimetableProvider = Provider((ref) async {
   final personalLessonIdList = ref.watch(personalLessonIdListProvider);
-  await UserPreferences.setString(
-      UserPreferenceKeys.personalTimetableListKey, json.encode(personalLessonIdList));
-  await UserPreferences.setInt(
-      UserPreferenceKeys.personalTimetableLastUpdateKey, DateTime.now().millisecondsSinceEpoch);
+  await UserPreferenceRepository.setString(
+      UserPreferenceKeys.personalTimetableListKey,
+      json.encode(personalLessonIdList));
+  await UserPreferenceRepository.setInt(
+      UserPreferenceKeys.personalTimetableLastUpdateKey,
+      DateTime.now().millisecondsSinceEpoch);
 });
 
-final StateProvider<Map<DateTime, Map<int, List<TimeTableCourse>>>?> twoWeekTimeTableDataProvider =
-    StateProvider((ref) => null);
+final StateProvider<Map<DateTime, Map<int, List<TimeTableCourse>>>?>
+    twoWeekTimeTableDataProvider = StateProvider((ref) => null);
 final StateProvider<DateTime> focusTimeTableDayProvider = StateProvider((ref) {
   final now = DateTime.now();
   return DateTime(now.year, now.month, now.day);
 });
-final FutureProvider<List<Map<String, dynamic>>> weekPeriodAllRecordsProvider = FutureProvider(
+final FutureProvider<List<Map<String, dynamic>>> weekPeriodAllRecordsProvider =
+    FutureProvider(
   (ref) async {
-    Database database = await openDatabase(SyllabusDBConfig.dbPath);
-    List<Map<String, dynamic>> records =
+    final dbPath = await SyllabusDatabaseConfig().getDBPath();
+    final database = await openDatabase(dbPath);
+    final List<Map<String, dynamic>> records =
         await database.rawQuery('SELECT * FROM week_period order by lessonId');
     return records;
   },
 );
-final StateProvider<int> currentTimetablePageIndexProvider = StateProvider((ref) {
-  DateTime now = DateTime.now();
+final StateProvider<int> currentTimetablePageIndexProvider =
+    StateProvider((ref) {
+  final now = DateTime.now();
   if ((now.month >= 9) || (now.month <= 2)) {
     return 1;
   }
   return 0;
 });
-final StateProvider<PageController> timetablePageControllerProvider = StateProvider((ref) {
-  DateTime now = DateTime.now();
+final StateProvider<PageController> timetablePageControllerProvider =
+    StateProvider((ref) {
+  final now = DateTime.now();
   if ((now.month >= 9) || (now.month <= 2)) {
     return PageController(initialPage: 1);
   }
-  return PageController(initialPage: 0);
+  return PageController();
 });
-final StateProvider<bool> courseCancellationFilterEnabledProvider = StateProvider((ref) => true);
-final StateProvider<String> courseCancellationSelectedTypeProvider = StateProvider((ref) => "すべて");
+final StateProvider<bool> courseCancellationFilterEnabledProvider =
+    StateProvider((ref) => true);
+final StateProvider<String> courseCancellationSelectedTypeProvider =
+    StateProvider((ref) => 'すべて');

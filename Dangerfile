@@ -63,7 +63,7 @@ end
 
 # pubspec.yamlの変更がある場合のリマインダー
 if git.modified_files.include?("pubspec.yaml")
-  message("pubspec.yamlが変更されています。`make install`を実行してください。")
+  message("pubspec.yamlが変更されています。`task install`を実行してください。")
 end
 
 # コードの品質チェック（パスが存在する場合のみ）

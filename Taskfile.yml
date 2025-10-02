@@ -1,5 +1,10 @@
 version: "3"
 
+includes:
+  dotto_design_system:
+    taskfile: ./dotto_design_system/Taskfile.yml
+    dir: ./dotto_design_system
+
 vars:
   FLUTTER: fvm flutter
   DART: fvm dart
@@ -14,6 +19,9 @@ tasks:
   install:
     desc: Install dependencies and configure Flutter
     cmds:
+      - task: dotto_design_system:install
+        vars:
+          FLUTTER: "{{.FLUTTER}}"
       - |
         if [ "$GITHUB_ACTIONS" ]; then
           {{.FLUTTER}} --version
@@ -33,12 +41,22 @@ tasks:
   build:
     desc: Run build_runner to generate code
     cmds:
+      - task: dotto_design_system:build
+        vars:
+          DART: "{{.DART}}"
       - "{{.DART}} run build_runner build --delete-conflicting-outputs"
 
   run:
     desc: Run the Flutter app
     cmds:
       - "{{.FLUTTER}} run --dart-define-from-file=./.env"
+
+  run-storybook:
+    desc: Run the Storybook app
+    cmds:
+      - task: dotto_design_system:run
+        vars:
+          FLUTTER: "{{.FLUTTER}}"
 
   clean:
     desc: Clean Flutter build files
@@ -53,6 +71,8 @@ tasks:
   test-with-coverage:
     desc: Run Flutter tests with coverage report
     cmds:
+      - task install
+      - task build
       - "{{.FLUTTER}} test --coverage"
       - "lcov --remove coverage/lcov.info 'lib/**.g.dart' -o coverage/new_lcov.info --ignore-errors unused"
       - "genhtml coverage/new_lcov.info -o coverage/html"
@@ -61,36 +81,61 @@ tasks:
   analyze:
     desc: Analyze Dart code
     cmds:
+      - task install
+      - task build
       - "{{.FLUTTER}} analyze ./lib/ ./test/"
 
   build-ios:
     desc: Build iOS release
     cmds:
+      - task install
+      - xcodes select
+      - task build
       - "{{.FLUTTER}} build ios --release --dart-define-from-file=./.env"
 
   build-android:
     desc: Build Android release appbundle
     cmds:
+      - task install
+      - task build
       - "{{.FLUTTER}} build appbundle --release --dart-define-from-file=./.env"
 
   deploy-ios-firebase-app-distribution:
     desc: Deploy iOS to Firebase App Distribution
     cmds:
+      - task install
+      - task bundle-install
+      - xcodes select
+      - task clean
+      - task build
       - cd ./ios && {{.FASTLANE}} deploy_firebase_app_distribution
 
   deploy-android-firebase-app-distribution:
     desc: Deploy Android to Firebase App Distribution
     cmds:
+      - task install
+      - task bundle-install
+      - task clean
+      - task build
       - cd ./android && {{.FASTLANE}} deploy_firebase_app_distribution
 
   deploy-ios-testflight:
     desc: Deploy iOS to TestFlight
     cmds:
+      - task install
+      - task bundle-install
+      - xcodes select
+      - task clean
+      - task build
       - cd ./ios && {{.FASTLANE}} deploy_testflight
 
   deploy-android-google-play:
     desc: Deploy Android to Google Play
     cmds:
+      - task install
+      - task bundle-install
+      - task clean
+      - task build
       - cd ./android && {{.FASTLANE}} deploy_google_play
 
   match-development:

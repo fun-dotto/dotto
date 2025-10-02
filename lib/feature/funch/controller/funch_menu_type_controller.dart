@@ -6,15 +6,17 @@ final funchMenuCategoryProvider =
   return FunchMenuCategoryNotifier();
 });
 
-class FunchMenuCategoryNotifier extends Notifier<FunchMenuCategory> {
+final class FunchMenuCategoryNotifier extends Notifier<FunchMenuCategory> {
   // 初期値を設定する
   @override
   FunchMenuCategory build() {
-    final category = FunchMenuCategory.set;
+    const category = FunchMenuCategory.set;
     return category;
   }
 
-  void set(FunchMenuCategory type) {
+  FunchMenuCategory get menuCategory => state;
+  
+  set menuCategory(FunchMenuCategory type) {
     state = type;
   }
 }
