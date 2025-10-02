@@ -1,5 +1,10 @@
 version: "3"
 
+includes:
+  dotto_design_system:
+    taskfile: ./dotto_design_system/Taskfile.yml
+    dir: ./dotto_design_system
+
 vars:
   FLUTTER: fvm flutter
   DART: fvm dart
@@ -14,6 +19,9 @@ tasks:
   install:
     desc: Install dependencies and configure Flutter
     cmds:
+      - task: dotto_design_system:install
+        vars:
+          FLUTTER: "{{.FLUTTER}}"
       - |
         if [ "$GITHUB_ACTIONS" ]; then
           {{.FLUTTER}} --version
@@ -33,14 +41,22 @@ tasks:
   build:
     desc: Run build_runner to generate code
     cmds:
+      - task: dotto_design_system:build
+        vars:
+          DART: "{{.DART}}"
       - "{{.DART}} run build_runner build --delete-conflicting-outputs"
 
   run:
     desc: Run the Flutter app
     cmds:
-      - task install
-      - task build
       - "{{.FLUTTER}} run --dart-define-from-file=./.env"
+
+  run-storybook:
+    desc: Run the Storybook app
+    cmds:
+      - task: dotto_design_system:run
+        vars:
+          FLUTTER: "{{.FLUTTER}}"
 
   clean:
     desc: Clean Flutter build files
