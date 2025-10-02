@@ -2,16 +2,15 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:collection/collection.dart';
-import 'package:dotto/controller/config_controller.dart';
 import 'package:dotto/domain/user_preference_keys.dart';
 import 'package:dotto/feature/assignment/domain/kadai.dart';
 import 'package:dotto/feature/assignment/kadai_hidden_list.dart';
 import 'package:dotto/feature/assignment/repository/assignment_repository.dart';
+import 'package:dotto/feature/assignment/setup_hope_continuity_screen.dart';
 import 'package:dotto/feature/setting/controller/settings_controller.dart';
 import 'package:dotto/importer.dart';
 import 'package:dotto/repository/user_preference_repository.dart';
 import 'package:dotto/widget/loading_circular.dart';
-import 'package:dotto_design_system/component/button.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
@@ -838,7 +837,7 @@ final class _KadaiListScreenState extends State<KadaiListScreen> {
                         return _kadaiListView(snapshot.data!);
                       } else if (snapshot.hasError) {
                         return ListView(
-                          children: const [_SetupHopeContinuity()],
+                          children: [SetupHopeContinuityScreen()],
                         );
                       } else {
                         return const LoadingCircular();
@@ -848,34 +847,6 @@ final class _KadaiListScreenState extends State<KadaiListScreen> {
             );
           },
         ),
-      ),
-    );
-  }
-}
-
-final class _SetupHopeContinuity extends ConsumerWidget {
-  const _SetupHopeContinuity();
-
-  Future<void> _launchUrlInAppBrowserView(Uri url) async {
-    if (await canLaunchUrl(url)) {
-      await launchUrl(url, mode: LaunchMode.inAppBrowserView);
-    } else {
-      throw Exception('Could not launch $url');
-    }
-  }
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final config = ref.watch(configNotifierProvider);
-    return Padding(
-      padding: const EdgeInsets.all(16),
-      child: DottoButton(
-        onPressed: () {
-          final formUrl = config.userKeySettingUrl;
-          final url = Uri.parse(formUrl);
-          _launchUrlInAppBrowserView(url);
-        },
-        child: const Text('HOPEと連携'),
       ),
     );
   }
