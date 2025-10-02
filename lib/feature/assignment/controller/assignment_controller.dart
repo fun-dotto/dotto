@@ -1,11 +1,9 @@
 import 'package:dotto/feature/assignment/domain/assignment_state.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+part 'assignment_controller.g.dart';
 
-final assignmentControllerProvider =
-    AsyncNotifierProvider<AssignmentController, AssignmentState>(
-        AssignmentController.new);
-
-final class AssignmentController extends AsyncNotifier<AssignmentState> {
+@riverpod
+final class AssignmentNotifier extends _$AssignmentNotifier {
   @override
   Future<AssignmentState> build() async {
     return AssignmentState();
