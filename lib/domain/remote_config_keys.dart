@@ -6,4 +6,6 @@ final class RemoteConfigKeys {
   static const String announcementsUrl = 'announcements_url';
   static const String assignmentSetupUrl = 'assignment_setup_url';
   static const String feedbackFormUrl = 'feedback_form_url';
+  static const String termsOfServiceUrl = 'terms_of_service_url';
+  static const String privacyPolicyUrl = 'privacy_policy_url';
 }

@@ -35,6 +35,12 @@ final class ConfigNotifier extends _$ConfigNotifier {
     final feedbackFormUrl = remoteConfigRepository.getString(
       RemoteConfigKeys.feedbackFormUrl,
     );
+    final termsOfServiceUrl = remoteConfigRepository.getString(
+      RemoteConfigKeys.termsOfServiceUrl,
+    );
+    final privacyPolicyUrl = remoteConfigRepository.getString(
+      RemoteConfigKeys.privacyPolicyUrl,
+    );
 
     return Config(
       isDesignV2Enabled: isDesignV2Enabled,
@@ -44,6 +50,8 @@ final class ConfigNotifier extends _$ConfigNotifier {
       announcementsUrl: announcementsUrl,
       assignmentSetupUrl: assignmentSetupUrl,
       feedbackFormUrl: feedbackFormUrl,
+      termsOfServiceUrl: termsOfServiceUrl,
+      privacyPolicyUrl: privacyPolicyUrl,
     );
   }
 

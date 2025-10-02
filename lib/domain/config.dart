@@ -12,6 +12,8 @@ abstract class Config with _$Config {
     required String announcementsUrl,
     required String assignmentSetupUrl,
     required String feedbackFormUrl,
+    required String termsOfServiceUrl,
+    required String privacyPolicyUrl,
   }) = _Config;
 
   static const String cloudflareR2Endpoint = String.fromEnvironment(

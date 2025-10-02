@@ -247,14 +247,25 @@ final class SettingsScreen extends ConsumerWidget {
               ),
               // 利用規約
               SettingsTile.navigation(
-                title: const Text('利用規約&プライバシーポリシー'),
+                title: const Text('利用規約'),
                 leading: const Icon(Icons.verified_user),
                 onPressed: (context) {
-                  const formUrl = 'https://dotto.web.app/privacypolicy.html';
+                  final formUrl = config.termsOfServiceUrl;
                   final url = Uri.parse(formUrl);
                   launchUrlInAppBrowserView(url);
                 },
               ),
+              // プライバシーポリシー
+              SettingsTile.navigation(
+                title: const Text('プライバシーポリシー'),
+                leading: const Icon(Icons.admin_panel_settings),
+                onPressed: (context) {
+                  final formUrl = config.privacyPolicyUrl;
+                  final url = Uri.parse(formUrl);
+                  launchUrlInAppBrowserView(url);
+                },
+              ),
+              // ライセンス
               SettingsTile.navigation(
                 title: const Text('ライセンス'),
                 leading: const Icon(Icons.info),
@@ -267,12 +278,8 @@ final class SettingsScreen extends ConsumerWidget {
                     ),
                   );
                 },
-              ),
-              // バージョン
-              SettingsTile.navigation(
-                title: const Text('バージョン'),
-                leading: const Icon(Icons.info),
-                trailing: FutureBuilder(
+                // バージョン
+                description: FutureBuilder(
                   future: PackageInfo.fromPlatform(),
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
