@@ -14,7 +14,7 @@ final class AssignmentsNotifier extends _$AssignmentsNotifier {
     );
     if (userKey == null || userKey.isEmpty)
       throw Exception('User key is not set.');
-    return AssignmentRepository().getKadaiFromFirebase(userKey);
+    return AssignmentRepository().getKadaiFromFirebase();
   }
 
   Future<void> refresh() async {
