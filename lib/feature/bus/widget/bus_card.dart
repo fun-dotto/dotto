@@ -5,8 +5,15 @@ import 'package:dotto/importer.dart';
 import 'package:dotto/theme/v1/app_color.dart';
 
 final class BusCard extends ConsumerWidget {
-  const BusCard(this.route, this.beginTime, this.endTime, this.arriveAt,
-      {super.key, this.isKameda = false, this.home = false});
+  const BusCard(
+    this.route,
+    this.beginTime,
+    this.endTime,
+    this.arriveAt, {
+    super.key,
+    this.isKameda = false,
+    this.home = false,
+  });
   final String route;
   final Duration beginTime;
   final Duration endTime;
@@ -41,8 +48,11 @@ final class BusCard extends ConsumerWidget {
       shadowColor: Colors.black,
       child: Container(
         padding: EdgeInsets.only(
-            left: 10, right: 10, bottom: 10, top: (home ? 0 : 10)),
-        width: MediaQuery.of(context).size.width * 0.85,
+          left: 10,
+          right: 10,
+          bottom: 10,
+          top: (home ? 0 : 10),
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -66,9 +76,7 @@ final class BusCard extends ConsumerWidget {
                       onPressed: () {
                         ref.read(busIsToProvider.notifier).change();
                       },
-                      icon: const Icon(
-                        Icons.swap_horiz_outlined,
-                      ),
+                      icon: const Icon(Icons.swap_horiz_outlined),
                       padding: EdgeInsets.zero,
                     ),
                   ),
@@ -94,25 +102,17 @@ final class BusCard extends ConsumerWidget {
                       Transform.translate(
                         offset: const Offset(0, -5),
                         child: Text(
-                            '${BusRepository().formatDuration(endTime)}'
-                            '${isKameda && !busIsTo ? '亀田支所着' : '着'}'),
-                      )
-                    ],
-                  ),
-                  Divider(
-                    height: 6,
-                    color: tripType.dividerColor,
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Text(
-                        '出発まで${arriveAt.inMinutes}分',
+                          '${BusRepository().formatDuration(endTime)}'
+                          '${isKameda && !busIsTo ? '亀田支所着' : '着'}',
+                        ),
                       ),
                     ],
+                  ),
+                  Divider(height: 6, color: tripType.dividerColor),
+                  const SizedBox(height: 5),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [Text('出発まで${arriveAt.inMinutes}分')],
                   ),
                 ],
               )
@@ -122,18 +122,10 @@ final class BusCard extends ConsumerWidget {
               const Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Text(
-                    'バス一覧',
-                    style: TextStyle(
-                      color: AppColor.linkTextBlue,
-                    ),
-                  ),
-                  Icon(
-                    Icons.chevron_right,
-                    color: AppColor.linkTextBlue,
-                  )
+                  Text('バス一覧', style: TextStyle(color: AppColor.linkTextBlue)),
+                  Icon(Icons.chevron_right, color: AppColor.linkTextBlue),
                 ],
-              )
+              ),
           ],
         ),
       ),

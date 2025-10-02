@@ -42,9 +42,7 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                for (int j = i; j < i + 3 && j < length; j++) ...{
-                  children[j],
-                }
+                for (int j = i; j < i + 3 && j < length; j++) ...{children[j]},
               ],
             ),
           },
@@ -53,8 +51,12 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
     );
   }
 
-  Widget infoButton(BuildContext context, void Function() onPressed,
-      IconData icon, String title) {
+  Widget infoButton(
+    BuildContext context,
+    void Function() onPressed,
+    IconData icon,
+    String title,
+  ) {
     final width = MediaQuery.sizeOf(context).width * 0.26;
     const double height = 100;
     return Container(
@@ -79,19 +81,12 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
                   height: 45,
                   color: customFunColor,
                   child: Center(
-                    child: Icon(
-                      icon,
-                      color: Colors.white,
-                      size: 25,
-                    ),
+                    child: Icon(icon, color: Colors.white, size: 25),
                   ),
                 ),
               ),
               const SizedBox(height: 5),
-              Text(
-                title,
-                style: const TextStyle(fontSize: 11),
-              ),
+              Text(title, style: const TextStyle(fontSize: 11)),
             ],
           ),
         ),
@@ -100,14 +95,56 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 
   void _showPushNotificationNews(BuildContext context, WidgetRef ref) {
-    final announcementUrlFromPushNotification =
-        ref.watch(announcementFromPushNotificationProvider);
+    final announcementUrlFromPushNotification = ref.watch(
+      announcementFromPushNotificationProvider,
+    );
 
     if (announcementUrlFromPushNotification == null) {
       return;
     }
 
     launchUrlInAppBrowserView(announcementUrlFromPushNotification);
+  }
+
+  Widget _setTimeTableButton() {
+    final twoWeekTimeTableDataNotifier = ref.read(
+      twoWeekTimeTableDataProvider.notifier,
+    );
+
+    return Align(
+      alignment: Alignment.centerRight,
+      child: TextButton(
+        style: TextButton.styleFrom(
+          padding: const EdgeInsets.symmetric(horizontal: 5),
+        ),
+        onPressed: () {
+          Navigator.of(context)
+              .push(
+                PageRouteBuilder<void>(
+                  pageBuilder: (context, animation, secondaryAnimation) {
+                    return const PersonalTimeTableScreen();
+                  },
+                  transitionsBuilder: fromRightAnimation,
+                ),
+              )
+              .then((value) async {
+                twoWeekTimeTableDataNotifier.state = await TimetableRepository()
+                    .get2WeekLessonSchedule(ref);
+              });
+        },
+        child: Text(
+          '時間割を設定する ⇀',
+          style: TextStyle(
+            color: Colors.blue.shade700,
+            decoration: TextDecoration.underline,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _timetable() {
+    return Column(children: [const MyPageTimetable(), _setTimeTableButton()]);
   }
 
   @override
@@ -117,9 +154,10 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final config = ref.watch(configControllerProvider);
-    WidgetsBinding.instance
-        .addPostFrameCallback((_) => _showPushNotificationNews(context, ref));
+    final config = ref.watch(configNotifierProvider);
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) => _showPushNotificationNews(context, ref),
+    );
 
     const fileNamePath = <String, String>{
       // 'バス時刻表': 'home/hakodatebus55.pdf',
@@ -128,28 +166,41 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
       '後期時間割': 'home/timetable_second.pdf',
     };
     final infoTiles = <Widget>[
-      infoButton(context, () {
-        Navigator.of(context).push(
-          PageRouteBuilder<void>(
-            pageBuilder: (context, animation, secondaryAnimation) {
-              return const CourseCancellationScreen();
-            },
-            transitionsBuilder: fromRightAnimation,
-          ),
-        );
-      }, Icons.event_busy, '休講情報'),
-      if (config.isFunchEnabled)
-        infoButton(context, () {
+      infoButton(
+        context,
+        () {
           Navigator.of(context).push(
             PageRouteBuilder<void>(
               pageBuilder: (context, animation, secondaryAnimation) {
-                return const FunchScreen();
+                return const CourseCancellationScreen();
               },
               transitionsBuilder: fromRightAnimation,
             ),
           );
-        }, Icons.lunch_dining_outlined, '学食'),
-      ...fileNamePath.entries.map((item) => infoButton(context, () {
+        },
+        Icons.event_busy,
+        '休講情報',
+      ),
+      if (config.isFunchEnabled)
+        infoButton(
+          context,
+          () {
+            Navigator.of(context).push(
+              PageRouteBuilder<void>(
+                pageBuilder: (context, animation, secondaryAnimation) {
+                  return const FunchScreen();
+                },
+                transitionsBuilder: fromRightAnimation,
+              ),
+            );
+          },
+          Icons.lunch_dining_outlined,
+          '学食',
+        ),
+      ...fileNamePath.entries.map(
+        (item) => infoButton(
+          context,
+          () {
             Navigator.of(context).push(
               PageRouteBuilder<void>(
                 pageBuilder: (context, animation, secondaryAnimation) {
@@ -162,67 +213,23 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
                 transitionsBuilder: fromRightAnimation,
               ),
             );
-          }, Icons.picture_as_pdf, item.key)),
+          },
+          Icons.picture_as_pdf,
+          item.key,
+        ),
+      ),
     ];
-
-    final twoWeekTimeTableDataNotifier =
-        ref.read(twoWeekTimeTableDataProvider.notifier);
 
     return Scaffold(
       body: SingleChildScrollView(
-        child: Center(
-          child: Column(
-            children: [
-              const SizedBox(
-                height: 5,
-              ),
-              // 時間割
-              const MyPageTimetable(),
-              Align(
-                alignment: Alignment.centerRight,
-                child: TextButton(
-                  style: TextButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(horizontal: 5),
-                  ),
-                  onPressed: () {
-                    Navigator.of(context)
-                        .push(
-                      PageRouteBuilder<void>(
-                        pageBuilder: (context, animation, secondaryAnimation) {
-                          return const PersonalTimeTableScreen();
-                        },
-                        transitionsBuilder: fromRightAnimation,
-                      ),
-                    )
-                        .then((value) async {
-                      twoWeekTimeTableDataNotifier.state =
-                          await TimetableRepository()
-                              .get2WeekLessonSchedule(ref);
-                    });
-                  },
-                  child: Text(
-                    '時間割を設定する ⇀',
-                    style: TextStyle(
-                      color: Colors.blue.shade700,
-                      decoration: TextDecoration.underline,
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 20),
-              const BusCardHome(),
-              const SizedBox(height: 20),
-              if (config.isFunchEnabled)
-                const FunchMyPageCard()
-              else
-                const SizedBox.shrink(),
-              const SizedBox(height: 20),
-              const SizedBox(height: 20),
-              infoTile(infoTiles),
-              const SizedBox(height: 20),
-              const SizedBox(height: 20),
-            ],
-          ),
+        child: Column(
+          spacing: 16,
+          children: [
+            _timetable(),
+            const BusCardHome(),
+            if (config.isFunchEnabled) const FunchMyPageCard(),
+            infoTile(infoTiles),
+          ],
         ),
       ),
     );

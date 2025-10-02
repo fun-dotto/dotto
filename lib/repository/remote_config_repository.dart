@@ -8,15 +8,19 @@ final class RemoteConfigRepository {
   static Future<void> initialize() async {
     final remoteConfig = FirebaseRemoteConfig.instance;
     if (kDebugMode) {
-      await remoteConfig.setConfigSettings(RemoteConfigSettings(
-        fetchTimeout: const Duration(minutes: 1),
-        minimumFetchInterval: Duration.zero,
-      ));
+      await remoteConfig.setConfigSettings(
+        RemoteConfigSettings(
+          fetchTimeout: const Duration(minutes: 1),
+          minimumFetchInterval: Duration.zero,
+        ),
+      );
     } else {
-      await remoteConfig.setConfigSettings(RemoteConfigSettings(
-        fetchTimeout: const Duration(minutes: 1),
-        minimumFetchInterval: const Duration(hours: 1),
-      ));
+      await remoteConfig.setConfigSettings(
+        RemoteConfigSettings(
+          fetchTimeout: const Duration(minutes: 1),
+          minimumFetchInterval: const Duration(hours: 1),
+        ),
+      );
     }
 
     if (kDebugMode) {
@@ -24,6 +28,7 @@ final class RemoteConfigRepository {
         RemoteConfigKeys.isDesignV2Enabled: false,
         RemoteConfigKeys.isFunchEnabled: true,
         RemoteConfigKeys.isValidAppVersion: true,
+        RemoteConfigKeys.userKeySettingUrl: 'https://dotto.web.app/',
         RemoteConfigKeys.announcementsUrl:
             'https://fun-dotto.github.io/data/announcements.json',
         RemoteConfigKeys.assignmentSetupUrl: 'https://dotto.web.app/',
@@ -34,6 +39,7 @@ final class RemoteConfigRepository {
         RemoteConfigKeys.isDesignV2Enabled: false,
         RemoteConfigKeys.isFunchEnabled: false,
         RemoteConfigKeys.isValidAppVersion: true,
+        RemoteConfigKeys.userKeySettingUrl: 'https://dotto.web.app/',
         RemoteConfigKeys.announcementsUrl:
             'https://fun-dotto.github.io/data/announcements.json',
         RemoteConfigKeys.assignmentSetupUrl: 'https://dotto.web.app/',

@@ -16,9 +16,7 @@ final class FunchMyPageCard extends ConsumerWidget {
 
   ImageProvider<Object> _getBackgroundImage(String imageUrl) {
     if (imageUrl.isNotEmpty) {
-      return NetworkImage(
-        imageUrl,
-      );
+      return NetworkImage(imageUrl);
     } else {
       return const AssetImage(Asset.noImage);
     }
@@ -42,9 +40,7 @@ final class FunchMyPageCard extends ConsumerWidget {
         GestureDetector(
           onTap: () => Navigator.push(
             context,
-            MaterialPageRoute<void>(
-              builder: (context) => const FunchScreen(),
-            ),
+            MaterialPageRoute<void>(builder: (context) => const FunchScreen()),
           ),
           child: _buildMenuCard(context, ref),
         ),
@@ -132,9 +128,7 @@ final class FunchMyPageCard extends ConsumerWidget {
   Widget _buildEmptyCard(BuildContext context, DateTime date) {
     return const Padding(
       padding: EdgeInsets.symmetric(vertical: 10),
-      child: Center(
-        child: Text('情報が見つかりません。'),
-      ),
+      child: Center(child: Text('情報が見つかりません。')),
     );
   }
 
@@ -179,16 +173,8 @@ final class FunchMyPageCard extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                menu.name,
-                style: const TextStyle(
-                  fontSize: 18,
-                ),
-              ),
-              const Divider(
-                height: 2,
-                color: AppColor.dividerGrey,
-              ),
+              Text(menu.name, style: const TextStyle(fontSize: 18)),
+              const Divider(height: 2, color: AppColor.dividerGrey),
               const SizedBox(height: 5),
               FunchPriceList(menu, isHome: true),
             ],
@@ -214,16 +200,14 @@ final class FunchMyPageCard extends ConsumerWidget {
           return Container(
             width: 8,
             height: 8,
-            margin: const EdgeInsets.symmetric(
-              vertical: 8,
-              horizontal: 4,
-            ),
+            margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: (Theme.of(context).brightness == Brightness.dark
-                      ? Colors.white
-                      : Colors.black)
-                  .withValues(alpha: selectedIndex == index ? 0.9 : 0.4),
+              color:
+                  (Theme.of(context).brightness == Brightness.dark
+                          ? Colors.white
+                          : Colors.black)
+                      .withValues(alpha: selectedIndex == index ? 0.9 : 0.4),
             ),
           );
         }).toList(),
