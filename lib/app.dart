@@ -41,7 +41,7 @@ final class _MyAppState extends ConsumerState<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    final config = ref.watch(configControllerProvider);
+    final config = ref.watch(configNotifierProvider);
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,

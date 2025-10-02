@@ -154,7 +154,7 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final config = ref.watch(configControllerProvider);
+    final config = ref.watch(configNotifierProvider);
     WidgetsBinding.instance.addPostFrameCallback(
       (_) => _showPushNotificationNews(context, ref),
     );
