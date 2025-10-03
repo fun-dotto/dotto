@@ -6,7 +6,7 @@ final class DottoThemev1 {
     return ThemeData(
       primarySwatch: customFunColor,
       colorScheme: ColorScheme.light(
-        primary: Colors.transparent,
+        primary: customFunColor,
         onSurface: Colors.grey.shade900,
         surface: Colors.grey.shade100,
       ),
