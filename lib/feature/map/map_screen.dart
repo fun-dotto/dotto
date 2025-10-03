@@ -2,7 +2,8 @@ import 'package:dotto/feature/map/widget/map.dart';
 import 'package:dotto/feature/map/widget/map_date_picker.dart';
 import 'package:dotto/feature/map/widget/map_floor_button.dart';
 import 'package:dotto/feature/map/widget/map_legend.dart';
-import 'package:dotto/feature/map/widget/map_search.dart';
+import 'package:dotto/feature/map/widget/map_search_bar.dart';
+import 'package:dotto/feature/map/widget/map_search_result_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -53,7 +54,7 @@ final class MapScreen extends ConsumerWidget {
                     ),
                   ],
                 ),
-                MapSearchListView(),
+                MapSearchResultList(),
               ],
             ),
           ),
