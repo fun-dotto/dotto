@@ -207,6 +207,13 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
     ];
 
     return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          'Dotto',
+          style: TextStyle(fontWeight: FontWeight.w600),
+        ),
+        centerTitle: false,
+      ),
       body: SingleChildScrollView(
         child: Column(
           spacing: 16,
