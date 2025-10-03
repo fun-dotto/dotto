@@ -1,6 +1,11 @@
 import 'package:collection/collection.dart';
 import 'package:dotto/asset.dart';
-import 'package:dotto/feature/bus/controller/bus_controller.dart';
+import 'package:dotto/feature/bus/controller/bus_data_controller.dart';
+import 'package:dotto/feature/bus/controller/bus_is_scrolled_controller.dart';
+import 'package:dotto/feature/bus/controller/bus_is_to_controller.dart';
+import 'package:dotto/feature/bus/controller/bus_is_weekday_controller.dart';
+import 'package:dotto/feature/bus/controller/bus_polling_controller.dart';
+import 'package:dotto/feature/bus/controller/my_bus_stop_controller.dart';
 import 'package:dotto/feature/bus/widget/bus_card.dart';
 import 'package:dotto/feature/bus/widget/bus_stop_select.dart';
 import 'package:dotto/feature/bus/widget/bus_timetable.dart';
@@ -63,12 +68,12 @@ final class BusScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final busData = ref.watch(busDataProvider);
-    final myBusStop = ref.watch(myBusStopProvider);
-    final busIsTo = ref.watch(busIsToProvider);
-    final busRefresh = ref.watch(busRefreshProvider);
-    final busIsWeekday = ref.watch(busIsWeekdayNotifier);
-    final busScrolled = ref.watch(busScrolledProvider);
+    final busData = ref.watch(busDataNotifierProvider);
+    final myBusStop = ref.watch(myBusStopNotifierProvider);
+    final busIsTo = ref.watch(busIsToNotifierProvider);
+    final busPolling = ref.watch(busPollingNotifierProvider);
+    final busIsWeekday = ref.watch(busIsWeekdayNotifierProvider);
+    final busScrolled = ref.watch(busIsScrolledNotifierProvider);
 
     final myBusStopButton = busStopButton(
       context,
@@ -91,68 +96,81 @@ final class BusScreen extends ConsumerWidget {
       iconSize: 20,
       color: AppColor.linkTextBlue,
       onPressed: () {
-        ref.read(busIsToProvider.notifier).change();
-        ref.read(busScrolledProvider.notifier).state = false;
+        ref.read(busIsToNotifierProvider.notifier).toggle();
+        ref.read(busIsScrolledNotifierProvider.notifier).value = false;
       },
       icon: const Icon(Icons.swap_horiz_outlined),
     );
 
-    var arriveAtSoon = true;
-    final busListWidget = busData != null
-        ? busData[fromToString]![busIsWeekday ? 'weekday' : 'holiday']!.map((
-            busTrip,
-          ) {
-            final funBusTripStop = busTrip.stops.firstWhereOrNull(
-              (element) => element.stop.id == 14023,
-            );
-            if (funBusTripStop == null) {
-              return Container();
-            }
-            var targetBusTripStop = busTrip.stops.firstWhereOrNull(
-              (element) => element.stop.id == myBusStop.id,
-            );
-            var kameda = false;
-            if (targetBusTripStop == null) {
-              targetBusTripStop = busTrip.stops.firstWhere(
-                (element) => element.stop.id == 14013,
-              );
-              kameda = true;
-            }
-            final fromBusTripStop = busIsTo
-                ? targetBusTripStop
-                : funBusTripStop;
-            final toBusTripStop = busIsTo ? funBusTripStop : targetBusTripStop;
-            final now = busRefresh;
-            final nowDuration = Duration(hours: now.hour, minutes: now.minute);
-            final arriveAt = fromBusTripStop.time - nowDuration;
-            var hasKey = false;
-            if (arriveAtSoon && arriveAt > Duration.zero) {
-              arriveAtSoon = false;
-              hasKey = true;
-            }
-            //return const SizedBox.shrink();
-            //}
-            return InkWell(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute<void>(
-                    builder: (context) => BusTimetableScreen(busTrip),
-                  ),
-                );
-              },
-              child: BusCard(
-                busTrip.route,
-                fromBusTripStop.time,
-                toBusTripStop.time,
-                arriveAt,
-                isKameda: kameda,
-                key: hasKey ? busKey : null,
-              ),
-            );
-          }).toList()
-        : [Container()];
     final scrollController = ScrollController();
+
+    var arriveAtSoon = true;
+    final busListWidget = busData.when(
+      data: (data) {
+        final busListWidget =
+            data[fromToString]![busIsWeekday ? 'weekday' : 'holiday']!.map((
+              busTrip,
+            ) {
+              final funBusTripStop = busTrip.stops.firstWhereOrNull(
+                (element) => element.stop.id == 14023,
+              );
+              if (funBusTripStop == null) {
+                return Container();
+              }
+              var targetBusTripStop = busTrip.stops.firstWhereOrNull(
+                (element) => element.stop.id == myBusStop.id,
+              );
+              var kameda = false;
+              if (targetBusTripStop == null) {
+                targetBusTripStop = busTrip.stops.firstWhere(
+                  (element) => element.stop.id == 14013,
+                );
+                kameda = true;
+              }
+              final fromBusTripStop = busIsTo
+                  ? targetBusTripStop
+                  : funBusTripStop;
+              final toBusTripStop = busIsTo
+                  ? funBusTripStop
+                  : targetBusTripStop;
+              final now = busPolling;
+              final nowDuration = Duration(
+                hours: now.hour,
+                minutes: now.minute,
+              );
+              final arriveAt = fromBusTripStop.time - nowDuration;
+              var hasKey = false;
+              if (arriveAtSoon && arriveAt > Duration.zero) {
+                arriveAtSoon = false;
+                hasKey = true;
+              }
+              return InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute<void>(
+                      builder: (context) => BusTimetableScreen(busTrip),
+                    ),
+                  );
+                },
+                child: BusCard(
+                  busTrip.route,
+                  fromBusTripStop.time,
+                  toBusTripStop.time,
+                  arriveAt,
+                  isKameda: kameda,
+                  key: hasKey ? busKey : null,
+                ),
+              );
+            }).toList();
+        return SingleChildScrollView(
+          controller: scrollController,
+          child: Column(children: busListWidget),
+        );
+      },
+      error: (_, _) => const SizedBox.shrink(),
+      loading: () => const LoadingCircular(),
+    );
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (busScrolled) return;
@@ -165,7 +183,7 @@ final class BusScreen extends ConsumerWidget {
         duration: const Duration(milliseconds: 500),
         curve: Curves.easeInOut,
       );
-      ref.read(busScrolledProvider.notifier).state = true;
+      ref.read(busIsScrolledNotifierProvider.notifier).value = true;
     });
 
     return Scaffold(
@@ -174,8 +192,8 @@ final class BusScreen extends ConsumerWidget {
         actions: [
           DottoButton(
             onPressed: () {
-              ref.read(busIsWeekdayNotifier.notifier).change();
-              ref.read(busScrolledProvider.notifier).state = false;
+              ref.read(busIsWeekdayNotifierProvider.notifier).toggle();
+              ref.read(busIsScrolledNotifierProvider.notifier).value = false;
             },
             type: DottoButtonType.text,
             child: Row(
@@ -212,14 +230,7 @@ final class BusScreen extends ConsumerWidget {
               ],
             ),
           ),
-          Expanded(
-            child: busData != null
-                ? SingleChildScrollView(
-                    controller: scrollController,
-                    child: Column(children: busListWidget),
-                  )
-                : const LoadingCircular(),
-          ),
+          Expanded(child: busListWidget),
         ],
       ),
     );

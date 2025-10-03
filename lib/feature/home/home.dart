@@ -196,7 +196,10 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
             spacing: 16,
             children: [
               _timetable(),
-              const BusCardHome(),
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16),
+                child: BusCardHome(),
+              ),
               if (config.isFunchEnabled) const FunchMyPageCard(),
               infoTile(infoTiles),
             ],

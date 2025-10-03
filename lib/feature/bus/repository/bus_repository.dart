@@ -1,4 +1,4 @@
-import 'package:dotto/feature/bus/controller/bus_controller.dart';
+import 'package:dotto/feature/bus/controller/bus_is_to_controller.dart';
 import 'package:dotto/feature/bus/domain/bus_stop.dart';
 import 'package:dotto/feature/bus/domain/bus_trip.dart';
 import 'package:dotto/repository/firebase_realtime_database_repository.dart';
@@ -86,7 +86,7 @@ final class BusRepository {
       if (latitude > 41.838770 && latitude < 41.845295) {
         final longitude = position.longitude;
         if (longitude > 140.765061 && longitude < 140.770368) {
-          ref.read(busIsToProvider.notifier).change();
+          ref.read(busIsToNotifierProvider.notifier).toggle();
         }
       }
     }

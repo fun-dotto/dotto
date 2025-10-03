@@ -1,5 +1,6 @@
 import 'package:dotto/domain/user_preference_keys.dart';
-import 'package:dotto/feature/bus/controller/bus_controller.dart';
+import 'package:dotto/feature/bus/controller/bus_stops_controller.dart';
+import 'package:dotto/feature/bus/controller/my_bus_stop_controller.dart';
 import 'package:dotto/repository/user_preference_repository.dart';
 import 'package:dotto/widget/loading_circular.dart';
 import 'package:flutter/material.dart';
@@ -14,34 +15,35 @@ final class BusStopSelectScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final allBusStop = ref.watch(allBusStopsProvider);
+    final busStops = ref.watch(busStopsNotifierProvider);
     return Scaffold(
       appBar: AppBar(title: const Text('バス停選択')),
-      body: allBusStop != null
-          ? ListView(
-              children: allBusStop
-                  .where((busStop) => busStop.selectable ?? true)
-                  .map(
-                    (e) => ListTile(
-                      onTap: () async {
-                        final myBusStopNotifier = ref.read(
-                          myBusStopProvider.notifier,
-                        );
-                        await UserPreferenceRepository.setInt(
-                          UserPreferenceKeys.myBusStop,
-                          e.id,
-                        );
-                        myBusStopNotifier.myBusStop = e;
-                        if (context.mounted) {
-                          Navigator.of(context).pop();
-                        }
-                      },
-                      title: Text(e.name),
-                    ),
-                  )
-                  .toList(),
-            )
-          : const LoadingCircular(),
+      body: busStops.when(
+        data: (data) {
+          return ListView(
+            children: data
+                .where((busStop) => busStop.selectable ?? true)
+                .map(
+                  (e) => ListTile(
+                    onTap: () async {
+                      await UserPreferenceRepository.setInt(
+                        UserPreferenceKeys.myBusStop,
+                        e.id,
+                      );
+                      ref.read(myBusStopNotifierProvider.notifier).value = e;
+                      if (context.mounted) {
+                        Navigator.of(context).pop();
+                      }
+                    },
+                    title: Text(e.name),
+                  ),
+                )
+                .toList(),
+          );
+        },
+        error: (_, _) => const SizedBox.shrink(),
+        loading: () => const LoadingCircular(),
+      ),
     );
   }
 }
