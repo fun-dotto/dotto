@@ -12,9 +12,12 @@ final class SearchCourseScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: const PreferredSize(
-        preferredSize: Size.fromHeight(kToolbarHeight),
-        child: SearchCourseBox(),
+      appBar: AppBar(
+        title: const Text(
+          '科目検索',
+          style: TextStyle(fontWeight: FontWeight.w600),
+        ),
+        centerTitle: false,
       ),
       body: GestureDetector(
         behavior: HitTestBehavior.opaque,
@@ -23,6 +26,7 @@ final class SearchCourseScreen extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              SearchCourseBox(),
               SearchCourseFilterSection(),
               SearchCourseActionButtons(),
               SearchCourseResultSection(),

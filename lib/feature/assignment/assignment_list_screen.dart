@@ -637,6 +637,8 @@ final class _AssignmentListScreenState
 
     return Scaffold(
       appBar: AppBar(
+        title: const Text('課題', style: TextStyle(fontWeight: FontWeight.w600)),
+        centerTitle: false,
         actions: [
           DottoButton(
             onPressed: () async {
