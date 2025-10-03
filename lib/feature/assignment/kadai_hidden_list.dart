@@ -78,14 +78,7 @@ final class _KadaiHiddenScreenState extends State<KadaiHiddenScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          onPressed: () {
-            Navigator.of(context).pop('back'); // 画面遷移から戻り値を指定
-          },
-          icon: const Icon(Icons.arrow_back, size: 20),
-        ),
-      ),
+      appBar: AppBar(title: const Text('非表示の課題')),
       body: RefreshIndicator(
         onRefresh: () async {
           setState(() {
