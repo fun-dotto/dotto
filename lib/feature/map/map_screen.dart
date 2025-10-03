@@ -30,7 +30,10 @@ final class MapScreen extends ConsumerWidget {
               Column(
                 spacing: 8,
                 children: [
-                  MapFloorButton(),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    child: MapFloorButton(),
+                  ),
                   Stack(
                     alignment: Alignment.bottomLeft,
                     children: [
@@ -41,7 +44,10 @@ final class MapScreen extends ConsumerWidget {
                       ),
                     ],
                   ),
-                  MapDatePicker(),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    child: MapDatePicker(),
+                  ),
                 ],
               ),
               MapSearchListView(),

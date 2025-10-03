@@ -11,17 +11,15 @@ final class Map extends ConsumerWidget {
     final mapViewTransformationController = ref.watch(
       mapViewTransformationNotifierProvider,
     );
-    return Flexible(
-      child: InteractiveViewer(
-        maxScale: 10,
-        // 倍率行列Matrix4
-        transformationController: mapViewTransformationController,
-        child: const Padding(
-          // マップをちょうどよく表示するための余白
-          padding: EdgeInsets.only(left: 20, right: 20),
-          // マップ表示
-          child: MapGridScreen(),
-        ),
+    return InteractiveViewer(
+      maxScale: 10,
+      // 倍率行列Matrix4
+      transformationController: mapViewTransformationController,
+      child: const Padding(
+        // マップをちょうどよく表示するための余白
+        padding: EdgeInsets.symmetric(horizontal: 20),
+        // マップ表示
+        child: MapGridScreen(),
       ),
     );
   }
