@@ -48,7 +48,12 @@ final class BusCard extends ConsumerWidget {
       color: Colors.white,
       shadowColor: Colors.black,
       child: Container(
-        padding: const EdgeInsets.all(8),
+        padding: EdgeInsets.only(
+          top: home ? 0 : 16,
+          left: 16,
+          right: 16,
+          bottom: 16,
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

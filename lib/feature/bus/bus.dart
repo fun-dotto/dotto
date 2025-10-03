@@ -153,19 +153,22 @@ final class BusScreen extends ConsumerWidget {
                     ),
                   );
                 },
-                child: BusCard(
-                  busTrip.route,
-                  fromBusTripStop.time,
-                  toBusTripStop.time,
-                  arriveAt,
-                  isKameda: kameda,
-                  key: hasKey ? busKey : null,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: BusCard(
+                    busTrip.route,
+                    fromBusTripStop.time,
+                    toBusTripStop.time,
+                    arriveAt,
+                    isKameda: kameda,
+                    key: hasKey ? busKey : null,
+                  ),
                 ),
               );
             }).toList();
         return SingleChildScrollView(
           controller: scrollController,
-          child: Column(children: busListWidget),
+          child: Column(spacing: 8, children: busListWidget),
         );
       },
       error: (_, _) => const SizedBox.shrink(),

@@ -55,29 +55,29 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
     IconData icon,
     String title,
   ) {
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.white,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      ),
-      onPressed: onPressed,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        spacing: 4,
-        children: [
-          ClipOval(
-            child: Container(
-              width: 44,
-              height: 44,
-              color: customFunColor,
-              child: Center(child: Icon(icon, color: Colors.white, size: 24)),
+    return InkWell(
+      onTap: onPressed,
+      child: Card(
+        color: Colors.white,
+        shadowColor: Colors.black,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          spacing: 4,
+          children: [
+            ClipOval(
+              child: Container(
+                width: 44,
+                height: 44,
+                color: customFunColor,
+                child: Center(child: Icon(icon, color: Colors.white, size: 24)),
+              ),
             ),
-          ),
-          Text(
-            title,
-            style: const TextStyle(fontSize: 12, color: Colors.black),
-          ),
-        ],
+            Text(
+              title,
+              style: const TextStyle(fontSize: 12, color: Colors.black),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -198,7 +198,11 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
                 padding: EdgeInsets.symmetric(horizontal: 16),
                 child: BusCardHome(),
               ),
-              if (config.isFunchEnabled) const FunchMyPageCard(),
+              if (config.isFunchEnabled)
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  child: FunchMyPageCard(),
+                ),
               infoTile(infoTiles),
             ],
           ),
