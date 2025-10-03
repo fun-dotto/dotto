@@ -7,6 +7,7 @@ import 'package:dotto/feature/assignment/kadai_hidden_list.dart';
 import 'package:dotto/feature/assignment/setup_hope_continuity_screen.dart';
 import 'package:dotto/feature/setting/controller/settings_controller.dart';
 import 'package:dotto/widget/loading_circular.dart';
+import 'package:dotto_design_system/component/button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -130,7 +131,7 @@ final class _AssignmentListScreenState
     if (dt == null) {
       return '';
     }
-    return DateFormat('yyyy年MM月dd日 HH時mm分ss秒').format(dt);
+    return DateFormat.yMEd('ja').add_Hm().format(dt);
   }
 
   Future<void> _showDeleteConfirmation(Kadai kadai) async {
@@ -375,7 +376,7 @@ final class _AssignmentListScreenState
       extentRatio: 0.25,
       children: [
         SlidableAction(
-          label: isAlertOn ? '通知off' : '通知on',
+          label: isAlertOn ? '通知 OFF' : '通知 ON',
           backgroundColor: isAlertOn ? Colors.red : Colors.green,
           icon: isAlertOn
               ? Icons.notifications_off_outlined
@@ -450,7 +451,7 @@ final class _AssignmentListScreenState
   Widget _buildList(List<KadaiList> data, AssignmentState state) {
     return ListView.separated(
       itemCount: data.length,
-      separatorBuilder: (_, _) => const Divider(height: 3),
+      separatorBuilder: (_, _) => const Divider(height: 1),
       itemBuilder: (context, index) {
         final kadaiList = data[index];
         final hidden = state.hiddenAssignmentIds;
@@ -470,35 +471,20 @@ final class _AssignmentListScreenState
             endActionPane: _singleEndActionPane(state, kadai),
             child: ListTile(
               tileColor: Colors.white,
-              contentPadding: const EdgeInsets.symmetric(
-                horizontal: 16,
-                vertical: 8,
-              ),
-              title: Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      kadai.name ?? '',
-                      style: _titleTextStyle(isDone),
-                    ),
-                  ),
-                ],
-              ),
+              title: Text(kadai.name ?? '', style: _titleTextStyle(isDone)),
               subtitle: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     kadai.courseName ?? '',
                     style: TextStyle(
-                      fontSize: 12,
                       color: isDone ? Colors.green : Colors.black54,
                     ),
                   ),
                   if (kadai.endtime != null)
                     Text(
-                      '終了：${_formatDateTime(kadai.endtime)}',
+                      '${_formatDateTime(kadai.endtime)} まで',
                       style: TextStyle(
-                        fontSize: 11,
                         color: isDone
                             ? Colors.green
                             : _hasUpcomingDeadline(kadaiList)
@@ -538,41 +524,26 @@ final class _AssignmentListScreenState
           child: Theme(
             data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
             child: ExpansionTile(
-              childrenPadding: EdgeInsets.zero,
               backgroundColor: Colors.white,
               collapsedBackgroundColor: Colors.white,
-              title: Row(
-                children: [
-                  const SizedBox(width: 36),
-                  Expanded(
-                    child: Text(
-                      kadaiList.courseName,
-                      style: _titleTextStyle(isDoneGroup),
-                    ),
-                  ),
-                ],
+              title: Text(
+                kadaiList.courseName,
+                style: _titleTextStyle(isDoneGroup),
               ),
-              subtitle: Row(
+              subtitle: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(width: 36),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          '${_unFinishedCount(kadaiList, state.doneAssignmentIds, hidden)}個の課題',
-                          style: _subtitleTextStyle(isDoneGroup),
-                        ),
-                        if (kadaiList.endtime != null)
-                          Text(
-                            '終了：${_formatDateTime(kadaiList.endtime)}',
-                            style: _subtitleTextStyle(isDoneGroup),
-                          )
-                        else
-                          Text('期限なし', style: _subtitleTextStyle(isDoneGroup)),
-                      ],
-                    ),
+                  Text(
+                    '${_unFinishedCount(kadaiList, state.doneAssignmentIds, hidden)}個の課題',
+                    style: _subtitleTextStyle(isDoneGroup),
                   ),
+                  if (kadaiList.endtime != null)
+                    Text(
+                      '${_formatDateTime(kadaiList.endtime)} まで',
+                      style: _subtitleTextStyle(isDoneGroup),
+                    )
+                  else
+                    Text('期限なし', style: _subtitleTextStyle(isDoneGroup)),
                 ],
               ),
               children: [
@@ -636,8 +607,10 @@ final class _AssignmentListScreenState
 
     return Scaffold(
       appBar: AppBar(
+        title: const Text('課題'),
+        centerTitle: false,
         actions: [
-          TextButton(
+          DottoButton(
             onPressed: () async {
               final data = assignments.value;
               if (data == null) return;
@@ -671,10 +644,8 @@ final class _AssignmentListScreenState
                 await ref.read(assignmentsNotifierProvider.notifier).refresh();
               }
             },
-            child: const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              child: Text('非表示リスト'),
-            ),
+            type: DottoButtonType.text,
+            child: const Text('非表示リスト'),
           ),
         ],
       ),
@@ -692,9 +663,7 @@ final class _AssignmentListScreenState
                 await ref.read(assignmentsNotifierProvider.notifier).refresh();
               },
             ),
-            loading: () => ListView(
-              children: const [SizedBox(height: 200, child: LoadingCircular())],
-            ),
+            loading: () => const Center(child: LoadingCircular()),
           ),
         ),
       ),

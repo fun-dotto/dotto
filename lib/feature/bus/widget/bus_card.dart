@@ -1,4 +1,5 @@
-import 'package:dotto/feature/bus/controller/bus_controller.dart';
+import 'package:dotto/feature/bus/controller/bus_is_to_controller.dart';
+import 'package:dotto/feature/bus/controller/my_bus_stop_controller.dart';
 import 'package:dotto/feature/bus/domain/bus_type.dart';
 import 'package:dotto/feature/bus/repository/bus_repository.dart';
 import 'package:dotto/theme/v1/app_color.dart';
@@ -37,22 +38,21 @@ final class BusCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final busIsTo = ref.watch(busIsToProvider);
-    final myBusStop = ref.watch(myBusStopProvider);
+    final busIsTo = ref.watch(busIsToNotifierProvider);
+    final myBusStop = ref.watch(myBusStopNotifierProvider);
     final tripType = getType();
     final headerText = tripType != BusType.other
         ? tripType.where + (busIsTo ? 'から' : '行き')
         : '';
     return Card(
-      margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
       color: Colors.white,
       shadowColor: Colors.black,
       child: Container(
         padding: EdgeInsets.only(
-          left: 10,
-          right: 10,
-          bottom: 10,
-          top: (home ? 0 : 10),
+          top: home ? 0 : 16,
+          left: 16,
+          right: 16,
+          bottom: 16,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -75,7 +75,7 @@ final class BusCard extends ConsumerWidget {
                       iconSize: 20,
                       color: AppColor.linkTextBlue,
                       onPressed: () {
-                        ref.read(busIsToProvider.notifier).change();
+                        ref.read(busIsToNotifierProvider.notifier).toggle();
                       },
                       icon: const Icon(Icons.swap_horiz_outlined),
                       padding: EdgeInsets.zero,

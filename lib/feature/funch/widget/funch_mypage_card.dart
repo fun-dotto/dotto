@@ -36,16 +36,14 @@ final class FunchMyPageCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Column(
-      children: [
-        GestureDetector(
-          onTap: () => Navigator.push(
-            context,
-            MaterialPageRoute<void>(builder: (context) => const FunchScreen()),
-          ),
-          child: _buildMenuCard(context, ref),
-        ),
-      ],
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute<void>(builder: (context) => const FunchScreen()),
+        );
+      },
+      child: _buildMenuCard(context, ref),
     );
   }
 
@@ -91,32 +89,17 @@ final class FunchMyPageCard extends ConsumerWidget {
       },
     );
 
-    const borderRadius = 10.0;
-
-    return Container(
-      margin: EdgeInsets.symmetric(
-        horizontal: MediaQuery.of(context).size.width * 0.075,
-        vertical: 2,
-      ),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(borderRadius),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withValues(alpha: 0.5),
-            blurRadius: 1,
-            offset: const Offset(0, 1.5),
-          ),
-        ],
-      ),
+    return Card(
+      color: Colors.white,
+      shadowColor: Colors.black,
       child: Padding(
-        padding: const EdgeInsets.all(10),
+        padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _buildHeader(date),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10),
+              padding: const EdgeInsets.symmetric(vertical: 16),
               child: content,
             ),
             indicator,
@@ -128,7 +111,7 @@ final class FunchMyPageCard extends ConsumerWidget {
 
   Widget _buildEmptyCard(BuildContext context, DateTime date) {
     return const Padding(
-      padding: EdgeInsets.symmetric(vertical: 10),
+      padding: EdgeInsets.symmetric(vertical: 16),
       child: Center(child: Text('情報が見つかりません。')),
     );
   }

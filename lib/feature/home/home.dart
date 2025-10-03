@@ -34,20 +34,17 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 
   Widget infoTile(List<Widget> children) {
-    final length = children.length;
     return Padding(
-      padding: const EdgeInsets.all(5),
-      child: Column(
-        children: [
-          for (int i = 0; i < length; i += 3) ...{
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                for (int j = i; j < i + 3 && j < length; j++) ...{children[j]},
-              ],
-            ),
-          },
-        ],
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: GridView.count(
+        shrinkWrap: true,
+        crossAxisCount: 3,
+        physics: const NeverScrollableScrollPhysics(),
+        mainAxisSpacing: 8,
+        crossAxisSpacing: 8,
+        children: List.generate(children.length, (index) {
+          return children[index];
+        }),
       ),
     );
   }
@@ -58,38 +55,28 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
     IconData icon,
     String title,
   ) {
-    final width = MediaQuery.sizeOf(context).width * 0.26;
-    const double height = 100;
-    return Container(
-      margin: const EdgeInsets.all(5),
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          foregroundColor: Colors.black,
-          backgroundColor: Colors.white,
-          fixedSize: Size(width, height),
-        ),
-        onPressed: onPressed,
-        child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 10),
-          width: width,
-          height: height,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ClipOval(
-                child: Container(
-                  width: 45,
-                  height: 45,
-                  color: customFunColor,
-                  child: Center(
-                    child: Icon(icon, color: Colors.white, size: 25),
-                  ),
-                ),
+    return InkWell(
+      onTap: onPressed,
+      child: Card(
+        color: Colors.white,
+        shadowColor: Colors.black,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          spacing: 4,
+          children: [
+            ClipOval(
+              child: Container(
+                width: 44,
+                height: 44,
+                color: customFunColor,
+                child: Center(child: Icon(icon, color: Colors.white, size: 24)),
               ),
-              const SizedBox(height: 5),
-              Text(title, style: const TextStyle(fontSize: 11)),
-            ],
-          ),
+            ),
+            Text(
+              title,
+              style: const TextStyle(fontSize: 12, color: Colors.black),
+            ),
+          ],
         ),
       ),
     );
@@ -128,10 +115,7 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
               );
             },
             type: DottoButtonType.text,
-            child: const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 4),
-              child: Text('休講・補講'),
-            ),
+            child: const Text('休講・補講'),
           ),
           const Spacer(),
           DottoButton(
@@ -151,18 +135,11 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
                   });
             },
             type: DottoButtonType.text,
-            child: const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 4),
-              child: Text('時間割を編集'),
-            ),
+            child: const Text('時間割を編集'),
           ),
         ],
       ),
     );
-  }
-
-  Widget _timetable() {
-    return Column(children: [const MyPageTimetable(), _setTimeTableButton()]);
   }
 
   @override
@@ -207,15 +184,28 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
     ];
 
     return Scaffold(
+      appBar: AppBar(title: const Text('Dotto'), centerTitle: false),
       body: SingleChildScrollView(
-        child: Column(
-          spacing: 16,
-          children: [
-            _timetable(),
-            const BusCardHome(),
-            if (config.isFunchEnabled) const FunchMyPageCard(),
-            infoTile(infoTiles),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.only(bottom: 16),
+          child: Column(
+            spacing: 16,
+            children: [
+              Column(
+                children: [const MyPageTimetable(), _setTimeTableButton()],
+              ),
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16),
+                child: BusCardHome(),
+              ),
+              if (config.isFunchEnabled)
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  child: FunchMyPageCard(),
+                ),
+              infoTile(infoTiles),
+            ],
+          ),
         ),
       ),
     );

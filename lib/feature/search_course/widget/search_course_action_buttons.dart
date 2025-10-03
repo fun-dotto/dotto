@@ -14,14 +14,11 @@ final class SearchCourseActionButtons extends ConsumerWidget {
           FocusScope.of(context).unfocus();
           await ref.read(kamokuSearchControllerProvider.notifier).search();
         },
-        child: const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16),
-          child: Row(
-            spacing: 8,
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [Text('検索'), Icon(Icons.search)],
-          ),
+        child: const Row(
+          spacing: 8,
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [Text('検索'), Icon(Icons.search)],
         ),
       ),
     );

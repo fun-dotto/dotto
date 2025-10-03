@@ -8,7 +8,10 @@ import 'package:dotto/controller/user_controller.dart';
 import 'package:dotto/domain/tab_item.dart';
 import 'package:dotto/domain/user_preference_keys.dart';
 import 'package:dotto/feature/announcement/controller/announcement_from_push_notification_controller.dart';
-import 'package:dotto/feature/bus/controller/bus_controller.dart';
+import 'package:dotto/feature/bus/controller/bus_data_controller.dart';
+import 'package:dotto/feature/bus/controller/bus_polling_controller.dart';
+import 'package:dotto/feature/bus/controller/bus_stops_controller.dart';
+import 'package:dotto/feature/bus/controller/my_bus_stop_controller.dart';
 import 'package:dotto/feature/bus/repository/bus_repository.dart';
 import 'package:dotto/feature/map/controller/map_search_datetime_controller.dart';
 import 'package:dotto/feature/map/controller/using_map_controller.dart';
@@ -96,10 +99,10 @@ final class _BasePageState extends ConsumerState<BasePage> {
   }
 
   Future<void> getBus() async {
-    await ref.read(allBusStopsProvider.notifier).init();
-    await ref.read(busDataProvider.notifier).init();
-    await ref.read(myBusStopProvider.notifier).init();
-    ref.read(busRefreshProvider.notifier).start();
+    await ref.read(busStopsNotifierProvider.notifier).build();
+    await ref.read(busDataNotifierProvider.notifier).build();
+    await ref.read(myBusStopNotifierProvider.notifier).load();
+    ref.read(busPollingNotifierProvider.notifier).start();
     await BusRepository().changeDirectionOnCurrentLocation(ref);
   }
 
