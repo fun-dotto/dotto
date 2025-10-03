@@ -142,10 +142,6 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
     );
   }
 
-  Widget _timetable() {
-    return Column(children: [const MyPageTimetable(), _setTimeTableButton()]);
-  }
-
   @override
   void initState() {
     super.initState();
@@ -195,7 +191,9 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
           child: Column(
             spacing: 16,
             children: [
-              _timetable(),
+              Column(
+                children: [const MyPageTimetable(), _setTimeTableButton()],
+              ),
               const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16),
                 child: BusCardHome(),

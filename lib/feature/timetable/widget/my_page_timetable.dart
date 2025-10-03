@@ -78,13 +78,13 @@ final class MyPageTimetable extends ConsumerWidget {
               },
         child: Material(
           elevation: 2,
-          borderRadius: const BorderRadius.all(Radius.circular(5)),
+          borderRadius: const BorderRadius.all(Radius.circular(4)),
           child: Container(
             height: 40,
-            padding: const EdgeInsets.symmetric(horizontal: 15),
+            padding: const EdgeInsets.symmetric(horizontal: 16),
             decoration: const BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.all(Radius.circular(5)),
+              borderRadius: BorderRadius.all(Radius.circular(4)),
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -106,7 +106,7 @@ final class MyPageTimetable extends ConsumerWidget {
                             Text(
                               (timeTableCourse != null)
                                   ? timeTableCourse.title
-                                  : '-',
+                                  : '',
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
@@ -176,26 +176,9 @@ final class MyPageTimetable extends ConsumerWidget {
           : timeTableCourseList.length * 50 - 10,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
+        spacing: 24,
         children: [
-          Container(
-            height: 40,
-            width: 70,
-            alignment: Alignment.center,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text('$period限'),
-                FittedBox(
-                  fit: BoxFit.scaleDown,
-                  child: Text(
-                    '${beginTime.format(context)} ~ '
-                    '${finishTime.format(context)}',
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(width: 5),
+          Container(alignment: Alignment.center, child: Text('$period')),
           Expanded(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -264,94 +247,90 @@ final class MyPageTimetable extends ConsumerWidget {
     final controller = ScrollController(
       initialScrollOffset: initialScrollOffset.toDouble(),
     );
-    return Consumer(
-      builder: (context, ref, child) {
-        ref.watch(saveTimetableProvider);
-        final twoWeekTimeTableData = ref.watch(twoWeekTimeTableDataProvider);
-        final focusTimeTableDay = ref.watch(focusTimeTableDayProvider);
-        return Column(
-          children: [
-            SingleChildScrollView(
-              controller: controller,
-              scrollDirection: Axis.horizontal,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: buttonPadding,
-                  horizontal: buttonPadding / 2,
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: dates.map((date) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: buttonPadding / 2,
+    ref.watch(saveTimetableProvider);
+    final twoWeekTimeTableData = ref.watch(twoWeekTimeTableDataProvider);
+    final focusTimeTableDay = ref.watch(focusTimeTableDayProvider);
+    return Column(
+      spacing: 8,
+      children: [
+        SingleChildScrollView(
+          controller: controller,
+          scrollDirection: Axis.horizontal,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              spacing: buttonPadding / 2,
+              children: dates.map((date) {
+                return ElevatedButton(
+                  onPressed: () async {
+                    setFocusTimeTableDay(date, ref);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    surfaceTintColor: Colors.white,
+                    backgroundColor: focusTimeTableDay.day == date.day
+                        ? customFunColor
+                        : Colors.white,
+                    foregroundColor: focusTimeTableDay.day == date.day
+                        ? Colors.white
+                        : Colors.black,
+                    shape: const CircleBorder(side: BorderSide()),
+                    minimumSize: const Size(buttonSize, buttonSize),
+                    fixedSize: const Size(buttonSize, buttonSize),
+                    padding: EdgeInsets.zero,
+                  ),
+                  // 日付表示
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        DateFormat('dd').format(date),
+                        style: TextStyle(
+                          fontWeight: (focusTimeTableDay.day == date.day)
+                              ? FontWeight.bold
+                              : null,
+                          fontSize: 13,
+                        ),
                       ),
-                      child: ElevatedButton(
-                        onPressed: () async {
-                          setFocusTimeTableDay(date, ref);
-                        },
-                        style: ElevatedButton.styleFrom(
-                          surfaceTintColor: Colors.white,
-                          backgroundColor: focusTimeTableDay.day == date.day
-                              ? customFunColor
-                              : Colors.white,
-                          foregroundColor: focusTimeTableDay.day == date.day
+                      Text(
+                        weekString[date.weekday - 1],
+                        style: TextStyle(
+                          fontSize: 9,
+                          color: focusTimeTableDay.day == date.day
                               ? Colors.white
-                              : Colors.black,
-                          shape: const CircleBorder(side: BorderSide()),
-                          minimumSize: const Size(buttonSize, buttonSize),
-                          fixedSize: const Size(buttonSize, buttonSize),
-                          padding: EdgeInsets.zero,
-                        ),
-                        // 日付表示
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              DateFormat('dd').format(date),
-                              style: TextStyle(
-                                fontWeight: (focusTimeTableDay.day == date.day)
-                                    ? FontWeight.bold
-                                    : null,
-                                fontSize: 13,
-                              ),
-                            ),
-                            Text(
-                              weekString[date.weekday - 1],
-                              style: TextStyle(
-                                fontSize: 9,
-                                color: focusTimeTableDay.day == date.day
-                                    ? Colors.white
-                                    : weekColors[date.weekday - 1],
-                              ),
-                            ),
-                          ],
+                              : weekColors[date.weekday - 1],
                         ),
                       ),
-                    );
-                  }).toList(),
-                ),
-              ),
+                    ],
+                  ),
+                );
+              }).toList(),
             ),
-            // 時間割表示
-            for (int i = 1; i <= 6; i++) ...{
-              timeTablePeriod(
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Column(
+            children: List.generate(6, (index) {
+              return timeTablePeriod(
                 context,
-                i,
-                beginPeriod[i - 1],
-                finishPeriod[i - 1],
+                index + 1,
+                beginPeriod[index],
+                finishPeriod[index],
                 twoWeekTimeTableData != null
                     ? twoWeekTimeTableData.isNotEmpty
-                          ? twoWeekTimeTableData[focusTimeTableDay]![i] ?? []
+                          ? twoWeekTimeTableData[focusTimeTableDay]![index +
+                                    1] ??
+                                []
                           : []
                     : [],
                 ref,
                 loading: twoWeekTimeTableData == null,
-              ),
-            },
-          ],
-        );
-      },
+              );
+            }),
+          ),
+        ),
+      ],
     );
   }
 }
