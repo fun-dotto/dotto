@@ -91,6 +91,7 @@ final class SettingsScreen extends ConsumerWidget {
       appBar: AppBar(
         title: const Text('設定', style: TextStyle(fontWeight: FontWeight.w600)),
         centerTitle: false,
+        surfaceTintColor: Colors.transparent,
       ),
       body: GestureDetector(
         behavior: HitTestBehavior.opaque,

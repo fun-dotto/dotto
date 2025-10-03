@@ -18,6 +18,7 @@ final class SearchCourseScreen extends ConsumerWidget {
           style: TextStyle(fontWeight: FontWeight.w600),
         ),
         centerTitle: false,
+        surfaceTintColor: Colors.transparent,
       ),
       body: GestureDetector(
         behavior: HitTestBehavior.opaque,
