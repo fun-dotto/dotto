@@ -110,16 +110,6 @@ final class MapSearchListView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final mapSearchList = ref.watch(mapSearchListNotifierProvider);
-    final mapSearchListNotifier = ref.read(
-      mapSearchListNotifierProvider.notifier,
-    );
-    final mapPageNotifier = ref.watch(mapPageNotifierProvider.notifier);
-    final focusedMapDetailNotifier = ref.watch(
-      focusedMapDetailNotifierProvider.notifier,
-    );
-    final mapViewTransformationNotifier = ref.read(
-      mapViewTransformationNotifierProvider.notifier,
-    );
     final mapSearchBarFocusNotifier = ref.watch(
       mapSearchBarFocusNotifierProvider,
     );
@@ -139,13 +129,20 @@ final class MapSearchListView extends ConsumerWidget {
                     title: Text(item.header),
                     trailing: const Icon(Icons.chevron_right),
                     onTap: () {
-                      mapSearchListNotifier.list = [];
+                      ref.read(mapSearchListNotifierProvider.notifier).list =
+                          [];
                       FocusScope.of(context).unfocus();
-                      mapViewTransformationNotifier.value.value.setIdentity();
-                      focusedMapDetailNotifier.value = item;
-                      mapPageNotifier.value = floorBarString.indexOf(
-                        item.floor,
-                      );
+                      ref
+                          .read(mapViewTransformationNotifierProvider.notifier)
+                          .value
+                          .value
+                          .setIdentity();
+                      ref
+                              .read(focusedMapDetailNotifierProvider.notifier)
+                              .value =
+                          item;
+                      ref.read(mapPageNotifierProvider.notifier).value =
+                          floorBarString.indexOf(item.floor);
                       showBottomSheet(
                         context: context,
                         builder: (BuildContext context) {
