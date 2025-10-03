@@ -17,7 +17,7 @@ final class MapDatePicker extends ConsumerWidget {
       style: TextButton.styleFrom(
         backgroundColor: mapSearchDatetime == dateTime ? Colors.black12 : null,
         textStyle: const TextStyle(fontSize: 12),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)),
+        padding: EdgeInsets.zero,
       ),
       onPressed: () async {
         var setDate = dateTime;
@@ -49,8 +49,8 @@ final class MapDatePicker extends ConsumerWidget {
   ) {
     return TextButton(
       style: TextButton.styleFrom(
+        textStyle: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
         padding: EdgeInsets.zero,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)),
       ),
       onPressed: () {
         DatePicker.showDateTimePicker(
@@ -67,14 +67,11 @@ final class MapDatePicker extends ConsumerWidget {
           locale: LocaleType.jp,
         );
       },
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(DateFormat('MM月dd日').format(searchDatetime)),
-            Text(DateFormat('HH:mm').format(searchDatetime)),
-          ],
-        ),
+      child: Column(
+        children: [
+          Text(DateFormat('MM月dd日').format(searchDatetime)),
+          Text(DateFormat('HH:mm').format(searchDatetime)),
+        ],
       ),
     );
   }
@@ -107,18 +104,7 @@ final class MapDatePicker extends ConsumerWidget {
             child: Center(child: _periodButton(ref, item.key, item.value)),
           ),
         ),
-        Expanded(
-          flex: 2,
-          child: Center(
-            child: _datePickerButton(
-              context,
-              ref,
-              searchDatetime,
-              monday,
-              nextSunday,
-            ),
-          ),
-        ),
+        _datePickerButton(context, ref, searchDatetime, monday, nextSunday),
       ],
     );
   }

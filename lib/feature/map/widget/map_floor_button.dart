@@ -24,7 +24,6 @@ final class MapFloorButton extends ConsumerWidget {
     return TextButton(
       style: TextButton.styleFrom(
         backgroundColor: mapPage == index ? Colors.black12 : null,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)),
       ),
       // 階数の変更をProviderに渡す
       onPressed: () {

@@ -29,7 +29,7 @@ final class MapScreen extends ConsumerWidget {
                   spacing: 8,
                   children: [
                     ConstrainedBox(
-                      constraints: const BoxConstraints(maxWidth: 400),
+                      constraints: const BoxConstraints(maxWidth: 480),
                       child: const Padding(
                         padding: EdgeInsets.symmetric(horizontal: 16),
                         child: MapFloorButton(),
@@ -48,7 +48,7 @@ final class MapScreen extends ConsumerWidget {
                       ),
                     ),
                     ConstrainedBox(
-                      constraints: const BoxConstraints(maxWidth: 400),
+                      constraints: const BoxConstraints(maxWidth: 480),
                       child: const Padding(
                         padding: EdgeInsets.symmetric(horizontal: 16),
                         child: MapDatePicker(),
