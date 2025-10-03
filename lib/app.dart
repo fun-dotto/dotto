@@ -15,7 +15,6 @@ import 'package:dotto/feature/map/controller/using_map_controller.dart';
 import 'package:dotto/feature/setting/repository/settings_repository.dart';
 import 'package:dotto/feature/timetable/controller/timetable_controller.dart';
 import 'package:dotto/feature/timetable/repository/timetable_repository.dart';
-import 'package:dotto/importer.dart';
 import 'package:dotto/repository/notification_repository.dart';
 import 'package:dotto/repository/user_preference_repository.dart';
 import 'package:dotto/theme/v1/animation.dart';
@@ -24,7 +23,9 @@ import 'package:dotto/theme/v1/theme.dart';
 import 'package:dotto/widget/app_tutorial.dart';
 import 'package:dotto_design_system/style/theme.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final class MyApp extends ConsumerStatefulWidget {
   const MyApp({super.key});

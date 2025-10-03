@@ -1,10 +1,10 @@
 import 'package:dotto/feature/search_course/domain/search_course_filter_options.dart';
 import 'package:dotto/feature/search_course/widget/search_course_checkbox_item.dart';
-import 'package:dotto/importer.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final class SearchCourseFilterCheckbox extends ConsumerWidget {
-  const SearchCourseFilterCheckbox(
-      {required this.filterOption, super.key});
+  const SearchCourseFilterCheckbox({required this.filterOption, super.key});
 
   final SearchCourseFilterOptions filterOption;
 
@@ -18,10 +18,12 @@ final class SearchCourseFilterCheckbox extends ConsumerWidget {
           children: filterOption.labels
               .asMap()
               .entries
-              .map((entry) => SearchCourseCheckboxItem(
-                    filterOption: filterOption,
-                    index: entry.key,
-                  ))
+              .map(
+                (entry) => SearchCourseCheckboxItem(
+                  filterOption: filterOption,
+                  index: entry.key,
+                ),
+              )
               .toList(),
         ),
       ),

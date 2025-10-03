@@ -4,17 +4,22 @@ import 'package:dotto/feature/bus/controller/bus_controller.dart';
 import 'package:dotto/feature/bus/widget/bus_card.dart';
 import 'package:dotto/feature/bus/widget/bus_stop_select.dart';
 import 'package:dotto/feature/bus/widget/bus_timetable.dart';
-import 'package:dotto/importer.dart';
 import 'package:dotto/theme/v1/app_color.dart';
 import 'package:dotto/widget/loading_circular.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final GlobalKey<State<StatefulWidget>> busKey = GlobalKey();
 
 final class BusScreen extends ConsumerWidget {
   const BusScreen({super.key});
 
-  Widget busStopButton(BuildContext context, void Function()? onPressed,
-      IconData icon, String title) {
+  Widget busStopButton(
+    BuildContext context,
+    void Function()? onPressed,
+    IconData icon,
+    String title,
+  ) {
     final width = MediaQuery.sizeOf(context).width * 0.3;
     const double height = 80;
     return Container(
@@ -29,7 +34,8 @@ final class BusScreen extends ConsumerWidget {
           fixedSize: Size(width, height),
           padding: const EdgeInsets.all(3),
           shape: ContinuousRectangleBorder(
-              borderRadius: BorderRadius.circular(15)),
+            borderRadius: BorderRadius.circular(15),
+          ),
           elevation: title == '未来大' ? 0 : null,
         ),
         onPressed: onPressed,
@@ -40,11 +46,7 @@ final class BusScreen extends ConsumerWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(
-                icon,
-                color: Colors.grey,
-                size: 28,
-              ),
+              Icon(icon, color: Colors.grey, size: 28),
               const SizedBox(height: 5),
               Text(
                 title,
@@ -67,11 +69,18 @@ final class BusScreen extends ConsumerWidget {
     final busIsWeekday = ref.watch(busIsWeekdayNotifier);
     final busScrolled = ref.watch(busScrolledProvider);
 
-    final myBusStopButton = busStopButton(context, () {
-      Navigator.of(context).push(MaterialPageRoute<void>(
-        builder: (context) => const BusStopSelectScreen(),
-      ));
-    }, Icons.directions_bus, myBusStop.name);
+    final myBusStopButton = busStopButton(
+      context,
+      () {
+        Navigator.of(context).push(
+          MaterialPageRoute<void>(
+            builder: (context) => const BusStopSelectScreen(),
+          ),
+        );
+      },
+      Icons.directions_bus,
+      myBusStop.name,
+    );
     final funBusStopButton = busStopButton(context, null, Icons.school, '未来大');
     final departure = busIsTo ? myBusStopButton : funBusStopButton;
     final destination = busIsTo ? funBusStopButton : myBusStopButton;
@@ -84,30 +93,33 @@ final class BusScreen extends ConsumerWidget {
         ref.read(busIsToProvider.notifier).change();
         ref.read(busScrolledProvider.notifier).state = false;
       },
-      icon: const Icon(
-        Icons.swap_horiz_outlined,
-      ),
+      icon: const Icon(Icons.swap_horiz_outlined),
     );
 
     var arriveAtSoon = true;
     final busListWidget = busData != null
-        ? busData[fromToString]![busIsWeekday ? 'weekday' : 'holiday']!
-            .map((busTrip) {
-            final funBusTripStop = busTrip.stops
-                .firstWhereOrNull((element) => element.stop.id == 14023);
+        ? busData[fromToString]![busIsWeekday ? 'weekday' : 'holiday']!.map((
+            busTrip,
+          ) {
+            final funBusTripStop = busTrip.stops.firstWhereOrNull(
+              (element) => element.stop.id == 14023,
+            );
             if (funBusTripStop == null) {
               return Container();
             }
-            var targetBusTripStop = busTrip.stops
-                .firstWhereOrNull((element) => element.stop.id == myBusStop.id);
+            var targetBusTripStop = busTrip.stops.firstWhereOrNull(
+              (element) => element.stop.id == myBusStop.id,
+            );
             var kameda = false;
             if (targetBusTripStop == null) {
-              targetBusTripStop = busTrip.stops
-                  .firstWhere((element) => element.stop.id == 14013);
+              targetBusTripStop = busTrip.stops.firstWhere(
+                (element) => element.stop.id == 14013,
+              );
               kameda = true;
             }
-            final fromBusTripStop =
-                busIsTo ? targetBusTripStop : funBusTripStop;
+            final fromBusTripStop = busIsTo
+                ? targetBusTripStop
+                : funBusTripStop;
             final toBusTripStop = busIsTo ? funBusTripStop : targetBusTripStop;
             final now = busRefresh;
             final nowDuration = Duration(hours: now.hour, minutes: now.minute);
@@ -165,10 +177,7 @@ final class BusScreen extends ConsumerWidget {
               ref.read(busIsWeekdayNotifier.notifier).change();
               ref.read(busScrolledProvider.notifier).state = false;
             },
-            icon: const Icon(
-              Icons.swap_horiz_outlined,
-              color: Colors.white,
-            ),
+            icon: const Icon(Icons.swap_horiz_outlined, color: Colors.white),
             label: Text(
               "${busIsWeekday ? "土日" : "平日"}へ ",
               style: const TextStyle(color: Colors.white),
@@ -192,9 +201,7 @@ final class BusScreen extends ConsumerWidget {
                     departure,
                     Stack(
                       alignment: AlignmentDirectional.center,
-                      children: [
-                        btnChange,
-                      ],
+                      children: [btnChange],
                     ),
                     destination,
                   ],
@@ -206,9 +213,7 @@ final class BusScreen extends ConsumerWidget {
             child: busData != null
                 ? SingleChildScrollView(
                     controller: scrollController,
-                    child: Column(
-                      children: busListWidget,
-                    ),
+                    child: Column(children: busListWidget),
                   )
                 : const LoadingCircular(),
           ),

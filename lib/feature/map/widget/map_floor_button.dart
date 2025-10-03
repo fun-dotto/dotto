@@ -2,8 +2,9 @@ import 'package:dotto/feature/map/controller/focused_map_detail_controller.dart'
 import 'package:dotto/feature/map/controller/map_page_controller.dart';
 import 'package:dotto/feature/map/controller/map_view_transformation_controller.dart';
 import 'package:dotto/feature/map/domain/map_detail.dart';
-import 'package:dotto/importer.dart';
 import 'package:dotto/theme/v1/color_fun.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final class MapFloorButton extends ConsumerWidget {
   const MapFloorButton({super.key});

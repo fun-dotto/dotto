@@ -2,9 +2,10 @@ import 'package:collection/collection.dart';
 import 'package:dotto/feature/bus/bus.dart';
 import 'package:dotto/feature/bus/controller/bus_controller.dart';
 import 'package:dotto/feature/bus/widget/bus_card.dart';
-import 'package:dotto/importer.dart';
 import 'package:dotto/theme/v1/animation.dart';
 import 'package:dotto/widget/loading_circular.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final class BusCardHome extends ConsumerWidget {
   const BusCardHome({super.key});
@@ -23,17 +24,20 @@ final class BusCardHome extends ConsumerWidget {
       final data =
           busData[fromToString]![busIsWeekday ? 'weekday' : 'holiday']!;
       for (final busTrip in data) {
-        final funBusTripStop = busTrip.stops
-            .firstWhereOrNull((element) => element.stop.id == 14023);
+        final funBusTripStop = busTrip.stops.firstWhereOrNull(
+          (element) => element.stop.id == 14023,
+        );
         if (funBusTripStop == null) {
           continue;
         }
-        var targetBusTripStop = busTrip.stops
-            .firstWhereOrNull((element) => element.stop.id == myBusStop.id);
+        var targetBusTripStop = busTrip.stops.firstWhereOrNull(
+          (element) => element.stop.id == myBusStop.id,
+        );
         var kameda = false;
         if (targetBusTripStop == null) {
-          targetBusTripStop =
-              busTrip.stops.firstWhere((element) => element.stop.id == 14013);
+          targetBusTripStop = busTrip.stops.firstWhere(
+            (element) => element.stop.id == 14013,
+          );
           kameda = true;
         }
         final fromBusTripStop = busIsTo ? targetBusTripStop : funBusTripStop;
@@ -57,21 +61,29 @@ final class BusCardHome extends ConsumerWidget {
             );
           },
           child: BusCard(
-              busTrip.route, fromBusTripStop.time, toBusTripStop.time, arriveAt,
-              isKameda: kameda, home: true),
+            busTrip.route,
+            fromBusTripStop.time,
+            toBusTripStop.time,
+            arriveAt,
+            isKameda: kameda,
+            home: true,
+          ),
         );
       }
       return InkWell(
         onTap: () {
           Navigator.push(
             context,
-            MaterialPageRoute<void>(
-              builder: (context) => const BusScreen(),
-            ),
+            MaterialPageRoute<void>(builder: (context) => const BusScreen()),
           );
         },
-        child: const BusCard('0', Duration.zero, Duration.zero, Duration.zero,
-            home: true),
+        child: const BusCard(
+          '0',
+          Duration.zero,
+          Duration.zero,
+          Duration.zero,
+          home: true,
+        ),
       );
     } else {
       return const LoadingCircular();

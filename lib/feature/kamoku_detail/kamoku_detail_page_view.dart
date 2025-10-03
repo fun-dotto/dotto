@@ -1,15 +1,16 @@
 import 'package:dotto/feature/kamoku_detail/kamoku_detail_feedback.dart';
 import 'package:dotto/feature/kamoku_detail/kamoku_detail_kakomon_list.dart';
 import 'package:dotto/feature/kamoku_detail/kamoku_detail_syllabus.dart';
-import 'package:dotto/importer.dart';
 import 'package:dotto/theme/v1/color_fun.dart';
+import 'package:flutter/material.dart';
 
 final class KamokuDetailPageScreen extends StatefulWidget {
-  const KamokuDetailPageScreen(
-      {required this.lessonId,
-      required this.lessonName,
-      super.key,
-      this.kakomonLessonId});
+  const KamokuDetailPageScreen({
+    required this.lessonId,
+    required this.lessonName,
+    super.key,
+    this.kakomonLessonId,
+  });
   final int lessonId;
   final String lessonName;
   final int? kakomonLessonId;
@@ -30,8 +31,9 @@ final class _KamokuDetailPageScreenState extends State<KamokuDetailPageScreen> {
     return Scaffold(
       appBar: AppBar(
         title: GestureDetector(
-          child:
-              Text(appBarText ? widget.lessonId.toString() : widget.lessonName),
+          child: Text(
+            appBarText ? widget.lessonId.toString() : widget.lessonName,
+          ),
           onDoubleTap: () {
             setState(() {
               appBarText = !appBarText;
@@ -95,7 +97,8 @@ final class _KamokuDetailPageScreenState extends State<KamokuDetailPageScreen> {
                 KamokuDetailSyllabusScreen(lessonId: widget.lessonId),
                 KamokuFeedbackScreen(lessonId: widget.lessonId),
                 KamokuDetailKakomonListScreen(
-                    url: widget.kakomonLessonId ?? widget.lessonId),
+                  url: widget.kakomonLessonId ?? widget.lessonId,
+                ),
               ],
             ),
           ),

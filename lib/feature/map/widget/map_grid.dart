@@ -1,6 +1,7 @@
 import 'package:dotto/feature/map/controller/map_page_controller.dart';
 import 'package:dotto/feature/map/widget/fun_grid_map.dart';
-import 'package:dotto/importer.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 final class MapGridScreen extends StatelessWidget {

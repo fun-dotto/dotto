@@ -2,7 +2,7 @@ import 'package:dotto/feature/search_course/domain/search_course_filter_options.
 import 'package:dotto/feature/search_course/repository/course_database_helper.dart';
 import 'package:dotto/feature/search_course/repository/course_filter_extractor.dart';
 import 'package:dotto/feature/search_course/repository/course_search_query_builder.dart';
-import 'package:dotto/importer.dart';
+import 'package:flutter/material.dart';
 
 final class SearchCourseRepository {
   factory SearchCourseRepository() {
@@ -13,7 +13,8 @@ final class SearchCourseRepository {
       SearchCourseRepository._internal();
 
   Future<List<Map<String, dynamic>>> fetchWeekPeriodDB(
-      List<int> lessonIdList) async {
+    List<int> lessonIdList,
+  ) async {
     return CourseDatabaseHelper.fetchWeekPeriod(lessonIdList);
   }
 

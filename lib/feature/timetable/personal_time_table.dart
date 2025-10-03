@@ -1,9 +1,10 @@
 import 'package:dotto/feature/timetable/controller/timetable_controller.dart';
 import 'package:dotto/feature/timetable/personal_select_lesson.dart';
-import 'package:dotto/importer.dart';
 import 'package:dotto/theme/v1/animation.dart';
 import 'package:dotto/theme/v1/color_fun.dart';
 import 'package:dotto/widget/loading_circular.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final class PersonalTimeTableScreen extends ConsumerWidget {
   const PersonalTimeTableScreen({super.key});

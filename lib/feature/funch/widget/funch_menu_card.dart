@@ -1,18 +1,18 @@
 import 'package:dotto/asset.dart';
 import 'package:dotto/feature/funch/domain/funch_menu.dart';
 import 'package:dotto/feature/funch/widget/funch_price_list.dart';
-import 'package:dotto/importer.dart';
 import 'package:dotto/theme/v1/app_color.dart';
+import 'package:flutter/material.dart';
 
 final class MenuCard extends StatelessWidget {
-
   const MenuCard(this.menu, {super.key});
   final FunchMenu menu;
 
   @override
   Widget build(BuildContext context) {
-    final energy =
-        menu is FunchCommonMenu ? (menu as FunchCommonMenu).energy : null;
+    final energy = menu is FunchCommonMenu
+        ? (menu as FunchCommonMenu).energy
+        : null;
     const double borderRadius = 10;
     return Card(
       margin: const EdgeInsets.all(10),
@@ -66,17 +66,10 @@ final class MenuCard extends StatelessWidget {
                   if (energy != null)
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Text('${energy}kcal'),
-                      ],
+                      children: [Text('${energy}kcal')],
                     ),
-                  const Divider(
-                    height: 6,
-                    color: AppColor.dividerGrey,
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
+                  const Divider(height: 6, color: AppColor.dividerGrey),
+                  const SizedBox(height: 5),
                   FunchPriceList(menu),
                 ],
               ),

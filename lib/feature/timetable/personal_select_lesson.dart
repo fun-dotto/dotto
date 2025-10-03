@@ -1,13 +1,18 @@
 import 'package:dotto/feature/timetable/controller/timetable_controller.dart';
 import 'package:dotto/feature/timetable/repository/timetable_repository.dart';
 import 'package:dotto/feature/timetable/widget/timetable_is_over_selected_snack_bar.dart';
-import 'package:dotto/importer.dart';
 import 'package:dotto/theme/v1/color_fun.dart';
 import 'package:dotto/widget/loading_circular.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final class PersonalSelectLessonScreen extends StatelessWidget {
-  const PersonalSelectLessonScreen(this.term, this.week, this.period,
-      {super.key});
+  const PersonalSelectLessonScreen(
+    this.term,
+    this.week,
+    this.period, {
+    super.key,
+  });
 
   final int term;
   final int week;
@@ -40,14 +45,17 @@ final class PersonalSelectLessonScreen extends StatelessWidget {
                     final lessonId = termList[index]['lessonId'] as int;
                     return ListTile(
                       title: Text(termList[index]['授業名'] as String),
-                      trailing: personalLessonIdList
-                              .contains(termList[index]['lessonId'])
+                      trailing:
+                          personalLessonIdList.contains(
+                            termList[index]['lessonId'],
+                          )
                           ? ElevatedButton(
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.blue,
                                 foregroundColor: Colors.white,
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 10),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 10,
+                                ),
                               ),
                               onPressed: () async {
                                 await TimetableRepository()
@@ -56,17 +64,21 @@ final class PersonalSelectLessonScreen extends StatelessWidget {
                                   Navigator.of(context).pop();
                                 }
                               },
-                              child: const Text('削除する'))
+                              child: const Text('削除する'),
+                            )
                           : ElevatedButton(
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: customFunColor,
                                 foregroundColor: Colors.white,
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 10),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 10,
+                                ),
                               ),
                               onPressed: () async {
                                 if (await TimetableRepository().isOverSeleted(
-                                    termList[index]['lessonId'] as int, ref)) {
+                                  termList[index]['lessonId'] as int,
+                                  ref,
+                                )) {
                                   if (context.mounted) {
                                     timetableIsOverSelectedSnackBar(context);
                                   }
@@ -84,14 +96,11 @@ final class PersonalSelectLessonScreen extends StatelessWidget {
                   },
                 );
               } else {
-                return const Center(
-                  child: Text('対象の科目はありません'),
-                );
+                return const Center(child: Text('対象の科目はありません'));
               }
             },
-            error: (error, stackTrace) => const Center(
-              child: Text('データを取得できませんでした。'),
-            ),
+            error: (error, stackTrace) =>
+                const Center(child: Text('データを取得できませんでした。')),
             loading: () => const Center(child: LoadingCircular()),
           );
         },

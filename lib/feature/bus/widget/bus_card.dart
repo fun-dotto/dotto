@@ -1,8 +1,9 @@
 import 'package:dotto/feature/bus/controller/bus_controller.dart';
 import 'package:dotto/feature/bus/domain/bus_type.dart';
 import 'package:dotto/feature/bus/repository/bus_repository.dart';
-import 'package:dotto/importer.dart';
 import 'package:dotto/theme/v1/app_color.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final class BusCard extends ConsumerWidget {
   const BusCard(

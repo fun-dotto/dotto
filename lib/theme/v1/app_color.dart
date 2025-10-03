@@ -1,4 +1,4 @@
-import 'package:dotto/importer.dart';
+import 'package:flutter/material.dart';
 
 final class AppColor {
   static const Color linkTextBlue = Color(0xFF1976D2);

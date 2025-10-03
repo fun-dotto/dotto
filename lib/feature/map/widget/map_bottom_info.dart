@@ -3,8 +3,9 @@ import 'package:dotto/feature/map/controller/map_search_datetime_controller.dart
 import 'package:dotto/feature/map/controller/using_map_controller.dart';
 import 'package:dotto/feature/map/domain/map_tile_type.dart';
 import 'package:dotto/feature/map/widget/map_tile.dart';
-import 'package:dotto/importer.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
 final class MapBottomInfo extends ConsumerWidget {

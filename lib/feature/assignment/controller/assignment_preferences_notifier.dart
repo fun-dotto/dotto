@@ -47,17 +47,13 @@ class AssignmentPreferencesNotifier extends _$AssignmentPreferencesNotifier {
     if (jsonString == null || jsonString.isEmpty) {
       return [];
     }
-    try {
-      final decoded = json.decode(jsonString);
-      if (decoded is List) {
-        return decoded
-            .map((e) => e is int ? e : int.tryParse(e.toString()))
-            .whereType<int>()
-            .toList()
-          ..sort();
-      }
-    } catch (_) {
-      // ignore decoding errors and fall back to empty list
+    final decoded = json.decode(jsonString);
+    if (decoded is List) {
+      return decoded
+          .map((e) => e is int ? e : int.tryParse(e.toString()))
+          .whereType<int>()
+          .toList()
+        ..sort();
     }
     return [];
   }

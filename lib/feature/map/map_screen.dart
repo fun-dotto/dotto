@@ -3,7 +3,8 @@ import 'package:dotto/feature/map/widget/map_bottom_info.dart';
 import 'package:dotto/feature/map/widget/map_floor_button.dart';
 import 'package:dotto/feature/map/widget/map_grid.dart';
 import 'package:dotto/feature/map/widget/map_search.dart';
-import 'package:dotto/importer.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final class MapScreen extends StatelessWidget {
   const MapScreen({super.key});

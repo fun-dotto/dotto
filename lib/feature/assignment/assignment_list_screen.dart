@@ -450,7 +450,7 @@ final class _AssignmentListScreenState
   Widget _buildList(List<KadaiList> data, AssignmentState state) {
     return ListView.separated(
       itemCount: data.length,
-      separatorBuilder: (_, __) => const Divider(height: 3),
+      separatorBuilder: (_, _) => const Divider(height: 3),
       itemBuilder: (context, index) {
         final kadaiList = data[index];
         final hidden = state.hiddenAssignmentIds;
@@ -672,7 +672,7 @@ final class _AssignmentListScreenState
               }
             },
             child: const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.0),
+              padding: EdgeInsets.symmetric(horizontal: 16),
               child: Text('非表示リスト'),
             ),
           ),
@@ -687,7 +687,7 @@ final class _AssignmentListScreenState
           onPanDown: (_) => Slidable.of(context)?.close(),
           child: assignments.when(
             data: (data) => _buildList(data, assignmentState),
-            error: (_, __) => SetupHopeContinuityScreen(
+            error: (_, _) => SetupHopeContinuityScreen(
               onUserKeySaved: () async {
                 await ref.read(assignmentsNotifierProvider.notifier).refresh();
               },

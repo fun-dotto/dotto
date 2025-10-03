@@ -3,7 +3,7 @@ import 'package:dotto/feature/home/home.dart';
 import 'package:dotto/feature/map/map_screen.dart';
 import 'package:dotto/feature/search_course/search_course_screen.dart';
 import 'package:dotto/feature/setting/settings.dart';
-import 'package:dotto/importer.dart';
+import 'package:flutter/material.dart';
 
 enum TabItem {
   home(

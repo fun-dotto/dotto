@@ -3,28 +3,31 @@ import 'dart:convert';
 import 'package:dotto/controller/user_controller.dart';
 import 'package:dotto/feature/timetable/controller/timetable_controller.dart';
 import 'package:dotto/feature/timetable/repository/timetable_repository.dart';
-import 'package:dotto/importer.dart';
 import 'package:dotto/repository/read_json_file.dart';
 import 'package:dotto/widget/loading_circular.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final class CourseCancellationScreen extends ConsumerWidget {
   const CourseCancellationScreen({super.key});
 
   Future<List<dynamic>> loadData(WidgetRef ref) async {
-    final courseCancellationFilterEnabled =
-        ref.watch(courseCancellationFilterEnabledProvider);
+    final courseCancellationFilterEnabled = ref.watch(
+      courseCancellationFilterEnabledProvider,
+    );
     try {
       final jsonData = await readJsonFile('home/cancel_lecture.json');
       final decodedData = jsonDecode(jsonData) as List<dynamic>;
 
       if (courseCancellationFilterEnabled) {
-        final personalTimeTableMap =
-            await TimetableRepository().loadPersonalTimeTableMapString(ref);
+        final personalTimeTableMap = await TimetableRepository()
+            .loadPersonalTimeTableMapString(ref);
         // デコードされたJSONデータをフィルタリング
         final filteredData = decodedData.where((dynamic item) {
           final itemMap = item as Map<String, dynamic>;
-          return personalTimeTableMap.keys
-              .contains(itemMap['lessonName'] as String);
+          return personalTimeTableMap.keys.contains(
+            itemMap['lessonName'] as String,
+          );
         }).toList();
         return filteredData;
       } else {
@@ -40,22 +43,22 @@ final class CourseCancellationScreen extends ConsumerWidget {
     final user = ref.watch(userProvider);
     if (user == null) {
       return Scaffold(
-        appBar: AppBar(
-          title: const Text('休講情報'),
-        ),
-        body: const Center(
-          child: Text('未来大Googleアカウントでログインすると閲覧できます。'),
-        ),
+        appBar: AppBar(title: const Text('休講情報')),
+        body: const Center(child: Text('未来大Googleアカウントでログインすると閲覧できます。')),
       );
     }
-    final courseCancellationFilterEnabled =
-        ref.watch(courseCancellationFilterEnabledProvider);
-    final courseCancellationFilterEnabledNotifier =
-        ref.read(courseCancellationFilterEnabledProvider.notifier);
-    final courseCancellationSelectedType =
-        ref.watch(courseCancellationSelectedTypeProvider);
-    final courseCancellationSelectedTypeNotifier =
-        ref.read(courseCancellationSelectedTypeProvider.notifier);
+    final courseCancellationFilterEnabled = ref.watch(
+      courseCancellationFilterEnabledProvider,
+    );
+    final courseCancellationFilterEnabledNotifier = ref.read(
+      courseCancellationFilterEnabledProvider.notifier,
+    );
+    final courseCancellationSelectedType = ref.watch(
+      courseCancellationSelectedTypeProvider,
+    );
+    final courseCancellationSelectedTypeNotifier = ref.read(
+      courseCancellationSelectedTypeProvider.notifier,
+    );
     return Scaffold(
       appBar: AppBar(
         title: const Text('休講情報'),
@@ -73,17 +76,9 @@ final class CourseCancellationScreen extends ConsumerWidget {
                   courseCancellationFilterEnabled ? '全て表示' : '時間割にある科目のみ表示',
                   style: const TextStyle(color: Colors.white),
                 ),
-                const SizedBox(
-                  width: 5,
-                ),
-                const Icon(
-                  Icons.sync_alt,
-                  color: Colors.white,
-                  size: 16,
-                ),
-                const SizedBox(
-                  width: 5,
-                ),
+                const SizedBox(width: 5),
+                const Icon(Icons.sync_alt, color: Colors.white, size: 16),
+                const SizedBox(width: 5),
               ],
             ),
           ),
@@ -115,18 +110,14 @@ final class CourseCancellationScreen extends ConsumerWidget {
                       courseCancellationSelectedTypeNotifier.state =
                           newValue ?? 'すべて';
                     },
-                    items: <String>[
-                      'すべて',
-                      '補講あり',
-                      '補講なし',
-                      '補講未定',
-                      'その他',
-                    ].map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
+                    items: <String>['すべて', '補講あり', '補講なし', '補講未定', 'その他']
+                        .map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        })
+                        .toList(),
                   ),
                   createListView(filteredData),
                 ],
@@ -151,20 +142,19 @@ final class CourseCancellationScreen extends ConsumerWidget {
             return ListTile(
               title: Text('日付: ${item['date']}'),
               subtitle: Text(
-                  '時限: ${item['period']}\n'
-                  '授業名: ${item['lessonName']}\n'
-                  'キャンパス: ${item['campus']}\n'
-                  '担当教員: ${item['staff']}\n'
-                  'コメント: ${item['comment']}'),
+                '時限: ${item['period']}\n'
+                '授業名: ${item['lessonName']}\n'
+                'キャンパス: ${item['campus']}\n'
+                '担当教員: ${item['staff']}\n'
+                'コメント: ${item['comment']}',
+              ),
               // 他のウィジェットやアクションを追加することも可能
             );
           },
         ),
       );
     } else {
-      return const Center(
-        child: Text('休講補講情報はありません。\n右上から表示を切り替えることができます。'),
-      );
+      return const Center(child: Text('休講補講情報はありません。\n右上から表示を切り替えることができます。'));
     }
   }
 }

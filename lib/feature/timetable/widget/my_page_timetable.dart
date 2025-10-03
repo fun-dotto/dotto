@@ -3,10 +3,11 @@ import 'package:dotto/feature/kamoku_detail/kamoku_detail_page_view.dart';
 import 'package:dotto/feature/timetable/controller/timetable_controller.dart';
 import 'package:dotto/feature/timetable/domain/timetable_course.dart';
 import 'package:dotto/feature/timetable/repository/timetable_repository.dart';
-import 'package:dotto/importer.dart';
 import 'package:dotto/theme/v1/animation.dart';
 import 'package:dotto/theme/v1/color_fun.dart';
 import 'package:dotto/widget/loading_circular.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
 final class MyPageTimetable extends ConsumerWidget {
@@ -56,8 +57,9 @@ final class MyPageTimetable extends ConsumerWidget {
         onTap: (timeTableCourse == null)
             ? null
             : () async {
-                final record = await TimetableRepository()
-                    .fetchDB(timeTableCourse.lessonId);
+                final record = await TimetableRepository().fetchDB(
+                  timeTableCourse.lessonId,
+                );
                 if (record == null) return;
                 if (context.mounted) {
                   await Navigator.of(context).push(
@@ -98,7 +100,7 @@ final class MyPageTimetable extends ConsumerWidget {
                               width: 20,
                               height: 20,
                               child: LoadingCircular(),
-                            )
+                            ),
                           ]
                         : [
                             Text(
@@ -116,10 +118,12 @@ final class MyPageTimetable extends ConsumerWidget {
                             if (timeTableCourse != null)
                               Text(
                                 timeTableCourse.resourseIds
-                                    .map((resourceId) =>
-                                        roomName.containsKey(resourceId)
-                                            ? roomName[resourceId]
-                                            : null)
+                                    .map(
+                                      (resourceId) =>
+                                          roomName.containsKey(resourceId)
+                                          ? roomName[resourceId]
+                                          : null,
+                                    )
                                     .toList()
                                     .join(', '),
                                 style: const TextStyle(
@@ -136,29 +140,17 @@ final class MyPageTimetable extends ConsumerWidget {
                   if (timeTableCourse.cancel)
                     const Row(
                       children: [
-                        Icon(
-                          Icons.cancel_outlined,
-                          color: Colors.red,
-                        ),
-                        Text(
-                          '休講',
-                          style: TextStyle(color: Colors.red),
-                        ),
+                        Icon(Icons.cancel_outlined, color: Colors.red),
+                        Text('休講', style: TextStyle(color: Colors.red)),
                       ],
                     )
                   else if (timeTableCourse.sup)
                     const Row(
                       children: [
-                        Icon(
-                          Icons.info_outline,
-                          color: Colors.orange,
-                        ),
-                        Text(
-                          '補講',
-                          style: TextStyle(color: Colors.orange),
-                        ),
+                        Icon(Icons.info_outline, color: Colors.orange),
+                        Text('補講', style: TextStyle(color: Colors.orange)),
                       ],
-                    )
+                    ),
               ],
             ),
           ),
@@ -168,14 +160,14 @@ final class MyPageTimetable extends ConsumerWidget {
   }
 
   Widget timeTablePeriod(
-      BuildContext context,
-      int period,
-      TimeOfDay beginTime,
-      TimeOfDay finishTime,
-      List<TimeTableCourse> timeTableCourseList,
-      WidgetRef ref, {
-      required bool loading,
-    }) {
+    BuildContext context,
+    int period,
+    TimeOfDay beginTime,
+    TimeOfDay finishTime,
+    List<TimeTableCourse> timeTableCourseList,
+    WidgetRef ref, {
+    required bool loading,
+  }) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 5),
       margin: const EdgeInsets.symmetric(vertical: 5),
@@ -203,9 +195,7 @@ final class MyPageTimetable extends ConsumerWidget {
               ],
             ),
           ),
-          const SizedBox(
-            width: 5,
-          ),
+          const SizedBox(width: 5),
           Expanded(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -213,9 +203,14 @@ final class MyPageTimetable extends ConsumerWidget {
                 if (timeTableCourseList.isEmpty)
                   timeTableLessonButton(context, null, ref, loading: loading)
                 else
-                  ...timeTableCourseList.map((timeTableCourse) =>
-                      timeTableLessonButton(
-                          context, timeTableCourse, ref, loading: false)),
+                  ...timeTableCourseList.map(
+                    (timeTableCourse) => timeTableLessonButton(
+                      context,
+                      timeTableCourse,
+                      ref,
+                      loading: false,
+                    ),
+                  ),
               ],
             ),
           ),
@@ -255,7 +250,7 @@ final class MyPageTimetable extends ConsumerWidget {
       Colors.black,
       Colors.black,
       Colors.blue,
-      Colors.red
+      Colors.red,
     ];
     final deviceWidth = MediaQuery.of(context).size.width;
     const double buttonSize = 50;
@@ -263,10 +258,12 @@ final class MyPageTimetable extends ConsumerWidget {
     final deviceCenter = deviceWidth / 2 - (buttonSize / 2 + buttonPadding);
     final buttonPosition =
         (DateTime.now().weekday - 1) * (buttonSize + buttonPadding);
-    final initialScrollOffset =
-        (buttonPosition > deviceCenter) ? buttonPosition - deviceCenter : 0;
-    final controller =
-        ScrollController(initialScrollOffset: initialScrollOffset.toDouble());
+    final initialScrollOffset = (buttonPosition > deviceCenter)
+        ? buttonPosition - deviceCenter
+        : 0;
+    final controller = ScrollController(
+      initialScrollOffset: initialScrollOffset.toDouble(),
+    );
     return Consumer(
       builder: (context, ref, child) {
         ref.watch(saveTimetableProvider);
@@ -279,13 +276,16 @@ final class MyPageTimetable extends ConsumerWidget {
               scrollDirection: Axis.horizontal,
               child: Padding(
                 padding: const EdgeInsets.symmetric(
-                    vertical: buttonPadding, horizontal: buttonPadding / 2),
+                  vertical: buttonPadding,
+                  horizontal: buttonPadding / 2,
+                ),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: dates.map((date) {
                     return Padding(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: buttonPadding / 2),
+                        horizontal: buttonPadding / 2,
+                      ),
                       child: ElevatedButton(
                         onPressed: () async {
                           setFocusTimeTableDay(date, ref);
@@ -298,9 +298,7 @@ final class MyPageTimetable extends ConsumerWidget {
                           foregroundColor: focusTimeTableDay.day == date.day
                               ? Colors.white
                               : Colors.black,
-                          shape: const CircleBorder(
-                            side: BorderSide(),
-                          ),
+                          shape: const CircleBorder(side: BorderSide()),
                           minimumSize: const Size(buttonSize, buttonSize),
                           fixedSize: const Size(buttonSize, buttonSize),
                           padding: EdgeInsets.zero,
@@ -338,17 +336,18 @@ final class MyPageTimetable extends ConsumerWidget {
             // 時間割表示
             for (int i = 1; i <= 6; i++) ...{
               timeTablePeriod(
-                  context,
-                  i,
-                  beginPeriod[i - 1],
-                  finishPeriod[i - 1],
-                  twoWeekTimeTableData != null
-                      ? twoWeekTimeTableData.isNotEmpty
+                context,
+                i,
+                beginPeriod[i - 1],
+                finishPeriod[i - 1],
+                twoWeekTimeTableData != null
+                    ? twoWeekTimeTableData.isNotEmpty
                           ? twoWeekTimeTableData[focusTimeTableDay]![i] ?? []
                           : []
-                      : [],
-                  ref,
-                  loading: twoWeekTimeTableData == null)
+                    : [],
+                ref,
+                loading: twoWeekTimeTableData == null,
+              ),
             },
           ],
         );

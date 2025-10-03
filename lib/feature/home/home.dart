@@ -7,11 +7,12 @@ import 'package:dotto/feature/timetable/course_cancellation.dart';
 import 'package:dotto/feature/timetable/personal_time_table.dart';
 import 'package:dotto/feature/timetable/repository/timetable_repository.dart';
 import 'package:dotto/feature/timetable/widget/my_page_timetable.dart';
-import 'package:dotto/importer.dart';
 import 'package:dotto/theme/v1/animation.dart';
 import 'package:dotto/theme/v1/color_fun.dart';
 import 'package:dotto/widget/file_viewer.dart';
 import 'package:dotto_design_system/component/button.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 final class HomeScreen extends ConsumerStatefulWidget {

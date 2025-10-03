@@ -1,7 +1,8 @@
 import 'package:dotto/feature/timetable/controller/timetable_controller.dart';
 import 'package:dotto/feature/timetable/repository/timetable_repository.dart';
 import 'package:dotto/feature/timetable/widget/timetable_is_over_selected_snack_bar.dart';
-import 'package:dotto/importer.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final class AddCourseButton extends ConsumerWidget {
   const AddCourseButton({required this.lessonId, super.key});

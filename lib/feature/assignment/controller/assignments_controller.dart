@@ -12,13 +12,14 @@ final class AssignmentsNotifier extends _$AssignmentsNotifier {
     final userKey = await UserPreferenceRepository.getString(
       UserPreferenceKeys.userKey,
     );
-    if (userKey == null || userKey.isEmpty)
+    if (userKey == null || userKey.isEmpty) {
       throw Exception('User key is not set.');
+    }
     return AssignmentRepository().getKadaiFromFirebase();
   }
 
   Future<void> refresh() async {
     state = const AsyncValue.loading();
-    state = await AsyncValue.guard(() => build());
+    state = await AsyncValue.guard(build);
   }
 }

@@ -7,7 +7,8 @@ import 'package:dotto/feature/map/controller/map_view_transformation_controller.
 import 'package:dotto/feature/map/controller/on_map_search_controller.dart';
 import 'package:dotto/feature/map/controller/search_list_controller.dart';
 import 'package:dotto/feature/map/widget/map_detail_bottom_sheet.dart';
-import 'package:dotto/importer.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final class MapSearchBar extends ConsumerWidget {
   const MapSearchBar({super.key});

@@ -1,5 +1,6 @@
 import 'package:dotto/feature/search_course/controller/kamoku_search_controller.dart';
-import 'package:dotto/importer.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final class SearchCourseBox extends ConsumerWidget {
   const SearchCourseBox({super.key});
