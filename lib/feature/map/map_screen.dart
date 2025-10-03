@@ -19,10 +19,10 @@ final class MapScreen extends ConsumerWidget {
         centerTitle: false,
         surfaceTintColor: Colors.transparent,
       ),
-      body: const Column(
+      body: Column(
         spacing: 8,
         children: [
-          Padding(
+          const Padding(
             padding: EdgeInsets.symmetric(horizontal: 16),
             child: MapSearchBar(),
           ),
@@ -32,11 +32,14 @@ final class MapScreen extends ConsumerWidget {
                 Column(
                   spacing: 8,
                   children: [
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 16),
-                      child: MapFloorButton(),
+                    ConstrainedBox(
+                      constraints: const BoxConstraints(maxWidth: 400),
+                      child: const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 16),
+                        child: MapFloorButton(),
+                      ),
                     ),
-                    Expanded(
+                    const Expanded(
                       child: Stack(
                         alignment: Alignment.bottomLeft,
                         children: [
@@ -48,13 +51,16 @@ final class MapScreen extends ConsumerWidget {
                         ],
                       ),
                     ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 16),
-                      child: MapDatePicker(),
+                    ConstrainedBox(
+                      constraints: const BoxConstraints(maxWidth: 400),
+                      child: const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 16),
+                        child: MapDatePicker(),
+                      ),
                     ),
                   ],
                 ),
-                MapSearchResultList(),
+                const MapSearchResultList(),
               ],
             ),
           ),
