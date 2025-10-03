@@ -7,6 +7,7 @@ import 'package:dotto/feature/assignment/kadai_hidden_list.dart';
 import 'package:dotto/feature/assignment/setup_hope_continuity_screen.dart';
 import 'package:dotto/feature/setting/controller/settings_controller.dart';
 import 'package:dotto/widget/loading_circular.dart';
+import 'package:dotto_design_system/component/button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -637,7 +638,7 @@ final class _AssignmentListScreenState
     return Scaffold(
       appBar: AppBar(
         actions: [
-          TextButton(
+          DottoButton(
             onPressed: () async {
               final data = assignments.value;
               if (data == null) return;
@@ -671,6 +672,7 @@ final class _AssignmentListScreenState
                 await ref.read(assignmentsNotifierProvider.notifier).refresh();
               }
             },
+            type: DottoButtonType.text,
             child: const Padding(
               padding: EdgeInsets.symmetric(horizontal: 16),
               child: Text('非表示リスト'),
