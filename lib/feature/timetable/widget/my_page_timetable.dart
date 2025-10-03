@@ -77,7 +77,7 @@ final class MyPageTimetable extends ConsumerWidget {
                 }
               },
         child: Material(
-          elevation: 2,
+          elevation: 1,
           borderRadius: const BorderRadius.all(Radius.circular(4)),
           child: Container(
             height: 40,
