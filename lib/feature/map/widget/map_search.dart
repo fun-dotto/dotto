@@ -15,18 +15,16 @@ final class MapSearchBar extends ConsumerWidget {
   const MapSearchBar({super.key});
 
   void _onSearchQueryChanged(WidgetRef ref, String text) {
-    final mapSearchListNotifier = ref.read(
-      mapSearchListNotifierProvider.notifier,
-    );
-    final onMapSearchNotifier = ref.read(onMapSearchNotifierProvider.notifier);
     final mapDetailMap = ref.watch(mapDetailMapNotifierProvider);
     if (text.isEmpty) {
-      onMapSearchNotifier.value = false;
-      mapSearchListNotifier.list = [];
+      ref.read(onMapSearchNotifierProvider.notifier).value = false;
+      ref.read(mapSearchListNotifierProvider.notifier).list = [];
     } else {
-      onMapSearchNotifier.value = true;
+      ref.read(onMapSearchNotifierProvider.notifier).value = true;
       mapDetailMap.whenData((data) {
-        mapSearchListNotifier.list = data.searchAll(text);
+        ref.read(mapSearchListNotifierProvider.notifier).list = data.searchAll(
+          text,
+        );
       });
     }
   }
@@ -73,9 +71,6 @@ final class MapBarrierOnSearch extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final mapSearchList = ref.watch(mapSearchListNotifierProvider);
-    final mapSearchListNotifier = ref.read(
-      mapSearchListNotifierProvider.notifier,
-    );
     if (mapSearchList.isNotEmpty) {
       return ColoredBox(
         color: Colors.white.withValues(alpha: 0.9),
@@ -83,7 +78,7 @@ final class MapBarrierOnSearch extends ConsumerWidget {
           behavior: HitTestBehavior.translucent,
           child: const SizedBox.expand(),
           onTap: () {
-            mapSearchListNotifier.list = [];
+            ref.read(mapSearchListNotifierProvider.notifier).list = [];
           },
         ),
       );
