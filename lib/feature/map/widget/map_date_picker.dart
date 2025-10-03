@@ -41,6 +41,7 @@ final class MapDatePicker extends ConsumerWidget {
   }
 
   Widget _datePickerButton(
+    BuildContext context,
     WidgetRef ref,
     DateTime searchDatetime,
     DateTime monday,
@@ -53,7 +54,7 @@ final class MapDatePicker extends ConsumerWidget {
       ),
       onPressed: () {
         DatePicker.showDateTimePicker(
-          ref.context,
+          context,
           minTime: monday,
           maxTime: nextSunday,
           onConfirm: (date) async {
@@ -109,7 +110,13 @@ final class MapDatePicker extends ConsumerWidget {
         Expanded(
           flex: 2,
           child: Center(
-            child: _datePickerButton(ref, searchDatetime, monday, nextSunday),
+            child: _datePickerButton(
+              context,
+              ref,
+              searchDatetime,
+              monday,
+              nextSunday,
+            ),
           ),
         ),
       ],
