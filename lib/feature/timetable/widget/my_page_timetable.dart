@@ -1,5 +1,5 @@
 import 'package:dotto/controller/user_controller.dart';
-import 'package:dotto/feature/kamoku_detail/kamoku_detail_page_view.dart';
+import 'package:dotto/feature/kamoku_detail/kamoku_detail_screen.dart';
 import 'package:dotto/feature/timetable/controller/timetable_controller.dart';
 import 'package:dotto/feature/timetable/domain/timetable_course.dart';
 import 'package:dotto/feature/timetable/repository/timetable_repository.dart';
@@ -65,7 +65,7 @@ final class MyPageTimetable extends ConsumerWidget {
                   await Navigator.of(context).push(
                     PageRouteBuilder<void>(
                       pageBuilder: (context, animation, secondaryAnimation) {
-                        return KamokuDetailPageScreen(
+                        return KamokuDetailScreen(
                           lessonId: record['LessonId'] as int,
                           lessonName: record['授業名'] as String,
                           kakomonLessonId: record['過去問'] as int?,
