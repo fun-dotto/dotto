@@ -30,7 +30,7 @@ final class DottoThemev1 {
       ),
       dividerTheme: DividerThemeData(color: Colors.grey.shade200),
       cardTheme: const CardThemeData(surfaceTintColor: Colors.white),
-      fontFamily: 'Murecho',
+      fontFamily: 'NotoSansJP',
     );
   }
 }
