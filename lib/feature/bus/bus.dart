@@ -178,15 +178,12 @@ final class BusScreen extends ConsumerWidget {
               ref.read(busScrolledProvider.notifier).state = false;
             },
             type: DottoButtonType.text,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Icon(Icons.swap_horiz_outlined),
-                  Text("${busIsWeekday ? "土日" : "平日"}へ "),
-                ],
-              ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(Icons.swap_horiz_outlined),
+                Text("${busIsWeekday ? "土日" : "平日"}へ "),
+              ],
             ),
           ),
         ],

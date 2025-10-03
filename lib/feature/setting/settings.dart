@@ -88,10 +88,7 @@ final class SettingsScreen extends ConsumerWidget {
     });
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('設定', style: TextStyle(fontWeight: FontWeight.w600)),
-        centerTitle: false,
-      ),
+      appBar: AppBar(title: const Text('設定'), centerTitle: false),
       body: GestureDetector(
         behavior: HitTestBehavior.opaque,
         onTap: () => FocusScope.of(context).unfocus(),

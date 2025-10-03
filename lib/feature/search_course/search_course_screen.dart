@@ -12,13 +12,7 @@ final class SearchCourseScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        title: const Text(
-          '科目検索',
-          style: TextStyle(fontWeight: FontWeight.w600),
-        ),
-        centerTitle: false,
-      ),
+      appBar: AppBar(title: const Text('科目'), centerTitle: false),
       body: GestureDetector(
         behavior: HitTestBehavior.opaque,
         onTap: () => FocusScope.of(context).unfocus(),

@@ -607,7 +607,7 @@ final class _AssignmentListScreenState
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('課題', style: TextStyle(fontWeight: FontWeight.w600)),
+        title: const Text('課題'),
         centerTitle: false,
         actions: [
           DottoButton(
@@ -645,10 +645,7 @@ final class _AssignmentListScreenState
               }
             },
             type: DottoButtonType.text,
-            child: const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              child: Text('非表示リスト'),
-            ),
+            child: const Text('非表示リスト'),
           ),
         ],
       ),

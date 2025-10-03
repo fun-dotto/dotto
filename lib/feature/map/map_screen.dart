@@ -14,10 +14,7 @@ final class MapScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        title: const Text('マップ', style: TextStyle(fontWeight: FontWeight.w600)),
-        centerTitle: false,
-      ),
+      appBar: AppBar(title: const Text('マップ'), centerTitle: false),
       body: Column(
         spacing: 8,
         children: [
