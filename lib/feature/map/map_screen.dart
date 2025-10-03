@@ -25,33 +25,37 @@ final class MapScreen extends ConsumerWidget {
             padding: EdgeInsets.symmetric(horizontal: 16),
             child: MapSearchBar(),
           ),
-          Stack(
-            children: [
-              Column(
-                spacing: 8,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16),
-                    child: MapFloorButton(),
-                  ),
-                  Stack(
-                    alignment: Alignment.bottomLeft,
-                    children: [
-                      Map(),
-                      Padding(
-                        padding: EdgeInsets.only(left: 16),
-                        child: MapLegend(),
+          Expanded(
+            child: Stack(
+              children: [
+                Column(
+                  spacing: 8,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16),
+                      child: MapFloorButton(),
+                    ),
+                    Expanded(
+                      child: Stack(
+                        alignment: Alignment.bottomLeft,
+                        children: [
+                          Column(children: [Map(), Spacer()]),
+                          Padding(
+                            padding: EdgeInsets.only(left: 16),
+                            child: MapLegend(),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16),
-                    child: MapDatePicker(),
-                  ),
-                ],
-              ),
-              MapSearchListView(),
-            ],
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16),
+                      child: MapDatePicker(),
+                    ),
+                  ],
+                ),
+                MapSearchListView(),
+              ],
+            ),
           ),
         ],
       ),

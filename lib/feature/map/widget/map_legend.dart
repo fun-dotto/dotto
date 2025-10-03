@@ -7,13 +7,13 @@ final class MapLegend extends StatelessWidget {
 
   Widget _mapInfoTile(Color color, String text) {
     return Row(
+      spacing: 4,
       children: [
         Container(
           decoration: BoxDecoration(color: color, border: Border.all()),
-          width: 11,
-          height: 11,
+          width: 10,
+          height: 10,
         ),
-        const SizedBox(width: 5),
         Text(text, style: const TextStyle(fontSize: 12)),
       ],
     );
@@ -22,10 +22,12 @@ final class MapLegend extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 245,
+      width: 244,
+      height: 72,
       color: Colors.black.withValues(alpha: 0.1),
       padding: const EdgeInsets.all(8),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           _mapInfoTile(MapColors.using, '下記設定時間に授業等で使用中の部屋'),
           _mapInfoTile(MapTileType.wc.backgroundColor, 'トイレ及び給湯室'),
