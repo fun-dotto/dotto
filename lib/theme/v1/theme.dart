@@ -24,7 +24,10 @@ final class DottoThemev1 {
           surfaceTintColor: const WidgetStatePropertyAll(Colors.transparent),
         ),
       ),
-      appBarTheme: const AppBarTheme(foregroundColor: customFunColor),
+      appBarTheme: const AppBarTheme(
+        foregroundColor: customFunColor,
+        surfaceTintColor: Colors.transparent,
+      ),
       textButtonTheme: const TextButtonThemeData(
         style: ButtonStyle(padding: WidgetStatePropertyAll(EdgeInsets.zero)),
       ),

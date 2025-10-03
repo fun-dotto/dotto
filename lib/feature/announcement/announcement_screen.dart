@@ -12,9 +12,7 @@ final class AnnouncementScreen extends ConsumerWidget {
     final announcements = ref.watch(announcementsControllerProvider);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('お知らせ'),
-      ),
+      appBar: AppBar(title: const Text('お知らせ')),
       body: announcements.when(
         data: (data) {
           return AnnouncementList(announcements: data);

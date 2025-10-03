@@ -213,7 +213,6 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
           style: TextStyle(fontWeight: FontWeight.w600),
         ),
         centerTitle: false,
-        surfaceTintColor: Colors.transparent,
       ),
       body: SingleChildScrollView(
         child: Column(

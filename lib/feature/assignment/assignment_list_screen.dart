@@ -639,7 +639,6 @@ final class _AssignmentListScreenState
       appBar: AppBar(
         title: const Text('課題', style: TextStyle(fontWeight: FontWeight.w600)),
         centerTitle: false,
-        surfaceTintColor: Colors.transparent,
         actions: [
           DottoButton(
             onPressed: () async {

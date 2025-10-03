@@ -17,7 +17,6 @@ final class MapScreen extends ConsumerWidget {
       appBar: AppBar(
         title: const Text('マップ', style: TextStyle(fontWeight: FontWeight.w600)),
         centerTitle: false,
-        surfaceTintColor: Colors.transparent,
       ),
       body: Column(
         spacing: 8,
