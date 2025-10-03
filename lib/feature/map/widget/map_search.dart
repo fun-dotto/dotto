@@ -29,8 +29,8 @@ final class MapSearchBar extends ConsumerWidget {
     }
   }
 
-  /// サーチバーのテキストフィールド
-  Widget _mapSearchTextField(WidgetRef ref) {
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
     final textEditingController = ref.watch(mapSearchTextNotifierProvider);
     final mapSearchBarFocus = ref.watch(mapSearchBarFocusNotifierProvider);
     return DottoTextField(
@@ -47,19 +47,6 @@ final class MapSearchBar extends ConsumerWidget {
       onSubmitted: (text) {
         _onSearchQueryChanged(ref, text);
       },
-    );
-  }
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final mapSearchList = ref.watch(mapSearchListNotifierProvider);
-    return Container(
-      color: (mapSearchList.isNotEmpty)
-          ? Colors.white.withValues(alpha: 0.9)
-          : Colors.transparent,
-      margin: const EdgeInsets.only(top: 15, right: 5, left: 5),
-      padding: const EdgeInsets.symmetric(horizontal: 10),
-      child: _mapSearchTextField(ref),
     );
   }
 }
@@ -108,57 +95,53 @@ final class MapSearchListView extends ConsumerWidget {
     final mapSearchBarFocusNotifier = ref.watch(
       mapSearchBarFocusNotifierProvider,
     );
-    if (mapSearchList.isNotEmpty) {
-      return Padding(
-        padding: const EdgeInsets.all(4),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Flexible(
-              child: ListView.separated(
-                itemCount: mapSearchList.length,
-                itemBuilder: (context, int index) {
-                  final item = mapSearchList[index];
-                  return ListTile(
-                    leading: Text('${item.floor}F'),
-                    title: Text(item.header),
-                    trailing: const Icon(Icons.chevron_right),
-                    onTap: () {
-                      ref.read(mapSearchListNotifierProvider.notifier).list =
-                          [];
-                      FocusScope.of(context).unfocus();
-                      ref
-                          .read(mapViewTransformationNotifierProvider.notifier)
-                          .value
-                          .value
-                          .setIdentity();
-                      ref
-                              .read(focusedMapDetailNotifierProvider.notifier)
-                              .value =
-                          item;
-                      ref.read(mapPageNotifierProvider.notifier).value =
-                          floorBarString.indexOf(item.floor);
-                      showBottomSheet(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return MapDetailBottomSheet(
-                            floor: item.floor,
-                            roomName: item.roomName,
-                          );
-                        },
-                      );
-                      mapSearchBarFocusNotifier.unfocus();
-                    },
-                  );
-                },
-                separatorBuilder: (context, index) => const Divider(height: 1),
-              ),
-            ),
-          ],
-        ),
-      );
-    } else {
-      return Container();
+    if (mapSearchList.isEmpty) {
+      return const SizedBox.shrink();
     }
+    return Padding(
+      padding: const EdgeInsets.all(4),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Flexible(
+            child: ListView.separated(
+              itemCount: mapSearchList.length,
+              itemBuilder: (context, int index) {
+                final item = mapSearchList[index];
+                return ListTile(
+                  leading: Text('${item.floor}F'),
+                  title: Text(item.header),
+                  trailing: const Icon(Icons.chevron_right),
+                  onTap: () {
+                    ref.read(mapSearchListNotifierProvider.notifier).list = [];
+                    FocusScope.of(context).unfocus();
+                    ref
+                        .read(mapViewTransformationNotifierProvider.notifier)
+                        .value
+                        .value
+                        .setIdentity();
+                    ref.read(focusedMapDetailNotifierProvider.notifier).value =
+                        item;
+                    ref.read(mapPageNotifierProvider.notifier).value =
+                        floorBarString.indexOf(item.floor);
+                    showBottomSheet(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return MapDetailBottomSheet(
+                          floor: item.floor,
+                          roomName: item.roomName,
+                        );
+                      },
+                    );
+                    mapSearchBarFocusNotifier.unfocus();
+                  },
+                );
+              },
+              separatorBuilder: (context, index) => const Divider(height: 1),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
