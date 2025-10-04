@@ -1,7 +1,6 @@
 import 'package:dotto/feature/timetable/controller/timetable_controller.dart';
 import 'package:dotto/feature/timetable/personal_select_lesson.dart';
 import 'package:dotto/theme/v1/animation.dart';
-import 'package:dotto/theme/v1/color_fun.dart';
 import 'package:dotto/widget/loading_circular.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -175,100 +174,37 @@ final class PersonalTimeTableScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final deviceWidth = MediaQuery.of(context).size.width;
-    final deviceHeight = MediaQuery.of(context).size.height;
-    final currentTimetablePageIndex = ref.watch(
-      currentTimetablePageIndexProvider,
-    );
-    final currentTimetablePageIndexNotifier = ref.read(
-      currentTimetablePageIndexProvider.notifier,
-    );
-    final timetablePageController = ref.read(timetablePageControllerProvider);
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('時間割'),
-        actions: [
-          Consumer(
-            builder: (context, ref, child) {
-              return IconButton(
-                onPressed: () {
-                  seasonTimeTable(context, ref);
-                },
-                icon: const Icon(Icons.list),
-              );
-            },
-          ),
-        ],
-      ),
-      body: Column(
-        children: [
-          SizedBox(
-            height: deviceHeight * 0.06,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: List.generate(
-                2,
-                (index) => GestureDetector(
-                  onTap: () {
-                    timetablePageController.animateToPage(
-                      index,
-                      duration: const Duration(milliseconds: 300),
-                      curve: Curves.ease,
-                    );
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('時間割'),
+          actions: [
+            Consumer(
+              builder: (context, ref, child) {
+                return IconButton(
+                  onPressed: () {
+                    seasonTimeTable(context, ref);
                   },
-                  child: Container(
-                    width: deviceWidth * 0.3,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide(
-                          color: index == currentTimetablePageIndex
-                              ? customFunColor.shade400
-                              : Colors.transparent, // 非選択時は透明
-                          width: deviceWidth * 0.005,
-                        ),
-                      ),
-                    ),
-                    child: Text(
-                      _getPageName(index),
-                      style: TextStyle(
-                        fontSize: deviceWidth / 25,
-                        fontWeight: FontWeight.bold,
-                        color: index == currentTimetablePageIndex
-                            ? customFunColor.shade400
-                            : Colors.black,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Expanded(
-            child: PageView(
-              controller: timetablePageController,
-              onPageChanged: (index) {
-                currentTimetablePageIndexNotifier.state = index;
+                  icon: const Icon(Icons.list),
+                );
               },
-              children: [
-                seasonTimeTableList(context, ref, 10),
-                seasonTimeTableList(context, ref, 20),
-              ],
             ),
+          ],
+          bottom: const TabBar(
+            tabs: <Widget>[
+              Tab(text: '前期'),
+              Tab(text: '後期'),
+            ],
           ),
-        ],
+        ),
+        body: TabBarView(
+          children: <Widget>[
+            seasonTimeTableList(context, ref, 10),
+            seasonTimeTableList(context, ref, 20),
+          ],
+        ),
       ),
     );
-  }
-
-  String _getPageName(int index) {
-    switch (index) {
-      case 0:
-        return '前期';
-      case 1:
-        return '後期';
-      default:
-        return '';
-    }
   }
 }
