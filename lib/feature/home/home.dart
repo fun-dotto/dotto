@@ -4,7 +4,7 @@ import 'package:dotto/feature/bus/widget/bus_card_home.dart';
 import 'package:dotto/feature/funch/widget/funch_mypage_card.dart';
 import 'package:dotto/feature/timetable/controller/timetable_controller.dart';
 import 'package:dotto/feature/timetable/course_cancellation.dart';
-import 'package:dotto/feature/timetable/personal_time_table.dart';
+import 'package:dotto/feature/timetable/edit_timetable_screen.dart';
 import 'package:dotto/feature/timetable/repository/timetable_repository.dart';
 import 'package:dotto/feature/timetable/widget/my_page_timetable.dart';
 import 'package:dotto/theme/v1/animation.dart';
@@ -124,7 +124,7 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
                   .push(
                     PageRouteBuilder<void>(
                       pageBuilder: (context, animation, secondaryAnimation) {
-                        return const PersonalTimeTableScreen();
+                        return const EditTimetableScreen();
                       },
                       transitionsBuilder: fromRightAnimation,
                     ),

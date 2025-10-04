@@ -9,16 +9,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-final class KadaiHiddenScreen extends StatefulWidget {
-  const KadaiHiddenScreen({required this.deletedKadaiLists, super.key});
+final class HiddenAssignmentListScreen extends StatefulWidget {
+  const HiddenAssignmentListScreen({
+    required this.deletedKadaiLists,
+    super.key,
+  });
 
   final List<KadaiList> deletedKadaiLists;
 
   @override
-  State<KadaiHiddenScreen> createState() => _KadaiHiddenScreenState();
+  State<HiddenAssignmentListScreen> createState() =>
+      _HiddenAssignmentListScreenState();
 }
 
-final class _KadaiHiddenScreenState extends State<KadaiHiddenScreen> {
+final class _HiddenAssignmentListScreenState
+    extends State<HiddenAssignmentListScreen> {
   List<int> deleteList = [];
   List<Kadai> hiddenKadai = [];
 

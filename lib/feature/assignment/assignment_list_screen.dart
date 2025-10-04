@@ -4,7 +4,7 @@ import 'package:dotto/feature/assignment/controller/assignment_preferences_notif
 import 'package:dotto/feature/assignment/controller/assignments_controller.dart';
 import 'package:dotto/feature/assignment/domain/assignment_state.dart';
 import 'package:dotto/feature/assignment/domain/kadai.dart';
-import 'package:dotto/feature/assignment/kadai_hidden_list.dart';
+import 'package:dotto/feature/assignment/hidden_assignment_list_screen.dart';
 import 'package:dotto/feature/assignment/setup_hope_continuity_screen.dart';
 import 'package:dotto/feature/setting/controller/settings_controller.dart';
 import 'package:dotto/widget/loading_circular.dart';
@@ -594,7 +594,7 @@ final class _AssignmentListScreenState
               final result = await Navigator.of(context).push(
                 PageRouteBuilder<String?>(
                   pageBuilder: (context, animation, secondaryAnimation) =>
-                      KadaiHiddenScreen(deletedKadaiLists: data),
+                      HiddenAssignmentListScreen(deletedKadaiLists: data),
                   transitionsBuilder:
                       (context, animation, secondaryAnimation, child) {
                         const begin = Offset(1, 0);

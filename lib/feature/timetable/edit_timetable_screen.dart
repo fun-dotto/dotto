@@ -5,8 +5,8 @@ import 'package:dotto/widget/loading_circular.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final class PersonalTimeTableScreen extends ConsumerWidget {
-  const PersonalTimeTableScreen({super.key});
+final class EditTimetableScreen extends ConsumerWidget {
+  const EditTimetableScreen({super.key});
 
   Future<void> seasonTimeTable(BuildContext context, WidgetRef ref) async {
     final personalLessonIdList = ref.watch(personalLessonIdListProvider);
