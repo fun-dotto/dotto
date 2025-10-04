@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:dotto/feature/assignment/assignment_date_formatter.dart';
 import 'package:dotto/feature/assignment/controller/assignment_preferences_notifier.dart';
 import 'package:dotto/feature/assignment/controller/assignments_controller.dart';
 import 'package:dotto/feature/assignment/domain/assignment_state.dart';
@@ -12,7 +13,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:intl/intl.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:url_launcher/url_launcher.dart';
 
@@ -127,22 +127,17 @@ final class _AssignmentListScreenState
     }
   }
 
-  String _formatDateTime(DateTime? dt) {
-    if (dt == null) {
-      return '';
-    }
-    return DateFormat.yMEd('ja').add_Hm().format(dt);
-  }
-
   Future<void> _showDeleteConfirmation(Kadai kadai) async {
     await showDialog<void>(
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Column(
-            children: [const Text('非表示の確認'), Text('${kadai.name}')],
+          title: const Text('非表示にしますか？'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [Text(kadai.name ?? ''), Text(kadai.courseName ?? '')],
           ),
-          content: const Text('このタスクを非表示にしますか？'),
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
@@ -160,7 +155,7 @@ final class _AssignmentListScreenState
                   await _cancelNotification(id);
                 }
               },
-              child: const Text('確認'),
+              child: const Text('非表示にする'),
             ),
           ],
         );
@@ -173,10 +168,15 @@ final class _AssignmentListScreenState
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Column(
-            children: [const Text('非表示の確認'), Text(listKadai.courseName)],
+          title: const Text('非表示にしますか？'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('${listKadai.kadaiList.length}個の課題'),
+              Text(listKadai.courseName),
+            ],
           ),
-          content: const Text('このタスクを非表示にしますか？'),
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
@@ -201,7 +201,7 @@ final class _AssignmentListScreenState
                   await _cancelNotification(id);
                 }
               },
-              child: const Text('確認'),
+              child: const Text('非表示にする'),
             ),
           ],
         );
@@ -267,17 +267,14 @@ final class _AssignmentListScreenState
 
   TextStyle _titleTextStyle(bool isDone) {
     return TextStyle(
-      fontSize: 16,
-      fontWeight: FontWeight.bold,
-      color: isDone ? Colors.green : Colors.black,
+      fontSize: 14,
+      fontWeight: FontWeight.w600,
+      color: isDone ? Colors.green : null,
     );
   }
 
   TextStyle _subtitleTextStyle(bool isDone) {
-    return TextStyle(
-      fontSize: 14,
-      color: isDone ? Colors.green : Colors.black54,
-    );
+    return TextStyle(fontSize: 12, color: isDone ? Colors.green : null);
   }
 
   ActionPane _singleStartActionPane(
@@ -291,7 +288,7 @@ final class _AssignmentListScreenState
       extentRatio: 0.25,
       children: [
         SlidableAction(
-          label: isAlertOn ? '通知off' : '通知on',
+          label: isAlertOn ? '通知 OFF' : '通知 ON',
           backgroundColor: isAlertOn ? Colors.red : Colors.green,
           icon: isAlertOn
               ? Icons.notifications_off_outlined
@@ -470,40 +467,31 @@ final class _AssignmentListScreenState
                 : null,
             endActionPane: _singleEndActionPane(state, kadai),
             child: ListTile(
-              tileColor: Colors.white,
               title: Text(kadai.name ?? '', style: _titleTextStyle(isDone)),
               subtitle: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     kadai.courseName ?? '',
-                    style: TextStyle(
-                      color: isDone ? Colors.green : Colors.black54,
-                    ),
+                    style: _subtitleTextStyle(isDone),
                   ),
                   if (kadai.endtime != null)
                     Text(
-                      '${_formatDateTime(kadai.endtime)} まで',
-                      style: TextStyle(
+                      '${AssignmentDateFormatter.string(kadai.endtime!)} まで',
+                      style: _subtitleTextStyle(isDone).copyWith(
                         color: isDone
                             ? Colors.green
                             : _hasUpcomingDeadline(kadaiList)
                             ? Colors.red
-                            : Colors.black54,
+                            : null,
                       ),
                     ),
                 ],
               ),
-              minLeadingWidth: 0,
-              leading: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    hasAlert ? Icons.notifications_active : null,
-                    size: 20,
-                    color: Colors.green,
-                  ),
-                ],
+              trailing: Icon(
+                hasAlert ? Icons.notifications_active : null,
+                size: 20,
+                color: Colors.green,
               ),
               onTap: () => _launchUrlInExternal(kadai.url),
             ),
@@ -524,8 +512,6 @@ final class _AssignmentListScreenState
           child: Theme(
             data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
             child: ExpansionTile(
-              backgroundColor: Colors.white,
-              collapsedBackgroundColor: Colors.white,
               title: Text(
                 kadaiList.courseName,
                 style: _titleTextStyle(isDoneGroup),
@@ -539,7 +525,7 @@ final class _AssignmentListScreenState
                   ),
                   if (kadaiList.endtime != null)
                     Text(
-                      '${_formatDateTime(kadaiList.endtime)} まで',
+                      '${AssignmentDateFormatter.string(kadaiList.endtime!)} まで',
                       style: _subtitleTextStyle(isDoneGroup),
                     )
                   else
@@ -556,7 +542,7 @@ final class _AssignmentListScreenState
                     );
                     return Column(
                       children: [
-                        const Divider(height: 0),
+                        const Divider(height: 1),
                         Slidable(
                           key: ValueKey(
                             'child_${kadai.id}_${kadaiList.courseId}',
@@ -566,23 +552,14 @@ final class _AssignmentListScreenState
                               : null,
                           endActionPane: _singleEndActionPane(state, kadai),
                           child: ListTile(
-                            tileColor: Colors.white,
-                            minLeadingWidth: 0,
-                            leading: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(
-                                  hasAlert ? Icons.notifications_active : null,
-                                  size: 20,
-                                  color: Colors.green,
-                                ),
-                              ],
-                            ),
                             title: Text(
                               kadai.name ?? '',
-                              style: TextStyle(
-                                color: isDone ? Colors.green : Colors.black,
-                              ),
+                              style: _titleTextStyle(isDone),
+                            ),
+                            trailing: Icon(
+                              hasAlert ? Icons.notifications_active : null,
+                              size: 20,
+                              color: Colors.green,
                             ),
                             onTap: () => _launchUrlInExternal(kadai.url),
                           ),

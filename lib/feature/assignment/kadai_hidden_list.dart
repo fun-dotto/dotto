@@ -1,12 +1,12 @@
 import 'dart:convert';
 
 import 'package:dotto/domain/user_preference_keys.dart';
+import 'package:dotto/feature/assignment/assignment_date_formatter.dart';
 import 'package:dotto/feature/assignment/domain/kadai.dart';
 import 'package:dotto/feature/assignment/repository/assignment_repository.dart';
 import 'package:dotto/repository/user_preference_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 final class KadaiHiddenScreen extends StatefulWidget {
@@ -58,13 +58,6 @@ final class _KadaiHiddenScreenState extends State<KadaiHiddenScreen> {
     }
   }
 
-  String stringFromDateTime(DateTime? dt) {
-    if (dt == null) {
-      return '';
-    }
-    return DateFormat('yyyy年MM月dd日 hh時mm分ss秒').format(dt);
-  }
-
   @override
   void initState() {
     super.initState();
@@ -91,16 +84,29 @@ final class _KadaiHiddenScreenState extends State<KadaiHiddenScreen> {
         },
         child: hiddenKadai.isEmpty
             ? const Center(child: Text('非表示の課題はありません'))
-            : ListView.builder(
+            : ListView.separated(
                 itemCount: hiddenKadai.length,
+                separatorBuilder: (_, _) => const Divider(height: 1),
                 itemBuilder: (context, index) {
-                  return Card(
-                    child: Slidable(
-                      key: UniqueKey(),
-                      endActionPane: ActionPane(
-                        motion: const StretchMotion(),
-                        dismissible: DismissiblePane(
-                          onDismissed: () {
+                  return Slidable(
+                    key: UniqueKey(),
+                    endActionPane: ActionPane(
+                      motion: const StretchMotion(),
+                      dismissible: DismissiblePane(
+                        onDismissed: () {
+                          setState(() {
+                            deleteList.remove(hiddenKadai[index].id);
+                            hiddenKadai.remove(hiddenKadai[index]);
+                            saveDeleteList();
+                          });
+                        },
+                      ),
+                      children: [
+                        SlidableAction(
+                          label: '表示する',
+                          backgroundColor: Colors.green,
+                          icon: Icons.delete,
+                          onPressed: (context) {
                             setState(() {
                               deleteList.remove(hiddenKadai[index].id);
                               hiddenKadai.remove(hiddenKadai[index]);
@@ -108,54 +114,34 @@ final class _KadaiHiddenScreenState extends State<KadaiHiddenScreen> {
                             });
                           },
                         ),
+                      ],
+                    ),
+                    child: ListTile(
+                      title: Text(
+                        hiddenKadai[index].name!,
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          SlidableAction(
-                            label: '表示する',
-                            backgroundColor: Colors.green,
-                            icon: Icons.delete,
-                            onPressed: (context) {
-                              setState(() {
-                                deleteList.remove(hiddenKadai[index].id);
-                                hiddenKadai.remove(hiddenKadai[index]);
-                                saveDeleteList();
-                              });
-                            },
+                          Text(
+                            hiddenKadai[index].courseName!,
+                            style: const TextStyle(fontSize: 12),
                           ),
+                          if (hiddenKadai[index].endtime != null)
+                            Text(
+                              '${AssignmentDateFormatter.string(hiddenKadai[index].endtime!)} まで',
+                              style: const TextStyle(fontSize: 12),
+                            ),
                         ],
                       ),
-                      child: ListTile(
-                        minLeadingWidth: 0,
-                        leading: const SizedBox(width: 20),
-                        contentPadding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 8,
-                        ),
-                        title: Text(
-                          hiddenKadai[index].name!,
-                          style: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        subtitle: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              hiddenKadai[index].courseName!,
-                              style: const TextStyle(fontSize: 14),
-                            ),
-                            if (hiddenKadai[index].endtime != null)
-                              Text(
-                                '終了：${stringFromDateTime(hiddenKadai[index].endtime)}',
-                                style: const TextStyle(fontSize: 12),
-                              ),
-                          ],
-                        ),
-                        onTap: () {
-                          final url = Uri.parse(hiddenKadai[index].url!);
-                          launchUrlInExternal(url);
-                        },
-                      ),
+                      onTap: () {
+                        final url = Uri.parse(hiddenKadai[index].url!);
+                        launchUrlInExternal(url);
+                      },
                     ),
                   );
                 },
