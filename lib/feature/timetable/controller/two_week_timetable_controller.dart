@@ -4,9 +4,9 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'two_week_timetable_controller.g.dart';
 
 @riverpod
-final class TwoWeekTimeTableNotifier extends _$TwoWeekTimeTableNotifier {
+final class TwoWeekTimetableNotifier extends _$TwoWeekTimetableNotifier {
   @override
-  Future<Map<DateTime, Map<int, List<TimeTableCourse>>>> build() async {
+  Future<Map<DateTime, Map<int, List<TimetableCourse>>>> build() async {
     return TimetableRepository().get2WeekLessonSchedule();
   }
 

@@ -31,15 +31,15 @@ final class AddCourseButton extends ConsumerWidget {
                 }
               } else {
                 TimetableRepository()
-                    .addPersonalTimeTableList(lessonId, ref)
+                    .addPersonalTimetableList(lessonId, ref)
                     .ignore();
               }
             } else {
               TimetableRepository()
-                  .removePersonalTimeTableList(lessonId, ref)
+                  .removePersonalTimetableList(lessonId, ref)
                   .ignore();
             }
-            await ref.read(twoWeekTimeTableNotifierProvider.notifier).refresh();
+            await ref.read(twoWeekTimetableNotifierProvider.notifier).refresh();
           },
         );
       },

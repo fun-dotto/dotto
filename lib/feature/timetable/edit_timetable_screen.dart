@@ -9,7 +9,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 final class EditTimetableScreen extends ConsumerWidget {
   const EditTimetableScreen({super.key});
 
-  Future<void> seasonTimeTable(BuildContext context, WidgetRef ref) async {
+  Future<void> seasonTimetable(BuildContext context, WidgetRef ref) async {
     final personalLessonIdList = ref.watch(
       personalLessonIdListNotifierProvider,
     );
@@ -135,7 +135,7 @@ final class EditTimetableScreen extends ConsumerWidget {
     );
   }
 
-  Widget seasonTimeTableList(
+  Widget seasonTimetableList(
     BuildContext context,
     WidgetRef ref,
     int seasonnumber,
@@ -206,7 +206,7 @@ final class EditTimetableScreen extends ConsumerWidget {
               builder: (context, ref, child) {
                 return IconButton(
                   onPressed: () {
-                    seasonTimeTable(context, ref);
+                    seasonTimetable(context, ref);
                   },
                   icon: const Icon(Icons.list),
                 );
@@ -222,8 +222,8 @@ final class EditTimetableScreen extends ConsumerWidget {
         ),
         body: TabBarView(
           children: <Widget>[
-            seasonTimeTableList(context, ref, 10),
-            seasonTimeTableList(context, ref, 20),
+            seasonTimetableList(context, ref, 10),
+            seasonTimetableList(context, ref, 20),
           ],
         ),
       ),

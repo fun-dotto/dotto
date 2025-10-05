@@ -92,7 +92,7 @@ final class _BasePageState extends ConsumerState<BasePage> {
   }
 
   Future<void> getPersonalLessonIdList() async {
-    await TimetableRepository().loadPersonalTimeTableList(ref);
+    await TimetableRepository().loadPersonalTimetableList(ref);
   }
 
   Future<void> getBus() async {

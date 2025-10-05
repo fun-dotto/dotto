@@ -64,7 +64,7 @@ final class PersonalSelectLessonScreen extends StatelessWidget {
                                   ),
                                   onPressed: () async {
                                     await TimetableRepository()
-                                        .removePersonalTimeTableList(
+                                        .removePersonalTimetableList(
                                           lessonId,
                                           ref,
                                         );
@@ -95,7 +95,7 @@ final class PersonalSelectLessonScreen extends StatelessWidget {
                                       }
                                     } else {
                                       await TimetableRepository()
-                                          .addPersonalTimeTableList(
+                                          .addPersonalTimetableList(
                                             lessonId,
                                             ref,
                                           );

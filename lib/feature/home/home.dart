@@ -22,7 +22,7 @@ final class HomeScreen extends ConsumerStatefulWidget {
 }
 
 final class _HomeScreenState extends ConsumerState<HomeScreen> {
-  List<int> personalTimeTableList = [];
+  List<int> personalTimetableList = [];
 
   Future<void> launchUrlInAppBrowserView(Uri url) async {
     if (await canLaunchUrl(url)) {
@@ -93,7 +93,7 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
     launchUrlInAppBrowserView(announcementUrlFromPushNotification);
   }
 
-  Widget _setTimeTableButton() {
+  Widget _setTimetableButton() {
     return Padding(
       padding: const EdgeInsetsGeometry.symmetric(horizontal: 16),
       child: Row(
@@ -126,7 +126,7 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
                   )
                   .then(
                     (value) => ref
-                        .read(twoWeekTimeTableNotifierProvider.notifier)
+                        .read(twoWeekTimetableNotifierProvider.notifier)
                         .refresh(),
                   );
             },
@@ -188,7 +188,7 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
             spacing: 16,
             children: [
               Column(
-                children: [const MyPageTimetable(), _setTimeTableButton()],
+                children: [const MyPageTimetable(), _setTimetableButton()],
               ),
               const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16),
