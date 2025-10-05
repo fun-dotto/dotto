@@ -37,6 +37,7 @@ final class MapSearchResultList extends ConsumerWidget {
           Flexible(
             child: ListView.separated(
               itemCount: mapSearchList.length,
+              separatorBuilder: (_, _) => const Divider(height: 0),
               itemBuilder: (context, int index) {
                 final item = mapSearchList[index];
                 return ListTile(
@@ -68,7 +69,6 @@ final class MapSearchResultList extends ConsumerWidget {
                   },
                 );
               },
-              separatorBuilder: (context, index) => const Divider(height: 1),
             ),
           ),
         ],

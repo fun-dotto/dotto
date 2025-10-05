@@ -14,7 +14,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:timezone/timezone.dart' as tz;
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 final class AssignmentListScreen extends ConsumerStatefulWidget {
   const AssignmentListScreen({super.key});
@@ -115,16 +115,6 @@ final class _AssignmentListScreenState
 
   Future<void> _cancelNotification(int id) async {
     await _notificationsPlugin.cancel(id);
-  }
-
-  Future<void> _launchUrlInExternal(String? url) async {
-    if (url == null || url.isEmpty) return;
-    final uri = Uri.parse(url);
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri, mode: LaunchMode.externalApplication);
-    } else {
-      throw Exception('Could not launch $uri');
-    }
   }
 
   Future<void> _showDeleteConfirmation(Kadai kadai) async {
@@ -448,7 +438,7 @@ final class _AssignmentListScreenState
   Widget _buildList(List<KadaiList> data, AssignmentState state) {
     return ListView.separated(
       itemCount: data.length,
-      separatorBuilder: (_, _) => const Divider(height: 1),
+      separatorBuilder: (context, index) => const Divider(height: 0),
       itemBuilder: (context, index) {
         final kadaiList = data[index];
         final hidden = state.hiddenAssignmentIds;
@@ -493,7 +483,12 @@ final class _AssignmentListScreenState
                 size: 20,
                 color: Colors.green,
               ),
-              onTap: () => _launchUrlInExternal(kadai.url),
+              onTap: () {
+                launchUrlString(
+                  kadai.url ?? '',
+                  mode: LaunchMode.externalApplication,
+                );
+              },
             ),
           );
         }
@@ -561,7 +556,12 @@ final class _AssignmentListScreenState
                               size: 20,
                               color: Colors.green,
                             ),
-                            onTap: () => _launchUrlInExternal(kadai.url),
+                            onTap: () {
+                              launchUrlString(
+                                kadai.url ?? '',
+                                mode: LaunchMode.externalApplication,
+                              );
+                            },
                           ),
                         ),
                       ],

@@ -5,20 +5,12 @@ import 'package:dotto_design_system/component/button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class SetupHopeContinuityScreen extends ConsumerWidget {
   const SetupHopeContinuityScreen({super.key, this.onUserKeySaved});
 
   final void Function()? onUserKeySaved;
-
-  Future<void> _launchUrlInAppBrowserView(Uri url) async {
-    if (await canLaunchUrl(url)) {
-      await launchUrl(url, mode: LaunchMode.inAppBrowserView);
-    } else {
-      throw Exception('Could not launch $url');
-    }
-  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -37,9 +29,7 @@ class SetupHopeContinuityScreen extends ConsumerWidget {
           children: [
             DottoButton(
               onPressed: () {
-                final formUrl = config.userKeySettingUrl;
-                final url = Uri.parse(formUrl);
-                _launchUrlInAppBrowserView(url);
+                launchUrlString(config.userKeySettingUrl);
               },
               type: DottoButtonType.text,
               child: const Text('HOPEと連携する'),

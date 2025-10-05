@@ -15,8 +15,8 @@ final class CourseCancellationScreen extends ConsumerWidget {
       return const Center(child: Text('休講・補講はありません。'));
     }
     return ListView.separated(
-      separatorBuilder: (context, index) => const Divider(height: 1),
       itemCount: list.length,
+      separatorBuilder: (_, _) => const Divider(height: 0),
       itemBuilder: (context, index) {
         final item = list[index];
         return ListTile(

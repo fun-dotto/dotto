@@ -16,18 +16,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:settings_ui/settings_ui.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 final class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
-
-  Future<void> launchUrlInAppBrowserView(Uri url) async {
-    if (await canLaunchUrl(url)) {
-      await launchUrl(url, mode: LaunchMode.inAppBrowserView);
-    } else {
-      throw Exception('Could not launch $url');
-    }
-  }
 
   Widget listDialog(
     BuildContext context,
@@ -219,9 +211,7 @@ final class SettingsScreen extends ConsumerWidget {
                   title: const Text('フィードバックを送る'),
                   leading: const Icon(Icons.messenger_rounded),
                   onPressed: (context) {
-                    final formUrl = config.feedbackFormUrl;
-                    final url = Uri.parse(formUrl);
-                    launchUrlInAppBrowserView(url);
+                    launchUrlString(config.feedbackFormUrl);
                   },
                 ),
                 // アプリの使い方
@@ -243,9 +233,7 @@ final class SettingsScreen extends ConsumerWidget {
                   title: const Text('利用規約'),
                   leading: const Icon(Icons.verified_user),
                   onPressed: (context) {
-                    final formUrl = config.termsOfServiceUrl;
-                    final url = Uri.parse(formUrl);
-                    launchUrlInAppBrowserView(url);
+                    launchUrlString(config.termsOfServiceUrl);
                   },
                 ),
                 // プライバシーポリシー
@@ -253,9 +241,7 @@ final class SettingsScreen extends ConsumerWidget {
                   title: const Text('プライバシーポリシー'),
                   leading: const Icon(Icons.admin_panel_settings),
                   onPressed: (context) {
-                    final formUrl = config.privacyPolicyUrl;
-                    final url = Uri.parse(formUrl);
-                    launchUrlInAppBrowserView(url);
+                    launchUrlString(config.privacyPolicyUrl);
                   },
                 ),
                 // ライセンス

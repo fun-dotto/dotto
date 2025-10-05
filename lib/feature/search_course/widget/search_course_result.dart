@@ -53,6 +53,7 @@ final class SearchCourseResult extends ConsumerWidget {
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemCount: records.length,
+            separatorBuilder: (_, _) => const Divider(height: 0),
             itemBuilder: (context, index) {
               final record = records[index];
               final lessonId = record['LessonId'] as int;
@@ -61,7 +62,6 @@ final class SearchCourseResult extends ConsumerWidget {
                 weekPeriodString: weekPeriodStringMap[lessonId] ?? '',
               );
             },
-            separatorBuilder: (context, index) => const Divider(height: 0),
           );
         } else {
           return const Center(
