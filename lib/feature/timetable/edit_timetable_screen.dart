@@ -1,3 +1,6 @@
+import 'package:dotto/domain/day_of_week.dart';
+import 'package:dotto/domain/period.dart';
+import 'package:dotto/domain/semester.dart';
 import 'package:dotto/feature/timetable/controller/personal_lesson_id_list_controller.dart';
 import 'package:dotto/feature/timetable/controller/week_period_all_records_controller.dart';
 import 'package:dotto/feature/timetable/select_course_screen.dart';
@@ -63,10 +66,9 @@ final class EditTimetableScreen extends ConsumerWidget {
   Widget tableText(
     BuildContext context,
     WidgetRef ref,
-    String name,
-    int week,
-    int period,
-    int term,
+    DayOfWeek dayOfWeek,
+    Period period,
+    Semester semester,
     List<Map<String, dynamic>> records,
   ) {
     final personalLessonIdList = ref.watch(
@@ -75,9 +77,9 @@ final class EditTimetableScreen extends ConsumerWidget {
     return personalLessonIdList.when(
       data: (data) {
         final selectedLessonList = records.where((record) {
-          return record['week'] == week &&
-              record['period'] == period &&
-              (record['開講時期'] == term || record['開講時期'] == 0) &&
+          return record['week'] == dayOfWeek.number &&
+              record['period'] == period.number &&
+              (record['開講時期'] == semester.number || record['開講時期'] == 0) &&
               data.contains(record['lessonId']);
         }).toList();
         return InkWell(
@@ -125,7 +127,7 @@ final class EditTimetableScreen extends ConsumerWidget {
             Navigator.of(context).push(
               PageRouteBuilder<void>(
                 pageBuilder: (context, animation, secondaryAnimation) =>
-                    SelectCourseScreen(term, week, period),
+                    SelectCourseScreen(semester, dayOfWeek, period),
                 transitionsBuilder: fromRightAnimation,
               ),
             );
@@ -140,12 +142,11 @@ final class EditTimetableScreen extends ConsumerWidget {
   Widget seasonTimetableList(
     BuildContext context,
     WidgetRef ref,
-    int seasonnumber,
+    Semester semester,
   ) {
     final weekPeriodAllRecords = ref.watch(
       weekPeriodAllRecordsNotifierProvider,
     );
-    final weekString = ['月', '火', '水', '木', '金'];
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(10),
@@ -161,33 +162,35 @@ final class EditTimetableScreen extends ConsumerWidget {
             },
             children: <TableRow>[
               TableRow(
-                children: weekString
+                children: DayOfWeek.weekdays
                     .map(
                       (e) => TableCell(
                         child: Center(
-                          child: Text(e, style: const TextStyle(fontSize: 10)),
+                          child: Text(
+                            e.label,
+                            style: const TextStyle(fontSize: 10),
+                          ),
                         ),
                       ),
                     )
                     .toList(),
               ),
-              for (int i = 1; i <= 6; i++) ...{
-                TableRow(
-                  children: [
-                    for (int j = 1; j <= 5; j++) ...{
-                      tableText(
-                        context,
-                        ref,
-                        '${weekString[j - 1]}曜$i限',
-                        j,
-                        i,
-                        seasonnumber,
-                        data,
-                      ),
-                    },
-                  ],
+              ...Period.values.map(
+                (period) => TableRow(
+                  children: DayOfWeek.weekdays
+                      .map(
+                        (dayOfWeek) => tableText(
+                          context,
+                          ref,
+                          dayOfWeek,
+                          period,
+                          semester,
+                          data,
+                        ),
+                      )
+                      .toList(),
                 ),
-              },
+              ),
             ],
           ),
           error: (error, stackTrace) =>
@@ -217,18 +220,14 @@ final class EditTimetableScreen extends ConsumerWidget {
               },
             ),
           ],
-          bottom: const TabBar(
-            tabs: <Widget>[
-              Tab(text: '前期'),
-              Tab(text: '後期'),
-            ],
+          bottom: TabBar(
+            tabs: Semester.values.map((e) => Tab(text: e.label)).toList(),
           ),
         ),
         body: TabBarView(
-          children: <Widget>[
-            seasonTimetableList(context, ref, 10),
-            seasonTimetableList(context, ref, 20),
-          ],
+          children: Semester.values
+              .map((e) => seasonTimetableList(context, ref, e))
+              .toList(),
         ),
       ),
     );
