@@ -38,8 +38,7 @@ final class FunchMyPageCard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return InkWell(
       onTap: () {
-        Navigator.push(
-          context,
+        Navigator.of(context).push(
           MaterialPageRoute<void>(builder: (context) => const FunchScreen()),
         );
       },

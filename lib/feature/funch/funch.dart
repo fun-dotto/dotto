@@ -179,7 +179,7 @@ final class FunchScreen extends ConsumerWidget {
             onTap: () {
               ref.read(funchDateProvider.notifier).state =
                   DateTimeUtility.parseDateKey(e);
-              Navigator.pop(context);
+              Navigator.of(context).pop();
             },
             child: Container(
               padding: const EdgeInsets.symmetric(vertical: 10),

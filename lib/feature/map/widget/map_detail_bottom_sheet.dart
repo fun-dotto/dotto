@@ -166,7 +166,7 @@ final class MapDetailBottomSheet extends ConsumerWidget {
                       minHeight: 40,
                       minWidth: 40,
                     ),
-                    onPressed: () => Navigator.pop(context),
+                    onPressed: () => Navigator.of(context).pop(),
                     icon: const Icon(Icons.close),
                   ),
                 ),

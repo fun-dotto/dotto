@@ -34,16 +34,18 @@ final class _KamokuDetailKakomonListObjectsState
                 },
                 transitionsBuilder:
                     (context, animation, secondaryAnimation, child) {
-                  const begin = Offset(0, 1); // 下から上
-                  const end = Offset.zero;
-                  final tween = Tween(begin: begin, end: end)
-                      .chain(CurveTween(curve: Curves.easeInOut));
-                  final offsetAnimation = animation.drive(tween);
-                  return SlideTransition(
-                    position: offsetAnimation,
-                    child: child,
-                  );
-                },
+                      const begin = Offset(0, 1); // 下から上
+                      const end = Offset.zero;
+                      final tween = Tween(
+                        begin: begin,
+                        end: end,
+                      ).chain(CurveTween(curve: Curves.easeInOut));
+                      final offsetAnimation = animation.drive(tween);
+                      return SlideTransition(
+                        position: offsetAnimation,
+                        child: child,
+                      );
+                    },
               ),
             );
           },
@@ -62,9 +64,7 @@ final class _KamokuDetailKakomonListObjectsState
             ),
           ),
         ),
-        const Divider(
-          height: 0,
-        )
+        const Divider(height: 0),
       ],
     );
   }

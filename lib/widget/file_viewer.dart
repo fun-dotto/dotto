@@ -14,11 +14,12 @@ import 'package:share_plus/share_plus.dart';
 enum StorageService { cloudflare, firebase }
 
 final class FileViewerScreen extends StatefulWidget {
-  const FileViewerScreen(
-      {required this.url,
-      required this.filename,
-      required this.storage,
-      super.key});
+  const FileViewerScreen({
+    required this.url,
+    required this.filename,
+    required this.storage,
+    super.key,
+  });
   final String url;
   final String filename;
   final StorageService storage;
@@ -34,69 +35,78 @@ final class _FileViewerScreenState extends State<FileViewerScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text(widget.filename),
-          actions: <Widget>[
-            IconButton(
-              key: _iconButtonKey,
-              icon: const Icon(Icons.share),
-              onPressed: () async {
-                if (dataUint != null ||
-                    widget.storage == StorageService.firebase) {
-                  var path = '';
-                  if (widget.storage == StorageService.cloudflare) {
-                    final temp = await getTemporaryDirectory();
-                    path = '${temp.path}/${widget.filename}';
-                    File(path).writeAsBytesSync(dataUint! as List<int>);
-                  } else {
-                    path = await LocalRepository()
-                        .getApplicationFilePath(widget.url);
-                  }
-                  if (context.mounted) {
-                    final content = _iconButtonKey.currentContext;
-                    if (content != null) {
-                      final box = content.findRenderObject() as RenderBox?;
-                      if (box != null) {
-                        await Share.shareXFiles([XFile(path)],
-                            sharePositionOrigin:
-                                box.localToGlobal(Offset.zero) & box.size);
-                      } else {
-                        await Share.shareXFiles([XFile(path)]);
-                      }
+      appBar: AppBar(
+        title: Text(widget.filename),
+        actions: <Widget>[
+          IconButton(
+            key: _iconButtonKey,
+            icon: const Icon(Icons.share),
+            onPressed: () async {
+              if (dataUint != null ||
+                  widget.storage == StorageService.firebase) {
+                var path = '';
+                if (widget.storage == StorageService.cloudflare) {
+                  final temp = await getTemporaryDirectory();
+                  path = '${temp.path}/${widget.filename}';
+                  File(path).writeAsBytesSync(dataUint! as List<int>);
+                } else {
+                  path = await LocalRepository().getApplicationFilePath(
+                    widget.url,
+                  );
+                }
+                if (context.mounted) {
+                  final content = _iconButtonKey.currentContext;
+                  if (content != null) {
+                    final box = content.findRenderObject() as RenderBox?;
+                    if (box != null) {
+                      await Share.shareXFiles(
+                        [XFile(path)],
+                        sharePositionOrigin:
+                            box.localToGlobal(Offset.zero) & box.size,
+                      );
+                    } else {
+                      await Share.shareXFiles([XFile(path)]);
                     }
                   }
                 }
-              },
-            ),
-          ],
-        ),
-        body: (widget.storage == StorageService.cloudflare)
-            ? FutureBuilder(
-                future: getListObjectsString(),
-                builder:
-                    (BuildContext context, AsyncSnapshot<Uint8List> snapshot) {
-                  if (snapshot.hasData) {
-                    return KakomonObjectIfType(
-                        url: widget.url, data: snapshot.data);
-                  } else {
-                    return const Center(child: LoadingCircular());
-                  }
-                })
-            : FutureBuilder(
-                future: getFilePathFirebase(),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.done) {
+              }
+            },
+          ),
+        ],
+      ),
+      body: (widget.storage == StorageService.cloudflare)
+          ? FutureBuilder(
+              future: getListObjectsString(),
+              builder:
+                  (BuildContext context, AsyncSnapshot<Uint8List> snapshot) {
                     if (snapshot.hasData) {
                       return KakomonObjectIfType(
-                          url: widget.url, filepath: snapshot.data);
+                        url: widget.url,
+                        data: snapshot.data,
+                      );
                     } else {
-                      return const Center(child: Text('エラー'));
+                      return const Center(child: LoadingCircular());
                     }
+                  },
+            )
+          : FutureBuilder(
+              future: getFilePathFirebase(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.done) {
+                  if (snapshot.hasData) {
+                    return KakomonObjectIfType(
+                      url: widget.url,
+                      filepath: snapshot.data,
+                    );
                   } else {
-                    return const Center(child: LoadingCircular());
+                    return const Center(child: Text('エラー'));
                   }
-                },
-              ));
+                } else {
+                  return const Center(child: LoadingCircular());
+                }
+              },
+            ),
+    );
   }
 
   Future<Uint8List> getListObjectsString() async {
@@ -118,8 +128,12 @@ final class _FileViewerScreenState extends State<FileViewerScreen> {
 }
 
 final class KakomonObjectIfType extends StatelessWidget {
-  const KakomonObjectIfType(
-      {required this.url, super.key, this.data, this.filepath});
+  const KakomonObjectIfType({
+    required this.url,
+    super.key,
+    this.data,
+    this.filepath,
+  });
   final String url;
   final Uint8List? data;
   final String? filepath;

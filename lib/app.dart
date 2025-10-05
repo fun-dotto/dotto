@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:app_links/app_links.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -20,7 +21,6 @@ import 'package:dotto/feature/timetable/repository/timetable_repository.dart';
 import 'package:dotto/repository/notification_repository.dart';
 import 'package:dotto/repository/user_preference_repository.dart';
 import 'package:dotto/theme/v1/animation.dart';
-import 'package:dotto/theme/v1/color_fun.dart';
 import 'package:dotto/theme/v1/theme.dart';
 import 'package:dotto/widget/app_tutorial.dart';
 import 'package:dotto_design_system/style/theme.dart';
@@ -174,21 +174,22 @@ final class _BasePageState extends ConsumerState<BasePage> {
   }
 
   Future<void> _showAppTutorial(BuildContext context) async {
-    if (!await isAppTutorialCompleted()) {
-      if (context.mounted) {
-        await Navigator.of(context).push<void>(
-          PageRouteBuilder<void>(
-            pageBuilder: (context, animation, secondaryAnimation) =>
-                const AppTutorial(),
-            fullscreenDialog: true,
-            transitionsBuilder: fromRightAnimation,
-          ),
-        );
-        await UserPreferenceRepository.setBool(
-          UserPreferenceKeys.isAppTutorialComplete,
-          value: true,
-        );
-      }
+    if (await isAppTutorialCompleted()) {
+      return;
+    }
+    if (context.mounted) {
+      await Navigator.of(context).push(
+        PageRouteBuilder<void>(
+          pageBuilder: (context, animation, secondaryAnimation) =>
+              const AppTutorial(),
+          fullscreenDialog: true,
+          transitionsBuilder: fromRightAnimation,
+        ),
+      );
+      await UserPreferenceRepository.setBool(
+        UserPreferenceKeys.isAppTutorialComplete,
+        value: true,
+      );
     }
   }
 
@@ -199,19 +200,12 @@ final class _BasePageState extends ConsumerState<BasePage> {
     );
     final tabItem = ref.watch(tabItemProvider);
     return PopScope(
-      canPop: false,
+      canPop: Platform.isIOS,
       onPopInvokedWithResult: (didPop, result) async {
         if (didPop) {
           return;
         }
-        final navigator = Navigator.of(context);
-        final shouldPop = !await tabNavigatorKeyMaps[tabItem]!.currentState!
-            .maybePop();
-        if (shouldPop) {
-          if (navigator.canPop()) {
-            navigator.pop();
-          }
-        }
+        Navigator.of(context).pop();
       },
       child: Scaffold(
         resizeToAvoidBottomInset: false,
@@ -235,7 +229,6 @@ final class _BasePageState extends ConsumerState<BasePage> {
           ),
         ),
         bottomNavigationBar: BottomNavigationBar(
-          selectedItemColor: customFunColor,
           type: BottomNavigationBarType.fixed,
           currentIndex: TabItem.values.indexOf(tabItem),
           items: TabItem.values

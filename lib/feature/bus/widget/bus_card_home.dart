@@ -57,8 +57,7 @@ final class BusCardHome extends ConsumerWidget {
           return InkWell(
             onTap: () {
               ref.read(busIsScrolledNotifierProvider.notifier).value = false;
-              Navigator.push(
-                context,
+              Navigator.of(context).push(
                 PageRouteBuilder<void>(
                   pageBuilder: (context, animation, secondaryAnimation) =>
                       const BusScreen(),
@@ -78,8 +77,7 @@ final class BusCardHome extends ConsumerWidget {
         }
         return InkWell(
           onTap: () {
-            Navigator.push(
-              context,
+            Navigator.of(context).push(
               MaterialPageRoute<void>(builder: (context) => const BusScreen()),
             );
           },

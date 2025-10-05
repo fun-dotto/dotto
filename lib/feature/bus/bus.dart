@@ -146,8 +146,7 @@ final class BusScreen extends ConsumerWidget {
               }
               return InkWell(
                 onTap: () {
-                  Navigator.push(
-                    context,
+                  Navigator.of(context).push(
                     MaterialPageRoute<void>(
                       builder: (context) => BusTimetableScreen(busTrip),
                     ),
