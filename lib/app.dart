@@ -103,18 +103,20 @@ final class _BasePageState extends ConsumerState<BasePage> {
     await BusRepository().changeDirectionOnCurrentLocation(ref);
   }
 
-  Future<void> saveFCMToken() async {
+  Future<void> _saveFCMToken() async {
     final didSave =
         await UserPreferenceRepository.getBool(
           UserPreferenceKeys.didSaveFCMToken,
         ) ??
         false;
-    debugPrint('didSaveFCMToken: $didSave');
     if (didSave) {
       return;
     }
     final user = ref.read(userProvider);
+    final apnsToken = await FirebaseMessaging.instance.getAPNSToken();
+    debugPrint('APNs Token: $apnsToken');
     final fcmToken = await FirebaseMessaging.instance.getToken();
+    debugPrint('FCM Token: $fcmToken');
     if (fcmToken != null && user != null) {
       final db = FirebaseFirestore.instance;
       final tokenRef = db.collection('fcm_token');
@@ -142,7 +144,7 @@ final class _BasePageState extends ConsumerState<BasePage> {
     await setupUniversalLinks();
     await getPersonalLessonIdList();
     await getBus();
-    await saveFCMToken();
+    await _saveFCMToken();
   }
 
   @override
@@ -152,7 +154,7 @@ final class _BasePageState extends ConsumerState<BasePage> {
   }
 
   Future<void> _onItemTapped(int index) async {
-    ref.read(announcementFromPushNotificationProvider.notifier).reset();
+    ref.read(announcementFromPushNotificationNotifierProvider.notifier).reset();
     final selectedTab = TabItem.values[index];
 
     if (selectedTab == TabItem.map) {

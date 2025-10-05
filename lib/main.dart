@@ -4,7 +4,6 @@ import 'package:dotto/app.dart';
 import 'package:dotto/firebase_options.dart';
 import 'package:dotto/repository/firebase_storage_repository.dart';
 import 'package:dotto/repository/location_repository.dart';
-import 'package:dotto/repository/notification_repository.dart';
 import 'package:dotto/repository/remote_config_repository.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -35,8 +34,9 @@ Future<void> main() async {
 
   // Firebase App Checkの初期化
   await FirebaseAppCheck.instance.activate(
-    androidProvider:
-        kReleaseMode ? AndroidProvider.playIntegrity : AndroidProvider.debug,
+    androidProvider: kReleaseMode
+        ? AndroidProvider.playIntegrity
+        : AndroidProvider.debug,
     appleProvider: kReleaseMode ? AppleProvider.appAttest : AppleProvider.debug,
   );
 
@@ -55,8 +55,10 @@ Future<void> main() async {
   // ローカルタイムゾーンの設定
   await _configureLocalTimeZone();
 
+  // Firebase Messagingの通知許可をリクエスト
+  await FirebaseMessaging.instance.requestPermission();
+
   // Firebase Messagingのバックグラウンドハンドラーを設定
-  await NotificationRepository().init();
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
   // 位置情報の許可をリクエスト
@@ -81,20 +83,18 @@ Future<void> _configureLocalTimeZone() async {
 
 Future<void> _downloadFiles() async {
   try {
-    await Future(
-      () {
-        // Firebaseからファイルをダウンロード
-        final filePaths = <String>[
-          'map/oneweek_schedule.json',
-          'home/cancel_lecture.json',
-          'home/sup_lecture.json',
-          'funch/menu.json',
-        ];
-        for (final path in filePaths) {
-          FirebaseStorageRepository().download(path);
-        }
-      },
-    );
+    await Future(() {
+      // Firebaseからファイルをダウンロード
+      final filePaths = <String>[
+        'map/oneweek_schedule.json',
+        'home/cancel_lecture.json',
+        'home/sup_lecture.json',
+        'funch/menu.json',
+      ];
+      for (final path in filePaths) {
+        FirebaseStorageRepository().download(path);
+      }
+    });
   } on Exception catch (e) {
     debugPrint(e.toString());
   }

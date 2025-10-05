@@ -1,10 +1,9 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+part 'announcement_from_push_notification_controller.g.dart';
 
-final announcementFromPushNotificationProvider =
-    NotifierProvider<AnnouncementFromPushNotificationNotifier, Uri?>(
-        AnnouncementFromPushNotificationNotifier.new);
-
-final class AnnouncementFromPushNotificationNotifier extends Notifier<Uri?> {
+@riverpod
+final class AnnouncementFromPushNotificationNotifier
+    extends _$AnnouncementFromPushNotificationNotifier {
   @override
   Uri? build() {
     return null;

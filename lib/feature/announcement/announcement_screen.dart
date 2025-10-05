@@ -8,7 +8,7 @@ final class AnnouncementScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final announcements = ref.watch(announcementsControllerProvider);
+    final announcements = ref.watch(announcementsNotifierProvider);
 
     return Scaffold(
       appBar: AppBar(title: const Text('お知らせ')),

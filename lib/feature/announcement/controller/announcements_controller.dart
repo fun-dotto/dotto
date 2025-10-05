@@ -2,18 +2,16 @@ import 'package:dotto/controller/config_controller.dart';
 import 'package:dotto/feature/announcement/domain/announcement.dart';
 import 'package:dotto/feature/announcement/repository/announcement_repository.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-final announcementsControllerProvider =
-    AsyncNotifierProvider<AnnouncementsController, List<Announcement>>(
-      AnnouncementsController.new,
-    );
+part 'announcements_controller.g.dart';
 
 final announcementRepositoryProvider = Provider<AnnouncementRepository>(
   (ref) => AnnouncementRepositoryImpl(),
 );
 
-final class AnnouncementsController extends AsyncNotifier<List<Announcement>> {
+@riverpod
+final class AnnouncementsNotifier extends _$AnnouncementsNotifier {
   @override
   Future<List<Announcement>> build() async {
     try {

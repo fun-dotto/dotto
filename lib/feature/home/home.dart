@@ -72,7 +72,7 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   void _showPushNotificationNews(BuildContext context, WidgetRef ref) {
     final announcementUrlFromPushNotification = ref.watch(
-      announcementFromPushNotificationProvider,
+      announcementFromPushNotificationNotifierProvider,
     );
     if (announcementUrlFromPushNotification != null) {
       launchUrl(announcementUrlFromPushNotification);
