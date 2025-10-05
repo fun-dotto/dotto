@@ -1,5 +1,5 @@
 import 'package:dotto/feature/timetable/controller/personal_lesson_id_list_controller.dart';
-import 'package:dotto/feature/timetable/controller/timetable_controller.dart';
+import 'package:dotto/feature/timetable/controller/week_period_all_records_controller.dart';
 import 'package:dotto/feature/timetable/select_course_screen.dart';
 import 'package:dotto/theme/v1/animation.dart';
 import 'package:dotto/widget/loading_circular.dart';
@@ -13,7 +13,9 @@ final class EditTimetableScreen extends ConsumerWidget {
     final personalLessonIdList = ref.watch(
       personalLessonIdListNotifierProvider,
     );
-    final weekPeriodAllRecords = ref.watch(weekPeriodAllRecordsProvider);
+    final weekPeriodAllRecords = ref.watch(
+      weekPeriodAllRecordsNotifierProvider,
+    );
     if (context.mounted) {
       await showDialog<void>(
         context: context,
@@ -140,7 +142,9 @@ final class EditTimetableScreen extends ConsumerWidget {
     WidgetRef ref,
     int seasonnumber,
   ) {
-    final weekPeriodAllRecords = ref.watch(weekPeriodAllRecordsProvider);
+    final weekPeriodAllRecords = ref.watch(
+      weekPeriodAllRecordsNotifierProvider,
+    );
     final weekString = ['月', '火', '水', '木', '金'];
     return SingleChildScrollView(
       child: Padding(

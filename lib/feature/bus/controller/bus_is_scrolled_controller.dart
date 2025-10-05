@@ -9,7 +9,7 @@ final class BusIsScrolledNotifier extends _$BusIsScrolledNotifier {
     return now <= 5;
   }
 
-  get value => state;
+  bool get value => state;
 
   set value(bool newValue) {
     state = newValue;

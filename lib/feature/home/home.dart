@@ -3,7 +3,7 @@ import 'package:dotto/feature/announcement/controller/announcement_from_push_not
 import 'package:dotto/feature/bus/widget/bus_card_home.dart';
 import 'package:dotto/feature/funch/widget/funch_mypage_card.dart';
 import 'package:dotto/feature/timetable/controller/two_week_timetable_controller.dart';
-import 'package:dotto/feature/timetable/course_cancellation.dart';
+import 'package:dotto/feature/timetable/course_cancellation_screen.dart';
 import 'package:dotto/feature/timetable/edit_timetable_screen.dart';
 import 'package:dotto/feature/timetable/widget/my_page_timetable.dart';
 import 'package:dotto/theme/v1/animation.dart';

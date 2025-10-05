@@ -5,6 +5,7 @@ import 'package:dotto/feature/timetable/controller/timetable_controller.dart';
 import 'package:dotto/feature/timetable/repository/timetable_repository.dart';
 import 'package:dotto/repository/read_json_file.dart';
 import 'package:dotto/widget/loading_circular.dart';
+import 'package:dotto_design_system/component/button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -43,8 +44,8 @@ final class CourseCancellationScreen extends ConsumerWidget {
     final user = ref.watch(userProvider);
     if (user == null) {
       return Scaffold(
-        appBar: AppBar(title: const Text('休講情報')),
-        body: const Center(child: Text('未来大Googleアカウントでログインすると閲覧できます。')),
+        appBar: AppBar(title: const Text('休講・補講')),
+        body: const Center(child: Text('Googleアカウント(@fun.ac.jp)ログインが必要です。')),
       );
     }
     final courseCancellationFilterEnabled = ref.watch(
@@ -61,24 +62,23 @@ final class CourseCancellationScreen extends ConsumerWidget {
     );
     return Scaffold(
       appBar: AppBar(
-        title: const Text('休講情報'),
+        title: const Text('休講・補講'),
         actions: <Widget>[
-          // フィルターのオン/オフを切り替えるボタン
-          TextButton(
+          DottoButton(
             onPressed: () {
               courseCancellationFilterEnabledNotifier.state =
                   !courseCancellationFilterEnabled;
             },
+            type: DottoButtonType.text,
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
+              spacing: 4,
               children: [
-                Text(
-                  courseCancellationFilterEnabled ? '全て表示' : '時間割にある科目のみ表示',
-                  style: const TextStyle(color: Colors.white),
+                Icon(
+                  courseCancellationFilterEnabled
+                      ? Icons.filter_alt
+                      : Icons.filter_alt_outlined,
                 ),
-                const SizedBox(width: 5),
-                const Icon(Icons.sync_alt, color: Colors.white, size: 16),
-                const SizedBox(width: 5),
+                Text(courseCancellationFilterEnabled ? '履修中' : 'すべて'),
               ],
             ),
           ),

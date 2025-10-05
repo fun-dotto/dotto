@@ -6,7 +6,7 @@ import 'package:dotto/controller/user_controller.dart';
 import 'package:dotto/domain/user_preference_keys.dart';
 import 'package:dotto/feature/search_course/repository/syllabus_database_config.dart';
 import 'package:dotto/feature/timetable/controller/personal_lesson_id_list_controller.dart';
-import 'package:dotto/feature/timetable/controller/timetable_controller.dart';
+import 'package:dotto/feature/timetable/controller/week_period_all_records_controller.dart';
 import 'package:dotto/feature/timetable/domain/timetable_course.dart';
 import 'package:dotto/repository/read_json_file.dart';
 import 'package:dotto/repository/user_preference_repository.dart';
@@ -459,7 +459,9 @@ final class TimetableRepository {
 
   Future<bool> isOverSeleted(int lessonId, WidgetRef ref) async {
     final personalLessonIdList = await _getPersonalTimetableList();
-    final weekPeriodAllRecords = ref.watch(weekPeriodAllRecordsProvider).value;
+    final weekPeriodAllRecords = ref
+        .watch(weekPeriodAllRecordsNotifierProvider)
+        .value;
     if (weekPeriodAllRecords != null) {
       final filterWeekPeriod = weekPeriodAllRecords
           .where((element) => element['lessonId'] == lessonId)
