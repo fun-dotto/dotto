@@ -1,8 +1,10 @@
+import 'package:collection/collection.dart';
 import 'package:dotto/domain/day_of_week.dart';
 import 'package:dotto/domain/period.dart';
 import 'package:dotto/domain/semester.dart';
 import 'package:dotto/feature/timetable/controller/personal_lesson_id_list_controller.dart';
 import 'package:dotto/feature/timetable/controller/selected_semester_controller.dart';
+import 'package:dotto/feature/timetable/controller/timetable_view_style_controller.dart';
 import 'package:dotto/feature/timetable/controller/week_period_all_records_controller.dart';
 import 'package:dotto/feature/timetable/select_course_screen.dart';
 import 'package:dotto/theme/v1/animation.dart';
@@ -52,61 +54,7 @@ class _EditTimetableScreenState extends ConsumerState<EditTimetableScreen>
     super.dispose();
   }
 
-  Future<void> seasonTimetable() async {
-    if (!mounted) {
-      return;
-    }
-    await showDialog<void>(
-      context: context,
-      builder: (BuildContext context) {
-        return Consumer(
-          builder: (context, ref, child) {
-            final personalLessonIdList = ref.watch(
-              personalLessonIdListNotifierProvider,
-            );
-            final weekPeriodAllRecords = ref.watch(
-              weekPeriodAllRecordsNotifierProvider,
-            );
-            return AlertDialog(
-              title: const Text('履修中の科目'),
-              content: SizedBox(
-                width: double.maxFinite,
-                child: weekPeriodAllRecords.when(
-                  data: (data) {
-                    return personalLessonIdList.when(
-                      data: (personalLessonIdListData) {
-                        final seasonList = data.where((record) {
-                          return personalLessonIdListData.contains(
-                            record['lessonId'],
-                          );
-                        }).toList();
-                        return ListView.builder(
-                          itemCount: seasonList.length,
-                          itemBuilder: (context, index) {
-                            return ListTile(
-                              title: Text(seasonList[index]['授業名'] as String),
-                            );
-                          },
-                        );
-                      },
-                      error: (error, stackTrace) =>
-                          const Center(child: Text('データの取得に失敗しました')),
-                      loading: () =>
-                          const Center(child: CircularProgressIndicator()),
-                    );
-                  },
-                  error: (error, stackTrace) => const SizedBox.shrink(),
-                  loading: () => const SizedBox.shrink(),
-                ),
-              ),
-            );
-          },
-        );
-      },
-    );
-  }
-
-  Widget tableText(
+  Widget _tableText(
     BuildContext context,
     DayOfWeek dayOfWeek,
     Period period,
@@ -180,7 +128,7 @@ class _EditTimetableScreenState extends ConsumerState<EditTimetableScreen>
     );
   }
 
-  Widget seasonTimetableList(BuildContext context, Semester semester) {
+  Widget _takingCourseTable(Semester semester) {
     final weekPeriodAllRecords = ref.watch(
       weekPeriodAllRecordsNotifierProvider,
     );
@@ -216,7 +164,7 @@ class _EditTimetableScreenState extends ConsumerState<EditTimetableScreen>
                 (period) => TableRow(
                   children: DayOfWeek.weekdays
                       .map(
-                        (dayOfWeek) => tableText(
+                        (dayOfWeek) => _tableText(
                           context,
                           dayOfWeek,
                           period,
@@ -237,8 +185,72 @@ class _EditTimetableScreenState extends ConsumerState<EditTimetableScreen>
     );
   }
 
+  Widget _takingCourseList(Semester semester) {
+    final personalLessonIdList = ref.watch(
+      personalLessonIdListNotifierProvider,
+    );
+    final weekPeriodAllRecords = ref.watch(
+      weekPeriodAllRecordsNotifierProvider,
+    );
+    return weekPeriodAllRecords.when(
+      data: (data) {
+        return personalLessonIdList.when(
+          data: (personalLessonIdListData) {
+            final seasonList = data
+                .where((record) {
+                  return personalLessonIdListData.contains(
+                        record['lessonId'],
+                      ) &&
+                      (record['開講時期'] == semester.number ||
+                          record['開講時期'] == 0);
+                })
+                .toList()
+                .sorted((a, b) {
+                  final dayCompare = (a['week'] as int).compareTo(
+                    b['week'] as int,
+                  );
+                  if (dayCompare != 0) {
+                    return dayCompare;
+                  }
+                  return (a['period'] as int).compareTo(b['period'] as int);
+                });
+            return ListView.separated(
+              itemCount: seasonList.length,
+              separatorBuilder: (context, index) => const Divider(height: 0),
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Text(seasonList[index]['授業名'] as String),
+                  subtitle: Text(
+                    '${DayOfWeek.fromNumber(seasonList[index]['week'] as int).label}'
+                    '${Period.fromNumber(seasonList[index]['period'] as int).number}',
+                  ),
+                );
+              },
+            );
+          },
+          error: (error, stackTrace) =>
+              const Center(child: Text('データの取得に失敗しました')),
+          loading: () => const Center(child: CircularProgressIndicator()),
+        );
+      },
+      error: (error, stackTrace) => const SizedBox.shrink(),
+      loading: () => const SizedBox.shrink(),
+    );
+  }
+
+  Widget _timetable(Semester semester) {
+    final timetableViewStyle = ref.watch(timetableViewStyleNotifierProvider);
+    switch (timetableViewStyle) {
+      case TimetableViewStyle.table:
+        return _takingCourseTable(semester);
+      case TimetableViewStyle.list:
+        return _takingCourseList(semester);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final timetableViewStyle = ref.watch(timetableViewStyleNotifierProvider);
     final selectedSemester = ref.watch(selectedSemesterNotifierProvider);
     final selectedIndex = Semester.values.indexOf(selectedSemester);
     if (_tabController.index != selectedIndex &&
@@ -257,7 +269,12 @@ class _EditTimetableScreenState extends ConsumerState<EditTimetableScreen>
       appBar: AppBar(
         title: const Text('時間割'),
         actions: [
-          IconButton(onPressed: seasonTimetable, icon: const Icon(Icons.list)),
+          IconButton(
+            onPressed: () {
+              ref.read(timetableViewStyleNotifierProvider.notifier).toggle();
+            },
+            icon: timetableViewStyle.icon,
+          ),
         ],
         bottom: TabBar(
           dividerColor: Colors.transparent,
@@ -267,9 +284,7 @@ class _EditTimetableScreenState extends ConsumerState<EditTimetableScreen>
       ),
       body: TabBarView(
         controller: _tabController,
-        children: Semester.values
-            .map((e) => seasonTimetableList(context, e))
-            .toList(),
+        children: Semester.values.map(_timetable).toList(),
       ),
     );
   }
