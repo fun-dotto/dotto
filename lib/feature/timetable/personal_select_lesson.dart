@@ -1,3 +1,4 @@
+import 'package:dotto/feature/timetable/controller/personal_lesson_id_list_controller.dart';
 import 'package:dotto/feature/timetable/controller/timetable_controller.dart';
 import 'package:dotto/feature/timetable/repository/timetable_repository.dart';
 import 'package:dotto/feature/timetable/widget/timetable_is_over_selected_snack_bar.dart';
@@ -29,7 +30,9 @@ final class PersonalSelectLessonScreen extends StatelessWidget {
       ),
       body: Consumer(
         builder: (context, ref, child) {
-          final personalLessonIdList = ref.watch(personalLessonIdListProvider);
+          final personalLessonIdList = ref.watch(
+            personalLessonIdListNotifierProvider,
+          );
           final weekPeriodAllRecords = ref.watch(weekPeriodAllRecordsProvider);
           return weekPeriodAllRecords.when(
             data: (data) {

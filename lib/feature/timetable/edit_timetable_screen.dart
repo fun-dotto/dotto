@@ -1,3 +1,4 @@
+import 'package:dotto/feature/timetable/controller/personal_lesson_id_list_controller.dart';
 import 'package:dotto/feature/timetable/controller/timetable_controller.dart';
 import 'package:dotto/feature/timetable/personal_select_lesson.dart';
 import 'package:dotto/theme/v1/animation.dart';
@@ -9,7 +10,9 @@ final class EditTimetableScreen extends ConsumerWidget {
   const EditTimetableScreen({super.key});
 
   Future<void> seasonTimeTable(BuildContext context, WidgetRef ref) async {
-    final personalLessonIdList = ref.watch(personalLessonIdListProvider);
+    final personalLessonIdList = ref.watch(
+      personalLessonIdListNotifierProvider,
+    );
     final weekPeriodAllRecords = ref.watch(weekPeriodAllRecordsProvider);
     if (context.mounted) {
       await showDialog<void>(
@@ -53,7 +56,9 @@ final class EditTimetableScreen extends ConsumerWidget {
     int term,
     List<Map<String, dynamic>> records,
   ) {
-    final personalLessonIdList = ref.watch(personalLessonIdListProvider);
+    final personalLessonIdList = ref.watch(
+      personalLessonIdListNotifierProvider,
+    );
     final selectedLessonList = records.where((record) {
       return record['week'] == week &&
           record['period'] == period &&

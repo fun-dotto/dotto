@@ -1,3 +1,4 @@
+import 'package:dotto/feature/timetable/controller/personal_lesson_id_list_controller.dart';
 import 'package:dotto/feature/timetable/controller/timetable_controller.dart';
 import 'package:dotto/feature/timetable/repository/timetable_repository.dart';
 import 'package:dotto/feature/timetable/widget/timetable_is_over_selected_snack_bar.dart';
@@ -11,7 +12,9 @@ final class AddCourseButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final personalLessonIdList = ref.watch(personalLessonIdListProvider);
+    final personalLessonIdList = ref.watch(
+      personalLessonIdListNotifierProvider,
+    );
 
     return IconButton(
       icon: Icon(
