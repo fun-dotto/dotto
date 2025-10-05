@@ -1,11 +1,8 @@
 import 'package:dotto/feature/search_course/repository/syllabus_database_config.dart';
-import 'package:dotto/feature/timetable/domain/timetable_course.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sqflite/sqflite.dart';
 
-final StateProvider<Map<DateTime, Map<int, List<TimeTableCourse>>>?>
-twoWeekTimeTableDataProvider = StateProvider((ref) => null);
 final StateProvider<DateTime> focusTimeTableDayProvider = StateProvider((ref) {
   final now = DateTime.now();
   return DateTime(now.year, now.month, now.day);

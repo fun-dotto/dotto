@@ -310,7 +310,7 @@ final class TimetableRepository {
     await removePersonalTimeTableListFromFirestore(lessonId, ref);
   }
 
-  Future<Map<String, int>> loadPersonalTimeTableMapString(WidgetRef ref) async {
+  Future<Map<String, int>> loadPersonalTimeTableMapString() async {
     final personalTimeTableList = await _getPersonalTimeTableList();
     final dbPath = await SyllabusDatabaseConfig().getDBPath();
     final database = await openDatabase(dbPath);
@@ -328,7 +328,7 @@ final class TimetableRepository {
   }
 
   // 施設予約のjsonファイルの中から取得している科目のみに絞り込み
-  Future<List<dynamic>> filterTimeTable(WidgetRef ref) async {
+  Future<List<dynamic>> filterTimeTable() async {
     const fileName = 'map/oneweek_schedule.json';
     try {
       final jsonString = await readJsonFile(fileName);
@@ -349,14 +349,13 @@ final class TimetableRepository {
     }
   }
 
-  Future<Map<DateTime, Map<int, List<TimeTableCourse>>>> get2WeekLessonSchedule(
-    WidgetRef ref,
-  ) async {
+  Future<Map<DateTime, Map<int, List<TimeTableCourse>>>>
+  get2WeekLessonSchedule() async {
     final dates = getDateRange();
     final twoWeekLessonSchedule = <DateTime, Map<int, List<TimeTableCourse>>>{};
     try {
       for (final date in dates) {
-        twoWeekLessonSchedule[date] = await dailyLessonSchedule(date, ref);
+        twoWeekLessonSchedule[date] = await dailyLessonSchedule(date);
       }
       return twoWeekLessonSchedule;
     } on Exception {
@@ -367,7 +366,6 @@ final class TimetableRepository {
   // 時間を入れたらその日の授業を返す
   Future<Map<int, List<TimeTableCourse>>> dailyLessonSchedule(
     DateTime selectTime,
-    WidgetRef ref,
   ) async {
     final periodData = <int, Map<int, TimeTableCourse>>{
       1: {},
@@ -379,7 +377,7 @@ final class TimetableRepository {
     };
     final returnData = <int, List<TimeTableCourse>>{};
 
-    final lessonData = await filterTimeTable(ref);
+    final lessonData = await filterTimeTable();
 
     for (final item in lessonData) {
       final itemMap = item as Map<String, dynamic>;
@@ -412,7 +410,7 @@ final class TimetableRepository {
     final cancelLectureData = jsonDecode(jsonData) as List<dynamic>;
     jsonData = await readJsonFile('home/sup_lecture.json');
     final supLectureData = jsonDecode(jsonData) as List<dynamic>;
-    final loadPersonalTimeTableMap = await loadPersonalTimeTableMapString(ref);
+    final loadPersonalTimeTableMap = await loadPersonalTimeTableMapString();
 
     for (final cancelLecture in cancelLectureData) {
       final cancelMap = cancelLecture as Map<String, dynamic>;

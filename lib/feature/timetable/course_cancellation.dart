@@ -21,7 +21,7 @@ final class CourseCancellationScreen extends ConsumerWidget {
 
       if (courseCancellationFilterEnabled) {
         final personalTimeTableMap = await TimetableRepository()
-            .loadPersonalTimeTableMapString(ref);
+            .loadPersonalTimeTableMapString();
         // デコードされたJSONデータをフィルタリング
         final filteredData = decodedData.where((dynamic item) {
           final itemMap = item as Map<String, dynamic>;

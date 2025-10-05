@@ -2,10 +2,9 @@ import 'package:dotto/controller/config_controller.dart';
 import 'package:dotto/feature/announcement/controller/announcement_from_push_notification_controller.dart';
 import 'package:dotto/feature/bus/widget/bus_card_home.dart';
 import 'package:dotto/feature/funch/widget/funch_mypage_card.dart';
-import 'package:dotto/feature/timetable/controller/timetable_controller.dart';
+import 'package:dotto/feature/timetable/controller/two_week_timetable_controller.dart';
 import 'package:dotto/feature/timetable/course_cancellation.dart';
 import 'package:dotto/feature/timetable/edit_timetable_screen.dart';
-import 'package:dotto/feature/timetable/repository/timetable_repository.dart';
 import 'package:dotto/feature/timetable/widget/my_page_timetable.dart';
 import 'package:dotto/theme/v1/animation.dart';
 import 'package:dotto/theme/v1/color_fun.dart';
@@ -95,10 +94,6 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 
   Widget _setTimeTableButton() {
-    final twoWeekTimeTableDataNotifier = ref.read(
-      twoWeekTimeTableDataProvider.notifier,
-    );
-
     return Padding(
       padding: const EdgeInsetsGeometry.symmetric(horizontal: 16),
       child: Row(
@@ -129,10 +124,11 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
                       transitionsBuilder: fromRightAnimation,
                     ),
                   )
-                  .then((value) async {
-                    twoWeekTimeTableDataNotifier.state =
-                        await TimetableRepository().get2WeekLessonSchedule(ref);
-                  });
+                  .then(
+                    (value) => ref
+                        .read(twoWeekTimeTableNotifierProvider.notifier)
+                        .refresh(),
+                  );
             },
             type: DottoButtonType.text,
             child: const Text('時間割を編集'),

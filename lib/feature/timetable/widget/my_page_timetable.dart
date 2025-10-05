@@ -1,11 +1,11 @@
 import 'package:dotto/controller/user_controller.dart';
 import 'package:dotto/feature/kamoku_detail/kamoku_detail_screen.dart';
 import 'package:dotto/feature/timetable/controller/timetable_controller.dart';
+import 'package:dotto/feature/timetable/controller/two_week_timetable_controller.dart';
 import 'package:dotto/feature/timetable/domain/timetable_course.dart';
 import 'package:dotto/feature/timetable/repository/timetable_repository.dart';
 import 'package:dotto/theme/v1/animation.dart';
 import 'package:dotto/theme/v1/color_fun.dart';
-import 'package:dotto/widget/loading_circular.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -15,10 +15,9 @@ final class MyPageTimetable extends ConsumerWidget {
 
   Widget timeTableLessonButton(
     BuildContext context,
+    WidgetRef ref,
     TimeTableCourse? timeTableCourse,
-    WidgetRef ref, {
-    required bool loading,
-  }) {
+  ) {
     final user = ref.watch(userProvider);
     var foregroundColor = Colors.black;
     if (timeTableCourse != null && user != null) {
@@ -94,63 +93,42 @@ final class MyPageTimetable extends ConsumerWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: loading
-                        ? [
-                            const SizedBox(
-                              width: 20,
-                              height: 20,
-                              child: LoadingCircular(),
-                            ),
-                          ]
-                        : [
-                            Text(
-                              (timeTableCourse != null)
-                                  ? timeTableCourse.title
-                                  : '',
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                color: foregroundColor,
-                                fontSize: 12,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                            if (timeTableCourse != null)
-                              Text(
-                                timeTableCourse.resourseIds
-                                    .map(
-                                      (resourceId) =>
-                                          roomName.containsKey(resourceId)
-                                          ? roomName[resourceId]
-                                          : null,
-                                    )
-                                    .toList()
-                                    .join(', '),
-                                style: const TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: 9,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                          ],
+                    children: [
+                      Text(
+                        (timeTableCourse != null) ? timeTableCourse.title : '',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          color: foregroundColor,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      if (timeTableCourse != null)
+                        Text(
+                          timeTableCourse.resourseIds
+                              .map(
+                                (resourceId) => roomName.containsKey(resourceId)
+                                    ? roomName[resourceId]
+                                    : null,
+                              )
+                              .toList()
+                              .join(', '),
+                          style: const TextStyle(
+                            color: Colors.grey,
+                            fontSize: 9,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                    ],
                   ),
                 ),
                 // 休講情報など
                 if (timeTableCourse != null && user != null)
                   if (timeTableCourse.cancel)
-                    const Row(
-                      children: [
-                        Icon(Icons.cancel_outlined, color: Colors.red),
-                        Text('休講', style: TextStyle(color: Colors.red)),
-                      ],
-                    )
+                    _canceledLabel()
                   else if (timeTableCourse.sup)
-                    const Row(
-                      children: [
-                        Icon(Icons.info_outline, color: Colors.orange),
-                        Text('補講', style: TextStyle(color: Colors.orange)),
-                      ],
-                    ),
+                    _madeUpLabel(),
               ],
             ),
           ),
@@ -159,15 +137,32 @@ final class MyPageTimetable extends ConsumerWidget {
     );
   }
 
+  Widget _canceledLabel() {
+    return const Row(
+      children: [
+        Icon(Icons.cancel_outlined, color: Colors.red),
+        Text('休講', style: TextStyle(color: Colors.red)),
+      ],
+    );
+  }
+
+  Widget _madeUpLabel() {
+    return const Row(
+      children: [
+        Icon(Icons.info_outline, color: Colors.orange),
+        Text('補講', style: TextStyle(color: Colors.orange)),
+      ],
+    );
+  }
+
   Widget timeTablePeriod(
     BuildContext context,
+    WidgetRef ref,
     int period,
     TimeOfDay beginTime,
     TimeOfDay finishTime,
     List<TimeTableCourse> timeTableCourseList,
-    WidgetRef ref, {
-    required bool loading,
-  }) {
+  ) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 5),
       margin: const EdgeInsets.symmetric(vertical: 5),
@@ -184,15 +179,11 @@ final class MyPageTimetable extends ConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 if (timeTableCourseList.isEmpty)
-                  timeTableLessonButton(context, null, ref, loading: loading)
+                  timeTableLessonButton(context, ref, null)
                 else
                   ...timeTableCourseList.map(
-                    (timeTableCourse) => timeTableLessonButton(
-                      context,
-                      timeTableCourse,
-                      ref,
-                      loading: false,
-                    ),
+                    (timeTableCourse) =>
+                        timeTableLessonButton(context, ref, timeTableCourse),
                   ),
               ],
             ),
@@ -247,7 +238,7 @@ final class MyPageTimetable extends ConsumerWidget {
     final controller = ScrollController(
       initialScrollOffset: initialScrollOffset.toDouble(),
     );
-    final twoWeekTimeTableData = ref.watch(twoWeekTimeTableDataProvider);
+    final twoWeekTimeTable = ref.watch(twoWeekTimeTableNotifierProvider);
     final focusTimeTableDay = ref.watch(focusTimeTableDayProvider);
     return Column(
       spacing: 8,
@@ -311,20 +302,21 @@ final class MyPageTimetable extends ConsumerWidget {
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Column(
             children: List.generate(6, (index) {
-              return timeTablePeriod(
-                context,
-                index + 1,
-                beginPeriod[index],
-                finishPeriod[index],
-                twoWeekTimeTableData != null
-                    ? twoWeekTimeTableData.isNotEmpty
-                          ? twoWeekTimeTableData[focusTimeTableDay]![index +
-                                    1] ??
-                                []
-                          : []
-                    : [],
-                ref,
-                loading: twoWeekTimeTableData == null,
+              return twoWeekTimeTable.when(
+                data: (data) {
+                  return timeTablePeriod(
+                    context,
+                    ref,
+                    index + 1,
+                    beginPeriod[index],
+                    finishPeriod[index],
+                    data.isNotEmpty
+                        ? data[focusTimeTableDay]![index + 1] ?? []
+                        : [],
+                  );
+                },
+                error: (_, _) => const SizedBox.shrink(),
+                loading: () => const SizedBox.shrink(),
               );
             }),
           ),
