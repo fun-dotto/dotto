@@ -2,18 +2,13 @@ import 'package:dotto/feature/timetable/controller/personal_lesson_id_list_contr
 import 'package:dotto/feature/timetable/controller/timetable_controller.dart';
 import 'package:dotto/feature/timetable/repository/timetable_repository.dart';
 import 'package:dotto/feature/timetable/widget/timetable_is_over_selected_snack_bar.dart';
-import 'package:dotto/theme/v1/color_fun.dart';
 import 'package:dotto/widget/loading_circular.dart';
+import 'package:dotto_design_system/component/button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final class PersonalSelectLessonScreen extends StatelessWidget {
-  const PersonalSelectLessonScreen(
-    this.term,
-    this.week,
-    this.period, {
-    super.key,
-  });
+final class SelectCourseScreen extends StatelessWidget {
+  const SelectCourseScreen(this.term, this.week, this.period, {super.key});
 
   final int term;
   final int week;
@@ -54,14 +49,7 @@ final class PersonalSelectLessonScreen extends StatelessWidget {
                               personalLessonIdListData.contains(
                                 termList[index]['lessonId'],
                               )
-                              ? ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.blue,
-                                    foregroundColor: Colors.white,
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 10,
-                                    ),
-                                  ),
+                              ? DottoButton(
                                   onPressed: () async {
                                     await TimetableRepository()
                                         .removePersonalTimetableList(
@@ -72,16 +60,10 @@ final class PersonalSelectLessonScreen extends StatelessWidget {
                                       Navigator.of(context).pop();
                                     }
                                   },
-                                  child: const Text('削除する'),
+                                  type: DottoButtonType.outlined,
+                                  child: const Text('削除'),
                                 )
-                              : ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: customFunColor,
-                                    foregroundColor: Colors.white,
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 10,
-                                    ),
-                                  ),
+                              : DottoButton(
                                   onPressed: () async {
                                     if (await TimetableRepository()
                                         .isOverSeleted(
@@ -104,7 +86,7 @@ final class PersonalSelectLessonScreen extends StatelessWidget {
                                       }
                                     }
                                   },
-                                  child: const Text('追加する'),
+                                  child: const Text('追加'),
                                 ),
                         );
                       },

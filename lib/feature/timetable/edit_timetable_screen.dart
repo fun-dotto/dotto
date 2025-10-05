@@ -1,6 +1,6 @@
 import 'package:dotto/feature/timetable/controller/personal_lesson_id_list_controller.dart';
 import 'package:dotto/feature/timetable/controller/timetable_controller.dart';
-import 'package:dotto/feature/timetable/personal_select_lesson.dart';
+import 'package:dotto/feature/timetable/select_course_screen.dart';
 import 'package:dotto/theme/v1/animation.dart';
 import 'package:dotto/widget/loading_circular.dart';
 import 'package:flutter/material.dart';
@@ -123,7 +123,7 @@ final class EditTimetableScreen extends ConsumerWidget {
             Navigator.of(context).push(
               PageRouteBuilder<void>(
                 pageBuilder: (context, animation, secondaryAnimation) =>
-                    PersonalSelectLessonScreen(term, week, period),
+                    SelectCourseScreen(term, week, period),
                 transitionsBuilder: fromRightAnimation,
               ),
             );
