@@ -9,61 +9,106 @@ import 'package:dotto/theme/v1/animation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final class EditTimetableScreen extends ConsumerWidget {
+final class EditTimetableScreen extends ConsumerStatefulWidget {
   const EditTimetableScreen({super.key});
 
-  Future<void> seasonTimetable(BuildContext context, WidgetRef ref) async {
-    final personalLessonIdList = ref.watch(
-      personalLessonIdListNotifierProvider,
+  @override
+  ConsumerState<EditTimetableScreen> createState() =>
+      _EditTimetableScreenState();
+}
+
+class _EditTimetableScreenState extends ConsumerState<EditTimetableScreen>
+    with SingleTickerProviderStateMixin {
+  late final TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    final initialSemester = ref.read(selectedSemesterNotifierProvider);
+    _tabController = TabController(
+      length: Semester.values.length,
+      vsync: this,
+      initialIndex: Semester.values.indexOf(initialSemester),
     );
-    final weekPeriodAllRecords = ref.watch(
-      weekPeriodAllRecordsNotifierProvider,
-    );
-    if (context.mounted) {
-      await showDialog<void>(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: const Text('履修中の科目'),
-            content: SizedBox(
-              width: double.maxFinite,
-              child: weekPeriodAllRecords.when(
-                data: (data) {
-                  return personalLessonIdList.when(
-                    data: (personalLessonIdListData) {
-                      final seasonList = data.where((record) {
-                        return personalLessonIdListData.contains(
-                          record['lessonId'],
-                        );
-                      }).toList();
-                      return ListView.builder(
-                        itemCount: seasonList.length,
-                        itemBuilder: (context, index) {
-                          return ListTile(
-                            title: Text(seasonList[index]['授業名'] as String),
-                          );
-                        },
-                      );
-                    },
-                    error: (error, stackTrace) =>
-                        const Center(child: Text('データの取得に失敗しました')),
-                    loading: () =>
-                        const Center(child: CircularProgressIndicator()),
-                  );
-                },
-                error: (error, stackTrace) => const SizedBox.shrink(),
-                loading: () => const SizedBox.shrink(),
-              ),
-            ),
-          );
-        },
-      );
+    _tabController.addListener(_handleTabSelection);
+
+  }
+
+  void _handleTabSelection() {
+    if (_tabController.indexIsChanging) {
+      return;
     }
+    final current = ref.read(selectedSemesterNotifierProvider);
+    final selected = Semester.values[_tabController.index];
+    if (current != selected) {
+      ref.read(selectedSemesterNotifierProvider.notifier).value = selected;
+    }
+  }
+
+  @override
+  void dispose() {
+    _tabController
+      ..removeListener(_handleTabSelection)
+      ..dispose();
+    super.dispose();
+  }
+
+  Future<void> seasonTimetable() async {
+    if (!mounted) {
+      return;
+    }
+    await showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return Consumer(
+          builder: (context, ref, child) {
+            final personalLessonIdList = ref.watch(
+              personalLessonIdListNotifierProvider,
+            );
+            final weekPeriodAllRecords = ref.watch(
+              weekPeriodAllRecordsNotifierProvider,
+            );
+            return AlertDialog(
+              title: const Text('履修中の科目'),
+              content: SizedBox(
+                width: double.maxFinite,
+                child: weekPeriodAllRecords.when(
+                  data: (data) {
+                    return personalLessonIdList.when(
+                      data: (personalLessonIdListData) {
+                        final seasonList = data.where((record) {
+                          return personalLessonIdListData.contains(
+                            record['lessonId'],
+                          );
+                        }).toList();
+                        return ListView.builder(
+                          itemCount: seasonList.length,
+                          itemBuilder: (context, index) {
+                            return ListTile(
+                              title: Text(seasonList[index]['授業名'] as String),
+                            );
+                          },
+                        );
+                      },
+                      error: (error, stackTrace) =>
+                          const Center(child: Text('データの取得に失敗しました')),
+                      loading: () =>
+                          const Center(child: CircularProgressIndicator()),
+                    );
+                  },
+                  error: (error, stackTrace) => const SizedBox.shrink(),
+                  loading: () => const SizedBox.shrink(),
+                ),
+              ),
+            );
+          },
+        );
+      },
+    );
   }
 
   Widget tableText(
     BuildContext context,
-    WidgetRef ref,
     DayOfWeek dayOfWeek,
     Period period,
     Semester semester,
@@ -139,7 +184,6 @@ final class EditTimetableScreen extends ConsumerWidget {
 
   Widget seasonTimetableList(
     BuildContext context,
-    WidgetRef ref,
     Semester semester,
   ) {
     final weekPeriodAllRecords = ref.watch(
@@ -179,7 +223,6 @@ final class EditTimetableScreen extends ConsumerWidget {
                       .map(
                         (dayOfWeek) => tableText(
                           context,
-                          ref,
                           dayOfWeek,
                           period,
                           semester,
@@ -200,38 +243,40 @@ final class EditTimetableScreen extends ConsumerWidget {
   }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final selectedSemester = ref.watch(selectedSemesterNotifierProvider);
-    return DefaultTabController(
-      length: Semester.values.length,
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('時間割'),
-          actions: [
-            Consumer(
-              builder: (context, ref, child) {
-                return IconButton(
-                  onPressed: () {
-                    seasonTimetable(context, ref);
-                  },
-                  icon: const Icon(Icons.list),
-                );
-              },
-            ),
-          ],
-          bottom: TabBar(
-            tabs: Semester.values.map((e) => Tab(text: e.label)).toList(),
-            onTap: (index) {
-              ref.read(selectedSemesterNotifierProvider.notifier).value =
-                  Semester.values[index];
-            },
+    final selectedIndex = Semester.values.indexOf(selectedSemester);
+    if (_tabController.index != selectedIndex &&
+        !_tabController.indexIsChanging) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) {
+          return;
+        }
+        if (_tabController.index != selectedIndex) {
+          _tabController.animateTo(selectedIndex);
+        }
+      });
+    }
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('時間割'),
+        actions: [
+          IconButton(
+            onPressed: seasonTimetable,
+            icon: const Icon(Icons.list),
           ),
+        ],
+        bottom: TabBar(
+          controller: _tabController,
+          tabs: Semester.values.map((e) => Tab(text: e.label)).toList(),
         ),
-        body: TabBarView(
-          children: Semester.values
-              .map((e) => seasonTimetableList(context, ref, e))
-              .toList(),
-        ),
+      ),
+      body: TabBarView(
+        controller: _tabController,
+        children: Semester.values
+            .map((e) => seasonTimetableList(context, e))
+            .toList(),
       ),
     );
   }
