@@ -10,6 +10,7 @@ import 'package:dotto/theme/v1/app_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:shimmer_animation/shimmer_animation.dart';
 
 final class FunchMyPageCard extends ConsumerWidget {
   const FunchMyPageCard({super.key});
@@ -37,20 +38,6 @@ final class FunchMyPageCard extends ConsumerWidget {
     return const Padding(
       padding: EdgeInsets.symmetric(vertical: 16),
       child: Center(child: Text('情報が見つかりません')),
-    );
-  }
-
-  Widget _buildCarousel(WidgetRef ref, List<FunchMenu> menu) {
-    return CarouselSlider(
-      items: menu.map(_buildCarouselItem).toList(),
-      options: CarouselOptions(
-        aspectRatio: 4 / 3,
-        autoPlay: true,
-        viewportFraction: 1,
-        onPageChanged: (index, reason) {
-          ref.read(funchMyPageCardIndexProvider.notifier).state = index;
-        },
-      ),
     );
   }
 
@@ -91,16 +78,15 @@ final class FunchMyPageCard extends ConsumerWidget {
   Widget _buildCarouselIndicators(
     BuildContext context,
     WidgetRef ref,
-    List<FunchMenu> menuList,
+    List<FunchMenu> menuItems,
   ) {
     final selectedIndex = ref.watch(funchMyPageCardIndexProvider);
-
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: menuList.map((menu) {
-          final index = menuList.indexOf(menu);
+        children: menuItems.map((menu) {
+          final index = menuItems.indexOf(menu);
           return Container(
             width: 8,
             height: 8,
@@ -116,6 +102,30 @@ final class FunchMyPageCard extends ConsumerWidget {
           );
         }).toList(),
       ),
+    );
+  }
+
+  Widget _buildCarousel(
+    BuildContext context,
+    WidgetRef ref,
+    List<FunchMenu> menuItems,
+  ) {
+    return Column(
+      spacing: 8,
+      children: [
+        CarouselSlider(
+          items: menuItems.map(_buildCarouselItem).toList(),
+          options: CarouselOptions(
+            aspectRatio: 4 / 3,
+            autoPlay: true,
+            viewportFraction: 1,
+            onPageChanged: (index, reason) {
+              ref.read(funchMyPageCardIndexProvider.notifier).state = index;
+            },
+          ),
+        ),
+        _buildCarouselIndicators(context, ref, menuItems),
+      ],
     );
   }
 
@@ -142,25 +152,10 @@ final class FunchMyPageCard extends ConsumerWidget {
                 if (menuItems.isEmpty) {
                   return _buildEmptyCard(context, date);
                 }
-                return _buildCarousel(ref, menuItems);
+                return _buildCarousel(context, ref, menuItems);
               },
               error: (error, stackTrace) => _buildEmptyCard(context, date),
-              loading: () => const SizedBox.shrink(),
-            ),
-            funchDailyMenuList.when(
-              data: (data) {
-                final menuItems =
-                    data[DateTimeUtility.dateKey(date)]?.menuItems;
-                if (menuItems == null) {
-                  return const SizedBox.shrink();
-                }
-                if (menuItems.isEmpty) {
-                  return const SizedBox.shrink();
-                }
-                return _buildCarouselIndicators(context, ref, menuItems);
-              },
-              error: (error, stackTrace) => const SizedBox.shrink(),
-              loading: () => const SizedBox.shrink(),
+              loading: () => Shimmer(child: Container(color: Colors.grey)),
             ),
           ],
         ),
