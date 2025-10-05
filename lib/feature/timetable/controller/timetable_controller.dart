@@ -1,25 +1,8 @@
-import 'dart:convert';
-
-import 'package:dotto/domain/user_preference_keys.dart';
 import 'package:dotto/feature/search_course/repository/syllabus_database_config.dart';
-import 'package:dotto/feature/timetable/controller/personal_lesson_id_list_controller.dart';
 import 'package:dotto/feature/timetable/domain/timetable_course.dart';
-import 'package:dotto/repository/user_preference_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sqflite/sqflite.dart';
-
-final Provider<Future<void>> saveTimetableProvider = Provider((ref) async {
-  final personalLessonIdList = ref.watch(personalLessonIdListNotifierProvider);
-  await UserPreferenceRepository.setString(
-    UserPreferenceKeys.personalTimetableListKey,
-    json.encode(personalLessonIdList),
-  );
-  await UserPreferenceRepository.setInt(
-    UserPreferenceKeys.personalTimetableLastUpdateKey,
-    DateTime.now().millisecondsSinceEpoch,
-  );
-});
 
 final StateProvider<Map<DateTime, Map<int, List<TimeTableCourse>>>?>
 twoWeekTimeTableDataProvider = StateProvider((ref) => null);

@@ -70,7 +70,7 @@ final class TimetableRepository {
     return lessonNameList;
   }
 
-  Future<List<int>> loadLocalPersonalTimeTableList() async {
+  Future<List<int>> _getPersonalTimeTableList() async {
     final jsonString = await UserPreferenceRepository.getString(
       UserPreferenceKeys.personalTimetableListKey,
     );
@@ -103,7 +103,7 @@ final class TimetableRepository {
         final diff =
             localLastUpdated - firestoreLastUpdated.millisecondsSinceEpoch;
         final firestoreList = List<int>.from(data['2025'] as List);
-        final localList = await loadLocalPersonalTimeTableList();
+        final localList = await _getPersonalTimeTableList();
         if (localList.isEmpty) {
           personalTimeTableList = firestoreList;
         } else if (firestoreList.isEmpty) {
@@ -180,11 +180,11 @@ final class TimetableRepository {
           personalTimeTableList = firestoreList;
         }
       } else {
-        personalTimeTableList = await loadLocalPersonalTimeTableList();
+        personalTimeTableList = await _getPersonalTimeTableList();
         await savePersonalTimeTableListToFirestore(personalTimeTableList, ref);
       }
     } else {
-      personalTimeTableList = await loadLocalPersonalTimeTableList();
+      personalTimeTableList = await _getPersonalTimeTableList();
       await savePersonalTimeTableListToFirestore(personalTimeTableList, ref);
     }
   }
@@ -193,7 +193,7 @@ final class TimetableRepository {
     final user = ref.read(userProvider);
     var personalTimeTableList = <int>[];
     if (user == null) {
-      personalTimeTableList = await loadLocalPersonalTimeTableList();
+      personalTimeTableList = await _getPersonalTimeTableList();
     } else {
       final doc = db.collection('user_taking_course').doc(user.uid);
       final docSnapshot = await doc.get();
@@ -209,7 +209,7 @@ final class TimetableRepository {
           final diff =
               localLastUpdated - firestoreLastUpdated.millisecondsSinceEpoch;
           final firestoreList = List<int>.from(data['2025'] as List);
-          final localList = await loadLocalPersonalTimeTableList();
+          final localList = await _getPersonalTimeTableList();
           // ここなぜか取得できない
           if (localList.isEmpty) {
             personalTimeTableList = firestoreList;
@@ -223,14 +223,14 @@ final class TimetableRepository {
             personalTimeTableList = firestoreList;
           }
         } else {
-          personalTimeTableList = await loadLocalPersonalTimeTableList();
+          personalTimeTableList = await _getPersonalTimeTableList();
           await savePersonalTimeTableListToFirestore(
             personalTimeTableList,
             ref,
           );
         }
       } else {
-        personalTimeTableList = await loadLocalPersonalTimeTableList();
+        personalTimeTableList = await _getPersonalTimeTableList();
         await savePersonalTimeTableListToFirestore(personalTimeTableList, ref);
       }
     }
@@ -299,26 +299,25 @@ final class TimetableRepository {
   }
 
   Future<void> addPersonalTimeTableList(int lessonId, WidgetRef ref) async {
-    ref.read(personalLessonIdListNotifierProvider.notifier).add(lessonId);
+    await ref.read(personalLessonIdListNotifierProvider.notifier).add(lessonId);
     await addPersonalTimeTableListToFirestore(lessonId, ref);
   }
 
   Future<void> removePersonalTimeTableList(int lessonId, WidgetRef ref) async {
-    ref.read(personalLessonIdListNotifierProvider.notifier).remove(lessonId);
+    await ref
+        .read(personalLessonIdListNotifierProvider.notifier)
+        .remove(lessonId);
     await removePersonalTimeTableListFromFirestore(lessonId, ref);
   }
 
   Future<Map<String, int>> loadPersonalTimeTableMapString(WidgetRef ref) async {
-    final personalTimeTableListInt = ref.read(
-      personalLessonIdListNotifierProvider,
-    );
-
+    final personalTimeTableList = await _getPersonalTimeTableList();
     final dbPath = await SyllabusDatabaseConfig().getDBPath();
     final database = await openDatabase(dbPath);
     final loadPersonalTimeTableMap = <String, int>{};
     final List<Map<String, dynamic>> records = await database.rawQuery(
       'select LessonId, 授業名 from sort where LessonId in '
-      '(${personalTimeTableListInt.join(",")})',
+      '(${personalTimeTableList.join(",")})',
     );
     for (final record in records) {
       final lessonName = record['授業名'] as String;
@@ -334,11 +333,7 @@ final class TimetableRepository {
     try {
       final jsonString = await readJsonFile(fileName);
       final jsonData = json.decode(jsonString) as List<dynamic>;
-
-      final personalTimeTableList = ref.read(
-        personalLessonIdListNotifierProvider,
-      );
-
+      final personalTimeTableList = await _getPersonalTimeTableList();
       final filteredData = <dynamic>[];
       for (final lessonId in personalTimeTableList) {
         for (final item in jsonData) {
@@ -465,9 +460,7 @@ final class TimetableRepository {
   }
 
   Future<bool> isOverSeleted(int lessonId, WidgetRef ref) async {
-    final personalLessonIdList = ref.watch(
-      personalLessonIdListNotifierProvider,
-    );
+    final personalLessonIdList = await _getPersonalTimeTableList();
     final weekPeriodAllRecords = ref.watch(weekPeriodAllRecordsProvider).value;
     if (weekPeriodAllRecords != null) {
       final filterWeekPeriod = weekPeriodAllRecords

@@ -24,21 +24,32 @@ final class EditTimetableScreen extends ConsumerWidget {
               width: double.maxFinite,
               child: weekPeriodAllRecords.when(
                 data: (data) {
-                  final seasonList = data.where((record) {
-                    return personalLessonIdList.contains(record['lessonId']);
-                  }).toList();
-                  return ListView.builder(
-                    itemCount: seasonList.length,
-                    itemBuilder: (context, index) {
-                      return ListTile(
-                        title: Text(seasonList[index]['授業名'] as String),
+                  return personalLessonIdList.when(
+                    data: (personalLessonIdListData) {
+                      final seasonList = data.where((record) {
+                        return personalLessonIdListData.contains(
+                          record['lessonId'],
+                        );
+                      }).toList();
+                      return ListView.builder(
+                        itemCount: seasonList.length,
+                        itemBuilder: (context, index) {
+                          return ListTile(
+                            title: Text(seasonList[index]['授業名'] as String),
+                          );
+                        },
                       );
+                    },
+                    error: (error, stackTrace) {
+                      return const Center(child: Text('データを取得できませんでした'));
+                    },
+                    loading: () {
+                      return const Center(child: LoadingCircular());
                     },
                   );
                 },
-                error: (error, stackTrace) =>
-                    const Center(child: Text('データを取得できませんでした')),
-                loading: () => const Center(child: LoadingCircular()),
+                error: (_, _) => const SizedBox.shrink(),
+                loading: () => const SizedBox.shrink(),
               ),
             ),
           );
@@ -59,62 +70,68 @@ final class EditTimetableScreen extends ConsumerWidget {
     final personalLessonIdList = ref.watch(
       personalLessonIdListNotifierProvider,
     );
-    final selectedLessonList = records.where((record) {
-      return record['week'] == week &&
-          record['period'] == period &&
-          (record['開講時期'] == term || record['開講時期'] == 0) &&
-          personalLessonIdList.contains(record['lessonId']);
-    }).toList();
-    return InkWell(
-      // 表示
-      child: Container(
-        margin: const EdgeInsets.all(2),
-        height: 100,
-        child: selectedLessonList.isNotEmpty
-            ? Column(
-                children: selectedLessonList
-                    .map(
-                      (lesson) => Expanded(
-                        child: Container(
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Colors.grey),
-                            color: Colors.grey.shade300,
-                            borderRadius: const BorderRadius.all(
-                              Radius.circular(5),
+    return personalLessonIdList.when(
+      data: (data) {
+        final selectedLessonList = records.where((record) {
+          return record['week'] == week &&
+              record['period'] == period &&
+              (record['開講時期'] == term || record['開講時期'] == 0) &&
+              data.contains(record['lessonId']);
+        }).toList();
+        return InkWell(
+          // 表示
+          child: Container(
+            margin: const EdgeInsets.all(2),
+            height: 100,
+            child: selectedLessonList.isNotEmpty
+                ? Column(
+                    children: selectedLessonList
+                        .map(
+                          (lesson) => Expanded(
+                            child: Container(
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                border: Border.all(color: Colors.grey),
+                                color: Colors.grey.shade300,
+                                borderRadius: const BorderRadius.all(
+                                  Radius.circular(5),
+                                ),
+                              ),
+                              padding: const EdgeInsets.all(2),
+                              child: Text(
+                                lesson['授業名'] as String,
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(fontSize: 8),
+                              ),
                             ),
                           ),
-                          padding: const EdgeInsets.all(2),
-                          child: Text(
-                            lesson['授業名'] as String,
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(fontSize: 8),
-                          ),
-                        ),
-                      ),
-                    )
-                    .toList(),
-              )
-            : Container(
-                decoration: BoxDecoration(
-                  color: Colors.grey.shade200,
-                  borderRadius: const BorderRadius.all(Radius.circular(5)),
-                ),
-                padding: const EdgeInsets.all(2),
-                child: Center(
-                  child: Icon(Icons.add, color: Colors.grey.shade400),
-                ),
-              ),
-      ),
-      onTap: () {
-        Navigator.of(context).push(
-          PageRouteBuilder<void>(
-            pageBuilder: (context, animation, secondaryAnimation) =>
-                PersonalSelectLessonScreen(term, week, period),
-            transitionsBuilder: fromRightAnimation,
+                        )
+                        .toList(),
+                  )
+                : Container(
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade200,
+                      borderRadius: const BorderRadius.all(Radius.circular(5)),
+                    ),
+                    padding: const EdgeInsets.all(2),
+                    child: Center(
+                      child: Icon(Icons.add, color: Colors.grey.shade400),
+                    ),
+                  ),
           ),
+          onTap: () {
+            Navigator.of(context).push(
+              PageRouteBuilder<void>(
+                pageBuilder: (context, animation, secondaryAnimation) =>
+                    PersonalSelectLessonScreen(term, week, period),
+                transitionsBuilder: fromRightAnimation,
+              ),
+            );
+          },
         );
       },
+      error: (_, _) => const SizedBox.shrink(),
+      loading: () => const SizedBox.shrink(),
     );
   }
 

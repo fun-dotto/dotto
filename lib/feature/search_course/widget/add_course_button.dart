@@ -16,32 +16,38 @@ final class AddCourseButton extends ConsumerWidget {
       personalLessonIdListNotifierProvider,
     );
 
-    return IconButton(
-      icon: Icon(
-        Icons.playlist_add,
-        color: personalLessonIdList.contains(lessonId)
-            ? Colors.green
-            : Colors.black,
-      ),
-      onPressed: () async {
-        if (!personalLessonIdList.contains(lessonId)) {
-          if (await TimetableRepository().isOverSeleted(lessonId, ref)) {
-            if (context.mounted) {
-              timetableIsOverSelectedSnackBar(context);
+    return personalLessonIdList.when(
+      data: (data) {
+        return IconButton(
+          icon: Icon(
+            Icons.playlist_add,
+            color: data.contains(lessonId) ? Colors.green : Colors.black,
+          ),
+          onPressed: () async {
+            if (!data.contains(lessonId)) {
+              if (await TimetableRepository().isOverSeleted(lessonId, ref)) {
+                if (context.mounted) {
+                  timetableIsOverSelectedSnackBar(context);
+                }
+              } else {
+                TimetableRepository()
+                    .addPersonalTimeTableList(lessonId, ref)
+                    .ignore();
+              }
+            } else {
+              TimetableRepository()
+                  .removePersonalTimeTableList(lessonId, ref)
+                  .ignore();
             }
-          } else {
-            TimetableRepository()
-                .addPersonalTimeTableList(lessonId, ref)
-                .ignore();
-          }
-        } else {
-          TimetableRepository()
-              .removePersonalTimeTableList(lessonId, ref)
-              .ignore();
-        }
-        ref.read(twoWeekTimeTableDataProvider.notifier).state =
-            await TimetableRepository().get2WeekLessonSchedule(ref);
+            ref.read(twoWeekTimeTableDataProvider.notifier).state =
+                await TimetableRepository().get2WeekLessonSchedule(ref);
+          },
+        );
       },
+      error: (error, stack) =>
+          IconButton(icon: const Icon(Icons.playlist_add), onPressed: () {}),
+      loading: () =>
+          IconButton(icon: const Icon(Icons.playlist_add), onPressed: () {}),
     );
   }
 }
