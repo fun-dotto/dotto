@@ -137,11 +137,11 @@ final class AppTutorial extends StatelessWidget {
           pages: pages,
           skipCallback: () {
             // when user select SKIP
-            Navigator.pop(context);
+            Navigator.of(context).pop();
           },
           finishCallback: () {
             // when user select NEXT
-            Navigator.pop(context);
+            Navigator.of(context).pop();
           },
         ),
       ),

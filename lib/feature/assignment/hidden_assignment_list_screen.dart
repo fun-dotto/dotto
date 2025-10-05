@@ -7,7 +7,7 @@ import 'package:dotto/feature/assignment/repository/assignment_repository.dart';
 import 'package:dotto/repository/user_preference_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 final class HiddenAssignmentListScreen extends StatefulWidget {
   const HiddenAssignmentListScreen({
@@ -55,14 +55,6 @@ final class _HiddenAssignmentListScreenState
     }
   }
 
-  Future<void> launchUrlInExternal(Uri url) async {
-    if (await canLaunchUrl(url)) {
-      await launchUrl(url, mode: LaunchMode.externalApplication);
-    } else {
-      throw Exception('Could not launch $url');
-    }
-  }
-
   @override
   void initState() {
     super.initState();
@@ -91,7 +83,7 @@ final class _HiddenAssignmentListScreenState
             ? const Center(child: Text('非表示の課題はありません'))
             : ListView.separated(
                 itemCount: hiddenKadai.length,
-                separatorBuilder: (_, _) => const Divider(height: 1),
+                separatorBuilder: (context, index) => const Divider(height: 0),
                 itemBuilder: (context, index) {
                   return Slidable(
                     key: UniqueKey(),
@@ -144,8 +136,7 @@ final class _HiddenAssignmentListScreenState
                         ],
                       ),
                       onTap: () {
-                        final url = Uri.parse(hiddenKadai[index].url!);
-                        launchUrlInExternal(url);
+                        launchUrlString(hiddenKadai[index].url ?? '');
                       },
                     ),
                   );

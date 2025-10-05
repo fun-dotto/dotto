@@ -10,7 +10,6 @@ import 'package:dotto/feature/bus/widget/bus_card.dart';
 import 'package:dotto/feature/bus/widget/bus_stop_select.dart';
 import 'package:dotto/feature/bus/widget/bus_timetable.dart';
 import 'package:dotto/theme/v1/app_color.dart';
-import 'package:dotto/widget/loading_circular.dart';
 import 'package:dotto_design_system/component/button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -146,8 +145,7 @@ final class BusScreen extends ConsumerWidget {
               }
               return InkWell(
                 onTap: () {
-                  Navigator.push(
-                    context,
+                  Navigator.of(context).push(
                     MaterialPageRoute<void>(
                       builder: (context) => BusTimetableScreen(busTrip),
                     ),
@@ -171,8 +169,8 @@ final class BusScreen extends ConsumerWidget {
           child: Column(spacing: 8, children: busListWidget),
         );
       },
-      error: (_, _) => const SizedBox.shrink(),
-      loading: () => const LoadingCircular(),
+      error: (error, stackTrace) => const SizedBox.shrink(),
+      loading: () => const Center(child: CircularProgressIndicator()),
     );
 
     WidgetsBinding.instance.addPostFrameCallback((_) {

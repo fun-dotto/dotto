@@ -7,10 +7,10 @@ import 'package:dotto/feature/funch/funch.dart';
 import 'package:dotto/feature/funch/utility/datetime.dart';
 import 'package:dotto/feature/funch/widget/funch_price_list.dart';
 import 'package:dotto/theme/v1/app_color.dart';
-import 'package:dotto/widget/loading_circular.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:shimmer_animation/shimmer_animation.dart';
 
 final class FunchMyPageCard extends ConsumerWidget {
   const FunchMyPageCard({super.key});
@@ -34,103 +34,10 @@ final class FunchMyPageCard extends ConsumerWidget {
     return formatter.format(date);
   }
 
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return InkWell(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute<void>(builder: (context) => const FunchScreen()),
-        );
-      },
-      child: _buildMenuCard(context, ref),
-    );
-  }
-
-  Widget _buildMenuCard(BuildContext context, WidgetRef ref) {
-    final date = DateTimeUtility.startOfDay(DateTime.now());
-    final funchDailyMenuList = ref.watch(funchTodayDailyMenuListProvider);
-
-    final content = funchDailyMenuList.when(
-      loading: () {
-        return const LoadingCircular();
-      },
-      error: (error, stackTrace) {
-        return _buildEmptyCard(context, date);
-      },
-      data: (data) {
-        final menuItems = data[DateTimeUtility.dateKey(date)]?.menuItems;
-        if (menuItems == null) {
-          return _buildEmptyCard(context, date);
-        }
-        if (menuItems.isEmpty) {
-          return _buildEmptyCard(context, date);
-        }
-        return _buildCarousel(ref, menuItems);
-      },
-    );
-
-    final indicator = funchDailyMenuList.when(
-      loading: () {
-        return const SizedBox.shrink();
-      },
-      error: (error, stackTrace) {
-        return const SizedBox.shrink();
-      },
-      data: (data) {
-        final menuItems = data[DateTimeUtility.dateKey(date)]?.menuItems;
-        if (menuItems == null) {
-          return const SizedBox.shrink();
-        }
-        if (menuItems.isEmpty) {
-          return const SizedBox.shrink();
-        }
-        return _buildCarouselIndicators(context, ref, menuItems);
-      },
-    );
-
-    return Card(
-      color: Colors.white,
-      shadowColor: Colors.black,
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildHeader(date),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16),
-              child: content,
-            ),
-            indicator,
-          ],
-        ),
-      ),
-    );
-  }
-
   Widget _buildEmptyCard(BuildContext context, DateTime date) {
     return const Padding(
       padding: EdgeInsets.symmetric(vertical: 16),
-      child: Center(child: Text('情報が見つかりません。')),
-    );
-  }
-
-  Widget _buildHeader(DateTime date) {
-    return Text('${_getDayString(date)}の学食');
-  }
-
-  Widget _buildCarousel(WidgetRef ref, List<FunchMenu> menu) {
-    return CarouselSlider(
-      items: menu.map(_buildCarouselItem).toList(),
-      options: CarouselOptions(
-        aspectRatio: 4 / 3,
-        autoPlay: true,
-        viewportFraction: 1,
-        onPageChanged: (index, reason) {
-          ref.read(funchMyPageCardIndexProvider.notifier).state = index;
-        },
-      ),
+      child: Center(child: Text('情報が見つかりません')),
     );
   }
 
@@ -171,16 +78,15 @@ final class FunchMyPageCard extends ConsumerWidget {
   Widget _buildCarouselIndicators(
     BuildContext context,
     WidgetRef ref,
-    List<FunchMenu> menuList,
+    List<FunchMenu> menuItems,
   ) {
     final selectedIndex = ref.watch(funchMyPageCardIndexProvider);
-
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: menuList.map((menu) {
-          final index = menuList.indexOf(menu);
+        children: menuItems.map((menu) {
+          final index = menuItems.indexOf(menu);
           return Container(
             width: 8,
             height: 8,
@@ -196,6 +102,76 @@ final class FunchMyPageCard extends ConsumerWidget {
           );
         }).toList(),
       ),
+    );
+  }
+
+  Widget _buildCarousel(
+    BuildContext context,
+    WidgetRef ref,
+    List<FunchMenu> menuItems,
+  ) {
+    return Column(
+      spacing: 8,
+      children: [
+        CarouselSlider(
+          items: menuItems.map(_buildCarouselItem).toList(),
+          options: CarouselOptions(
+            aspectRatio: 4 / 3,
+            autoPlay: true,
+            viewportFraction: 1,
+            onPageChanged: (index, reason) {
+              ref.read(funchMyPageCardIndexProvider.notifier).state = index;
+            },
+          ),
+        ),
+        _buildCarouselIndicators(context, ref, menuItems),
+      ],
+    );
+  }
+
+  Widget _buildMenuCard(BuildContext context, WidgetRef ref) {
+    final date = DateTimeUtility.startOfDay(DateTime.now());
+    final funchDailyMenuList = ref.watch(funchTodayDailyMenuListProvider);
+
+    return Card(
+      color: Colors.white,
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          spacing: 16,
+          children: [
+            Text('${_getDayString(date)}の学食'),
+            funchDailyMenuList.when(
+              data: (data) {
+                final menuItems =
+                    data[DateTimeUtility.dateKey(date)]?.menuItems;
+                if (menuItems == null) {
+                  return _buildEmptyCard(context, date);
+                }
+                if (menuItems.isEmpty) {
+                  return _buildEmptyCard(context, date);
+                }
+                return _buildCarousel(context, ref, menuItems);
+              },
+              error: (error, stackTrace) => _buildEmptyCard(context, date),
+              loading: () => Shimmer(child: Container(color: Colors.grey)),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return InkWell(
+      onTap: () {
+        Navigator.of(context).push(
+          MaterialPageRoute<void>(builder: (context) => const FunchScreen()),
+        );
+      },
+      child: _buildMenuCard(context, ref),
     );
   }
 }

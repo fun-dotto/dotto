@@ -62,12 +62,12 @@ final class SettingsRepository {
 
   Future<void> onLogin(
     BuildContext context,
-    void Function(User?) login,
     WidgetRef ref,
+    void Function(User?) callback,
   ) async {
     final user = await FirebaseAuthRepository().signIn();
     if (user != null) {
-      login(user);
+      callback(user);
       await saveFCMToken(user);
       if (context.mounted) {
         await TimetableRepository().loadPersonalTimetableListOnLogin(

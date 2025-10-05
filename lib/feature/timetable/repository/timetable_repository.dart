@@ -293,7 +293,7 @@ final class TimetableRepository {
     List<int> personalTimetableList,
     WidgetRef ref,
   ) async {
-    ref
+    await ref
         .read(personalLessonIdListNotifierProvider.notifier)
         .set(personalTimetableList);
   }

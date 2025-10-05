@@ -19,4 +19,8 @@ enum DayOfWeek {
     DayOfWeek.thursday,
     DayOfWeek.friday,
   ];
+
+  static DayOfWeek fromNumber(int number) {
+    return DayOfWeek.values[number - 1];
+  }
 }
