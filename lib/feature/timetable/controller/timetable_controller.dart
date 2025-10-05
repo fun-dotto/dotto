@@ -3,10 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sqflite/sqflite.dart';
 
-final StateProvider<DateTime> focusTimetableDayProvider = StateProvider((ref) {
-  final now = DateTime.now();
-  return DateTime(now.year, now.month, now.day);
-});
 final FutureProvider<List<Map<String, dynamic>>> weekPeriodAllRecordsProvider =
     FutureProvider((ref) async {
       final dbPath = await SyllabusDatabaseConfig().getDBPath();

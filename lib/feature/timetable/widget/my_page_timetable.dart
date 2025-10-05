@@ -1,6 +1,6 @@
 import 'package:dotto/controller/user_controller.dart';
 import 'package:dotto/feature/kamoku_detail/kamoku_detail_screen.dart';
-import 'package:dotto/feature/timetable/controller/timetable_controller.dart';
+import 'package:dotto/feature/timetable/controller/focused_timetable_date_controller.dart';
 import 'package:dotto/feature/timetable/controller/two_week_timetable_controller.dart';
 import 'package:dotto/feature/timetable/domain/timetable_course.dart';
 import 'package:dotto/feature/timetable/repository/timetable_repository.dart';
@@ -194,7 +194,7 @@ final class MyPageTimetable extends ConsumerWidget {
   }
 
   void setFocusTimetableDay(DateTime dt, WidgetRef ref) {
-    ref.read(focusTimetableDayProvider.notifier).state = dt;
+    ref.read(focusedTimetableDateNotifierProvider.notifier).value = dt;
   }
 
   @override
@@ -239,7 +239,7 @@ final class MyPageTimetable extends ConsumerWidget {
       initialScrollOffset: initialScrollOffset.toDouble(),
     );
     final twoWeekTimetable = ref.watch(twoWeekTimetableNotifierProvider);
-    final focusTimetableDay = ref.watch(focusTimetableDayProvider);
+    final focusTimetableDay = ref.watch(focusedTimetableDateNotifierProvider);
     return Column(
       spacing: 8,
       children: [
