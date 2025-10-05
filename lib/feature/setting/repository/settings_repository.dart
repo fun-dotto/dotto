@@ -70,7 +70,7 @@ final class SettingsRepository {
       login(user);
       await saveFCMToken(user);
       if (context.mounted) {
-        await TimetableRepository().loadPersonalTimeTableListOnLogin(
+        await TimetableRepository().loadPersonalTimetableListOnLogin(
           context,
           ref,
         );
