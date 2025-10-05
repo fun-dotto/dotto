@@ -22,6 +22,7 @@ final class KamokuDetailScreen extends StatelessWidget {
         appBar: AppBar(
           title: Text(lessonName),
           bottom: const TabBar(
+            dividerColor: Colors.transparent,
             tabs: <Widget>[
               Tab(text: 'シラバス'),
               Tab(text: 'レビュー'),

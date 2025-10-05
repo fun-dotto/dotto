@@ -31,7 +31,6 @@ class _EditTimetableScreenState extends ConsumerState<EditTimetableScreen>
       initialIndex: Semester.values.indexOf(initialSemester),
     );
     _tabController.addListener(_handleTabSelection);
-
   }
 
   void _handleTabSelection() {
@@ -138,17 +137,17 @@ class _EditTimetableScreenState extends ConsumerState<EditTimetableScreen>
                             child: Container(
                               width: double.infinity,
                               decoration: BoxDecoration(
-                                border: Border.all(color: Colors.grey),
+                                border: Border.all(color: Colors.grey.shade400),
                                 color: Colors.grey.shade300,
                                 borderRadius: const BorderRadius.all(
-                                  Radius.circular(5),
+                                  Radius.circular(4),
                                 ),
                               ),
                               padding: const EdgeInsets.all(2),
                               child: Text(
                                 lesson['授業名'] as String,
                                 textAlign: TextAlign.center,
-                                style: const TextStyle(fontSize: 8),
+                                style: const TextStyle(fontSize: 10),
                               ),
                             ),
                           ),
@@ -158,9 +157,8 @@ class _EditTimetableScreenState extends ConsumerState<EditTimetableScreen>
                 : Container(
                     decoration: BoxDecoration(
                       color: Colors.grey.shade200,
-                      borderRadius: const BorderRadius.all(Radius.circular(5)),
+                      borderRadius: const BorderRadius.all(Radius.circular(4)),
                     ),
-                    padding: const EdgeInsets.all(2),
                     child: Center(
                       child: Icon(Icons.add, color: Colors.grey.shade400),
                     ),
@@ -182,16 +180,13 @@ class _EditTimetableScreenState extends ConsumerState<EditTimetableScreen>
     );
   }
 
-  Widget seasonTimetableList(
-    BuildContext context,
-    Semester semester,
-  ) {
+  Widget seasonTimetableList(BuildContext context, Semester semester) {
     final weekPeriodAllRecords = ref.watch(
       weekPeriodAllRecordsNotifierProvider,
     );
     return SingleChildScrollView(
       child: Padding(
-        padding: const EdgeInsets.all(10),
+        padding: const EdgeInsets.all(8),
         child: weekPeriodAllRecords.when(
           data: (data) => Table(
             columnWidths: const <int, TableColumnWidth>{
@@ -262,12 +257,10 @@ class _EditTimetableScreenState extends ConsumerState<EditTimetableScreen>
       appBar: AppBar(
         title: const Text('時間割'),
         actions: [
-          IconButton(
-            onPressed: seasonTimetable,
-            icon: const Icon(Icons.list),
-          ),
+          IconButton(onPressed: seasonTimetable, icon: const Icon(Icons.list)),
         ],
         bottom: TabBar(
+          dividerColor: Colors.transparent,
           controller: _tabController,
           tabs: Semester.values.map((e) => Tab(text: e.label)).toList(),
         ),
