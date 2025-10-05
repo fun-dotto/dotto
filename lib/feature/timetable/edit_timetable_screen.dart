@@ -5,7 +5,6 @@ import 'package:dotto/feature/timetable/controller/personal_lesson_id_list_contr
 import 'package:dotto/feature/timetable/controller/week_period_all_records_controller.dart';
 import 'package:dotto/feature/timetable/select_course_screen.dart';
 import 'package:dotto/theme/v1/animation.dart';
-import 'package:dotto/widget/loading_circular.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -45,15 +44,13 @@ final class EditTimetableScreen extends ConsumerWidget {
                         },
                       );
                     },
-                    error: (error, stackTrace) {
-                      return const Center(child: Text('データを取得できませんでした'));
-                    },
-                    loading: () {
-                      return const Center(child: LoadingCircular());
-                    },
+                    error: (error, stackTrace) =>
+                        const Center(child: Text('データの取得に失敗しました')),
+                    loading: () =>
+                        const Center(child: CircularProgressIndicator()),
                   );
                 },
-                error: (_, _) => const SizedBox.shrink(),
+                error: (error, stackTrace) => const SizedBox.shrink(),
                 loading: () => const SizedBox.shrink(),
               ),
             ),
@@ -134,7 +131,7 @@ final class EditTimetableScreen extends ConsumerWidget {
           },
         );
       },
-      error: (_, _) => const SizedBox.shrink(),
+      error: (error, stackTrace) => const SizedBox.shrink(),
       loading: () => const SizedBox.shrink(),
     );
   }
@@ -194,8 +191,8 @@ final class EditTimetableScreen extends ConsumerWidget {
             ],
           ),
           error: (error, stackTrace) =>
-              const Center(child: Text('データを取得できませんでした。')),
-          loading: () => const Center(child: LoadingCircular()),
+              const Center(child: Text('データの取得に失敗しました')),
+          loading: () => const Center(child: CircularProgressIndicator()),
         ),
       ),
     );

@@ -7,7 +7,6 @@ import 'package:dotto/feature/assignment/domain/kadai.dart';
 import 'package:dotto/feature/assignment/hidden_assignment_list_screen.dart';
 import 'package:dotto/feature/assignment/setup_hope_continuity_screen.dart';
 import 'package:dotto/feature/setting/controller/settings_controller.dart';
-import 'package:dotto/widget/loading_circular.dart';
 import 'package:dotto_design_system/component/button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -635,12 +634,12 @@ final class _AssignmentListScreenState
           onPanDown: (_) => Slidable.of(context)?.close(),
           child: assignments.when(
             data: (data) => _buildList(data, assignmentState),
-            error: (_, _) => SetupHopeContinuityScreen(
+            error: (error, stackTrace) => SetupHopeContinuityScreen(
               onUserKeySaved: () async {
                 await ref.read(assignmentsNotifierProvider.notifier).refresh();
               },
             ),
-            loading: () => const Center(child: LoadingCircular()),
+            loading: () => const Center(child: CircularProgressIndicator()),
           ),
         ),
       ),

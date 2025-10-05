@@ -315,7 +315,7 @@ final class MyPageTimetable extends ConsumerWidget {
                         : [],
                   );
                 },
-                error: (_, _) => const SizedBox.shrink(),
+                error: (error, stackTrace) => const SizedBox.shrink(),
                 loading: () => const SizedBox.shrink(),
               );
             }),

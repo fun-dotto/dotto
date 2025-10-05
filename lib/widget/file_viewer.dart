@@ -5,7 +5,6 @@ import 'dart:typed_data';
 import 'package:dotto/repository/firebase_storage_repository.dart';
 import 'package:dotto/repository/local_repository.dart';
 import 'package:dotto/repository/s3_repository.dart';
-import 'package:dotto/widget/loading_circular.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:path_provider/path_provider.dart';
@@ -85,7 +84,7 @@ final class _FileViewerScreenState extends State<FileViewerScreen> {
                         data: snapshot.data,
                       );
                     } else {
-                      return const Center(child: LoadingCircular());
+                      return const Center(child: CircularProgressIndicator());
                     }
                   },
             )
@@ -99,10 +98,10 @@ final class _FileViewerScreenState extends State<FileViewerScreen> {
                       filepath: snapshot.data,
                     );
                   } else {
-                    return const Center(child: Text('エラー'));
+                    return const Center(child: Text('エラーが発生しました'));
                   }
                 } else {
-                  return const Center(child: LoadingCircular());
+                  return const Center(child: CircularProgressIndicator());
                 }
               },
             ),

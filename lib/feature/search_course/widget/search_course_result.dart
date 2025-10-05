@@ -1,6 +1,5 @@
 import 'package:dotto/feature/search_course/repository/search_course_repository.dart';
 import 'package:dotto/feature/search_course/widget/search_course_result_item.dart';
-import 'package:dotto/widget/loading_circular.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -64,12 +63,7 @@ final class SearchCourseResult extends ConsumerWidget {
             },
           );
         } else {
-          return const Center(
-            child: Padding(
-              padding: EdgeInsets.all(16),
-              child: LoadingCircular(),
-            ),
-          );
+          return const Center(child: CircularProgressIndicator());
         }
       },
     );

@@ -2,7 +2,6 @@ import 'package:dotto/domain/user_preference_keys.dart';
 import 'package:dotto/feature/bus/controller/bus_stops_controller.dart';
 import 'package:dotto/feature/bus/controller/my_bus_stop_controller.dart';
 import 'package:dotto/repository/user_preference_repository.dart';
-import 'package:dotto/widget/loading_circular.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -41,8 +40,8 @@ final class BusStopSelectScreen extends ConsumerWidget {
                 .toList(),
           );
         },
-        error: (_, _) => const SizedBox.shrink(),
-        loading: () => const LoadingCircular(),
+        error: (error, stackTrace) => const SizedBox.shrink(),
+        loading: () => const Center(child: CircularProgressIndicator()),
       ),
     );
   }

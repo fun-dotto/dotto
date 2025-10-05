@@ -2,7 +2,6 @@ import 'package:dotto/controller/user_controller.dart';
 import 'package:dotto/feature/timetable/controller/course_cancellation_controller.dart';
 import 'package:dotto/feature/timetable/controller/is_filtered_only_taking_course_cancellation_controller.dart';
 import 'package:dotto/feature/timetable/domain/course_cancellation.dart';
-import 'package:dotto/widget/loading_circular.dart';
 import 'package:dotto_design_system/component/button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -76,8 +75,9 @@ final class CourseCancellationScreen extends ConsumerWidget {
       ),
       body: courseCancellations.when(
         data: createListView,
-        error: (_, _) => const Center(child: Text('データの取得に失敗しました。')),
-        loading: () => const Center(child: LoadingCircular()),
+        error: (error, stackTrace) =>
+            const Center(child: Text('データの取得に失敗しました。')),
+        loading: () => const Center(child: CircularProgressIndicator()),
       ),
     );
   }

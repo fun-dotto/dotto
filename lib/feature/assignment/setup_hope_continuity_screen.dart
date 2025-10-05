@@ -65,8 +65,8 @@ class SetupHopeContinuityScreen extends ConsumerWidget {
             ),
           ],
         ),
-        loading: () => const CircularProgressIndicator(),
-        error: (e, _) => Text('Error: $e'),
+        error: (error, stackTrace) => const Center(child: Text('エラーが発生しました')),
+        loading: () => const Center(child: CircularProgressIndicator()),
       ),
     );
   }
