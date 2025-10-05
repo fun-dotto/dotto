@@ -1,8 +1,9 @@
-import 'package:dotto/feature/kamoku_detail/kamoku_detail_page_view.dart';
+import 'package:dotto/feature/kamoku_detail/kamoku_detail_screen.dart';
 import 'package:dotto/feature/search_course/controller/kamoku_search_controller.dart';
 import 'package:dotto/feature/search_course/widget/add_course_button.dart';
-import 'package:dotto/importer.dart';
 import 'package:dotto/theme/v1/animation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final class SearchCourseResultItem extends ConsumerWidget {
   const SearchCourseResultItem({
@@ -26,7 +27,7 @@ final class SearchCourseResultItem extends ConsumerWidget {
         await Navigator.of(context).push(
           PageRouteBuilder<void>(
             pageBuilder: (context, animation, secondaryAnimation) {
-              return KamokuDetailPageScreen(
+              return KamokuDetailScreen(
                 lessonId: lessonId,
                 lessonName: record['授業名'] as String,
                 kakomonLessonId: record['過去問'] as int?,

@@ -1,59 +1,67 @@
-import 'package:dotto/feature/map/controller/map_view_transformation_controller.dart';
-import 'package:dotto/feature/map/widget/map_bottom_info.dart';
+import 'package:dotto/feature/map/widget/map.dart';
+import 'package:dotto/feature/map/widget/map_date_picker.dart';
 import 'package:dotto/feature/map/widget/map_floor_button.dart';
-import 'package:dotto/feature/map/widget/map_grid.dart';
-import 'package:dotto/feature/map/widget/map_search.dart';
-import 'package:dotto/importer.dart';
+import 'package:dotto/feature/map/widget/map_legend.dart';
+import 'package:dotto/feature/map/widget/map_search_bar.dart';
+import 'package:dotto/feature/map/widget/map_search_result_list.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final class MapScreen extends StatelessWidget {
+final class MapScreen extends ConsumerWidget {
   const MapScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: const PreferredSize(
-        preferredSize: Size.fromHeight(kToolbarHeight),
-        child: MapSearchBar(),
-      ),
-      body: GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: () => FocusScope.of(context).unfocus(),
-        child: Stack(
-          children: [
-            SizedBox(
-              width: double.infinity,
-              height: MediaQuery.of(context).size.height,
-              child: _mapView(),
-            ),
-            // 階選択ボタン
-            const MapFloorButton(),
-            const MapBottomInfo(),
-            const MapBarrierOnSearch(),
-            const MapSearchListView(),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _mapView() {
-    return Consumer(
-      builder: (context, ref, child) {
-        final mapViewTransformationController = ref.watch(
-          mapViewTransformationNotifierProvider,
-        );
-        return InteractiveViewer(
-          maxScale: 10,
-          // 倍率行列Matrix4
-          transformationController: mapViewTransformationController,
-          child: const Padding(
-            padding: EdgeInsets.only(top: 80, right: 20, left: 20),
-            // マップ表示
-            child: MapGridScreen(),
+      appBar: AppBar(title: const Text('マップ'), centerTitle: false),
+      body: Column(
+        spacing: 8,
+        children: [
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16),
+            child: MapSearchBar(),
           ),
-        );
-      },
+          Expanded(
+            child: Stack(
+              children: [
+                Column(
+                  spacing: 8,
+                  children: [
+                    ConstrainedBox(
+                      constraints: const BoxConstraints(maxWidth: 480),
+                      child: const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 16),
+                        child: MapFloorButton(),
+                      ),
+                    ),
+                    const Expanded(
+                      child: Stack(
+                        alignment: Alignment.bottomLeft,
+                        children: [
+                          Column(children: [Map(), Spacer()]),
+                          Padding(
+                            padding: EdgeInsets.only(left: 16),
+                            child: MapLegend(),
+                          ),
+                        ],
+                      ),
+                    ),
+                    ConstrainedBox(
+                      constraints: const BoxConstraints(maxWidth: 480),
+                      child: const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 16),
+                        child: MapDatePicker(),
+                      ),
+                    ),
+                  ],
+                ),
+                const MapSearchResultList(),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

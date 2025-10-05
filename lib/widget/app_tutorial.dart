@@ -6,39 +6,42 @@ import 'package:flutter_overboard/flutter_overboard.dart';
 final class AppTutorial extends StatelessWidget {
   const AppTutorial({super.key});
 
-  Widget _withImage(double topMargin, String imagePath, String title,
-      String body, Color backgroundColor) {
+  Widget _withImage(
+    double topMargin,
+    String imagePath,
+    String title,
+    String body,
+    Color backgroundColor,
+  ) {
     return Padding(
       padding: const EdgeInsets.all(25),
-      child: Stack(children: [
-        Container(
-          width: double.infinity,
-          decoration: BoxDecoration(
-            borderRadius: const BorderRadius.all(Radius.circular(10)),
-            color: backgroundColor,
-            image: DecorationImage(
-              image: AssetImage(imagePath),
-              alignment: Alignment.topCenter,
-              fit: BoxFit.fitWidth,
-            ),
-          ),
-          // ②Containerを重ねる
-          child: Container(
+      child: Stack(
+        children: [
+          Container(
+            width: double.infinity,
             decoration: BoxDecoration(
-              // ③グラデーション
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: const Alignment(0, 0.4),
-                // ④透明→白
-                colors: [
-                  Colors.transparent,
-                  backgroundColor,
-                ],
+              borderRadius: const BorderRadius.all(Radius.circular(10)),
+              color: backgroundColor,
+              image: DecorationImage(
+                image: AssetImage(imagePath),
+                alignment: Alignment.topCenter,
+                fit: BoxFit.fitWidth,
+              ),
+            ),
+            // ②Containerを重ねる
+            child: Container(
+              decoration: BoxDecoration(
+                // ③グラデーション
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: const Alignment(0, 0.4),
+                  // ④透明→白
+                  colors: [Colors.transparent, backgroundColor],
+                ),
               ),
             ),
           ),
-        ),
-        Container(
+          Container(
             alignment: Alignment.topCenter,
             padding: EdgeInsets.only(top: topMargin),
             child: Column(
@@ -46,16 +49,17 @@ final class AppTutorial extends StatelessWidget {
                 Text(
                   title,
                   style: const TextStyle(
-                      fontSize: 28, fontWeight: FontWeight.bold),
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 const SizedBox(height: 20),
-                Text(
-                  body,
-                  style: const TextStyle(fontSize: 20),
-                ),
+                Text(body, style: const TextStyle(fontSize: 20)),
               ],
-            )),
-      ]),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -106,39 +110,40 @@ final class AppTutorial extends StatelessWidget {
       ),
       PageModel.withChild(
         child: const Padding(
-            padding: EdgeInsets.only(bottom: 25),
-            child: Text(
-              'さあ、始めましょう！',
-              style: TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
-                fontSize: 32,
-              ),
-            )),
+          padding: EdgeInsets.only(bottom: 25),
+          child: Text(
+            'さあ、始めましょう！',
+            style: TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+              fontSize: 32,
+            ),
+          ),
+        ),
         color: const Color(0xFFE0B3B3),
         doAnimateChild: true,
       ),
     ];
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Dottoの使い方'),
-      ),
-      body: OverBoard(
-        buttonColor: Colors.black,
-        activeBulletColor: Colors.black,
-        inactiveBulletColor: Colors.black38,
-        nextText: 'つぎへ',
-        finishText: '閉じる',
-        skipText: '閉じる',
-        pages: pages,
-        skipCallback: () {
-          // when user select SKIP
-          Navigator.pop(context);
-        },
-        finishCallback: () {
-          // when user select NEXT
-          Navigator.pop(context);
-        },
+      appBar: AppBar(title: const Text('Dottoの使い方')),
+      body: SafeArea(
+        child: OverBoard(
+          buttonColor: Colors.black,
+          activeBulletColor: Colors.black,
+          inactiveBulletColor: Colors.black38,
+          nextText: 'つぎへ',
+          finishText: '閉じる',
+          skipText: '閉じる',
+          pages: pages,
+          skipCallback: () {
+            // when user select SKIP
+            Navigator.pop(context);
+          },
+          finishCallback: () {
+            // when user select NEXT
+            Navigator.pop(context);
+          },
+        ),
       ),
     );
   }

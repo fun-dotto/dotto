@@ -1,6 +1,7 @@
 import 'package:dotto/feature/search_course/domain/search_course_filter_options.dart';
 import 'package:dotto/feature/search_course/widget/search_course_checkbox_item.dart';
-import 'package:dotto/importer.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final class SearchCourseFilterSectionLargeCategory extends ConsumerWidget {
   const SearchCourseFilterSectionLargeCategory({super.key});
@@ -15,10 +16,12 @@ final class SearchCourseFilterSectionLargeCategory extends ConsumerWidget {
           children: SearchCourseFilterOptions.largeCategory.labels
               .asMap()
               .entries
-              .map((entry) => SearchCourseCheckboxItem(
-                    filterOption: SearchCourseFilterOptions.largeCategory,
-                    index: entry.key,
-                  ))
+              .map(
+                (entry) => SearchCourseCheckboxItem(
+                  filterOption: SearchCourseFilterOptions.largeCategory,
+                  index: entry.key,
+                ),
+              )
               .toList(),
         ),
       ),

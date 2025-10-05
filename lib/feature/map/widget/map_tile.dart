@@ -4,7 +4,8 @@ import 'package:dotto/feature/map/controller/map_search_bar_focus_controller.dar
 import 'package:dotto/feature/map/controller/using_map_controller.dart';
 import 'package:dotto/feature/map/domain/map_tile_type.dart';
 import 'package:dotto/feature/map/widget/map_detail_bottom_sheet.dart';
-import 'package:dotto/importer.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 abstract final class MapColors {
   static Color get using => Colors.orange.shade300;

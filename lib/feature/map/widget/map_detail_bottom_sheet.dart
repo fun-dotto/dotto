@@ -7,8 +7,9 @@ import 'package:dotto/feature/map/domain/map_detail.dart';
 import 'package:dotto/feature/map/domain/map_room_available_type.dart';
 import 'package:dotto/feature/map/widget/fun_grid_map.dart';
 import 'package:dotto/feature/map/widget/map_tile.dart';
-import 'package:dotto/importer.dart';
 import 'package:dotto/widget/loading_circular.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
 final class MapDetailBottomSheet extends ConsumerWidget {

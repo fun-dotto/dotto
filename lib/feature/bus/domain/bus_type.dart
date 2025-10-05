@@ -1,5 +1,5 @@
-import 'package:dotto/importer.dart';
 import 'package:dotto/theme/v1/app_color.dart';
+import 'package:flutter/material.dart';
 
 enum BusType {
   kameda('亀田支所', Colors.grey),

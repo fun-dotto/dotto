@@ -35,19 +35,15 @@ class SetupHopeContinuityScreen extends ConsumerWidget {
         data: (userKey) => Column(
           spacing: 8,
           children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: DottoButton(
-                onPressed: () {
-                  final formUrl = config.userKeySettingUrl;
-                  final url = Uri.parse(formUrl);
-                  _launchUrlInAppBrowserView(url);
-                },
-                type: DottoButtonType.text,
-                child: const Text('HOPEと連携する'),
-              ),
+            DottoButton(
+              onPressed: () {
+                final formUrl = config.userKeySettingUrl;
+                final url = Uri.parse(formUrl);
+                _launchUrlInAppBrowserView(url);
+              },
+              type: DottoButtonType.text,
+              child: const Text('HOPEと連携する'),
             ),
-            const Divider(),
             TextField(
               controller: textEditingController,
               // 入力数

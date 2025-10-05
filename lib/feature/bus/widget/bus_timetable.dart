@@ -1,6 +1,6 @@
 import 'package:dotto/feature/bus/domain/bus_trip.dart';
 import 'package:dotto/feature/bus/repository/bus_repository.dart';
-import 'package:dotto/importer.dart';
+import 'package:flutter/material.dart';
 
 final class BusTimetableScreen extends StatelessWidget {
   const BusTimetableScreen(this.busTrip, {super.key});
@@ -9,9 +9,7 @@ final class BusTimetableScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('${busTrip.route} 時刻表'),
-      ),
+      appBar: AppBar(title: Text('${busTrip.route} 時刻表')),
       body: ListView(
         children: busTrip.stops.map((busTripStop) {
           final terminal = busTripStop.terminal;

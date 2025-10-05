@@ -1,4 +1,4 @@
-import 'package:dotto/importer.dart';
+import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 
 final class LocationRepository {
@@ -32,8 +32,10 @@ final class LocationRepository {
     }
     // 永久に拒否されている場合のエラーを返す
     if (permission == LocationPermission.deniedForever) {
-      debugPrint('Location permissions are permanently denied, '
-          'we cannot request permissions.');
+      debugPrint(
+        'Location permissions are permanently denied, '
+        'we cannot request permissions.',
+      );
       return false;
     }
     return true;

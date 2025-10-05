@@ -6,8 +6,9 @@ import 'package:dotto/feature/funch/domain/funch_daily_menu.dart';
 import 'package:dotto/feature/funch/domain/funch_menu_category.dart';
 import 'package:dotto/feature/funch/utility/datetime.dart';
 import 'package:dotto/feature/funch/widget/funch_menu_card.dart';
-import 'package:dotto/importer.dart';
 import 'package:dotto/theme/v1/color_fun.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
 final class FunchScreen extends ConsumerWidget {
@@ -51,10 +52,7 @@ final class FunchScreen extends ConsumerWidget {
               const SizedBox(width: 8),
               Text(
                 getDateString(date),
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 20,
-                ),
+                style: const TextStyle(color: Colors.white, fontSize: 20),
               ),
             ],
           ),
@@ -75,11 +73,7 @@ final class FunchScreen extends ConsumerWidget {
               children: menuTypeButton(ref),
             ),
           ),
-          Expanded(
-            child: SingleChildScrollView(
-              child: content,
-            ),
-          ),
+          Expanded(child: SingleChildScrollView(child: content)),
         ],
       ),
     );
@@ -124,13 +118,10 @@ final class FunchScreen extends ConsumerWidget {
                 menuType;
           },
           style: ElevatedButton.styleFrom(
-            backgroundColor:
-                funchMenuType == menuType ? customFunColor : Colors.white,
-            shape: const CircleBorder(
-              side: BorderSide(
-                
-              ),
-            ),
+            backgroundColor: funchMenuType == menuType
+                ? customFunColor
+                : Colors.white,
+            shape: const CircleBorder(side: BorderSide()),
             minimumSize: const Size(buttonSize, buttonSize),
             fixedSize: const Size(buttonSize, buttonSize),
             padding: EdgeInsets.zero,
@@ -150,10 +141,7 @@ final class FunchScreen extends ConsumerWidget {
         ),
         Text(
           menuType.title,
-          style: const TextStyle(
-            fontSize: 10,
-            color: Colors.black,
-          ),
+          style: const TextStyle(fontSize: 10, color: Colors.black),
         ),
       ],
     );
@@ -196,19 +184,14 @@ final class FunchScreen extends ConsumerWidget {
             child: Container(
               padding: const EdgeInsets.symmetric(vertical: 10),
               decoration: const BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(color: Colors.grey),
-                ),
+                border: Border(bottom: BorderSide(color: Colors.grey)),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
                     getDateString(DateTimeUtility.parseDateKey(e)),
-                    style: const TextStyle(
-                      fontSize: 15,
-                      color: Colors.black,
-                    ),
+                    style: const TextStyle(fontSize: 15, color: Colors.black),
                   ),
                 ],
               ),

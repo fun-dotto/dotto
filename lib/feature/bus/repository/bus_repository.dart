@@ -1,9 +1,9 @@
-import 'package:dotto/feature/bus/controller/bus_controller.dart';
+import 'package:dotto/feature/bus/controller/bus_is_to_controller.dart';
 import 'package:dotto/feature/bus/domain/bus_stop.dart';
 import 'package:dotto/feature/bus/domain/bus_trip.dart';
-import 'package:dotto/importer.dart';
 import 'package:dotto/repository/firebase_realtime_database_repository.dart';
 import 'package:dotto/repository/location_repository.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final class BusRepository {
   factory BusRepository() {
@@ -34,8 +34,9 @@ final class BusRepository {
   }
 
   Future<List<BusStop>> getAllBusStopsFromFirebase() async {
-    final snapshot = await FirebaseRealtimeDatabaseRepository()
-        .getData('bus/stops'); //firebaseから情報取得
+    final snapshot = await FirebaseRealtimeDatabaseRepository().getData(
+      'bus/stops',
+    ); //firebaseから情報取得
     if (snapshot.exists) {
       final busDataStops = snapshot.value! as List;
       return busDataStops
@@ -47,29 +48,31 @@ final class BusRepository {
   }
 
   Future<Map<String, Map<String, List<BusTrip>>>> getBusDataFromFirebase(
-      List<BusStop> allBusStops) async {
-    final snapshot = await FirebaseRealtimeDatabaseRepository()
-        .getData('bus/trips'); //firebaseから情報取得
+    List<BusStop> allBusStops,
+  ) async {
+    final snapshot = await FirebaseRealtimeDatabaseRepository().getData(
+      'bus/trips',
+    ); //firebaseから情報取得
     if (snapshot.exists) {
       final busTripsData = snapshot.value! as Map;
       final allBusTrips = <String, Map<String, List<BusTrip>>>{
         'from_fun': {'holiday': [], 'weekday': []},
-        'to_fun': {'holiday': [], 'weekday': []}
+        'to_fun': {'holiday': [], 'weekday': []},
       };
-      busTripsData.forEach(
-        (key, value) {
-          final fromTo = key as String;
-          (value as Map).forEach((key2, value2) {
-            final week = key2 as String;
-            allBusTrips[fromTo]![week] = (value2 as List)
-                .map((e) => BusTrip.fromFirebase(
-                      Map<String, dynamic>.from(e as Map),
-                      allBusStops,
-                    ))
-                .toList();
-          });
-        },
-      );
+      busTripsData.forEach((key, value) {
+        final fromTo = key as String;
+        (value as Map).forEach((key2, value2) {
+          final week = key2 as String;
+          allBusTrips[fromTo]![week] = (value2 as List)
+              .map(
+                (e) => BusTrip.fromFirebase(
+                  Map<String, dynamic>.from(e as Map),
+                  allBusStops,
+                ),
+              )
+              .toList();
+        });
+      });
       return allBusTrips;
     } else {
       throw Exception();
@@ -83,7 +86,7 @@ final class BusRepository {
       if (latitude > 41.838770 && latitude < 41.845295) {
         final longitude = position.longitude;
         if (longitude > 140.765061 && longitude < 140.770368) {
-          ref.read(busIsToProvider.notifier).change();
+          ref.read(busIsToNotifierProvider.notifier).toggle();
         }
       }
     }

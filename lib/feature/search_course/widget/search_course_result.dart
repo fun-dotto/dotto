@@ -1,15 +1,17 @@
 import 'package:dotto/feature/search_course/repository/search_course_repository.dart';
 import 'package:dotto/feature/search_course/widget/search_course_result_item.dart';
-import 'package:dotto/importer.dart';
 import 'package:dotto/widget/loading_circular.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final class SearchCourseResult extends ConsumerWidget {
   const SearchCourseResult({required this.records, super.key});
   final List<Map<String, dynamic>> records;
 
   Future<Map<int, String>> getWeekPeriod(List<int> lessonIdList) async {
-    final records =
-        await SearchCourseRepository().fetchWeekPeriodDB(lessonIdList);
+    final records = await SearchCourseRepository().fetchWeekPeriodDB(
+      lessonIdList,
+    );
     final weekPeriodMap = <int, Map<int, List<int>>>{};
     for (final record in records) {
       final lessonId = record['lessonId'] as int;
@@ -23,20 +25,18 @@ final class SearchCourseResult extends ConsumerWidget {
         }
       } else {
         weekPeriodMap[lessonId] = {
-          week: [period]
+          week: [period],
         };
       }
     }
     final weekPeriodStringMap = weekPeriodMap.map((lessonId, value) {
       final weekString = <String>['', '月', '火', '水', '木', '金', '土', '日'];
       final s = <String>[];
-      value.forEach(
-        (week, periodList) {
-          if (week != 0) {
-            s.add('${weekString[week]}${periodList.join()}');
-          }
-        },
-      );
+      value.forEach((week, periodList) {
+        if (week != 0) {
+          s.add('${weekString[week]}${periodList.join()}');
+        }
+      });
       return MapEntry(lessonId, s.join(','));
     });
     return weekPeriodStringMap;
@@ -61,9 +61,7 @@ final class SearchCourseResult extends ConsumerWidget {
                 weekPeriodString: weekPeriodStringMap[lessonId] ?? '',
               );
             },
-            separatorBuilder: (context, index) => const Divider(
-              height: 0,
-            ),
+            separatorBuilder: (context, index) => const Divider(height: 0),
           );
         } else {
           return const Center(

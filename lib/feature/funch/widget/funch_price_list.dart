@@ -1,20 +1,16 @@
 import 'package:dotto/feature/funch/domain/funch_menu.dart';
 import 'package:dotto/feature/funch/domain/funch_menu_category.dart';
-import 'package:dotto/importer.dart';
 import 'package:dotto/theme/v1/color_fun.dart';
+import 'package:flutter/material.dart';
 
 final class FunchPriceList extends StatelessWidget {
-
   const FunchPriceList(this.menu, {super.key, this.isHome = false});
   final FunchMenu menu;
   final bool isHome;
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: priceText(),
-    );
+    return Row(mainAxisAlignment: MainAxisAlignment.end, children: priceText());
   }
 
   List<Widget> priceText() {
@@ -22,13 +18,9 @@ final class FunchPriceList extends StatelessWidget {
     if (![
       ...FunchMenuCategory.donCurry.categoryIds,
       ...FunchMenuCategory.noodle.categoryIds,
-    ]
-        .contains(menu.categoryId)) {
+    ].contains(menu.categoryId)) {
       return [
-        Text(
-          '¥${menu.prices.medium}',
-          style: const TextStyle(fontSize: 20),
-        )
+        Text('¥${menu.prices.medium}', style: const TextStyle(fontSize: 20)),
       ];
     }
     final sizeStr = ['大', '中', '小'];
@@ -64,10 +56,7 @@ final class FunchPriceList extends StatelessWidget {
                 ),
               ),
             ),
-            Text(
-              '¥$p',
-              style: TextStyle(fontSize: isHome ? 16 : 20),
-            ),
+            Text('¥$p', style: TextStyle(fontSize: isHome ? 16 : 20)),
           ],
         ),
       );

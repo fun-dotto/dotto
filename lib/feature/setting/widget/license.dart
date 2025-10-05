@@ -1,5 +1,5 @@
 import 'package:dotto/asset.dart';
-import 'package:dotto/importer.dart';
+import 'package:flutter/material.dart';
 
 final class SettingsLicenseScreen extends StatelessWidget {
   const SettingsLicenseScreen({super.key});
@@ -7,10 +7,7 @@ final class SettingsLicenseScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return LicensePage(
       applicationName: 'Dotto',
-      applicationIcon: Image.asset(
-        Asset.icon768,
-        width: 150,
-      ),
+      applicationIcon: Image.asset(Asset.icon768, width: 150),
     );
   }
 }

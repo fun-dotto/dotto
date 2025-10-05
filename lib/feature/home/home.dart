@@ -2,16 +2,16 @@ import 'package:dotto/controller/config_controller.dart';
 import 'package:dotto/feature/announcement/controller/announcement_from_push_notification_controller.dart';
 import 'package:dotto/feature/bus/widget/bus_card_home.dart';
 import 'package:dotto/feature/funch/widget/funch_mypage_card.dart';
-import 'package:dotto/feature/timetable/controller/timetable_controller.dart';
-import 'package:dotto/feature/timetable/course_cancellation.dart';
-import 'package:dotto/feature/timetable/personal_time_table.dart';
-import 'package:dotto/feature/timetable/repository/timetable_repository.dart';
+import 'package:dotto/feature/timetable/controller/two_week_timetable_controller.dart';
+import 'package:dotto/feature/timetable/course_cancellation_screen.dart';
+import 'package:dotto/feature/timetable/edit_timetable_screen.dart';
 import 'package:dotto/feature/timetable/widget/my_page_timetable.dart';
-import 'package:dotto/importer.dart';
 import 'package:dotto/theme/v1/animation.dart';
 import 'package:dotto/theme/v1/color_fun.dart';
 import 'package:dotto/widget/file_viewer.dart';
 import 'package:dotto_design_system/component/button.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 final class HomeScreen extends ConsumerStatefulWidget {
@@ -22,7 +22,7 @@ final class HomeScreen extends ConsumerStatefulWidget {
 }
 
 final class _HomeScreenState extends ConsumerState<HomeScreen> {
-  List<int> personalTimeTableList = [];
+  List<int> personalTimetableList = [];
 
   Future<void> launchUrlInAppBrowserView(Uri url) async {
     if (await canLaunchUrl(url)) {
@@ -33,20 +33,17 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 
   Widget infoTile(List<Widget> children) {
-    final length = children.length;
     return Padding(
-      padding: const EdgeInsets.all(5),
-      child: Column(
-        children: [
-          for (int i = 0; i < length; i += 3) ...{
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                for (int j = i; j < i + 3 && j < length; j++) ...{children[j]},
-              ],
-            ),
-          },
-        ],
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: GridView.count(
+        shrinkWrap: true,
+        crossAxisCount: 3,
+        physics: const NeverScrollableScrollPhysics(),
+        mainAxisSpacing: 8,
+        crossAxisSpacing: 8,
+        children: List.generate(children.length, (index) {
+          return children[index];
+        }),
       ),
     );
   }
@@ -57,38 +54,28 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
     IconData icon,
     String title,
   ) {
-    final width = MediaQuery.sizeOf(context).width * 0.26;
-    const double height = 100;
-    return Container(
-      margin: const EdgeInsets.all(5),
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          foregroundColor: Colors.black,
-          backgroundColor: Colors.white,
-          fixedSize: Size(width, height),
-        ),
-        onPressed: onPressed,
-        child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 10),
-          width: width,
-          height: height,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ClipOval(
-                child: Container(
-                  width: 45,
-                  height: 45,
-                  color: customFunColor,
-                  child: Center(
-                    child: Icon(icon, color: Colors.white, size: 25),
-                  ),
-                ),
+    return InkWell(
+      onTap: onPressed,
+      child: Card(
+        color: Colors.white,
+        shadowColor: Colors.black,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          spacing: 4,
+          children: [
+            ClipOval(
+              child: Container(
+                width: 44,
+                height: 44,
+                color: customFunColor,
+                child: Center(child: Icon(icon, color: Colors.white, size: 24)),
               ),
-              const SizedBox(height: 5),
-              Text(title, style: const TextStyle(fontSize: 11)),
-            ],
-          ),
+            ),
+            Text(
+              title,
+              style: const TextStyle(fontSize: 12, color: Colors.black),
+            ),
+          ],
         ),
       ),
     );
@@ -106,11 +93,7 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
     launchUrlInAppBrowserView(announcementUrlFromPushNotification);
   }
 
-  Widget _setTimeTableButton() {
-    final twoWeekTimeTableDataNotifier = ref.read(
-      twoWeekTimeTableDataProvider.notifier,
-    );
-
+  Widget _setTimetableButton() {
     return Padding(
       padding: const EdgeInsetsGeometry.symmetric(horizontal: 16),
       child: Row(
@@ -127,10 +110,7 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
               );
             },
             type: DottoButtonType.text,
-            child: const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 4),
-              child: Text('休講・補講'),
-            ),
+            child: const Text('休講・補講'),
           ),
           const Spacer(),
           DottoButton(
@@ -139,29 +119,23 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
                   .push(
                     PageRouteBuilder<void>(
                       pageBuilder: (context, animation, secondaryAnimation) {
-                        return const PersonalTimeTableScreen();
+                        return const EditTimetableScreen();
                       },
                       transitionsBuilder: fromRightAnimation,
                     ),
                   )
-                  .then((value) async {
-                    twoWeekTimeTableDataNotifier.state =
-                        await TimetableRepository().get2WeekLessonSchedule(ref);
-                  });
+                  .then(
+                    (value) => ref
+                        .read(twoWeekTimetableNotifierProvider.notifier)
+                        .refresh(),
+                  );
             },
             type: DottoButtonType.text,
-            child: const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 4),
-              child: Text('時間割を編集'),
-            ),
+            child: const Text('時間割を編集'),
           ),
         ],
       ),
     );
-  }
-
-  Widget _timetable() {
-    return Column(children: [const MyPageTimetable(), _setTimeTableButton()]);
   }
 
   @override
@@ -206,15 +180,28 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
     ];
 
     return Scaffold(
+      appBar: AppBar(title: const Text('Dotto'), centerTitle: false),
       body: SingleChildScrollView(
-        child: Column(
-          spacing: 16,
-          children: [
-            _timetable(),
-            const BusCardHome(),
-            if (config.isFunchEnabled) const FunchMyPageCard(),
-            infoTile(infoTiles),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.only(bottom: 16),
+          child: Column(
+            spacing: 16,
+            children: [
+              Column(
+                children: [const MyPageTimetable(), _setTimetableButton()],
+              ),
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16),
+                child: BusCardHome(),
+              ),
+              if (config.isFunchEnabled)
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  child: FunchMyPageCard(),
+                ),
+              infoTile(infoTiles),
+            ],
+          ),
         ),
       ),
     );
