@@ -2,6 +2,7 @@ import 'package:dotto/domain/day_of_week.dart';
 import 'package:dotto/domain/period.dart';
 import 'package:dotto/domain/semester.dart';
 import 'package:dotto/feature/timetable/controller/personal_lesson_id_list_controller.dart';
+import 'package:dotto/feature/timetable/controller/selected_semester_controller.dart';
 import 'package:dotto/feature/timetable/controller/week_period_all_records_controller.dart';
 import 'package:dotto/feature/timetable/select_course_screen.dart';
 import 'package:dotto/theme/v1/animation.dart';
@@ -200,8 +201,9 @@ final class EditTimetableScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final selectedSemester = ref.watch(selectedSemesterNotifierProvider);
     return DefaultTabController(
-      length: 2,
+      length: Semester.values.length,
       child: Scaffold(
         appBar: AppBar(
           title: const Text('時間割'),
@@ -219,6 +221,10 @@ final class EditTimetableScreen extends ConsumerWidget {
           ],
           bottom: TabBar(
             tabs: Semester.values.map((e) => Tab(text: e.label)).toList(),
+            onTap: (index) {
+              ref.read(selectedSemesterNotifierProvider.notifier).value =
+                  Semester.values[index];
+            },
           ),
         ),
         body: TabBarView(
