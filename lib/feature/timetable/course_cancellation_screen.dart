@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:dotto/controller/user_controller.dart';
-import 'package:dotto/feature/timetable/controller/timetable_controller.dart';
+import 'package:dotto/feature/timetable/controller/is_filtered_only_taking_course_cancellation_controller.dart';
 import 'package:dotto/feature/timetable/repository/timetable_repository.dart';
 import 'package:dotto/repository/read_json_file.dart';
 import 'package:dotto/widget/loading_circular.dart';
@@ -13,17 +13,16 @@ final class CourseCancellationScreen extends ConsumerWidget {
   const CourseCancellationScreen({super.key});
 
   Future<List<dynamic>> loadData(WidgetRef ref) async {
-    final courseCancellationFilterEnabled = ref.watch(
-      courseCancellationFilterEnabledProvider,
+    final isFilteredOnlyTakingCourseCancellation = ref.watch(
+      isFilteredOnlyTakingCourseCancellationNotifierProvider,
     );
     try {
       final jsonData = await readJsonFile('home/cancel_lecture.json');
       final decodedData = jsonDecode(jsonData) as List<dynamic>;
 
-      if (courseCancellationFilterEnabled) {
+      if (isFilteredOnlyTakingCourseCancellation) {
         final personalTimetableMap = await TimetableRepository()
             .loadPersonalTimetableMapString();
-        // デコードされたJSONデータをフィルタリング
         final filteredData = decodedData.where((dynamic item) {
           final itemMap = item as Map<String, dynamic>;
           return personalTimetableMap.keys.contains(
@@ -48,17 +47,8 @@ final class CourseCancellationScreen extends ConsumerWidget {
         body: const Center(child: Text('Googleアカウント(@fun.ac.jp)ログインが必要です。')),
       );
     }
-    final courseCancellationFilterEnabled = ref.watch(
-      courseCancellationFilterEnabledProvider,
-    );
-    final courseCancellationFilterEnabledNotifier = ref.read(
-      courseCancellationFilterEnabledProvider.notifier,
-    );
-    final courseCancellationSelectedType = ref.watch(
-      courseCancellationSelectedTypeProvider,
-    );
-    final courseCancellationSelectedTypeNotifier = ref.read(
-      courseCancellationSelectedTypeProvider.notifier,
+    final isFilteredOnlyTakingCourseCancellation = ref.watch(
+      isFilteredOnlyTakingCourseCancellationNotifierProvider,
     );
     return Scaffold(
       appBar: AppBar(
@@ -66,19 +56,23 @@ final class CourseCancellationScreen extends ConsumerWidget {
         actions: <Widget>[
           DottoButton(
             onPressed: () {
-              courseCancellationFilterEnabledNotifier.state =
-                  !courseCancellationFilterEnabled;
+              ref
+                  .read(
+                    isFilteredOnlyTakingCourseCancellationNotifierProvider
+                        .notifier,
+                  )
+                  .toggle();
             },
             type: DottoButtonType.text,
             child: Row(
               spacing: 4,
               children: [
                 Icon(
-                  courseCancellationFilterEnabled
+                  isFilteredOnlyTakingCourseCancellation
                       ? Icons.filter_alt
                       : Icons.filter_alt_outlined,
                 ),
-                Text(courseCancellationFilterEnabled ? '履修中' : 'すべて'),
+                Text(isFilteredOnlyTakingCourseCancellation ? '履修中' : 'すべて'),
               ],
             ),
           ),
@@ -91,37 +85,7 @@ final class CourseCancellationScreen extends ConsumerWidget {
             if (snapshot.hasError) {
               return Center(child: Text('エラー: ${snapshot.error}'));
             } else if (snapshot.hasData) {
-              final displayData = snapshot.data ?? [];
-
-              // タイプごとにフィルタリング
-              final filteredData = courseCancellationSelectedType == 'すべて'
-                  ? displayData
-                  : displayData.where((dynamic item) {
-                      final itemMap = item as Map<String, dynamic>;
-                      return itemMap['type'] as String ==
-                          courseCancellationSelectedType;
-                    }).toList();
-
-              return Column(
-                children: [
-                  DropdownButton<String>(
-                    value: courseCancellationSelectedType,
-                    onChanged: (String? newValue) {
-                      courseCancellationSelectedTypeNotifier.state =
-                          newValue ?? 'すべて';
-                    },
-                    items: <String>['すべて', '補講あり', '補講なし', '補講未定', 'その他']
-                        .map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        })
-                        .toList(),
-                  ),
-                  createListView(filteredData),
-                ],
-              );
+              return createListView(snapshot.data!);
             }
           }
           return const Center(child: LoadingCircular());
@@ -133,28 +97,26 @@ final class CourseCancellationScreen extends ConsumerWidget {
   Widget createListView(List<dynamic> data) {
     if (data.isNotEmpty) {
       return Expanded(
-        child: ListView.builder(
+        child: ListView.separated(
+          separatorBuilder: (context, index) => const Divider(height: 1),
           itemCount: data.length,
           itemBuilder: (context, index) {
             final item = data[index] as Map<String, dynamic>;
-
-            // 各データをリストタイルで表示
             return ListTile(
-              title: Text('日付: ${item['date']}'),
-              subtitle: Text(
-                '時限: ${item['period']}\n'
-                '授業名: ${item['lessonName']}\n'
-                'キャンパス: ${item['campus']}\n'
-                '担当教員: ${item['staff']}\n'
-                'コメント: ${item['comment']}',
+              title: Text(
+                '${item['date']} ${item['period']}限',
+                style: const TextStyle(fontWeight: FontWeight.w600),
               ),
-              // 他のウィジェットやアクションを追加することも可能
+              subtitle: Text(
+                '${item['lessonName']}\n'
+                '${item['comment']}',
+              ),
             );
           },
         ),
       );
     } else {
-      return const Center(child: Text('休講補講情報はありません。\n右上から表示を切り替えることができます。'));
+      return const Center(child: Text('休講・補講はありません。'));
     }
   }
 }
