@@ -100,7 +100,7 @@ final class _KamokuDetailFeedbackListState
                             Text(
                               averageScore.toStringAsFixed(2),
                               style: const TextStyle(
-                                fontWeight: FontWeight.bold,
+                                fontWeight: FontWeight.w600,
                                 fontSize: 40,
                                 color: Colors.black,
                               ),

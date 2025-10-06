@@ -44,7 +44,7 @@ final class KamokuDetailSyllabusScreen extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
+        Text(title, style: const TextStyle(fontWeight: FontWeight.w600)),
         SelectableText(value),
         const Divider(),
       ],

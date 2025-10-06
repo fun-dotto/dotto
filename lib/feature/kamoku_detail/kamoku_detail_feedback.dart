@@ -87,7 +87,7 @@ final class _KamokuFeedbackScreenState extends State<KamokuFeedbackScreen> {
                               '満足度(必須)',
                               style: TextStyle(
                                 fontSize: dialogWidth * 0.03,
-                                fontWeight: FontWeight.bold,
+                                fontWeight: FontWeight.w600,
                                 color: customFunColor,
                               ),
                             ),
