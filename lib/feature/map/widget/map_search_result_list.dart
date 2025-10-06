@@ -1,24 +1,15 @@
 import 'package:dotto/feature/map/controller/focused_map_detail_controller.dart';
-import 'package:dotto/feature/map/controller/map_page_controller.dart';
 import 'package:dotto/feature/map/controller/map_search_bar_focus_controller.dart';
 import 'package:dotto/feature/map/controller/map_view_transformation_controller.dart';
 import 'package:dotto/feature/map/controller/search_list_controller.dart';
+import 'package:dotto/feature/map/controller/selected_floor_controller.dart';
+import 'package:dotto/feature/map/domain/floor.dart';
 import 'package:dotto/feature/map/widget/map_detail_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final class MapSearchResultList extends ConsumerWidget {
   const MapSearchResultList({super.key});
-
-  static const List<String> floorBarString = [
-    '1',
-    '2',
-    '3',
-    '4',
-    '5',
-    'R6',
-    'R7',
-  ];
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -54,8 +45,8 @@ final class MapSearchResultList extends ConsumerWidget {
                         .setIdentity();
                     ref.read(focusedMapDetailNotifierProvider.notifier).value =
                         item;
-                    ref.read(mapPageNotifierProvider.notifier).value =
-                        floorBarString.indexOf(item.floor);
+                    ref.read(selectedFloorNotifierProvider.notifier).value =
+                        Floor.fromLabel(item.floor);
                     showBottomSheet(
                       context: context,
                       builder: (BuildContext context) {
