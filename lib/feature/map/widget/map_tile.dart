@@ -1,5 +1,5 @@
 import 'package:dotto/feature/map/controller/focused_map_detail_controller.dart';
-import 'package:dotto/feature/map/controller/map_search_bar_focus_controller.dart';
+import 'package:dotto/feature/map/controller/map_search_focus_node_controller.dart';
 import 'package:dotto/feature/map/controller/selected_floor_controller.dart';
 import 'package:dotto/feature/map/controller/using_map_controller.dart';
 import 'package:dotto/feature/map/domain/map_tile_type.dart';
@@ -311,8 +311,8 @@ final class MapTile extends StatelessWidget {
     return Consumer(
       builder: (context, ref, child) {
         final selectedFloor = ref.watch(selectedFloorNotifierProvider);
-        final mapSearchBarFocusNotifier = ref.watch(
-          mapSearchBarFocusNotifierProvider,
+        final mapSearchFocusNode = ref.watch(
+          mapSearchFocusNodeNotifierProvider,
         );
         return GestureDetector(
           onTap: (txt.isNotEmpty && ttype.index <= MapTileType.subroom.index)
@@ -326,7 +326,7 @@ final class MapTile extends StatelessWidget {
                       );
                     },
                   );
-                  mapSearchBarFocusNotifier.unfocus();
+                  mapSearchFocusNode.unfocus();
                 }
               : null,
           child: Stack(

@@ -7,6 +7,7 @@ import 'package:dotto/feature/map/domain/map_detail.dart';
 import 'package:dotto/feature/map/domain/map_room_available_type.dart';
 import 'package:dotto/feature/map/widget/fun_grid_map.dart';
 import 'package:dotto/feature/map/widget/map_tile.dart';
+import 'package:dotto_design_system/component/button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -56,7 +57,7 @@ final class MapDetailBottomSheet extends ConsumerWidget {
                 '${DateFormat('HH:mm').format(begin)} ~ '
                 '${DateFormat('HH:mm').format(end)}',
                 style: const TextStyle(
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.w600,
                   fontSize: 18,
                 ),
               ),
@@ -102,22 +103,16 @@ final class MapDetailBottomSheet extends ConsumerWidget {
     final user = ref.watch(userProvider);
     var roomTitle = roomName;
     MapDetail? mapDetail;
-    var loading = false;
     if (user != null) {
       mapDetailMap.when(
         data: (data) {
-          loading = false;
           mapDetail = data.searchOnce(floor, roomName);
           if (mapDetail != null) {
             roomTitle = mapDetail!.header;
           }
         },
-        loading: () {
-          loading = true;
-        },
-        error: (error, stackTrace) {
-          loading = false;
-        },
+        error: (_, _) {},
+        loading: () {},
       );
     }
     MapTile? gridMap;
@@ -130,135 +125,94 @@ final class MapDetailBottomSheet extends ConsumerWidget {
     }
     return Container(
       height: 250,
-      width: MediaQuery.of(context).size.width,
-      decoration: const BoxDecoration(
-        color: Color(0xFFF2F9FF),
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(20),
-          topRight: Radius.circular(20),
-        ),
-        boxShadow: [
-          BoxShadow(color: Colors.black26, spreadRadius: 2, blurRadius: 8),
-        ],
-      ),
-      padding: const EdgeInsets.symmetric(horizontal: 18),
+      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 10),
-            child: Row(
-              children: [
-                Expanded(
-                  child: SelectableText(
-                    roomTitle,
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
+          Row(
+            children: [
+              Expanded(
+                child: SelectableText(
+                  roomTitle,
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
-                SizedBox(
-                  width: 40,
-                  height: 40,
-                  child: IconButton(
-                    padding: EdgeInsets.zero,
-                    constraints: const BoxConstraints(
-                      minHeight: 40,
-                      minWidth: 40,
-                    ),
-                    onPressed: () => Navigator.of(context).pop(),
-                    icon: const Icon(Icons.close),
-                  ),
-                ),
-              ],
-            ),
+              ),
+              IconButton(
+                onPressed: () => Navigator.of(context).pop(),
+                icon: const Icon(Icons.close),
+              ),
+            ],
           ),
           if (user != null)
-            !loading
-                ? Expanded(
-                    child: SingleChildScrollView(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          if (gridMap != null) ...[
-                            const SizedBox(height: 5),
-                            Wrap(
-                              spacing: 10,
-                              children: [
-                                if (gridMap.food != null &&
-                                    gridMap.drink != null) ...[
-                                  roomAvailable(
-                                    RoomAvailableType.food,
-                                    gridMap.food! ? 2 : 0,
-                                  ),
-                                  roomAvailable(
-                                    RoomAvailableType.drink,
-                                    gridMap.drink! ? 2 : 0,
-                                  ),
-                                ],
-                                if (gridMap.outlet != null)
-                                  roomAvailable(
-                                    RoomAvailableType.outlet,
-                                    gridMap.outlet!,
-                                  ),
-                              ],
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    if (gridMap != null) ...[
+                      Wrap(
+                        spacing: 8,
+                        children: [
+                          if (gridMap.food != null &&
+                              gridMap.drink != null) ...[
+                            roomAvailable(
+                              RoomAvailableType.food,
+                              gridMap.food! ? 2 : 0,
                             ),
-                            const SizedBox(height: 10),
+                            roomAvailable(
+                              RoomAvailableType.drink,
+                              gridMap.drink! ? 2 : 0,
+                            ),
                           ],
-                          if (mapDetail != null)
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                if (mapDetail!.scheduleList != null)
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      ...mapDetail!
-                                          .getScheduleListByDate(searchDatetime)
-                                          .map(
-                                            (e) => scheduleTile(
-                                              context,
-                                              e.begin,
-                                              e.end,
-                                              e.title,
-                                            ),
-                                          ),
-                                    ],
-                                  )
-                                else if (mapDetail!.detail != null)
-                                  SelectableText(mapDetail!.detail!),
-                                if (mapDetail!.mail != null)
-                                  SelectableText(
-                                    '${mapDetail!.mail}@fun.ac.jp',
-                                  ),
-                              ],
+                          if (gridMap.outlet != null)
+                            roomAvailable(
+                              RoomAvailableType.outlet,
+                              gridMap.outlet!,
                             ),
-                          const SizedBox(height: 15),
                         ],
                       ),
+                    ],
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        if (mapDetail?.scheduleList != null)
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: mapDetail!
+                                .getScheduleListByDate(searchDatetime)
+                                .map(
+                                  (e) => scheduleTile(
+                                    context,
+                                    e.begin,
+                                    e.end,
+                                    e.title,
+                                  ),
+                                )
+                                .toList(),
+                          )
+                        else if (mapDetail?.detail != null)
+                          SelectableText(mapDetail!.detail!),
+                        if (mapDetail?.mail != null)
+                          SelectableText('${mapDetail?.mail}@fun.ac.jp'),
+                      ],
                     ),
-                  )
-                : const Center(child: CircularProgressIndicator())
+                  ],
+                ),
+              ),
+            )
           else
             Column(
               children: [
-                const Text('詳細は未来大Googleアカウントでログインすることで表示できます。'),
-                OutlinedButton(
-                  onPressed: () {
-                    ref
-                        .read(tabItemProvider.notifier)
-                        .selected(TabItem.setting);
-                  },
-                  style: OutlinedButton.styleFrom(
-                    foregroundColor: Colors.grey.shade700,
-                    shape: RoundedRectangleBorder(
-                      side: const BorderSide(color: Colors.grey),
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                  ),
-                  child: const Text('設定'),
+                const Text('Googleアカウント (@fun.ac.jp) でログインして詳細を確認'),
+                DottoButton(
+                  onPressed: () => ref
+                      .read(tabItemProvider.notifier)
+                      .selected(TabItem.setting),
+                  type: DottoButtonType.text,
+                  child: const Text('設定に移動する'),
                 ),
               ],
             ),
