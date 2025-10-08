@@ -1,25 +1,23 @@
 enum UserPreferenceKeys {
-  grade(keyName: 'grade', type: String),
-  course(keyName: 'course', type: String),
-  userKey(keyName: 'userKey', type: String),
-  kadaiFinishList(keyName: 'finishListKey', type: String),
-  kadaiAlertList(keyName: 'alertListKey', type: String),
-  kadaiDeleteList(keyName: 'deleteListKey', type: String),
-  personalTimetableListKey(
-    keyName: 'personalTimetableListKey2025',
-    type: String,
-  ),
+  grade(key: 'grade', type: String),
+  course(key: 'course', type: String),
+  userKey(key: 'userKey', type: String),
+  kadaiFinishList(key: 'finishListKey', type: String),
+  kadaiAlertList(key: 'alertListKey', type: String),
+  kadaiDeleteList(key: 'deleteListKey', type: String),
+  personalTimetableListKey(key: 'personalTimetableListKey2025', type: String),
   personalTimetableLastUpdateKey(
-    keyName: 'personalTimetableLastUpdateKey',
+    key: 'personalTimetableLastUpdateKey',
     type: int,
   ),
-  isAppTutorialComplete(keyName: 'isAppTutorialCompleted', type: bool),
-  isKadaiTutorialComplete(keyName: 'isKadaiTutorialCompleted', type: bool),
-  myBusStop(keyName: 'myBusStop', type: int),
-  didSaveFCMToken(keyName: 'didSaveFCMToken', type: bool);
+  isAppTutorialComplete(key: 'isAppTutorialCompleted', type: bool),
+  isKadaiTutorialComplete(key: 'isKadaiTutorialCompleted', type: bool),
+  myBusStop(key: 'myBusStop', type: int),
+  didSaveFCMToken(key: 'didSaveFCMToken', type: bool),
+  timetablePeriodStyle(key: 'timetablePeriodStyle', type: String);
 
-  const UserPreferenceKeys({required this.keyName, required this.type});
+  const UserPreferenceKeys({required this.key, required this.type});
 
-  final String keyName;
+  final String key;
   final Type type;
 }
