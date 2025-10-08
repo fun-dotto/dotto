@@ -1,6 +1,6 @@
 enum TimetablePeriodStyle {
   numberOnly,
-  timeOnly;
+  numberWithTime;
 
   const TimetablePeriodStyle();
 
@@ -8,8 +8,8 @@ enum TimetablePeriodStyle {
     switch (value) {
       case 'numberOnly':
         return TimetablePeriodStyle.numberOnly;
-      case 'timeOnly':
-        return TimetablePeriodStyle.timeOnly;
+      case 'numberWithTime':
+        return TimetablePeriodStyle.numberWithTime;
       default:
         return TimetablePeriodStyle.numberOnly;
     }

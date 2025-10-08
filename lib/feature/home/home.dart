@@ -170,7 +170,10 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Column(children: [const MyPageTimetable(), _timetableButtons()]),
+            Column(
+              spacing: 8,
+              children: [const MyPageTimetable(), _timetableButtons()],
+            ),
             Padding(
               padding: const EdgeInsetsGeometry.all(16),
               child: ConstrainedBox(
