@@ -22,4 +22,16 @@ final class TimetablePeriodStyleNotifier
       style.toString(),
     );
   }
+
+  Future<void> toggle() async {
+    final currentStyle =
+        state.value ??
+        await UserPreferenceRepository.getString(
+          UserPreferenceKeys.timetablePeriodStyle,
+        );
+    final newStyle = currentStyle == TimetablePeriodStyle.numberOnly
+        ? TimetablePeriodStyle.numberWithTime
+        : TimetablePeriodStyle.numberOnly;
+    await setStyle(newStyle);
+  }
 }
