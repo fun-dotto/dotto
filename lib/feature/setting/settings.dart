@@ -6,6 +6,7 @@ import 'package:dotto/domain/user_preference_keys.dart';
 import 'package:dotto/feature/announcement/announcement_screen.dart';
 import 'package:dotto/feature/assignment/setup_hope_continuity_screen.dart';
 import 'package:dotto/feature/setting/controller/settings_controller.dart';
+import 'package:dotto/feature/setting/domain/grade.dart';
 import 'package:dotto/feature/setting/repository/settings_repository.dart';
 import 'package:dotto/feature/setting/widget/license.dart';
 import 'package:dotto/repository/user_preference_repository.dart';
@@ -68,6 +69,61 @@ final class SettingsScreen extends ConsumerWidget {
     );
   }
 
+  Widget gradeDialog(BuildContext context) {
+    return AlertDialog(
+      title: const Text('学年'),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(10)),
+      ),
+      content: SingleChildScrollView(
+        child: SizedBox(
+          width: double.maxFinite,
+          child: Column(
+            children: [
+              const Divider(),
+              ConstrainedBox(
+                constraints: BoxConstraints(
+                  maxHeight: MediaQuery.of(context).size.height * 0.5,
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    ListTile(
+                      title: const Text('なし'),
+                      onTap: () async {
+                        await UserPreferenceRepository.setString(
+                          UserPreferenceKeys.grade,
+                          'なし',
+                        );
+                        if (context.mounted) {
+                          Navigator.of(context).pop();
+                        }
+                      },
+                    ),
+                    ...Grade.values.map((grade) {
+                      return ListTile(
+                        title: Text(grade.label),
+                        onTap: () async {
+                          await UserPreferenceRepository.setString(
+                            UserPreferenceKeys.grade,
+                            grade.name,
+                          );
+                          if (context.mounted) {
+                            Navigator.of(context).pop();
+                          }
+                        },
+                      );
+                    }),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final userNotifier = ref.read(userProvider.notifier);
@@ -116,25 +172,18 @@ final class SettingsScreen extends ConsumerWidget {
               // 学年
               SettingsTile.navigation(
                 onPressed: (_) async {
-                  final returnText = await showDialog<String>(
+                  await showDialog<void>(
                     context: context,
                     builder: (_) {
-                      return listDialog(
-                        context,
-                        '学年',
-                        UserPreferenceKeys.grade,
-                        ['なし', '1年', '2年', '3年', '4年'],
-                      );
+                      return gradeDialog(context);
                     },
                   );
-                  if (returnText != null) {
-                    ref.invalidate(settingsGradeProvider);
-                  }
+                  ref.invalidate(settingsGradeProvider);
                 },
                 leading: const Icon(Icons.school),
                 title: const Text('学年'),
                 value: Text(
-                  ref.watch(settingsGradeProvider).valueOrNull ?? 'なし',
+                  ref.watch(settingsGradeProvider).valueOrNull?.label ?? 'なし',
                 ),
               ),
               // コース
