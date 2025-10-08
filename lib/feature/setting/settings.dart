@@ -84,9 +84,11 @@ final class SettingsScreen extends ConsumerWidget {
               const Divider(),
               ConstrainedBox(
                 constraints: BoxConstraints(
-                  maxHeight: MediaQuery.of(context).size.height * 0.5,
+                  maxHeight: MediaQuery.of(context).size.height * 0.8,
                 ),
                 child: Column(
+                  //child: ListView(
+                  //shrinkWrap: true,
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     ListTile(
@@ -96,8 +98,9 @@ final class SettingsScreen extends ConsumerWidget {
                           UserPreferenceKeys.grade,
                           'なし',
                         );
-                        ref.invalidate(settingsGradeProvider);
-                        ref.invalidate(kamokuSearchControllerProvider);
+                        ref
+                          ..invalidate(settingsGradeProvider)
+                          ..invalidate(kamokuSearchControllerProvider);
                         if (context.mounted) {
                           Navigator.of(context).pop();
                         }
@@ -111,8 +114,9 @@ final class SettingsScreen extends ConsumerWidget {
                             UserPreferenceKeys.grade,
                             grade.label,
                           );
-                          ref.invalidate(settingsGradeProvider);
-                          ref.invalidate(kamokuSearchControllerProvider);
+                          ref
+                            ..invalidate(settingsGradeProvider)
+                            ..invalidate(kamokuSearchControllerProvider);
                           if (context.mounted) {
                             Navigator.of(context).pop();
                           }
