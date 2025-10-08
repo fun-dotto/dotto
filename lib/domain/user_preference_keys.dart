@@ -14,7 +14,7 @@ enum UserPreferenceKeys {
   isKadaiTutorialComplete(key: 'isKadaiTutorialCompleted', type: bool),
   myBusStop(key: 'myBusStop', type: int),
   didSaveFCMToken(key: 'didSaveFCMToken', type: bool),
-  timetablePeriodStyle(key: 'timetablePeriodStyle', type: String);
+  timetablePeriodStyle(key: 'timetablePeriodStyle', type: int);
 
   const UserPreferenceKeys({required this.key, required this.type});
 
