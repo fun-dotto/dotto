@@ -1,8 +1,8 @@
 enum Grade {
-  b1(label: 'B1'),
-  b2(label: 'B2'),
-  b3(label: 'B3'),
-  b4(label: 'B4'),
+  b1(label: '1年'),
+  b2(label: '2年'),
+  b3(label: '3年'),
+  b4(label: '4年'),
   m1(label: 'M1'),
   m2(label: 'M2'),
   d1(label: 'D1'),

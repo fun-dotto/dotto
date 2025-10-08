@@ -5,6 +5,7 @@ import 'package:dotto/controller/user_controller.dart';
 import 'package:dotto/domain/user_preference_keys.dart';
 import 'package:dotto/feature/announcement/announcement_screen.dart';
 import 'package:dotto/feature/assignment/setup_hope_continuity_screen.dart';
+import 'package:dotto/feature/search_course/controller/kamoku_search_controller.dart';
 import 'package:dotto/feature/setting/controller/settings_controller.dart';
 import 'package:dotto/feature/setting/domain/grade.dart';
 import 'package:dotto/feature/setting/repository/settings_repository.dart';
@@ -69,7 +70,7 @@ final class SettingsScreen extends ConsumerWidget {
     );
   }
 
-  Widget gradeDialog(BuildContext context) {
+  Widget gradeDialog(BuildContext context, WidgetRef ref) {
     return AlertDialog(
       title: const Text('学年'),
       shape: const RoundedRectangleBorder(
@@ -95,6 +96,8 @@ final class SettingsScreen extends ConsumerWidget {
                           UserPreferenceKeys.grade,
                           'なし',
                         );
+                        ref.invalidate(settingsGradeProvider);
+                        ref.invalidate(kamokuSearchControllerProvider);
                         if (context.mounted) {
                           Navigator.of(context).pop();
                         }
@@ -106,8 +109,10 @@ final class SettingsScreen extends ConsumerWidget {
                         onTap: () async {
                           await UserPreferenceRepository.setString(
                             UserPreferenceKeys.grade,
-                            grade.name,
+                            grade.label,
                           );
+                          ref.invalidate(settingsGradeProvider);
+                          ref.invalidate(kamokuSearchControllerProvider);
                           if (context.mounted) {
                             Navigator.of(context).pop();
                           }
@@ -174,11 +179,10 @@ final class SettingsScreen extends ConsumerWidget {
                 onPressed: (_) async {
                   await showDialog<void>(
                     context: context,
-                    builder: (_) {
-                      return gradeDialog(context);
+                    builder: (dialogContext) {
+                      return gradeDialog(dialogContext, ref);
                     },
                   );
-                  ref.invalidate(settingsGradeProvider);
                 },
                 leading: const Icon(Icons.school),
                 title: const Text('学年'),
