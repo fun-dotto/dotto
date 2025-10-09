@@ -112,7 +112,7 @@ final class SettingsScreen extends ConsumerWidget {
                         onTap: () async {
                           await UserPreferenceRepository.setString(
                             UserPreferenceKeys.grade,
-                            grade.label,
+                            grade.name,
                           );
                           ref
                             ..invalidate(settingsGradeProvider)

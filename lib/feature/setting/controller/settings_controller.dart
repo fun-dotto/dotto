@@ -4,10 +4,10 @@ import 'package:dotto/repository/user_preference_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 FutureProvider<Grade?> settingsGradeProvider = FutureProvider((ref) async {
-  final savedLabel =
+  final savedName =
       await UserPreferenceRepository.getString(UserPreferenceKeys.grade);
-  if (savedLabel == null || savedLabel == 'なし') return null;
-  return Grade.fromLabel(savedLabel);
+  if (savedName == null || savedName == 'なし') return null;
+  return Grade.values.asNameMap()[savedName];
 });
 FutureProvider<String> settingsCourseProvider = FutureProvider((ref) async {
   return await UserPreferenceRepository.getString(UserPreferenceKeys.course) ??
