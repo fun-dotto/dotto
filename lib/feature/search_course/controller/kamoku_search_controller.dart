@@ -1,6 +1,7 @@
 import 'package:dotto/domain/user_preference_keys.dart';
 import 'package:dotto/feature/search_course/domain/search_course_filter_options.dart';
 import 'package:dotto/feature/search_course/repository/search_course_repository.dart';
+import 'package:dotto/feature/setting/domain/grade.dart';
 import 'package:dotto/repository/user_preference_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -59,11 +60,16 @@ final class KamokuSearchControllerProvider
       UserPreferenceKeys.course,
     );
     final filterSelections = state.filterSelections;
-    if (savedGrade != null) {
-      final index = SearchCourseFilterOptions.grade.labels.indexOf(savedGrade);
-      if (index != -1 &&
-          index < filterSelections[SearchCourseFilterOptions.grade]!.length) {
-        filterSelections[SearchCourseFilterOptions.grade]![index] = true;
+    if (savedGrade != null && savedGrade != 'なし') {
+      final grade = Grade.values.asNameMap()[savedGrade];
+      if (grade != null) {
+        final index = SearchCourseFilterOptions.grade.labels.indexOf(
+          grade.label,
+        );
+        if (index != -1 &&
+            index < filterSelections[SearchCourseFilterOptions.grade]!.length) {
+          filterSelections[SearchCourseFilterOptions.grade]![index] = true;
+        }
       }
     }
     if (savedCourse != null) {
