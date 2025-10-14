@@ -11,26 +11,59 @@ final class TimetablePeriodStyleNotifier
     extends _$TimetablePeriodStyleNotifier {
   @override
   Future<TimetablePeriodStyle> build() async {
-    final styleIndex = await UserPreferenceRepository.getInt(
+    final timetablePeriodStyleKey = await UserPreferenceRepository.getString(
       UserPreferenceKeys.timetablePeriodStyle,
     );
-    final style = TimetablePeriodStyle.values[styleIndex ?? 0];
-    await ref.read(analyticsControllerProvider.notifier).logEvent(
-      AnalyticsEventKeys.timetablePeriodStyleBuilt,
-      {'style': style.name},
-    );
+
+    final style =
+        TimetablePeriodStyle.fromKey(
+          timetablePeriodStyleKey ?? TimetablePeriodStyle.numberOnly.key,
+        ) ??
+        TimetablePeriodStyle.numberOnly;
+
+    switch (style) {
+      case TimetablePeriodStyle.numberOnly:
+        await ref
+            .read(analyticsControllerProvider.notifier)
+            .logEvent(
+              key: AnalyticsEventKeys.timetablePeriodStyleBuiltWithNumberOnly,
+            );
+
+      case TimetablePeriodStyle.numberAndTime:
+        await ref
+            .read(analyticsControllerProvider.notifier)
+            .logEvent(
+              key:
+                  AnalyticsEventKeys.timetablePeriodStyleBuiltWithNumberAndTime,
+            );
+    }
+
     return style;
   }
 
   Future<void> setStyle(TimetablePeriodStyle style) async {
     state = AsyncValue.data(style);
-    await UserPreferenceRepository.setInt(
+
+    await UserPreferenceRepository.setString(
       UserPreferenceKeys.timetablePeriodStyle,
-      style.index,
+      style.key,
     );
-    await ref.read(analyticsControllerProvider.notifier).logEvent(
-      AnalyticsEventKeys.timetablePeriodStyleChanged,
-      {'style': style.name},
-    );
+
+    switch (style) {
+      case TimetablePeriodStyle.numberOnly:
+        await ref
+            .read(analyticsControllerProvider.notifier)
+            .logEvent(
+              key: AnalyticsEventKeys.timetablePeriodStyleChangedToNumberOnly,
+            );
+
+      case TimetablePeriodStyle.numberAndTime:
+        await ref
+            .read(analyticsControllerProvider.notifier)
+            .logEvent(
+              key:
+                  AnalyticsEventKeys.timetablePeriodStyleChangedToNumberAndTime,
+            );
+    }
   }
 }

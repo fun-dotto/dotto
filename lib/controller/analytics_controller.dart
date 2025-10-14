@@ -19,13 +19,13 @@ final class AnalyticsController extends Notifier<void> {
     return;
   }
 
-  Future<void> logEvent(
-    AnalyticsEventKeys key,
-    Map<String, Object> parameters,
-  ) async {
+  Future<void> logEvent({
+    required AnalyticsEventKeys key,
+    Map<String, Object>? parameters,
+  }) async {
     await ref
         .read(firebaseAnalyticsRepositoryProvider)
-        .logEvent(key.name, parameters);
+        .logEvent(name: key.name, parameters: parameters);
     debugPrint('[Google Analytics] Log event: ${key.name}, $parameters');
   }
 
@@ -34,14 +34,14 @@ final class AnalyticsController extends Notifier<void> {
     debugPrint('[Google Analytics] Set user ID: $userId');
   }
 
-  Future<void> setUserProperty(
-    AnalyticsUserPropertyKeys key,
-    String value,
-  ) async {
+  Future<void> setUserProperty({
+    required AnalyticsUserPropertyKeys key,
+    required String value,
+  }) async {
     await ref
         .read(firebaseAnalyticsRepositoryProvider)
         .setUserProperty(key.name, value);
-    debugPrint('[Google Analytics] Set user property: ${key.name} = $value');
+    debugPrint('[Google Analytics] Set user property: ${key.key} = $value');
   }
 
   Future<void> resetAnalyticsData() async {

@@ -183,13 +183,13 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
                 children: [
                   const Text('時刻を表示'),
                   Switch(
-                    value: style == TimetablePeriodStyle.numberWithTime,
+                    value: style == TimetablePeriodStyle.numberAndTime,
                     onChanged: (value) {
                       ref
                           .read(timetablePeriodStyleNotifierProvider.notifier)
                           .setStyle(
                             value
-                                ? TimetablePeriodStyle.numberWithTime
+                                ? TimetablePeriodStyle.numberAndTime
                                 : TimetablePeriodStyle.numberOnly,
                           );
                     },

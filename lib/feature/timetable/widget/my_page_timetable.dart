@@ -179,7 +179,7 @@ final class MyPageTimetable extends ConsumerWidget {
                 spacing: 4,
                 children: [
                   Text(period.number.toString()),
-                  if (style == TimetablePeriodStyle.numberWithTime)
+                  if (style == TimetablePeriodStyle.numberAndTime)
                     Text(
                       '${period.startTime.format(context)} - ${period.endTime.format(context)}',
                       style: const TextStyle(fontSize: 10),
