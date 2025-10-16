@@ -1,5 +1,6 @@
 import 'package:dotto/feature/map/controller/focused_map_detail_controller.dart';
 import 'package:dotto/feature/map/controller/map_search_focus_node_controller.dart';
+import 'package:dotto/feature/map/controller/map_search_has_focus_controller.dart';
 import 'package:dotto/feature/map/controller/map_search_result_list_controller.dart';
 import 'package:dotto/feature/map/controller/map_view_transformation_controller.dart';
 import 'package:dotto/feature/map/controller/selected_floor_controller.dart';
@@ -14,10 +15,12 @@ final class MapSearchResultList extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final focusNode = ref.watch(mapSearchFocusNodeNotifierProvider);
+    final hasFocus = ref.watch(mapSearchHasFocusNotifierProvider);
     final list = ref.watch(mapSearchResultListNotifierProvider);
     return list.when(
       data: (data) {
-        if (data.isEmpty) {
+        // フォーカスがない場合、または検索結果が空の場合は非表示
+        if (!hasFocus || data.isEmpty) {
           return const SizedBox.shrink();
         }
         return Container(
