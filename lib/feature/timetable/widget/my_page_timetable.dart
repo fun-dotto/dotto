@@ -277,7 +277,7 @@ final class MyPageTimetable extends ConsumerWidget {
                         DateFormat('dd').format(date),
                         style: TextStyle(
                           fontWeight: (focusTimetableDay.day == date.day)
-                              ? FontWeight.bold
+                              ? FontWeight.w600
                               : null,
                           fontSize: 13,
                         ),
@@ -315,7 +315,7 @@ final class MyPageTimetable extends ConsumerWidget {
                         : [],
                   );
                 },
-                error: (_, _) => const SizedBox.shrink(),
+                error: (error, stackTrace) => const SizedBox.shrink(),
                 loading: () => const SizedBox.shrink(),
               );
             }),

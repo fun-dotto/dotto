@@ -5,7 +5,6 @@ import 'package:dotto/feature/timetable/controller/personal_lesson_id_list_contr
 import 'package:dotto/feature/timetable/controller/week_period_all_records_controller.dart';
 import 'package:dotto/feature/timetable/repository/timetable_repository.dart';
 import 'package:dotto/feature/timetable/widget/timetable_is_over_selected_snack_bar.dart';
-import 'package:dotto/widget/loading_circular.dart';
 import 'package:dotto_design_system/component/button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -93,13 +92,13 @@ final class SelectCourseScreen extends ConsumerWidget {
                 return const Center(child: Text('対象の科目はありません'));
               }
             },
-            error: (_, _) => const SizedBox.shrink(),
+            error: (error, stackTrace) => const SizedBox.shrink(),
             loading: () => const SizedBox.shrink(),
           );
         },
         error: (error, stackTrace) =>
-            const Center(child: Text('データを取得できませんでした。')),
-        loading: () => const Center(child: LoadingCircular()),
+            const Center(child: Text('データの取得に失敗しました')),
+        loading: () => const Center(child: CircularProgressIndicator()),
       ),
     );
   }

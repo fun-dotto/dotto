@@ -87,7 +87,7 @@ final class _KamokuFeedbackScreenState extends State<KamokuFeedbackScreen> {
                               '満足度(必須)',
                               style: TextStyle(
                                 fontSize: dialogWidth * 0.03,
-                                fontWeight: FontWeight.bold,
+                                fontWeight: FontWeight.w600,
                                 color: customFunColor,
                               ),
                             ),
@@ -97,10 +97,8 @@ final class _KamokuFeedbackScreenState extends State<KamokuFeedbackScreen> {
                           RatingBar.builder(
                             glow: false,
                             minRating: 1,
-                            itemBuilder: (context, index) => const Icon(
-                              Icons.star,
-                              color: Colors.yellow,
-                            ),
+                            itemBuilder: (context, index) =>
+                                const Icon(Icons.star, color: Colors.yellow),
                             onRatingUpdate: (rating) {
                               selectedScore = rating;
                             },
@@ -113,8 +111,9 @@ final class _KamokuFeedbackScreenState extends State<KamokuFeedbackScreen> {
                         child: Text(
                           showErrorMessage ? '満足度が入力されていません' : '',
                           style: TextStyle(
-                              color: Colors.red,
-                              fontSize: dialogHeight * 0.045),
+                            color: Colors.red,
+                            fontSize: dialogHeight * 0.045,
+                          ),
                         ),
                       ),
                       Align(
@@ -122,8 +121,9 @@ final class _KamokuFeedbackScreenState extends State<KamokuFeedbackScreen> {
                         child: Text(
                           'フィードバック (推奨)',
                           style: TextStyle(
-                              fontSize: dialogWidth * 0.03,
-                              color: customFunColor),
+                            fontSize: dialogWidth * 0.03,
+                            color: customFunColor,
+                          ),
                         ),
                       ),
                       SizedBox(
@@ -191,9 +191,7 @@ final class _KamokuFeedbackScreenState extends State<KamokuFeedbackScreen> {
                                   });
                                 }
                               },
-                              child: const Text(
-                                '投稿する',
-                              ),
+                              child: const Text('投稿する'),
                             ),
                           ),
                         ],

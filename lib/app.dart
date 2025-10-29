@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:app_links/app_links.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -20,7 +21,6 @@ import 'package:dotto/feature/timetable/repository/timetable_repository.dart';
 import 'package:dotto/repository/notification_repository.dart';
 import 'package:dotto/repository/user_preference_repository.dart';
 import 'package:dotto/theme/v1/animation.dart';
-import 'package:dotto/theme/v1/color_fun.dart';
 import 'package:dotto/theme/v1/theme.dart';
 import 'package:dotto/widget/app_tutorial.dart';
 import 'package:dotto_design_system/style/theme.dart';
@@ -103,18 +103,20 @@ final class _BasePageState extends ConsumerState<BasePage> {
     await BusRepository().changeDirectionOnCurrentLocation(ref);
   }
 
-  Future<void> saveFCMToken() async {
+  Future<void> _saveFCMToken() async {
     final didSave =
         await UserPreferenceRepository.getBool(
           UserPreferenceKeys.didSaveFCMToken,
         ) ??
         false;
-    debugPrint('didSaveFCMToken: $didSave');
     if (didSave) {
       return;
     }
     final user = ref.read(userProvider);
+    final apnsToken = await FirebaseMessaging.instance.getAPNSToken();
+    debugPrint('APNs Token: $apnsToken');
     final fcmToken = await FirebaseMessaging.instance.getToken();
+    debugPrint('FCM Token: $fcmToken');
     if (fcmToken != null && user != null) {
       final db = FirebaseFirestore.instance;
       final tokenRef = db.collection('fcm_token');
@@ -142,7 +144,7 @@ final class _BasePageState extends ConsumerState<BasePage> {
     await setupUniversalLinks();
     await getPersonalLessonIdList();
     await getBus();
-    await saveFCMToken();
+    await _saveFCMToken();
   }
 
   @override
@@ -152,7 +154,7 @@ final class _BasePageState extends ConsumerState<BasePage> {
   }
 
   Future<void> _onItemTapped(int index) async {
-    ref.read(announcementFromPushNotificationProvider.notifier).reset();
+    ref.read(announcementFromPushNotificationNotifierProvider.notifier).reset();
     final selectedTab = TabItem.values[index];
 
     if (selectedTab == TabItem.map) {
@@ -174,21 +176,22 @@ final class _BasePageState extends ConsumerState<BasePage> {
   }
 
   Future<void> _showAppTutorial(BuildContext context) async {
-    if (!await isAppTutorialCompleted()) {
-      if (context.mounted) {
-        await Navigator.of(context).push<void>(
-          PageRouteBuilder<void>(
-            pageBuilder: (context, animation, secondaryAnimation) =>
-                const AppTutorial(),
-            fullscreenDialog: true,
-            transitionsBuilder: fromRightAnimation,
-          ),
-        );
-        await UserPreferenceRepository.setBool(
-          UserPreferenceKeys.isAppTutorialComplete,
-          value: true,
-        );
-      }
+    if (await isAppTutorialCompleted()) {
+      return;
+    }
+    if (context.mounted) {
+      await Navigator.of(context).push(
+        PageRouteBuilder<void>(
+          pageBuilder: (context, animation, secondaryAnimation) =>
+              const AppTutorial(),
+          fullscreenDialog: true,
+          transitionsBuilder: fromRightAnimation,
+        ),
+      );
+      await UserPreferenceRepository.setBool(
+        UserPreferenceKeys.isAppTutorialComplete,
+        value: true,
+      );
     }
   }
 
@@ -199,19 +202,12 @@ final class _BasePageState extends ConsumerState<BasePage> {
     );
     final tabItem = ref.watch(tabItemProvider);
     return PopScope(
-      canPop: false,
+      canPop: Platform.isIOS,
       onPopInvokedWithResult: (didPop, result) async {
         if (didPop) {
           return;
         }
-        final navigator = Navigator.of(context);
-        final shouldPop = !await tabNavigatorKeyMaps[tabItem]!.currentState!
-            .maybePop();
-        if (shouldPop) {
-          if (navigator.canPop()) {
-            navigator.pop();
-          }
-        }
+        Navigator.of(context).pop();
       },
       child: Scaffold(
         resizeToAvoidBottomInset: false,
@@ -235,7 +231,6 @@ final class _BasePageState extends ConsumerState<BasePage> {
           ),
         ),
         bottomNavigationBar: BottomNavigationBar(
-          selectedItemColor: customFunColor,
           type: BottomNavigationBarType.fixed,
           currentIndex: TabItem.values.indexOf(tabItem),
           items: TabItem.values

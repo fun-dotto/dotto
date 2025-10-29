@@ -1,71 +1,61 @@
+import 'package:collection/collection.dart';
 import 'package:dotto/domain/day_of_week.dart';
 import 'package:dotto/domain/period.dart';
 import 'package:dotto/domain/semester.dart';
 import 'package:dotto/feature/timetable/controller/personal_lesson_id_list_controller.dart';
+import 'package:dotto/feature/timetable/controller/selected_semester_controller.dart';
+import 'package:dotto/feature/timetable/controller/timetable_view_style_controller.dart';
 import 'package:dotto/feature/timetable/controller/week_period_all_records_controller.dart';
 import 'package:dotto/feature/timetable/select_course_screen.dart';
 import 'package:dotto/theme/v1/animation.dart';
-import 'package:dotto/widget/loading_circular.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final class EditTimetableScreen extends ConsumerWidget {
+final class EditTimetableScreen extends ConsumerStatefulWidget {
   const EditTimetableScreen({super.key});
 
-  Future<void> seasonTimetable(BuildContext context, WidgetRef ref) async {
-    final personalLessonIdList = ref.watch(
-      personalLessonIdListNotifierProvider,
+  @override
+  ConsumerState<EditTimetableScreen> createState() =>
+      _EditTimetableScreenState();
+}
+
+class _EditTimetableScreenState extends ConsumerState<EditTimetableScreen>
+    with SingleTickerProviderStateMixin {
+  late final TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    final initialSemester = ref.read(selectedSemesterNotifierProvider);
+    _tabController = TabController(
+      length: Semester.values.length,
+      vsync: this,
+      initialIndex: Semester.values.indexOf(initialSemester),
     );
-    final weekPeriodAllRecords = ref.watch(
-      weekPeriodAllRecordsNotifierProvider,
-    );
-    if (context.mounted) {
-      await showDialog<void>(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: const Text('履修中の科目'),
-            content: SizedBox(
-              width: double.maxFinite,
-              child: weekPeriodAllRecords.when(
-                data: (data) {
-                  return personalLessonIdList.when(
-                    data: (personalLessonIdListData) {
-                      final seasonList = data.where((record) {
-                        return personalLessonIdListData.contains(
-                          record['lessonId'],
-                        );
-                      }).toList();
-                      return ListView.builder(
-                        itemCount: seasonList.length,
-                        itemBuilder: (context, index) {
-                          return ListTile(
-                            title: Text(seasonList[index]['授業名'] as String),
-                          );
-                        },
-                      );
-                    },
-                    error: (error, stackTrace) {
-                      return const Center(child: Text('データを取得できませんでした'));
-                    },
-                    loading: () {
-                      return const Center(child: LoadingCircular());
-                    },
-                  );
-                },
-                error: (_, _) => const SizedBox.shrink(),
-                loading: () => const SizedBox.shrink(),
-              ),
-            ),
-          );
-        },
-      );
+    _tabController.addListener(_handleTabSelection);
+  }
+
+  void _handleTabSelection() {
+    if (_tabController.indexIsChanging) {
+      return;
+    }
+    final current = ref.read(selectedSemesterNotifierProvider);
+    final selected = Semester.values[_tabController.index];
+    if (current != selected) {
+      ref.read(selectedSemesterNotifierProvider.notifier).value = selected;
     }
   }
 
-  Widget tableText(
+  @override
+  void dispose() {
+    _tabController
+      ..removeListener(_handleTabSelection)
+      ..dispose();
+    super.dispose();
+  }
+
+  Widget _tableText(
     BuildContext context,
-    WidgetRef ref,
     DayOfWeek dayOfWeek,
     Period period,
     Semester semester,
@@ -95,17 +85,17 @@ final class EditTimetableScreen extends ConsumerWidget {
                             child: Container(
                               width: double.infinity,
                               decoration: BoxDecoration(
-                                border: Border.all(color: Colors.grey),
+                                border: Border.all(color: Colors.grey.shade400),
                                 color: Colors.grey.shade300,
                                 borderRadius: const BorderRadius.all(
-                                  Radius.circular(5),
+                                  Radius.circular(4),
                                 ),
                               ),
                               padding: const EdgeInsets.all(2),
                               child: Text(
                                 lesson['授業名'] as String,
                                 textAlign: TextAlign.center,
-                                style: const TextStyle(fontSize: 8),
+                                style: const TextStyle(fontSize: 10),
                               ),
                             ),
                           ),
@@ -115,9 +105,8 @@ final class EditTimetableScreen extends ConsumerWidget {
                 : Container(
                     decoration: BoxDecoration(
                       color: Colors.grey.shade200,
-                      borderRadius: const BorderRadius.all(Radius.circular(5)),
+                      borderRadius: const BorderRadius.all(Radius.circular(4)),
                     ),
-                    padding: const EdgeInsets.all(2),
                     child: Center(
                       child: Icon(Icons.add, color: Colors.grey.shade400),
                     ),
@@ -134,22 +123,18 @@ final class EditTimetableScreen extends ConsumerWidget {
           },
         );
       },
-      error: (_, _) => const SizedBox.shrink(),
+      error: (error, stackTrace) => const SizedBox.shrink(),
       loading: () => const SizedBox.shrink(),
     );
   }
 
-  Widget seasonTimetableList(
-    BuildContext context,
-    WidgetRef ref,
-    Semester semester,
-  ) {
+  Widget _takingCourseTable(Semester semester) {
     final weekPeriodAllRecords = ref.watch(
       weekPeriodAllRecordsNotifierProvider,
     );
     return SingleChildScrollView(
       child: Padding(
-        padding: const EdgeInsets.all(10),
+        padding: const EdgeInsets.all(8),
         child: weekPeriodAllRecords.when(
           data: (data) => Table(
             columnWidths: const <int, TableColumnWidth>{
@@ -179,9 +164,8 @@ final class EditTimetableScreen extends ConsumerWidget {
                 (period) => TableRow(
                   children: DayOfWeek.weekdays
                       .map(
-                        (dayOfWeek) => tableText(
+                        (dayOfWeek) => _tableText(
                           context,
-                          ref,
                           dayOfWeek,
                           period,
                           semester,
@@ -194,41 +178,113 @@ final class EditTimetableScreen extends ConsumerWidget {
             ],
           ),
           error: (error, stackTrace) =>
-              const Center(child: Text('データを取得できませんでした。')),
-          loading: () => const Center(child: LoadingCircular()),
+              const Center(child: Text('データの取得に失敗しました')),
+          loading: () => const Center(child: CircularProgressIndicator()),
         ),
       ),
     );
   }
 
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return DefaultTabController(
-      length: 2,
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('時間割'),
-          actions: [
-            Consumer(
-              builder: (context, ref, child) {
-                return IconButton(
-                  onPressed: () {
-                    seasonTimetable(context, ref);
-                  },
-                  icon: const Icon(Icons.list),
+  Widget _takingCourseList(Semester semester) {
+    final personalLessonIdList = ref.watch(
+      personalLessonIdListNotifierProvider,
+    );
+    final weekPeriodAllRecords = ref.watch(
+      weekPeriodAllRecordsNotifierProvider,
+    );
+    return weekPeriodAllRecords.when(
+      data: (data) {
+        return personalLessonIdList.when(
+          data: (personalLessonIdListData) {
+            final seasonList = data
+                .where((record) {
+                  return personalLessonIdListData.contains(
+                        record['lessonId'],
+                      ) &&
+                      (record['開講時期'] == semester.number ||
+                          record['開講時期'] == 0);
+                })
+                .toList()
+                .sorted((a, b) {
+                  final dayCompare = (a['week'] as int).compareTo(
+                    b['week'] as int,
+                  );
+                  if (dayCompare != 0) {
+                    return dayCompare;
+                  }
+                  return (a['period'] as int).compareTo(b['period'] as int);
+                });
+            return ListView.separated(
+              itemCount: seasonList.length,
+              separatorBuilder: (context, index) => const Divider(height: 0),
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Text(seasonList[index]['授業名'] as String),
+                  subtitle: Text(
+                    '${DayOfWeek.fromNumber(seasonList[index]['week'] as int).label}'
+                    '${Period.fromNumber(seasonList[index]['period'] as int).number}',
+                  ),
                 );
               },
-            ),
-          ],
-          bottom: TabBar(
-            tabs: Semester.values.map((e) => Tab(text: e.label)).toList(),
+            );
+          },
+          error: (error, stackTrace) =>
+              const Center(child: Text('データの取得に失敗しました')),
+          loading: () => const Center(child: CircularProgressIndicator()),
+        );
+      },
+      error: (error, stackTrace) => const SizedBox.shrink(),
+      loading: () => const SizedBox.shrink(),
+    );
+  }
+
+  Widget _timetable(Semester semester) {
+    final timetableViewStyle = ref.watch(timetableViewStyleNotifierProvider);
+    switch (timetableViewStyle) {
+      case TimetableViewStyle.table:
+        return _takingCourseTable(semester);
+      case TimetableViewStyle.list:
+        return _takingCourseList(semester);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final timetableViewStyle = ref.watch(timetableViewStyleNotifierProvider);
+    final selectedSemester = ref.watch(selectedSemesterNotifierProvider);
+    final selectedIndex = Semester.values.indexOf(selectedSemester);
+    if (_tabController.index != selectedIndex &&
+        !_tabController.indexIsChanging) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) {
+          return;
+        }
+        if (_tabController.index != selectedIndex) {
+          _tabController.animateTo(selectedIndex);
+        }
+      });
+    }
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('時間割'),
+        actions: [
+          IconButton(
+            onPressed: () {
+              ref.read(timetableViewStyleNotifierProvider.notifier).toggle();
+            },
+            icon: timetableViewStyle.icon,
           ),
+        ],
+        bottom: TabBar(
+          dividerColor: Colors.transparent,
+          controller: _tabController,
+          tabs: Semester.values.map((e) => Tab(text: e.label)).toList(),
         ),
-        body: TabBarView(
-          children: Semester.values
-              .map((e) => seasonTimetableList(context, ref, e))
-              .toList(),
-        ),
+      ),
+      body: TabBarView(
+        controller: _tabController,
+        children: Semester.values.map(_timetable).toList(),
       ),
     );
   }

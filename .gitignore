@@ -278,4 +278,5 @@ google-services.json
 macos/Flutter/GeneratedPluginRegistrant.swift
 
 coverage/
-play-store-credentials.json
+
+service-account-key.json

@@ -24,31 +24,7 @@ final class HomeScreen extends ConsumerStatefulWidget {
 final class _HomeScreenState extends ConsumerState<HomeScreen> {
   List<int> personalTimetableList = [];
 
-  Future<void> launchUrlInAppBrowserView(Uri url) async {
-    if (await canLaunchUrl(url)) {
-      await launchUrl(url, mode: LaunchMode.inAppBrowserView);
-    } else {
-      throw Exception('Could not launch $url');
-    }
-  }
-
-  Widget infoTile(List<Widget> children) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: GridView.count(
-        shrinkWrap: true,
-        crossAxisCount: 3,
-        physics: const NeverScrollableScrollPhysics(),
-        mainAxisSpacing: 8,
-        crossAxisSpacing: 8,
-        children: List.generate(children.length, (index) {
-          return children[index];
-        }),
-      ),
-    );
-  }
-
-  Widget infoButton(
+  Widget _fileButton(
     BuildContext context,
     void Function() onPressed,
     IconData icon,
@@ -81,19 +57,29 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
     );
   }
 
-  void _showPushNotificationNews(BuildContext context, WidgetRef ref) {
-    final announcementUrlFromPushNotification = ref.watch(
-      announcementFromPushNotificationProvider,
+  Widget _fileButtons(List<Widget> children) {
+    return GridView.count(
+      shrinkWrap: true,
+      crossAxisCount: 3,
+      physics: const NeverScrollableScrollPhysics(),
+      mainAxisSpacing: 8,
+      crossAxisSpacing: 8,
+      children: List.generate(children.length, (index) {
+        return children[index];
+      }),
     );
-
-    if (announcementUrlFromPushNotification == null) {
-      return;
-    }
-
-    launchUrlInAppBrowserView(announcementUrlFromPushNotification);
   }
 
-  Widget _setTimetableButton() {
+  void _showPushNotificationNews(BuildContext context, WidgetRef ref) {
+    final announcementUrlFromPushNotification = ref.watch(
+      announcementFromPushNotificationNotifierProvider,
+    );
+    if (announcementUrlFromPushNotification != null) {
+      launchUrl(announcementUrlFromPushNotification);
+    }
+  }
+
+  Widget _timetableButtons() {
     return Padding(
       padding: const EdgeInsetsGeometry.symmetric(horizontal: 16),
       child: Row(
@@ -157,7 +143,7 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
     };
     final infoTiles = <Widget>[
       ...fileNamePath.entries.map(
-        (item) => infoButton(
+        (item) => _fileButton(
           context,
           () {
             Navigator.of(context).push(
@@ -182,26 +168,24 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
     return Scaffold(
       appBar: AppBar(title: const Text('Dotto'), centerTitle: false),
       body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.only(bottom: 16),
-          child: Column(
-            spacing: 16,
-            children: [
-              Column(
-                children: [const MyPageTimetable(), _setTimetableButton()],
-              ),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                child: BusCardHome(),
-              ),
-              if (config.isFunchEnabled)
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16),
-                  child: FunchMyPageCard(),
+        child: Column(
+          children: [
+            Column(children: [const MyPageTimetable(), _timetableButtons()]),
+            Padding(
+              padding: const EdgeInsetsGeometry.all(16),
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 480),
+                child: Column(
+                  spacing: 16,
+                  children: [
+                    const BusCardHome(),
+                    if (config.isFunchEnabled) const FunchMyPageCard(),
+                    _fileButtons(infoTiles),
+                  ],
                 ),
-              infoTile(infoTiles),
-            ],
-          ),
+              ),
+            ),
+          ],
         ),
       ),
     );

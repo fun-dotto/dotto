@@ -1,6 +1,6 @@
 import 'package:dotto/feature/map/controller/focused_map_detail_controller.dart';
-import 'package:dotto/feature/map/controller/map_page_controller.dart';
-import 'package:dotto/feature/map/controller/map_search_bar_focus_controller.dart';
+import 'package:dotto/feature/map/controller/map_search_focus_node_controller.dart';
+import 'package:dotto/feature/map/controller/selected_floor_controller.dart';
 import 'package:dotto/feature/map/controller/using_map_controller.dart';
 import 'package:dotto/feature/map/domain/map_tile_type.dart';
 import 'package:dotto/feature/map/widget/map_detail_bottom_sheet.dart';
@@ -214,7 +214,6 @@ final class MapTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final floorBarString = <String>['1', '2', '3', '4', '5', 'R6', 'R7'];
     final widgetList = <Widget>[
       SizedBox.expand(
         child: Consumer(
@@ -222,7 +221,7 @@ final class MapTile extends StatelessWidget {
             final focusedMapDetail = ref.watch(
               focusedMapDetailNotifierProvider,
             );
-            final mapPage = ref.watch(mapPageNotifierProvider);
+            final selectedFloor = ref.watch(selectedFloorNotifierProvider);
             final usingMap = ref.watch(usingMapNotifierProvider);
             if (classroomNo != null) {
               if (usingMap.containsKey(classroomNo)) {
@@ -236,7 +235,7 @@ final class MapTile extends StatelessWidget {
               }
             }
             var focus = false;
-            if (focusedMapDetail.floor == floorBarString[mapPage]) {
+            if (focusedMapDetail.floor == selectedFloor.label) {
               if (focusedMapDetail.roomName == txt) {
                 focus = true;
               }
@@ -311,9 +310,9 @@ final class MapTile extends StatelessWidget {
     }
     return Consumer(
       builder: (context, ref, child) {
-        final mapPage = ref.watch(mapPageNotifierProvider);
-        final mapSearchBarFocusNotifier = ref.watch(
-          mapSearchBarFocusNotifierProvider,
+        final selectedFloor = ref.watch(selectedFloorNotifierProvider);
+        final mapSearchFocusNode = ref.watch(
+          mapSearchFocusNodeNotifierProvider,
         );
         return GestureDetector(
           onTap: (txt.isNotEmpty && ttype.index <= MapTileType.subroom.index)
@@ -322,12 +321,12 @@ final class MapTile extends StatelessWidget {
                     context: context,
                     builder: (BuildContext context) {
                       return MapDetailBottomSheet(
-                        floor: floorBarString[mapPage],
+                        floor: selectedFloor.label,
                         roomName: txt,
                       );
                     },
                   );
-                  mapSearchBarFocusNotifier.unfocus();
+                  mapSearchFocusNode.unfocus();
                 }
               : null,
           child: Stack(

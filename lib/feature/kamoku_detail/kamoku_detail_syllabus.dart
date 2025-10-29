@@ -1,5 +1,4 @@
 import 'package:dotto/feature/kamoku_detail/repository/kamoku_detail_repository.dart';
-import 'package:dotto/widget/loading_circular.dart';
 import 'package:flutter/material.dart';
 
 final class KamokuDetailSyllabusScreen extends StatelessWidget {
@@ -21,19 +20,17 @@ final class KamokuDetailSyllabusScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Divider(),
-                  ...details.keys.map(
-                    (e) {
-                      if (details[e] is String) {
-                        return syllabusItem(e, details[e] as String?);
-                      }
-                      return Container();
-                    },
-                  ),
+                  ...details.keys.map((e) {
+                    if (details[e] is String) {
+                      return syllabusItem(e, details[e] as String?);
+                    }
+                    return Container();
+                  }),
                 ],
               ),
             );
           } else {
-            return const LoadingCircular();
+            return const CircularProgressIndicator();
           }
         },
       ),
@@ -47,10 +44,7 @@ final class KamokuDetailSyllabusScreen extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          title,
-          style: const TextStyle(fontWeight: FontWeight.bold),
-        ),
+        Text(title, style: const TextStyle(fontWeight: FontWeight.w600)),
         SelectableText(value),
         const Divider(),
       ],

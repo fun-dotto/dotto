@@ -50,7 +50,7 @@ final class AppTutorial extends StatelessWidget {
                   title,
                   style: const TextStyle(
                     fontSize: 28,
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
                 const SizedBox(height: 20),
@@ -115,7 +115,7 @@ final class AppTutorial extends StatelessWidget {
             'さあ、始めましょう！',
             style: TextStyle(
               color: Colors.black,
-              fontWeight: FontWeight.bold,
+              fontWeight: FontWeight.w600,
               fontSize: 32,
             ),
           ),
@@ -137,11 +137,11 @@ final class AppTutorial extends StatelessWidget {
           pages: pages,
           skipCallback: () {
             // when user select SKIP
-            Navigator.pop(context);
+            Navigator.of(context).pop();
           },
           finishCallback: () {
             // when user select NEXT
-            Navigator.pop(context);
+            Navigator.of(context).pop();
           },
         ),
       ),
