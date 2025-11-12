@@ -2,9 +2,9 @@ import 'package:dotto/controller/tab_controller.dart';
 import 'package:dotto/controller/user_controller.dart';
 import 'package:dotto/domain/tab_item.dart';
 import 'package:dotto/feature/map/controller/map_detail_map_controller.dart';
-import 'package:dotto/feature/map/controller/map_search_datetime_controller.dart';
 import 'package:dotto/feature/map/domain/map_detail.dart';
 import 'package:dotto/feature/map/domain/room_equipment.dart';
+import 'package:dotto/feature/map/map_view_model.dart';
 import 'package:dotto/feature/map/widget/fun_grid_map.dart';
 import 'package:dotto/feature/map/widget/map_tile.dart';
 import 'package:dotto_design_system/component/button.dart';
@@ -99,8 +99,8 @@ final class MapDetailBottomSheet extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final viewModel = ref.watch(mapViewModelProvider);
     final mapDetailMap = ref.watch(mapDetailMapNotifierProvider);
-    final searchDatetime = ref.watch(mapSearchDatetimeNotifierProvider);
     final user = ref.watch(userProvider);
     var roomTitle = roomName;
     MapDetail? mapDetail;
@@ -183,7 +183,7 @@ final class MapDetailBottomSheet extends ConsumerWidget {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: mapDetail!
-                                .getScheduleListByDate(searchDatetime)
+                                .getScheduleListByDate(viewModel.searchDatetime)
                                 .map(
                                   (e) => scheduleTile(
                                     context,

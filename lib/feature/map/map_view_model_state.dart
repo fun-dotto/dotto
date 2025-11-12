@@ -13,5 +13,6 @@ abstract class MapViewModelState with _$MapViewModelState {
     required FocusNode focusNode,
     required TextEditingController textEditingController,
     required AsyncValue<List<MapDetail>> mapDetails,
+    required DateTime searchDatetime,
   }) = _MapViewModelState;
 }

@@ -1,6 +1,5 @@
 import 'package:dotto/controller/user_controller.dart';
 import 'package:dotto/feature/map/controller/focused_map_detail_controller.dart';
-import 'package:dotto/feature/map/controller/map_search_datetime_controller.dart';
 import 'package:dotto/feature/map/controller/map_view_transformation_controller.dart';
 import 'package:dotto/feature/map/controller/using_map_controller.dart';
 import 'package:dotto/feature/map/domain/map_detail.dart';
@@ -49,7 +48,6 @@ final class MapScreen extends ConsumerWidget {
     final mapViewTransformationController = ref.watch(
       mapViewTransformationNotifierProvider,
     );
-    final searchDatetime = ref.watch(mapSearchDatetimeNotifierProvider);
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -151,29 +149,23 @@ final class MapScreen extends ConsumerWidget {
                     ),
                     _datePickerSection(
                       user: user,
-                      searchDatetime: searchDatetime,
+                      searchDatetime: viewModel.searchDatetime,
                       onPeriodButtonTapped: (dateTime) async {
                         var setDate = dateTime;
                         if (setDate.hour == 0) {
                           setDate = DateTime.now();
                         }
                         ref
-                                .read(
-                                  mapSearchDatetimeNotifierProvider.notifier,
-                                )
-                                .value =
-                            setDate;
+                            .read(mapViewModelProvider.notifier)
+                            .onPeriodButtonTapped(setDate);
                         await ref
                             .read(usingMapNotifierProvider.notifier)
                             .setUsingColor(setDate, ref);
                       },
                       onDatePickerConfirmed: (dateTime) async {
                         ref
-                                .read(
-                                  mapSearchDatetimeNotifierProvider.notifier,
-                                )
-                                .value =
-                            dateTime;
+                            .read(mapViewModelProvider.notifier)
+                            .onDatePickerConfirmed(dateTime);
                         await ref
                             .read(usingMapNotifierProvider.notifier)
                             .setUsingColor(dateTime, ref);

@@ -17,6 +17,7 @@ class MapViewModel extends _$MapViewModel {
       focusNode: FocusNode(),
       textEditingController: TextEditingController(),
       mapDetails: const AsyncValue.data([]),
+      searchDatetime: DateTime.now(),
     );
   }
 
@@ -51,5 +52,13 @@ class MapViewModel extends _$MapViewModel {
     final map = await MapRepository().getMapDetailMapFromFirebase();
     final mapDetailMap = MapDetailMap(map);
     return mapDetailMap.searchAll(state.textEditingController.text);
+  }
+
+  void onPeriodButtonTapped(DateTime dateTime) {
+    state = state.copyWith(searchDatetime: dateTime);
+  }
+
+  void onDatePickerConfirmed(DateTime dateTime) {
+    state = state.copyWith(searchDatetime: dateTime);
   }
 }
