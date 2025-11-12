@@ -69,7 +69,7 @@ final class MapDetailBottomSheet extends ConsumerWidget {
     );
   }
 
-  Widget roomAvailable(RoomAvailableType type, int status) {
+  Widget roomAvailable(RoomEquipment type, int status) {
     const fontColor = Colors.white;
     var icon = Icons.close_outlined;
     if (status == 1) {
@@ -159,17 +159,17 @@ final class MapDetailBottomSheet extends ConsumerWidget {
                           if (gridMap.food != null &&
                               gridMap.drink != null) ...[
                             roomAvailable(
-                              RoomAvailableType.food,
+                              RoomEquipment.food,
                               gridMap.food! ? 2 : 0,
                             ),
                             roomAvailable(
-                              RoomAvailableType.drink,
+                              RoomEquipment.drink,
                               gridMap.drink! ? 2 : 0,
                             ),
                           ],
                           if (gridMap.outlet != null)
                             roomAvailable(
-                              RoomAvailableType.outlet,
+                              RoomEquipment.outlet,
                               gridMap.outlet!,
                             ),
                         ],
