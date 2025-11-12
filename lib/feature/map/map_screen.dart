@@ -6,6 +6,7 @@ import 'package:dotto/feature/map/controller/map_search_text_controller.dart';
 import 'package:dotto/feature/map/controller/map_view_transformation_controller.dart';
 import 'package:dotto/feature/map/controller/selected_floor_controller.dart';
 import 'package:dotto/feature/map/domain/floor.dart';
+import 'package:dotto/feature/map/domain/map_detail.dart';
 import 'package:dotto/feature/map/widget/map.dart';
 import 'package:dotto/feature/map/widget/map_date_picker.dart';
 import 'package:dotto/feature/map/widget/map_detail_bottom_sheet.dart';
@@ -28,6 +29,7 @@ final class MapScreen extends ConsumerWidget {
     final hasFocus = ref.watch(mapSearchHasFocusNotifierProvider);
     final list = ref.watch(mapSearchResultListNotifierProvider);
     final textEditingController = ref.watch(mapSearchTextNotifierProvider);
+    final selectedFloor = ref.watch(selectedFloorNotifierProvider);
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -59,9 +61,49 @@ final class MapScreen extends ConsumerWidget {
                   children: [
                     ConstrainedBox(
                       constraints: const BoxConstraints(maxWidth: 480),
-                      child: const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 16),
-                        child: MapFloorButton(),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: MapFloorButton(
+                          selectedFloor: selectedFloor,
+                          onPressed: (floor) {
+                            ref
+                                .read(
+                                  mapViewTransformationNotifierProvider
+                                      .notifier,
+                                )
+                                .value = TransformationController(
+                              Matrix4(
+                                1,
+                                0,
+                                0,
+                                0,
+                                0,
+                                1,
+                                0,
+                                0,
+                                0,
+                                0,
+                                1,
+                                0,
+                                0,
+                                0,
+                                0,
+                                1,
+                              ),
+                            );
+                            ref
+                                    .read(
+                                      selectedFloorNotifierProvider.notifier,
+                                    )
+                                    .value =
+                                floor;
+                            ref
+                                .read(focusedMapDetailNotifierProvider.notifier)
+                                .value = MapDetail
+                                .none;
+                            FocusScope.of(context).unfocus();
+                          },
+                        ),
                       ),
                     ),
                     Expanded(
