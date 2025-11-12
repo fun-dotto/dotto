@@ -8,7 +8,7 @@ final class UserPreferenceRepository {
   }) async {
     final prefs = await SharedPreferences.getInstance();
     if (key.type == bool) {
-      await prefs.setBool(key.keyName, value);
+      await prefs.setBool(key.key, value);
     } else {
       throw TypeError();
     }
@@ -16,13 +16,13 @@ final class UserPreferenceRepository {
 
   static Future<bool?> getBool(UserPreferenceKeys key) async {
     final prefs = await SharedPreferences.getInstance();
-    return prefs.getBool(key.keyName);
+    return prefs.getBool(key.key);
   }
 
   static Future<void> setString(UserPreferenceKeys key, String value) async {
     final prefs = await SharedPreferences.getInstance();
     if (key.type == String) {
-      await prefs.setString(key.keyName, value);
+      await prefs.setString(key.key, value);
     } else {
       throw TypeError();
     }
@@ -30,13 +30,13 @@ final class UserPreferenceRepository {
 
   static Future<String?> getString(UserPreferenceKeys key) async {
     final prefs = await SharedPreferences.getInstance();
-    return prefs.getString(key.keyName);
+    return prefs.getString(key.key);
   }
 
   static Future<void> setInt(UserPreferenceKeys key, int value) async {
     final prefs = await SharedPreferences.getInstance();
     if (key.type == int) {
-      await prefs.setInt(key.keyName, value);
+      await prefs.setInt(key.key, value);
     } else {
       throw TypeError();
     }
@@ -44,6 +44,6 @@ final class UserPreferenceRepository {
 
   static Future<int?> getInt(UserPreferenceKeys key) async {
     final prefs = await SharedPreferences.getInstance();
-    return prefs.getInt(key.keyName);
+    return prefs.getInt(key.key);
   }
 }

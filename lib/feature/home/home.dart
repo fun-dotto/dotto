@@ -2,8 +2,10 @@ import 'package:dotto/controller/config_controller.dart';
 import 'package:dotto/feature/announcement/controller/announcement_from_push_notification_controller.dart';
 import 'package:dotto/feature/bus/widget/bus_card_home.dart';
 import 'package:dotto/feature/funch/widget/funch_mypage_card.dart';
+import 'package:dotto/feature/timetable/controller/timetable_period_style_controller.dart';
 import 'package:dotto/feature/timetable/controller/two_week_timetable_controller.dart';
 import 'package:dotto/feature/timetable/course_cancellation_screen.dart';
+import 'package:dotto/feature/timetable/domain/timetable_period_style.dart';
 import 'package:dotto/feature/timetable/edit_timetable_screen.dart';
 import 'package:dotto/feature/timetable/widget/my_page_timetable.dart';
 import 'package:dotto/theme/v1/animation.dart';
@@ -132,6 +134,10 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final config = ref.watch(configNotifierProvider);
+    final timetablePeriodStyle = ref.watch(
+      timetablePeriodStyleNotifierProvider,
+    );
+
     WidgetsBinding.instance.addPostFrameCallback(
       (_) => _showPushNotificationNews(context, ref),
     );
@@ -166,11 +172,43 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
     ];
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Dotto'), centerTitle: false),
+      appBar: AppBar(
+        title: const Text('Dotto'),
+        centerTitle: false,
+        actions: [
+          timetablePeriodStyle.when(
+            data: (style) {
+              return Row(
+                spacing: 4,
+                children: [
+                  const Text('時刻を表示'),
+                  Switch(
+                    value: style == TimetablePeriodStyle.numberAndTime,
+                    onChanged: (value) {
+                      ref
+                          .read(timetablePeriodStyleNotifierProvider.notifier)
+                          .setStyle(
+                            value
+                                ? TimetablePeriodStyle.numberAndTime
+                                : TimetablePeriodStyle.numberOnly,
+                          );
+                    },
+                  ),
+                ],
+              );
+            },
+            error: (_, _) => const SizedBox.shrink(),
+            loading: () => const SizedBox.shrink(),
+          ),
+        ],
+      ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Column(children: [const MyPageTimetable(), _timetableButtons()]),
+            Column(
+              spacing: 8,
+              children: [const MyPageTimetable(), _timetableButtons()],
+            ),
             Padding(
               padding: const EdgeInsetsGeometry.all(16),
               child: ConstrainedBox(
