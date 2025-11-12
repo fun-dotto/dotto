@@ -1,10 +1,16 @@
+import 'package:dotto/feature/map/domain/floor.dart';
 import 'package:dotto/feature/map/widget/map_grid.dart';
 import 'package:flutter/material.dart';
 
 final class Map extends StatelessWidget {
-  const Map({required this.mapViewTransformationController, super.key});
+  const Map({
+    required this.mapViewTransformationController,
+    required this.selectedFloor,
+    super.key,
+  });
 
   final TransformationController mapViewTransformationController;
+  final Floor selectedFloor;
 
   @override
   Widget build(BuildContext context) {
@@ -12,11 +18,11 @@ final class Map extends StatelessWidget {
       maxScale: 10,
       // 倍率行列Matrix4
       transformationController: mapViewTransformationController,
-      child: const Padding(
+      child: Padding(
         // マップをちょうどよく表示するための余白
-        padding: EdgeInsets.symmetric(horizontal: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 20),
         // マップ表示
-        child: MapGridScreen(),
+        child: MapGridScreen(selectedFloor: selectedFloor),
       ),
     );
   }

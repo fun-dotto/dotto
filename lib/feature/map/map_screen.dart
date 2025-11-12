@@ -143,6 +143,7 @@ final class MapScreen extends ConsumerWidget {
                               Map(
                                 mapViewTransformationController:
                                     mapViewTransformationController,
+                                selectedFloor: selectedFloor,
                               ),
                               const Spacer(),
                             ],
