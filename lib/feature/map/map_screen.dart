@@ -1,8 +1,6 @@
 import 'package:dotto/controller/user_controller.dart';
 import 'package:dotto/feature/map/controller/focused_map_detail_controller.dart';
 import 'package:dotto/feature/map/controller/map_search_datetime_controller.dart';
-import 'package:dotto/feature/map/controller/map_search_result_list_controller.dart';
-import 'package:dotto/feature/map/controller/map_search_text_controller.dart';
 import 'package:dotto/feature/map/controller/map_view_transformation_controller.dart';
 import 'package:dotto/feature/map/controller/using_map_controller.dart';
 import 'package:dotto/feature/map/domain/map_detail.dart';
@@ -51,8 +49,6 @@ final class MapScreen extends ConsumerWidget {
     final mapViewTransformationController = ref.watch(
       mapViewTransformationNotifierProvider,
     );
-    final list = ref.watch(mapSearchResultListNotifierProvider);
-    final textEditingController = ref.watch(mapSearchTextNotifierProvider);
     final searchDatetime = ref.watch(mapSearchDatetimeNotifierProvider);
 
     return Scaffold(
@@ -64,16 +60,20 @@ final class MapScreen extends ConsumerWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: MapSearchBar(
-              textEditingController: textEditingController,
+              textEditingController: viewModel.textEditingController,
               focusNode: viewModel.focusNode,
               onChanged: (value) {
-                ref.read(mapSearchResultListNotifierProvider.notifier).search();
+                ref
+                    .read(mapViewModelProvider.notifier)
+                    .onSearchTextChanged(value);
               },
               onSubmitted: (value) {
-                ref.read(mapSearchResultListNotifierProvider.notifier).search();
+                ref
+                    .read(mapViewModelProvider.notifier)
+                    .onSearchTextSubmitted(value);
               },
               onCleared: () {
-                ref.read(mapSearchResultListNotifierProvider.notifier).search();
+                ref.read(mapViewModelProvider.notifier).onSearchTextCleared();
               },
             ),
           ),
@@ -182,7 +182,7 @@ final class MapScreen extends ConsumerWidget {
                   ],
                 ),
                 MapSearchResultList(
-                  list: list,
+                  list: viewModel.mapDetails,
                   focusNode: viewModel.focusNode,
                   onTapped: (item) {
                     ref
