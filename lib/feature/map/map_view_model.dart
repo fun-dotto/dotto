@@ -18,16 +18,36 @@ class MapViewModel extends _$MapViewModel {
       textEditingController: TextEditingController(),
       mapDetails: const AsyncValue.data([]),
       searchDatetime: DateTime.now(),
+      transformationController: TransformationController(Matrix4.identity()),
     );
   }
 
   void onFloorButtonTapped(Floor floor) {
     state = state.copyWith(selectedFloor: floor);
+    state.transformationController.value = Matrix4(
+      1,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      1,
+    );
   }
 
   void onSearchResultRowTapped(MapDetail mapDetail) {
     state.focusNode.unfocus();
     state = state.copyWith(selectedFloor: Floor.fromLabel(mapDetail.floor));
+    state.transformationController.value.setIdentity();
   }
 
   Future<void> onSearchTextChanged(String _) async {

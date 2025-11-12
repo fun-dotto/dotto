@@ -1,6 +1,5 @@
 import 'package:dotto/controller/user_controller.dart';
 import 'package:dotto/feature/map/controller/focused_map_detail_controller.dart';
-import 'package:dotto/feature/map/controller/map_view_transformation_controller.dart';
 import 'package:dotto/feature/map/controller/using_map_controller.dart';
 import 'package:dotto/feature/map/domain/map_detail.dart';
 import 'package:dotto/feature/map/map_view_model.dart';
@@ -45,9 +44,6 @@ final class MapScreen extends ConsumerWidget {
     final viewModel = ref.watch(mapViewModelProvider);
 
     final user = ref.watch(userProvider);
-    final mapViewTransformationController = ref.watch(
-      mapViewTransformationNotifierProvider,
-    );
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -93,31 +89,6 @@ final class MapScreen extends ConsumerWidget {
                                 .onFloorButtonTapped(floor);
 
                             ref
-                                .read(
-                                  mapViewTransformationNotifierProvider
-                                      .notifier,
-                                )
-                                .value = TransformationController(
-                              Matrix4(
-                                1,
-                                0,
-                                0,
-                                0,
-                                0,
-                                1,
-                                0,
-                                0,
-                                0,
-                                0,
-                                1,
-                                0,
-                                0,
-                                0,
-                                0,
-                                1,
-                              ),
-                            );
-                            ref
                                 .read(focusedMapDetailNotifierProvider.notifier)
                                 .value = MapDetail
                                 .none;
@@ -134,7 +105,7 @@ final class MapScreen extends ConsumerWidget {
                             children: [
                               Map(
                                 mapViewTransformationController:
-                                    mapViewTransformationController,
+                                    viewModel.transformationController,
                                 selectedFloor: viewModel.selectedFloor,
                               ),
                               const Spacer(),
@@ -183,11 +154,6 @@ final class MapScreen extends ConsumerWidget {
 
                     ref.read(focusedMapDetailNotifierProvider.notifier).value =
                         item;
-                    ref
-                        .read(mapViewTransformationNotifierProvider.notifier)
-                        .value
-                        .value
-                        .setIdentity();
                     showBottomSheet(
                       context: context,
                       builder: (BuildContext context) {
