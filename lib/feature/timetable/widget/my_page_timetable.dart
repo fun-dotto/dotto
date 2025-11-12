@@ -1,8 +1,12 @@
 import 'package:dotto/controller/user_controller.dart';
+import 'package:dotto/domain/day_of_week.dart';
 import 'package:dotto/feature/kamoku_detail/kamoku_detail_screen.dart';
 import 'package:dotto/feature/timetable/controller/focused_timetable_date_controller.dart';
+import 'package:dotto/feature/timetable/controller/timetable_period_style_controller.dart';
 import 'package:dotto/feature/timetable/controller/two_week_timetable_controller.dart';
+import 'package:dotto/feature/timetable/domain/period.dart';
 import 'package:dotto/feature/timetable/domain/timetable_course.dart';
+import 'package:dotto/feature/timetable/domain/timetable_period_style.dart';
 import 'package:dotto/feature/timetable/repository/timetable_repository.dart';
 import 'package:dotto/theme/v1/animation.dart';
 import 'package:dotto/theme/v1/color_fun.dart';
@@ -158,74 +162,55 @@ final class MyPageTimetable extends ConsumerWidget {
   Widget timetablePeriod(
     BuildContext context,
     WidgetRef ref,
-    int period,
-    TimeOfDay beginTime,
-    TimeOfDay finishTime,
+    Period period,
     List<TimetableCourse> timetableCourseList,
   ) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 5),
-      margin: const EdgeInsets.symmetric(vertical: 5),
-      height: timetableCourseList.isEmpty
-          ? 40
-          : timetableCourseList.length * 50 - 10,
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        spacing: 24,
-        children: [
-          Container(alignment: Alignment.center, child: Text('$period')),
-          Expanded(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                if (timetableCourseList.isEmpty)
-                  timetableLessonButton(context, ref, null)
-                else
-                  ...timetableCourseList.map(
-                    (timetableCourse) =>
-                        timetableLessonButton(context, ref, timetableCourse),
-                  ),
-              ],
+    final timetablePeriodStyle = ref.watch(
+      timetablePeriodStyleNotifierProvider,
+    );
+    return timetablePeriodStyle.when(
+      data: (style) {
+        return Row(
+          spacing: 8,
+          children: [
+            SizedBox(
+              width: style == TimetablePeriodStyle.numberOnly ? 24 : 64,
+              child: Column(
+                spacing: 4,
+                children: [
+                  Text(period.number.toString()),
+                  if (style == TimetablePeriodStyle.numberAndTime)
+                    Text(
+                      '${period.startTime.format(context)} - ${period.endTime.format(context)}',
+                      style: const TextStyle(fontSize: 10),
+                    ),
+                ],
+              ),
             ),
-          ),
-        ],
-      ),
+            Expanded(
+              child: Column(
+                spacing: 8,
+                children: [
+                  if (timetableCourseList.isEmpty)
+                    timetableLessonButton(context, ref, null)
+                  else
+                    ...timetableCourseList.map(
+                      (timetableCourse) =>
+                          timetableLessonButton(context, ref, timetableCourse),
+                    ),
+                ],
+              ),
+            ),
+          ],
+        );
+      },
+      error: (_, _) => const SizedBox.shrink(),
+      loading: () => const SizedBox.shrink(),
     );
   }
 
-  void setFocusTimetableDay(DateTime dt, WidgetRef ref) {
-    ref.read(focusedTimetableDateNotifierProvider.notifier).value = dt;
-  }
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    const beginPeriod = <TimeOfDay>[
-      TimeOfDay(hour: 9, minute: 0),
-      TimeOfDay(hour: 10, minute: 40),
-      TimeOfDay(hour: 13, minute: 10),
-      TimeOfDay(hour: 14, minute: 50),
-      TimeOfDay(hour: 16, minute: 30),
-      TimeOfDay(hour: 18, minute: 10),
-    ];
-    const finishPeriod = <TimeOfDay>[
-      TimeOfDay(hour: 10, minute: 30),
-      TimeOfDay(hour: 12, minute: 10),
-      TimeOfDay(hour: 14, minute: 40),
-      TimeOfDay(hour: 16, minute: 20),
-      TimeOfDay(hour: 18, minute: 00),
-      TimeOfDay(hour: 19, minute: 40),
-    ];
+  Widget _datePicker(BuildContext context, WidgetRef ref) {
     final dates = TimetableRepository().getDateRange();
-    final weekString = <String>['月', '火', '水', '木', '金', '土', '日'];
-    final weekColors = <Color>[
-      Colors.black,
-      Colors.black,
-      Colors.black,
-      Colors.black,
-      Colors.black,
-      Colors.blue,
-      Colors.red,
-    ];
     final deviceWidth = MediaQuery.of(context).size.width;
     const double buttonSize = 50;
     const double buttonPadding = 8;
@@ -238,90 +223,96 @@ final class MyPageTimetable extends ConsumerWidget {
     final controller = ScrollController(
       initialScrollOffset: initialScrollOffset.toDouble(),
     );
+    final focusTimetableDay = ref.watch(focusedTimetableDateNotifierProvider);
+    return SingleChildScrollView(
+      controller: controller,
+      scrollDirection: Axis.horizontal,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          spacing: buttonPadding / 2,
+          children: dates.map((date) {
+            return ElevatedButton(
+              onPressed: () async {
+                ref.read(focusedTimetableDateNotifierProvider.notifier).value =
+                    date;
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: focusTimetableDay.day == date.day
+                    ? customFunColor
+                    : Colors.white,
+                foregroundColor: focusTimetableDay.day == date.day
+                    ? Colors.white
+                    : Colors.black,
+                shape: const CircleBorder(
+                  side: BorderSide(style: BorderStyle.none),
+                ),
+                minimumSize: const Size(buttonSize, buttonSize),
+                fixedSize: const Size(buttonSize, buttonSize),
+                padding: EdgeInsets.zero,
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    DateFormat('dd').format(date),
+                    style: TextStyle(
+                      fontWeight: (focusTimetableDay.day == date.day)
+                          ? FontWeight.w600
+                          : null,
+                      fontSize: 14,
+                    ),
+                  ),
+                  Text(
+                    DateFormat('E').format(date),
+                    style: TextStyle(
+                      fontSize: 10,
+                      color: focusTimetableDay.day == date.day
+                          ? Colors.white
+                          : DayOfWeek.fromDateTime(date).color,
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }).toList(),
+        ),
+      ),
+    );
+  }
+
+  Widget _timetableColumn(BuildContext context, WidgetRef ref) {
     final twoWeekTimetable = ref.watch(twoWeekTimetableNotifierProvider);
     final focusTimetableDay = ref.watch(focusedTimetableDateNotifierProvider);
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Column(
+        spacing: 8,
+        children: List.generate(6, (index) {
+          final period = Period.values[index];
+          return twoWeekTimetable.when(
+            data: (data) {
+              return timetablePeriod(
+                context,
+                ref,
+                period,
+                data[focusTimetableDay]![index + 1] ?? [],
+              );
+            },
+            error: (error, stackTrace) => const SizedBox.shrink(),
+            loading: () => const SizedBox.shrink(),
+          );
+        }),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
     return Column(
       spacing: 8,
-      children: [
-        SingleChildScrollView(
-          controller: controller,
-          scrollDirection: Axis.horizontal,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              spacing: buttonPadding / 2,
-              children: dates.map((date) {
-                return ElevatedButton(
-                  onPressed: () async {
-                    setFocusTimetableDay(date, ref);
-                  },
-                  style: ElevatedButton.styleFrom(
-                    surfaceTintColor: Colors.white,
-                    backgroundColor: focusTimetableDay.day == date.day
-                        ? customFunColor
-                        : Colors.white,
-                    foregroundColor: focusTimetableDay.day == date.day
-                        ? Colors.white
-                        : Colors.black,
-                    shape: const CircleBorder(side: BorderSide()),
-                    minimumSize: const Size(buttonSize, buttonSize),
-                    fixedSize: const Size(buttonSize, buttonSize),
-                    padding: EdgeInsets.zero,
-                  ),
-                  // 日付表示
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        DateFormat('dd').format(date),
-                        style: TextStyle(
-                          fontWeight: (focusTimetableDay.day == date.day)
-                              ? FontWeight.w600
-                              : null,
-                          fontSize: 13,
-                        ),
-                      ),
-                      Text(
-                        weekString[date.weekday - 1],
-                        style: TextStyle(
-                          fontSize: 9,
-                          color: focusTimetableDay.day == date.day
-                              ? Colors.white
-                              : weekColors[date.weekday - 1],
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              }).toList(),
-            ),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Column(
-            children: List.generate(6, (index) {
-              return twoWeekTimetable.when(
-                data: (data) {
-                  return timetablePeriod(
-                    context,
-                    ref,
-                    index + 1,
-                    beginPeriod[index],
-                    finishPeriod[index],
-                    data.isNotEmpty
-                        ? data[focusTimetableDay]![index + 1] ?? []
-                        : [],
-                  );
-                },
-                error: (error, stackTrace) => const SizedBox.shrink(),
-                loading: () => const SizedBox.shrink(),
-              );
-            }),
-          ),
-        ),
-      ],
+      children: [_datePicker(context, ref), _timetableColumn(context, ref)],
     );
   }
 }

@@ -5,7 +5,10 @@ final class FirebaseAnalyticsRepository {
 
   final FirebaseAnalytics _analytics = FirebaseAnalytics.instance;
 
-  Future<void> logEvent(String name, Map<String, Object> parameters) async {
+  Future<void> logEvent({
+    required String name,
+    Map<String, Object>? parameters,
+  }) async {
     await _analytics.logEvent(name: name, parameters: parameters);
   }
 

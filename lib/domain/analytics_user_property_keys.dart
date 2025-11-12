@@ -1,7 +1,7 @@
 enum AnalyticsUserPropertyKeys {
-  grade('grade');
+  grade(key: 'grade');
 
-  const AnalyticsUserPropertyKeys(this.name);
+  const AnalyticsUserPropertyKeys({required this.key});
 
-  final String name;
+  final String key;
 }

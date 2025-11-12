@@ -89,7 +89,9 @@ platform :ios do
     build_appstore
     upload_to_testflight(
       skip_submission: true,
-      notify_external_testers: true
+      notify_external_testers: true,
+      distribute_external: true,
+      groups: ["Dotto Developer"],
     )
     reset_build_number
   end
