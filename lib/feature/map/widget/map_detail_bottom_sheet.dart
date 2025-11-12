@@ -4,7 +4,7 @@ import 'package:dotto/domain/tab_item.dart';
 import 'package:dotto/feature/map/controller/map_detail_map_controller.dart';
 import 'package:dotto/feature/map/controller/map_search_datetime_controller.dart';
 import 'package:dotto/feature/map/domain/map_detail.dart';
-import 'package:dotto/feature/map/domain/map_room_available_type.dart';
+import 'package:dotto/feature/map/domain/room_equipment.dart';
 import 'package:dotto/feature/map/widget/fun_grid_map.dart';
 import 'package:dotto/feature/map/widget/map_tile.dart';
 import 'package:dotto_design_system/component/button.dart';
