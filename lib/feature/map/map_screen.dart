@@ -1,6 +1,13 @@
+import 'package:dotto/feature/map/controller/focused_map_detail_controller.dart';
+import 'package:dotto/feature/map/controller/map_search_focus_node_controller.dart';
+import 'package:dotto/feature/map/controller/map_search_has_focus_controller.dart';
+import 'package:dotto/feature/map/controller/map_search_result_list_controller.dart';
 import 'package:dotto/feature/map/controller/map_view_transformation_controller.dart';
+import 'package:dotto/feature/map/controller/selected_floor_controller.dart';
+import 'package:dotto/feature/map/domain/floor.dart';
 import 'package:dotto/feature/map/widget/map.dart';
 import 'package:dotto/feature/map/widget/map_date_picker.dart';
+import 'package:dotto/feature/map/widget/map_detail_bottom_sheet.dart';
 import 'package:dotto/feature/map/widget/map_floor_button.dart';
 import 'package:dotto/feature/map/widget/map_legend.dart';
 import 'package:dotto/feature/map/widget/map_search_bar.dart';
@@ -16,6 +23,9 @@ final class MapScreen extends ConsumerWidget {
     final mapViewTransformationController = ref.watch(
       mapViewTransformationNotifierProvider,
     );
+    final focusNode = ref.watch(mapSearchFocusNodeNotifierProvider);
+    final hasFocus = ref.watch(mapSearchHasFocusNotifierProvider);
+    final list = ref.watch(mapSearchResultListNotifierProvider);
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -69,7 +79,32 @@ final class MapScreen extends ConsumerWidget {
                     ),
                   ],
                 ),
-                const MapSearchResultList(),
+                MapSearchResultList(
+                  list: list,
+                  hasFocus: hasFocus,
+                  focusNode: focusNode,
+                  onTapped: (item) {
+                    focusNode.unfocus();
+                    ref.read(selectedFloorNotifierProvider.notifier).value =
+                        Floor.fromLabel(item.floor);
+                    ref.read(focusedMapDetailNotifierProvider.notifier).value =
+                        item;
+                    ref
+                        .read(mapViewTransformationNotifierProvider.notifier)
+                        .value
+                        .value
+                        .setIdentity();
+                    showBottomSheet(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return MapDetailBottomSheet(
+                          floor: item.floor,
+                          roomName: item.roomName,
+                        );
+                      },
+                    );
+                  },
+                ),
               ],
             ),
           ),

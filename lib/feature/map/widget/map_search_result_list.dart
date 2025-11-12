@@ -1,22 +1,23 @@
-import 'package:dotto/feature/map/controller/focused_map_detail_controller.dart';
-import 'package:dotto/feature/map/controller/map_search_focus_node_controller.dart';
-import 'package:dotto/feature/map/controller/map_search_has_focus_controller.dart';
-import 'package:dotto/feature/map/controller/map_search_result_list_controller.dart';
-import 'package:dotto/feature/map/controller/map_view_transformation_controller.dart';
-import 'package:dotto/feature/map/controller/selected_floor_controller.dart';
-import 'package:dotto/feature/map/domain/floor.dart';
-import 'package:dotto/feature/map/widget/map_detail_bottom_sheet.dart';
+import 'package:dotto/feature/map/domain/map_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final class MapSearchResultList extends ConsumerWidget {
-  const MapSearchResultList({super.key});
+final class MapSearchResultList extends StatelessWidget {
+  const MapSearchResultList({
+    required this.list,
+    required this.hasFocus,
+    required this.focusNode,
+    required this.onTapped,
+    super.key,
+  });
+
+  final AsyncValue<List<MapDetail>> list;
+  final bool hasFocus;
+  final FocusNode focusNode;
+  final void Function(MapDetail) onTapped;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final focusNode = ref.watch(mapSearchFocusNodeNotifierProvider);
-    final hasFocus = ref.watch(mapSearchHasFocusNotifierProvider);
-    final list = ref.watch(mapSearchResultListNotifierProvider);
+  Widget build(BuildContext context) {
     return list.when(
       data: (data) {
         // フォーカスがない場合、または検索結果が空の場合は非表示
@@ -37,29 +38,7 @@ final class MapSearchResultList extends ConsumerWidget {
                     return ListTile(
                       title: Text(item.header),
                       onTap: () {
-                        focusNode.unfocus();
-                        ref.read(selectedFloorNotifierProvider.notifier).value =
-                            Floor.fromLabel(item.floor);
-                        ref
-                                .read(focusedMapDetailNotifierProvider.notifier)
-                                .value =
-                            item;
-                        ref
-                            .read(
-                              mapViewTransformationNotifierProvider.notifier,
-                            )
-                            .value
-                            .value
-                            .setIdentity();
-                        showBottomSheet(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return MapDetailBottomSheet(
-                              floor: item.floor,
-                              roomName: item.roomName,
-                            );
-                          },
-                        );
+                        onTapped(item);
                       },
                     );
                   },
