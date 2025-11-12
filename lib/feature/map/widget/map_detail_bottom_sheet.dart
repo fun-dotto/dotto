@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
+// TODO: Change to StatelessWidget
 final class MapDetailBottomSheet extends ConsumerWidget {
   const MapDetailBottomSheet({
     required this.floor,

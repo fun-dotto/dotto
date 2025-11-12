@@ -174,6 +174,7 @@ final class MapTile extends StatelessWidget {
       );
     }
 
+    // TODO: Remove Consumer
     return Consumer(
       builder: (context, ref, child) {
         final usingMap = ref.watch(usingMapNotifierProvider);
@@ -216,6 +217,7 @@ final class MapTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final widgetList = <Widget>[
       SizedBox.expand(
+        // TODO: Remove Consumer
         child: Consumer(
           builder: (context, ref, child) {
             final focusedMapDetail = ref.watch(
@@ -308,6 +310,8 @@ final class MapTile extends StatelessWidget {
         }
       }
     }
+
+    // TODO: Remove Consumer
     return Consumer(
       builder: (context, ref, child) {
         final selectedFloor = ref.watch(selectedFloorNotifierProvider);
