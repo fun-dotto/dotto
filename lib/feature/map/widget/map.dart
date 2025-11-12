@@ -1,16 +1,13 @@
-import 'package:dotto/feature/map/controller/map_view_transformation_controller.dart';
 import 'package:dotto/feature/map/widget/map_grid.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final class Map extends ConsumerWidget {
-  const Map({super.key});
+final class Map extends StatelessWidget {
+  const Map({required this.mapViewTransformationController, super.key});
+
+  final TransformationController mapViewTransformationController;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final mapViewTransformationController = ref.watch(
-      mapViewTransformationNotifierProvider,
-    );
+  Widget build(BuildContext context) {
     return InteractiveViewer(
       maxScale: 10,
       // 倍率行列Matrix4

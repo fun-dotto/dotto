@@ -1,3 +1,4 @@
+import 'package:dotto/feature/map/controller/map_view_transformation_controller.dart';
 import 'package:dotto/feature/map/widget/map.dart';
 import 'package:dotto/feature/map/widget/map_date_picker.dart';
 import 'package:dotto/feature/map/widget/map_floor_button.dart';
@@ -12,6 +13,10 @@ final class MapScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final mapViewTransformationController = ref.watch(
+      mapViewTransformationNotifierProvider,
+    );
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(title: const Text('マップ'), centerTitle: false),
@@ -35,12 +40,20 @@ final class MapScreen extends ConsumerWidget {
                         child: MapFloorButton(),
                       ),
                     ),
-                    const Expanded(
+                    Expanded(
                       child: Stack(
                         alignment: Alignment.bottomLeft,
                         children: [
-                          Column(children: [Map(), Spacer()]),
-                          Padding(
+                          Column(
+                            children: [
+                              Map(
+                                mapViewTransformationController:
+                                    mapViewTransformationController,
+                              ),
+                              const Spacer(),
+                            ],
+                          ),
+                          const Padding(
                             padding: EdgeInsets.only(left: 16),
                             child: MapLegend(),
                           ),
