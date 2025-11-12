@@ -1,8 +1,8 @@
 import 'package:dotto/feature/map/controller/focused_map_detail_controller.dart';
 import 'package:dotto/feature/map/controller/map_search_focus_node_controller.dart';
-import 'package:dotto/feature/map/controller/selected_floor_controller.dart';
 import 'package:dotto/feature/map/controller/using_map_controller.dart';
 import 'package:dotto/feature/map/domain/map_tile_type.dart';
+import 'package:dotto/feature/map/map_view_model.dart';
 import 'package:dotto/feature/map/widget/map_detail_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -223,7 +223,7 @@ final class MapTile extends StatelessWidget {
             final focusedMapDetail = ref.watch(
               focusedMapDetailNotifierProvider,
             );
-            final selectedFloor = ref.watch(selectedFloorNotifierProvider);
+            final viewModel = ref.watch(mapViewModelProvider);
             final usingMap = ref.watch(usingMapNotifierProvider);
             if (classroomNo != null) {
               if (usingMap.containsKey(classroomNo)) {
@@ -237,7 +237,7 @@ final class MapTile extends StatelessWidget {
               }
             }
             var focus = false;
-            if (focusedMapDetail.floor == selectedFloor.label) {
+            if (focusedMapDetail.floor == viewModel.selectedFloor.label) {
               if (focusedMapDetail.roomName == txt) {
                 focus = true;
               }
@@ -314,7 +314,7 @@ final class MapTile extends StatelessWidget {
     // TODO: Remove Consumer
     return Consumer(
       builder: (context, ref, child) {
-        final selectedFloor = ref.watch(selectedFloorNotifierProvider);
+        final viewModel = ref.watch(mapViewModelProvider);
         final mapSearchFocusNode = ref.watch(
           mapSearchFocusNodeNotifierProvider,
         );
@@ -325,7 +325,7 @@ final class MapTile extends StatelessWidget {
                     context: context,
                     builder: (BuildContext context) {
                       return MapDetailBottomSheet(
-                        floor: selectedFloor.label,
+                        floor: viewModel.selectedFloor.label,
                         roomName: txt,
                       );
                     },

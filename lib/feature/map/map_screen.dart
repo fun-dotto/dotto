@@ -6,10 +6,9 @@ import 'package:dotto/feature/map/controller/map_search_has_focus_controller.dar
 import 'package:dotto/feature/map/controller/map_search_result_list_controller.dart';
 import 'package:dotto/feature/map/controller/map_search_text_controller.dart';
 import 'package:dotto/feature/map/controller/map_view_transformation_controller.dart';
-import 'package:dotto/feature/map/controller/selected_floor_controller.dart';
 import 'package:dotto/feature/map/controller/using_map_controller.dart';
-import 'package:dotto/feature/map/domain/floor.dart';
 import 'package:dotto/feature/map/domain/map_detail.dart';
+import 'package:dotto/feature/map/map_view_model.dart';
 import 'package:dotto/feature/map/widget/map.dart';
 import 'package:dotto/feature/map/widget/map_date_picker.dart';
 import 'package:dotto/feature/map/widget/map_detail_bottom_sheet.dart';
@@ -48,6 +47,8 @@ final class MapScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final viewModel = ref.watch(mapViewModelProvider);
+
     final user = ref.watch(userProvider);
     final mapViewTransformationController = ref.watch(
       mapViewTransformationNotifierProvider,
@@ -56,7 +57,6 @@ final class MapScreen extends ConsumerWidget {
     final hasFocus = ref.watch(mapSearchHasFocusNotifierProvider);
     final list = ref.watch(mapSearchResultListNotifierProvider);
     final textEditingController = ref.watch(mapSearchTextNotifierProvider);
-    final selectedFloor = ref.watch(selectedFloorNotifierProvider);
     final searchDatetime = ref.watch(mapSearchDatetimeNotifierProvider);
 
     return Scaffold(
@@ -92,8 +92,12 @@ final class MapScreen extends ConsumerWidget {
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16),
                         child: MapFloorButton(
-                          selectedFloor: selectedFloor,
+                          selectedFloor: viewModel.selectedFloor,
                           onPressed: (floor) {
+                            ref
+                                .read(mapViewModelProvider.notifier)
+                                .onFloorButtonTapped(floor);
+
                             ref
                                 .read(
                                   mapViewTransformationNotifierProvider
@@ -120,12 +124,6 @@ final class MapScreen extends ConsumerWidget {
                               ),
                             );
                             ref
-                                    .read(
-                                      selectedFloorNotifierProvider.notifier,
-                                    )
-                                    .value =
-                                floor;
-                            ref
                                 .read(focusedMapDetailNotifierProvider.notifier)
                                 .value = MapDetail
                                 .none;
@@ -143,7 +141,7 @@ final class MapScreen extends ConsumerWidget {
                               Map(
                                 mapViewTransformationController:
                                     mapViewTransformationController,
-                                selectedFloor: selectedFloor,
+                                selectedFloor: viewModel.selectedFloor,
                               ),
                               const Spacer(),
                             ],
@@ -192,9 +190,11 @@ final class MapScreen extends ConsumerWidget {
                   hasFocus: hasFocus,
                   focusNode: focusNode,
                   onTapped: (item) {
+                    ref
+                        .read(mapViewModelProvider.notifier)
+                        .onSearchResultRowTapped(item);
+
                     focusNode.unfocus();
-                    ref.read(selectedFloorNotifierProvider.notifier).value =
-                        Floor.fromLabel(item.floor);
                     ref.read(focusedMapDetailNotifierProvider.notifier).value =
                         item;
                     ref
