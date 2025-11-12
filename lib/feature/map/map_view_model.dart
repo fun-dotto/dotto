@@ -1,6 +1,7 @@
 import 'package:dotto/feature/map/domain/floor.dart';
 import 'package:dotto/feature/map/domain/map_detail.dart';
 import 'package:dotto/feature/map/map_view_model_state.dart';
+import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'map_view_model.g.dart';
@@ -9,7 +10,10 @@ part 'map_view_model.g.dart';
 class MapViewModel extends _$MapViewModel {
   @override
   MapViewModelState build() {
-    return const MapViewModelState(selectedFloor: Floor.third);
+    return MapViewModelState(
+      selectedFloor: Floor.third,
+      focusNode: FocusNode(),
+    );
   }
 
   void onFloorButtonTapped(Floor floor) {
@@ -17,6 +21,7 @@ class MapViewModel extends _$MapViewModel {
   }
 
   void onSearchResultRowTapped(MapDetail mapDetail) {
+    state.focusNode.unfocus();
     state = state.copyWith(selectedFloor: Floor.fromLabel(mapDetail.floor));
   }
 }

@@ -5,14 +5,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 final class MapSearchResultList extends StatelessWidget {
   const MapSearchResultList({
     required this.list,
-    required this.hasFocus,
     required this.focusNode,
     required this.onTapped,
     super.key,
   });
 
   final AsyncValue<List<MapDetail>> list;
-  final bool hasFocus;
   final FocusNode focusNode;
   final void Function(MapDetail) onTapped;
 
@@ -21,7 +19,7 @@ final class MapSearchResultList extends StatelessWidget {
     return list.when(
       data: (data) {
         // フォーカスがない場合、または検索結果が空の場合は非表示
-        if (!hasFocus || data.isEmpty) {
+        if (!focusNode.hasFocus || data.isEmpty) {
           return const SizedBox.shrink();
         }
         return Container(

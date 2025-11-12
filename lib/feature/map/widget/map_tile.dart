@@ -1,5 +1,4 @@
 import 'package:dotto/feature/map/controller/focused_map_detail_controller.dart';
-import 'package:dotto/feature/map/controller/map_search_focus_node_controller.dart';
 import 'package:dotto/feature/map/controller/using_map_controller.dart';
 import 'package:dotto/feature/map/domain/map_tile_type.dart';
 import 'package:dotto/feature/map/map_view_model.dart';
@@ -315,9 +314,6 @@ final class MapTile extends StatelessWidget {
     return Consumer(
       builder: (context, ref, child) {
         final viewModel = ref.watch(mapViewModelProvider);
-        final mapSearchFocusNode = ref.watch(
-          mapSearchFocusNodeNotifierProvider,
-        );
         return GestureDetector(
           onTap: (txt.isNotEmpty && ttype.index <= MapTileType.subroom.index)
               ? () {
@@ -330,7 +326,7 @@ final class MapTile extends StatelessWidget {
                       );
                     },
                   );
-                  mapSearchFocusNode.unfocus();
+                  viewModel.focusNode.unfocus();
                 }
               : null,
           child: Stack(

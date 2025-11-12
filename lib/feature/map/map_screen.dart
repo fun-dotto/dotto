@@ -1,8 +1,6 @@
 import 'package:dotto/controller/user_controller.dart';
 import 'package:dotto/feature/map/controller/focused_map_detail_controller.dart';
 import 'package:dotto/feature/map/controller/map_search_datetime_controller.dart';
-import 'package:dotto/feature/map/controller/map_search_focus_node_controller.dart';
-import 'package:dotto/feature/map/controller/map_search_has_focus_controller.dart';
 import 'package:dotto/feature/map/controller/map_search_result_list_controller.dart';
 import 'package:dotto/feature/map/controller/map_search_text_controller.dart';
 import 'package:dotto/feature/map/controller/map_view_transformation_controller.dart';
@@ -53,8 +51,6 @@ final class MapScreen extends ConsumerWidget {
     final mapViewTransformationController = ref.watch(
       mapViewTransformationNotifierProvider,
     );
-    final focusNode = ref.watch(mapSearchFocusNodeNotifierProvider);
-    final hasFocus = ref.watch(mapSearchHasFocusNotifierProvider);
     final list = ref.watch(mapSearchResultListNotifierProvider);
     final textEditingController = ref.watch(mapSearchTextNotifierProvider);
     final searchDatetime = ref.watch(mapSearchDatetimeNotifierProvider);
@@ -69,7 +65,7 @@ final class MapScreen extends ConsumerWidget {
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: MapSearchBar(
               textEditingController: textEditingController,
-              focusNode: focusNode,
+              focusNode: viewModel.focusNode,
               onChanged: (value) {
                 ref.read(mapSearchResultListNotifierProvider.notifier).search();
               },
@@ -187,14 +183,12 @@ final class MapScreen extends ConsumerWidget {
                 ),
                 MapSearchResultList(
                   list: list,
-                  hasFocus: hasFocus,
-                  focusNode: focusNode,
+                  focusNode: viewModel.focusNode,
                   onTapped: (item) {
                     ref
                         .read(mapViewModelProvider.notifier)
                         .onSearchResultRowTapped(item);
 
-                    focusNode.unfocus();
                     ref.read(focusedMapDetailNotifierProvider.notifier).value =
                         item;
                     ref
