@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:app_links/app_links.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dotto/controller/analytics_controller.dart';
 import 'package:dotto/controller/config_controller.dart';
 import 'package:dotto/controller/tab_controller.dart';
 import 'package:dotto/controller/user_controller.dart';
@@ -139,12 +140,20 @@ final class _BasePageState extends ConsumerState<BasePage> {
     }
   }
 
+  Future<void> _setupAnalytics() async {
+    final user = ref.read(userProvider);
+    if (user != null) {
+      await ref.read(analyticsControllerProvider.notifier).setUserId(user.uid);
+    }
+  }
+
   Future<void> init() async {
+    await _saveFCMToken();
+    await _setupAnalytics();
     await NotificationRepository().setupInteractedMessage(ref);
     await setupUniversalLinks();
     await getPersonalLessonIdList();
     await getBus();
-    await _saveFCMToken();
   }
 
   @override
@@ -168,15 +177,11 @@ final class _BasePageState extends ConsumerState<BasePage> {
     ref.read(tabItemProvider.notifier).selected(selectedTab);
   }
 
-  Future<bool> isAppTutorialCompleted() async {
-    return await UserPreferenceRepository.getBool(
+  Future<void> _showAppTutorial(BuildContext context) async {
+    if (await UserPreferenceRepository.getBool(
           UserPreferenceKeys.isAppTutorialComplete,
         ) ??
-        false;
-  }
-
-  Future<void> _showAppTutorial(BuildContext context) async {
-    if (await isAppTutorialCompleted()) {
+        false) {
       return;
     }
     if (context.mounted) {
