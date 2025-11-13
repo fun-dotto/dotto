@@ -103,7 +103,7 @@ final class MapDetailBottomSheet extends ConsumerWidget {
     final mapDetailMap = ref.watch(mapDetailMapNotifierProvider);
     final user = ref.watch(userProvider);
     var roomTitle = roomName;
-    Room? mapDetail;
+    MapDetail? mapDetail;
     if (user != null) {
       mapDetailMap.when(
         data: (data) {

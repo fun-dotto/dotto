@@ -1,7 +1,7 @@
 import 'package:dotto/domain/room_schedule.dart';
 
-final class Room {
-  const Room(
+final class MapDetail {
+  const MapDetail(
     this.floor,
     this.roomName,
     this.classroomNo,
@@ -12,7 +12,7 @@ final class Room {
     this.scheduleList,
   });
 
-  factory Room.fromFirebase(
+  factory MapDetail.fromFirebase(
     String floor,
     String roomName,
     Map<String, dynamic> value,
@@ -54,7 +54,7 @@ final class Room {
         ? classroomNoRaw
         : int.tryParse(classroomNoRaw?.toString() ?? '');
 
-    return Room(
+    return MapDetail(
       floor,
       roomName,
       classroomNo,
@@ -75,7 +75,15 @@ final class Room {
   final String? mail;
   final List<String>? searchWordList;
 
-  static const Room none = Room('1', '0', null, '0', null, null, null);
+  static const MapDetail none = MapDetail(
+    '1',
+    '0',
+    null,
+    '0',
+    null,
+    null,
+    null,
+  );
 
   List<RoomSchedule> getScheduleListByDate(DateTime dateTime) {
     final list = scheduleList;
