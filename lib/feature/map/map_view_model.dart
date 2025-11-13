@@ -14,8 +14,7 @@ part 'map_view_model.g.dart';
 class MapViewModel extends _$MapViewModel {
   @override
   MapViewModelState build() {
-    _getRooms(ref);
-    return MapViewModelState(
+    final state = MapViewModelState(
       selectedFloor: Floor.third,
       focusNode: FocusNode(),
       textEditingController: TextEditingController(),
@@ -25,6 +24,8 @@ class MapViewModel extends _$MapViewModel {
       transformationController: TransformationController(Matrix4.identity()),
       focusedMapDetail: MapDetail.none,
     );
+    _getRooms(ref);
+    return state;
   }
 
   void onFloorButtonTapped(Floor floor) {
