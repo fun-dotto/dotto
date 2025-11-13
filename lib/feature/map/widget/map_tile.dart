@@ -1,5 +1,6 @@
 import 'package:dotto/controller/tab_controller.dart';
 import 'package:dotto/controller/user_controller.dart';
+import 'package:dotto/domain/map_colors.dart';
 import 'package:dotto/domain/map_tile_type.dart';
 import 'package:dotto/domain/tab_item.dart';
 import 'package:dotto/feature/map/controller/using_map_controller.dart';
@@ -7,12 +8,6 @@ import 'package:dotto/feature/map/map_view_model.dart';
 import 'package:dotto/feature/map/widget/map_detail_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-abstract final class MapColors {
-  static Color get using => Colors.orange.shade300;
-  static Color get wcMan => Colors.blue.shade800;
-  static Color get wcWoman => Colors.red.shade800;
-}
 
 // 階段の時の描画設定
 final class MapStairType {
