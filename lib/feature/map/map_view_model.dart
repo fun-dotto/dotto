@@ -1,5 +1,5 @@
 import 'package:dotto/domain/floor.dart';
-import 'package:dotto/feature/map/domain/room.dart';
+import 'package:dotto/feature/map/domain/map_detail.dart';
 import 'package:dotto/feature/map/domain/map_detail_map.dart';
 import 'package:dotto/feature/map/map_view_model_state.dart';
 import 'package:dotto/feature/map/repository/map_repository.dart';
