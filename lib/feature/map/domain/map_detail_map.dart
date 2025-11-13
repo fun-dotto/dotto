@@ -1,4 +1,4 @@
-import 'package:dotto/feature/map/domain/map_detail.dart';
+import 'package:dotto/feature/map/domain/room.dart';
 
 final class MapDetailMap {
   MapDetailMap(this.mapDetailList);

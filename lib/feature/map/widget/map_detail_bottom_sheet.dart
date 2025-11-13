@@ -2,7 +2,7 @@ import 'package:dotto/controller/tab_controller.dart';
 import 'package:dotto/controller/user_controller.dart';
 import 'package:dotto/domain/tab_item.dart';
 import 'package:dotto/feature/map/controller/map_detail_map_controller.dart';
-import 'package:dotto/feature/map/domain/map_detail.dart';
+import 'package:dotto/feature/map/domain/room.dart';
 import 'package:dotto/domain/room_equipment.dart';
 import 'package:dotto/feature/map/map_view_model.dart';
 import 'package:dotto/feature/map/widget/fun_grid_map.dart';

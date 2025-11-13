@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:dotto/controller/user_controller.dart';
-import 'package:dotto/feature/map/domain/map_detail.dart';
+import 'package:dotto/feature/map/domain/room.dart';
 import 'package:dotto/repository/firebase_realtime_database_repository.dart';
 import 'package:dotto/repository/read_json_file.dart';
 import 'package:flutter/material.dart';
