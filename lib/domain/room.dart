@@ -6,8 +6,6 @@ part 'room.freezed.dart';
 
 @freezed
 abstract class Room with _$Room {
-  const Room._();
-
   const factory Room({
     required String id,
     required String name,
@@ -17,6 +15,8 @@ abstract class Room with _$Room {
     required List<String> keywords,
     required List<RoomSchedule> schedules,
   }) = _Room;
+
+  const Room._();
 
   bool isInUse(DateTime dateTime) {
     return schedules.any(
