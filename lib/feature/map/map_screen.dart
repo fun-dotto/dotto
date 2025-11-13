@@ -92,7 +92,6 @@ final class MapScreen extends ConsumerWidget {
                                 .read(focusedMapDetailNotifierProvider.notifier)
                                 .value = MapDetail
                                 .none;
-                            FocusScope.of(context).unfocus();
                           },
                         ),
                       ),

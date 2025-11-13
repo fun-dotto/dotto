@@ -23,6 +23,7 @@ class MapViewModel extends _$MapViewModel {
   }
 
   void onFloorButtonTapped(Floor floor) {
+    state.focusNode.unfocus();
     state = state.copyWith(selectedFloor: floor);
     state.transformationController.value = Matrix4(
       1,
