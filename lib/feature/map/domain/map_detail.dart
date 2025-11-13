@@ -1,4 +1,4 @@
-import 'package:dotto/feature/map/domain/room_schedule.dart';
+import 'package:dotto/domain/room_schedule.dart';
 
 final class MapDetail {
   const MapDetail(

@@ -1,4 +1,4 @@
-import 'package:dotto/feature/map/domain/floor.dart';
+import 'package:dotto/domain/floor.dart';
 import 'package:dotto/feature/map/domain/map_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

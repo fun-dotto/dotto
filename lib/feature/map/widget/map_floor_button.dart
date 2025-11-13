@@ -1,4 +1,4 @@
-import 'package:dotto/feature/map/domain/floor.dart';
+import 'package:dotto/domain/floor.dart';
 import 'package:dotto/theme/v1/color_fun.dart';
 import 'package:flutter/material.dart';
 
