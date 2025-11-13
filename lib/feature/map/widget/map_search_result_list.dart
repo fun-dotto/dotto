@@ -10,9 +10,9 @@ final class MapSearchResultList extends StatelessWidget {
     super.key,
   });
 
-  final AsyncValue<List<MapDetail>> list;
+  final AsyncValue<List<Room>> list;
   final FocusNode focusNode;
-  final void Function(MapDetail) onTapped;
+  final void Function(Room) onTapped;
 
   @override
   Widget build(BuildContext context) {

@@ -19,16 +19,13 @@ class MapViewModel extends _$MapViewModel {
       mapDetails: const AsyncValue.data([]),
       searchDatetime: DateTime.now(),
       transformationController: TransformationController(Matrix4.identity()),
-      focusedMapDetail: MapDetail.none,
+      focusedMapDetail: Room.none,
     );
   }
 
   void onFloorButtonTapped(Floor floor) {
     state.focusNode.unfocus();
-    state = state.copyWith(
-      selectedFloor: floor,
-      focusedMapDetail: MapDetail.none,
-    );
+    state = state.copyWith(selectedFloor: floor, focusedMapDetail: Room.none);
     state.transformationController.value = Matrix4(
       1,
       0,
@@ -49,7 +46,7 @@ class MapViewModel extends _$MapViewModel {
     );
   }
 
-  void onSearchResultRowTapped(MapDetail mapDetail) {
+  void onSearchResultRowTapped(Room mapDetail) {
     state.focusNode.unfocus();
     state = state.copyWith(
       selectedFloor: Floor.fromLabel(mapDetail.floor),
@@ -73,7 +70,7 @@ class MapViewModel extends _$MapViewModel {
     state = state.copyWith(mapDetails: mapDetails);
   }
 
-  Future<List<MapDetail>> _search() async {
+  Future<List<Room>> _search() async {
     if (state.textEditingController.text.isEmpty) {
       return [];
     }

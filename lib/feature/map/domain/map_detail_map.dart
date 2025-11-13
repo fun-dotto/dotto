@@ -2,9 +2,9 @@ import 'package:dotto/feature/map/domain/map_detail.dart';
 
 final class MapDetailMap {
   MapDetailMap(this.mapDetailList);
-  final Map<String, Map<String, MapDetail>> mapDetailList;
+  final Map<String, Map<String, Room>> mapDetailList;
 
-  MapDetail? searchOnce(String floor, String roomName) {
+  Room? searchOnce(String floor, String roomName) {
     if (mapDetailList.containsKey(floor)) {
       if (mapDetailList[floor]!.containsKey(roomName)) {
         return mapDetailList[floor]![roomName]!;
@@ -13,11 +13,11 @@ final class MapDetailMap {
     return null;
   }
 
-  List<MapDetail> searchAll(String searchText) {
-    final results = <MapDetail>[];
-    final results2 = <MapDetail>[];
-    final results3 = <MapDetail>[];
-    final results4 = <MapDetail>[];
+  List<Room> searchAll(String searchText) {
+    final results = <Room>[];
+    final results2 = <Room>[];
+    final results3 = <Room>[];
+    final results4 = <Room>[];
     mapDetailList.forEach((_, value) {
       for (final mapDetail in value.values) {
         if (mapDetail.roomName == searchText) {

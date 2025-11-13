@@ -12,9 +12,9 @@ abstract class MapViewModelState with _$MapViewModelState {
     required Floor selectedFloor,
     required FocusNode focusNode,
     required TextEditingController textEditingController,
-    required AsyncValue<List<MapDetail>> mapDetails,
+    required AsyncValue<List<Room>> mapDetails,
     required DateTime searchDatetime,
     required TransformationController transformationController,
-    required MapDetail focusedMapDetail,
+    required Room focusedMapDetail,
   }) = _MapViewModelState;
 }

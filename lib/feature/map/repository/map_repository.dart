@@ -14,15 +14,14 @@ final class MapRepository {
   MapRepository._internal();
   static final MapRepository _instance = MapRepository._internal();
 
-  Future<Map<String, Map<String, MapDetail>>>
-  getMapDetailMapFromFirebase() async {
+  Future<Map<String, Map<String, Room>>> getMapDetailMapFromFirebase() async {
     final snapshot = await FirebaseRealtimeDatabaseRepository().getData(
       'map',
     ); //firebaseから情報取得
     final snapshotRoom = await FirebaseRealtimeDatabaseRepository().getData(
       'map_room_schedule',
     ); //firebaseから情報取得
-    final returnList = <String, Map<String, MapDetail>>{
+    final returnList = <String, Map<String, Room>>{
       '1': {},
       '2': {},
       '3': {},
@@ -40,11 +39,11 @@ final class MapRepository {
         final floorKey = floor.toString();
         final roomMap = returnList.putIfAbsent(
           floorKey,
-          () => <String, MapDetail>{},
+          () => <String, Room>{},
         );
         (value as Map).forEach((roomName, value2) {
           final roomKey = roomName.toString();
-          roomMap[roomKey] = MapDetail.fromFirebase(
+          roomMap[roomKey] = Room.fromFirebase(
             floorKey,
             roomKey,
             (value2 as Map).map(
