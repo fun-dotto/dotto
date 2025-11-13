@@ -5,9 +5,7 @@ import 'package:dotto/domain/room.dart';
 import 'package:dotto/domain/room_schedule.dart';
 
 final class RoomTranslator {
-  const RoomTranslator();
-
-  List<Room> translate(
+  static List<Room> translate(
     Map<String, Map<String, RoomResponse>> roomResponses,
     Map<String, List<RoomScheduleResponse>> roomScheduleResponses,
   ) {
