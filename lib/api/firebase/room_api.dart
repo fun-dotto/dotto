@@ -19,15 +19,26 @@ final class _RoomApiImpl implements RoomApi {
     if (!snapshot.exists) {
       throw Exception('No data available');
     }
-    final data = snapshot.value! as Map<String, dynamic>;
+    final data = snapshot.value! as Map<Object?, Object?>;
     return data.map((floor, floorRooms) {
-      final floorRoomsMap = floorRooms as Map<String, dynamic>;
+      if (floor == null) {
+        return const MapEntry('', {});
+      }
+      if (floorRooms == null) {
+        return MapEntry(floor.toString(), {});
+      }
+      final floorRoomsMap = floorRooms as Map<Object?, Object?>;
       return MapEntry(
-        floor,
+        floor.toString(),
         floorRoomsMap.map((roomId, room) {
-          final roomMap = room as Map<String, dynamic>;
-          final roomResponse = RoomResponse.fromJson(roomMap);
-          return MapEntry(roomId, roomResponse);
+          if (room == null) {
+            return MapEntry(roomId.toString(), RoomResponse.fromJson({}));
+          }
+          final roomMap = room as Map<Object?, Object?>;
+          final roomResponse = RoomResponse.fromJson(
+            roomMap.map((key, value) => MapEntry(key.toString(), value)),
+          );
+          return MapEntry(roomId.toString(), roomResponse);
         }),
       );
     });
@@ -41,15 +52,26 @@ final class _RoomApiImpl implements RoomApi {
     if (!snapshot.exists) {
       throw Exception('No data available');
     }
-    final data = snapshot.value! as Map<String, dynamic>;
+    final data = snapshot.value! as Map<Object?, Object?>;
     return data.map((roomId, roomSchedules) {
-      final roomSchedulesMap = roomSchedules as Map<String, dynamic>;
+      if (roomId == null) {
+        return const MapEntry('', []);
+      }
+      if (roomSchedules == null) {
+        return MapEntry(roomId.toString(), []);
+      }
+      final roomScheduleList = roomSchedules as List<Object?>;
       return MapEntry(
-        roomId,
-        roomSchedulesMap.values.map((roomSchedule) {
-          final roomScheduleMap = roomSchedule as Map<String, dynamic>;
+        roomId.toString(),
+        roomScheduleList.map((roomSchedule) {
+          if (roomSchedule == null) {
+            return RoomScheduleResponse.fromJson({});
+          }
+          final roomScheduleMap = roomSchedule as Map<Object?, Object?>;
           final roomScheduleResponse = RoomScheduleResponse.fromJson(
-            roomScheduleMap,
+            roomScheduleMap.map(
+              (key, value) => MapEntry(key.toString(), value),
+            ),
           );
           return roomScheduleResponse;
         }).toList(),
