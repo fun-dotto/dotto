@@ -1,21 +1,28 @@
 # Dotto アーキテクチャ
 
+## Flutter 公式 アーキテクチャガイド
+
+https://docs.flutter.dev/app-architecture/guide
+
+Flutter 公式のアーキテクチャガイドを参考に、Dotto では以下のようなアーキテクチャを採用しています。
+
 ## MVVM + UseCase
 
 ```mermaid
 graph TD;
-  subgraph Presentation Layer
+  subgraph UI Layer
     View-->ViewModel;
   end
-  View-->Domain;
-  ViewModel-->Domain;
-  ViewModel-->UseCase;
-  subgraph Business Layer
-    UseCase-->Domain;
+  subgraph Domain Layer
+    ViewModel-->UseCase;
   end
   subgraph Data Layer
     UseCase-->Repository;
-    Repository-->Data;
+    UseCase-->Translator;
+    Repository-->DottoAPI;
+    Repository-->Firebase;
+    Translator-->DottoAPI;
+    Translator-->Firebase;
   end
 ```
 
@@ -48,6 +55,10 @@ Repository からは、API に依存した型のデータが返却されるこ�
 抽象化されたインターフェース (abstract class) として定義し、その実装に OpenAPI Generator により生成されたメソッドを呼び出す処理を書きます。
 
 これにより、Repository のモックを作成し、UseCase および ViewModel のテストを行うことが出来ます。
+
+### Translator
+
+Repository が返却するのは API に依存した型です。一方で、UI Layer が依存しているのは Domain Layer です。そのため、UseCase は Translator を呼び出し、API に依存した型を Domain Layer のデータモデルに変換します。
 
 ## Riverpod
 
