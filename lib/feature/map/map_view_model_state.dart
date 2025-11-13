@@ -1,4 +1,5 @@
 import 'package:dotto/domain/floor.dart';
+import 'package:dotto/domain/room.dart';
 import 'package:dotto/feature/map/domain/map_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -16,5 +17,6 @@ abstract class MapViewModelState with _$MapViewModelState {
     required DateTime searchDatetime,
     required TransformationController transformationController,
     required MapDetail focusedMapDetail,
+    required AsyncValue<List<Room>> rooms,
   }) = _MapViewModelState;
 }

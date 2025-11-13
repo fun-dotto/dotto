@@ -1,9 +1,11 @@
 import 'package:dotto/domain/floor.dart';
 import 'package:dotto/feature/map/domain/map_detail.dart';
 import 'package:dotto/feature/map/domain/map_detail_map.dart';
+import 'package:dotto/feature/map/map_service.dart';
 import 'package:dotto/feature/map/map_view_model_state.dart';
 import 'package:dotto/feature/map/repository/map_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'map_view_model.g.dart';
@@ -12,11 +14,13 @@ part 'map_view_model.g.dart';
 class MapViewModel extends _$MapViewModel {
   @override
   MapViewModelState build() {
+    _getRooms(ref);
     return MapViewModelState(
       selectedFloor: Floor.third,
       focusNode: FocusNode(),
       textEditingController: TextEditingController(),
-      mapDetails: const AsyncValue.data([]),
+      rooms: const AsyncValue.loading(),
+      mapDetails: const AsyncValue.loading(),
       searchDatetime: DateTime.now(),
       transformationController: TransformationController(Matrix4.identity()),
       focusedMapDetail: MapDetail.none,
@@ -88,5 +92,10 @@ class MapViewModel extends _$MapViewModel {
 
   void onDatePickerConfirmed(DateTime dateTime) {
     state = state.copyWith(searchDatetime: dateTime);
+  }
+
+  Future<void> _getRooms(Ref ref) async {
+    final rooms = await AsyncValue.guard(MapService(ref: ref).getRooms);
+    state = state.copyWith(rooms: rooms);
   }
 }
