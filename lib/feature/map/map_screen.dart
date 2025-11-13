@@ -1,4 +1,6 @@
+import 'package:dotto/controller/tab_controller.dart';
 import 'package:dotto/controller/user_controller.dart';
+import 'package:dotto/domain/tab_item.dart';
 import 'package:dotto/feature/map/controller/using_map_controller.dart';
 import 'package:dotto/feature/map/map_view_model.dart';
 import 'package:dotto/feature/map/widget/map.dart';
@@ -137,8 +139,7 @@ final class MapScreen extends ConsumerWidget {
                   ],
                 ),
                 MapSearchResultList(
-                  list: viewModel.mapDetails,
-                  focusNode: viewModel.focusNode,
+                  rooms: viewModel.filteredRooms,
                   onTapped: (item) {
                     ref
                         .read(mapViewModelProvider.notifier)
@@ -148,8 +149,13 @@ final class MapScreen extends ConsumerWidget {
                       context: context,
                       builder: (BuildContext context) {
                         return MapDetailBottomSheet(
-                          floor: item.floor,
-                          roomName: item.roomName,
+                          room: item,
+                          isLoggedIn: user != null,
+                          onGoToSettingButtonTapped: () {
+                            ref
+                                .read(tabItemProvider.notifier)
+                                .selected(TabItem.setting);
+                          },
                         );
                       },
                     );

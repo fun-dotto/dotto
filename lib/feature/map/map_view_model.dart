@@ -1,9 +1,7 @@
 import 'package:dotto/domain/floor.dart';
-import 'package:dotto/feature/map/domain/map_detail.dart';
-import 'package:dotto/feature/map/domain/map_detail_map.dart';
+import 'package:dotto/domain/room.dart';
 import 'package:dotto/feature/map/map_service.dart';
 import 'package:dotto/feature/map/map_view_model_state.dart';
-import 'package:dotto/feature/map/repository/map_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -15,14 +13,14 @@ class MapViewModel extends _$MapViewModel {
   @override
   MapViewModelState build() {
     final state = MapViewModelState(
+      rooms: [],
+      filteredRooms: [],
+      focusedRoom: null,
+      searchDatetime: DateTime.now(),
       selectedFloor: Floor.third,
       focusNode: FocusNode(),
       textEditingController: TextEditingController(),
-      rooms: const AsyncValue.loading(),
-      mapDetails: const AsyncValue.loading(),
-      searchDatetime: DateTime.now(),
       transformationController: TransformationController(Matrix4.identity()),
-      focusedMapDetail: MapDetail.none,
     );
     _getRooms(ref);
     return state;
@@ -30,10 +28,7 @@ class MapViewModel extends _$MapViewModel {
 
   void onFloorButtonTapped(Floor floor) {
     state.focusNode.unfocus();
-    state = state.copyWith(
-      selectedFloor: floor,
-      focusedMapDetail: MapDetail.none,
-    );
+    state = state.copyWith(selectedFloor: floor, focusedRoom: null);
     state.transformationController.value = Matrix4(
       1,
       0,
@@ -54,37 +49,53 @@ class MapViewModel extends _$MapViewModel {
     );
   }
 
-  void onSearchResultRowTapped(MapDetail mapDetail) {
+  void onSearchResultRowTapped(Room room) {
     state.focusNode.unfocus();
-    state = state.copyWith(
-      selectedFloor: Floor.fromLabel(mapDetail.floor),
-      focusedMapDetail: mapDetail,
-    );
+    state = state.copyWith(selectedFloor: room.floor, focusedRoom: room);
     state.transformationController.value.setIdentity();
   }
 
   Future<void> onSearchTextChanged(String _) async {
-    final mapDetails = await AsyncValue.guard(_search);
-    state = state.copyWith(mapDetails: mapDetails);
+    final rooms = await _search();
+    state = state.copyWith(rooms: rooms);
   }
 
   Future<void> onSearchTextSubmitted(String _) async {
-    final mapDetails = await AsyncValue.guard(_search);
-    state = state.copyWith(mapDetails: mapDetails);
+    final rooms = await _search();
+    state = state.copyWith(rooms: rooms);
   }
 
   Future<void> onSearchTextCleared() async {
-    final mapDetails = await AsyncValue.guard(_search);
-    state = state.copyWith(mapDetails: mapDetails);
+    final filteredRooms = await _search();
+    state = state.copyWith(filteredRooms: filteredRooms);
   }
 
-  Future<List<MapDetail>> _search() async {
+  Future<List<Room>> _search() async {
     if (state.textEditingController.text.isEmpty) {
       return [];
     }
-    final map = await MapRepository().getMapDetailMapFromFirebase();
-    final mapDetailMap = MapDetailMap(map);
-    return mapDetailMap.searchAll(state.textEditingController.text);
+    return state.rooms
+        .where(
+          (room) =>
+              room.id.toLowerCase().contains(
+                state.textEditingController.text.toLowerCase(),
+              ) ||
+              room.name.toLowerCase().contains(
+                state.textEditingController.text.toLowerCase(),
+              ) ||
+              room.description.toLowerCase().contains(
+                state.textEditingController.text.toLowerCase(),
+              ) ||
+              room.email.toLowerCase().contains(
+                state.textEditingController.text.toLowerCase(),
+              ) ||
+              room.keywords.any(
+                (keyword) => keyword.toLowerCase().contains(
+                  state.textEditingController.text.toLowerCase(),
+                ),
+              ),
+        )
+        .toList();
   }
 
   void onPeriodButtonTapped(DateTime dateTime) {
@@ -96,7 +107,7 @@ class MapViewModel extends _$MapViewModel {
   }
 
   Future<void> _getRooms(Ref ref) async {
-    final rooms = await AsyncValue.guard(MapService(ref: ref).getRooms);
+    final rooms = await MapService(ref: ref).getRooms();
     state = state.copyWith(rooms: rooms);
   }
 }

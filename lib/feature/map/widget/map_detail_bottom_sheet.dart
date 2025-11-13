@@ -1,26 +1,22 @@
-import 'package:dotto/controller/tab_controller.dart';
-import 'package:dotto/controller/user_controller.dart';
-import 'package:dotto/domain/tab_item.dart';
-import 'package:dotto/feature/map/controller/map_detail_map_controller.dart';
-import 'package:dotto/feature/map/domain/map_detail.dart';
+import 'package:dotto/domain/room.dart';
 import 'package:dotto/domain/room_equipment.dart';
-import 'package:dotto/feature/map/map_view_model.dart';
 import 'package:dotto/feature/map/widget/fun_grid_map.dart';
 import 'package:dotto/feature/map/widget/map_tile.dart';
 import 'package:dotto_design_system/component/button.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
-// TODO: Change to StatelessWidget
-final class MapDetailBottomSheet extends ConsumerWidget {
+final class MapDetailBottomSheet extends StatelessWidget {
   const MapDetailBottomSheet({
-    required this.floor,
-    required this.roomName,
+    required this.room,
+    required this.isLoggedIn,
+    required this.onGoToSettingButtonTapped,
     super.key,
   });
-  final String floor;
-  final String roomName;
+
+  final Room room;
+  final bool isLoggedIn;
+  final void Function() onGoToSettingButtonTapped;
 
   static const Color blue = Color(0xFF4A90E2);
 
@@ -98,29 +94,12 @@ final class MapDetailBottomSheet extends ConsumerWidget {
   }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final viewModel = ref.watch(mapViewModelProvider);
-    final mapDetailMap = ref.watch(mapDetailMapNotifierProvider);
-    final user = ref.watch(userProvider);
-    var roomTitle = roomName;
-    MapDetail? mapDetail;
-    if (user != null) {
-      mapDetailMap.when(
-        data: (data) {
-          mapDetail = data.searchOnce(floor, roomName);
-          if (mapDetail != null) {
-            roomTitle = mapDetail!.header;
-          }
-        },
-        error: (_, _) {},
-        loading: () {},
-      );
-    }
+  Widget build(BuildContext context) {
     MapTile? gridMap;
-    final mapTileList = FunGridMaps.mapTileListMap[floor];
+    final mapTileList = FunGridMaps.mapTileListMap[room.floor.label];
     if (mapTileList != null) {
       final foundTiles = mapTileList.where(
-        (element) => element.txt == roomName,
+        (element) => element.txt == room.name,
       );
       gridMap = foundTiles.isNotEmpty ? foundTiles.first : null;
     }
@@ -134,7 +113,7 @@ final class MapDetailBottomSheet extends ConsumerWidget {
             children: [
               Expanded(
                 child: SelectableText(
-                  roomTitle,
+                  room.name,
                   style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w600,
@@ -147,7 +126,7 @@ final class MapDetailBottomSheet extends ConsumerWidget {
               ),
             ],
           ),
-          if (user != null)
+          if (isLoggedIn)
             Expanded(
               child: SingleChildScrollView(
                 child: Column(
@@ -179,11 +158,10 @@ final class MapDetailBottomSheet extends ConsumerWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        if (mapDetail?.scheduleList != null)
+                        if (room.schedules.isNotEmpty)
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: mapDetail!
-                                .getScheduleListByDate(viewModel.searchDatetime)
+                            children: room.schedules
                                 .map(
                                   (e) => scheduleTile(
                                     context,
@@ -194,10 +172,10 @@ final class MapDetailBottomSheet extends ConsumerWidget {
                                 )
                                 .toList(),
                           )
-                        else if (mapDetail?.detail != null)
-                          SelectableText(mapDetail!.detail!),
-                        if (mapDetail?.mail != null)
-                          SelectableText('${mapDetail?.mail}@fun.ac.jp'),
+                        else if (room.description.isNotEmpty)
+                          SelectableText(room.description),
+                        if (room.email.isNotEmpty)
+                          SelectableText('${room.email}@fun.ac.jp'),
                       ],
                     ),
                   ],
@@ -209,9 +187,7 @@ final class MapDetailBottomSheet extends ConsumerWidget {
               children: [
                 const Text('Googleアカウント (@fun.ac.jp) でログインして詳細を確認'),
                 DottoButton(
-                  onPressed: () => ref
-                      .read(tabItemProvider.notifier)
-                      .selected(TabItem.setting),
+                  onPressed: onGoToSettingButtonTapped,
                   type: DottoButtonType.text,
                   child: const Text('設定に移動する'),
                 ),

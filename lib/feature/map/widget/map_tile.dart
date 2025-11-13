@@ -1,4 +1,7 @@
+import 'package:dotto/controller/tab_controller.dart';
+import 'package:dotto/controller/user_controller.dart';
 import 'package:dotto/domain/map_tile_type.dart';
+import 'package:dotto/domain/tab_item.dart';
 import 'package:dotto/feature/map/controller/using_map_controller.dart';
 import 'package:dotto/feature/map/map_view_model.dart';
 import 'package:dotto/feature/map/widget/map_detail_bottom_sheet.dart';
@@ -232,11 +235,9 @@ final class MapTile extends StatelessWidget {
               }
             }
             var focus = false;
-            if (viewModel.focusedMapDetail.floor ==
-                viewModel.selectedFloor.label) {
-              if (viewModel.focusedMapDetail.roomName == txt) {
-                focus = true;
-              }
+            if (viewModel.focusedRoom?.floor == viewModel.selectedFloor &&
+                viewModel.focusedRoom?.name == txt) {
+              focus = true;
             }
             return Container(
               padding: edgeInsets(focus: focus),
@@ -311,6 +312,7 @@ final class MapTile extends StatelessWidget {
     return Consumer(
       builder: (context, ref, child) {
         final viewModel = ref.watch(mapViewModelProvider);
+        final user = ref.watch(userProvider);
         return GestureDetector(
           onTap: (txt.isNotEmpty && ttype.index <= MapTileType.subroom.index)
               ? () {
@@ -318,8 +320,13 @@ final class MapTile extends StatelessWidget {
                     context: context,
                     builder: (BuildContext context) {
                       return MapDetailBottomSheet(
-                        floor: viewModel.selectedFloor.label,
-                        roomName: txt,
+                        room: viewModel.focusedRoom!,
+                        isLoggedIn: user != null,
+                        onGoToSettingButtonTapped: () {
+                          ref
+                              .read(tabItemProvider.notifier)
+                              .selected(TabItem.setting);
+                        },
                       );
                     },
                   );

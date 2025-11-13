@@ -1,8 +1,6 @@
 import 'package:dotto/domain/floor.dart';
 import 'package:dotto/domain/room.dart';
-import 'package:dotto/feature/map/domain/map_detail.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'map_view_model_state.freezed.dart';
@@ -10,13 +8,13 @@ part 'map_view_model_state.freezed.dart';
 @freezed
 abstract class MapViewModelState with _$MapViewModelState {
   const factory MapViewModelState({
+    required List<Room> rooms,
+    required List<Room> filteredRooms,
+    required Room? focusedRoom,
+    required DateTime searchDatetime,
     required Floor selectedFloor,
     required FocusNode focusNode,
     required TextEditingController textEditingController,
-    required AsyncValue<List<MapDetail>> mapDetails,
-    required DateTime searchDatetime,
     required TransformationController transformationController,
-    required MapDetail focusedMapDetail,
-    required AsyncValue<List<Room>> rooms,
   }) = _MapViewModelState;
 }
