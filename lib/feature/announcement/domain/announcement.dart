@@ -16,6 +16,6 @@ abstract class Announcement with _$Announcement {
     required bool isActive,
   }) = _Announcement;
 
-  factory Announcement.fromJson(Map<String, dynamic> json) =>
+  factory Announcement.fromJson(Map<String, Object?> json) =>
       _$AnnouncementFromJson(json);
 }
