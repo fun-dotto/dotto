@@ -1,5 +1,5 @@
+import 'package:dotto/domain/map_tile_type.dart';
 import 'package:dotto/feature/map/controller/using_map_controller.dart';
-import 'package:dotto/feature/map/domain/map_tile_type.dart';
 import 'package:dotto/feature/map/map_view_model.dart';
 import 'package:dotto/feature/map/widget/map_detail_bottom_sheet.dart';
 import 'package:flutter/material.dart';
