@@ -44,8 +44,8 @@ final class MapDetail {
             .map((e) => e.map((key, value) => MapEntry(key.toString(), value)));
       }
 
-      final list = scheduleIterable.map(RoomSchedule.fromFirebase).toList()
-        ..sort((a, b) => a.begin.compareTo(b.begin));
+      final list = scheduleIterable.map(RoomSchedule.fromJson).toList()
+        ..sort((a, b) => a.beginDatetime.compareTo(b.beginDatetime));
       roomScheduleList = list.isEmpty ? null : list;
     }
 
@@ -95,8 +95,8 @@ final class MapDetail {
     return list
         .where(
           (roomSchedule) =>
-              roomSchedule.begin.isBefore(targetTomorrowDay) &&
-              roomSchedule.end.isAfter(targetDay),
+              roomSchedule.beginDatetime.isBefore(targetTomorrowDay) &&
+              roomSchedule.endDatetime.isAfter(targetDay),
         )
         .toList();
   }

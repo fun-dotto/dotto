@@ -1,13 +1,19 @@
-final class RoomSchedule {
-  const RoomSchedule(this.begin, this.end, this.title);
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  factory RoomSchedule.fromFirebase(Map<String, dynamic> map) {
-    final beginDatetime = DateTime.parse(map['begin_datetime'] as String);
-    final endDatetime = DateTime.parse(map['end_datetime'] as String);
-    final title = map['title'];
-    return RoomSchedule(beginDatetime, endDatetime, title as String);
-  }
-  final DateTime begin;
-  final DateTime end;
-  final String title;
+part 'room_schedule.freezed.dart';
+part 'room_schedule.g.dart';
+
+@freezed
+abstract class RoomSchedule with _$RoomSchedule {
+  //
+  // ignore: invalid_annotation_target
+  @JsonSerializable(fieldRename: FieldRename.snake)
+  const factory RoomSchedule({
+    required DateTime beginDatetime,
+    required DateTime endDatetime,
+    required String title,
+  }) = _RoomSchedule;
+
+  factory RoomSchedule.fromJson(Map<String, Object?> json) =>
+      _$RoomScheduleFromJson(json);
 }

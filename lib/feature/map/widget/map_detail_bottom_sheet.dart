@@ -187,8 +187,8 @@ final class MapDetailBottomSheet extends ConsumerWidget {
                                 .map(
                                   (e) => scheduleTile(
                                     context,
-                                    e.begin,
-                                    e.end,
+                                    e.beginDatetime,
+                                    e.endDatetime,
                                     e.title,
                                   ),
                                 )
