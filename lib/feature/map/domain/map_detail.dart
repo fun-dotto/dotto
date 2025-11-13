@@ -1,4 +1,4 @@
-import 'package:dotto/domain/room_schedule.dart';
+import 'package:dotto/api/firebase/room_schedule_response.dart';
 
 final class MapDetail {
   const MapDetail(
@@ -28,7 +28,7 @@ final class MapDetail {
       }
     }
 
-    List<RoomSchedule>? roomScheduleList;
+    List<RoomScheduleResponse>? roomScheduleList;
     if (roomScheduleMap.containsKey(roomName)) {
       final scheduleRaw = roomScheduleMap[roomName];
 
@@ -44,7 +44,7 @@ final class MapDetail {
             .map((e) => e.map((key, value) => MapEntry(key.toString(), value)));
       }
 
-      final list = scheduleIterable.map(RoomSchedule.fromJson).toList()
+      final list = scheduleIterable.map(RoomScheduleResponse.fromJson).toList()
         ..sort((a, b) => a.beginDatetime.compareTo(b.beginDatetime));
       roomScheduleList = list.isEmpty ? null : list;
     }
@@ -71,7 +71,7 @@ final class MapDetail {
   final int? classroomNo;
   final String header;
   final String? detail;
-  final List<RoomSchedule>? scheduleList;
+  final List<RoomScheduleResponse>? scheduleList;
   final String? mail;
   final List<String>? searchWordList;
 
@@ -85,7 +85,7 @@ final class MapDetail {
     null,
   );
 
-  List<RoomSchedule> getScheduleListByDate(DateTime dateTime) {
+  List<RoomScheduleResponse> getScheduleListByDate(DateTime dateTime) {
     final list = scheduleList;
     if (list == null) {
       return [];
