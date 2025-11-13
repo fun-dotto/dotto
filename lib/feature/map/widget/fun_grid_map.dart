@@ -1,3 +1,4 @@
+import 'package:dotto/domain/map_stair_type.dart';
 import 'package:dotto/domain/map_tile_type.dart';
 import 'package:dotto/feature/map/widget/map_tile.dart';
 import 'package:flutter/material.dart';

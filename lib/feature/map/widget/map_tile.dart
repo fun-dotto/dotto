@@ -1,6 +1,7 @@
 import 'package:dotto/controller/tab_controller.dart';
 import 'package:dotto/controller/user_controller.dart';
 import 'package:dotto/domain/map_colors.dart';
+import 'package:dotto/domain/map_stair_type.dart';
 import 'package:dotto/domain/map_tile_type.dart';
 import 'package:dotto/domain/tab_item.dart';
 import 'package:dotto/feature/map/controller/using_map_controller.dart';
@@ -8,17 +9,6 @@ import 'package:dotto/feature/map/map_view_model.dart';
 import 'package:dotto/feature/map/widget/map_detail_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-// 階段の時の描画設定
-final class MapStairType {
-  const MapStairType(this.direction, {required this.up, required this.down});
-  final Axis direction;
-  final bool up;
-  final bool down;
-  Axis getDirection() {
-    return direction;
-  }
-}
 
 /// require width, height: Size, require ttype: タイルタイプ enum
 ///
