@@ -1,7 +1,5 @@
 import 'package:dotto/controller/user_controller.dart';
-import 'package:dotto/feature/map/controller/focused_map_detail_controller.dart';
 import 'package:dotto/feature/map/controller/using_map_controller.dart';
-import 'package:dotto/feature/map/domain/map_detail.dart';
 import 'package:dotto/feature/map/map_view_model.dart';
 import 'package:dotto/feature/map/widget/map.dart';
 import 'package:dotto/feature/map/widget/map_date_picker.dart';
@@ -87,11 +85,6 @@ final class MapScreen extends ConsumerWidget {
                             ref
                                 .read(mapViewModelProvider.notifier)
                                 .onFloorButtonTapped(floor);
-
-                            ref
-                                .read(focusedMapDetailNotifierProvider.notifier)
-                                .value = MapDetail
-                                .none;
                           },
                         ),
                       ),
@@ -151,8 +144,6 @@ final class MapScreen extends ConsumerWidget {
                         .read(mapViewModelProvider.notifier)
                         .onSearchResultRowTapped(item);
 
-                    ref.read(focusedMapDetailNotifierProvider.notifier).value =
-                        item;
                     showBottomSheet(
                       context: context,
                       builder: (BuildContext context) {

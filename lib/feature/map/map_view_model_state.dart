@@ -15,5 +15,6 @@ abstract class MapViewModelState with _$MapViewModelState {
     required AsyncValue<List<MapDetail>> mapDetails,
     required DateTime searchDatetime,
     required TransformationController transformationController,
+    required MapDetail focusedMapDetail,
   }) = _MapViewModelState;
 }

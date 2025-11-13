@@ -1,4 +1,3 @@
-import 'package:dotto/feature/map/controller/focused_map_detail_controller.dart';
 import 'package:dotto/feature/map/controller/using_map_controller.dart';
 import 'package:dotto/feature/map/domain/map_tile_type.dart';
 import 'package:dotto/feature/map/map_view_model.dart';
@@ -219,9 +218,6 @@ final class MapTile extends StatelessWidget {
         // TODO: Remove Consumer
         child: Consumer(
           builder: (context, ref, child) {
-            final focusedMapDetail = ref.watch(
-              focusedMapDetailNotifierProvider,
-            );
             final viewModel = ref.watch(mapViewModelProvider);
             final usingMap = ref.watch(usingMapNotifierProvider);
             if (classroomNo != null) {
@@ -236,8 +232,9 @@ final class MapTile extends StatelessWidget {
               }
             }
             var focus = false;
-            if (focusedMapDetail.floor == viewModel.selectedFloor.label) {
-              if (focusedMapDetail.roomName == txt) {
+            if (viewModel.focusedMapDetail.floor ==
+                viewModel.selectedFloor.label) {
+              if (viewModel.focusedMapDetail.roomName == txt) {
                 focus = true;
               }
             }
