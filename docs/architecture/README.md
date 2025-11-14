@@ -15,14 +15,13 @@ graph TD;
   end
   subgraph Domain Layer
     ViewModel-->UseCase;
+    UseCase-->Entity
   end
   subgraph Data Layer
     UseCase-->Repository;
-    UseCase-->Translator;
+    Repository-->Entity;
     Repository-->DottoAPI;
     Repository-->Firebase;
-    Translator-->DottoAPI;
-    Translator-->Firebase;
   end
 ```
 
@@ -48,17 +47,13 @@ Flutter の Widget の仕組み上、ViewModel が View を操作することは
 
 ViewModel と Repository の橋渡しを行います。
 
-Repository からは、API に依存した型のデータが返却されることがあるため、UseCase でそのアプリのドメインに即した型に変換する役割も担います。
-
 ### Repository
+
+API レスポンスを Domain Entity に変換して返却します。
 
 抽象化されたインターフェース (abstract class) として定義し、その実装に OpenAPI Generator により生成されたメソッドを呼び出す処理を書きます。
 
 これにより、Repository のモックを作成し、UseCase および ViewModel のテストを行うことが出来ます。
-
-### Translator
-
-Repository が返却するのは API に依存した型です。一方で、UI Layer が依存しているのは Domain Layer です。そのため、UseCase は Translator を呼び出し、API に依存した型を Domain Layer のデータモデルに変換します。
 
 ## Riverpod
 
