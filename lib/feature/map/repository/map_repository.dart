@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import 'package:dotto/controller/user_controller.dart';
 import 'package:dotto/feature/map/domain/map_detail.dart';
-import 'package:dotto/repository/firebase_realtime_database_repository.dart';
-import 'package:dotto/repository/read_json_file.dart';
+import 'package:dotto/helper/firebase_realtime_database_repository.dart';
+import 'package:dotto/helper/read_json_file.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

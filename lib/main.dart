@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:dotto/app.dart';
 import 'package:dotto/firebase_options.dart';
-import 'package:dotto/repository/firebase_storage_repository.dart';
-import 'package:dotto/repository/location_repository.dart';
-import 'package:dotto/repository/remote_config_repository.dart';
+import 'package:dotto/helper/firebase_storage_repository.dart';
+import 'package:dotto/helper/location_repository.dart';
+import 'package:dotto/helper/remote_config_repository.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';

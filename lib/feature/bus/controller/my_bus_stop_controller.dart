@@ -1,7 +1,7 @@
 import 'package:dotto/domain/user_preference_keys.dart';
 import 'package:dotto/feature/bus/domain/bus_stop.dart';
 import 'package:dotto/feature/bus/repository/bus_repository.dart';
-import 'package:dotto/repository/user_preference_repository.dart';
+import 'package:dotto/helper/user_preference_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'my_bus_stop_controller.g.dart';
 

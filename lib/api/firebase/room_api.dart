@@ -1,6 +1,6 @@
 import 'package:dotto/api/firebase/room_response.dart';
 import 'package:dotto/api/firebase/room_schedule_response.dart';
-import 'package:dotto/repository/firebase_realtime_database_repository.dart';
+import 'package:dotto/helper/firebase_realtime_database_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final roomApiProvider = Provider<RoomApi>((_) => _RoomApiImpl());
