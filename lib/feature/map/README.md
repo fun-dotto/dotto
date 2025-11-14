@@ -5,38 +5,23 @@
 ```mermaid
 classDiagram
   StatelessWidget <|-- MapTile
-  MapTile -- MapTileProps
   MapTile -- Room
+  MapTile -- MapTileProps
+  MapTileProps <|-- ClassroomMapTileProps
+  MapTileProps <|-- FacultyRoomMapTileProps
+  MapTileProps <|-- SubRoomMapTileProps
+  MapTileProps <|-- OtherRoomMapTileProps
+  MapTileProps <|-- RestroomMapTileProps
+  MapTileProps <|-- StairMapTileProps
+  MapTileProps <|-- ElevatorMapTileProps
+  MapTileProps <|-- AisleMapTileProps
+  MapTileProps <|-- AtriumMapTileProps
 
   class StatelessWidget
 
   class MapTile {
     MapTileProps props
     Room room
-  }
-
-  class MapTileProps {
-    int width
-    int height
-    double top
-    double right
-    double bottom
-    double left
-    MapTileType tileType
-    String label
-    String? roomId
-    List~String~? lessonIds
-    int wc
-    bool using
-    double fontSize
-    late Color tileColor
-    late Color fontColor
-    MapStairType stairType
-    DateTime? useEndTime
-    Widget? innerWidget
-    bool? food
-    bool? drink
-    int? outlet
   }
 
   class Room {
@@ -49,26 +34,45 @@ classDiagram
     List~RoomSchedule~ schedules
     isInUse(DateTime dateTime) bool
   }
-```
 
-### TileType
+  class MapTileProps {
+    int width
+    int height
+    double top
+    double right
+    double bottom
+    double left
+  }
 
-```swift
-enum TileType {
-    case classRoom(_ roomID: String)
-    case facultyRoom(_ roomID: String)
-    case subRoom(_ roomID: String)      // TODO: Rename
-    case otherRoom(_ roomID: String)    // TODO: Rename
-    case restroom(_ type: RestroomType)
-    case stair
-    case elevator
-    case aisle
-    case atrium
-}
+  class ClassroomMapTileProps {
+    String id
+  }
 
-enum RestroomType {
-    case men
-    case women
-    case wheelchair
-}
+  class FacultyRoomMapTileProps {
+    String id
+  }
+
+  class SubRoomMapTileProps {
+    String id
+  }
+
+  class OtherRoomMapTileProps {
+    String id
+  }
+
+  class RestroomMapTileProps {
+    RestroomType type
+  }
+
+  class StairMapTileProps {
+  }
+
+  class ElevatorMapTileProps {
+  }
+
+  class AisleMapTileProps {
+  }
+
+  class AtriumMapTileProps {
+  }
 ```
