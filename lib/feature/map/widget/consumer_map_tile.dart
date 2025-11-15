@@ -117,10 +117,14 @@ final class ConsumerMapTile extends StatelessWidget {
     if (wc > 0) {
       final icons = <Icon>[];
       if (wc & 0x1000 > 0) {
-        icons.add(Icon(Icons.man, color: MapColors.wcMan, size: iconSize));
+        icons.add(
+          Icon(Icons.man, color: MapColors.restroomMen, size: iconSize),
+        );
       }
       if (wc & 0x0100 > 0) {
-        icons.add(Icon(Icons.woman, color: MapColors.wcWoman, size: iconSize));
+        icons.add(
+          Icon(Icons.woman, color: MapColors.restroomWomen, size: iconSize),
+        );
       }
       if (wc & 0x0010 > 0) {
         icons.add(Icon(Icons.accessible, size: iconSize));
@@ -213,7 +217,7 @@ final class ConsumerMapTile extends StatelessWidget {
               if (usingMap.containsKey(classroomNo)) {
                 if (usingMap[classroomNo]!) {
                   using = true;
-                  tileColor = MapColors.using;
+                  tileColor = MapColors.roomInUseTile;
                 } else {
                   using = false;
                   setColors();

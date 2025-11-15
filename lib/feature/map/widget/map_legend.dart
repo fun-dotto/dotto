@@ -1,5 +1,4 @@
 import 'package:dotto/domain/map_colors.dart';
-import 'package:dotto/feature/map/domain/map_tile_type.dart';
 import 'package:flutter/material.dart';
 
 final class MapLegend extends StatelessWidget {
@@ -29,9 +28,9 @@ final class MapLegend extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          _mapInfoTile(MapColors.using, '下記設定時間に授業等で使用中の部屋'),
-          _mapInfoTile(MapTileType.wc.backgroundColor, 'トイレ及び給湯室'),
-          _mapInfoTile(Colors.red, '検索結果'),
+          _mapInfoTile(MapColors.roomInUseTile, '下記設定時間に授業等で使用中の部屋'),
+          _mapInfoTile(MapColors.restroomTile, 'トイレ及び給湯室'),
+          _mapInfoTile(MapColors.focusedTile, '検索結果'),
         ],
       ),
     );

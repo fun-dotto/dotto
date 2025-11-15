@@ -1,8 +1,9 @@
+import 'package:dotto/domain/map_colors.dart';
 import 'package:flutter/material.dart';
 
 enum RestroomType {
-  men(icon: Icons.man, color: Colors.blue),
-  women(icon: Icons.woman, color: Colors.red),
+  men(icon: Icons.man, color: MapColors.restroomMen),
+  women(icon: Icons.woman, color: MapColors.restroomWomen),
   multipurpose(icon: Icons.accessible, color: Colors.black),
   kitchenette(icon: Icons.countertops, color: Colors.black);
 

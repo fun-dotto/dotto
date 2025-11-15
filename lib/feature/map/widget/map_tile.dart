@@ -1,3 +1,4 @@
+import 'package:dotto/domain/map_colors.dart';
 import 'package:dotto/domain/map_tile_props.dart';
 import 'package:dotto/domain/room.dart';
 import 'package:flutter/material.dart';
@@ -20,9 +21,9 @@ final class MapTile extends StatelessWidget {
 
   Color get tileColor {
     return isFocused
-        ? Colors.red
+        ? MapColors.focusedTile
         : room?.isInUse(dateTime) ?? false
-        ? Colors.orange.shade300
+        ? MapColors.roomInUseTile
         : props.backgroundColor;
   }
 
@@ -64,22 +65,22 @@ final class MapTile extends StatelessWidget {
   Border get border {
     return Border(
       top: isFocused
-          ? const BorderSide(color: Colors.red)
+          ? const BorderSide(color: MapColors.focusedTile)
           : props.top > 0
           ? BorderSide(width: props.top.toDouble())
           : BorderSide.none,
       right: isFocused
-          ? const BorderSide(color: Colors.red)
+          ? const BorderSide(color: MapColors.focusedTile)
           : props.right > 0
           ? BorderSide(width: props.right.toDouble())
           : BorderSide.none,
       bottom: isFocused
-          ? const BorderSide(color: Colors.red)
+          ? const BorderSide(color: MapColors.focusedTile)
           : props.bottom > 0
           ? BorderSide(width: props.bottom.toDouble())
           : BorderSide.none,
       left: isFocused
-          ? const BorderSide(color: Colors.red)
+          ? const BorderSide(color: MapColors.focusedTile)
           : props.left > 0
           ? BorderSide(width: props.left.toDouble())
           : BorderSide.none,
@@ -94,7 +95,7 @@ final class MapTile extends StatelessWidget {
           border: border,
           color: (props is AtriumMapTileProps)
               ? tileColor
-              : const Color(0xFFE0E0E0), // AisleMapTileProps.backgroundColor,
+              : MapColors.aisleTile,
         ),
         child: SizedBox.expand(
           child: Container(padding: EdgeInsets.zero, color: tileColor),

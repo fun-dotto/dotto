@@ -1,4 +1,5 @@
 import 'package:dotto/domain/floor.dart';
+import 'package:dotto/domain/map_colors.dart';
 import 'package:dotto/domain/map_stair_type.dart';
 import 'package:dotto/domain/restroom_type.dart';
 import 'package:dotto/domain/room_equipment.dart';
@@ -52,7 +53,7 @@ final class ClassroomMapTileProps extends MapTileProps {
   @override
   Color get foregroundColor => Colors.white;
   @override
-  Color get backgroundColor => const Color(0xFF616161);
+  Color get backgroundColor => MapColors.classroomTile;
 }
 
 final class FacultyRoomMapTileProps extends MapTileProps {
@@ -71,7 +72,7 @@ final class FacultyRoomMapTileProps extends MapTileProps {
   @override
   Color get foregroundColor => Colors.white;
   @override
-  Color get backgroundColor => const Color(0xFF757575);
+  Color get backgroundColor => MapColors.facultyRoomTile;
 }
 
 final class SubRoomMapTileProps extends MapTileProps {
@@ -109,7 +110,7 @@ final class OtherRoomMapTileProps extends MapTileProps {
   @override
   Color get foregroundColor => Colors.black;
   @override
-  Color get backgroundColor => const Color(0xFFBDBDBD);
+  Color get backgroundColor => MapColors.otherRoomTile;
 }
 
 final class RestroomMapTileProps extends MapTileProps {
@@ -129,7 +130,7 @@ final class RestroomMapTileProps extends MapTileProps {
   @override
   Color get foregroundColor => Colors.black;
   @override
-  Color get backgroundColor => const Color(0xFF9CCC65);
+  Color get backgroundColor => MapColors.restroomTile;
 }
 
 final class StairMapTileProps extends MapTileProps {
@@ -149,7 +150,7 @@ final class StairMapTileProps extends MapTileProps {
   @override
   Color get foregroundColor => Colors.black;
   @override
-  Color get backgroundColor => const Color(0xFFE0E0E0);
+  Color get backgroundColor => MapColors.stairTile;
 }
 
 final class ElevatorMapTileProps extends MapTileProps {
@@ -166,7 +167,7 @@ final class ElevatorMapTileProps extends MapTileProps {
   @override
   Color get foregroundColor => Colors.white;
   @override
-  Color get backgroundColor => const Color(0xFF424242);
+  Color get backgroundColor => MapColors.elevatorTile;
 }
 
 final class AisleMapTileProps extends MapTileProps {
@@ -184,7 +185,7 @@ final class AisleMapTileProps extends MapTileProps {
   @override
   Color get foregroundColor => Colors.black;
   @override
-  Color get backgroundColor => const Color(0xFFE0E0E0);
+  Color get backgroundColor => MapColors.aisleTile;
 }
 
 final class AtriumMapTileProps extends MapTileProps {
