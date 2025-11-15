@@ -1,6 +1,6 @@
 import 'package:dotto/domain/room.dart';
 import 'package:dotto/domain/room_equipment.dart';
-import 'package:dotto/feature/map/widget/fun_grid_map.dart';
+import 'package:dotto/feature/map/domain/fun_grid_map.dart';
 import 'package:dotto/feature/map/widget/map_tile.dart';
 import 'package:dotto_design_system/component/button.dart';
 import 'package:flutter/material.dart';
