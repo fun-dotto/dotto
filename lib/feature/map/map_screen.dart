@@ -1,7 +1,6 @@
 import 'package:dotto/controller/tab_controller.dart';
 import 'package:dotto/controller/user_controller.dart';
 import 'package:dotto/domain/tab_item.dart';
-import 'package:dotto/feature/map/controller/using_map_controller.dart';
 import 'package:dotto/feature/map/fun_map_grid.dart';
 import 'package:dotto/feature/map/map_view_model.dart';
 import 'package:dotto/feature/map/widget/map.dart';
@@ -150,17 +149,11 @@ final class MapScreen extends ConsumerWidget {
                         ref
                             .read(mapViewModelProvider.notifier)
                             .onPeriodButtonTapped(setDate);
-                        await ref
-                            .read(usingMapNotifierProvider.notifier)
-                            .setUsingColor(setDate, ref);
                       },
                       onDatePickerConfirmed: (dateTime) async {
                         ref
                             .read(mapViewModelProvider.notifier)
                             .onDatePickerConfirmed(dateTime);
-                        await ref
-                            .read(usingMapNotifierProvider.notifier)
-                            .setUsingColor(dateTime, ref);
                       },
                     ),
                   ],
