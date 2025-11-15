@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:dotto/repository/local_repository.dart';
+import 'package:dotto/helper/local_repository.dart';
 
 Future<String> readJsonFile(String fileName) async {
   final filePath = await LocalRepository().getApplicationFilePath(fileName);

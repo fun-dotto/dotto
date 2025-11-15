@@ -1,6 +1,6 @@
 import 'package:dotto/feature/kamoku_detail/repository/kamoku_detail_repository.dart';
 import 'package:dotto/feature/kamoku_detail/widget/kamoku_detail_kakomon_list_objects.dart';
-import 'package:dotto/repository/s3_repository.dart';
+import 'package:dotto/helper/s3_repository.dart';
 import 'package:flutter/material.dart';
 
 final class KamokuDetailKakomonListScreen extends StatefulWidget {

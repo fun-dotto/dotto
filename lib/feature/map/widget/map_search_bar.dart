@@ -1,27 +1,31 @@
-import 'package:dotto/feature/map/controller/map_search_focus_node_controller.dart';
-import 'package:dotto/feature/map/controller/map_search_result_list_controller.dart';
-import 'package:dotto/feature/map/controller/map_search_text_controller.dart';
 import 'package:dotto_design_system/component/text_field.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final class MapSearchBar extends ConsumerWidget {
-  const MapSearchBar({super.key});
+final class MapSearchBar extends StatelessWidget {
+  const MapSearchBar({
+    required this.textEditingController,
+    required this.focusNode,
+    required this.onChanged,
+    required this.onSubmitted,
+    required this.onCleared,
+    super.key,
+  });
+
+  final TextEditingController textEditingController;
+  final FocusNode focusNode;
+  final void Function(String) onChanged;
+  final void Function(String) onSubmitted;
+  final void Function() onCleared;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final textEditingController = ref.watch(mapSearchTextNotifierProvider);
-    final focusNode = ref.watch(mapSearchFocusNodeNotifierProvider);
+  Widget build(BuildContext context) {
     return DottoTextField(
       controller: textEditingController,
       focusNode: focusNode,
       placeholder: '部屋名、教員名、メールアドレスで検索',
-      onChanged: (_) =>
-          ref.read(mapSearchResultListNotifierProvider.notifier).search(),
-      onSubmitted: (_) =>
-          ref.read(mapSearchResultListNotifierProvider.notifier).search(),
-      onCleared: () =>
-          ref.read(mapSearchResultListNotifierProvider.notifier).search(),
+      onChanged: onChanged,
+      onSubmitted: onSubmitted,
+      onCleared: onCleared,
     );
   }
 }

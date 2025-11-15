@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:dotto/asset.dart';
-import 'package:dotto/repository/local_repository.dart';
+import 'package:dotto/helper/local_repository.dart';
 import 'package:flutter/services.dart';
 
 final class SyllabusDatabaseConfig {

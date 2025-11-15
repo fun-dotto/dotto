@@ -1,7 +1,7 @@
 import 'package:dotto/domain/user_preference_keys.dart';
 import 'package:dotto/feature/assignment/domain/kadai.dart';
-import 'package:dotto/repository/firebase_realtime_database_repository.dart';
-import 'package:dotto/repository/user_preference_repository.dart';
+import 'package:dotto/helper/firebase_realtime_database_repository.dart';
+import 'package:dotto/helper/user_preference_repository.dart';
 
 final class AssignmentRepository {
   factory AssignmentRepository() => _instance;

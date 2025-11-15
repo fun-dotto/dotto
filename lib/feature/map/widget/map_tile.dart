@@ -1,275 +1,152 @@
-import 'package:dotto/feature/map/controller/focused_map_detail_controller.dart';
-import 'package:dotto/feature/map/controller/map_search_focus_node_controller.dart';
-import 'package:dotto/feature/map/controller/selected_floor_controller.dart';
-import 'package:dotto/feature/map/controller/using_map_controller.dart';
-import 'package:dotto/feature/map/domain/map_tile_type.dart';
-import 'package:dotto/feature/map/widget/map_detail_bottom_sheet.dart';
+import 'package:dotto/domain/map_colors.dart';
+import 'package:dotto/domain/map_tile_props.dart';
+import 'package:dotto/domain/room.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-abstract final class MapColors {
-  static Color get using => Colors.orange.shade300;
-  static Color get wcMan => Colors.blue.shade800;
-  static Color get wcWoman => Colors.red.shade800;
-}
-
-// 階段の時の描画設定
-final class MapStairType {
-  const MapStairType(this.direction, {required this.up, required this.down});
-  final Axis direction;
-  final bool up;
-  final bool down;
-  Axis getDirection() {
-    return direction;
-  }
-}
-
-/// require width, height: Size, require ttype: タイルタイプ enum
-///
-/// top, right, bottom, left: Borderサイズ, txt
-// ignore: must_be_immutable
 final class MapTile extends StatelessWidget {
-  MapTile(
-    this.width,
-    this.height,
-    this.ttype, {
+  const MapTile({
+    required this.props,
+    required this.isFocused,
+    required this.dateTime,
+    this.room,
+    this.onTapped,
     super.key,
-    this.top = 0,
-    this.right = 0,
-    this.bottom = 0,
-    this.left = 0,
-    this.txt = '',
-    this.classroomNo,
-    this.lessonIds,
-    this.wc = 0x0000,
-    this.using = false,
-    this.fontSize = 4,
-    this.stairType = const MapStairType(Axis.horizontal, up: true, down: true),
-    this.useEndTime,
-    this.innerWidget,
-    this.food,
-    this.drink,
-    this.outlet,
-  }) {
-    setColors();
-    if (width == 1) {
-      fontSize = 3;
-    }
-    if (txt.length <= 6 && width >= 6) {
-      if (txt.length <= 4) {
-        fontSize = 8;
-      } else {
-        fontSize = 6;
-      }
-    }
-  }
-  final int width;
-  final int height;
-  final MapTileType ttype;
-  final double top;
-  final double right;
-  final double bottom;
-  final double left;
-  final String txt;
-  final String? classroomNo;
-  List<String>? lessonIds;
-  final int wc; // 0x Man: 1000, Woman: 0100, WheelChair: 0010, Kettle: 0001
-  bool using;
-  double fontSize;
-  late Color tileColor;
-  late Color fontColor;
-  final MapStairType stairType;
-  DateTime? useEndTime;
-  final Widget? innerWidget;
-  final bool? food;
-  final bool? drink;
-  final int? outlet;
+  });
 
-  void setColors() {
-    tileColor = ttype.backgroundColor;
-    fontColor = ttype.textColor;
+  final MapTileProps props;
+  final Room? room;
+  final bool isFocused;
+  final DateTime dateTime;
+  final void Function(MapTileProps, Room?)? onTapped;
+
+  Color get tileColor {
+    return isFocused
+        ? MapColors.focusedTile
+        : room?.isInUse(dateTime) ?? false
+        ? MapColors.roomInUseTile
+        : props.backgroundColor;
   }
 
-  bool get isUsing => using;
-  set isUsing(bool b) {
-    using = b;
+  Color get labelColor {
+    return isFocused
+        ? Colors.white
+        : room?.isInUse(dateTime) ?? false
+        ? Colors.black
+        : props.foregroundColor;
   }
 
-  Color get tileBackgroundColor => tileColor;
-  set tileBackgroundColor(Color c) {
-    tileColor = c;
+  String get labelText => room?.shortName ?? props.label ?? '';
+
+  double get fontSize {
+    if (props.width == 1) return 3;
+    if (props.width >= 6 && labelText.length <= 4) return 8;
+    if (props.width >= 6) return 6;
+    return 4;
   }
 
-  Color get textColor => fontColor;
-  set textColor(Color c) {
-    fontColor = c;
+  double get iconSize {
+    final length = (props is RestroomMapTileProps
+        ? (props as RestroomMapTileProps).types.length
+        : 0);
+    if (props.width == 1) return 6;
+    if (props.width * props.height / length <= 2) return 6;
+    return 8;
   }
 
-  DateTime? get endTime => useEndTime;
-  set endTime(DateTime? dt) {
-    useEndTime = dt;
-  }
-
-  List<String>? get lessonIdList => lessonIds;
-  set lessonIdList(List<String>? lIds) {
-    lessonIds = lIds;
-  }
-
-  Widget stackTextIcon() {
-    double iconSize = 8;
-    final iconLength =
-        (wc & 0x0001) +
-        (wc & 0x0010) ~/ 0x0010 +
-        (wc & 0x0100) ~/ 0x0100 +
-        (wc & 0x1000) ~/ 0x1000;
-    if (width == 1) {
-      iconSize = 6;
-    } else if (width * height / iconLength <= 2) {
-      iconSize = 6;
-    }
-    if (wc > 0) {
-      final icons = <Icon>[];
-      if (wc & 0x1000 > 0) {
-        icons.add(Icon(Icons.man, color: MapColors.wcMan, size: iconSize));
-      }
-      if (wc & 0x0100 > 0) {
-        icons.add(Icon(Icons.woman, color: MapColors.wcWoman, size: iconSize));
-      }
-      if (wc & 0x0010 > 0) {
-        icons.add(Icon(Icons.accessible, size: iconSize));
-      }
-      if (wc & 0x0001 > 0) {
-        icons.add(Icon(Icons.coffee_outlined, size: iconSize));
-      }
-      return Wrap(children: icons);
-    }
-    if (ttype == MapTileType.ev) {
-      return const Icon(
-        Icons.elevator_outlined,
-        size: 12,
-        color: Colors.white,
-        weight: 100,
-      );
-    }
-    if (ttype == MapTileType.stair) {
-      return SizedBox.expand(
-        child: Flex(
-          direction: stairType.getDirection(),
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            if (stairType.direction == Axis.horizontal)
-              for (int i = 0; i < (width * 2.5).toInt(); i++) ...{
-                const Expanded(
-                  child: VerticalDivider(thickness: 0.3, color: Colors.black),
-                ),
-              }
-            else
-              for (int i = 0; i < (height * 2.5).toInt(); i++) ...{
-                const Expanded(
-                  child: Divider(thickness: 0.3, color: Colors.black),
-                ),
-              },
-          ],
-        ),
-      );
-    }
-
-    return Consumer(
-      builder: (context, ref, child) {
-        final usingMap = ref.watch(usingMapNotifierProvider);
-        setColors();
-        if (classroomNo != null) {
-          if (usingMap.containsKey(classroomNo)) {
-            if (usingMap[classroomNo]!) {
-              fontColor = Colors.black;
-            }
-          }
-        }
-        return Text(
-          txt,
-          style: TextStyle(color: fontColor, fontSize: fontSize),
-        );
-      },
-    );
-  }
-
-  BorderSide oneBorderSide(double n, {required bool focus}) {
-    if (focus) {
-      return const BorderSide(color: Colors.red);
-    } else if (n > 0) {
-      return BorderSide(width: n);
-    } else {
-      return BorderSide.none;
-    }
-  }
-
-  EdgeInsets edgeInsets({required bool focus}) {
+  EdgeInsets get padding {
     return EdgeInsets.only(
-      top: (top > 0 || focus) ? 0 : 1,
-      right: (right > 0 || focus) ? 0 : 1,
-      bottom: (bottom > 0 || focus) ? 0 : 1,
-      left: (left > 0 || focus) ? 0 : 1,
+      top: (props.top > 0 || isFocused) ? 0 : 1,
+      right: (props.right > 0 || isFocused) ? 0 : 1,
+      bottom: (props.bottom > 0 || isFocused) ? 0 : 1,
+      left: (props.left > 0 || isFocused) ? 0 : 1,
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    final widgetList = <Widget>[
-      SizedBox.expand(
-        child: Consumer(
-          builder: (context, ref, child) {
-            final focusedMapDetail = ref.watch(
-              focusedMapDetailNotifierProvider,
-            );
-            final selectedFloor = ref.watch(selectedFloorNotifierProvider);
-            final usingMap = ref.watch(usingMapNotifierProvider);
-            if (classroomNo != null) {
-              if (usingMap.containsKey(classroomNo)) {
-                if (usingMap[classroomNo]!) {
-                  using = true;
-                  tileColor = MapColors.using;
-                } else {
-                  using = false;
-                  setColors();
-                }
-              }
-            }
-            var focus = false;
-            if (focusedMapDetail.floor == selectedFloor.label) {
-              if (focusedMapDetail.roomName == txt) {
-                focus = true;
-              }
-            }
-            return Container(
-              padding: edgeInsets(focus: focus),
-              decoration: BoxDecoration(
-                border: Border(
-                  top: oneBorderSide(top, focus: focus),
-                  right: oneBorderSide(right, focus: focus),
-                  bottom: oneBorderSide(bottom, focus: focus),
-                  left: oneBorderSide(left, focus: focus),
-                ),
-                color: (ttype == MapTileType.empty)
-                    ? tileColor
-                    : MapTileType.road.backgroundColor,
-              ),
-              child: SizedBox.expand(
-                child: (innerWidget == null)
-                    ? Container(
-                        padding: EdgeInsets.zero,
-                        color: focus ? Colors.red : tileColor,
-                      )
-                    : innerWidget,
-              ),
-            );
-          },
+  Border get border {
+    return Border(
+      top: isFocused
+          ? const BorderSide(color: MapColors.focusedTile)
+          : props.top > 0
+          ? BorderSide(width: props.top.toDouble())
+          : BorderSide.none,
+      right: isFocused
+          ? const BorderSide(color: MapColors.focusedTile)
+          : props.right > 0
+          ? BorderSide(width: props.right.toDouble())
+          : BorderSide.none,
+      bottom: isFocused
+          ? const BorderSide(color: MapColors.focusedTile)
+          : props.bottom > 0
+          ? BorderSide(width: props.bottom.toDouble())
+          : BorderSide.none,
+      left: isFocused
+          ? const BorderSide(color: MapColors.focusedTile)
+          : props.left > 0
+          ? BorderSide(width: props.left.toDouble())
+          : BorderSide.none,
+    );
+  }
+
+  Widget get tile {
+    return SizedBox.expand(
+      child: Container(
+        padding: padding,
+        decoration: BoxDecoration(
+          border: border,
+          color: (props is AtriumMapTileProps)
+              ? tileColor
+              : MapColors.aisleTile,
+        ),
+        child: SizedBox.expand(
+          child: Container(padding: EdgeInsets.zero, color: tileColor),
         ),
       ),
-      stackTextIcon(),
-    ];
-    if (ttype == MapTileType.stair) {
-      if (stairType.up && !stairType.down) {
-        widgetList.add(
+    );
+  }
+
+  Widget get label {
+    return Text(
+      labelText,
+      style: TextStyle(fontSize: fontSize, color: labelColor),
+    );
+  }
+
+  Widget get restroomIcons {
+    return Wrap(
+      children: (props as RestroomMapTileProps).types
+          .map((type) => Icon(type.icon, size: iconSize, color: type.color))
+          .toList(),
+    );
+  }
+
+  Widget get stair {
+    final stairWidth = props.width * 2.5;
+    final stairHeight = props.height * 2.5;
+    return Stack(
+      children: [
+        SizedBox.expand(
+          child: Flex(
+            direction: (props as StairMapTileProps).type.getDirection(),
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              if ((props as StairMapTileProps).type.direction ==
+                  Axis.horizontal)
+                for (int i = 0; i < stairWidth.toInt(); i++) ...{
+                  const Expanded(
+                    child: VerticalDivider(thickness: 0.3, color: Colors.black),
+                  ),
+                }
+              else
+                for (int i = 0; i < stairHeight.toInt(); i++) ...{
+                  const Expanded(
+                    child: Divider(thickness: 0.3, color: Colors.black),
+                  ),
+                },
+            ],
+          ),
+        ),
+        if ((props as StairMapTileProps).type.up &&
+            !(props as StairMapTileProps).type.down)
           SizedBox.expand(
             child: Center(
               child: Icon(
@@ -279,9 +156,8 @@ final class MapTile extends StatelessWidget {
               ),
             ),
           ),
-        );
-      } else if (!stairType.up && stairType.down) {
-        widgetList.add(
+        if (!(props as StairMapTileProps).type.up &&
+            ((props as StairMapTileProps).type.down))
           SizedBox.expand(
             child: Center(
               child: Icon(
@@ -291,50 +167,36 @@ final class MapTile extends StatelessWidget {
               ),
             ),
           ),
-        );
-      } else if (stairType.up && stairType.down) {
-        if (stairType.direction == Axis.horizontal) {
-          widgetList.add(
-            const SizedBox.expand(
-              child: Divider(thickness: 0.3, color: Colors.black),
-            ),
-          );
-        } else {
-          widgetList.add(
-            const SizedBox.expand(
-              child: VerticalDivider(thickness: 0.3, color: Colors.black),
-            ),
-          );
-        }
-      }
-    }
-    return Consumer(
-      builder: (context, ref, child) {
-        final selectedFloor = ref.watch(selectedFloorNotifierProvider);
-        final mapSearchFocusNode = ref.watch(
-          mapSearchFocusNodeNotifierProvider,
-        );
-        return GestureDetector(
-          onTap: (txt.isNotEmpty && ttype.index <= MapTileType.subroom.index)
-              ? () {
-                  showBottomSheet(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return MapDetailBottomSheet(
-                        floor: selectedFloor.label,
-                        roomName: txt,
-                      );
-                    },
-                  );
-                  mapSearchFocusNode.unfocus();
-                }
-              : null,
-          child: Stack(
-            alignment: AlignmentDirectional.center,
-            children: widgetList,
-          ),
-        );
-      },
+        if (((props as StairMapTileProps).type.up) &&
+            ((props as StairMapTileProps).type.down))
+          const SizedBox.expand(),
+      ],
+    );
+  }
+
+  Widget get elevator {
+    return const Icon(
+      Icons.elevator_outlined,
+      size: 12,
+      color: Colors.white,
+      weight: 100,
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () => onTapped?.call(props, room),
+      child: Stack(
+        alignment: AlignmentDirectional.center,
+        children: [
+          tile,
+          label,
+          if (props is RestroomMapTileProps) restroomIcons,
+          if (props is StairMapTileProps) stair,
+          if (props is ElevatorMapTileProps) elevator,
+        ],
+      ),
     );
   }
 }

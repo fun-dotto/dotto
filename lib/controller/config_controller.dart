@@ -1,6 +1,6 @@
 import 'package:dotto/domain/config.dart';
 import 'package:dotto/domain/remote_config_keys.dart';
-import 'package:dotto/repository/remote_config_repository.dart';
+import 'package:dotto/helper/remote_config_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'config_controller.g.dart';
 
