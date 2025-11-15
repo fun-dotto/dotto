@@ -262,7 +262,7 @@ abstract class FUNMapGrid {
     // 食堂側トイレ
     RestroomMapTileProps(
       floor: Floor.first,
-      width: 2,
+      width: 3,
       height: 2,
       top: 0,
       right: 0,
