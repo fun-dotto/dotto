@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dotto/domain/floor.dart';
 import 'package:dotto/domain/map_tile_props.dart';
 import 'package:dotto/domain/room.dart';
@@ -23,7 +25,7 @@ class MapViewModel extends _$MapViewModel {
       textEditingController: TextEditingController(),
       transformationController: TransformationController(Matrix4.identity()),
     );
-    _getRooms(ref);
+    unawaited(_getRooms(ref));
     return state;
   }
 
