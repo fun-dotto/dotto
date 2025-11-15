@@ -5,8 +5,8 @@ import 'package:dotto/domain/restroom_type.dart';
 import 'package:dotto/domain/room_equipment.dart';
 import 'package:flutter/material.dart';
 
-abstract class FUNMapGrid {
-  static final List<MapTileProps> mapTileProps = [
+abstract class FUNMap {
+  static final List<MapTileProps> tileProps = [
     /// 1F
     AtriumMapTileProps(
       floor: Floor.first,

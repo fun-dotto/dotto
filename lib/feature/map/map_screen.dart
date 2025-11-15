@@ -1,7 +1,7 @@
 import 'package:dotto/controller/tab_controller.dart';
 import 'package:dotto/controller/user_controller.dart';
 import 'package:dotto/domain/tab_item.dart';
-import 'package:dotto/feature/map/fun_map_grid.dart';
+import 'package:dotto/feature/map/fun_map.dart';
 import 'package:dotto/feature/map/map_view_model.dart';
 import 'package:dotto/feature/map/widget/map.dart';
 import 'package:dotto/feature/map/widget/map_date_picker.dart';
@@ -169,7 +169,7 @@ final class MapScreen extends ConsumerWidget {
                       context: context,
                       builder: (BuildContext context) {
                         return MapDetailBottomSheet(
-                          props: FUNMapGrid.mapTileProps.firstWhere(
+                          props: FUNMap.tileProps.firstWhere(
                             (e) => e.id == item.id,
                           ),
                           room: item,
