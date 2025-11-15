@@ -86,7 +86,7 @@ final class MapDetailBottomSheet extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Icon(type.icon, color: fontColor, size: 20),
-          Text(type.title, style: const TextStyle(color: fontColor)),
+          Text(type.label, style: const TextStyle(color: fontColor)),
           Icon(icon, color: fontColor, size: 20),
         ],
       ),

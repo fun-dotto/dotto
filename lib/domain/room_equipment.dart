@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
 enum RoomEquipment {
-  outlet(icon: Icons.electrical_services, title: 'コンセント'),
-  food(icon: Icons.lunch_dining, title: '食べ物'),
-  drink(icon: Icons.local_drink, title: '飲み物');
+  outlet(label: 'コンセント', icon: Icons.electrical_services),
+  food(label: '食べ物', icon: Icons.lunch_dining),
+  drink(label: '飲み物', icon: Icons.local_drink);
 
-  const RoomEquipment({required this.icon, required this.title});
+  const RoomEquipment({required this.label, required this.icon});
 
+  final String label;
   final IconData icon;
-  final String title;
 }
