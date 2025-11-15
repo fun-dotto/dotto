@@ -14,8 +14,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 ///
 /// top, right, bottom, left: Borderサイズ, txt
 // ignore: must_be_immutable
-final class MapTile extends StatelessWidget {
-  MapTile(
+final class ConsumerMapTile extends StatelessWidget {
+  ConsumerMapTile(
     this.width,
     this.height,
     this.ttype, {

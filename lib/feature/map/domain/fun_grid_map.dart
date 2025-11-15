@@ -1,45 +1,45 @@
 import 'package:dotto/domain/map_stair_type.dart';
 import 'package:dotto/feature/map/domain/map_tile_type.dart';
-import 'package:dotto/feature/map/widget/map_tile.dart';
+import 'package:dotto/feature/map/widget/consumer_map_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 abstract final class FunGridMaps {
-  static final Map<String, List<MapTile>> mapTileListMap = {
+  static final Map<String, List<ConsumerMapTile>> mapTileListMap = {
     '1': [
-      MapTile(48, 18, MapTileType.empty),
-      MapTile(40, 7, MapTileType.empty),
-      MapTile(8, 7, MapTileType.otherroom, left: 1, top: 1, right: 1),
-      MapTile(40, 1, MapTileType.road, left: 1, top: 1),
-      MapTile(2, 3, MapTileType.otherroom),
-      MapTile(6, 4, MapTileType.otherroom, right: 1),
-      MapTile(1, 6, MapTileType.road, left: 1),
-      MapTile(1, 6, MapTileType.otherroom),
-      MapTile(2, 2, MapTileType.teacherroom, txt: '155'),
-      MapTile(2, 2, MapTileType.teacherroom, txt: '154'),
-      MapTile(2, 2, MapTileType.teacherroom, txt: '153'),
-      MapTile(2, 2, MapTileType.teacherroom, txt: '152'),
-      MapTile(2, 2, MapTileType.teacherroom, txt: '151'),
-      MapTile(1, 6, MapTileType.road),
-      MapTile(3, 6, MapTileType.wc, wc: 0x1101), // アトリエ側トイレ
-      MapTile(2, 2, MapTileType.otherroom),
-      MapTile(2, 2, MapTileType.teacherroom, txt: '150'),
-      MapTile(2, 2, MapTileType.teacherroom, txt: '149'),
-      MapTile(2, 2, MapTileType.teacherroom, txt: '148'),
-      MapTile(2, 2, MapTileType.teacherroom, txt: '147'),
-      MapTile(2, 2, MapTileType.teacherroom, txt: '146'),
-      MapTile(2, 2, MapTileType.teacherroom, txt: '145'),
-      MapTile(2, 2, MapTileType.teacherroom, txt: '144'),
-      MapTile(2, 2, MapTileType.teacherroom, txt: '143'),
-      MapTile(2, 2, MapTileType.wc, wc: 0x0100), // 食堂側トイレ
-      MapTile(1, 6, MapTileType.road),
-      MapTile(3, 2, MapTileType.wc, wc: 0x1010), // 食堂側トイレ
-      MapTile(2, 4, MapTileType.teacherroom, txt: '135'), //135
-      MapTile(2, 4, MapTileType.teacherroom, txt: '134'), //134
-      MapTile(2, 4, MapTileType.teacherroom, txt: '133'), //133
-      MapTile(2, 4, MapTileType.teacherroom, txt: '132'), //132
-      MapTile(2, 4, MapTileType.teacherroom, txt: '131'), //131
-      MapTile(
+      ConsumerMapTile(48, 18, MapTileType.empty),
+      ConsumerMapTile(40, 7, MapTileType.empty),
+      ConsumerMapTile(8, 7, MapTileType.otherroom, left: 1, top: 1, right: 1),
+      ConsumerMapTile(40, 1, MapTileType.road, left: 1, top: 1),
+      ConsumerMapTile(2, 3, MapTileType.otherroom),
+      ConsumerMapTile(6, 4, MapTileType.otherroom, right: 1),
+      ConsumerMapTile(1, 6, MapTileType.road, left: 1),
+      ConsumerMapTile(1, 6, MapTileType.otherroom),
+      ConsumerMapTile(2, 2, MapTileType.teacherroom, txt: '155'),
+      ConsumerMapTile(2, 2, MapTileType.teacherroom, txt: '154'),
+      ConsumerMapTile(2, 2, MapTileType.teacherroom, txt: '153'),
+      ConsumerMapTile(2, 2, MapTileType.teacherroom, txt: '152'),
+      ConsumerMapTile(2, 2, MapTileType.teacherroom, txt: '151'),
+      ConsumerMapTile(1, 6, MapTileType.road),
+      ConsumerMapTile(3, 6, MapTileType.wc, wc: 0x1101), // アトリエ側トイレ
+      ConsumerMapTile(2, 2, MapTileType.otherroom),
+      ConsumerMapTile(2, 2, MapTileType.teacherroom, txt: '150'),
+      ConsumerMapTile(2, 2, MapTileType.teacherroom, txt: '149'),
+      ConsumerMapTile(2, 2, MapTileType.teacherroom, txt: '148'),
+      ConsumerMapTile(2, 2, MapTileType.teacherroom, txt: '147'),
+      ConsumerMapTile(2, 2, MapTileType.teacherroom, txt: '146'),
+      ConsumerMapTile(2, 2, MapTileType.teacherroom, txt: '145'),
+      ConsumerMapTile(2, 2, MapTileType.teacherroom, txt: '144'),
+      ConsumerMapTile(2, 2, MapTileType.teacherroom, txt: '143'),
+      ConsumerMapTile(2, 2, MapTileType.wc, wc: 0x0100), // 食堂側トイレ
+      ConsumerMapTile(1, 6, MapTileType.road),
+      ConsumerMapTile(3, 2, MapTileType.wc, wc: 0x1010), // 食堂側トイレ
+      ConsumerMapTile(2, 4, MapTileType.teacherroom, txt: '135'), //135
+      ConsumerMapTile(2, 4, MapTileType.teacherroom, txt: '134'), //134
+      ConsumerMapTile(2, 4, MapTileType.teacherroom, txt: '133'), //133
+      ConsumerMapTile(2, 4, MapTileType.teacherroom, txt: '132'), //132
+      ConsumerMapTile(2, 4, MapTileType.teacherroom, txt: '131'), //131
+      ConsumerMapTile(
         2,
         4,
         MapTileType.stair,
@@ -48,18 +48,18 @@ abstract final class FunGridMaps {
         right: 1,
         stairType: const MapStairType(Axis.vertical, up: true, down: false),
       ),
-      MapTile(2, 4, MapTileType.teacherroom, txt: '130'), //130
-      MapTile(2, 4, MapTileType.teacherroom, txt: '129'), //129
-      MapTile(2, 4, MapTileType.teacherroom, txt: '128'), //128
-      MapTile(2, 4, MapTileType.teacherroom, txt: '127'), //127
-      MapTile(2, 4, MapTileType.teacherroom, txt: '126'), //126
-      MapTile(2, 4, MapTileType.teacherroom, txt: '125'), //125
-      MapTile(2, 4, MapTileType.teacherroom, txt: '124'), //124
-      MapTile(2, 4, MapTileType.teacherroom, txt: '123'), //123
-      MapTile(2, 4, MapTileType.subroom, txt: '122'), //122
-      MapTile(1, 4, MapTileType.otherroom),
-      MapTile(2, 4, MapTileType.subroom, txt: '121'), //121
-      MapTile(
+      ConsumerMapTile(2, 4, MapTileType.teacherroom, txt: '130'), //130
+      ConsumerMapTile(2, 4, MapTileType.teacherroom, txt: '129'), //129
+      ConsumerMapTile(2, 4, MapTileType.teacherroom, txt: '128'), //128
+      ConsumerMapTile(2, 4, MapTileType.teacherroom, txt: '127'), //127
+      ConsumerMapTile(2, 4, MapTileType.teacherroom, txt: '126'), //126
+      ConsumerMapTile(2, 4, MapTileType.teacherroom, txt: '125'), //125
+      ConsumerMapTile(2, 4, MapTileType.teacherroom, txt: '124'), //124
+      ConsumerMapTile(2, 4, MapTileType.teacherroom, txt: '123'), //123
+      ConsumerMapTile(2, 4, MapTileType.subroom, txt: '122'), //122
+      ConsumerMapTile(1, 4, MapTileType.otherroom),
+      ConsumerMapTile(2, 4, MapTileType.subroom, txt: '121'), //121
+      ConsumerMapTile(
         2,
         4,
         MapTileType.stair,
@@ -68,21 +68,28 @@ abstract final class FunGridMaps {
         right: 1,
         stairType: const MapStairType(Axis.vertical, up: true, down: false),
       ),
-      MapTile(6, 16, MapTileType.subroom, right: 1, bottom: 1, txt: '食堂'), //食堂
-      MapTile(42, 1, MapTileType.road, left: 1),
-      MapTile(12, 6, MapTileType.otherroom, left: 1),
-      MapTile(6, 10, MapTileType.road),
-      MapTile(18, 3, MapTileType.otherroom, right: 1, left: 1),
-      MapTile(6, 1, MapTileType.road),
-      MapTile(2, 2, MapTileType.road),
-      MapTile(2, 2, MapTileType.ev, left: 1, top: 1, right: 1), //ev
-      MapTile(2, 2, MapTileType.road),
-      MapTile(18, 3, MapTileType.road, right: 1, left: 1),
-      MapTile(2, 1, MapTileType.road),
-      MapTile(2, 1, MapTileType.road, bottom: 1),
-      MapTile(2, 1, MapTileType.road),
-      MapTile(6, 6, MapTileType.road),
-      MapTile(
+      ConsumerMapTile(
+        6,
+        16,
+        MapTileType.subroom,
+        right: 1,
+        bottom: 1,
+        txt: '食堂',
+      ), //食堂
+      ConsumerMapTile(42, 1, MapTileType.road, left: 1),
+      ConsumerMapTile(12, 6, MapTileType.otherroom, left: 1),
+      ConsumerMapTile(6, 10, MapTileType.road),
+      ConsumerMapTile(18, 3, MapTileType.otherroom, right: 1, left: 1),
+      ConsumerMapTile(6, 1, MapTileType.road),
+      ConsumerMapTile(2, 2, MapTileType.road),
+      ConsumerMapTile(2, 2, MapTileType.ev, left: 1, top: 1, right: 1), //ev
+      ConsumerMapTile(2, 2, MapTileType.road),
+      ConsumerMapTile(18, 3, MapTileType.road, right: 1, left: 1),
+      ConsumerMapTile(2, 1, MapTileType.road),
+      ConsumerMapTile(2, 1, MapTileType.road, bottom: 1),
+      ConsumerMapTile(2, 1, MapTileType.road),
+      ConsumerMapTile(6, 6, MapTileType.road),
+      ConsumerMapTile(
         12,
         6,
         MapTileType.classroom,
@@ -94,49 +101,63 @@ abstract final class FunGridMaps {
         drink: true,
         outlet: 2,
       ), //アトリエ
-      MapTile(18, 1, MapTileType.road),
-      MapTile(6, 5, MapTileType.road, left: 1, bottom: 1, txt: 'プレゼンテーションベイB'),
-      MapTile(6, 5, MapTileType.road, bottom: 1, txt: 'プレゼンテーションベイG'),
-      MapTile(6, 5, MapTileType.road, right: 1, bottom: 1, txt: 'プレゼンテーションベイR'),
-      MapTile(2, 2, MapTileType.road, bottom: 1),
-      MapTile(2, 2, MapTileType.road),
-      MapTile(2, 2, MapTileType.road, bottom: 1),
-      MapTile(2, 2, MapTileType.road, bottom: 1),
-      MapTile(2, 2, MapTileType.otherroom, txt: '出入口'),
-      MapTile(2, 2, MapTileType.road, bottom: 1),
+      ConsumerMapTile(18, 1, MapTileType.road),
+      ConsumerMapTile(
+        6,
+        5,
+        MapTileType.road,
+        left: 1,
+        bottom: 1,
+        txt: 'プレゼンテーションベイB',
+      ),
+      ConsumerMapTile(6, 5, MapTileType.road, bottom: 1, txt: 'プレゼンテーションベイG'),
+      ConsumerMapTile(
+        6,
+        5,
+        MapTileType.road,
+        right: 1,
+        bottom: 1,
+        txt: 'プレゼンテーションベイR',
+      ),
+      ConsumerMapTile(2, 2, MapTileType.road, bottom: 1),
+      ConsumerMapTile(2, 2, MapTileType.road),
+      ConsumerMapTile(2, 2, MapTileType.road, bottom: 1),
+      ConsumerMapTile(2, 2, MapTileType.road, bottom: 1),
+      ConsumerMapTile(2, 2, MapTileType.otherroom, txt: '出入口'),
+      ConsumerMapTile(2, 2, MapTileType.road, bottom: 1),
     ],
     '2': [
-      MapTile(48, 18, MapTileType.empty),
-      MapTile(40, 1, MapTileType.road, left: 1, top: 1),
-      MapTile(2, 3, MapTileType.otherroom, top: 1),
-      MapTile(6, 7, MapTileType.otherroom, top: 1, right: 1),
-      MapTile(1, 6, MapTileType.road, left: 1),
-      MapTile(3, 2, MapTileType.teacherroom, txt: '255'),
-      MapTile(2, 2, MapTileType.teacherroom, txt: '254'),
-      MapTile(2, 2, MapTileType.teacherroom, txt: '253'),
-      MapTile(2, 2, MapTileType.teacherroom, txt: '252'),
-      MapTile(2, 2, MapTileType.teacherroom, txt: '251'),
-      MapTile(1, 6, MapTileType.road),
-      MapTile(3, 6, MapTileType.wc, wc: 0x1101), // アトリエ側トイレ
-      MapTile(2, 2, MapTileType.otherroom),
-      MapTile(2, 2, MapTileType.teacherroom, txt: '250'),
-      MapTile(2, 2, MapTileType.teacherroom, txt: '249'),
-      MapTile(2, 2, MapTileType.teacherroom, txt: '248'),
-      MapTile(2, 2, MapTileType.teacherroom, txt: '247'),
-      MapTile(2, 2, MapTileType.teacherroom, txt: '246'),
-      MapTile(2, 2, MapTileType.teacherroom, txt: '245'),
-      MapTile(2, 2, MapTileType.teacherroom, txt: '244'),
-      MapTile(2, 2, MapTileType.teacherroom, txt: '243'),
-      MapTile(2, 2, MapTileType.wc, wc: 0x0100), // 購買側トイレ
-      MapTile(1, 6, MapTileType.road),
-      MapTile(3, 2, MapTileType.wc, wc: 0x1010), // 購買側トイレ
-      MapTile(1, 4, MapTileType.otherroom),
-      MapTile(2, 4, MapTileType.teacherroom, txt: '235'), //235
-      MapTile(2, 4, MapTileType.teacherroom, txt: '234'), //234
-      MapTile(2, 4, MapTileType.teacherroom, txt: '233'), //233
-      MapTile(2, 4, MapTileType.teacherroom, txt: '232'), //232
-      MapTile(2, 4, MapTileType.teacherroom, txt: '231'), //231
-      MapTile(
+      ConsumerMapTile(48, 18, MapTileType.empty),
+      ConsumerMapTile(40, 1, MapTileType.road, left: 1, top: 1),
+      ConsumerMapTile(2, 3, MapTileType.otherroom, top: 1),
+      ConsumerMapTile(6, 7, MapTileType.otherroom, top: 1, right: 1),
+      ConsumerMapTile(1, 6, MapTileType.road, left: 1),
+      ConsumerMapTile(3, 2, MapTileType.teacherroom, txt: '255'),
+      ConsumerMapTile(2, 2, MapTileType.teacherroom, txt: '254'),
+      ConsumerMapTile(2, 2, MapTileType.teacherroom, txt: '253'),
+      ConsumerMapTile(2, 2, MapTileType.teacherroom, txt: '252'),
+      ConsumerMapTile(2, 2, MapTileType.teacherroom, txt: '251'),
+      ConsumerMapTile(1, 6, MapTileType.road),
+      ConsumerMapTile(3, 6, MapTileType.wc, wc: 0x1101), // アトリエ側トイレ
+      ConsumerMapTile(2, 2, MapTileType.otherroom),
+      ConsumerMapTile(2, 2, MapTileType.teacherroom, txt: '250'),
+      ConsumerMapTile(2, 2, MapTileType.teacherroom, txt: '249'),
+      ConsumerMapTile(2, 2, MapTileType.teacherroom, txt: '248'),
+      ConsumerMapTile(2, 2, MapTileType.teacherroom, txt: '247'),
+      ConsumerMapTile(2, 2, MapTileType.teacherroom, txt: '246'),
+      ConsumerMapTile(2, 2, MapTileType.teacherroom, txt: '245'),
+      ConsumerMapTile(2, 2, MapTileType.teacherroom, txt: '244'),
+      ConsumerMapTile(2, 2, MapTileType.teacherroom, txt: '243'),
+      ConsumerMapTile(2, 2, MapTileType.wc, wc: 0x0100), // 購買側トイレ
+      ConsumerMapTile(1, 6, MapTileType.road),
+      ConsumerMapTile(3, 2, MapTileType.wc, wc: 0x1010), // 購買側トイレ
+      ConsumerMapTile(1, 4, MapTileType.otherroom),
+      ConsumerMapTile(2, 4, MapTileType.teacherroom, txt: '235'), //235
+      ConsumerMapTile(2, 4, MapTileType.teacherroom, txt: '234'), //234
+      ConsumerMapTile(2, 4, MapTileType.teacherroom, txt: '233'), //233
+      ConsumerMapTile(2, 4, MapTileType.teacherroom, txt: '232'), //232
+      ConsumerMapTile(2, 4, MapTileType.teacherroom, txt: '231'), //231
+      ConsumerMapTile(
         2,
         4,
         MapTileType.stair,
@@ -145,18 +166,18 @@ abstract final class FunGridMaps {
         left: 1,
         stairType: const MapStairType(Axis.vertical, up: true, down: false),
       ), // アトリエ側階段
-      MapTile(2, 4, MapTileType.teacherroom, txt: '230'), //230
-      MapTile(2, 4, MapTileType.teacherroom, txt: '229'), //229
-      MapTile(2, 4, MapTileType.teacherroom, txt: '228'), //228
-      MapTile(2, 4, MapTileType.teacherroom, txt: '227'), //227
-      MapTile(2, 4, MapTileType.teacherroom, txt: '226'), //226
-      MapTile(2, 4, MapTileType.teacherroom, txt: '225'), //225
-      MapTile(2, 4, MapTileType.teacherroom, txt: '224'), //224
-      MapTile(2, 4, MapTileType.teacherroom, txt: '223'), //223
-      MapTile(2, 4, MapTileType.teacherroom, txt: '222'), //222
-      MapTile(1, 4, MapTileType.otherroom),
-      MapTile(2, 4, MapTileType.subroom, txt: '221'), //221
-      MapTile(
+      ConsumerMapTile(2, 4, MapTileType.teacherroom, txt: '230'), //230
+      ConsumerMapTile(2, 4, MapTileType.teacherroom, txt: '229'), //229
+      ConsumerMapTile(2, 4, MapTileType.teacherroom, txt: '228'), //228
+      ConsumerMapTile(2, 4, MapTileType.teacherroom, txt: '227'), //227
+      ConsumerMapTile(2, 4, MapTileType.teacherroom, txt: '226'), //226
+      ConsumerMapTile(2, 4, MapTileType.teacherroom, txt: '225'), //225
+      ConsumerMapTile(2, 4, MapTileType.teacherroom, txt: '224'), //224
+      ConsumerMapTile(2, 4, MapTileType.teacherroom, txt: '223'), //223
+      ConsumerMapTile(2, 4, MapTileType.teacherroom, txt: '222'), //222
+      ConsumerMapTile(1, 4, MapTileType.otherroom),
+      ConsumerMapTile(2, 4, MapTileType.subroom, txt: '221'), //221
+      ConsumerMapTile(
         2,
         4,
         MapTileType.stair,
@@ -165,15 +186,22 @@ abstract final class FunGridMaps {
         left: 1,
         stairType: const MapStairType(Axis.vertical, up: true, down: false),
       ), // 購買側階段
-      MapTile(42, 1, MapTileType.road, left: 1),
-      MapTile(6, 6, MapTileType.subroom, txt: '購買', right: 1, bottom: 1), //売店
-      MapTile(12, 5, MapTileType.otherroom, left: 1, bottom: 1),
-      MapTile(6, 1, MapTileType.road),
-      MapTile(17, 2, MapTileType.otherroom),
-      MapTile(1, 2, MapTileType.road, right: 1),
-      MapTile(6, 1, MapTileType.road),
-      MapTile(4, 4, MapTileType.road, bottom: 1),
-      MapTile(
+      ConsumerMapTile(42, 1, MapTileType.road, left: 1),
+      ConsumerMapTile(
+        6,
+        6,
+        MapTileType.subroom,
+        txt: '購買',
+        right: 1,
+        bottom: 1,
+      ), //売店
+      ConsumerMapTile(12, 5, MapTileType.otherroom, left: 1, bottom: 1),
+      ConsumerMapTile(6, 1, MapTileType.road),
+      ConsumerMapTile(17, 2, MapTileType.otherroom),
+      ConsumerMapTile(1, 2, MapTileType.road, right: 1),
+      ConsumerMapTile(6, 1, MapTileType.road),
+      ConsumerMapTile(4, 4, MapTileType.road, bottom: 1),
+      ConsumerMapTile(
         2,
         4,
         MapTileType.stair,
@@ -182,8 +210,8 @@ abstract final class FunGridMaps {
         left: 1,
         stairType: const MapStairType(Axis.vertical, up: false, down: true),
       ),
-      MapTile(4, 4, MapTileType.road),
-      MapTile(
+      ConsumerMapTile(4, 4, MapTileType.road),
+      ConsumerMapTile(
         2,
         4,
         MapTileType.stair,
@@ -192,18 +220,18 @@ abstract final class FunGridMaps {
         left: 1,
         stairType: const MapStairType(Axis.vertical, up: false, down: true),
       ),
-      MapTile(18, 3, MapTileType.road, bottom: 1),
-      MapTile(36, 6, MapTileType.empty), //empty
-      MapTile(2, 6, MapTileType.road, left: 1, bottom: 1),
-      MapTile(10, 2, MapTileType.empty, top: 1, left: 1),
-      MapTile(2, 2, MapTileType.ev, top: 1, right: 1, left: 1), //ev
-      MapTile(8, 2, MapTileType.empty), //empty
-      MapTile(2, 1, MapTileType.road, right: 1, bottom: 1),
-      MapTile(8, 1, MapTileType.empty), //empty
-      MapTile(10, 1, MapTileType.empty, left: 1), //empty
+      ConsumerMapTile(18, 3, MapTileType.road, bottom: 1),
+      ConsumerMapTile(36, 6, MapTileType.empty), //empty
+      ConsumerMapTile(2, 6, MapTileType.road, left: 1, bottom: 1),
+      ConsumerMapTile(10, 2, MapTileType.empty, top: 1, left: 1),
+      ConsumerMapTile(2, 2, MapTileType.ev, top: 1, right: 1, left: 1), //ev
+      ConsumerMapTile(8, 2, MapTileType.empty), //empty
+      ConsumerMapTile(2, 1, MapTileType.road, right: 1, bottom: 1),
+      ConsumerMapTile(8, 1, MapTileType.empty), //empty
+      ConsumerMapTile(10, 1, MapTileType.empty, left: 1), //empty
     ],
     '3': [
-      MapTile(
+      ConsumerMapTile(
         12,
         18,
         MapTileType.classroom,
@@ -214,7 +242,7 @@ abstract final class FunGridMaps {
         food: false,
         drink: true,
       ),
-      MapTile(
+      ConsumerMapTile(
         6,
         6,
         MapTileType.subroom,
@@ -223,10 +251,10 @@ abstract final class FunGridMaps {
         food: false,
         drink: true,
       ),
-      MapTile(30, 6, MapTileType.empty, left: 1),
-      MapTile(4, 4, MapTileType.wc, wc: 0x1110), // 体育館トイレ
-      MapTile(2, 4, MapTileType.road),
-      MapTile(
+      ConsumerMapTile(30, 6, MapTileType.empty, left: 1),
+      ConsumerMapTile(4, 4, MapTileType.wc, wc: 0x1110), // 体育館トイレ
+      ConsumerMapTile(2, 4, MapTileType.road),
+      ConsumerMapTile(
         6,
         12,
         MapTileType.classroom,
@@ -236,7 +264,7 @@ abstract final class FunGridMaps {
         drink: true,
         outlet: 2,
       ),
-      MapTile(
+      ConsumerMapTile(
         6,
         12,
         MapTileType.classroom,
@@ -246,11 +274,11 @@ abstract final class FunGridMaps {
         drink: true,
         outlet: 2,
       ),
-      MapTile(6, 2, MapTileType.subroom, txt: '医務室', top: 1),
-      MapTile(2, 2, MapTileType.road, txt: '休日夜間入口'),
-      MapTile(6, 2, MapTileType.otherroom, top: 1),
-      MapTile(4, 3, MapTileType.otherroom, top: 1, right: 1),
-      MapTile(
+      ConsumerMapTile(6, 2, MapTileType.subroom, txt: '医務室', top: 1),
+      ConsumerMapTile(2, 2, MapTileType.road, txt: '休日夜間入口'),
+      ConsumerMapTile(6, 2, MapTileType.otherroom, top: 1),
+      ConsumerMapTile(4, 3, MapTileType.otherroom, top: 1, right: 1),
+      ConsumerMapTile(
         6,
         4,
         MapTileType.subroom,
@@ -258,13 +286,13 @@ abstract final class FunGridMaps {
         food: false,
         drink: false,
       ),
-      MapTile(2, 10, MapTileType.road),
-      MapTile(6, 1, MapTileType.road),
-      MapTile(4, 3, MapTileType.otherroom),
-      MapTile(6, 2, MapTileType.otherroom, right: 1),
-      MapTile(1, 2, MapTileType.otherroom),
-      MapTile(1, 2, MapTileType.road),
-      MapTile(
+      ConsumerMapTile(2, 10, MapTileType.road),
+      ConsumerMapTile(6, 1, MapTileType.road),
+      ConsumerMapTile(4, 3, MapTileType.otherroom),
+      ConsumerMapTile(6, 2, MapTileType.otherroom, right: 1),
+      ConsumerMapTile(1, 2, MapTileType.otherroom),
+      ConsumerMapTile(1, 2, MapTileType.road),
+      ConsumerMapTile(
         2,
         2,
         MapTileType.stair,
@@ -273,8 +301,8 @@ abstract final class FunGridMaps {
         bottom: 1,
         stairType: const MapStairType(Axis.horizontal, up: true, down: false),
       ), // 体育館側階段
-      MapTile(2, 2, MapTileType.road),
-      MapTile(
+      ConsumerMapTile(2, 2, MapTileType.road),
+      ConsumerMapTile(
         6,
         7,
         MapTileType.subroom,
@@ -283,10 +311,10 @@ abstract final class FunGridMaps {
         food: false,
         drink: true,
       ),
-      MapTile(6, 2, MapTileType.road),
-      MapTile(6, 6, MapTileType.subroom, txt: '社会連携センター'),
-      MapTile(2, 6, MapTileType.wc, wc: 0x1100), // 駐車場側トイレ
-      MapTile(
+      ConsumerMapTile(6, 2, MapTileType.road),
+      ConsumerMapTile(6, 6, MapTileType.subroom, txt: '社会連携センター'),
+      ConsumerMapTile(2, 6, MapTileType.wc, wc: 0x1100), // 駐車場側トイレ
+      ConsumerMapTile(
         2,
         5,
         MapTileType.stair,
@@ -295,13 +323,13 @@ abstract final class FunGridMaps {
         right: 1,
         stairType: const MapStairType(Axis.vertical, up: true, down: false),
       ), // 事務局行き階段
-      MapTile(4, 4, MapTileType.otherroom),
-      MapTile(2, 4, MapTileType.road),
-      MapTile(2, 1, MapTileType.road),
-      MapTile(48, 2, MapTileType.road, left: 1, right: 1), // モール
-      MapTile(2, 2, MapTileType.otherroom, txt: '研究棟入口'),
-      MapTile(12, 2, MapTileType.road),
-      MapTile(
+      ConsumerMapTile(4, 4, MapTileType.otherroom),
+      ConsumerMapTile(2, 4, MapTileType.road),
+      ConsumerMapTile(2, 1, MapTileType.road),
+      ConsumerMapTile(48, 2, MapTileType.road, left: 1, right: 1), // モール
+      ConsumerMapTile(2, 2, MapTileType.otherroom, txt: '研究棟入口'),
+      ConsumerMapTile(12, 2, MapTileType.road),
+      ConsumerMapTile(
         2,
         2,
         MapTileType.stair,
@@ -310,10 +338,17 @@ abstract final class FunGridMaps {
         bottom: 1,
         stairType: const MapStairType(Axis.horizontal, up: true, down: false),
       ), // モール体育館側階段
-      MapTile(18, 2, MapTileType.road),
-      MapTile(2, 2, MapTileType.ev, top: 1, left: 1, bottom: 1), // モールエレベーター
-      MapTile(2, 2, MapTileType.road),
-      MapTile(
+      ConsumerMapTile(18, 2, MapTileType.road),
+      ConsumerMapTile(
+        2,
+        2,
+        MapTileType.ev,
+        top: 1,
+        left: 1,
+        bottom: 1,
+      ), // モールエレベーター
+      ConsumerMapTile(2, 2, MapTileType.road),
+      ConsumerMapTile(
         2,
         2,
         MapTileType.stair,
@@ -322,10 +357,10 @@ abstract final class FunGridMaps {
         bottom: 1,
         stairType: const MapStairType(Axis.horizontal, up: true, down: false),
       ), // モール入口側階段
-      MapTile(6, 2, MapTileType.road),
-      MapTile(2, 2, MapTileType.otherroom, txt: '正面\n入口'),
-      MapTile(48, 2, MapTileType.road, left: 1, right: 1), // モール
-      MapTile(
+      ConsumerMapTile(6, 2, MapTileType.road),
+      ConsumerMapTile(2, 2, MapTileType.otherroom, txt: '正面\n入口'),
+      ConsumerMapTile(48, 2, MapTileType.road, left: 1, right: 1), // モール
+      ConsumerMapTile(
         12,
         7,
         MapTileType.classroom,
@@ -336,8 +371,8 @@ abstract final class FunGridMaps {
         drink: true,
         outlet: 2,
       ),
-      MapTile(1, 7, MapTileType.otherroom),
-      MapTile(
+      ConsumerMapTile(1, 7, MapTileType.otherroom),
+      ConsumerMapTile(
         3,
         5,
         MapTileType.subroom,
@@ -345,8 +380,8 @@ abstract final class FunGridMaps {
         food: false,
         drink: false,
       ),
-      MapTile(2, 7, MapTileType.road),
-      MapTile(
+      ConsumerMapTile(2, 7, MapTileType.road),
+      ConsumerMapTile(
         6,
         7,
         MapTileType.classroom,
@@ -356,7 +391,7 @@ abstract final class FunGridMaps {
         drink: false,
         outlet: 2,
       ),
-      MapTile(
+      ConsumerMapTile(
         6,
         7,
         MapTileType.classroom,
@@ -366,7 +401,7 @@ abstract final class FunGridMaps {
         drink: false,
         outlet: 2,
       ),
-      MapTile(
+      ConsumerMapTile(
         6,
         7,
         MapTileType.classroom,
@@ -376,9 +411,9 @@ abstract final class FunGridMaps {
         drink: false,
         outlet: 2,
       ),
-      MapTile(4, 2, MapTileType.otherroom),
-      MapTile(2, 7, MapTileType.road),
-      MapTile(
+      ConsumerMapTile(4, 2, MapTileType.otherroom),
+      ConsumerMapTile(2, 7, MapTileType.road),
+      ConsumerMapTile(
         6,
         37,
         MapTileType.subroom,
@@ -390,58 +425,58 @@ abstract final class FunGridMaps {
         drink: false,
         outlet: 2,
       ),
-      MapTile(2, 5, MapTileType.wc, wc: 0x1000), // 入口側トイレ男
-      MapTile(2, 5, MapTileType.otherroom),
-      MapTile(3, 2, MapTileType.otherroom),
-      MapTile(42, 1, MapTileType.road, left: 1),
-      MapTile(1, 6, MapTileType.road, left: 1),
-      MapTile(3, 2, MapTileType.teacherroom, txt: '355'),
-      MapTile(2, 2, MapTileType.teacherroom, txt: '354'),
-      MapTile(2, 2, MapTileType.teacherroom, txt: '353'),
-      MapTile(2, 2, MapTileType.teacherroom, txt: '352'),
-      MapTile(2, 2, MapTileType.teacherroom, txt: '351'),
-      MapTile(4, 4, MapTileType.wc, wc: 0x1101), // 331側トイレ
-      MapTile(2, 6, MapTileType.road),
-      MapTile(2, 2, MapTileType.teacherroom, txt: '350'),
-      MapTile(2, 2, MapTileType.teacherroom, txt: '349'),
-      MapTile(2, 2, MapTileType.teacherroom, txt: '348'),
-      MapTile(2, 2, MapTileType.teacherroom, txt: '347'),
-      MapTile(2, 2, MapTileType.teacherroom, txt: '346'),
-      MapTile(2, 2, MapTileType.teacherroom, txt: '345'),
-      MapTile(2, 2, MapTileType.teacherroom, txt: '344'),
-      MapTile(2, 2, MapTileType.teacherroom, txt: '343'),
-      MapTile(2, 2, MapTileType.teacherroom, txt: '342'),
-      MapTile(4, 2, MapTileType.wc, wc: 0x0110), // 入口側トイレ女
-      MapTile(2, 6, MapTileType.road),
-      MapTile(1, 4, MapTileType.otherroom),
-      MapTile(2, 4, MapTileType.teacherroom, txt: '335'),
-      MapTile(2, 4, MapTileType.teacherroom, txt: '334'),
-      MapTile(2, 4, MapTileType.teacherroom, txt: '333'),
-      MapTile(2, 4, MapTileType.teacherroom, txt: '332'),
-      MapTile(2, 4, MapTileType.teacherroom, txt: '331'),
-      MapTile(2, 4, MapTileType.teacherroom, txt: '330'),
-      MapTile(2, 4, MapTileType.teacherroom, txt: '329'),
-      MapTile(2, 4, MapTileType.teacherroom, txt: '328'),
-      MapTile(2, 4, MapTileType.teacherroom, txt: '327'),
-      MapTile(2, 4, MapTileType.teacherroom, txt: '326'),
-      MapTile(2, 4, MapTileType.teacherroom, txt: '325'),
-      MapTile(2, 4, MapTileType.teacherroom, txt: '324'),
-      MapTile(2, 4, MapTileType.teacherroom, txt: '323'),
-      MapTile(2, 4, MapTileType.teacherroom, txt: '322'),
-      MapTile(2, 4, MapTileType.subroom, txt: '321'),
-      MapTile(4, 2, MapTileType.otherroom),
-      MapTile(2, 4, MapTileType.otherroom),
-      MapTile(42, 1, MapTileType.road, left: 1),
-      MapTile(12, 5, MapTileType.otherroom, left: 1, bottom: 1),
-      MapTile(4, 3, MapTileType.road),
-      MapTile(2, 1, MapTileType.road),
-      MapTile(2, 2, MapTileType.otherroom),
-      MapTile(1, 2, MapTileType.road),
-      MapTile(14, 2, MapTileType.otherroom),
-      MapTile(1, 2, MapTileType.road),
-      MapTile(4, 3, MapTileType.road),
-      MapTile(2, 1, MapTileType.road),
-      MapTile(
+      ConsumerMapTile(2, 5, MapTileType.wc, wc: 0x1000), // 入口側トイレ男
+      ConsumerMapTile(2, 5, MapTileType.otherroom),
+      ConsumerMapTile(3, 2, MapTileType.otherroom),
+      ConsumerMapTile(42, 1, MapTileType.road, left: 1),
+      ConsumerMapTile(1, 6, MapTileType.road, left: 1),
+      ConsumerMapTile(3, 2, MapTileType.teacherroom, txt: '355'),
+      ConsumerMapTile(2, 2, MapTileType.teacherroom, txt: '354'),
+      ConsumerMapTile(2, 2, MapTileType.teacherroom, txt: '353'),
+      ConsumerMapTile(2, 2, MapTileType.teacherroom, txt: '352'),
+      ConsumerMapTile(2, 2, MapTileType.teacherroom, txt: '351'),
+      ConsumerMapTile(4, 4, MapTileType.wc, wc: 0x1101), // 331側トイレ
+      ConsumerMapTile(2, 6, MapTileType.road),
+      ConsumerMapTile(2, 2, MapTileType.teacherroom, txt: '350'),
+      ConsumerMapTile(2, 2, MapTileType.teacherroom, txt: '349'),
+      ConsumerMapTile(2, 2, MapTileType.teacherroom, txt: '348'),
+      ConsumerMapTile(2, 2, MapTileType.teacherroom, txt: '347'),
+      ConsumerMapTile(2, 2, MapTileType.teacherroom, txt: '346'),
+      ConsumerMapTile(2, 2, MapTileType.teacherroom, txt: '345'),
+      ConsumerMapTile(2, 2, MapTileType.teacherroom, txt: '344'),
+      ConsumerMapTile(2, 2, MapTileType.teacherroom, txt: '343'),
+      ConsumerMapTile(2, 2, MapTileType.teacherroom, txt: '342'),
+      ConsumerMapTile(4, 2, MapTileType.wc, wc: 0x0110), // 入口側トイレ女
+      ConsumerMapTile(2, 6, MapTileType.road),
+      ConsumerMapTile(1, 4, MapTileType.otherroom),
+      ConsumerMapTile(2, 4, MapTileType.teacherroom, txt: '335'),
+      ConsumerMapTile(2, 4, MapTileType.teacherroom, txt: '334'),
+      ConsumerMapTile(2, 4, MapTileType.teacherroom, txt: '333'),
+      ConsumerMapTile(2, 4, MapTileType.teacherroom, txt: '332'),
+      ConsumerMapTile(2, 4, MapTileType.teacherroom, txt: '331'),
+      ConsumerMapTile(2, 4, MapTileType.teacherroom, txt: '330'),
+      ConsumerMapTile(2, 4, MapTileType.teacherroom, txt: '329'),
+      ConsumerMapTile(2, 4, MapTileType.teacherroom, txt: '328'),
+      ConsumerMapTile(2, 4, MapTileType.teacherroom, txt: '327'),
+      ConsumerMapTile(2, 4, MapTileType.teacherroom, txt: '326'),
+      ConsumerMapTile(2, 4, MapTileType.teacherroom, txt: '325'),
+      ConsumerMapTile(2, 4, MapTileType.teacherroom, txt: '324'),
+      ConsumerMapTile(2, 4, MapTileType.teacherroom, txt: '323'),
+      ConsumerMapTile(2, 4, MapTileType.teacherroom, txt: '322'),
+      ConsumerMapTile(2, 4, MapTileType.subroom, txt: '321'),
+      ConsumerMapTile(4, 2, MapTileType.otherroom),
+      ConsumerMapTile(2, 4, MapTileType.otherroom),
+      ConsumerMapTile(42, 1, MapTileType.road, left: 1),
+      ConsumerMapTile(12, 5, MapTileType.otherroom, left: 1, bottom: 1),
+      ConsumerMapTile(4, 3, MapTileType.road),
+      ConsumerMapTile(2, 1, MapTileType.road),
+      ConsumerMapTile(2, 2, MapTileType.otherroom),
+      ConsumerMapTile(1, 2, MapTileType.road),
+      ConsumerMapTile(14, 2, MapTileType.otherroom),
+      ConsumerMapTile(1, 2, MapTileType.road),
+      ConsumerMapTile(4, 3, MapTileType.road),
+      ConsumerMapTile(2, 1, MapTileType.road),
+      ConsumerMapTile(
         2,
         4,
         MapTileType.stair,
@@ -450,7 +485,7 @@ abstract final class FunGridMaps {
         right: 1,
         stairType: const MapStairType(Axis.vertical, up: false, down: true),
       ), // 階段331側下り
-      MapTile(
+      ConsumerMapTile(
         2,
         4,
         MapTileType.stair,
@@ -459,9 +494,9 @@ abstract final class FunGridMaps {
         right: 1,
         stairType: const MapStairType(Axis.vertical, up: false, down: true),
       ), // 階段321側下り
-      MapTile(18, 3, MapTileType.road, bottom: 1),
-      MapTile(2, 2, MapTileType.road, bottom: 1),
-      MapTile(
+      ConsumerMapTile(18, 3, MapTileType.road, bottom: 1),
+      ConsumerMapTile(2, 2, MapTileType.road, bottom: 1),
+      ConsumerMapTile(
         2,
         2,
         MapTileType.stair,
@@ -470,8 +505,8 @@ abstract final class FunGridMaps {
         bottom: 1,
         stairType: const MapStairType(Axis.horizontal, up: true, down: false),
       ), // 階段331側上り
-      MapTile(2, 2, MapTileType.road),
-      MapTile(
+      ConsumerMapTile(2, 2, MapTileType.road),
+      ConsumerMapTile(
         2,
         2,
         MapTileType.stair,
@@ -480,17 +515,24 @@ abstract final class FunGridMaps {
         bottom: 1,
         stairType: const MapStairType(Axis.horizontal, up: true, down: false),
       ), // 階段321側上り
-      MapTile(36, 12, MapTileType.empty, right: 1),
-      MapTile(2, 12, MapTileType.road, bottom: 1),
-      MapTile(4, 8, MapTileType.empty, left: 1),
-      MapTile(2, 2, MapTileType.ev, left: 1, top: 1, right: 1), // エレベーター
-      MapTile(2, 2, MapTileType.empty),
-      MapTile(2, 1, MapTileType.road, right: 1, bottom: 1),
-      MapTile(2, 1, MapTileType.empty),
-      MapTile(4, 1, MapTileType.empty, left: 1),
+      ConsumerMapTile(36, 12, MapTileType.empty, right: 1),
+      ConsumerMapTile(2, 12, MapTileType.road, bottom: 1),
+      ConsumerMapTile(4, 8, MapTileType.empty, left: 1),
+      ConsumerMapTile(
+        2,
+        2,
+        MapTileType.ev,
+        left: 1,
+        top: 1,
+        right: 1,
+      ), // エレベーター
+      ConsumerMapTile(2, 2, MapTileType.empty),
+      ConsumerMapTile(2, 1, MapTileType.road, right: 1, bottom: 1),
+      ConsumerMapTile(2, 1, MapTileType.empty),
+      ConsumerMapTile(4, 1, MapTileType.empty, left: 1),
     ],
     '4': [
-      MapTile(
+      ConsumerMapTile(
         12,
         18,
         MapTileType.otherroom,
@@ -503,11 +545,18 @@ abstract final class FunGridMaps {
         drink: true,
       ),
       //Tile(6, 6, TileType.empty, left: 1.5),  一応吹き抜けでトレーニングルーム見える
-      MapTile(36, 6, MapTileType.empty),
-      MapTile(2, 6, MapTileType.road, top: 1),
-      MapTile(2, 4, MapTileType.wc, top: 1, right: 1, wc: 0x1110), // 体育館側トイレ
-      MapTile(2, 6, MapTileType.empty, bottom: 1),
-      MapTile(
+      ConsumerMapTile(36, 6, MapTileType.empty),
+      ConsumerMapTile(2, 6, MapTileType.road, top: 1),
+      ConsumerMapTile(
+        2,
+        4,
+        MapTileType.wc,
+        top: 1,
+        right: 1,
+        wc: 0x1110,
+      ), // 体育館側トイレ
+      ConsumerMapTile(2, 6, MapTileType.empty, bottom: 1),
+      ConsumerMapTile(
         6,
         6,
         MapTileType.classroom,
@@ -519,7 +568,7 @@ abstract final class FunGridMaps {
         drink: false,
         outlet: 2,
       ),
-      MapTile(
+      ConsumerMapTile(
         6,
         6,
         MapTileType.classroom,
@@ -530,7 +579,7 @@ abstract final class FunGridMaps {
         drink: false,
         outlet: 2,
       ),
-      MapTile(
+      ConsumerMapTile(
         6,
         6,
         MapTileType.classroom,
@@ -541,17 +590,31 @@ abstract final class FunGridMaps {
         drink: true,
         outlet: 2,
       ),
-      MapTile(2, 6, MapTileType.road, top: 1),
-      MapTile(2, 6, MapTileType.road, top: 1, bottom: 1),
-      MapTile(2, 2, MapTileType.subroom, top: 1, txt: '証明書発行機'),
-      MapTile(6, 10, MapTileType.subroom, txt: '事務局', top: 1, right: 1),
-      MapTile(2, 4, MapTileType.road),
-      MapTile(2, 2, MapTileType.stair, top: 1, right: 1, bottom: 1), // 体育館側階段
-      MapTile(30, 1, MapTileType.road),
-      MapTile(2, 13, MapTileType.road),
-      MapTile(2, 5, MapTileType.otherroom, txt: '406', right: 1, bottom: 1),
-      MapTile(2, 5, MapTileType.empty, top: 1),
-      MapTile(
+      ConsumerMapTile(2, 6, MapTileType.road, top: 1),
+      ConsumerMapTile(2, 6, MapTileType.road, top: 1, bottom: 1),
+      ConsumerMapTile(2, 2, MapTileType.subroom, top: 1, txt: '証明書発行機'),
+      ConsumerMapTile(6, 10, MapTileType.subroom, txt: '事務局', top: 1, right: 1),
+      ConsumerMapTile(2, 4, MapTileType.road),
+      ConsumerMapTile(
+        2,
+        2,
+        MapTileType.stair,
+        top: 1,
+        right: 1,
+        bottom: 1,
+      ), // 体育館側階段
+      ConsumerMapTile(30, 1, MapTileType.road),
+      ConsumerMapTile(2, 13, MapTileType.road),
+      ConsumerMapTile(
+        2,
+        5,
+        MapTileType.otherroom,
+        txt: '406',
+        right: 1,
+        bottom: 1,
+      ),
+      ConsumerMapTile(2, 5, MapTileType.empty, top: 1),
+      ConsumerMapTile(
         6,
         5,
         MapTileType.classroom,
@@ -561,7 +624,7 @@ abstract final class FunGridMaps {
         food: false,
         drink: true,
       ),
-      MapTile(
+      ConsumerMapTile(
         6,
         5,
         MapTileType.classroom,
@@ -572,7 +635,7 @@ abstract final class FunGridMaps {
         drink: true,
         outlet: 2,
       ),
-      MapTile(
+      ConsumerMapTile(
         6,
         5,
         MapTileType.classroom,
@@ -583,9 +646,9 @@ abstract final class FunGridMaps {
         drink: false,
         outlet: 2,
       ),
-      MapTile(2, 13, MapTileType.road),
-      MapTile(2, 5, MapTileType.wc, bottom: 1, wc: 0x1110), // 事務側トイレ
-      MapTile(
+      ConsumerMapTile(2, 13, MapTileType.road),
+      ConsumerMapTile(2, 5, MapTileType.wc, bottom: 1, wc: 0x1110), // 事務側トイレ
+      ConsumerMapTile(
         2,
         5,
         MapTileType.stair,
@@ -594,21 +657,50 @@ abstract final class FunGridMaps {
         left: 1,
         stairType: const MapStairType(Axis.vertical, up: false, down: true),
       ),
-      MapTile(1, 2, MapTileType.road),
-      MapTile(5, 2, MapTileType.subroom, txt: '局長室', right: 1, bottom: 1),
-      MapTile(12, 6, MapTileType.empty, right: 1),
-      MapTile(22, 2, MapTileType.empty, left: 1, right: 1),
-      MapTile(4, 2, MapTileType.empty, left: 1, right: 1),
-      MapTile(1, 8, MapTileType.road),
-      MapTile(5, 6, MapTileType.empty, left: 1),
-      MapTile(2, 2, MapTileType.stair, top: 1, right: 1, bottom: 1), // モール体育館側
-      MapTile(18, 2, MapTileType.empty),
-      MapTile(2, 2, MapTileType.ev, txt: 'ev', top: 1, bottom: 1, left: 1),
-      MapTile(2, 2, MapTileType.stair, top: 1, right: 1, bottom: 1), // モール正面玄関側
-      MapTile(2, 2, MapTileType.empty, right: 1),
-      MapTile(22, 2, MapTileType.empty, left: 1, right: 1),
-      MapTile(4, 2, MapTileType.empty, left: 1, right: 1),
-      MapTile(
+      ConsumerMapTile(1, 2, MapTileType.road),
+      ConsumerMapTile(
+        5,
+        2,
+        MapTileType.subroom,
+        txt: '局長室',
+        right: 1,
+        bottom: 1,
+      ),
+      ConsumerMapTile(12, 6, MapTileType.empty, right: 1),
+      ConsumerMapTile(22, 2, MapTileType.empty, left: 1, right: 1),
+      ConsumerMapTile(4, 2, MapTileType.empty, left: 1, right: 1),
+      ConsumerMapTile(1, 8, MapTileType.road),
+      ConsumerMapTile(5, 6, MapTileType.empty, left: 1),
+      ConsumerMapTile(
+        2,
+        2,
+        MapTileType.stair,
+        top: 1,
+        right: 1,
+        bottom: 1,
+      ), // モール体育館側
+      ConsumerMapTile(18, 2, MapTileType.empty),
+      ConsumerMapTile(
+        2,
+        2,
+        MapTileType.ev,
+        txt: 'ev',
+        top: 1,
+        bottom: 1,
+        left: 1,
+      ),
+      ConsumerMapTile(
+        2,
+        2,
+        MapTileType.stair,
+        top: 1,
+        right: 1,
+        bottom: 1,
+      ), // モール正面玄関側
+      ConsumerMapTile(2, 2, MapTileType.empty, right: 1),
+      ConsumerMapTile(22, 2, MapTileType.empty, left: 1, right: 1),
+      ConsumerMapTile(4, 2, MapTileType.empty, left: 1, right: 1),
+      ConsumerMapTile(
         2,
         2,
         MapTileType.subroom,
@@ -616,90 +708,103 @@ abstract final class FunGridMaps {
         top: 1,
         left: 1,
       ), //文字はみ出してる
-      MapTile(2, 2, MapTileType.subroom, txt: 'S-14', top: 1),
-      MapTile(2, 2, MapTileType.subroom, txt: 'S-13', top: 1),
-      MapTile(2, 2, MapTileType.subroom, txt: 'S-12', top: 1),
-      MapTile(2, 2, MapTileType.subroom, txt: 'S-11', top: 1),
-      MapTile(2, 2, MapTileType.subroom, txt: 'S-10', top: 1),
-      MapTile(1, 2, MapTileType.otherroom, top: 1),
-      MapTile(1, 2, MapTileType.wc, wc: 0x0001, top: 1, right: 1),
-      MapTile(2, 2, MapTileType.empty, bottom: 1),
-      MapTile(2, 2, MapTileType.subroom, txt: 'S-9', top: 1, left: 1),
-      MapTile(2, 2, MapTileType.subroom, txt: 'S-8', top: 1),
-      MapTile(2, 2, MapTileType.subroom, txt: 'S-7', top: 1),
-      MapTile(2, 2, MapTileType.subroom, txt: 'S-6', top: 1),
-      MapTile(2, 2, MapTileType.subroom, txt: 'S-5', top: 1),
-      MapTile(2, 2, MapTileType.subroom, txt: 'S-4', top: 1),
-      MapTile(2, 2, MapTileType.subroom, txt: 'S-3', top: 1),
-      MapTile(2, 2, MapTileType.subroom, txt: 'S-2', top: 1),
-      MapTile(2, 2, MapTileType.subroom, txt: 'S-1', top: 1),
-      MapTile(1, 2, MapTileType.otherroom, top: 1),
-      MapTile(1, 2, MapTileType.otherroom, txt: '倉庫', top: 1, right: 1),
-      MapTile(2, 2, MapTileType.empty, bottom: 1, right: 1),
-      MapTile(2, 2, MapTileType.otherroom, top: 1),
-      MapTile(3, 3, MapTileType.subroom, txt: '理事室', top: 1, right: 1),
-      MapTile(43, 1, MapTileType.road, left: 1),
-      MapTile(2, 5, MapTileType.subroom, txt: '秘書室'),
-      MapTile(1, 4, MapTileType.road, left: 1),
-      MapTile(1, 4, MapTileType.otherroom, txt: '倉庫'),
-      MapTile(2, 4, MapTileType.teacherroom, txt: '435'),
-      MapTile(2, 4, MapTileType.teacherroom, txt: '434'),
-      MapTile(2, 4, MapTileType.teacherroom, txt: '433'),
-      MapTile(2, 4, MapTileType.teacherroom, txt: '432'),
-      MapTile(2, 4, MapTileType.teacherroom, txt: '431'),
-      MapTile(2, 4, MapTileType.road),
-      MapTile(2, 3, MapTileType.wc, wc: 0x1100, right: 1),
-      MapTile(2, 10, MapTileType.empty, top: 1),
-      MapTile(1, 2, MapTileType.otherroom, txt: '印刷', left: 1),
-      MapTile(1, 4, MapTileType.road),
-      MapTile(2, 4, MapTileType.teacherroom, txt: '429'),
-      MapTile(2, 4, MapTileType.teacherroom, txt: '428'),
-      MapTile(2, 4, MapTileType.teacherroom, txt: '427'),
-      MapTile(2, 4, MapTileType.teacherroom, txt: '426'),
-      MapTile(2, 4, MapTileType.teacherroom, txt: '425'),
-      MapTile(2, 4, MapTileType.teacherroom, txt: '424'),
-      MapTile(2, 4, MapTileType.teacherroom, txt: '423'),
-      MapTile(2, 4, MapTileType.subroom, txt: '422'),
-      MapTile(2, 4, MapTileType.road),
-      MapTile(2, 3, MapTileType.wc, wc: 0x1100, right: 1),
-      MapTile(2, 10, MapTileType.empty, top: 1, right: 1),
-      MapTile(1, 9, MapTileType.road),
-      MapTile(3, 4, MapTileType.subroom, txt: '学長室', right: 1),
-      MapTile(1, 2, MapTileType.otherroom, txt: '倉庫', left: 1),
-      MapTile(2, 1, MapTileType.otherroom, right: 1),
-      MapTile(2, 1, MapTileType.otherroom, right: 1),
-      MapTile(14, 1, MapTileType.road, left: 1),
-      MapTile(2, 3, MapTileType.subroom, txt: 'M402', right: 1),
-      MapTile(22, 1, MapTileType.road, right: 1, left: 1),
-      MapTile(5, 4, MapTileType.subroom, txt: '特別応接室', right: 1),
-      MapTile(12, 5, MapTileType.otherroom, left: 1, bottom: 1),
-      MapTile(2, 5, MapTileType.road),
-      MapTile(18, 3, MapTileType.otherroom, left: 1),
-      MapTile(2, 5, MapTileType.road),
-      MapTile(2, 5, MapTileType.road, txt: 'ラウンジ', right: 1, bottom: 1),
-      MapTile(2, 3, MapTileType.subroom, txt: 'M401', bottom: 1, right: 1),
-      MapTile(6, 2, MapTileType.otherroom, bottom: 1, left: 1),
-      MapTile(6, 2, MapTileType.classroom, txt: 'メタ学習ラボ', bottom: 1),
-      MapTile(6, 2, MapTileType.otherroom, bottom: 1),
-      MapTile(4, 1, MapTileType.otherroom),
-      MapTile(1, 1, MapTileType.road, right: 1),
-      MapTile(6, 1, MapTileType.road, right: 1),
-      MapTile(12, 19, MapTileType.empty, right: 1),
-      MapTile(2, 7, MapTileType.road),
-      MapTile(22, 5, MapTileType.empty, left: 1, right: 1),
-      MapTile(2, 7, MapTileType.road),
-      MapTile(4, 5, MapTileType.empty, left: 1, right: 1),
-      MapTile(1, 7, MapTileType.road),
-      MapTile(3, 3, MapTileType.subroom, txt: 'サーバーコンピュータ事務室'),
-      MapTile(2, 3, MapTileType.wc, wc: 0x1101, right: 1), // サーバーコンピュータ室側トイレ
-      MapTile(5, 4, MapTileType.subroom, txt: 'サーバーコンピュータ室', right: 1),
-      MapTile(2, 2, MapTileType.stair, top: 1, right: 1, bottom: 1),
-      MapTile(20, 2, MapTileType.empty, bottom: 1, right: 1),
-      MapTile(2, 2, MapTileType.stair, top: 1, right: 1, bottom: 1),
-      MapTile(2, 2, MapTileType.empty, right: 1),
-      MapTile(26, 1, MapTileType.road),
-      MapTile(4, 8, MapTileType.empty, left: 1, right: 1),
-      MapTile(
+      ConsumerMapTile(2, 2, MapTileType.subroom, txt: 'S-14', top: 1),
+      ConsumerMapTile(2, 2, MapTileType.subroom, txt: 'S-13', top: 1),
+      ConsumerMapTile(2, 2, MapTileType.subroom, txt: 'S-12', top: 1),
+      ConsumerMapTile(2, 2, MapTileType.subroom, txt: 'S-11', top: 1),
+      ConsumerMapTile(2, 2, MapTileType.subroom, txt: 'S-10', top: 1),
+      ConsumerMapTile(1, 2, MapTileType.otherroom, top: 1),
+      ConsumerMapTile(1, 2, MapTileType.wc, wc: 0x0001, top: 1, right: 1),
+      ConsumerMapTile(2, 2, MapTileType.empty, bottom: 1),
+      ConsumerMapTile(2, 2, MapTileType.subroom, txt: 'S-9', top: 1, left: 1),
+      ConsumerMapTile(2, 2, MapTileType.subroom, txt: 'S-8', top: 1),
+      ConsumerMapTile(2, 2, MapTileType.subroom, txt: 'S-7', top: 1),
+      ConsumerMapTile(2, 2, MapTileType.subroom, txt: 'S-6', top: 1),
+      ConsumerMapTile(2, 2, MapTileType.subroom, txt: 'S-5', top: 1),
+      ConsumerMapTile(2, 2, MapTileType.subroom, txt: 'S-4', top: 1),
+      ConsumerMapTile(2, 2, MapTileType.subroom, txt: 'S-3', top: 1),
+      ConsumerMapTile(2, 2, MapTileType.subroom, txt: 'S-2', top: 1),
+      ConsumerMapTile(2, 2, MapTileType.subroom, txt: 'S-1', top: 1),
+      ConsumerMapTile(1, 2, MapTileType.otherroom, top: 1),
+      ConsumerMapTile(1, 2, MapTileType.otherroom, txt: '倉庫', top: 1, right: 1),
+      ConsumerMapTile(2, 2, MapTileType.empty, bottom: 1, right: 1),
+      ConsumerMapTile(2, 2, MapTileType.otherroom, top: 1),
+      ConsumerMapTile(3, 3, MapTileType.subroom, txt: '理事室', top: 1, right: 1),
+      ConsumerMapTile(43, 1, MapTileType.road, left: 1),
+      ConsumerMapTile(2, 5, MapTileType.subroom, txt: '秘書室'),
+      ConsumerMapTile(1, 4, MapTileType.road, left: 1),
+      ConsumerMapTile(1, 4, MapTileType.otherroom, txt: '倉庫'),
+      ConsumerMapTile(2, 4, MapTileType.teacherroom, txt: '435'),
+      ConsumerMapTile(2, 4, MapTileType.teacherroom, txt: '434'),
+      ConsumerMapTile(2, 4, MapTileType.teacherroom, txt: '433'),
+      ConsumerMapTile(2, 4, MapTileType.teacherroom, txt: '432'),
+      ConsumerMapTile(2, 4, MapTileType.teacherroom, txt: '431'),
+      ConsumerMapTile(2, 4, MapTileType.road),
+      ConsumerMapTile(2, 3, MapTileType.wc, wc: 0x1100, right: 1),
+      ConsumerMapTile(2, 10, MapTileType.empty, top: 1),
+      ConsumerMapTile(1, 2, MapTileType.otherroom, txt: '印刷', left: 1),
+      ConsumerMapTile(1, 4, MapTileType.road),
+      ConsumerMapTile(2, 4, MapTileType.teacherroom, txt: '429'),
+      ConsumerMapTile(2, 4, MapTileType.teacherroom, txt: '428'),
+      ConsumerMapTile(2, 4, MapTileType.teacherroom, txt: '427'),
+      ConsumerMapTile(2, 4, MapTileType.teacherroom, txt: '426'),
+      ConsumerMapTile(2, 4, MapTileType.teacherroom, txt: '425'),
+      ConsumerMapTile(2, 4, MapTileType.teacherroom, txt: '424'),
+      ConsumerMapTile(2, 4, MapTileType.teacherroom, txt: '423'),
+      ConsumerMapTile(2, 4, MapTileType.subroom, txt: '422'),
+      ConsumerMapTile(2, 4, MapTileType.road),
+      ConsumerMapTile(2, 3, MapTileType.wc, wc: 0x1100, right: 1),
+      ConsumerMapTile(2, 10, MapTileType.empty, top: 1, right: 1),
+      ConsumerMapTile(1, 9, MapTileType.road),
+      ConsumerMapTile(3, 4, MapTileType.subroom, txt: '学長室', right: 1),
+      ConsumerMapTile(1, 2, MapTileType.otherroom, txt: '倉庫', left: 1),
+      ConsumerMapTile(2, 1, MapTileType.otherroom, right: 1),
+      ConsumerMapTile(2, 1, MapTileType.otherroom, right: 1),
+      ConsumerMapTile(14, 1, MapTileType.road, left: 1),
+      ConsumerMapTile(2, 3, MapTileType.subroom, txt: 'M402', right: 1),
+      ConsumerMapTile(22, 1, MapTileType.road, right: 1, left: 1),
+      ConsumerMapTile(5, 4, MapTileType.subroom, txt: '特別応接室', right: 1),
+      ConsumerMapTile(12, 5, MapTileType.otherroom, left: 1, bottom: 1),
+      ConsumerMapTile(2, 5, MapTileType.road),
+      ConsumerMapTile(18, 3, MapTileType.otherroom, left: 1),
+      ConsumerMapTile(2, 5, MapTileType.road),
+      ConsumerMapTile(2, 5, MapTileType.road, txt: 'ラウンジ', right: 1, bottom: 1),
+      ConsumerMapTile(
+        2,
+        3,
+        MapTileType.subroom,
+        txt: 'M401',
+        bottom: 1,
+        right: 1,
+      ),
+      ConsumerMapTile(6, 2, MapTileType.otherroom, bottom: 1, left: 1),
+      ConsumerMapTile(6, 2, MapTileType.classroom, txt: 'メタ学習ラボ', bottom: 1),
+      ConsumerMapTile(6, 2, MapTileType.otherroom, bottom: 1),
+      ConsumerMapTile(4, 1, MapTileType.otherroom),
+      ConsumerMapTile(1, 1, MapTileType.road, right: 1),
+      ConsumerMapTile(6, 1, MapTileType.road, right: 1),
+      ConsumerMapTile(12, 19, MapTileType.empty, right: 1),
+      ConsumerMapTile(2, 7, MapTileType.road),
+      ConsumerMapTile(22, 5, MapTileType.empty, left: 1, right: 1),
+      ConsumerMapTile(2, 7, MapTileType.road),
+      ConsumerMapTile(4, 5, MapTileType.empty, left: 1, right: 1),
+      ConsumerMapTile(1, 7, MapTileType.road),
+      ConsumerMapTile(3, 3, MapTileType.subroom, txt: 'サーバーコンピュータ事務室'),
+      ConsumerMapTile(
+        2,
+        3,
+        MapTileType.wc,
+        wc: 0x1101,
+        right: 1,
+      ), // サーバーコンピュータ室側トイレ
+      ConsumerMapTile(5, 4, MapTileType.subroom, txt: 'サーバーコンピュータ室', right: 1),
+      ConsumerMapTile(2, 2, MapTileType.stair, top: 1, right: 1, bottom: 1),
+      ConsumerMapTile(20, 2, MapTileType.empty, bottom: 1, right: 1),
+      ConsumerMapTile(2, 2, MapTileType.stair, top: 1, right: 1, bottom: 1),
+      ConsumerMapTile(2, 2, MapTileType.empty, right: 1),
+      ConsumerMapTile(26, 1, MapTileType.road),
+      ConsumerMapTile(4, 8, MapTileType.empty, left: 1, right: 1),
+      ConsumerMapTile(
         6,
         12,
         MapTileType.classroom,
@@ -712,7 +817,7 @@ abstract final class FunGridMaps {
         drink: true,
         outlet: 2,
       ),
-      MapTile(
+      ConsumerMapTile(
         4,
         11,
         MapTileType.subroom,
@@ -723,14 +828,14 @@ abstract final class FunGridMaps {
         drink: true,
         outlet: 1,
       ),
-      MapTile(20, 11, MapTileType.empty, top: 1, right: 1),
-      MapTile(2, 9, MapTileType.road),
-      MapTile(2, 2, MapTileType.ev, left: 1, top: 1, right: 1),
-      MapTile(2, 2, MapTileType.empty, right: 1, bottom: 1),
-      MapTile(6, 2, MapTileType.road, bottom: 1),
+      ConsumerMapTile(20, 11, MapTileType.empty, top: 1, right: 1),
+      ConsumerMapTile(2, 9, MapTileType.road),
+      ConsumerMapTile(2, 2, MapTileType.ev, left: 1, top: 1, right: 1),
+      ConsumerMapTile(2, 2, MapTileType.empty, right: 1, bottom: 1),
+      ConsumerMapTile(6, 2, MapTileType.road, bottom: 1),
     ],
     '5': [
-      MapTile(
+      ConsumerMapTile(
         14,
         2,
         MapTileType.otherroom,
@@ -738,7 +843,7 @@ abstract final class FunGridMaps {
         left: 1,
         innerWidget: subTile(9, mapCircle7To15TileList),
       ), //サークル1
-      MapTile(
+      ConsumerMapTile(
         2,
         10,
         MapTileType.otherroom,
@@ -746,10 +851,10 @@ abstract final class FunGridMaps {
         top: 1,
         innerWidget: subTile(5, mapCircle6To1TileList),
       ), //サークル3
-      MapTile(32, 6, MapTileType.empty), //empty
-      MapTile(14, 1, MapTileType.road, left: 1),
-      MapTile(1, 14, MapTileType.road, left: 1),
-      MapTile(
+      ConsumerMapTile(32, 6, MapTileType.empty), //empty
+      ConsumerMapTile(14, 1, MapTileType.road, left: 1),
+      ConsumerMapTile(1, 14, MapTileType.road, left: 1),
+      ConsumerMapTile(
         11,
         14,
         MapTileType.empty,
@@ -758,9 +863,9 @@ abstract final class FunGridMaps {
         bottom: 1,
         left: 1,
       ), //empty gym
-      MapTile(2, 9, MapTileType.road),
-      MapTile(2, 6, MapTileType.empty, bottom: 1), //empty
-      MapTile(
+      ConsumerMapTile(2, 9, MapTileType.road),
+      ConsumerMapTile(2, 6, MapTileType.empty, bottom: 1), //empty
+      ConsumerMapTile(
         6,
         6,
         MapTileType.classroom,
@@ -772,7 +877,7 @@ abstract final class FunGridMaps {
         drink: true,
         outlet: 2,
       ),
-      MapTile(
+      ConsumerMapTile(
         6,
         6,
         MapTileType.classroom,
@@ -783,7 +888,7 @@ abstract final class FunGridMaps {
         drink: true,
         outlet: 2,
       ),
-      MapTile(
+      ConsumerMapTile(
         6,
         6,
         MapTileType.classroom,
@@ -795,8 +900,8 @@ abstract final class FunGridMaps {
         drink: true,
         outlet: 2,
       ),
-      MapTile(6, 6, MapTileType.empty, bottom: 1, right: 1), //吹き抜け
-      MapTile(
+      ConsumerMapTile(6, 6, MapTileType.empty, bottom: 1, right: 1), //吹き抜け
+      ConsumerMapTile(
         6,
         12,
         MapTileType.subroom,
@@ -805,7 +910,7 @@ abstract final class FunGridMaps {
         bottom: 1,
         txt: '共同研究室',
       ),
-      MapTile(
+      ConsumerMapTile(
         2,
         2,
         MapTileType.stair,
@@ -814,11 +919,18 @@ abstract final class FunGridMaps {
         right: 1,
         bottom: 1,
       ), // 階段体育館側
-      MapTile(30, 1, MapTileType.road),
-      MapTile(2, 4, MapTileType.road),
-      MapTile(2, 5, MapTileType.wc, wc: 0x1110, right: 1, bottom: 1), // 体育館側トイレ
-      MapTile(2, 5, MapTileType.empty, top: 1), //吹き抜け
-      MapTile(
+      ConsumerMapTile(30, 1, MapTileType.road),
+      ConsumerMapTile(2, 4, MapTileType.road),
+      ConsumerMapTile(
+        2,
+        5,
+        MapTileType.wc,
+        wc: 0x1110,
+        right: 1,
+        bottom: 1,
+      ), // 体育館側トイレ
+      ConsumerMapTile(2, 5, MapTileType.empty, top: 1), //吹き抜け
+      ConsumerMapTile(
         6,
         5,
         MapTileType.classroom,
@@ -830,7 +942,7 @@ abstract final class FunGridMaps {
         drink: true,
         outlet: 2,
       ),
-      MapTile(
+      ConsumerMapTile(
         6,
         5,
         MapTileType.classroom,
@@ -841,7 +953,7 @@ abstract final class FunGridMaps {
         drink: true,
         outlet: 2,
       ),
-      MapTile(
+      ConsumerMapTile(
         6,
         5,
         MapTileType.classroom,
@@ -852,11 +964,18 @@ abstract final class FunGridMaps {
         drink: true,
         outlet: 2,
       ),
-      MapTile(2, 5, MapTileType.road),
-      MapTile(2, 5, MapTileType.wc, right: 1, bottom: 1, wc: 0x1100), // 事務側トイレ
-      MapTile(2, 5, MapTileType.empty, top: 1, right: 1), //吹き抜け
-      MapTile(14, 1, MapTileType.road, left: 1),
-      MapTile(
+      ConsumerMapTile(2, 5, MapTileType.road),
+      ConsumerMapTile(
+        2,
+        5,
+        MapTileType.wc,
+        right: 1,
+        bottom: 1,
+        wc: 0x1100,
+      ), // 事務側トイレ
+      ConsumerMapTile(2, 5, MapTileType.empty, top: 1, right: 1), //吹き抜け
+      ConsumerMapTile(14, 1, MapTileType.road, left: 1),
+      ConsumerMapTile(
         12,
         6,
         MapTileType.empty,
@@ -864,11 +983,17 @@ abstract final class FunGridMaps {
         bottom: 1,
         right: 1,
       ), //empty left
-      MapTile(2, 6, MapTileType.road),
-      MapTile(22, 2, MapTileType.empty, left: 1, right: 1), //empty center1
-      MapTile(2, 6, MapTileType.road),
-      MapTile(10, 2, MapTileType.empty, left: 1), //empty right1
-      MapTile(
+      ConsumerMapTile(2, 6, MapTileType.road),
+      ConsumerMapTile(
+        22,
+        2,
+        MapTileType.empty,
+        left: 1,
+        right: 1,
+      ), //empty center1
+      ConsumerMapTile(2, 6, MapTileType.road),
+      ConsumerMapTile(10, 2, MapTileType.empty, left: 1), //empty right1
+      ConsumerMapTile(
         2,
         2,
         MapTileType.stair,
@@ -877,9 +1002,16 @@ abstract final class FunGridMaps {
         bottom: 1,
         stairType: const MapStairType(Axis.horizontal, up: false, down: true),
       ), // 階段center側
-      MapTile(18, 2, MapTileType.empty), //empty center2
-      MapTile(2, 2, MapTileType.ev, top: 1, left: 1, bottom: 1), // エレベーターcenter
-      MapTile(
+      ConsumerMapTile(18, 2, MapTileType.empty), //empty center2
+      ConsumerMapTile(
+        2,
+        2,
+        MapTileType.ev,
+        top: 1,
+        left: 1,
+        bottom: 1,
+      ), // エレベーターcenter
+      ConsumerMapTile(
         2,
         2,
         MapTileType.stair,
@@ -888,8 +1020,8 @@ abstract final class FunGridMaps {
         bottom: 1,
         stairType: const MapStairType(Axis.horizontal, up: false, down: true),
       ), // 階段right側
-      MapTile(8, 2, MapTileType.empty), //empty right2
-      MapTile(
+      ConsumerMapTile(8, 2, MapTileType.empty), //empty right2
+      ConsumerMapTile(
         22,
         2,
         MapTileType.empty,
@@ -897,46 +1029,85 @@ abstract final class FunGridMaps {
         right: 1,
         bottom: 1,
       ), //empty center3
-      MapTile(10, 2, MapTileType.empty, left: 1), //empty right3
-      MapTile(38, 1, MapTileType.road, left: 1),
-      MapTile(2, 5, MapTileType.otherroom, top: 1, right: 1),
-      MapTile(2, 5, MapTileType.empty, right: 1, bottom: 1), //吹き抜け
-      MapTile(2, 5, MapTileType.road, top: 1),
-      MapTile(4, 8, MapTileType.otherroom, top: 1, right: 1, txt: '会議室'),
-      MapTile(2, 4, MapTileType.teacherroom, txt: '536', left: 1),
-      MapTile(2, 4, MapTileType.teacherroom, txt: '535'),
-      MapTile(2, 4, MapTileType.teacherroom, txt: '534'),
-      MapTile(2, 4, MapTileType.teacherroom, txt: '533'),
-      MapTile(2, 4, MapTileType.teacherroom, txt: '532'),
-      MapTile(2, 4, MapTileType.teacherroom, txt: '531'),
-      MapTile(2, 4, MapTileType.road),
-      MapTile(2, 4, MapTileType.otherroom, right: 1),
-      MapTile(2, 4, MapTileType.empty, top: 1, bottom: 1), //吹き抜け
-      MapTile(1, 4, MapTileType.wc, left: 1, wc: 0x0001),
-      MapTile(1, 4, MapTileType.road),
-      MapTile(2, 4, MapTileType.teacherroom, txt: '529'),
-      MapTile(2, 4, MapTileType.teacherroom, txt: '528'),
-      MapTile(2, 4, MapTileType.teacherroom, txt: '527'),
-      MapTile(2, 4, MapTileType.teacherroom, txt: '526'),
-      MapTile(2, 4, MapTileType.teacherroom, txt: '525'),
-      MapTile(2, 4, MapTileType.teacherroom, txt: '524'),
-      MapTile(2, 4, MapTileType.teacherroom, txt: '523'),
-      MapTile(2, 4, MapTileType.teacherroom, txt: '522'),
-      MapTile(2, 4, MapTileType.road),
-      MapTile(44, 1, MapTileType.road, left: 1),
-      MapTile(12, 2, MapTileType.otherroom, left: 1, bottom: 1), //スタジオleft
-      MapTile(2, 2, MapTileType.road),
-      MapTile(2, 2, MapTileType.subroom, right: 1, bottom: 1, txt: '大学生協学生委員室'),
-      MapTile(2, 2, MapTileType.empty, top: 1), //吹き抜け
-      MapTile(18, 2, MapTileType.otherroom, left: 1, bottom: 1), //スタジオcenter
-      MapTile(2, 11, MapTileType.road),
-      MapTile(2, 2, MapTileType.subroom, right: 1, bottom: 1, txt: 'M502'),
-      MapTile(2, 2, MapTileType.empty, top: 1, right: 1), //吹き抜け
-      MapTile(2, 4, MapTileType.road),
-      MapTile(12, 12, MapTileType.empty, right: 1), //empty left
-      MapTile(2, 12, MapTileType.road, bottom: 1),
-      MapTile(22, 10, MapTileType.empty, left: 1, right: 1), //empty center
-      MapTile(
+      ConsumerMapTile(10, 2, MapTileType.empty, left: 1), //empty right3
+      ConsumerMapTile(38, 1, MapTileType.road, left: 1),
+      ConsumerMapTile(2, 5, MapTileType.otherroom, top: 1, right: 1),
+      ConsumerMapTile(2, 5, MapTileType.empty, right: 1, bottom: 1), //吹き抜け
+      ConsumerMapTile(2, 5, MapTileType.road, top: 1),
+      ConsumerMapTile(
+        4,
+        8,
+        MapTileType.otherroom,
+        top: 1,
+        right: 1,
+        txt: '会議室',
+      ),
+      ConsumerMapTile(2, 4, MapTileType.teacherroom, txt: '536', left: 1),
+      ConsumerMapTile(2, 4, MapTileType.teacherroom, txt: '535'),
+      ConsumerMapTile(2, 4, MapTileType.teacherroom, txt: '534'),
+      ConsumerMapTile(2, 4, MapTileType.teacherroom, txt: '533'),
+      ConsumerMapTile(2, 4, MapTileType.teacherroom, txt: '532'),
+      ConsumerMapTile(2, 4, MapTileType.teacherroom, txt: '531'),
+      ConsumerMapTile(2, 4, MapTileType.road),
+      ConsumerMapTile(2, 4, MapTileType.otherroom, right: 1),
+      ConsumerMapTile(2, 4, MapTileType.empty, top: 1, bottom: 1), //吹き抜け
+      ConsumerMapTile(1, 4, MapTileType.wc, left: 1, wc: 0x0001),
+      ConsumerMapTile(1, 4, MapTileType.road),
+      ConsumerMapTile(2, 4, MapTileType.teacherroom, txt: '529'),
+      ConsumerMapTile(2, 4, MapTileType.teacherroom, txt: '528'),
+      ConsumerMapTile(2, 4, MapTileType.teacherroom, txt: '527'),
+      ConsumerMapTile(2, 4, MapTileType.teacherroom, txt: '526'),
+      ConsumerMapTile(2, 4, MapTileType.teacherroom, txt: '525'),
+      ConsumerMapTile(2, 4, MapTileType.teacherroom, txt: '524'),
+      ConsumerMapTile(2, 4, MapTileType.teacherroom, txt: '523'),
+      ConsumerMapTile(2, 4, MapTileType.teacherroom, txt: '522'),
+      ConsumerMapTile(2, 4, MapTileType.road),
+      ConsumerMapTile(44, 1, MapTileType.road, left: 1),
+      ConsumerMapTile(
+        12,
+        2,
+        MapTileType.otherroom,
+        left: 1,
+        bottom: 1,
+      ), //スタジオleft
+      ConsumerMapTile(2, 2, MapTileType.road),
+      ConsumerMapTile(
+        2,
+        2,
+        MapTileType.subroom,
+        right: 1,
+        bottom: 1,
+        txt: '大学生協学生委員室',
+      ),
+      ConsumerMapTile(2, 2, MapTileType.empty, top: 1), //吹き抜け
+      ConsumerMapTile(
+        18,
+        2,
+        MapTileType.otherroom,
+        left: 1,
+        bottom: 1,
+      ), //スタジオcenter
+      ConsumerMapTile(2, 11, MapTileType.road),
+      ConsumerMapTile(
+        2,
+        2,
+        MapTileType.subroom,
+        right: 1,
+        bottom: 1,
+        txt: 'M502',
+      ),
+      ConsumerMapTile(2, 2, MapTileType.empty, top: 1, right: 1), //吹き抜け
+      ConsumerMapTile(2, 4, MapTileType.road),
+      ConsumerMapTile(12, 12, MapTileType.empty, right: 1), //empty left
+      ConsumerMapTile(2, 12, MapTileType.road, bottom: 1),
+      ConsumerMapTile(
+        22,
+        10,
+        MapTileType.empty,
+        left: 1,
+        right: 1,
+      ), //empty center
+      ConsumerMapTile(
         4,
         9,
         MapTileType.empty,
@@ -944,14 +1115,14 @@ abstract final class FunGridMaps {
         right: 1,
         bottom: 1,
       ), //empty right
-      MapTile(4, 2, MapTileType.subroom, right: 1, txt: 'M501'),
-      MapTile(6, 2, MapTileType.road, right: 1),
-      MapTile(1, 5, MapTileType.road),
-      MapTile(4, 2, MapTileType.otherroom),
-      MapTile(1, 5, MapTileType.road, right: 1),
-      MapTile(4, 3, MapTileType.wc, wc: 0x1110), // 講堂側トイレ
-      MapTile(12, 1, MapTileType.road, right: 1),
-      MapTile(
+      ConsumerMapTile(4, 2, MapTileType.subroom, right: 1, txt: 'M501'),
+      ConsumerMapTile(6, 2, MapTileType.road, right: 1),
+      ConsumerMapTile(1, 5, MapTileType.road),
+      ConsumerMapTile(4, 2, MapTileType.otherroom),
+      ConsumerMapTile(1, 5, MapTileType.road, right: 1),
+      ConsumerMapTile(4, 3, MapTileType.wc, wc: 0x1110), // 講堂側トイレ
+      ConsumerMapTile(12, 1, MapTileType.road, right: 1),
+      ConsumerMapTile(
         2,
         2,
         MapTileType.stair,
@@ -960,9 +1131,9 @@ abstract final class FunGridMaps {
         bottom: 1,
         stairType: const MapStairType(Axis.horizontal, up: false, down: true),
       ), // 階段center側
-      MapTile(20, 2, MapTileType.empty, right: 1), //empty center
-      MapTile(2, 2, MapTileType.road),
-      MapTile(
+      ConsumerMapTile(20, 2, MapTileType.empty, right: 1), //empty center
+      ConsumerMapTile(2, 2, MapTileType.road),
+      ConsumerMapTile(
         2,
         2,
         MapTileType.stair,
@@ -971,14 +1142,14 @@ abstract final class FunGridMaps {
         bottom: 1,
         stairType: const MapStairType(Axis.horizontal, up: false, down: true),
       ), // 階段講堂側
-      MapTile(2, 2, MapTileType.empty, top: 1, right: 1), //empty 階段横
-      MapTile(1, 2, MapTileType.road),
-      MapTile(4, 2, MapTileType.otherroom, txt: '調整室'), //調光室
-      MapTile(1, 2, MapTileType.road, right: 1),
-      MapTile(36, 12, MapTileType.empty, right: 1), //empty big1
-      MapTile(2, 12, MapTileType.road, bottom: 1), //empty big1
-      MapTile(4, 8, MapTileType.empty, left: 1, right: 1), //empty 講堂１
-      MapTile(
+      ConsumerMapTile(2, 2, MapTileType.empty, top: 1, right: 1), //empty 階段横
+      ConsumerMapTile(1, 2, MapTileType.road),
+      ConsumerMapTile(4, 2, MapTileType.otherroom, txt: '調整室'), //調光室
+      ConsumerMapTile(1, 2, MapTileType.road, right: 1),
+      ConsumerMapTile(36, 12, MapTileType.empty, right: 1), //empty big1
+      ConsumerMapTile(2, 12, MapTileType.road, bottom: 1), //empty big1
+      ConsumerMapTile(4, 8, MapTileType.empty, left: 1, right: 1), //empty 講堂１
+      ConsumerMapTile(
         6,
         12,
         MapTileType.classroom,
@@ -989,19 +1160,33 @@ abstract final class FunGridMaps {
         drink: true,
         outlet: 2,
       ),
-      MapTile(2, 2, MapTileType.ev, left: 1, top: 1, right: 1), // エレベーター
-      MapTile(2, 2, MapTileType.empty, right: 1), //empty ev横
-      MapTile(2, 1, MapTileType.road, right: 1, bottom: 1), //ev下
-      MapTile(2, 1, MapTileType.empty, right: 1), //empty ev右下
-      MapTile(4, 1, MapTileType.empty, left: 1, right: 1), //empty ev下
-      MapTile(42, 7, MapTileType.empty), //empty ev横
-      MapTile(6, 7, MapTileType.empty), //empty
+      ConsumerMapTile(
+        2,
+        2,
+        MapTileType.ev,
+        left: 1,
+        top: 1,
+        right: 1,
+      ), // エレベーター
+      ConsumerMapTile(2, 2, MapTileType.empty, right: 1), //empty ev横
+      ConsumerMapTile(2, 1, MapTileType.road, right: 1, bottom: 1), //ev下
+      ConsumerMapTile(2, 1, MapTileType.empty, right: 1), //empty ev右下
+      ConsumerMapTile(4, 1, MapTileType.empty, left: 1, right: 1), //empty ev下
+      ConsumerMapTile(42, 7, MapTileType.empty), //empty ev横
+      ConsumerMapTile(6, 7, MapTileType.empty), //empty
     ],
     'R6': [
-      MapTile(4, 2, MapTileType.teacherroom, txt: 'R611', top: 1, left: 1),
-      MapTile(1, 30, MapTileType.road, top: 1, bottom: 1),
-      MapTile(3, 3, MapTileType.otherroom, top: 1),
-      MapTile(
+      ConsumerMapTile(
+        4,
+        2,
+        MapTileType.teacherroom,
+        txt: 'R611',
+        top: 1,
+        left: 1,
+      ),
+      ConsumerMapTile(1, 30, MapTileType.road, top: 1, bottom: 1),
+      ConsumerMapTile(3, 3, MapTileType.otherroom, top: 1),
+      ConsumerMapTile(
         3,
         3,
         MapTileType.subroom,
@@ -1010,8 +1195,8 @@ abstract final class FunGridMaps {
         food: true,
         drink: true,
       ),
-      MapTile(2, 30, MapTileType.road, top: 1, bottom: 1),
-      MapTile(
+      ConsumerMapTile(2, 30, MapTileType.road, top: 1, bottom: 1),
+      ConsumerMapTile(
         4,
         4,
         MapTileType.subroom,
@@ -1020,19 +1205,33 @@ abstract final class FunGridMaps {
         food: true,
         drink: true,
       ),
-      MapTile(4, 14, MapTileType.road, top: 1),
-      MapTile(1, 24, MapTileType.road, top: 1),
-      MapTile(4, 2, MapTileType.subroom, txt: 'R657', top: 1, right: 1),
-      MapTile(22, 30, MapTileType.empty),
-      MapTile(4, 2, MapTileType.teacherroom, txt: 'R610', left: 1),
-      MapTile(4, 2, MapTileType.teacherroom, txt: 'R656', right: 1),
-      MapTile(6, 1, MapTileType.road),
-      MapTile(4, 2, MapTileType.road, left: 1),
-      MapTile(3, 20, MapTileType.otherroom),
-      MapTile(3, 4, MapTileType.subroom, txt: 'R626', food: true, drink: true),
-      MapTile(4, 4, MapTileType.subroom, txt: 'R636', food: true, drink: true),
-      MapTile(4, 2, MapTileType.road, right: 1),
-      MapTile(
+      ConsumerMapTile(4, 14, MapTileType.road, top: 1),
+      ConsumerMapTile(1, 24, MapTileType.road, top: 1),
+      ConsumerMapTile(4, 2, MapTileType.subroom, txt: 'R657', top: 1, right: 1),
+      ConsumerMapTile(22, 30, MapTileType.empty),
+      ConsumerMapTile(4, 2, MapTileType.teacherroom, txt: 'R610', left: 1),
+      ConsumerMapTile(4, 2, MapTileType.teacherroom, txt: 'R656', right: 1),
+      ConsumerMapTile(6, 1, MapTileType.road),
+      ConsumerMapTile(4, 2, MapTileType.road, left: 1),
+      ConsumerMapTile(3, 20, MapTileType.otherroom),
+      ConsumerMapTile(
+        3,
+        4,
+        MapTileType.subroom,
+        txt: 'R626',
+        food: true,
+        drink: true,
+      ),
+      ConsumerMapTile(
+        4,
+        4,
+        MapTileType.subroom,
+        txt: 'R636',
+        food: true,
+        drink: true,
+      ),
+      ConsumerMapTile(4, 2, MapTileType.road, right: 1),
+      ConsumerMapTile(
         4,
         2,
         MapTileType.stair,
@@ -1041,7 +1240,7 @@ abstract final class FunGridMaps {
         bottom: 1,
         stairType: const MapStairType(Axis.horizontal, up: true, down: false),
       ),
-      MapTile(
+      ConsumerMapTile(
         4,
         2,
         MapTileType.stair,
@@ -1050,27 +1249,62 @@ abstract final class FunGridMaps {
         bottom: 1,
         stairType: const MapStairType(Axis.horizontal, up: true, down: false),
       ),
-      MapTile(4, 2, MapTileType.teacherroom, txt: 'R609', left: 1),
-      MapTile(3, 4, MapTileType.subroom, txt: 'R625', food: true, drink: true),
-      MapTile(4, 3, MapTileType.subroom, txt: 'R635', food: true, drink: true),
-      MapTile(4, 2, MapTileType.teacherroom, txt: 'R655', right: 1),
-      MapTile(4, 2, MapTileType.teacherroom, left: 1, txt: 'R608'),
-      MapTile(4, 2, MapTileType.teacherroom, txt: 'R654', right: 1),
-      MapTile(4, 3, MapTileType.subroom, txt: 'R634', food: true, drink: true),
-      MapTile(4, 2, MapTileType.teacherroom, left: 1, txt: 'R607'),
-      MapTile(3, 4, MapTileType.subroom, txt: 'R624', food: true, drink: true),
-      MapTile(4, 2, MapTileType.teacherroom, txt: 'R653', right: 1),
-      MapTile(4, 2, MapTileType.subroom, txt: 'R606', left: 1),
-      MapTile(4, 2, MapTileType.subroom, txt: 'R633'),
-      MapTile(4, 2, MapTileType.otherroom),
-      MapTile(4, 2, MapTileType.subroom, right: 1, txt: 'R652'),
-      MapTile(4, 2, MapTileType.teacherroom, txt: 'R605', left: 1),
-      MapTile(3, 4, MapTileType.subroom, txt: 'R623', food: true, drink: true),
-      MapTile(4, 4, MapTileType.subroom, txt: 'R632'),
-      MapTile(4, 4, MapTileType.subroom, txt: 'R642'),
-      MapTile(4, 6, MapTileType.subroom, right: 1, txt: 'R651'),
-      MapTile(4, 2, MapTileType.teacherroom, txt: 'R604', left: 1),
-      MapTile(
+      ConsumerMapTile(4, 2, MapTileType.teacherroom, txt: 'R609', left: 1),
+      ConsumerMapTile(
+        3,
+        4,
+        MapTileType.subroom,
+        txt: 'R625',
+        food: true,
+        drink: true,
+      ),
+      ConsumerMapTile(
+        4,
+        3,
+        MapTileType.subroom,
+        txt: 'R635',
+        food: true,
+        drink: true,
+      ),
+      ConsumerMapTile(4, 2, MapTileType.teacherroom, txt: 'R655', right: 1),
+      ConsumerMapTile(4, 2, MapTileType.teacherroom, left: 1, txt: 'R608'),
+      ConsumerMapTile(4, 2, MapTileType.teacherroom, txt: 'R654', right: 1),
+      ConsumerMapTile(
+        4,
+        3,
+        MapTileType.subroom,
+        txt: 'R634',
+        food: true,
+        drink: true,
+      ),
+      ConsumerMapTile(4, 2, MapTileType.teacherroom, left: 1, txt: 'R607'),
+      ConsumerMapTile(
+        3,
+        4,
+        MapTileType.subroom,
+        txt: 'R624',
+        food: true,
+        drink: true,
+      ),
+      ConsumerMapTile(4, 2, MapTileType.teacherroom, txt: 'R653', right: 1),
+      ConsumerMapTile(4, 2, MapTileType.subroom, txt: 'R606', left: 1),
+      ConsumerMapTile(4, 2, MapTileType.subroom, txt: 'R633'),
+      ConsumerMapTile(4, 2, MapTileType.otherroom),
+      ConsumerMapTile(4, 2, MapTileType.subroom, right: 1, txt: 'R652'),
+      ConsumerMapTile(4, 2, MapTileType.teacherroom, txt: 'R605', left: 1),
+      ConsumerMapTile(
+        3,
+        4,
+        MapTileType.subroom,
+        txt: 'R623',
+        food: true,
+        drink: true,
+      ),
+      ConsumerMapTile(4, 4, MapTileType.subroom, txt: 'R632'),
+      ConsumerMapTile(4, 4, MapTileType.subroom, txt: 'R642'),
+      ConsumerMapTile(4, 6, MapTileType.subroom, right: 1, txt: 'R651'),
+      ConsumerMapTile(4, 2, MapTileType.teacherroom, txt: 'R604', left: 1),
+      ConsumerMapTile(
         4,
         2,
         MapTileType.stair,
@@ -1079,12 +1313,19 @@ abstract final class FunGridMaps {
         bottom: 1,
         stairType: const MapStairType(Axis.horizontal, up: true, down: false),
       ),
-      MapTile(3, 4, MapTileType.subroom, txt: 'R622', food: true, drink: true),
-      MapTile(8, 2, MapTileType.road),
-      MapTile(4, 2, MapTileType.road, left: 1),
-      MapTile(4, 4, MapTileType.subroom, txt: 'R631'),
-      MapTile(2, 2, MapTileType.ev),
-      MapTile(
+      ConsumerMapTile(
+        3,
+        4,
+        MapTileType.subroom,
+        txt: 'R622',
+        food: true,
+        drink: true,
+      ),
+      ConsumerMapTile(8, 2, MapTileType.road),
+      ConsumerMapTile(4, 2, MapTileType.road, left: 1),
+      ConsumerMapTile(4, 4, MapTileType.subroom, txt: 'R631'),
+      ConsumerMapTile(2, 2, MapTileType.ev),
+      ConsumerMapTile(
         2,
         2,
         MapTileType.stair,
@@ -1093,23 +1334,37 @@ abstract final class FunGridMaps {
         bottom: 1,
         stairType: const MapStairType(Axis.vertical, up: true, down: false),
       ),
-      MapTile(4, 2, MapTileType.otherroom, right: 1),
-      MapTile(4, 2, MapTileType.teacherroom, txt: 'R603', left: 1),
-      MapTile(6, 1, MapTileType.road),
-      MapTile(5, 4, MapTileType.subroom, txt: 'R641', right: 1),
-      MapTile(4, 6, MapTileType.empty, top: 1),
-      MapTile(3, 5, MapTileType.otherroom, bottom: 1),
-      MapTile(3, 3, MapTileType.subroom, txt: 'R621', food: true, drink: true),
-      MapTile(4, 2, MapTileType.subroom, txt: 'R602', left: 1),
-      MapTile(4, 4, MapTileType.wc, wc: 0x1110, bottom: 1),
-      MapTile(4, 2, MapTileType.teacherroom, txt: 'R601', left: 1, bottom: 1),
-      MapTile(2, 2, MapTileType.otherroom, bottom: 1),
-      MapTile(1, 2, MapTileType.otherroom, bottom: 1),
-      MapTile(4, 2, MapTileType.subroom, bottom: 1),
-      MapTile(1, 2, MapTileType.subroom, bottom: 1, right: 1),
+      ConsumerMapTile(4, 2, MapTileType.otherroom, right: 1),
+      ConsumerMapTile(4, 2, MapTileType.teacherroom, txt: 'R603', left: 1),
+      ConsumerMapTile(6, 1, MapTileType.road),
+      ConsumerMapTile(5, 4, MapTileType.subroom, txt: 'R641', right: 1),
+      ConsumerMapTile(4, 6, MapTileType.empty, top: 1),
+      ConsumerMapTile(3, 5, MapTileType.otherroom, bottom: 1),
+      ConsumerMapTile(
+        3,
+        3,
+        MapTileType.subroom,
+        txt: 'R621',
+        food: true,
+        drink: true,
+      ),
+      ConsumerMapTile(4, 2, MapTileType.subroom, txt: 'R602', left: 1),
+      ConsumerMapTile(4, 4, MapTileType.wc, wc: 0x1110, bottom: 1),
+      ConsumerMapTile(
+        4,
+        2,
+        MapTileType.teacherroom,
+        txt: 'R601',
+        left: 1,
+        bottom: 1,
+      ),
+      ConsumerMapTile(2, 2, MapTileType.otherroom, bottom: 1),
+      ConsumerMapTile(1, 2, MapTileType.otherroom, bottom: 1),
+      ConsumerMapTile(4, 2, MapTileType.subroom, bottom: 1),
+      ConsumerMapTile(1, 2, MapTileType.subroom, bottom: 1, right: 1),
     ],
     'R7': [
-      MapTile(
+      ConsumerMapTile(
         4,
         2,
         MapTileType.subroom,
@@ -1119,17 +1374,24 @@ abstract final class FunGridMaps {
         food: true,
         drink: true,
       ),
-      MapTile(1, 30, MapTileType.road, top: 1, bottom: 1),
-      MapTile(3, 3, MapTileType.empty, bottom: 1, left: 1),
-      MapTile(2, 3, MapTileType.otherroom, left: 1, top: 1, right: 1),
-      MapTile(3, 3, MapTileType.empty, bottom: 1),
-      MapTile(2, 3, MapTileType.empty),
-      MapTile(2, 9, MapTileType.otherroom, left: 1, top: 1, right: 1),
-      MapTile(4, 9, MapTileType.empty, right: 1, bottom: 1),
-      MapTile(1, 14, MapTileType.road, top: 1),
-      MapTile(4, 2, MapTileType.teacherroom, txt: 'R757', top: 1, right: 1),
-      MapTile(22, 20, MapTileType.empty, bottom: 1),
-      MapTile(
+      ConsumerMapTile(1, 30, MapTileType.road, top: 1, bottom: 1),
+      ConsumerMapTile(3, 3, MapTileType.empty, bottom: 1, left: 1),
+      ConsumerMapTile(2, 3, MapTileType.otherroom, left: 1, top: 1, right: 1),
+      ConsumerMapTile(3, 3, MapTileType.empty, bottom: 1),
+      ConsumerMapTile(2, 3, MapTileType.empty),
+      ConsumerMapTile(2, 9, MapTileType.otherroom, left: 1, top: 1, right: 1),
+      ConsumerMapTile(4, 9, MapTileType.empty, right: 1, bottom: 1),
+      ConsumerMapTile(1, 14, MapTileType.road, top: 1),
+      ConsumerMapTile(
+        4,
+        2,
+        MapTileType.teacherroom,
+        txt: 'R757',
+        top: 1,
+        right: 1,
+      ),
+      ConsumerMapTile(22, 20, MapTileType.empty, bottom: 1),
+      ConsumerMapTile(
         4,
         2,
         MapTileType.subroom,
@@ -1138,14 +1400,14 @@ abstract final class FunGridMaps {
         food: true,
         drink: true,
       ),
-      MapTile(4, 2, MapTileType.teacherroom, txt: 'R756', right: 1),
-      MapTile(6, 1, MapTileType.road),
-      MapTile(2, 22, MapTileType.road),
-      MapTile(2, 6, MapTileType.empty, left: 1, bottom: 1),
-      MapTile(4, 2, MapTileType.road, left: 1),
-      MapTile(6, 4, MapTileType.empty, left: 1, top: 1, right: 1),
-      MapTile(4, 2, MapTileType.road, right: 1),
-      MapTile(
+      ConsumerMapTile(4, 2, MapTileType.teacherroom, txt: 'R756', right: 1),
+      ConsumerMapTile(6, 1, MapTileType.road),
+      ConsumerMapTile(2, 22, MapTileType.road),
+      ConsumerMapTile(2, 6, MapTileType.empty, left: 1, bottom: 1),
+      ConsumerMapTile(4, 2, MapTileType.road, left: 1),
+      ConsumerMapTile(6, 4, MapTileType.empty, left: 1, top: 1, right: 1),
+      ConsumerMapTile(4, 2, MapTileType.road, right: 1),
+      ConsumerMapTile(
         4,
         2,
         MapTileType.stair,
@@ -1154,7 +1416,7 @@ abstract final class FunGridMaps {
         bottom: 1,
         stairType: const MapStairType(Axis.horizontal, up: false, down: true),
       ),
-      MapTile(
+      ConsumerMapTile(
         4,
         2,
         MapTileType.stair,
@@ -1163,7 +1425,7 @@ abstract final class FunGridMaps {
         bottom: 1,
         stairType: const MapStairType(Axis.horizontal, up: false, down: true),
       ),
-      MapTile(
+      ConsumerMapTile(
         4,
         2,
         MapTileType.subroom,
@@ -1172,8 +1434,8 @@ abstract final class FunGridMaps {
         food: true,
         drink: true,
       ),
-      MapTile(4, 12, MapTileType.empty, left: 1),
-      MapTile(
+      ConsumerMapTile(4, 12, MapTileType.empty, left: 1),
+      ConsumerMapTile(
         2,
         4,
         MapTileType.subroom,
@@ -1184,7 +1446,7 @@ abstract final class FunGridMaps {
         drink: true,
         outlet: 0,
       ),
-      MapTile(
+      ConsumerMapTile(
         4,
         2,
         MapTileType.subroom,
@@ -1193,10 +1455,18 @@ abstract final class FunGridMaps {
         food: true,
         drink: true,
       ),
-      MapTile(8, 1, MapTileType.road),
-      MapTile(4, 4, MapTileType.otherroom, left: 1),
-      MapTile(8, 4, MapTileType.empty, left: 1, top: 1, right: 1, bottom: 1),
-      MapTile(
+      ConsumerMapTile(8, 1, MapTileType.road),
+      ConsumerMapTile(4, 4, MapTileType.otherroom, left: 1),
+      ConsumerMapTile(
+        8,
+        4,
+        MapTileType.empty,
+        left: 1,
+        top: 1,
+        right: 1,
+        bottom: 1,
+      ),
+      ConsumerMapTile(
         4,
         2,
         MapTileType.subroom,
@@ -1205,7 +1475,7 @@ abstract final class FunGridMaps {
         food: true,
         drink: true,
       ),
-      MapTile(
+      ConsumerMapTile(
         2,
         4,
         MapTileType.subroom,
@@ -1215,7 +1485,7 @@ abstract final class FunGridMaps {
         drink: true,
         outlet: 0,
       ),
-      MapTile(
+      ConsumerMapTile(
         4,
         2,
         MapTileType.subroom,
@@ -1224,7 +1494,7 @@ abstract final class FunGridMaps {
         food: true,
         drink: true,
       ),
-      MapTile(
+      ConsumerMapTile(
         4,
         2,
         MapTileType.subroom,
@@ -1233,10 +1503,10 @@ abstract final class FunGridMaps {
         food: true,
         drink: true,
       ),
-      MapTile(2, 2, MapTileType.otherroom),
-      MapTile(2, 2, MapTileType.otherroom),
-      MapTile(9, 6, MapTileType.otherroom, right: 1),
-      MapTile(
+      ConsumerMapTile(2, 2, MapTileType.otherroom),
+      ConsumerMapTile(2, 2, MapTileType.otherroom),
+      ConsumerMapTile(9, 6, MapTileType.otherroom, right: 1),
+      ConsumerMapTile(
         4,
         2,
         MapTileType.subroom,
@@ -1245,7 +1515,7 @@ abstract final class FunGridMaps {
         food: true,
         drink: true,
       ),
-      MapTile(
+      ConsumerMapTile(
         2,
         4,
         MapTileType.subroom,
@@ -1256,8 +1526,15 @@ abstract final class FunGridMaps {
         drink: true,
         outlet: 0,
       ),
-      MapTile(4, 4, MapTileType.subroom, txt: 'R731', food: false, drink: true),
-      MapTile(
+      ConsumerMapTile(
+        4,
+        4,
+        MapTileType.subroom,
+        txt: 'R731',
+        food: false,
+        drink: true,
+      ),
+      ConsumerMapTile(
         4,
         2,
         MapTileType.subroom,
@@ -1266,7 +1543,7 @@ abstract final class FunGridMaps {
         food: true,
         drink: true,
       ),
-      MapTile(
+      ConsumerMapTile(
         4,
         2,
         MapTileType.stair,
@@ -1275,9 +1552,9 @@ abstract final class FunGridMaps {
         bottom: 1,
         stairType: const MapStairType(Axis.horizontal, up: false, down: true),
       ),
-      MapTile(6, 4, MapTileType.empty, left: 1, bottom: 1, right: 1),
-      MapTile(30, 2, MapTileType.road),
-      MapTile(
+      ConsumerMapTile(6, 4, MapTileType.empty, left: 1, bottom: 1, right: 1),
+      ConsumerMapTile(30, 2, MapTileType.road),
+      ConsumerMapTile(
         5,
         10,
         MapTileType.classroom,
@@ -1289,11 +1566,11 @@ abstract final class FunGridMaps {
         drink: true,
         outlet: 1,
       ),
-      MapTile(4, 2, MapTileType.road, left: 1),
-      MapTile(3, 3, MapTileType.empty, left: 1, top: 1, right: 1),
-      MapTile(1, 7, MapTileType.road),
-      MapTile(2, 2, MapTileType.ev),
-      MapTile(
+      ConsumerMapTile(4, 2, MapTileType.road, left: 1),
+      ConsumerMapTile(3, 3, MapTileType.empty, left: 1, top: 1, right: 1),
+      ConsumerMapTile(1, 7, MapTileType.road),
+      ConsumerMapTile(2, 2, MapTileType.ev),
+      ConsumerMapTile(
         2,
         2,
         MapTileType.stair,
@@ -1301,10 +1578,10 @@ abstract final class FunGridMaps {
         right: 1,
         stairType: const MapStairType(Axis.vertical, up: false, down: true),
       ),
-      MapTile(1, 2, MapTileType.otherroom),
-      MapTile(4, 2, MapTileType.subroom, txt: 'R751'),
-      MapTile(5, 2, MapTileType.otherroom),
-      MapTile(
+      ConsumerMapTile(1, 2, MapTileType.otherroom),
+      ConsumerMapTile(4, 2, MapTileType.subroom, txt: 'R751'),
+      ConsumerMapTile(5, 2, MapTileType.otherroom),
+      ConsumerMapTile(
         4,
         8,
         MapTileType.classroom,
@@ -1315,7 +1592,7 @@ abstract final class FunGridMaps {
         drink: true,
         outlet: 1,
       ),
-      MapTile(
+      ConsumerMapTile(
         4,
         8,
         MapTileType.classroom,
@@ -1326,9 +1603,9 @@ abstract final class FunGridMaps {
         drink: true,
         outlet: 1,
       ),
-      MapTile(2, 2, MapTileType.ev),
-      MapTile(2, 2, MapTileType.road),
-      MapTile(
+      ConsumerMapTile(2, 2, MapTileType.ev),
+      ConsumerMapTile(2, 2, MapTileType.road),
+      ConsumerMapTile(
         4,
         2,
         MapTileType.subroom,
@@ -1337,15 +1614,15 @@ abstract final class FunGridMaps {
         food: true,
         drink: true,
       ),
-      MapTile(6, 1, MapTileType.road),
-      MapTile(5, 4, MapTileType.empty, top: 1, left: 1),
-      MapTile(9, 6, MapTileType.empty, right: 1, top: 1),
-      MapTile(4, 2, MapTileType.road),
-      MapTile(3, 5, MapTileType.empty, top: 1, left: 1),
-      MapTile(2, 5, MapTileType.otherroom, bottom: 1, left: 1),
-      MapTile(3, 3, MapTileType.empty, left: 1, top: 1),
-      MapTile(3, 1, MapTileType.empty, right: 1),
-      MapTile(
+      ConsumerMapTile(6, 1, MapTileType.road),
+      ConsumerMapTile(5, 4, MapTileType.empty, top: 1, left: 1),
+      ConsumerMapTile(9, 6, MapTileType.empty, right: 1, top: 1),
+      ConsumerMapTile(4, 2, MapTileType.road),
+      ConsumerMapTile(3, 5, MapTileType.empty, top: 1, left: 1),
+      ConsumerMapTile(2, 5, MapTileType.otherroom, bottom: 1, left: 1),
+      ConsumerMapTile(3, 3, MapTileType.empty, left: 1, top: 1),
+      ConsumerMapTile(3, 1, MapTileType.empty, right: 1),
+      ConsumerMapTile(
         4,
         2,
         MapTileType.subroom,
@@ -1354,8 +1631,16 @@ abstract final class FunGridMaps {
         food: true,
         drink: true,
       ),
-      MapTile(3, 4, MapTileType.wc, left: 1, top: 1, bottom: 1, wc: 0x1100),
-      MapTile(
+      ConsumerMapTile(
+        3,
+        4,
+        MapTileType.wc,
+        left: 1,
+        top: 1,
+        bottom: 1,
+        wc: 0x1100,
+      ),
+      ConsumerMapTile(
         1,
         2,
         MapTileType.stair,
@@ -1364,9 +1649,9 @@ abstract final class FunGridMaps {
         left: 1,
         stairType: const MapStairType(Axis.vertical, up: true, down: false),
       ),
-      MapTile(1, 2, MapTileType.road),
-      MapTile(2, 2, MapTileType.wc, wc: 0x0010),
-      MapTile(
+      ConsumerMapTile(1, 2, MapTileType.road),
+      ConsumerMapTile(2, 2, MapTileType.wc, wc: 0x0010),
+      ConsumerMapTile(
         4,
         2,
         MapTileType.subroom,
@@ -1376,17 +1661,17 @@ abstract final class FunGridMaps {
         food: true,
         drink: true,
       ),
-      MapTile(1, 2, MapTileType.otherroom, right: 1, top: 1, bottom: 1),
-      MapTile(2, 2, MapTileType.empty),
-      MapTile(5, 2, MapTileType.otherroom, bottom: 1, right: 1, top: 1),
-      MapTile(2, 2, MapTileType.wc, bottom: 1, wc: 0x0100),
-      MapTile(2, 2, MapTileType.wc, bottom: 1, wc: 0x1000),
-      MapTile(1, 1, MapTileType.wc, bottom: 1),
+      ConsumerMapTile(1, 2, MapTileType.otherroom, right: 1, top: 1, bottom: 1),
+      ConsumerMapTile(2, 2, MapTileType.empty),
+      ConsumerMapTile(5, 2, MapTileType.otherroom, bottom: 1, right: 1, top: 1),
+      ConsumerMapTile(2, 2, MapTileType.wc, bottom: 1, wc: 0x0100),
+      ConsumerMapTile(2, 2, MapTileType.wc, bottom: 1, wc: 0x1000),
+      ConsumerMapTile(1, 1, MapTileType.wc, bottom: 1),
     ],
   };
 
-  static final List<MapTile> mapCircle7To15TileList = [
-    MapTile(
+  static final List<ConsumerMapTile> mapCircle7To15TileList = [
+    ConsumerMapTile(
       1,
       1,
       MapTileType.subroom,
@@ -1395,7 +1680,7 @@ abstract final class FunGridMaps {
       drink: true,
       outlet: 2,
     ),
-    MapTile(
+    ConsumerMapTile(
       1,
       1,
       MapTileType.subroom,
@@ -1404,7 +1689,7 @@ abstract final class FunGridMaps {
       drink: true,
       outlet: 2,
     ),
-    MapTile(
+    ConsumerMapTile(
       1,
       1,
       MapTileType.subroom,
@@ -1413,7 +1698,7 @@ abstract final class FunGridMaps {
       drink: true,
       outlet: 2,
     ),
-    MapTile(
+    ConsumerMapTile(
       1,
       1,
       MapTileType.subroom,
@@ -1422,7 +1707,7 @@ abstract final class FunGridMaps {
       drink: true,
       outlet: 2,
     ),
-    MapTile(
+    ConsumerMapTile(
       1,
       1,
       MapTileType.subroom,
@@ -1431,7 +1716,7 @@ abstract final class FunGridMaps {
       drink: true,
       outlet: 2,
     ),
-    MapTile(
+    ConsumerMapTile(
       1,
       1,
       MapTileType.subroom,
@@ -1440,7 +1725,7 @@ abstract final class FunGridMaps {
       drink: true,
       outlet: 2,
     ),
-    MapTile(
+    ConsumerMapTile(
       1,
       1,
       MapTileType.subroom,
@@ -1449,7 +1734,7 @@ abstract final class FunGridMaps {
       drink: true,
       outlet: 2,
     ),
-    MapTile(
+    ConsumerMapTile(
       1,
       1,
       MapTileType.subroom,
@@ -1458,7 +1743,7 @@ abstract final class FunGridMaps {
       drink: true,
       outlet: 2,
     ),
-    MapTile(
+    ConsumerMapTile(
       1,
       1,
       MapTileType.subroom,
@@ -1469,8 +1754,8 @@ abstract final class FunGridMaps {
     ),
   ];
 
-  static final List<MapTile> mapCircle6To1TileList = [
-    MapTile(
+  static final List<ConsumerMapTile> mapCircle6To1TileList = [
+    ConsumerMapTile(
       5,
       8,
       MapTileType.subroom,
@@ -1480,7 +1765,7 @@ abstract final class FunGridMaps {
       drink: true,
       outlet: 2,
     ),
-    MapTile(
+    ConsumerMapTile(
       5,
       4,
       MapTileType.subroom,
@@ -1490,7 +1775,7 @@ abstract final class FunGridMaps {
       drink: true,
       outlet: 2,
     ),
-    MapTile(
+    ConsumerMapTile(
       5,
       4,
       MapTileType.subroom,
@@ -1500,7 +1785,7 @@ abstract final class FunGridMaps {
       drink: true,
       outlet: 2,
     ),
-    MapTile(
+    ConsumerMapTile(
       5,
       4,
       MapTileType.subroom,
@@ -1510,7 +1795,7 @@ abstract final class FunGridMaps {
       drink: true,
       outlet: 2,
     ),
-    MapTile(
+    ConsumerMapTile(
       5,
       4,
       MapTileType.subroom,
@@ -1520,7 +1805,7 @@ abstract final class FunGridMaps {
       drink: true,
       outlet: 2,
     ),
-    MapTile(
+    ConsumerMapTile(
       5,
       4,
       MapTileType.subroom,
@@ -1532,7 +1817,7 @@ abstract final class FunGridMaps {
     ),
   ];
 
-  static Widget subTile(int count, List<MapTile> tileList) {
+  static Widget subTile(int count, List<ConsumerMapTile> tileList) {
     return StaggeredGrid.count(
       crossAxisCount: count,
       children: [

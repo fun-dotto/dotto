@@ -1,7 +1,7 @@
 import 'package:dotto/domain/room.dart';
 import 'package:dotto/feature/map/domain/fun_grid_map.dart';
 import 'package:dotto/feature/map/domain/map_room_equipment.dart';
-import 'package:dotto/feature/map/widget/map_tile.dart';
+import 'package:dotto/feature/map/widget/consumer_map_tile.dart';
 import 'package:dotto_design_system/component/button.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -95,7 +95,7 @@ final class MapDetailBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    MapTile? gridMap;
+    ConsumerMapTile? gridMap;
     final mapTileList = FunGridMaps.mapTileListMap[room.floor.label];
     if (mapTileList != null) {
       final foundTiles = mapTileList.where(
