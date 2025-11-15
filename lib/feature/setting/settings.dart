@@ -8,7 +8,7 @@ import 'package:dotto/feature/assignment/setup_hope_continuity_screen.dart';
 import 'package:dotto/feature/setting/controller/settings_controller.dart';
 import 'package:dotto/feature/setting/repository/settings_repository.dart';
 import 'package:dotto/feature/setting/widget/license.dart';
-import 'package:dotto/repository/user_preference_repository.dart';
+import 'package:dotto/helper/user_preference_repository.dart';
 import 'package:dotto/theme/v1/animation.dart';
 import 'package:dotto/widget/app_tutorial.dart';
 import 'package:firebase_auth/firebase_auth.dart';

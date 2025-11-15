@@ -1,7 +1,7 @@
 import 'package:dotto/domain/user_preference_keys.dart';
 import 'package:dotto/feature/assignment/domain/kadai.dart';
 import 'package:dotto/feature/assignment/repository/assignment_repository.dart';
-import 'package:dotto/repository/user_preference_repository.dart';
+import 'package:dotto/helper/user_preference_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'assignments_controller.g.dart';
 
