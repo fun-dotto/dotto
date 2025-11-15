@@ -94,10 +94,10 @@ final class RestroomMapTileProps extends MapTileProps {
     required super.right,
     required super.bottom,
     required super.left,
-    required this.type,
+    required this.types,
   });
 
-  final RestroomType type;
+  final List<RestroomType> types;
 }
 
 final class StairMapTileProps extends MapTileProps {
