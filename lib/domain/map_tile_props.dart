@@ -164,7 +164,10 @@ final class AisleMapTileProps extends MapTileProps {
     required super.right,
     required super.bottom,
     required super.left,
+    this.label,
   });
+
+  final String? label;
 
   static Color get foregroundColor => Colors.black;
   static Color get backgroundColor => const Color(0xFFE0E0E0);
