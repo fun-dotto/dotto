@@ -38,11 +38,11 @@ final class ClassroomMapTileProps extends MapTileProps {
     required super.bottom,
     required super.left,
     required this.id,
-    required this.equipments,
+    required this.equipment,
   });
 
   final String id;
-  final List<RoomEquipment> equipments;
+  final RoomEquipmentStatus equipment;
 
   static Color get foregroundColor => Colors.white;
   static Color get backgroundColor => const Color(0xFF616161);

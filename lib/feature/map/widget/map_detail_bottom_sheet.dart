@@ -1,6 +1,6 @@
 import 'package:dotto/domain/room.dart';
-import 'package:dotto/domain/room_equipment.dart';
 import 'package:dotto/feature/map/domain/fun_grid_map.dart';
+import 'package:dotto/feature/map/domain/map_room_equipment.dart';
 import 'package:dotto/feature/map/widget/map_tile.dart';
 import 'package:dotto_design_system/component/button.dart';
 import 'package:flutter/material.dart';
@@ -66,7 +66,7 @@ final class MapDetailBottomSheet extends StatelessWidget {
     );
   }
 
-  Widget roomAvailable(RoomEquipment type, int status) {
+  Widget roomAvailable(MapRoomEquipment type, int status) {
     const fontColor = Colors.white;
     var icon = Icons.close_outlined;
     if (status == 1) {
@@ -139,17 +139,17 @@ final class MapDetailBottomSheet extends StatelessWidget {
                           if (gridMap.food != null &&
                               gridMap.drink != null) ...[
                             roomAvailable(
-                              RoomEquipment.food,
+                              MapRoomEquipment.food,
                               gridMap.food! ? 2 : 0,
                             ),
                             roomAvailable(
-                              RoomEquipment.drink,
+                              MapRoomEquipment.drink,
                               gridMap.drink! ? 2 : 0,
                             ),
                           ],
                           if (gridMap.outlet != null)
                             roomAvailable(
-                              RoomEquipment.outlet,
+                              MapRoomEquipment.outlet,
                               gridMap.outlet!,
                             ),
                         ],
