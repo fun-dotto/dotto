@@ -9,6 +9,7 @@ abstract class Room with _$Room {
   const factory Room({
     required String id,
     required String name,
+    required String shortName,
     required String description,
     required Floor floor,
     required String email,

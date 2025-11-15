@@ -5,6 +5,7 @@ import 'package:dotto/domain/map_stair_type.dart';
 import 'package:dotto/domain/tab_item.dart';
 import 'package:dotto/feature/map/controller/using_map_controller.dart';
 import 'package:dotto/feature/map/domain/map_tile_type.dart';
+import 'package:dotto/feature/map/fun_map_grid.dart';
 import 'package:dotto/feature/map/map_view_model.dart';
 import 'package:dotto/feature/map/widget/map_detail_bottom_sheet.dart';
 import 'package:flutter/material.dart';
@@ -305,7 +306,11 @@ final class ConsumerMapTile extends StatelessWidget {
                     context: context,
                     builder: (BuildContext context) {
                       return MapDetailBottomSheet(
+                        props: FUNMapGrid.mapTileProps.firstWhere(
+                          (e) => e.id == txt,
+                        ),
                         room: viewModel.focusedRoom!,
+                        dateTime: viewModel.searchDatetime,
                         isLoggedIn: user != null,
                         onGoToSettingButtonTapped: () {
                           ref

@@ -24,10 +24,9 @@ final class _RoomRepositoryImpl implements RoomRepository {
       final floor = Floor.fromLabel(floorLabel);
 
       return roomsMap.entries.map((roomEntry) {
-        final roomId = roomEntry.key;
         final roomResponse = roomEntry.value;
 
-        final schedules = (roomScheduleResponses[roomId] ?? [])
+        final schedules = (roomScheduleResponses[roomEntry.key] ?? [])
             .map(
               (scheduleResponse) => RoomSchedule(
                 beginDatetime: scheduleResponse.beginDatetime,
@@ -38,8 +37,9 @@ final class _RoomRepositoryImpl implements RoomRepository {
             .toList();
 
         return Room(
-          id: roomId,
+          id: roomResponse.classroomNo ?? roomEntry.key,
           name: roomResponse.header,
+          shortName: roomEntry.key,
           description: roomResponse.detail ?? '',
           floor: floor,
           email: roomResponse.mail ?? '',

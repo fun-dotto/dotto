@@ -1,24 +1,51 @@
+import 'package:collection/collection.dart';
 import 'package:dotto/domain/floor.dart';
-import 'package:dotto/feature/map/domain/fun_grid_map.dart';
+import 'package:dotto/domain/map_tile_props.dart';
+import 'package:dotto/domain/room.dart';
+import 'package:dotto/feature/map/fun_map_grid.dart';
+import 'package:dotto/feature/map/widget/map_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 final class MapGridScreen extends StatelessWidget {
-  const MapGridScreen({required this.selectedFloor, super.key});
+  const MapGridScreen({
+    required this.selectedFloor,
+    required this.rooms,
+    required this.focusedRoom,
+    required this.dateTime,
+    required this.onTapped,
+    super.key,
+  });
+
   final Floor selectedFloor;
+  final List<Room> rooms;
+  final Room? focusedRoom;
+  final DateTime dateTime;
+  final void Function(MapTileProps, Room?)? onTapped;
 
   @override
   Widget build(BuildContext context) {
     return StaggeredGrid.count(
       crossAxisCount: 48,
+      // For debug
+      // mainAxisSpacing: 1,
+      // crossAxisSpacing: 1,
       children: [
-        ...FunGridMaps.mapTileListMap[selectedFloor.label]!.map((e) {
-          return StaggeredGridTile.count(
-            crossAxisCellCount: e.width,
-            mainAxisCellCount: e.height,
-            child: e,
-          );
-        }),
+        ...FUNMapGrid.mapTileProps
+            .where((e) => e.floor == selectedFloor)
+            .map(
+              (e) => StaggeredGridTile.count(
+                crossAxisCellCount: e.width,
+                mainAxisCellCount: e.height,
+                child: MapTile(
+                  props: e,
+                  room: rooms.firstWhereOrNull((room) => room.id == e.id),
+                  isFocused: e.id != null && focusedRoom?.id == e.id,
+                  dateTime: dateTime,
+                  onTapped: onTapped,
+                ),
+              ),
+            ),
       ],
     );
   }

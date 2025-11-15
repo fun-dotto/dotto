@@ -1,22 +1,31 @@
+import 'package:collection/collection.dart';
+import 'package:dotto/domain/map_tile_props.dart';
 import 'package:dotto/domain/room.dart';
-import 'package:dotto/feature/map/domain/fun_grid_map.dart';
-import 'package:dotto/feature/map/domain/map_room_equipment.dart';
-import 'package:dotto/feature/map/widget/consumer_map_tile.dart';
+import 'package:dotto/domain/room_equipment.dart';
 import 'package:dotto_design_system/component/button.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 final class MapDetailBottomSheet extends StatelessWidget {
   const MapDetailBottomSheet({
+    required this.props,
     required this.room,
+    required this.dateTime,
     required this.isLoggedIn,
     required this.onGoToSettingButtonTapped,
     super.key,
   });
 
+  final MapTileProps props;
   final Room room;
+  final DateTime dateTime;
   final bool isLoggedIn;
   final void Function() onGoToSettingButtonTapped;
+
+  DateTime get startOfDay =>
+      DateTime(dateTime.year, dateTime.month, dateTime.day);
+  DateTime get endOfDay =>
+      DateTime(dateTime.year, dateTime.month, dateTime.day, 23, 59, 59, 999);
 
   static const Color blue = Color(0xFF4A90E2);
 
@@ -66,14 +75,8 @@ final class MapDetailBottomSheet extends StatelessWidget {
     );
   }
 
-  Widget roomAvailable(MapRoomEquipment type, int status) {
+  Widget roomEquipment(RoomEquipment equipment) {
     const fontColor = Colors.white;
-    var icon = Icons.close_outlined;
-    if (status == 1) {
-      icon = Icons.change_history_outlined;
-    } else if (status == 2) {
-      icon = Icons.circle_outlined;
-    }
     return Container(
       width: 140,
       decoration: BoxDecoration(
@@ -85,9 +88,9 @@ final class MapDetailBottomSheet extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Icon(type.icon, color: fontColor, size: 20),
-          Text(type.label, style: const TextStyle(color: fontColor)),
-          Icon(icon, color: fontColor, size: 20),
+          Icon(equipment.icon, color: fontColor, size: 20),
+          Text(equipment.label, style: const TextStyle(color: fontColor)),
+          Icon(equipment.quality.icon, color: fontColor, size: 20),
         ],
       ),
     );
@@ -95,14 +98,6 @@ final class MapDetailBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ConsumerMapTile? gridMap;
-    final mapTileList = FunGridMaps.mapTileListMap[room.floor.label];
-    if (mapTileList != null) {
-      final foundTiles = mapTileList.where(
-        (element) => element.txt == room.name,
-      );
-      gridMap = foundTiles.isNotEmpty ? foundTiles.first : null;
-    }
     return Container(
       height: 250,
       padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
@@ -132,29 +127,23 @@ final class MapDetailBottomSheet extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    if (gridMap != null) ...[
-                      Wrap(
-                        spacing: 8,
-                        children: [
-                          if (gridMap.food != null &&
-                              gridMap.drink != null) ...[
-                            roomAvailable(
-                              MapRoomEquipment.food,
-                              gridMap.food! ? 2 : 0,
-                            ),
-                            roomAvailable(
-                              MapRoomEquipment.drink,
-                              gridMap.drink! ? 2 : 0,
-                            ),
-                          ],
-                          if (gridMap.outlet != null)
-                            roomAvailable(
-                              MapRoomEquipment.outlet,
-                              gridMap.outlet!,
-                            ),
-                        ],
-                      ),
-                    ],
+                    Wrap(
+                      spacing: 8,
+                      children: [
+                        if (props is ClassroomMapTileProps)
+                          roomEquipment(
+                            (props as ClassroomMapTileProps).equipment.food,
+                          ),
+                        if (props is ClassroomMapTileProps)
+                          roomEquipment(
+                            (props as ClassroomMapTileProps).equipment.drink,
+                          ),
+                        if (props is ClassroomMapTileProps)
+                          roomEquipment(
+                            (props as ClassroomMapTileProps).equipment.outlet,
+                          ),
+                      ],
+                    ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -162,6 +151,16 @@ final class MapDetailBottomSheet extends StatelessWidget {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: room.schedules
+                                .where(
+                                  (e) =>
+                                      e.beginDatetime.isAfter(startOfDay) &&
+                                      e.endDatetime.isBefore(endOfDay),
+                                )
+                                .sorted(
+                                  (a, b) => a.beginDatetime.compareTo(
+                                    b.beginDatetime,
+                                  ),
+                                )
                                 .map(
                                   (e) => scheduleTile(
                                     context,

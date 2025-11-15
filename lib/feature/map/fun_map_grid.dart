@@ -474,9 +474,9 @@ abstract class FUNMapGrid {
       width: 12,
       height: 6,
       top: 0,
-      right: 1,
+      right: 0,
       bottom: 0,
-      left: 0,
+      left: 1,
     ),
     AisleMapTileProps(
       floor: Floor.first,
@@ -505,7 +505,7 @@ abstract class FUNMapGrid {
       bottom: 0,
       left: 0,
     ),
-    OtherRoomMapTileProps(
+    AisleMapTileProps(
       floor: Floor.first,
       width: 2,
       height: 2,
@@ -537,9 +537,9 @@ abstract class FUNMapGrid {
       width: 18,
       height: 3,
       top: 0,
-      right: 0,
+      right: 1,
       bottom: 0,
-      left: 0,
+      left: 1,
     ),
     AisleMapTileProps(
       floor: Floor.first,
@@ -550,7 +550,7 @@ abstract class FUNMapGrid {
       bottom: 0,
       left: 0,
     ),
-    OtherRoomMapTileProps(
+    AisleMapTileProps(
       floor: Floor.first,
       width: 2,
       height: 1,
@@ -584,9 +584,9 @@ abstract class FUNMapGrid {
       height: 6,
       top: 0,
       right: 0,
-      bottom: 0,
-      left: 0,
-      id: '50',
+      bottom: 1,
+      left: 1,
+      id: 'アトリエ',
       equipment: RoomEquipmentStatus(
         outlet: RoomEquipmentOutlet(quality: RoomEquipmentQuality.available),
         food: RoomEquipmentFood(quality: RoomEquipmentQuality.unavailable),

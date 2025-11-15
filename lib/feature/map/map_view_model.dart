@@ -1,4 +1,5 @@
 import 'package:dotto/domain/floor.dart';
+import 'package:dotto/domain/map_tile_props.dart';
 import 'package:dotto/domain/room.dart';
 import 'package:dotto/feature/map/map_usecase.dart';
 import 'package:dotto/feature/map/map_view_model_state.dart';
@@ -56,13 +57,13 @@ class MapViewModel extends _$MapViewModel {
   }
 
   Future<void> onSearchTextChanged(String _) async {
-    final rooms = await _search();
-    state = state.copyWith(rooms: rooms);
+    final filteredRooms = await _search();
+    state = state.copyWith(filteredRooms: filteredRooms);
   }
 
   Future<void> onSearchTextSubmitted(String _) async {
-    final rooms = await _search();
-    state = state.copyWith(rooms: rooms);
+    final filteredRooms = await _search();
+    state = state.copyWith(filteredRooms: filteredRooms);
   }
 
   Future<void> onSearchTextCleared() async {
@@ -109,5 +110,10 @@ class MapViewModel extends _$MapViewModel {
   Future<void> _getRooms(Ref ref) async {
     final rooms = await MapUseCase(ref: ref).getRooms();
     state = state.copyWith(rooms: rooms);
+  }
+
+  void onMapTileTapped(MapTileProps props, Room? room) {
+    state = state.copyWith(focusedRoom: room);
+    state.focusNode.unfocus();
   }
 }

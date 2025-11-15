@@ -2,6 +2,7 @@ import 'package:dotto/controller/tab_controller.dart';
 import 'package:dotto/controller/user_controller.dart';
 import 'package:dotto/domain/tab_item.dart';
 import 'package:dotto/feature/map/controller/using_map_controller.dart';
+import 'package:dotto/feature/map/fun_map_grid.dart';
 import 'package:dotto/feature/map/map_view_model.dart';
 import 'package:dotto/feature/map/widget/map.dart';
 import 'package:dotto/feature/map/widget/map_date_picker.dart';
@@ -101,6 +102,32 @@ final class MapScreen extends ConsumerWidget {
                                 mapViewTransformationController:
                                     viewModel.transformationController,
                                 selectedFloor: viewModel.selectedFloor,
+                                rooms: viewModel.rooms,
+                                focusedRoom: viewModel.focusedRoom,
+                                dateTime: viewModel.searchDatetime,
+                                onTapped: (props, room) {
+                                  ref
+                                      .read(mapViewModelProvider.notifier)
+                                      .onMapTileTapped(props, room);
+                                  if (room != null) {
+                                    showBottomSheet(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return MapDetailBottomSheet(
+                                          props: props,
+                                          room: room,
+                                          dateTime: viewModel.searchDatetime,
+                                          isLoggedIn: user != null,
+                                          onGoToSettingButtonTapped: () {
+                                            ref
+                                                .read(tabItemProvider.notifier)
+                                                .selected(TabItem.setting);
+                                          },
+                                        );
+                                      },
+                                    );
+                                  }
+                                },
                               ),
                               const Spacer(),
                             ],
@@ -149,7 +176,11 @@ final class MapScreen extends ConsumerWidget {
                       context: context,
                       builder: (BuildContext context) {
                         return MapDetailBottomSheet(
+                          props: FUNMapGrid.mapTileProps.firstWhere(
+                            (e) => e.id == item.id,
+                          ),
                           room: item,
+                          dateTime: viewModel.searchDatetime,
                           isLoggedIn: user != null,
                           onGoToSettingButtonTapped: () {
                             ref
