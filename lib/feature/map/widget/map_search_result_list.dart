@@ -4,16 +4,18 @@ import 'package:flutter/material.dart';
 final class MapSearchResultList extends StatelessWidget {
   const MapSearchResultList({
     required this.rooms,
+    required this.isFocused,
     required this.onTapped,
     super.key,
   });
 
   final List<Room> rooms;
+  final bool isFocused;
   final void Function(Room) onTapped;
 
   @override
   Widget build(BuildContext context) {
-    if (rooms.isEmpty) {
+    if (rooms.isEmpty || !isFocused) {
       return const SizedBox.shrink();
     }
     return Container(

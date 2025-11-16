@@ -163,6 +163,7 @@ final class MapScreen extends ConsumerWidget {
                   ),
                   MapSearchResultList(
                     rooms: viewModel.filteredRooms,
+                    isFocused: viewModel.focusNode.hasFocus,
                     onTapped: (item) {
                       ref
                           .read(mapViewModelProvider.notifier)
