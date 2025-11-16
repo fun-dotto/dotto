@@ -1,6 +1,6 @@
 import 'package:dotto/domain/user_preference_keys.dart';
 import 'package:dotto/feature/assignment/controller/hope_continuity_text_editing_controller.dart';
-import 'package:dotto/repository/user_preference_repository.dart';
+import 'package:dotto/helper/user_preference_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'hope_user_key_controller.g.dart';
 

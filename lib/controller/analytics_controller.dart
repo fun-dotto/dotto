@@ -1,6 +1,6 @@
 import 'package:dotto/domain/analytics_event_keys.dart';
 import 'package:dotto/domain/analytics_user_property_keys.dart';
-import 'package:dotto/repository/firebase_analytics_repository.dart';
+import 'package:dotto/helper/firebase_analytics_repository.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

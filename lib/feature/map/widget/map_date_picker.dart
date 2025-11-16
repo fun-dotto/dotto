@@ -1,40 +1,31 @@
-import 'package:dotto/controller/user_controller.dart';
-import 'package:dotto/feature/map/controller/map_search_datetime_controller.dart';
-import 'package:dotto/feature/map/controller/using_map_controller.dart';
 import 'package:dotto/theme/v1/color_fun.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
-final class MapDatePicker extends ConsumerWidget {
-  const MapDatePicker({super.key});
+final class MapDatePicker extends StatelessWidget {
+  const MapDatePicker({
+    required this.searchDatetime,
+    required this.onPeriodButtonTapped,
+    required this.onDatePickerConfirmed,
+    super.key,
+  });
+  final DateTime searchDatetime;
+  final void Function(DateTime) onPeriodButtonTapped;
+  final void Function(DateTime) onDatePickerConfirmed;
 
-  Widget _periodButton(WidgetRef ref, String label, DateTime dateTime) {
-    final mapSearchDatetime = ref.watch(mapSearchDatetimeNotifierProvider);
-
+  Widget _periodButton(String label, DateTime dateTime) {
     return TextButton(
       style: TextButton.styleFrom(
-        backgroundColor: mapSearchDatetime == dateTime ? Colors.black12 : null,
+        backgroundColor: searchDatetime == dateTime ? Colors.black12 : null,
         textStyle: const TextStyle(fontSize: 12),
         padding: EdgeInsets.zero,
       ),
-      onPressed: () async {
-        var setDate = dateTime;
-        if (setDate.hour == 0) {
-          setDate = DateTime.now();
-        }
-        ref.read(mapSearchDatetimeNotifierProvider.notifier).value = setDate;
-        await ref
-            .read(usingMapNotifierProvider.notifier)
-            .setUsingColor(setDate, ref);
-      },
+      onPressed: () => onPeriodButtonTapped(dateTime),
       child: Text(
         label,
         style: TextStyle(
-          color: mapSearchDatetime == dateTime
-              ? customFunColor
-              : Colors.black87,
+          color: searchDatetime == dateTime ? customFunColor : Colors.black87,
         ),
       ),
     );
@@ -42,7 +33,6 @@ final class MapDatePicker extends ConsumerWidget {
 
   Widget _datePickerButton(
     BuildContext context,
-    WidgetRef ref,
     DateTime searchDatetime,
     DateTime monday,
     DateTime nextSunday,
@@ -57,12 +47,7 @@ final class MapDatePicker extends ConsumerWidget {
           context,
           minTime: monday,
           maxTime: nextSunday,
-          onConfirm: (date) async {
-            ref.read(mapSearchDatetimeNotifierProvider.notifier).value = date;
-            await ref
-                .read(usingMapNotifierProvider.notifier)
-                .setUsingColor(date, ref);
-          },
+          onConfirm: onDatePickerConfirmed,
           currentTime: searchDatetime,
           locale: LocaleType.jp,
         );
@@ -77,13 +62,7 @@ final class MapDatePicker extends ConsumerWidget {
   }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final user = ref.watch(userProvider);
-    if (user == null) {
-      return const SizedBox();
-    }
-
-    final searchDatetime = ref.watch(mapSearchDatetimeNotifierProvider);
+  Widget build(BuildContext context) {
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
     final monday = today.subtract(Duration(days: today.weekday - 1));
@@ -101,10 +80,10 @@ final class MapDatePicker extends ConsumerWidget {
       children: [
         ...timeMap.entries.map(
           (item) => Expanded(
-            child: Center(child: _periodButton(ref, item.key, item.value)),
+            child: Center(child: _periodButton(item.key, item.value)),
           ),
         ),
-        _datePickerButton(context, ref, searchDatetime, monday, nextSunday),
+        _datePickerButton(context, searchDatetime, monday, nextSunday),
       ],
     );
   }

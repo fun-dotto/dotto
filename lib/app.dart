@@ -14,12 +14,10 @@ import 'package:dotto/feature/bus/controller/bus_polling_controller.dart';
 import 'package:dotto/feature/bus/controller/bus_stops_controller.dart';
 import 'package:dotto/feature/bus/controller/my_bus_stop_controller.dart';
 import 'package:dotto/feature/bus/repository/bus_repository.dart';
-import 'package:dotto/feature/map/controller/map_search_datetime_controller.dart';
-import 'package:dotto/feature/map/controller/using_map_controller.dart';
 import 'package:dotto/feature/setting/repository/settings_repository.dart';
 import 'package:dotto/feature/timetable/repository/timetable_repository.dart';
-import 'package:dotto/repository/notification_repository.dart';
-import 'package:dotto/repository/user_preference_repository.dart';
+import 'package:dotto/helper/notification_repository.dart';
+import 'package:dotto/helper/user_preference_repository.dart';
 import 'package:dotto/theme/v1/animation.dart';
 import 'package:dotto/theme/v1/theme.dart';
 import 'package:dotto/widget/app_tutorial.dart';
@@ -163,15 +161,6 @@ final class _BasePageState extends ConsumerState<BasePage> {
 
   Future<void> _onItemTapped(int index) async {
     final selectedTab = TabItem.values[index];
-
-    if (selectedTab == TabItem.map) {
-      ref.read(mapSearchDatetimeNotifierProvider.notifier).value =
-          DateTime.now();
-      await ref
-          .read(usingMapNotifierProvider.notifier)
-          .setUsingColor(DateTime.now(), ref);
-    }
-
     ref.read(tabItemProvider.notifier).selected(selectedTab);
   }
 

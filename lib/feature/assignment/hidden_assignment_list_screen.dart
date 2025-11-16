@@ -4,7 +4,7 @@ import 'package:dotto/domain/user_preference_keys.dart';
 import 'package:dotto/feature/assignment/assignment_date_formatter.dart';
 import 'package:dotto/feature/assignment/domain/kadai.dart';
 import 'package:dotto/feature/assignment/repository/assignment_repository.dart';
-import 'package:dotto/repository/user_preference_repository.dart';
+import 'package:dotto/helper/user_preference_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:url_launcher/url_launcher_string.dart';
