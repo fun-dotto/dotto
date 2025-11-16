@@ -1,5 +1,4 @@
 import 'package:dotto/controller/config_controller.dart';
-import 'package:dotto/feature/announcement/controller/announcement_from_push_notification_controller.dart';
 import 'package:dotto/feature/bus/widget/bus_card_home.dart';
 import 'package:dotto/feature/funch/widget/funch_mypage_card.dart';
 import 'package:dotto/feature/timetable/controller/timetable_period_style_controller.dart';
@@ -14,7 +13,6 @@ import 'package:dotto/widget/file_viewer.dart';
 import 'package:dotto_design_system/component/button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 final class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -72,15 +70,6 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
     );
   }
 
-  void _showPushNotificationNews(BuildContext context, WidgetRef ref) {
-    final announcementUrlFromPushNotification = ref.watch(
-      announcementFromPushNotificationNotifierProvider,
-    );
-    if (announcementUrlFromPushNotification != null) {
-      launchUrl(announcementUrlFromPushNotification);
-    }
-  }
-
   Widget _timetableButtons() {
     return Padding(
       padding: const EdgeInsetsGeometry.symmetric(horizontal: 16),
@@ -136,10 +125,6 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
     final config = ref.watch(configNotifierProvider);
     final timetablePeriodStyle = ref.watch(
       timetablePeriodStyleNotifierProvider,
-    );
-
-    WidgetsBinding.instance.addPostFrameCallback(
-      (_) => _showPushNotificationNews(context, ref),
     );
 
     const fileNamePath = <String, String>{

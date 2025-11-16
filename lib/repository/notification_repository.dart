@@ -1,6 +1,6 @@
-import 'package:dotto/feature/announcement/controller/announcement_from_push_notification_controller.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 final class NotificationRepository {
   factory NotificationRepository() {
@@ -27,10 +27,9 @@ final class NotificationRepository {
   }
 
   void _handleMessage(RemoteMessage message, WidgetRef ref) {
-    final announcementUrl = message.data['announcement_url'];
-    if (announcementUrl != null) {
-      ref.read(announcementFromPushNotificationNotifierProvider.notifier).url =
-          Uri.parse(announcementUrl as String);
+    final url = message.data['url'];
+    if (url != null) {
+      launchUrlString(url as String);
     }
   }
 }
