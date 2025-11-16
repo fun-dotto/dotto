@@ -22,6 +22,7 @@ import 'package:dotto/helper/user_preference_repository.dart';
 import 'package:dotto/theme/v1/animation.dart';
 import 'package:dotto/theme/v1/theme.dart';
 import 'package:dotto/widget/app_tutorial.dart';
+import 'package:dotto/widget/invalid_app_version_screen.dart';
 import 'package:dotto_design_system/style/theme.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -191,6 +192,27 @@ final class _BasePageState extends ConsumerState<BasePage> {
 
   @override
   Widget build(BuildContext context) {
+    final config = ref.watch(configNotifierProvider);
+    if (!config.isValidAppVersion) {
+      return const InvalidAppVersionScreen();
+    }
+    if (!config.isLatestAppVersion) {
+      unawaited(
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: const Text('アップデートが必要です'),
+            content: const Text('アップデートが必要です'),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(),
+                child: const Text('閉じる'),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
     WidgetsBinding.instance.addPostFrameCallback(
       (_) => _showAppTutorial(context),
     );
