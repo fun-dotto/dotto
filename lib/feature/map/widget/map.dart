@@ -26,12 +26,9 @@ final class Map extends StatelessWidget {
   Widget build(BuildContext context) {
     return InteractiveViewer(
       maxScale: 10,
-      // 倍率行列Matrix4
       transformationController: mapViewTransformationController,
       child: Padding(
-        // マップをちょうどよく表示するための余白
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        // マップ表示
+        padding: const EdgeInsets.symmetric(horizontal: 16),
         child: MapGridScreen(
           selectedFloor: selectedFloor,
           rooms: rooms,

@@ -138,24 +138,21 @@ final class MapScreen extends ConsumerWidget {
                         child: Stack(
                           alignment: Alignment.bottomLeft,
                           children: [
-                            Column(
-                              children: [
-                                Map(
-                                  mapViewTransformationController:
-                                      viewModel.transformationController,
-                                  selectedFloor: viewModel.selectedFloor,
-                                  rooms: viewModel.rooms,
-                                  focusedMapTileProps:
-                                      viewModel.focusedMapTileProps,
-                                  dateTime: viewModel.searchDatetime,
-                                  onTapped: (props, room) {
-                                    ref
-                                        .read(mapViewModelProvider.notifier)
-                                        .onMapTileTapped(props, room);
-                                  },
-                                ),
-                                const Spacer(),
-                              ],
+                            SizedBox.expand(
+                              child: Map(
+                                mapViewTransformationController:
+                                    viewModel.transformationController,
+                                selectedFloor: viewModel.selectedFloor,
+                                rooms: viewModel.rooms,
+                                focusedMapTileProps:
+                                    viewModel.focusedMapTileProps,
+                                dateTime: viewModel.searchDatetime,
+                                onTapped: (props, room) {
+                                  ref
+                                      .read(mapViewModelProvider.notifier)
+                                      .onMapTileTapped(props, room);
+                                },
+                              ),
                             ),
                             const Padding(
                               padding: EdgeInsets.only(left: 16),
