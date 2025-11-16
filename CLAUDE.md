@@ -8,7 +8,7 @@
 
 ## アーキテクチャ
 
-`docs/architecture/README.md` を参照
+`docs/onboarding/codebase/02_Architecture.md` を参照
 
 ## ルール
 
