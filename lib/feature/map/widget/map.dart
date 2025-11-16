@@ -25,7 +25,6 @@ final class Map extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InteractiveViewer(
-      maxScale: 10,
       transformationController: mapViewTransformationController,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
