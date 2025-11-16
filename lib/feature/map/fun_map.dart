@@ -4,6 +4,9 @@ import 'package:dotto/domain/map_tile_props.dart';
 import 'package:dotto/domain/restroom_type.dart';
 import 'package:dotto/domain/room_equipment.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+final funMapProvider = Provider<List<MapTileProps>>((ref) => FUNMap.tileProps);
 
 abstract class FUNMap {
   static final List<MapTileProps> tileProps = [

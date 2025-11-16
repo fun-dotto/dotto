@@ -1,7 +1,9 @@
 import 'package:dotto/domain/floor.dart';
+import 'package:dotto/domain/map_tile_props.dart';
 import 'package:dotto/domain/room.dart';
 import 'package:dotto/domain/room_equipment.dart';
 import 'package:dotto/domain/room_schedule.dart';
+import 'package:dotto/feature/map/fun_map.dart';
 import 'package:dotto/feature/map/map_view_model.dart';
 import 'package:dotto/feature/map/map_view_model_state.dart';
 import 'package:dotto/repository/room_repository.dart';
@@ -23,59 +25,116 @@ void main() {
   final listener = MockListener<AsyncValue<MapViewModelState>>();
 
   final testRooms = [
-    const Room(
-      id: '101',
-      name: 'Test Room 101',
-      shortName: '101',
-      description: 'Test Description 101',
-      floor: Floor.first,
-      email: 'test101@example.com',
-      keywords: ['test', 'room'],
-      schedules: [],
-    ),
-    const Room(
-      id: '201',
-      name: 'Test Room 201',
-      shortName: '201',
-      description: 'Test Description 201',
-      floor: Floor.second,
-      email: 'test201@example.com',
-      keywords: ['test', 'room', 'second'],
-      schedules: [],
-    ),
     Room(
-      id: '301',
-      name: 'Test Room 301',
-      shortName: '301',
-      description: 'Test Description 301',
-      floor: Floor.third,
-      email: 'test301@example.com',
-      keywords: ['test', 'room', 'third'],
+      id: '101',
+      name: '講義室',
+      shortName: '1短0縮1',
+      description: '講義室 101',
+      floor: Floor.first,
+      email: '',
+      keywords: ['講キーワード義キーワード室1', '講キーワード義キーワード室2'],
       schedules: [
         RoomSchedule(
-          beginDatetime: DateTime(2024, 1, 1, 10, 0),
-          endDatetime: DateTime(2024, 1, 1, 12, 0),
-          title: 'Test Schedule',
+          beginDatetime: DateTime(2025, 11, 1, 9, 0),
+          endDatetime: DateTime(2025, 11, 1, 10, 30),
+          title: '情報学入門',
         ),
       ],
     ),
+    const Room(
+      id: '201',
+      name: '教員室 201 教員氏 教員名',
+      shortName: '2短0縮1',
+      description: '情報アーキテクチャ学科\n教授',
+      floor: Floor.second,
+      email: 'faculty',
+      keywords: [],
+      schedules: [],
+    ),
+    const Room(
+      id: '301',
+      name: 'ライブラリ',
+      shortName: '3短0縮1',
+      description: 'Test Description 301',
+      floor: Floor.third,
+      email: '',
+      keywords: ['ライキーワードブキーワードリ1'],
+      schedules: [],
+    ),
+    const Room(
+      id: '601',
+      name: 'その他',
+      shortName: '6短0縮1',
+      description: 'その他の部屋',
+      floor: Floor.sixth,
+      email: '',
+      keywords: [],
+      schedules: [],
+    ),
   ];
 
-  final testEquipment = RoomEquipmentStatus(
-    food: RoomEquipmentFood(quality: RoomEquipmentQuality.available),
-    drink: RoomEquipmentDrink(quality: RoomEquipmentQuality.available),
-    outlet: RoomEquipmentOutlet(quality: RoomEquipmentQuality.available),
-  );
+  final testTileProps = [
+    ClassroomMapTileProps(
+      floor: Floor.first,
+      width: 1,
+      height: 1,
+      top: 0,
+      right: 0,
+      bottom: 0,
+      left: 0,
+      equipment: RoomEquipmentStatus(
+        food: RoomEquipmentFood(quality: RoomEquipmentQuality.unavailable),
+        drink: RoomEquipmentDrink(quality: RoomEquipmentQuality.limited),
+        outlet: RoomEquipmentOutlet(quality: RoomEquipmentQuality.available),
+      ),
+      id: '101',
+    ),
+    FacultyRoomMapTileProps(
+      floor: Floor.second,
+      width: 1,
+      height: 1,
+      top: 0,
+      right: 0,
+      bottom: 0,
+      left: 0,
+      id: '201',
+    ),
+    SubRoomMapTileProps(
+      floor: Floor.third,
+      width: 1,
+      height: 1,
+      top: 0,
+      right: 0,
+      bottom: 0,
+      left: 0,
+      id: '301',
+    ),
+    OtherRoomMapTileProps(
+      floor: Floor.sixth,
+      width: 1,
+      height: 1,
+      top: 0,
+      right: 0,
+      bottom: 0,
+      left: 0,
+      id: '601',
+    ),
+  ];
 
   ProviderContainer createContainer() => ProviderContainer(
-    overrides: [roomRepositoryProvider.overrideWithValue(roomRepository)],
+    overrides: [
+      roomRepositoryProvider.overrideWithValue(roomRepository),
+      funMapProvider.overrideWithValue(testTileProps),
+    ],
   );
 
-  group('MapViewModel', () {
-    setUp(() {
-      reset(listener);
-      reset(roomRepository);
+  setUp(() {
+    reset(listener);
+    reset(roomRepository);
+  });
 
+  group('MapViewModel 正常系', () {
+    setUp(() {
       when(roomRepository.getRooms()).thenAnswer((_) async {
         await Future<void>.delayed(const Duration(milliseconds: 1));
         return testRooms;
@@ -110,20 +169,6 @@ void main() {
                 isA<TransformationController>(),
               ),
         ),
-      );
-    });
-
-    test('部屋情報の取得に失敗した場合にエラーがthrowされる', () async {
-      when(roomRepository.getRooms()).thenAnswer((_) async {
-        throw Exception('Failed to get rooms');
-      });
-
-      final container = createContainer()
-        ..listen(mapViewModelProvider, listener.call, fireImmediately: true);
-
-      await expectLater(
-        container.read(mapViewModelProvider.future),
-        throwsA(isA<Exception>()),
       );
     });
 
@@ -162,6 +207,170 @@ void main() {
 
       // listener が呼ばれたことを確認
       verify(listener.call(any, any)).called(greaterThan(0));
+    });
+
+    test('検索テキストが変更されたときに状態が更新される', () async {
+      final container = createContainer()
+        ..listen(mapViewModelProvider, listener.call, fireImmediately: true);
+
+      // 初期状態を待つ
+      final initialState = await container.read(mapViewModelProvider.future);
+      expect(initialState.filteredRooms, isEmpty);
+
+      // onSearchTextChanged を呼び出す
+      await container
+          .read(mapViewModelProvider.notifier)
+          .onSearchTextChanged('101');
+
+      // 状態が更新されたことを確認
+      await expectLater(
+        container.read(mapViewModelProvider.future),
+        completion(
+          isA<MapViewModelState>().having(
+            (p0) => p0.filteredRooms,
+            'filteredRooms',
+            [testRooms[0]],
+          ),
+        ),
+      );
+
+      // listener が呼ばれたことを確認
+      verify(listener.call(any, any)).called(greaterThan(0));
+    });
+
+    test('検索テキストがクリアされたときに状態が更新される', () async {
+      final container = createContainer()
+        ..listen(mapViewModelProvider, listener.call, fireImmediately: true);
+
+      // 初期状態を待つ
+      final initialState = await container.read(mapViewModelProvider.future);
+      expect(initialState.filteredRooms, isEmpty);
+
+      // onSearchTextChanged を呼び出す
+      await container
+          .read(mapViewModelProvider.notifier)
+          .onSearchTextChanged('101');
+      await expectLater(
+        container.read(mapViewModelProvider.future),
+        completion(
+          isA<MapViewModelState>().having(
+            (p0) => p0.filteredRooms,
+            'filteredRooms',
+            isNotEmpty,
+          ),
+        ),
+      );
+
+      // onSearchTextCleared を呼び出す
+      container.read(mapViewModelProvider.notifier).onSearchTextCleared();
+
+      // 状態が更新されたことを確認
+      await expectLater(
+        container.read(mapViewModelProvider.future),
+        completion(
+          isA<MapViewModelState>().having(
+            (p0) => p0.filteredRooms,
+            'filteredRooms',
+            isEmpty,
+          ),
+        ),
+      );
+
+      // listener が呼ばれたことを確認
+      verify(listener.call(any, any)).called(greaterThan(0));
+    });
+
+    test('検索結果行が押されたときに状態が更新される', () async {
+      final container = createContainer()
+        ..listen(mapViewModelProvider, listener.call, fireImmediately: true);
+
+      // 初期状態を待つ
+      final initialState = await container.read(mapViewModelProvider.future);
+      expect(initialState.filteredRooms, isEmpty);
+
+      // onSearchResultRowTapped を呼び出す
+      container
+          .read(mapViewModelProvider.notifier)
+          .onSearchResultRowTapped(testRooms[0]);
+
+      // 状態が更新されたことを確認
+      await expectLater(
+        container.read(mapViewModelProvider.future),
+        completion(
+          isA<MapViewModelState>()
+              .having(
+                (p0) => p0.focusNode.hasFocus,
+                'focusNode.hasFocus',
+                false,
+              )
+              .having(
+                (p0) => p0.selectedFloor,
+                'selectedFloor',
+                testRooms[0].floor,
+              )
+              .having(
+                (p0) => p0.focusedMapTileProps,
+                'focusedMapTileProps',
+                testTileProps[0],
+              ),
+        ),
+      );
+
+      // listener が呼ばれたことを確認
+      verify(listener.call(any, any)).called(greaterThan(0));
+    });
+
+    test('マップタイルが押されたときに状態が更新される', () async {
+      final container = createContainer()
+        ..listen(mapViewModelProvider, listener.call, fireImmediately: true);
+
+      // 初期状態を待つ
+      final initialState = await container.read(mapViewModelProvider.future);
+      expect(initialState.focusedMapTileProps, isNull);
+
+      // onMapTileTapped を呼び出す
+      container
+          .read(mapViewModelProvider.notifier)
+          .onMapTileTapped(testTileProps[0], testRooms[0]);
+
+      // 状態が更新されたことを確認
+      await expectLater(
+        container.read(mapViewModelProvider.future),
+        completion(
+          isA<MapViewModelState>()
+              .having(
+                (p0) => p0.focusedMapTileProps,
+                'focusedMapTileProps',
+                testTileProps[0],
+              )
+              .having(
+                (p0) => p0.focusNode.hasFocus,
+                'focusNode.hasFocus',
+                false,
+              ),
+        ),
+      );
+
+      // listener が呼ばれたことを確認
+      verify(listener.call(any, any)).called(greaterThan(0));
+    });
+  });
+
+  group('MapViewModel 異常系', () {
+    setUp(() {
+      when(roomRepository.getRooms()).thenAnswer((_) async {
+        throw Exception('Failed to get rooms');
+      });
+    });
+
+    test('部屋情報の取得に失敗した場合にエラーがthrowされる', () async {
+      final container = createContainer()
+        ..listen(mapViewModelProvider, listener.call, fireImmediately: true);
+
+      await expectLater(
+        container.read(mapViewModelProvider.future),
+        throwsA(isA<Exception>()),
+      );
     });
   });
 }

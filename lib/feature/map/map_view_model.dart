@@ -59,53 +59,43 @@ class MapViewModel extends _$MapViewModel {
     );
   }
 
-  Future<void> onSearchTextChanged(String _) async {
-    final filteredRooms = await _search();
+  Future<void> onSearchTextChanged(String query) async {
+    final filteredRooms = await _search(query);
     final newState = state.value?.copyWith(filteredRooms: filteredRooms);
     if (newState != null) {
       state = AsyncData(newState);
     }
   }
 
-  Future<void> onSearchTextSubmitted(String _) async {
-    final filteredRooms = await _search();
+  Future<void> onSearchTextSubmitted(String query) async {
+    final filteredRooms = await _search(query);
     final newState = state.value?.copyWith(filteredRooms: filteredRooms);
     if (newState != null) {
       state = AsyncData(newState);
     }
   }
 
-  Future<void> onSearchTextCleared() async {
-    final filteredRooms = await _search();
-    final newState = state.value?.copyWith(filteredRooms: filteredRooms);
+  void onSearchTextCleared() {
+    final newState = state.value?.copyWith(filteredRooms: const []);
     if (newState != null) {
       state = AsyncData(newState);
     }
   }
 
-  Future<List<Room>> _search() async {
-    if (state.value?.textEditingController.text.isEmpty ?? true) {
+  Future<List<Room>> _search(String query) async {
+    if (query.isEmpty) {
       return [];
     }
     return (state.value?.rooms ?? [])
         .where(
           (room) =>
-              room.id.toLowerCase().contains(
-                state.value?.textEditingController.text.toLowerCase() ?? '',
-              ) ||
-              room.name.toLowerCase().contains(
-                state.value?.textEditingController.text.toLowerCase() ?? '',
-              ) ||
-              room.description.toLowerCase().contains(
-                state.value?.textEditingController.text.toLowerCase() ?? '',
-              ) ||
-              room.email.toLowerCase().contains(
-                state.value?.textEditingController.text.toLowerCase() ?? '',
-              ) ||
+              room.id.toLowerCase().contains(query.toLowerCase()) ||
+              room.name.toLowerCase().contains(query.toLowerCase()) ||
+              room.description.toLowerCase().contains(query.toLowerCase()) ||
+              room.email.toLowerCase().contains(query.toLowerCase()) ||
               room.keywords.any(
-                (keyword) => keyword.toLowerCase().contains(
-                  state.value?.textEditingController.text.toLowerCase() ?? '',
-                ),
+                (keyword) =>
+                    keyword.toLowerCase().contains(query.toLowerCase()),
               ),
         )
         .toList();
@@ -115,14 +105,13 @@ class MapViewModel extends _$MapViewModel {
     state.value?.focusNode.unfocus();
     final newState = state.value?.copyWith(
       selectedFloor: room.floor,
-      focusedMapTileProps: FUNMap.tileProps.firstWhereOrNull(
-        (e) => e.id == room.id,
-      ),
+      focusedMapTileProps: ref
+          .read(funMapProvider)
+          .firstWhereOrNull((e) => e.id == room.id),
     );
     if (newState != null) {
       state = AsyncData(newState);
     }
-    state.value?.transformationController.value.setIdentity();
   }
 
   void onPeriodButtonTapped(DateTime dateTime) {
