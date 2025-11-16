@@ -8,7 +8,7 @@ abstract class Config with _$Config {
     required bool isDesignV2Enabled,
     required bool isFunchEnabled,
     required bool isValidAppVersion,
-    required String userKeySettingUrl,
+    required bool isLatestAppVersion,
     required String announcementsUrl,
     required String assignmentSetupUrl,
     required String feedbackFormUrl,

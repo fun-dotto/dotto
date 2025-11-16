@@ -28,7 +28,7 @@ final class RemoteConfigRepository {
         RemoteConfigKeys.isDesignV2Enabled: false,
         RemoteConfigKeys.isFunchEnabled: true,
         RemoteConfigKeys.isValidAppVersion: true,
-        RemoteConfigKeys.userKeySettingUrl: 'https://dotto.web.app/',
+        RemoteConfigKeys.isLatestAppVersion: true,
         RemoteConfigKeys.announcementsUrl:
             'https://fun-dotto.github.io/data/announcements.json',
         RemoteConfigKeys.assignmentSetupUrl: 'https://dotto.web.app/',
@@ -39,7 +39,7 @@ final class RemoteConfigRepository {
         RemoteConfigKeys.isDesignV2Enabled: false,
         RemoteConfigKeys.isFunchEnabled: false,
         RemoteConfigKeys.isValidAppVersion: true,
-        RemoteConfigKeys.userKeySettingUrl: 'https://dotto.web.app/',
+        RemoteConfigKeys.isLatestAppVersion: false,
         RemoteConfigKeys.announcementsUrl:
             'https://fun-dotto.github.io/data/announcements.json',
         RemoteConfigKeys.assignmentSetupUrl: 'https://dotto.web.app/',

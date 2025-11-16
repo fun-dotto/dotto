@@ -29,7 +29,7 @@ class SetupHopeContinuityScreen extends ConsumerWidget {
           children: [
             DottoButton(
               onPressed: () {
-                launchUrlString(config.userKeySettingUrl);
+                launchUrlString(config.assignmentSetupUrl);
               },
               type: DottoButtonType.text,
               child: const Text('HOPEと連携する'),
