@@ -1,8 +1,10 @@
 import 'dart:async';
 
+import 'package:collection/collection.dart';
 import 'package:dotto/domain/floor.dart';
 import 'package:dotto/domain/map_tile_props.dart';
 import 'package:dotto/domain/room.dart';
+import 'package:dotto/feature/map/fun_map.dart';
 import 'package:dotto/feature/map/map_usecase.dart';
 import 'package:dotto/feature/map/map_view_model_state.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +20,7 @@ class MapViewModel extends _$MapViewModel {
     final state = MapViewModelState(
       rooms: rooms,
       filteredRooms: [],
-      focusedRoom: null,
+      focusedMapTileProps: null,
       searchDatetime: DateTime.now(),
       selectedFloor: Floor.third,
       focusNode: FocusNode(),
@@ -32,7 +34,7 @@ class MapViewModel extends _$MapViewModel {
     state.value?.focusNode.unfocus();
     final newState = state.value?.copyWith(
       selectedFloor: floor,
-      focusedRoom: null,
+      focusedMapTileProps: null,
     );
     if (newState != null) {
       state = AsyncData(newState);
@@ -113,7 +115,9 @@ class MapViewModel extends _$MapViewModel {
     state.value?.focusNode.unfocus();
     final newState = state.value?.copyWith(
       selectedFloor: room.floor,
-      focusedRoom: room,
+      focusedMapTileProps: FUNMap.tileProps.firstWhereOrNull(
+        (e) => e.id == room.id,
+      ),
     );
     if (newState != null) {
       state = AsyncData(newState);
@@ -138,10 +142,10 @@ class MapViewModel extends _$MapViewModel {
   void onMapTileTapped(MapTileProps props, Room? room) {
     state.value?.focusNode.unfocus();
     MapViewModelState? newState;
-    if (room == state.value?.focusedRoom) {
-      newState = state.value?.copyWith(focusedRoom: null);
+    if (props == state.value?.focusedMapTileProps) {
+      newState = state.value?.copyWith(focusedMapTileProps: null);
     } else {
-      newState = state.value?.copyWith(focusedRoom: room);
+      newState = state.value?.copyWith(focusedMapTileProps: props);
     }
     if (newState != null) {
       state = AsyncData(newState);
@@ -149,7 +153,7 @@ class MapViewModel extends _$MapViewModel {
   }
 
   void onBottomSheetDismissed() {
-    final newState = state.value?.copyWith(focusedRoom: null);
+    final newState = state.value?.copyWith(focusedMapTileProps: null);
     if (newState != null) {
       state = AsyncData(newState);
     }

@@ -129,18 +129,30 @@ final class MapDetailBottomSheet extends StatelessWidget {
                     Wrap(
                       spacing: 8,
                       children: [
-                        if (props is ClassroomMapTileProps)
+                        if (props is ClassroomMapTileProps) ...[
                           roomEquipment(
                             (props as ClassroomMapTileProps).equipment.food,
                           ),
-                        if (props is ClassroomMapTileProps)
                           roomEquipment(
                             (props as ClassroomMapTileProps).equipment.drink,
                           ),
-                        if (props is ClassroomMapTileProps)
                           roomEquipment(
                             (props as ClassroomMapTileProps).equipment.outlet,
                           ),
+                        ],
+                        if (props is SubRoomMapTileProps &&
+                            (props as SubRoomMapTileProps).equipment !=
+                                null) ...[
+                          roomEquipment(
+                            (props as SubRoomMapTileProps).equipment!.food,
+                          ),
+                          roomEquipment(
+                            (props as SubRoomMapTileProps).equipment!.drink,
+                          ),
+                          roomEquipment(
+                            (props as SubRoomMapTileProps).equipment!.outlet,
+                          ),
+                        ],
                       ],
                     ),
                     Column(

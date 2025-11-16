@@ -34,6 +34,7 @@ abstract class FUNMap {
       right: 1,
       bottom: 0,
       left: 1,
+      id: null,
     ),
     AisleMapTileProps(
       floor: Floor.first,
@@ -52,6 +53,7 @@ abstract class FUNMap {
       right: 0,
       bottom: 0,
       left: 0,
+      id: null,
     ),
     OtherRoomMapTileProps(
       floor: Floor.first,
@@ -61,6 +63,7 @@ abstract class FUNMap {
       right: 1,
       bottom: 0,
       left: 0,
+      id: null,
     ),
     AisleMapTileProps(
       floor: Floor.first,
@@ -79,6 +82,7 @@ abstract class FUNMap {
       right: 0,
       bottom: 0,
       left: 0,
+      id: null,
     ),
     FacultyRoomMapTileProps(
       floor: Floor.first,
@@ -158,6 +162,7 @@ abstract class FUNMap {
       right: 0,
       bottom: 0,
       left: 0,
+      id: null,
     ),
     FacultyRoomMapTileProps(
       floor: Floor.first,
@@ -428,6 +433,7 @@ abstract class FUNMap {
       right: 0,
       bottom: 0,
       left: 0,
+      id: null,
     ),
     SubRoomMapTileProps(
       floor: Floor.first,
@@ -457,7 +463,7 @@ abstract class FUNMap {
       right: 1,
       bottom: 1,
       left: 0,
-      id: '',
+      id: '食堂',
       label: '食堂',
     ),
     AisleMapTileProps(
@@ -477,6 +483,7 @@ abstract class FUNMap {
       right: 0,
       bottom: 0,
       left: 1,
+      id: null,
     ),
     AisleMapTileProps(
       floor: Floor.first,
@@ -495,6 +502,7 @@ abstract class FUNMap {
       right: 1,
       bottom: 0,
       left: 1,
+      id: null,
     ),
     AisleMapTileProps(
       floor: Floor.first,
@@ -676,6 +684,7 @@ abstract class FUNMap {
       right: 0,
       bottom: 0,
       left: 0,
+      id: null,
       label: '出入口',
     ),
     AisleMapTileProps(
@@ -715,6 +724,7 @@ abstract class FUNMap {
       right: 0,
       bottom: 0,
       left: 0,
+      id: null,
     ),
     OtherRoomMapTileProps(
       floor: Floor.second,
@@ -724,6 +734,7 @@ abstract class FUNMap {
       right: 1,
       bottom: 0,
       left: 0,
+      id: null,
     ),
     AisleMapTileProps(
       floor: Floor.second,
@@ -812,6 +823,7 @@ abstract class FUNMap {
       right: 0,
       bottom: 0,
       left: 0,
+      id: null,
     ),
     FacultyRoomMapTileProps(
       floor: Floor.second,
@@ -932,6 +944,7 @@ abstract class FUNMap {
       right: 0,
       bottom: 0,
       left: 0,
+      id: null,
     ),
     FacultyRoomMapTileProps(
       floor: Floor.second,
@@ -1092,6 +1105,7 @@ abstract class FUNMap {
       right: 0,
       bottom: 0,
       left: 0,
+      id: null,
     ),
     SubRoomMapTileProps(
       floor: Floor.second,
@@ -1132,7 +1146,7 @@ abstract class FUNMap {
       right: 1,
       bottom: 1,
       left: 0,
-      id: '',
+      id: '購買',
       label: '購買',
     ),
     OtherRoomMapTileProps(
@@ -1143,6 +1157,7 @@ abstract class FUNMap {
       right: 0,
       bottom: 1,
       left: 1,
+      id: null,
     ),
     AisleMapTileProps(
       floor: Floor.second,
@@ -1161,6 +1176,7 @@ abstract class FUNMap {
       right: 0,
       bottom: 0,
       left: 0,
+      id: null,
     ),
     AisleMapTileProps(
       floor: Floor.second,
@@ -1325,8 +1341,13 @@ abstract class FUNMap {
       right: 0,
       bottom: 0,
       left: 0,
-      id: '',
+      id: 'トレーニングルーム',
       label: 'トレーニングルーム',
+      equipment: RoomEquipmentStatus(
+        outlet: RoomEquipmentOutlet(quality: RoomEquipmentQuality.unknown),
+        food: RoomEquipmentFood(quality: RoomEquipmentQuality.unavailable),
+        drink: RoomEquipmentDrink(quality: RoomEquipmentQuality.available),
+      ),
     ),
     AtriumMapTileProps(
       floor: Floor.third,
@@ -1397,7 +1418,7 @@ abstract class FUNMap {
       right: 0,
       bottom: 0,
       left: 0,
-      id: '',
+      id: '医務室',
       label: '医務室',
     ),
     AisleMapTileProps(
@@ -1418,6 +1439,7 @@ abstract class FUNMap {
       right: 0,
       bottom: 0,
       left: 0,
+      id: null,
     ),
     OtherRoomMapTileProps(
       floor: Floor.third,
@@ -1427,6 +1449,7 @@ abstract class FUNMap {
       right: 1,
       bottom: 0,
       left: 0,
+      id: null,
     ),
     SubRoomMapTileProps(
       floor: Floor.third,
@@ -1436,8 +1459,13 @@ abstract class FUNMap {
       right: 0,
       bottom: 0,
       left: 0,
-      id: '',
+      id: '映像音響スタジオ',
       label: '映像音響スタジオ',
+      equipment: RoomEquipmentStatus(
+        outlet: RoomEquipmentOutlet(quality: RoomEquipmentQuality.unknown),
+        food: RoomEquipmentFood(quality: RoomEquipmentQuality.unavailable),
+        drink: RoomEquipmentDrink(quality: RoomEquipmentQuality.unavailable),
+      ),
     ),
     AisleMapTileProps(
       floor: Floor.third,
@@ -1465,6 +1493,7 @@ abstract class FUNMap {
       right: 0,
       bottom: 0,
       left: 0,
+      id: null,
     ),
     OtherRoomMapTileProps(
       floor: Floor.third,
@@ -1474,6 +1503,7 @@ abstract class FUNMap {
       right: 1,
       bottom: 0,
       left: 0,
+      id: null,
     ),
     OtherRoomMapTileProps(
       floor: Floor.third,
@@ -1483,6 +1513,7 @@ abstract class FUNMap {
       right: 0,
       bottom: 0,
       left: 0,
+      id: null,
     ),
     AisleMapTileProps(
       floor: Floor.third,
@@ -1521,8 +1552,13 @@ abstract class FUNMap {
       right: 1,
       bottom: 0,
       left: 0,
-      id: '',
+      id: 'ミュージアム',
       label: 'ミュージアム',
+      equipment: RoomEquipmentStatus(
+        outlet: RoomEquipmentOutlet(quality: RoomEquipmentQuality.available),
+        food: RoomEquipmentFood(quality: RoomEquipmentQuality.unavailable),
+        drink: RoomEquipmentDrink(quality: RoomEquipmentQuality.available),
+      ),
     ),
     AisleMapTileProps(
       floor: Floor.third,
@@ -1541,7 +1577,7 @@ abstract class FUNMap {
       right: 0,
       bottom: 0,
       left: 0,
-      id: '',
+      id: '社会連携センター',
       label: '社会連携センター',
     ),
     // 駐車場側トイレ
@@ -1574,6 +1610,7 @@ abstract class FUNMap {
       right: 0,
       bottom: 0,
       left: 0,
+      id: null,
     ),
     AisleMapTileProps(
       floor: Floor.third,
@@ -1611,6 +1648,7 @@ abstract class FUNMap {
       right: 0,
       bottom: 0,
       left: 0,
+      id: null,
       label: '研究棟入口',
     ),
     AisleMapTileProps(
@@ -1689,6 +1727,7 @@ abstract class FUNMap {
       right: 0,
       bottom: 0,
       left: 0,
+      id: null,
       label: '正面\n入口',
     ),
     // モール
@@ -1725,6 +1764,7 @@ abstract class FUNMap {
       right: 0,
       bottom: 0,
       left: 0,
+      id: null,
     ),
     SubRoomMapTileProps(
       floor: Floor.third,
@@ -1734,8 +1774,13 @@ abstract class FUNMap {
       right: 0,
       bottom: 0,
       left: 0,
-      id: '',
+      id: '心理学実験室',
       label: '心理学実験室',
+      equipment: RoomEquipmentStatus(
+        outlet: RoomEquipmentOutlet(quality: RoomEquipmentQuality.unknown),
+        food: RoomEquipmentFood(quality: RoomEquipmentQuality.unavailable),
+        drink: RoomEquipmentDrink(quality: RoomEquipmentQuality.unavailable),
+      ),
     ),
     AisleMapTileProps(
       floor: Floor.third,
@@ -1799,6 +1844,7 @@ abstract class FUNMap {
       right: 0,
       bottom: 0,
       left: 0,
+      id: null,
     ),
     AisleMapTileProps(
       floor: Floor.third,
@@ -1818,8 +1864,13 @@ abstract class FUNMap {
       right: 1,
       bottom: 1,
       left: 1,
-      id: '',
+      id: 'ライブラリ',
       label: 'ライブラリ',
+      equipment: RoomEquipmentStatus(
+        outlet: RoomEquipmentOutlet(quality: RoomEquipmentQuality.available),
+        food: RoomEquipmentFood(quality: RoomEquipmentQuality.unavailable),
+        drink: RoomEquipmentDrink(quality: RoomEquipmentQuality.unavailable),
+      ),
     ),
     // 入口側トイレ男
     RestroomMapTileProps(
@@ -1840,6 +1891,7 @@ abstract class FUNMap {
       right: 0,
       bottom: 0,
       left: 0,
+      id: null,
     ),
     OtherRoomMapTileProps(
       floor: Floor.third,
@@ -1849,6 +1901,7 @@ abstract class FUNMap {
       right: 0,
       bottom: 0,
       left: 0,
+      id: null,
     ),
     AisleMapTileProps(
       floor: Floor.third,
@@ -2056,6 +2109,7 @@ abstract class FUNMap {
       right: 0,
       bottom: 0,
       left: 0,
+      id: null,
     ),
     FacultyRoomMapTileProps(
       floor: Floor.third,
@@ -2215,6 +2269,7 @@ abstract class FUNMap {
       right: 0,
       bottom: 0,
       left: 0,
+      id: null,
     ),
     OtherRoomMapTileProps(
       floor: Floor.third,
@@ -2224,6 +2279,7 @@ abstract class FUNMap {
       right: 0,
       bottom: 0,
       left: 0,
+      id: null,
     ),
     AisleMapTileProps(
       floor: Floor.third,
@@ -2242,6 +2298,7 @@ abstract class FUNMap {
       right: 0,
       bottom: 1,
       left: 1,
+      id: null,
     ),
     AisleMapTileProps(
       floor: Floor.third,
@@ -2269,6 +2326,7 @@ abstract class FUNMap {
       right: 0,
       bottom: 0,
       left: 0,
+      id: null,
     ),
     AisleMapTileProps(
       floor: Floor.third,
@@ -2287,6 +2345,7 @@ abstract class FUNMap {
       right: 0,
       bottom: 0,
       left: 0,
+      id: null,
     ),
     AisleMapTileProps(
       floor: Floor.third,
@@ -2470,6 +2529,7 @@ abstract class FUNMap {
       right: 1,
       bottom: 1,
       left: 1,
+      id: '体育館',
       label: '体育館',
     ),
     AtriumMapTileProps(
@@ -2581,7 +2641,7 @@ abstract class FUNMap {
       right: 0,
       bottom: 0,
       left: 0,
-      id: '',
+      id: '証明書発行機',
       label: '証明書発行機',
     ),
     SubRoomMapTileProps(
@@ -2592,7 +2652,7 @@ abstract class FUNMap {
       right: 1,
       bottom: 0,
       left: 0,
-      id: '',
+      id: '事務局',
       label: '事務局',
     ),
     AisleMapTileProps(
@@ -2744,7 +2804,7 @@ abstract class FUNMap {
       right: 1,
       bottom: 1,
       left: 0,
-      id: '',
+      id: '局長室',
       label: '局長室',
     ),
     AtriumMapTileProps(
@@ -2927,6 +2987,7 @@ abstract class FUNMap {
       right: 0,
       bottom: 0,
       left: 0,
+      id: null,
     ),
     RestroomMapTileProps(
       floor: Floor.fourth,
@@ -3045,6 +3106,7 @@ abstract class FUNMap {
       right: 0,
       bottom: 0,
       left: 0,
+      id: null,
     ),
     OtherRoomMapTileProps(
       floor: Floor.fourth,
@@ -3054,6 +3116,7 @@ abstract class FUNMap {
       right: 1,
       bottom: 0,
       left: 0,
+      id: null,
       label: '倉庫',
     ),
     AtriumMapTileProps(
@@ -3073,6 +3136,7 @@ abstract class FUNMap {
       right: 0,
       bottom: 0,
       left: 0,
+      id: null,
     ),
     SubRoomMapTileProps(
       floor: Floor.fourth,
@@ -3082,7 +3146,7 @@ abstract class FUNMap {
       right: 1,
       bottom: 0,
       left: 0,
-      id: '',
+      id: '理事室',
       label: '理事室',
     ),
     AisleMapTileProps(
@@ -3102,7 +3166,7 @@ abstract class FUNMap {
       right: 0,
       bottom: 0,
       left: 0,
-      id: '',
+      id: '秘書室',
       label: '秘書室',
     ),
     AisleMapTileProps(
@@ -3122,6 +3186,7 @@ abstract class FUNMap {
       right: 0,
       bottom: 0,
       left: 0,
+      id: null,
       label: '倉庫',
     ),
     FacultyRoomMapTileProps(
@@ -3210,6 +3275,7 @@ abstract class FUNMap {
       right: 0,
       bottom: 0,
       left: 1,
+      id: null,
       label: '印刷',
     ),
     AisleMapTileProps(
@@ -3346,7 +3412,7 @@ abstract class FUNMap {
       right: 1,
       bottom: 0,
       left: 0,
-      id: '',
+      id: '学長室',
       label: '学長室',
     ),
     OtherRoomMapTileProps(
@@ -3357,6 +3423,7 @@ abstract class FUNMap {
       right: 0,
       bottom: 0,
       left: 1,
+      id: null,
       label: '倉庫',
     ),
     OtherRoomMapTileProps(
@@ -3367,6 +3434,7 @@ abstract class FUNMap {
       right: 1,
       bottom: 0,
       left: 0,
+      id: null,
     ),
     OtherRoomMapTileProps(
       floor: Floor.fourth,
@@ -3376,6 +3444,7 @@ abstract class FUNMap {
       right: 1,
       bottom: 0,
       left: 0,
+      id: null,
     ),
     AisleMapTileProps(
       floor: Floor.fourth,
@@ -3413,7 +3482,7 @@ abstract class FUNMap {
       right: 1,
       bottom: 0,
       left: 0,
-      id: '',
+      id: '特別応接室',
       label: '特別応接室',
     ),
     OtherRoomMapTileProps(
@@ -3424,6 +3493,7 @@ abstract class FUNMap {
       right: 0,
       bottom: 1,
       left: 1,
+      id: null,
     ),
     AisleMapTileProps(
       floor: Floor.fourth,
@@ -3442,6 +3512,7 @@ abstract class FUNMap {
       right: 0,
       bottom: 0,
       left: 1,
+      id: null,
     ),
     AisleMapTileProps(
       floor: Floor.fourth,
@@ -3480,6 +3551,7 @@ abstract class FUNMap {
       right: 0,
       bottom: 1,
       left: 1,
+      id: null,
     ),
     ClassroomMapTileProps(
       floor: Floor.fourth,
@@ -3504,6 +3576,7 @@ abstract class FUNMap {
       right: 0,
       bottom: 1,
       left: 0,
+      id: null,
     ),
     OtherRoomMapTileProps(
       floor: Floor.fourth,
@@ -3513,6 +3586,7 @@ abstract class FUNMap {
       right: 0,
       bottom: 0,
       left: 0,
+      id: null,
     ),
     AisleMapTileProps(
       floor: Floor.fourth,
@@ -3594,7 +3668,7 @@ abstract class FUNMap {
       right: 0,
       bottom: 0,
       left: 0,
-      id: '',
+      id: 'サーバーコンピュータ事務室',
       label: 'サーバーコンピュータ事務室',
     ),
     // サーバーコンピュータ室側トイレ
@@ -3616,7 +3690,7 @@ abstract class FUNMap {
       right: 1,
       bottom: 0,
       left: 0,
-      id: '',
+      id: 'サーバーコンピュータ室',
       label: 'サーバーコンピュータ室',
     ),
     StairMapTileProps(
@@ -3700,8 +3774,13 @@ abstract class FUNMap {
       right: 1,
       bottom: 1,
       left: 0,
-      id: '',
+      id: 'デルタビスタ',
       label: 'デルタビスタ',
+      equipment: RoomEquipmentStatus(
+        outlet: RoomEquipmentOutlet(quality: RoomEquipmentQuality.limited),
+        food: RoomEquipmentFood(quality: RoomEquipmentQuality.available),
+        drink: RoomEquipmentDrink(quality: RoomEquipmentQuality.available),
+      ),
     ),
     AtriumMapTileProps(
       floor: Floor.fourth,
@@ -3759,6 +3838,7 @@ abstract class FUNMap {
       right: 0,
       bottom: 0,
       left: 1,
+      id: null,
     ),
     // サークル3
     OtherRoomMapTileProps(
@@ -3769,6 +3849,7 @@ abstract class FUNMap {
       right: 1,
       bottom: 0,
       left: 0,
+      id: null,
     ),
     AtriumMapTileProps(
       floor: Floor.fifth,
@@ -3886,7 +3967,7 @@ abstract class FUNMap {
       right: 1,
       bottom: 1,
       left: 0,
-      id: '',
+      id: '共同研究室',
       label: '共同研究室',
     ),
     // 階段体育館側
@@ -4151,6 +4232,7 @@ abstract class FUNMap {
       right: 1,
       bottom: 0,
       left: 0,
+      id: null,
     ),
     AtriumMapTileProps(
       floor: Floor.fifth,
@@ -4178,6 +4260,7 @@ abstract class FUNMap {
       right: 1,
       bottom: 0,
       left: 0,
+      id: '会議室',
       label: '会議室',
     ),
     FacultyRoomMapTileProps(
@@ -4257,6 +4340,7 @@ abstract class FUNMap {
       right: 1,
       bottom: 0,
       left: 0,
+      id: null,
     ),
     AtriumMapTileProps(
       floor: Floor.fifth,
@@ -4393,6 +4477,7 @@ abstract class FUNMap {
       right: 0,
       bottom: 1,
       left: 1,
+      id: null,
     ),
     AisleMapTileProps(
       floor: Floor.fifth,
@@ -4411,7 +4496,7 @@ abstract class FUNMap {
       right: 1,
       bottom: 1,
       left: 0,
-      id: '',
+      id: '大学生協学生委員室',
       label: '大学生協学生委員室',
     ),
     AtriumMapTileProps(
@@ -4432,6 +4517,7 @@ abstract class FUNMap {
       right: 0,
       bottom: 1,
       left: 1,
+      id: null,
     ),
     AisleMapTileProps(
       floor: Floor.fifth,
@@ -4542,6 +4628,7 @@ abstract class FUNMap {
       right: 0,
       bottom: 0,
       left: 0,
+      id: null,
     ),
     AisleMapTileProps(
       floor: Floor.fifth,
@@ -4638,6 +4725,7 @@ abstract class FUNMap {
       right: 0,
       bottom: 0,
       left: 0,
+      id: '調整室',
       label: '調整室',
     ),
     AisleMapTileProps(
@@ -4785,6 +4873,7 @@ abstract class FUNMap {
       right: 0,
       bottom: 0,
       left: 0,
+      id: null,
     ),
     SubRoomMapTileProps(
       floor: Floor.sixth,
@@ -4898,6 +4987,7 @@ abstract class FUNMap {
       right: 0,
       bottom: 0,
       left: 0,
+      id: null,
     ),
     SubRoomMapTileProps(
       floor: Floor.sixth,
@@ -5076,6 +5166,7 @@ abstract class FUNMap {
       right: 0,
       bottom: 0,
       left: 0,
+      id: null,
     ),
     SubRoomMapTileProps(
       floor: Floor.sixth,
@@ -5222,6 +5313,7 @@ abstract class FUNMap {
       right: 1,
       bottom: 0,
       left: 0,
+      id: null,
     ),
     FacultyRoomMapTileProps(
       floor: Floor.sixth,
@@ -5269,6 +5361,7 @@ abstract class FUNMap {
       right: 0,
       bottom: 1,
       left: 0,
+      id: null,
     ),
     SubRoomMapTileProps(
       floor: Floor.sixth,
@@ -5318,6 +5411,7 @@ abstract class FUNMap {
       right: 0,
       bottom: 1,
       left: 0,
+      id: null,
     ),
     OtherRoomMapTileProps(
       floor: Floor.sixth,
@@ -5327,6 +5421,7 @@ abstract class FUNMap {
       right: 0,
       bottom: 1,
       left: 0,
+      id: null,
     ),
     SubRoomMapTileProps(
       floor: Floor.sixth,
@@ -5336,6 +5431,7 @@ abstract class FUNMap {
       right: 0,
       bottom: 1,
       left: 0,
+      id: null,
     ),
     SubRoomMapTileProps(
       floor: Floor.sixth,
@@ -5345,6 +5441,7 @@ abstract class FUNMap {
       right: 1,
       bottom: 1,
       left: 0,
+      id: null,
     ),
 
     /// R7F
@@ -5384,6 +5481,7 @@ abstract class FUNMap {
       right: 1,
       bottom: 0,
       left: 1,
+      id: null,
     ),
     AtriumMapTileProps(
       floor: Floor.seventh,
@@ -5411,6 +5509,7 @@ abstract class FUNMap {
       right: 1,
       bottom: 0,
       left: 1,
+      id: null,
     ),
     AtriumMapTileProps(
       floor: Floor.seventh,
@@ -5599,6 +5698,7 @@ abstract class FUNMap {
       right: 0,
       bottom: 0,
       left: 1,
+      id: null,
     ),
     AtriumMapTileProps(
       floor: Floor.seventh,
@@ -5657,6 +5757,7 @@ abstract class FUNMap {
       right: 0,
       bottom: 0,
       left: 0,
+      id: null,
     ),
     OtherRoomMapTileProps(
       floor: Floor.seventh,
@@ -5666,6 +5767,7 @@ abstract class FUNMap {
       right: 0,
       bottom: 0,
       left: 0,
+      id: null,
     ),
     OtherRoomMapTileProps(
       floor: Floor.seventh,
@@ -5675,6 +5777,7 @@ abstract class FUNMap {
       right: 1,
       bottom: 0,
       left: 0,
+      id: null,
     ),
     SubRoomMapTileProps(
       floor: Floor.seventh,
@@ -5813,6 +5916,7 @@ abstract class FUNMap {
       right: 0,
       bottom: 0,
       left: 0,
+      id: null,
     ),
     SubRoomMapTileProps(
       floor: Floor.seventh,
@@ -5832,6 +5936,7 @@ abstract class FUNMap {
       right: 0,
       bottom: 0,
       left: 0,
+      id: null,
     ),
     ClassroomMapTileProps(
       floor: Floor.seventh,
@@ -5944,6 +6049,7 @@ abstract class FUNMap {
       right: 0,
       bottom: 1,
       left: 1,
+      id: null,
     ),
     AtriumMapTileProps(
       floor: Floor.seventh,
@@ -6030,6 +6136,7 @@ abstract class FUNMap {
       right: 1,
       bottom: 1,
       left: 0,
+      id: null,
     ),
     AtriumMapTileProps(
       floor: Floor.seventh,
@@ -6048,6 +6155,7 @@ abstract class FUNMap {
       right: 1,
       bottom: 1,
       left: 0,
+      id: null,
     ),
     RestroomMapTileProps(
       floor: Floor.seventh,

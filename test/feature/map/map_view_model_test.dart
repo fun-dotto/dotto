@@ -92,7 +92,11 @@ void main() {
           isA<MapViewModelState>()
               .having((p0) => p0.rooms, 'rooms', testRooms)
               .having((p0) => p0.filteredRooms, 'filteredRooms', isEmpty)
-              .having((p0) => p0.focusedRoom, 'focusedRoom', isNull)
+              .having(
+                (p0) => p0.focusedMapTileProps,
+                'focusedMapTileProps',
+                isNull,
+              )
               .having((p0) => p0.selectedFloor, 'selectedFloor', Floor.third)
               .having((p0) => p0.focusNode, 'focusNode', isA<FocusNode>())
               .having(
@@ -130,7 +134,7 @@ void main() {
       // 初期状態を待つ
       final initialState = await container.read(mapViewModelProvider.future);
       expect(initialState.selectedFloor, Floor.third);
-      expect(initialState.focusedRoom, isNull);
+      expect(initialState.focusedMapTileProps, isNull);
 
       // onFloorButtonTapped を呼び出す
       container
@@ -143,7 +147,11 @@ void main() {
         completion(
           isA<MapViewModelState>()
               .having((p0) => p0.selectedFloor, 'selectedFloor', Floor.first)
-              .having((p0) => p0.focusedRoom, 'focusedRoom', isNull)
+              .having(
+                (p0) => p0.focusedMapTileProps,
+                'focusedMapTileProps',
+                isNull,
+              )
               .having(
                 (p0) => p0.transformationController.value,
                 'transformationController.value',

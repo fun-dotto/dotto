@@ -11,7 +11,7 @@ final class MapGridScreen extends StatelessWidget {
   const MapGridScreen({
     required this.selectedFloor,
     required this.rooms,
-    required this.focusedRoom,
+    required this.focusedMapTileProps,
     required this.dateTime,
     required this.onTapped,
     super.key,
@@ -19,7 +19,7 @@ final class MapGridScreen extends StatelessWidget {
 
   final Floor selectedFloor;
   final List<Room> rooms;
-  final Room? focusedRoom;
+  final MapTileProps? focusedMapTileProps;
   final DateTime dateTime;
   final void Function(MapTileProps, Room?)? onTapped;
 
@@ -40,7 +40,7 @@ final class MapGridScreen extends StatelessWidget {
                 child: MapTile(
                   props: e,
                   room: rooms.firstWhereOrNull((room) => room.id == e.id),
-                  isFocused: e.id != null && focusedRoom?.id == e.id,
+                  isFocused: e.id != null && focusedMapTileProps?.id == e.id,
                   dateTime: dateTime,
                   onTapped: onTapped,
                 ),

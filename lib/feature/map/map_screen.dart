@@ -145,7 +145,8 @@ final class MapScreen extends ConsumerWidget {
                                       viewModel.transformationController,
                                   selectedFloor: viewModel.selectedFloor,
                                   rooms: viewModel.rooms,
-                                  focusedRoom: viewModel.focusedRoom,
+                                  focusedMapTileProps:
+                                      viewModel.focusedMapTileProps,
                                   dateTime: viewModel.searchDatetime,
                                   onTapped: (props, room) {
                                     ref
@@ -185,9 +186,11 @@ final class MapScreen extends ConsumerWidget {
                   ),
                   _bottomSheet(
                     props: FUNMap.tileProps.firstWhereOrNull(
-                      (e) => e.id == viewModel.focusedRoom?.id,
+                      (e) => e.id == viewModel.focusedMapTileProps?.id,
                     ),
-                    room: viewModel.focusedRoom,
+                    room: viewModel.rooms.firstWhereOrNull(
+                      (e) => e.id == viewModel.focusedMapTileProps?.id,
+                    ),
                     dateTime: viewModel.searchDatetime,
                     isLoggedIn: user != null,
                     onDismissed: () {

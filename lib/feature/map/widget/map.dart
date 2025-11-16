@@ -9,7 +9,7 @@ final class Map extends StatelessWidget {
     required this.mapViewTransformationController,
     required this.selectedFloor,
     required this.rooms,
-    required this.focusedRoom,
+    required this.focusedMapTileProps,
     required this.dateTime,
     required this.onTapped,
     super.key,
@@ -18,7 +18,7 @@ final class Map extends StatelessWidget {
   final TransformationController mapViewTransformationController;
   final Floor selectedFloor;
   final List<Room> rooms;
-  final Room? focusedRoom;
+  final MapTileProps? focusedMapTileProps;
   final DateTime dateTime;
   final void Function(MapTileProps, Room?)? onTapped;
 
@@ -35,7 +35,7 @@ final class Map extends StatelessWidget {
         child: MapGridScreen(
           selectedFloor: selectedFloor,
           rooms: rooms,
-          focusedRoom: focusedRoom,
+          focusedMapTileProps: focusedMapTileProps,
           dateTime: dateTime,
           onTapped: onTapped,
         ),

@@ -44,7 +44,7 @@ final class ClassroomMapTileProps extends MapTileProps {
     required super.bottom,
     required super.left,
     required this.equipment,
-    super.id,
+    required super.id,
     super.label,
   });
 
@@ -65,7 +65,7 @@ final class FacultyRoomMapTileProps extends MapTileProps {
     required super.right,
     required super.bottom,
     required super.left,
-    super.id,
+    required super.id,
     super.label,
   });
 
@@ -84,9 +84,12 @@ final class SubRoomMapTileProps extends MapTileProps {
     required super.right,
     required super.bottom,
     required super.left,
-    super.id,
+    required super.id,
     super.label,
+    this.equipment,
   });
+
+  final RoomEquipmentStatus? equipment;
 
   @override
   Color get foregroundColor => Colors.black;
@@ -103,7 +106,7 @@ final class OtherRoomMapTileProps extends MapTileProps {
     required super.right,
     required super.bottom,
     required super.left,
-    super.id,
+    required super.id,
     super.label,
   });
 
