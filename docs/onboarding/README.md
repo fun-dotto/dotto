@@ -38,7 +38,7 @@ classDiagram
 
 ## コードベース
 
-- [[WIP] Feature](codebase/01_Feature.md)
+- [Feature](codebase/01_Feature.md)
 - [アーキテクチャ](codebase/02_Architecture.md)
 
 ## リリースフロー
