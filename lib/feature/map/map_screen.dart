@@ -41,154 +41,160 @@ final class MapScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final viewModel = ref.watch(mapViewModelProvider);
+    final asyncViewModel = ref.watch(mapViewModelProvider);
 
     final user = ref.watch(userProvider);
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(title: const Text('マップ'), centerTitle: false),
-      body: Column(
-        spacing: 8,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: MapSearchBar(
-              textEditingController: viewModel.textEditingController,
-              focusNode: viewModel.focusNode,
-              onChanged: (value) {
-                ref
-                    .read(mapViewModelProvider.notifier)
-                    .onSearchTextChanged(value);
-              },
-              onSubmitted: (value) {
-                ref
-                    .read(mapViewModelProvider.notifier)
-                    .onSearchTextSubmitted(value);
-              },
-              onCleared: () {
-                ref.read(mapViewModelProvider.notifier).onSearchTextCleared();
-              },
+      body: asyncViewModel.when(
+        data: (viewModel) => Column(
+          spacing: 8,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: MapSearchBar(
+                textEditingController: viewModel.textEditingController,
+                focusNode: viewModel.focusNode,
+                onChanged: (value) {
+                  ref
+                      .read(mapViewModelProvider.notifier)
+                      .onSearchTextChanged(value);
+                },
+                onSubmitted: (value) {
+                  ref
+                      .read(mapViewModelProvider.notifier)
+                      .onSearchTextSubmitted(value);
+                },
+                onCleared: () {
+                  ref.read(mapViewModelProvider.notifier).onSearchTextCleared();
+                },
+              ),
             ),
-          ),
-          Expanded(
-            child: Stack(
-              children: [
-                Column(
-                  spacing: 8,
-                  children: [
-                    ConstrainedBox(
-                      constraints: const BoxConstraints(maxWidth: 480),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child: MapFloorButton(
-                          selectedFloor: viewModel.selectedFloor,
-                          onPressed: (floor) {
-                            ref
-                                .read(mapViewModelProvider.notifier)
-                                .onFloorButtonTapped(floor);
-                          },
+            Expanded(
+              child: Stack(
+                children: [
+                  Column(
+                    spacing: 8,
+                    children: [
+                      ConstrainedBox(
+                        constraints: const BoxConstraints(maxWidth: 480),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          child: MapFloorButton(
+                            selectedFloor: viewModel.selectedFloor,
+                            onPressed: (floor) {
+                              ref
+                                  .read(mapViewModelProvider.notifier)
+                                  .onFloorButtonTapped(floor);
+                            },
+                          ),
                         ),
                       ),
-                    ),
-                    Expanded(
-                      child: Stack(
-                        alignment: Alignment.bottomLeft,
-                        children: [
-                          Column(
-                            children: [
-                              Map(
-                                mapViewTransformationController:
-                                    viewModel.transformationController,
-                                selectedFloor: viewModel.selectedFloor,
-                                rooms: viewModel.rooms,
-                                focusedRoom: viewModel.focusedRoom,
-                                dateTime: viewModel.searchDatetime,
-                                onTapped: (props, room) {
-                                  ref
-                                      .read(mapViewModelProvider.notifier)
-                                      .onMapTileTapped(props, room);
-                                  if (room != null) {
-                                    showBottomSheet(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return MapDetailBottomSheet(
-                                          props: props,
-                                          room: room,
-                                          dateTime: viewModel.searchDatetime,
-                                          isLoggedIn: user != null,
-                                          onGoToSettingButtonTapped: () {
-                                            ref
-                                                .read(tabItemProvider.notifier)
-                                                .selected(TabItem.setting);
-                                          },
-                                        );
-                                      },
-                                    );
-                                  }
-                                },
-                              ),
-                              const Spacer(),
-                            ],
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.only(left: 16),
-                            child: MapLegend(),
-                          ),
-                        ],
+                      Expanded(
+                        child: Stack(
+                          alignment: Alignment.bottomLeft,
+                          children: [
+                            Column(
+                              children: [
+                                Map(
+                                  mapViewTransformationController:
+                                      viewModel.transformationController,
+                                  selectedFloor: viewModel.selectedFloor,
+                                  rooms: viewModel.rooms,
+                                  focusedRoom: viewModel.focusedRoom,
+                                  dateTime: viewModel.searchDatetime,
+                                  onTapped: (props, room) {
+                                    ref
+                                        .read(mapViewModelProvider.notifier)
+                                        .onMapTileTapped(props, room);
+                                    if (room != null) {
+                                      showBottomSheet(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return MapDetailBottomSheet(
+                                            props: props,
+                                            room: room,
+                                            dateTime: viewModel.searchDatetime,
+                                            isLoggedIn: user != null,
+                                            onGoToSettingButtonTapped: () {
+                                              ref
+                                                  .read(
+                                                    tabItemProvider.notifier,
+                                                  )
+                                                  .selected(TabItem.setting);
+                                            },
+                                          );
+                                        },
+                                      );
+                                    }
+                                  },
+                                ),
+                                const Spacer(),
+                              ],
+                            ),
+                            const Padding(
+                              padding: EdgeInsets.only(left: 16),
+                              child: MapLegend(),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                    _datePickerSection(
-                      user: user,
-                      searchDatetime: viewModel.searchDatetime,
-                      onPeriodButtonTapped: (dateTime) async {
-                        var setDate = dateTime;
-                        if (setDate.hour == 0) {
-                          setDate = DateTime.now();
-                        }
-                        ref
-                            .read(mapViewModelProvider.notifier)
-                            .onPeriodButtonTapped(setDate);
-                      },
-                      onDatePickerConfirmed: (dateTime) async {
-                        ref
-                            .read(mapViewModelProvider.notifier)
-                            .onDatePickerConfirmed(dateTime);
-                      },
-                    ),
-                  ],
-                ),
-                MapSearchResultList(
-                  rooms: viewModel.filteredRooms,
-                  onTapped: (item) {
-                    ref
-                        .read(mapViewModelProvider.notifier)
-                        .onSearchResultRowTapped(item);
+                      _datePickerSection(
+                        user: user,
+                        searchDatetime: viewModel.searchDatetime,
+                        onPeriodButtonTapped: (dateTime) async {
+                          var setDate = dateTime;
+                          if (setDate.hour == 0) {
+                            setDate = DateTime.now();
+                          }
+                          ref
+                              .read(mapViewModelProvider.notifier)
+                              .onPeriodButtonTapped(setDate);
+                        },
+                        onDatePickerConfirmed: (dateTime) async {
+                          ref
+                              .read(mapViewModelProvider.notifier)
+                              .onDatePickerConfirmed(dateTime);
+                        },
+                      ),
+                    ],
+                  ),
+                  MapSearchResultList(
+                    rooms: viewModel.filteredRooms,
+                    onTapped: (item) {
+                      ref
+                          .read(mapViewModelProvider.notifier)
+                          .onSearchResultRowTapped(item);
 
-                    showBottomSheet(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return MapDetailBottomSheet(
-                          props: FUNMap.tileProps.firstWhere(
-                            (e) => e.id == item.id,
-                          ),
-                          room: item,
-                          dateTime: viewModel.searchDatetime,
-                          isLoggedIn: user != null,
-                          onGoToSettingButtonTapped: () {
-                            ref
-                                .read(tabItemProvider.notifier)
-                                .selected(TabItem.setting);
-                          },
-                        );
-                      },
-                    );
-                  },
-                ),
-              ],
+                      showBottomSheet(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return MapDetailBottomSheet(
+                            props: FUNMap.tileProps.firstWhere(
+                              (e) => e.id == item.id,
+                            ),
+                            room: item,
+                            dateTime: viewModel.searchDatetime,
+                            isLoggedIn: user != null,
+                            onGoToSettingButtonTapped: () {
+                              ref
+                                  .read(tabItemProvider.notifier)
+                                  .selected(TabItem.setting);
+                            },
+                          );
+                        },
+                      );
+                    },
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
+        error: (error, stackTrace) => const Center(child: Text('エラーが発生しました')),
+        loading: () => const Center(child: CircularProgressIndicator()),
       ),
     );
   }
