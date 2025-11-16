@@ -48,7 +48,7 @@ classDiagram
 
 ## 開発フロー
 
-- [[WIP] Project](development/01_Project.md)
-- [[WIP] Branch](development/02_Branch.md)
-- [[WIP] Commit](development/03_Commit.md)
-- [[WIP] Pull Request](development/04_PR.md)
+- [GitHub Project](development/01_Project.md)
+- [Branch](development/02_Branch.md)
+- [Commit](development/03_Commit.md)
+- [Pull Request](development/04_PR.md)
