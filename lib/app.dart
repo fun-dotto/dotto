@@ -28,6 +28,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 final class MyApp extends ConsumerStatefulWidget {
   const MyApp({super.key});
@@ -71,6 +72,7 @@ final class BasePage extends ConsumerStatefulWidget {
 
 final class _BasePageState extends ConsumerState<BasePage> {
   late List<String?> parameter;
+  bool _hasShownDialogs = false;
 
   Future<void> setupUniversalLinks() async {
     final appLinks = AppLinks();
@@ -190,32 +192,47 @@ final class _BasePageState extends ConsumerState<BasePage> {
     }
   }
 
+  Future<void> _showInvalidAppVersionDialog(
+    BuildContext context,
+    String appStorePageUrl,
+  ) async {
+    await showDialog<void>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('アップデートが必要です'),
+        content: const Text('最新版のDottoをご利用ください。'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text('あとで'),
+          ),
+          TextButton(
+            onPressed: () => launchUrlString(
+              appStorePageUrl,
+              mode: LaunchMode.externalApplication,
+            ),
+            child: const Text('今すぐアップデート'),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final config = ref.watch(configNotifierProvider);
     if (!config.isValidAppVersion) {
-      return const InvalidAppVersionScreen();
+      debugPrint('Invalid App Version');
+      return InvalidAppVersionScreen(appStorePageUrl: config.appStorePageUrl);
     }
-    if (!config.isLatestAppVersion) {
-      unawaited(
-        showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: const Text('アップデートが必要です'),
-            content: const Text('アップデートが必要です'),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.of(context).pop(),
-                child: const Text('閉じる'),
-              ),
-            ],
-          ),
-        ),
-      );
-    }
-    WidgetsBinding.instance.addPostFrameCallback(
-      (_) => _showAppTutorial(context),
-    );
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!_hasShownDialogs && !config.isLatestAppVersion) {
+        debugPrint('Not Latest App Version');
+        _showInvalidAppVersionDialog(context, config.appStorePageUrl);
+        _hasShownDialogs = true;
+      }
+      _showAppTutorial(context);
+    });
     final tabItem = ref.watch(tabItemProvider);
     return PopScope(
       canPop: Platform.isIOS,

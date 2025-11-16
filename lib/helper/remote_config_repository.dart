@@ -33,17 +33,19 @@ final class RemoteConfigRepository {
             'https://fun-dotto.github.io/data/announcements.json',
         RemoteConfigKeys.assignmentSetupUrl: 'https://dotto.web.app/',
         RemoteConfigKeys.feedbackFormUrl: 'https://forms.gle/ruo8iBxLMmvScNMFA',
+        RemoteConfigKeys.appStorePageUrl: 'https://fun-dotto.github.io',
       });
     } else {
       await remoteConfig.setDefaults(const {
         RemoteConfigKeys.isDesignV2Enabled: false,
         RemoteConfigKeys.isFunchEnabled: false,
         RemoteConfigKeys.isValidAppVersion: true,
-        RemoteConfigKeys.isLatestAppVersion: false,
+        RemoteConfigKeys.isLatestAppVersion: true,
         RemoteConfigKeys.announcementsUrl:
             'https://fun-dotto.github.io/data/announcements.json',
         RemoteConfigKeys.assignmentSetupUrl: 'https://dotto.web.app/',
         RemoteConfigKeys.feedbackFormUrl: 'https://forms.gle/ruo8iBxLMmvScNMFA',
+        RemoteConfigKeys.appStorePageUrl: 'https://fun-dotto.github.io',
       });
     }
 

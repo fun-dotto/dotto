@@ -41,6 +41,9 @@ final class ConfigNotifier extends _$ConfigNotifier {
     final privacyPolicyUrl = remoteConfigRepository.getString(
       RemoteConfigKeys.privacyPolicyUrl,
     );
+    final appStorePageUrl = remoteConfigRepository.getString(
+      RemoteConfigKeys.appStorePageUrl,
+    );
 
     return Config(
       isDesignV2Enabled: isDesignV2Enabled,
@@ -52,6 +55,7 @@ final class ConfigNotifier extends _$ConfigNotifier {
       feedbackFormUrl: feedbackFormUrl,
       termsOfServiceUrl: termsOfServiceUrl,
       privacyPolicyUrl: privacyPolicyUrl,
+      appStorePageUrl: appStorePageUrl,
     );
   }
 

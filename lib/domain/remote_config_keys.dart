@@ -39,4 +39,7 @@ final class RemoteConfigKeys {
 
   /// プライバシーポリシーURL
   static const String privacyPolicyUrl = 'privacy_policy_url';
+
+  /// アプリストアURL
+  static const String appStorePageUrl = 'app_store_page_url';
 }
