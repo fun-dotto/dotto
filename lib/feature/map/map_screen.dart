@@ -50,29 +50,35 @@ final class MapScreen extends ConsumerWidget {
     required void Function() onDismissed,
     required void Function() onGoToSettingButtonTapped,
   }) {
-    if (props != null && room != null) {
-      return Container(
-        alignment: Alignment.bottomCenter,
-        child: Container(
-          decoration: const BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(16),
-              topRight: Radius.circular(16),
-            ),
-          ),
-          child: MapDetailBottomSheet(
-            props: props,
-            room: room,
-            dateTime: dateTime,
-            isLoggedIn: isLoggedIn,
-            onDismissed: onDismissed,
-            onGoToSettingButtonTapped: onGoToSettingButtonTapped,
+    const bottomSheetHeight = 250.0;
+    final isVisible = props != null && room != null;
+
+    return AnimatedPositioned(
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeOutCubic,
+      bottom: isVisible ? 0 : -bottomSheetHeight,
+      left: 0,
+      right: 0,
+      child: Container(
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(16),
+            topRight: Radius.circular(16),
           ),
         ),
-      );
-    }
-    return const SizedBox.shrink();
+        child: isVisible
+            ? MapDetailBottomSheet(
+                props: props,
+                room: room,
+                dateTime: dateTime,
+                isLoggedIn: isLoggedIn,
+                onDismissed: onDismissed,
+                onGoToSettingButtonTapped: onGoToSettingButtonTapped,
+              )
+            : const SizedBox(height: bottomSheetHeight),
+      ),
+    );
   }
 
   @override
