@@ -1,5 +1,8 @@
+import 'package:collection/collection.dart';
 import 'package:dotto/controller/tab_controller.dart';
 import 'package:dotto/controller/user_controller.dart';
+import 'package:dotto/domain/map_tile_props.dart';
+import 'package:dotto/domain/room.dart';
 import 'package:dotto/domain/tab_item.dart';
 import 'package:dotto/feature/map/fun_map.dart';
 import 'package:dotto/feature/map/map_view_model.dart';
@@ -37,6 +40,39 @@ final class MapScreen extends ConsumerWidget {
         ),
       ),
     );
+  }
+
+  Widget _bottomSheet({
+    required MapTileProps? props,
+    required Room? room,
+    required DateTime dateTime,
+    required bool isLoggedIn,
+    required void Function() onDismissed,
+    required void Function() onGoToSettingButtonTapped,
+  }) {
+    if (props != null && room != null) {
+      return Container(
+        alignment: Alignment.bottomCenter,
+        child: Container(
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(16),
+              topRight: Radius.circular(16),
+            ),
+          ),
+          child: MapDetailBottomSheet(
+            props: props,
+            room: room,
+            dateTime: dateTime,
+            isLoggedIn: isLoggedIn,
+            onDismissed: onDismissed,
+            onGoToSettingButtonTapped: onGoToSettingButtonTapped,
+          ),
+        ),
+      );
+    }
+    return const SizedBox.shrink();
   }
 
   @override
@@ -109,26 +145,6 @@ final class MapScreen extends ConsumerWidget {
                                     ref
                                         .read(mapViewModelProvider.notifier)
                                         .onMapTileTapped(props, room);
-                                    if (room != null) {
-                                      showBottomSheet(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return MapDetailBottomSheet(
-                                            props: props,
-                                            room: room,
-                                            dateTime: viewModel.searchDatetime,
-                                            isLoggedIn: user != null,
-                                            onGoToSettingButtonTapped: () {
-                                              ref
-                                                  .read(
-                                                    tabItemProvider.notifier,
-                                                  )
-                                                  .selected(TabItem.setting);
-                                            },
-                                          );
-                                        },
-                                      );
-                                    }
                                   },
                                 ),
                                 const Spacer(),
@@ -161,6 +177,24 @@ final class MapScreen extends ConsumerWidget {
                       ),
                     ],
                   ),
+                  _bottomSheet(
+                    props: FUNMap.tileProps.firstWhereOrNull(
+                      (e) => e.id == viewModel.focusedRoom?.id,
+                    ),
+                    room: viewModel.focusedRoom,
+                    dateTime: viewModel.searchDatetime,
+                    isLoggedIn: user != null,
+                    onDismissed: () {
+                      ref
+                          .read(mapViewModelProvider.notifier)
+                          .onBottomSheetDismissed();
+                    },
+                    onGoToSettingButtonTapped: () {
+                      ref
+                          .read(tabItemProvider.notifier)
+                          .selected(TabItem.setting);
+                    },
+                  ),
                   MapSearchResultList(
                     rooms: viewModel.filteredRooms,
                     isFocused: viewModel.focusNode.hasFocus,
@@ -168,25 +202,6 @@ final class MapScreen extends ConsumerWidget {
                       ref
                           .read(mapViewModelProvider.notifier)
                           .onSearchResultRowTapped(item);
-
-                      showBottomSheet(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return MapDetailBottomSheet(
-                            props: FUNMap.tileProps.firstWhere(
-                              (e) => e.id == item.id,
-                            ),
-                            room: item,
-                            dateTime: viewModel.searchDatetime,
-                            isLoggedIn: user != null,
-                            onGoToSettingButtonTapped: () {
-                              ref
-                                  .read(tabItemProvider.notifier)
-                                  .selected(TabItem.setting);
-                            },
-                          );
-                        },
-                      );
                     },
                   ),
                 ],

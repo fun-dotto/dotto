@@ -57,18 +57,6 @@ class MapViewModel extends _$MapViewModel {
     );
   }
 
-  void onSearchResultRowTapped(Room room) {
-    state.value?.focusNode.unfocus();
-    final newState = state.value?.copyWith(
-      selectedFloor: room.floor,
-      focusedRoom: room,
-    );
-    if (newState != null) {
-      state = AsyncData(newState);
-    }
-    state.value?.transformationController.value.setIdentity();
-  }
-
   Future<void> onSearchTextChanged(String _) async {
     final filteredRooms = await _search();
     final newState = state.value?.copyWith(filteredRooms: filteredRooms);
@@ -121,6 +109,18 @@ class MapViewModel extends _$MapViewModel {
         .toList();
   }
 
+  void onSearchResultRowTapped(Room room) {
+    state.value?.focusNode.unfocus();
+    final newState = state.value?.copyWith(
+      selectedFloor: room.floor,
+      focusedRoom: room,
+    );
+    if (newState != null) {
+      state = AsyncData(newState);
+    }
+    state.value?.transformationController.value.setIdentity();
+  }
+
   void onPeriodButtonTapped(DateTime dateTime) {
     final newState = state.value?.copyWith(searchDatetime: dateTime);
     if (newState != null) {
@@ -136,10 +136,22 @@ class MapViewModel extends _$MapViewModel {
   }
 
   void onMapTileTapped(MapTileProps props, Room? room) {
-    final newState = state.value?.copyWith(focusedRoom: room);
+    state.value?.focusNode.unfocus();
+    MapViewModelState? newState;
+    if (room == state.value?.focusedRoom) {
+      newState = state.value?.copyWith(focusedRoom: null);
+    } else {
+      newState = state.value?.copyWith(focusedRoom: room);
+    }
     if (newState != null) {
       state = AsyncData(newState);
     }
-    state.value?.focusNode.unfocus();
+  }
+
+  void onBottomSheetDismissed() {
+    final newState = state.value?.copyWith(focusedRoom: null);
+    if (newState != null) {
+      state = AsyncData(newState);
+    }
   }
 }

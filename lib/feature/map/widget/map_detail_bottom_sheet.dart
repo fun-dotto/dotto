@@ -12,6 +12,7 @@ final class MapDetailBottomSheet extends StatelessWidget {
     required this.room,
     required this.dateTime,
     required this.isLoggedIn,
+    required this.onDismissed,
     required this.onGoToSettingButtonTapped,
     super.key,
   });
@@ -20,6 +21,7 @@ final class MapDetailBottomSheet extends StatelessWidget {
   final Room room;
   final DateTime dateTime;
   final bool isLoggedIn;
+  final void Function() onDismissed;
   final void Function() onGoToSettingButtonTapped;
 
   DateTime get startOfDay =>
@@ -115,10 +117,7 @@ final class MapDetailBottomSheet extends StatelessWidget {
                   ),
                 ),
               ),
-              IconButton(
-                onPressed: () => Navigator.of(context).pop(),
-                icon: const Icon(Icons.close),
-              ),
+              IconButton(onPressed: onDismissed, icon: const Icon(Icons.close)),
             ],
           ),
           if (isLoggedIn)
