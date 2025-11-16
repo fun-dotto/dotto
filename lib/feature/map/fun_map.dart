@@ -14,7 +14,7 @@ abstract class FUNMap {
     AtriumMapTileProps(
       floor: Floor.first,
       width: 48,
-      height: 33,
+      height: 18,
       top: 0,
       right: 0,
       bottom: 0,
@@ -704,7 +704,7 @@ abstract class FUNMap {
     AtriumMapTileProps(
       floor: Floor.second,
       width: 48,
-      height: 34,
+      height: 18,
       top: 0,
       right: 0,
       bottom: 0,
@@ -1862,7 +1862,7 @@ abstract class FUNMap {
     SubRoomMapTileProps(
       floor: Floor.third,
       width: 6,
-      height: 36,
+      height: 37,
       top: 0,
       right: 1,
       bottom: 1,
