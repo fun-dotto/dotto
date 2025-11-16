@@ -9,6 +9,8 @@ import 'package:dotto/domain/room.dart' as _i4;
 import 'package:dotto/repository/room_repository.dart' as _i2;
 import 'package:mockito/mockito.dart' as _i1;
 
+import 'map_view_model_test.dart' as _i5;
+
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
 // ignore_for_file: avoid_setters_without_getters
@@ -38,4 +40,19 @@ class MockRoomRepository extends _i1.Mock implements _i2.RoomRepository {
             returnValue: _i3.Future<List<_i4.Room>>.value(<_i4.Room>[]),
           )
           as _i3.Future<List<_i4.Room>>);
+}
+
+/// A class which mocks [Listener].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockListener<T> extends _i1.Mock implements _i5.Listener<T> {
+  MockListener() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  void call(T? previous, T? next) => super.noSuchMethod(
+    Invocation.method(#call, [previous, next]),
+    returnValueForMissingStub: null,
+  );
 }
