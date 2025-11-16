@@ -136,9 +136,7 @@ final class MapScreen extends ConsumerWidget {
                       ),
                       Expanded(
                         child: Stack(
-                          alignment: viewModel.selectedFloor.index >= 2
-                              ? Alignment.bottomLeft
-                              : Alignment.topLeft,
+                          alignment: Alignment.bottomLeft,
                           children: [
                             SizedBox.expand(
                               child: Map(
