@@ -23,8 +23,8 @@ final class ConfigNotifier extends _$ConfigNotifier {
     final isValidAppVersion = remoteConfigRepository.getBool(
       RemoteConfigKeys.isValidAppVersion,
     );
-    final userKeySettingUrl = remoteConfigRepository.getString(
-      RemoteConfigKeys.userKeySettingUrl,
+    final isLatestAppVersion = remoteConfigRepository.getBool(
+      RemoteConfigKeys.isLatestAppVersion,
     );
     final announcementsUrl = remoteConfigRepository.getString(
       RemoteConfigKeys.announcementsUrl,
@@ -41,17 +41,21 @@ final class ConfigNotifier extends _$ConfigNotifier {
     final privacyPolicyUrl = remoteConfigRepository.getString(
       RemoteConfigKeys.privacyPolicyUrl,
     );
+    final appStorePageUrl = remoteConfigRepository.getString(
+      RemoteConfigKeys.appStorePageUrl,
+    );
 
     return Config(
       isDesignV2Enabled: isDesignV2Enabled,
       isFunchEnabled: isFunchEnabled,
       isValidAppVersion: isValidAppVersion,
-      userKeySettingUrl: userKeySettingUrl,
+      isLatestAppVersion: isLatestAppVersion,
       announcementsUrl: announcementsUrl,
       assignmentSetupUrl: assignmentSetupUrl,
       feedbackFormUrl: feedbackFormUrl,
       termsOfServiceUrl: termsOfServiceUrl,
       privacyPolicyUrl: privacyPolicyUrl,
+      appStorePageUrl: appStorePageUrl,
     );
   }
 

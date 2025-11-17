@@ -8,12 +8,13 @@ abstract class Config with _$Config {
     required bool isDesignV2Enabled,
     required bool isFunchEnabled,
     required bool isValidAppVersion,
-    required String userKeySettingUrl,
+    required bool isLatestAppVersion,
     required String announcementsUrl,
     required String assignmentSetupUrl,
     required String feedbackFormUrl,
     required String termsOfServiceUrl,
     required String privacyPolicyUrl,
+    required String appStorePageUrl,
   }) = _Config;
 
   static const String cloudflareR2Endpoint = String.fromEnvironment(
