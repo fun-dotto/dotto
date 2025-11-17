@@ -13,15 +13,6 @@ abstract class FUNMap {
     /// 1F
     AtriumMapTileProps(
       floor: Floor.first,
-      width: 48,
-      height: 18,
-      top: 0,
-      right: 0,
-      bottom: 0,
-      left: 0,
-    ),
-    AtriumMapTileProps(
-      floor: Floor.first,
       width: 40,
       height: 7,
       top: 0,
@@ -701,15 +692,6 @@ abstract class FUNMap {
     ),
 
     /// 2F
-    AtriumMapTileProps(
-      floor: Floor.second,
-      width: 48,
-      height: 18,
-      top: 0,
-      right: 0,
-      bottom: 0,
-      left: 0,
-    ),
     AisleMapTileProps(
       floor: Floor.second,
       width: 40,
