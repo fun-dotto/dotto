@@ -199,7 +199,11 @@ final class _BasePageState extends ConsumerState<BasePage> {
         if (didPop) {
           return;
         }
-        Navigator.of(context).pop();
+        final navigator = Navigator.of(context);
+        final shouldPop =
+            !((await tabNavigatorKeyMaps[tabItem]?.currentState?.maybePop()) ??
+                true);
+        if (shouldPop && navigator.canPop()) navigator.pop();
       },
       child: Scaffold(
         resizeToAvoidBottomInset: false,
