@@ -1,25 +1,33 @@
-import 'package:dotto/controller/tab_controller.dart';
-import 'package:dotto/controller/user_controller.dart';
-import 'package:dotto/domain/tab_item.dart';
-import 'package:dotto/feature/map/controller/map_detail_map_controller.dart';
-import 'package:dotto/feature/map/controller/map_search_datetime_controller.dart';
-import 'package:dotto/feature/map/domain/map_detail.dart';
-import 'package:dotto/feature/map/domain/map_room_available_type.dart';
-import 'package:dotto/feature/map/widget/fun_grid_map.dart';
-import 'package:dotto/feature/map/widget/map_tile.dart';
+import 'package:collection/collection.dart';
+import 'package:dotto/domain/map_tile_props.dart';
+import 'package:dotto/domain/room.dart';
+import 'package:dotto/domain/room_equipment.dart';
 import 'package:dotto_design_system/component/button.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
-final class MapDetailBottomSheet extends ConsumerWidget {
+final class MapDetailBottomSheet extends StatelessWidget {
   const MapDetailBottomSheet({
-    required this.floor,
-    required this.roomName,
+    required this.props,
+    required this.room,
+    required this.dateTime,
+    required this.isLoggedIn,
+    required this.onDismissed,
+    required this.onGoToSettingButtonTapped,
     super.key,
   });
-  final String floor;
-  final String roomName;
+
+  final MapTileProps props;
+  final Room room;
+  final DateTime dateTime;
+  final bool isLoggedIn;
+  final void Function() onDismissed;
+  final void Function() onGoToSettingButtonTapped;
+
+  DateTime get startOfDay =>
+      DateTime(dateTime.year, dateTime.month, dateTime.day);
+  DateTime get endOfDay =>
+      DateTime(dateTime.year, dateTime.month, dateTime.day, 23, 59, 59, 999);
 
   static const Color blue = Color(0xFF4A90E2);
 
@@ -69,14 +77,8 @@ final class MapDetailBottomSheet extends ConsumerWidget {
     );
   }
 
-  Widget roomAvailable(RoomAvailableType type, int status) {
+  Widget roomEquipment(RoomEquipment equipment) {
     const fontColor = Colors.white;
-    var icon = Icons.close_outlined;
-    if (status == 1) {
-      icon = Icons.change_history_outlined;
-    } else if (status == 2) {
-      icon = Icons.circle_outlined;
-    }
     return Container(
       width: 140,
       decoration: BoxDecoration(
@@ -88,41 +90,16 @@ final class MapDetailBottomSheet extends ConsumerWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Icon(type.icon, color: fontColor, size: 20),
-          Text(type.title, style: const TextStyle(color: fontColor)),
-          Icon(icon, color: fontColor, size: 20),
+          Icon(equipment.icon, color: fontColor, size: 20),
+          Text(equipment.label, style: const TextStyle(color: fontColor)),
+          Icon(equipment.quality.icon, color: fontColor, size: 20),
         ],
       ),
     );
   }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final mapDetailMap = ref.watch(mapDetailMapNotifierProvider);
-    final searchDatetime = ref.watch(mapSearchDatetimeNotifierProvider);
-    final user = ref.watch(userProvider);
-    var roomTitle = roomName;
-    MapDetail? mapDetail;
-    if (user != null) {
-      mapDetailMap.when(
-        data: (data) {
-          mapDetail = data.searchOnce(floor, roomName);
-          if (mapDetail != null) {
-            roomTitle = mapDetail!.header;
-          }
-        },
-        error: (_, _) {},
-        loading: () {},
-      );
-    }
-    MapTile? gridMap;
-    final mapTileList = FunGridMaps.mapTileListMap[floor];
-    if (mapTileList != null) {
-      final foundTiles = mapTileList.where(
-        (element) => element.txt == roomName,
-      );
-      gridMap = foundTiles.isNotEmpty ? foundTiles.first : null;
-    }
+  Widget build(BuildContext context) {
     return Container(
       height: 250,
       padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
@@ -133,70 +110,82 @@ final class MapDetailBottomSheet extends ConsumerWidget {
             children: [
               Expanded(
                 child: SelectableText(
-                  roomTitle,
+                  room.name,
                   style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
               ),
-              IconButton(
-                onPressed: () => Navigator.of(context).pop(),
-                icon: const Icon(Icons.close),
-              ),
+              IconButton(onPressed: onDismissed, icon: const Icon(Icons.close)),
             ],
           ),
-          if (user != null)
+          if (isLoggedIn)
             Expanded(
               child: SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    if (gridMap != null) ...[
-                      Wrap(
-                        spacing: 8,
-                        children: [
-                          if (gridMap.food != null &&
-                              gridMap.drink != null) ...[
-                            roomAvailable(
-                              RoomAvailableType.food,
-                              gridMap.food! ? 2 : 0,
-                            ),
-                            roomAvailable(
-                              RoomAvailableType.drink,
-                              gridMap.drink! ? 2 : 0,
-                            ),
-                          ],
-                          if (gridMap.outlet != null)
-                            roomAvailable(
-                              RoomAvailableType.outlet,
-                              gridMap.outlet!,
-                            ),
+                    Wrap(
+                      spacing: 8,
+                      children: [
+                        if (props is ClassroomMapTileProps) ...[
+                          roomEquipment(
+                            (props as ClassroomMapTileProps).equipment.food,
+                          ),
+                          roomEquipment(
+                            (props as ClassroomMapTileProps).equipment.drink,
+                          ),
+                          roomEquipment(
+                            (props as ClassroomMapTileProps).equipment.outlet,
+                          ),
                         ],
-                      ),
-                    ],
+                        if (props is SubRoomMapTileProps &&
+                            (props as SubRoomMapTileProps).equipment !=
+                                null) ...[
+                          roomEquipment(
+                            (props as SubRoomMapTileProps).equipment!.food,
+                          ),
+                          roomEquipment(
+                            (props as SubRoomMapTileProps).equipment!.drink,
+                          ),
+                          roomEquipment(
+                            (props as SubRoomMapTileProps).equipment!.outlet,
+                          ),
+                        ],
+                      ],
+                    ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        if (mapDetail?.scheduleList != null)
+                        if (room.schedules.isNotEmpty)
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: mapDetail!
-                                .getScheduleListByDate(searchDatetime)
+                            children: room.schedules
+                                .where(
+                                  (e) =>
+                                      e.beginDatetime.isAfter(startOfDay) &&
+                                      e.endDatetime.isBefore(endOfDay),
+                                )
+                                .sorted(
+                                  (a, b) => a.beginDatetime.compareTo(
+                                    b.beginDatetime,
+                                  ),
+                                )
                                 .map(
                                   (e) => scheduleTile(
                                     context,
-                                    e.begin,
-                                    e.end,
+                                    e.beginDatetime,
+                                    e.endDatetime,
                                     e.title,
                                   ),
                                 )
                                 .toList(),
                           )
-                        else if (mapDetail?.detail != null)
-                          SelectableText(mapDetail!.detail!),
-                        if (mapDetail?.mail != null)
-                          SelectableText('${mapDetail?.mail}@fun.ac.jp'),
+                        else if (room.description.isNotEmpty)
+                          SelectableText(room.description),
+                        if (room.email.isNotEmpty)
+                          SelectableText('${room.email}@fun.ac.jp'),
                       ],
                     ),
                   ],
@@ -208,9 +197,7 @@ final class MapDetailBottomSheet extends ConsumerWidget {
               children: [
                 const Text('Googleアカウント (@fun.ac.jp) でログインして詳細を確認'),
                 DottoButton(
-                  onPressed: () => ref
-                      .read(tabItemProvider.notifier)
-                      .selected(TabItem.setting),
+                  onPressed: onGoToSettingButtonTapped,
                   type: DottoButtonType.text,
                   child: const Text('設定に移動する'),
                 ),

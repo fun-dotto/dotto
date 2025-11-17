@@ -1,8 +1,8 @@
 import 'package:dotto/feature/bus/controller/bus_is_to_controller.dart';
 import 'package:dotto/feature/bus/domain/bus_stop.dart';
 import 'package:dotto/feature/bus/domain/bus_trip.dart';
-import 'package:dotto/repository/firebase_realtime_database_repository.dart';
-import 'package:dotto/repository/location_repository.dart';
+import 'package:dotto/helper/firebase_realtime_database_repository.dart';
+import 'package:dotto/helper/location_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final class BusRepository {

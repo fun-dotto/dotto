@@ -1,5 +1,5 @@
 import 'package:dotto/domain/user_preference_keys.dart';
-import 'package:dotto/repository/user_preference_repository.dart';
+import 'package:dotto/helper/user_preference_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 FutureProvider<String> settingsGradeProvider = FutureProvider((ref) async {

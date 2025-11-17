@@ -76,9 +76,12 @@ tasks:
   test-with-coverage:
     desc: Run Flutter tests with coverage report
     cmds:
-      - task install
-      - task build
       - "{{.FLUTTER}} test --coverage"
+      - task: build-coverage-report
+
+  build-coverage-report:
+    desc: Build coverage report
+    cmds:
       - "lcov --remove coverage/lcov.info 'lib/**.g.dart' -o coverage/new_lcov.info --ignore-errors unused"
       - "genhtml coverage/new_lcov.info -o coverage/html"
       - "open coverage/html/index.html"
@@ -93,60 +96,44 @@ tasks:
   build-ios:
     desc: Build iOS release
     cmds:
-      - task install
-      - xcodes select
-      - task build
+      - task: build
       - "{{.FLUTTER}} build ios --release --dart-define-from-file=./.env"
 
   build-android:
     desc: Build Android release appbundle
     cmds:
-      - task install
-      - task build
+      - task: build
       - "{{.FLUTTER}} build appbundle --release --dart-define-from-file=./.env"
 
   deploy-ios-firebase-app-distribution:
     desc: Deploy iOS to Firebase App Distribution
+    dir: ./ios
     cmds:
-      - task install
-      - task bundle-install
-      - xcodes select
-      - task clean
-      - task build
-      - cd ./ios && {{.FASTLANE}} deploy_firebase_app_distribution
+      - "{{.FASTLANE}} deploy_firebase_app_distribution"
 
   deploy-android-firebase-app-distribution:
     desc: Deploy Android to Firebase App Distribution
+    dir: ./android
     cmds:
-      - task install
-      - task bundle-install
-      - task clean
-      - task build
-      - cd ./android && {{.FASTLANE}} deploy_firebase_app_distribution
+      - "{{.FASTLANE}} deploy_firebase_app_distribution"
 
   deploy-ios-testflight:
     desc: Deploy iOS to TestFlight
+    dir: ./ios
     cmds:
-      - task install
-      - task bundle-install
-      - xcodes select
-      - task clean
-      - task build
-      - cd ./ios && {{.FASTLANE}} deploy_testflight
+      - "{{.FASTLANE}} deploy_testflight"
 
   deploy-android-google-play:
     desc: Deploy Android to Google Play
+    dir: ./android
     cmds:
-      - task install
-      - task bundle-install
-      - task clean
-      - task build
-      - cd ./android && {{.FASTLANE}} deploy_google_play
+      - "{{.FASTLANE}} deploy_google_play"
 
   match-development:
     desc: Match development certificates (readonly)
+    dir: ./ios
     cmds:
-      - cd ./ios && {{.FASTLANE}} match_development_readonly
+      - "{{.FASTLANE}} match_development_readonly"
 
   bump-build:
     desc: Bump build number
@@ -174,11 +161,12 @@ tasks:
 
   register-ios-device:
     desc: Register iOS device and update provisioning profiles
+    dir: ./ios
     vars:
       NAME: "{{.name}}"
       UDID: "{{.udid}}"
     cmds:
-      - cd ./ios && {{.FASTLANE}} run register_device name:{{.NAME}} udid:{{.UDID}}
-      - cd ./ios && {{.FASTLANE}} match_development
-      - cd ./ios && {{.FASTLANE}} match_adhoc
-      - cd ./ios && {{.FASTLANE}} match_appstore
+      - "{{.FASTLANE}} run register_device name:{{.NAME}} udid:{{.UDID}}"
+      - "{{.FASTLANE}} match_development"
+      - "{{.FASTLANE}} match_adhoc"
+      - "{{.FASTLANE}} match_appstore"
