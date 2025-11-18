@@ -18,7 +18,6 @@ import 'package:dotto/feature/timetable/repository/timetable_repository.dart';
 import 'package:dotto/helper/logger.dart';
 import 'package:dotto/helper/notification_repository.dart';
 import 'package:dotto/helper/user_preference_repository.dart';
-import 'package:dotto/theme/v1/animation.dart';
 import 'package:dotto/theme/v1/theme.dart';
 import 'package:dotto/widget/app_tutorial.dart';
 import 'package:dotto/widget/invalid_app_version_screen.dart';
@@ -174,11 +173,9 @@ final class _BasePageState extends ConsumerState<BasePage> {
     }
     if (context.mounted) {
       await Navigator.of(context).push(
-        PageRouteBuilder<void>(
-          pageBuilder: (context, animation, secondaryAnimation) =>
-              const AppTutorial(),
-          fullscreenDialog: true,
-          transitionsBuilder: fromRightAnimation,
+        MaterialPageRoute<void>(
+          builder: (_) => const AppTutorial(),
+          settings: const RouteSettings(name: '/app_tutorial'),
         ),
       );
       await UserPreferenceRepository.setBool(

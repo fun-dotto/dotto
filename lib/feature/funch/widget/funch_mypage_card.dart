@@ -168,7 +168,10 @@ final class FunchMyPageCard extends ConsumerWidget {
     return InkWell(
       onTap: () {
         Navigator.of(context).push(
-          MaterialPageRoute<void>(builder: (context) => const FunchScreen()),
+          MaterialPageRoute<void>(
+            builder: (_) => const FunchScreen(),
+            settings: const RouteSettings(name: '/funch_screen'),
+          ),
         );
       },
       child: _buildMenuCard(context, ref),

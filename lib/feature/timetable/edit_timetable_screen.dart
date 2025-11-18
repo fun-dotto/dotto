@@ -7,7 +7,6 @@ import 'package:dotto/feature/timetable/controller/week_period_all_records_contr
 import 'package:dotto/feature/timetable/domain/period.dart';
 import 'package:dotto/feature/timetable/domain/semester.dart';
 import 'package:dotto/feature/timetable/select_course_screen.dart';
-import 'package:dotto/theme/v1/animation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -114,10 +113,12 @@ class _EditTimetableScreenState extends ConsumerState<EditTimetableScreen>
           ),
           onTap: () {
             Navigator.of(context).push(
-              PageRouteBuilder<void>(
-                pageBuilder: (context, animation, secondaryAnimation) =>
-                    SelectCourseScreen(semester, dayOfWeek, period),
-                transitionsBuilder: fromRightAnimation,
+              MaterialPageRoute<void>(
+                builder: (_) => SelectCourseScreen(semester, dayOfWeek, period),
+                settings: RouteSettings(
+                  name:
+                      '/select_course?semester=${semester.number}&dayOfWeek=${dayOfWeek.number}&period=${period.number}',
+                ),
               ),
             );
           },

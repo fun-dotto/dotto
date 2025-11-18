@@ -7,7 +7,6 @@ import 'package:dotto/feature/timetable/course_cancellation_screen.dart';
 import 'package:dotto/feature/timetable/domain/timetable_period_style.dart';
 import 'package:dotto/feature/timetable/edit_timetable_screen.dart';
 import 'package:dotto/feature/timetable/widget/my_page_timetable.dart';
-import 'package:dotto/theme/v1/animation.dart';
 import 'package:dotto/theme/v1/color_fun.dart';
 import 'package:dotto/widget/file_viewer.dart';
 import 'package:dotto_design_system/component/button.dart';
@@ -78,11 +77,9 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
           DottoButton(
             onPressed: () {
               Navigator.of(context).push(
-                PageRouteBuilder<void>(
-                  pageBuilder: (context, animation, secondaryAnimation) {
-                    return const CourseCancellationScreen();
-                  },
-                  transitionsBuilder: fromRightAnimation,
+                MaterialPageRoute<void>(
+                  builder: (_) => const CourseCancellationScreen(),
+                  settings: const RouteSettings(name: '/course_cancellation'),
                 ),
               );
             },
@@ -94,11 +91,9 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
             onPressed: () {
               Navigator.of(context)
                   .push(
-                    PageRouteBuilder<void>(
-                      pageBuilder: (context, animation, secondaryAnimation) {
-                        return const EditTimetableScreen();
-                      },
-                      transitionsBuilder: fromRightAnimation,
+                    MaterialPageRoute<void>(
+                      builder: (_) => const EditTimetableScreen(),
+                      settings: const RouteSettings(name: '/edit_timetable'),
                     ),
                   )
                   .then(
@@ -138,15 +133,16 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
           context,
           () {
             Navigator.of(context).push(
-              PageRouteBuilder<void>(
-                pageBuilder: (context, animation, secondaryAnimation) {
-                  return FileViewerScreen(
-                    filename: item.key,
-                    url: item.value,
-                    storage: StorageService.firebase,
-                  );
-                },
-                transitionsBuilder: fromRightAnimation,
+              MaterialPageRoute<void>(
+                builder: (_) => FileViewerScreen(
+                  filename: item.key,
+                  url: item.value,
+                  storage: StorageService.firebase,
+                ),
+                settings: RouteSettings(
+                  name:
+                      '/file_viewer?filename=${item.key}&url=${item.value}&storage=firebase',
+                ),
               ),
             );
           },
