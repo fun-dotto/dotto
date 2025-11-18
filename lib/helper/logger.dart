@@ -8,7 +8,9 @@ final loggerProvider = Provider<Logger>((ref) => LoggerImpl());
 
 abstract class Logger {
   Future<void> setup();
+  Future<void> logAppOpen();
   Future<void> logLogin();
+  Future<void> logScreenView({required String screenName});
   Future<void> logBuiltTimetableSetting({
     required TimetablePeriodStyle timetablePeriodStyle,
   });
@@ -35,12 +37,28 @@ final class LoggerImpl implements Logger {
   }
 
   @override
+  Future<void> logAppOpen() async {
+    await FirebaseAnalytics.instance.logAppOpen();
+    debugPrint('[Logger] app_open');
+  }
+
+  @override
   Future<void> logLogin() async {
     final userId = FirebaseAuth.instance.currentUser?.uid ?? '';
     await FirebaseAnalytics.instance.setUserId(id: userId);
     await FirebaseAnalytics.instance.logLogin();
     debugPrint('[Logger] login');
     debugPrint('User ID: $userId');
+  }
+
+  @override
+  Future<void> logScreenView({required String screenName}) async {
+    await FirebaseAnalytics.instance.logEvent(
+      name: 'screen_view',
+      parameters: {'screen_name': screenName},
+    );
+    debugPrint('[Logger] screen_view');
+    debugPrint('screen_name: $screenName');
   }
 
   @override
