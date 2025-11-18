@@ -40,6 +40,7 @@ final class _MyAppState extends ConsumerState<MyApp> {
   @override
   void initState() {
     super.initState();
+    ref.read(loggerProvider).logAppOpen();
   }
 
   @override
