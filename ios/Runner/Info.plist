@@ -43,12 +43,16 @@
 	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>
+	<key>FirebaseAutomaticScreenReportingEnabled</key>
+	<false/>
 	<key>FlutterDeepLinkingEnabled</key>
 	<false/>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>より多くの便利な機能を提供するためにデバイスの位置情報を利用します。</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>より多くの便利な機能を提供するためにデバイスの位置情報を利用します。</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
@@ -77,7 +81,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>より多くの便利な機能を提供するためにデバイスの位置情報を利用します。</string>
 </dict>
 </plist>
