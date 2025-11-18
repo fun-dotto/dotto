@@ -22,9 +22,7 @@ final class TimetablePeriodStyleNotifier
 
     await ref
         .read(loggerProvider)
-        .logBuiltTimetableSetting(
-          isNumberOnly: style == TimetablePeriodStyle.numberOnly,
-        );
+        .logBuiltTimetableSetting(timetablePeriodStyle: style);
 
     return style;
   }
@@ -39,8 +37,6 @@ final class TimetablePeriodStyleNotifier
 
     await ref
         .read(loggerProvider)
-        .logSetTimetableSetting(
-          isNumberOnly: style == TimetablePeriodStyle.numberOnly,
-        );
+        .logSetTimetableSetting(timetablePeriodStyle: style);
   }
 }

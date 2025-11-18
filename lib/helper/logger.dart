@@ -1,3 +1,4 @@
+import 'package:dotto/feature/timetable/domain/timetable_period_style.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
@@ -8,8 +9,12 @@ final loggerProvider = Provider<Logger>((ref) => LoggerImpl());
 abstract class Logger {
   Future<void> setup();
   Future<void> logLogin();
-  Future<void> logBuiltTimetableSetting({required bool isNumberOnly});
-  Future<void> logSetTimetableSetting({required bool isNumberOnly});
+  Future<void> logBuiltTimetableSetting({
+    required TimetablePeriodStyle timetablePeriodStyle,
+  });
+  Future<void> logSetTimetableSetting({
+    required TimetablePeriodStyle timetablePeriodStyle,
+  });
 }
 
 final class LoggerImpl implements Logger {
@@ -39,22 +44,26 @@ final class LoggerImpl implements Logger {
   }
 
   @override
-  Future<void> logBuiltTimetableSetting({required bool isNumberOnly}) async {
+  Future<void> logBuiltTimetableSetting({
+    required TimetablePeriodStyle timetablePeriodStyle,
+  }) async {
     await FirebaseAnalytics.instance.logEvent(
       name: 'built_timetable_setting',
-      parameters: {'is_number_only': isNumberOnly},
+      parameters: {'timetable_period_style': timetablePeriodStyle.key},
     );
     debugPrint('[Logger] built_timetable_setting');
-    debugPrint('is_number_only: $isNumberOnly');
+    debugPrint('timetable_period_style: ${timetablePeriodStyle.key}');
   }
 
   @override
-  Future<void> logSetTimetableSetting({required bool isNumberOnly}) async {
+  Future<void> logSetTimetableSetting({
+    required TimetablePeriodStyle timetablePeriodStyle,
+  }) async {
     await FirebaseAnalytics.instance.logEvent(
       name: 'set_timetable_setting',
-      parameters: {'is_number_only': isNumberOnly},
+      parameters: {'timetable_period_style': timetablePeriodStyle.key},
     );
     debugPrint('[Logger] set_timetable_setting');
-    debugPrint('is_number_only: $isNumberOnly');
+    debugPrint('timetable_period_style: ${timetablePeriodStyle.key}');
   }
 }
