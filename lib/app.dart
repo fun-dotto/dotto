@@ -3,7 +3,6 @@ import 'dart:io';
 
 import 'package:app_links/app_links.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dotto/controller/analytics_controller.dart';
 import 'package:dotto/controller/config_controller.dart';
 import 'package:dotto/controller/tab_controller.dart';
 import 'package:dotto/controller/user_controller.dart';
@@ -16,6 +15,7 @@ import 'package:dotto/feature/bus/controller/my_bus_stop_controller.dart';
 import 'package:dotto/feature/bus/repository/bus_repository.dart';
 import 'package:dotto/feature/setting/repository/settings_repository.dart';
 import 'package:dotto/feature/timetable/repository/timetable_repository.dart';
+import 'package:dotto/helper/logger.dart';
 import 'package:dotto/helper/notification_repository.dart';
 import 'package:dotto/helper/user_preference_repository.dart';
 import 'package:dotto/theme/v1/animation.dart';
@@ -140,16 +140,9 @@ final class _BasePageState extends ConsumerState<BasePage> {
     }
   }
 
-  Future<void> _setupAnalytics() async {
-    final user = ref.read(userProvider);
-    if (user != null) {
-      await ref.read(analyticsControllerProvider.notifier).setUserId(user.uid);
-    }
-  }
-
   Future<void> init() async {
     await _saveFCMToken();
-    await _setupAnalytics();
+    await LoggerImpl().setup();
     await NotificationRepository().setupInteractedMessage(ref);
     await setupUniversalLinks();
     await getPersonalLessonIdList();
