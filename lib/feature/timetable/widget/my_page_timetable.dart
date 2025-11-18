@@ -297,7 +297,7 @@ final class MyPageTimetable extends ConsumerWidget {
                 context,
                 ref,
                 period,
-                data[focusTimetableDay]![index + 1] ?? [],
+                data[focusTimetableDay]?[index + 1] ?? [],
               );
             },
             error: (error, stackTrace) => const SizedBox.shrink(),
