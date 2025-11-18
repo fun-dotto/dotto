@@ -23,6 +23,7 @@ import 'package:dotto/theme/v1/theme.dart';
 import 'package:dotto/widget/app_tutorial.dart';
 import 'package:dotto/widget/invalid_app_version_screen.dart';
 import 'package:dotto_design_system/style/theme.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -59,6 +60,9 @@ final class _MyAppState extends ConsumerState<MyApp> {
       ],
       supportedLocales: const [Locale('ja'), Locale('en')],
       locale: const Locale('ja'),
+      navigatorObservers: [
+        FirebaseAnalyticsObserver(analytics: FirebaseAnalytics.instance),
+      ],
     );
   }
 }
