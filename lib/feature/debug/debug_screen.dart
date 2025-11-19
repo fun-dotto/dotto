@@ -1,5 +1,6 @@
 import 'package:dotto/feature/debug/debug_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final class DebugScreen extends ConsumerWidget {
@@ -16,7 +17,22 @@ final class DebugScreen extends ConsumerWidget {
           children: [
             ListTile(
               title: const Text('App Check Access Token'),
-              subtitle: Text(data.appCheckAccessToken),
+              subtitle: Text(
+                data.appCheckAccessToken,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+              trailing: IconButton(
+                icon: const Icon(Icons.copy),
+                onPressed: () {
+                  Clipboard.setData(
+                    ClipboardData(text: data.appCheckAccessToken),
+                  );
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('クリップボードにコピーしました')),
+                  );
+                },
+              ),
             ),
           ],
         ),
