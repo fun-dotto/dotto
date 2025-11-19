@@ -17,6 +17,7 @@ import 'package:dotto/feature/setting/repository/settings_repository.dart';
 import 'package:dotto/feature/timetable/repository/timetable_repository.dart';
 import 'package:dotto/helper/logger.dart';
 import 'package:dotto/helper/notification_repository.dart';
+import 'package:dotto/helper/remote_config_helper.dart';
 import 'package:dotto/helper/user_preference_repository.dart';
 import 'package:dotto/theme/v1/theme.dart';
 import 'package:dotto/widget/app_tutorial.dart';
@@ -146,6 +147,7 @@ final class _BasePageState extends ConsumerState<BasePage> {
 
   Future<void> init() async {
     await _saveFCMToken();
+    await ref.read(remoteConfigHelperProvider).setup();
     await LoggerImpl().setup();
     await NotificationRepository().setupInteractedMessage(ref);
     await setupUniversalLinks();

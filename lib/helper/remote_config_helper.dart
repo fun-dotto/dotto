@@ -1,21 +1,32 @@
 import 'package:dotto/domain/remote_config_keys.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final class RemoteConfigRepository {
-  final FirebaseRemoteConfig remoteConfig = FirebaseRemoteConfig.instance;
+final remoteConfigHelperProvider = Provider<RemoteConfigHelper>(
+  (ref) => _RemoteConfigHelperImpl(),
+);
 
-  static Future<void> initialize() async {
-    final remoteConfig = FirebaseRemoteConfig.instance;
+abstract class RemoteConfigHelper {
+  Future<void> setup();
+  bool getBool(String key);
+  double getDouble(String key);
+  int getInt(String key);
+  String getString(String key);
+}
+
+final class _RemoteConfigHelperImpl implements RemoteConfigHelper {
+  @override
+  Future<void> setup() async {
     if (kDebugMode) {
-      await remoteConfig.setConfigSettings(
+      await FirebaseRemoteConfig.instance.setConfigSettings(
         RemoteConfigSettings(
           fetchTimeout: const Duration(minutes: 1),
           minimumFetchInterval: Duration.zero,
         ),
       );
     } else {
-      await remoteConfig.setConfigSettings(
+      await FirebaseRemoteConfig.instance.setConfigSettings(
         RemoteConfigSettings(
           fetchTimeout: const Duration(minutes: 1),
           minimumFetchInterval: const Duration(hours: 1),
@@ -24,7 +35,7 @@ final class RemoteConfigRepository {
     }
 
     if (kDebugMode) {
-      await remoteConfig.setDefaults(const {
+      await FirebaseRemoteConfig.instance.setDefaults(const {
         RemoteConfigKeys.isDesignV2Enabled: false,
         RemoteConfigKeys.isFunchEnabled: true,
         RemoteConfigKeys.isValidAppVersion: true,
@@ -34,9 +45,15 @@ final class RemoteConfigRepository {
         RemoteConfigKeys.assignmentSetupUrl: 'https://dotto.web.app/',
         RemoteConfigKeys.feedbackFormUrl: 'https://forms.gle/ruo8iBxLMmvScNMFA',
         RemoteConfigKeys.appStorePageUrl: 'https://fun-dotto.github.io',
+        RemoteConfigKeys.officialCalendarPdfUrl:
+            'https://fun-dotto.github.io/files/official_calendar_2025.pdf',
+        RemoteConfigKeys.timetable1PdfUrl:
+            'https://fun-dotto.github.io/files/timetable_2025_1.pdf',
+        RemoteConfigKeys.timetable2PdfUrl:
+            'https://fun-dotto.github.io/files/timetable_2025_2.pdf',
       });
     } else {
-      await remoteConfig.setDefaults(const {
+      await FirebaseRemoteConfig.instance.setDefaults(const {
         RemoteConfigKeys.isDesignV2Enabled: false,
         RemoteConfigKeys.isFunchEnabled: false,
         RemoteConfigKeys.isValidAppVersion: true,
@@ -55,22 +72,26 @@ final class RemoteConfigRepository {
       });
     }
 
-    await remoteConfig.fetchAndActivate();
+    await FirebaseRemoteConfig.instance.fetchAndActivate();
   }
 
+  @override
   bool getBool(String key) {
-    return remoteConfig.getBool(key);
+    return FirebaseRemoteConfig.instance.getBool(key);
   }
 
+  @override
   double getDouble(String key) {
-    return remoteConfig.getDouble(key);
+    return FirebaseRemoteConfig.instance.getDouble(key);
   }
 
+  @override
   int getInt(String key) {
-    return remoteConfig.getInt(key);
+    return FirebaseRemoteConfig.instance.getInt(key);
   }
 
+  @override
   String getString(String key) {
-    return remoteConfig.getString(key);
+    return FirebaseRemoteConfig.instance.getString(key);
   }
 }
