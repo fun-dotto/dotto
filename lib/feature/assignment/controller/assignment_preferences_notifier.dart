@@ -78,7 +78,7 @@ class AssignmentPreferencesNotifier extends _$AssignmentPreferencesNotifier {
     await _saveList(UserPreferenceKeys.kadaiFinishList, list);
     await ref
         .read(loggerProvider)
-        .logSetAssignmentStatus(assignmentId: id, isDone: true);
+        .logSetAssignmentStatus(assignmentId: id.toString(), isDone: true);
     return true;
   }
 
@@ -92,7 +92,7 @@ class AssignmentPreferencesNotifier extends _$AssignmentPreferencesNotifier {
     await _saveList(UserPreferenceKeys.kadaiFinishList, list);
     await ref
         .read(loggerProvider)
-        .logSetAssignmentStatus(assignmentId: id, isDone: false);
+        .logSetAssignmentStatus(assignmentId: id.toString(), isDone: false);
     return true;
   }
 
@@ -114,7 +114,7 @@ class AssignmentPreferencesNotifier extends _$AssignmentPreferencesNotifier {
     for (final id in changed) {
       await ref
           .read(loggerProvider)
-          .logSetAssignmentStatus(assignmentId: id, isDone: isDone);
+          .logSetAssignmentStatus(assignmentId: id.toString(), isDone: isDone);
     }
     return changed;
   }
@@ -129,7 +129,10 @@ class AssignmentPreferencesNotifier extends _$AssignmentPreferencesNotifier {
     await _saveList(UserPreferenceKeys.kadaiAlertList, list);
     await ref
         .read(loggerProvider)
-        .logSetAssignmentStatus(assignmentId: id, isAlertScheduled: true);
+        .logSetAssignmentStatus(
+          assignmentId: id.toString(),
+          isAlertScheduled: true,
+        );
     return true;
   }
 
@@ -143,7 +146,10 @@ class AssignmentPreferencesNotifier extends _$AssignmentPreferencesNotifier {
     await _saveList(UserPreferenceKeys.kadaiAlertList, list);
     await ref
         .read(loggerProvider)
-        .logSetAssignmentStatus(assignmentId: id, isAlertScheduled: false);
+        .logSetAssignmentStatus(
+          assignmentId: id.toString(),
+          isAlertScheduled: false,
+        );
     return true;
   }
 
@@ -163,7 +169,10 @@ class AssignmentPreferencesNotifier extends _$AssignmentPreferencesNotifier {
     for (final id in added) {
       await ref
           .read(loggerProvider)
-          .logSetAssignmentStatus(assignmentId: id, isAlertScheduled: true);
+          .logSetAssignmentStatus(
+            assignmentId: id.toString(),
+            isAlertScheduled: true,
+          );
     }
     return added;
   }
@@ -184,7 +193,10 @@ class AssignmentPreferencesNotifier extends _$AssignmentPreferencesNotifier {
     for (final id in removed) {
       await ref
           .read(loggerProvider)
-          .logSetAssignmentStatus(assignmentId: id, isAlertScheduled: false);
+          .logSetAssignmentStatus(
+            assignmentId: id.toString(),
+            isAlertScheduled: false,
+          );
     }
     return removed;
   }
@@ -219,7 +231,7 @@ class AssignmentPreferencesNotifier extends _$AssignmentPreferencesNotifier {
     for (final id in removedAlerts) {
       await ref
           .read(loggerProvider)
-          .logSetAssignmentStatus(assignmentId: id, isHidden: true);
+          .logSetAssignmentStatus(assignmentId: id.toString(), isHidden: true);
     }
     return removedAlerts;
   }

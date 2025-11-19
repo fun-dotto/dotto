@@ -20,7 +20,7 @@ abstract class Logger {
   });
   Future<void> logSetHopeUserKey({required String userKey});
   Future<void> logSetAssignmentStatus({
-    required int assignmentId,
+    required String assignmentId,
     bool? isDone,
     bool? isHidden,
     bool? isAlertScheduled,
@@ -100,20 +100,20 @@ final class LoggerImpl implements Logger {
 
   @override
   Future<void> logSetAssignmentStatus({
-    required int assignmentId,
+    required String assignmentId,
     bool? isDone,
     bool? isHidden,
     bool? isAlertScheduled,
   }) async {
     final parameters = <String, Object>{'assignment_id': assignmentId};
     if (isDone != null) {
-      parameters['is_done'] = isDone;
+      parameters['is_done'] = isDone.toString();
     }
     if (isHidden != null) {
-      parameters['is_hidden'] = isHidden;
+      parameters['is_hidden'] = isHidden.toString();
     }
     if (isAlertScheduled != null) {
-      parameters['is_alert_scheduled'] = isAlertScheduled;
+      parameters['is_alert_scheduled'] = isAlertScheduled.toString();
     }
     await FirebaseAnalytics.instance.logEvent(
       name: 'set_assignment_status',
