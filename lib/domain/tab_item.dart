@@ -44,10 +44,3 @@ enum TabItem {
   final IconData icon;
   final IconData activeIcon;
 }
-
-final Map<TabItem, GlobalKey<NavigatorState>> tabNavigatorKeyMaps = {
-  TabItem.home: GlobalKey<NavigatorState>(),
-  TabItem.map: GlobalKey<NavigatorState>(),
-  TabItem.course: GlobalKey<NavigatorState>(),
-  TabItem.assignment: GlobalKey<NavigatorState>(),
-};

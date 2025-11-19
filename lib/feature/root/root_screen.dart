@@ -198,7 +198,9 @@ final class _RootScreenState extends ConsumerState<RootScreen> {
         }
         final navigator = Navigator.of(context);
         final shouldPop =
-            !((await tabNavigatorKeyMaps[viewModel.selectedTab]?.currentState
+            !((await viewModel
+                    .navigatorStates[viewModel.selectedTab]
+                    ?.currentState
                     ?.maybePop()) ??
                 true);
         if (shouldPop && navigator.canPop()) navigator.pop();
@@ -212,7 +214,7 @@ final class _RootScreenState extends ConsumerState<RootScreen> {
                   (tabItemOnce) => Offstage(
                     offstage: viewModel.selectedTab != tabItemOnce,
                     child: Navigator(
-                      key: tabNavigatorKeyMaps[tabItemOnce],
+                      key: viewModel.navigatorStates[tabItemOnce],
                       onGenerateRoute: (settings) {
                         return MaterialPageRoute(
                           builder: (context) => switch (tabItemOnce) {
