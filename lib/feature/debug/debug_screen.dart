@@ -18,16 +18,35 @@ final class DebugScreen extends ConsumerWidget {
             ListTile(
               title: const Text('App Check Access Token'),
               subtitle: Text(
-                data.appCheckAccessToken,
+                data.appCheckAccessToken ?? '-',
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
               trailing: IconButton(
                 icon: const Icon(Icons.copy),
                 onPressed: () {
+                  if (data.appCheckAccessToken == null) return;
                   Clipboard.setData(
-                    ClipboardData(text: data.appCheckAccessToken),
+                    ClipboardData(text: data.appCheckAccessToken ?? ''),
                   );
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('クリップボードにコピーしました')),
+                  );
+                },
+              ),
+            ),
+            ListTile(
+              title: const Text('User ID Token'),
+              subtitle: Text(
+                data.idToken ?? '-',
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+              trailing: IconButton(
+                icon: const Icon(Icons.copy),
+                onPressed: () {
+                  if (data.idToken == null) return;
+                  Clipboard.setData(ClipboardData(text: data.idToken ?? ''));
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(content: Text('クリップボードにコピーしました')),
                   );

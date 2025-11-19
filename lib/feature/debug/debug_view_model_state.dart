@@ -4,6 +4,8 @@ part 'debug_view_model_state.freezed.dart';
 
 @freezed
 abstract class DebugViewModelState with _$DebugViewModelState {
-  const factory DebugViewModelState({required String appCheckAccessToken}) =
-      _DebugViewModelState;
+  const factory DebugViewModelState({
+    required String? appCheckAccessToken,
+    required String? idToken,
+  }) = _DebugViewModelState;
 }
