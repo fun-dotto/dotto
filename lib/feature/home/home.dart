@@ -126,10 +126,10 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
       timetablePeriodStyleNotifierProvider,
     );
 
-    const fileNamePath = <String, String>{
-      '学年暦': 'https://fun-dotto.github.io/files/official_calendar_2025.pdf',
-      '時間割 前期': 'https://fun-dotto.github.io/files/timetable_2025_1.pdf',
-      '時間割 後期': 'https://fun-dotto.github.io/files/timetable_2025_2.pdf',
+    final fileNamePath = <String, String>{
+      '学年暦': config.officialCalendarPdfUrl,
+      '時間割 前期': config.timetable1PdfUrl,
+      '時間割 後期': config.timetable2PdfUrl,
     };
     final infoTiles = <Widget>[
       ...fileNamePath.entries.map(
