@@ -9,5 +9,6 @@ abstract class RootViewModelState with _$RootViewModelState {
   const factory RootViewModelState({
     required TabItem selectedTab,
     required Map<TabItem, GlobalKey<NavigatorState>> navigatorStates,
+    required bool hasShownAppTutorial,
   }) = _RootViewModelState;
 }

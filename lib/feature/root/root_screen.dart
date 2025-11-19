@@ -1,257 +1,174 @@
-import 'dart:async';
 import 'dart:io';
 
-import 'package:app_links/app_links.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dotto/controller/config_controller.dart';
-import 'package:dotto/controller/user_controller.dart';
 import 'package:dotto/domain/tab_item.dart';
-import 'package:dotto/domain/user_preference_keys.dart';
 import 'package:dotto/feature/assignment/assignment_list_screen.dart';
-import 'package:dotto/feature/bus/controller/bus_data_controller.dart';
-import 'package:dotto/feature/bus/controller/bus_polling_controller.dart';
-import 'package:dotto/feature/bus/controller/bus_stops_controller.dart';
-import 'package:dotto/feature/bus/controller/my_bus_stop_controller.dart';
-import 'package:dotto/feature/bus/repository/bus_repository.dart';
 import 'package:dotto/feature/home/home.dart';
 import 'package:dotto/feature/map/map_screen.dart';
 import 'package:dotto/feature/root/root_viewmodel.dart';
+import 'package:dotto/feature/root/root_viewmodel_state.dart';
 import 'package:dotto/feature/search_course/search_course_screen.dart';
-import 'package:dotto/feature/setting/repository/settings_repository.dart';
 import 'package:dotto/feature/setting/settings.dart';
-import 'package:dotto/feature/timetable/repository/timetable_repository.dart';
-import 'package:dotto/helper/logger.dart';
-import 'package:dotto/helper/notification_repository.dart';
-import 'package:dotto/helper/remote_config_helper.dart';
-import 'package:dotto/helper/user_preference_repository.dart';
-// import 'package:dotto/widget/app_tutorial.dart';
+import 'package:dotto/widget/app_tutorial.dart';
 import 'package:dotto/widget/invalid_app_version_screen.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-// import 'package:url_launcher/url_launcher_string.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
-final class RootScreen extends ConsumerStatefulWidget {
+final class RootScreen extends ConsumerWidget {
   const RootScreen({super.key});
 
-  @override
-  ConsumerState<RootScreen> createState() => _RootScreenState();
-}
-
-final class _RootScreenState extends ConsumerState<RootScreen> {
-  late List<String?> parameter;
-  // bool _hasShownDialogs = false;
-
-  Future<void> setupUniversalLinks() async {
-    final appLinks = AppLinks();
-    appLinks.uriLinkStream
-        .listen((event) {
-          if (event.path == '/config/' && event.hasQuery) {
-            final query = event.queryParameters;
-            if (query.containsKey('userkey')) {
-              final userKey = query['userkey'];
-              if (userKey != null) {
-                SettingsRepository().setUserKey(userKey, ref);
-              }
-            }
-          }
-        })
-        .onError((Object error, StackTrace stackTrace) {
-          debugPrint(error.toString());
-        });
+  Widget _updateAlertDialog({
+    required BuildContext context,
+    required String appStorePageUrl,
+  }) {
+    return AlertDialog(
+      title: const Text('アップデートが必要です'),
+      content: const Text('最新版のDottoをご利用ください。'),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(),
+          child: const Text('あとで'),
+        ),
+        TextButton(
+          onPressed: () => launchUrlString(
+            appStorePageUrl,
+            mode: LaunchMode.externalApplication,
+          ),
+          child: const Text('今すぐアップデート'),
+        ),
+      ],
+    );
   }
 
-  Future<void> getPersonalLessonIdList() async {
-    await TimetableRepository().loadPersonalTimetableList(ref);
+  Widget _body({
+    required BuildContext context,
+    required RootViewModelState viewModel,
+    required void Function() onGoToSettingButtonTapped,
+  }) {
+    return SafeArea(
+      child: Stack(
+        children: TabItem.values
+            .map(
+              (tabItemOnce) => Offstage(
+                offstage: viewModel.selectedTab != tabItemOnce,
+                child: Navigator(
+                  key: viewModel.navigatorStates[tabItemOnce],
+                  onGenerateRoute: (settings) {
+                    return MaterialPageRoute(
+                      builder: (context) => switch (tabItemOnce) {
+                        TabItem.home => const HomeScreen(),
+                        TabItem.map => MapScreen(
+                          onGoToSettingButtonTapped: onGoToSettingButtonTapped,
+                        ),
+                        TabItem.course => const SearchCourseScreen(),
+                        TabItem.assignment => const AssignmentListScreen(),
+                        TabItem.setting => const SettingsScreen(),
+                      },
+                    );
+                  },
+                ),
+              ),
+            )
+            .toList(),
+      ),
+    );
   }
 
-  Future<void> getBus() async {
-    await ref.read(busStopsNotifierProvider.notifier).build();
-    await ref.read(busDataNotifierProvider.notifier).build();
-    await ref.read(myBusStopNotifierProvider.notifier).load();
-    ref.read(busPollingNotifierProvider.notifier).start();
-    await BusRepository().changeDirectionOnCurrentLocation(ref);
-  }
-
-  Future<void> _saveFCMToken() async {
-    final didSave =
-        await UserPreferenceRepository.getBool(
-          UserPreferenceKeys.didSaveFCMToken,
-        ) ??
-        false;
-    if (didSave) {
-      return;
-    }
-    final user = ref.read(userProvider);
-    final apnsToken = await FirebaseMessaging.instance.getAPNSToken();
-    debugPrint('APNs Token: $apnsToken');
-    final fcmToken = await FirebaseMessaging.instance.getToken();
-    debugPrint('FCM Token: $fcmToken');
-    if (fcmToken != null && user != null) {
-      final db = FirebaseFirestore.instance;
-      final tokenRef = db.collection('fcm_token');
-      final tokenQuery = tokenRef
-          .where('uid', isEqualTo: user.uid)
-          .where('token', isEqualTo: fcmToken);
-      final tokenQuerySnapshot = await tokenQuery.get();
-      final tokenDocs = tokenQuerySnapshot.docs;
-      if (tokenDocs.isEmpty) {
-        await tokenRef.add({
-          'uid': user.uid,
-          'token': fcmToken,
-          'last_updated': Timestamp.now(),
-        });
-      }
-      await UserPreferenceRepository.setBool(
-        UserPreferenceKeys.didSaveFCMToken,
-        value: true,
-      );
-    }
-  }
-
-  Future<void> init() async {
-    await _saveFCMToken();
-    await ref.read(remoteConfigHelperProvider).setup();
-    await LoggerImpl().setup();
-    await NotificationRepository().setupInteractedMessage(ref);
-    await setupUniversalLinks();
-    await getPersonalLessonIdList();
-    await getBus();
+  Widget _bottomNavigationBar({
+    required BuildContext context,
+    required RootViewModelState viewModel,
+    required void Function(int) onTabItemTapped,
+  }) {
+    return BottomNavigationBar(
+      type: BottomNavigationBarType.fixed,
+      currentIndex: TabItem.values.indexOf(viewModel.selectedTab),
+      items: TabItem.values
+          .map(
+            (tabItem) => BottomNavigationBarItem(
+              icon: Icon(tabItem.icon),
+              activeIcon: Icon(tabItem.activeIcon),
+              label: tabItem.title,
+            ),
+          )
+          .toList(),
+      onTap: onTabItemTapped,
+    );
   }
 
   @override
-  void initState() {
-    super.initState();
-    unawaited(init());
-  }
-
-  // Future<void> _showAppTutorial(BuildContext context) async {
-  //   if (await UserPreferenceRepository.getBool(
-  //         UserPreferenceKeys.isAppTutorialComplete,
-  //       ) ??
-  //       false) {
-  //     return;
-  //   }
-  //   if (context.mounted) {
-  //     await Navigator.of(context).push(
-  //       MaterialPageRoute<void>(
-  //         builder: (_) => const AppTutorial(),
-  //         settings: const RouteSettings(name: '/app_tutorial'),
-  //       ),
-  //     );
-  //     await UserPreferenceRepository.setBool(
-  //       UserPreferenceKeys.isAppTutorialComplete,
-  //       value: true,
-  //     );
-  //   }
-  // }
-
-  // Future<void> _showInvalidAppVersionDialog(
-  //   BuildContext context,
-  //   String appStorePageUrl,
-  // ) async {
-  //   await showDialog<void>(
-  //     context: context,
-  //     builder: (context) => AlertDialog(
-  //       title: const Text('アップデートが必要です'),
-  //       content: const Text('最新版のDottoをご利用ください。'),
-  //       actions: [
-  //         TextButton(
-  //           onPressed: () => Navigator.of(context).pop(),
-  //           child: const Text('あとで'),
-  //         ),
-  //         TextButton(
-  //           onPressed: () => launchUrlString(
-  //             appStorePageUrl,
-  //             mode: LaunchMode.externalApplication,
-  //           ),
-  //           child: const Text('今すぐアップデート'),
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
-
-  @override
-  Widget build(BuildContext context) {
-    final viewModel = ref.watch(rootViewModelProvider);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final viewModelAsync = ref.watch(rootViewModelProvider);
     final config = ref.watch(configNotifierProvider);
 
     if (!config.isValidAppVersion) {
       debugPrint('Invalid App Version');
       return InvalidAppVersionScreen(appStorePageUrl: config.appStorePageUrl);
     }
-    // WidgetsBinding.instance.addPostFrameCallback((_) {
-    //   if (!_hasShownDialogs && !config.isLatestAppVersion) {
-    //     debugPrint('Not Latest App Version');
-    //     _showInvalidAppVersionDialog(context, config.appStorePageUrl);
-    //     _hasShownDialogs = true;
-    //   }
-    //   _showAppTutorial(context);
-    // });
 
-    return PopScope(
-      canPop: Platform.isIOS,
-      onPopInvokedWithResult: (didPop, result) async {
-        if (didPop) {
-          return;
-        }
-        final navigator = Navigator.of(context);
-        final shouldPop =
-            !((await viewModel
-                    .navigatorStates[viewModel.selectedTab]
-                    ?.currentState
-                    ?.maybePop()) ??
-                true);
-        if (shouldPop && navigator.canPop()) navigator.pop();
-      },
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        body: SafeArea(
-          child: Stack(
-            children: TabItem.values
-                .map(
-                  (tabItemOnce) => Offstage(
-                    offstage: viewModel.selectedTab != tabItemOnce,
-                    child: Navigator(
-                      key: viewModel.navigatorStates[tabItemOnce],
-                      onGenerateRoute: (settings) {
-                        return MaterialPageRoute(
-                          builder: (context) => switch (tabItemOnce) {
-                            TabItem.home => const HomeScreen(),
-                            TabItem.map => MapScreen(
-                              onGoToSettingButtonTapped: () => ref
-                                  .read(rootViewModelProvider.notifier)
-                                  .onGoToSettingButtonTapped(),
-                            ),
-                            TabItem.course => const SearchCourseScreen(),
-                            TabItem.assignment => const AssignmentListScreen(),
-                            TabItem.setting => const SettingsScreen(),
-                          },
-                        );
-                      },
-                    ),
-                  ),
-                )
-                .toList(),
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!config.isLatestAppVersion) {
+        showDialog<void>(
+          context: context,
+          builder: (context) => _updateAlertDialog(
+            context: context,
+            appStorePageUrl: config.appStorePageUrl,
           ),
-        ),
-        bottomNavigationBar: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-          currentIndex: TabItem.values.indexOf(viewModel.selectedTab),
-          items: TabItem.values
-              .map(
-                (tabItem) => BottomNavigationBarItem(
-                  icon: Icon(tabItem.icon),
-                  activeIcon: Icon(tabItem.activeIcon),
-                  label: tabItem.title,
+        );
+      }
+    });
+
+    switch (viewModelAsync) {
+      case AsyncData(:final value):
+        return value.hasShownAppTutorial
+            ? PopScope(
+                canPop: Platform.isIOS,
+                onPopInvokedWithResult: (didPop, result) async {
+                  if (didPop) {
+                    return;
+                  }
+                  final navigator = Navigator.of(context);
+                  final shouldPop =
+                      !((await value
+                              .navigatorStates[value.selectedTab]
+                              ?.currentState
+                              ?.maybePop()) ??
+                          true);
+                  if (shouldPop && navigator.canPop()) navigator.pop();
+                },
+                child: Scaffold(
+                  resizeToAvoidBottomInset: false,
+                  body: _body(
+                    context: context,
+                    viewModel: value,
+                    onGoToSettingButtonTapped: () => ref
+                        .read(rootViewModelProvider.notifier)
+                        .onGoToSettingButtonTapped(),
+                  ),
+                  bottomNavigationBar: _bottomNavigationBar(
+                    context: context,
+                    viewModel: value,
+                    onTabItemTapped: (index) => ref
+                        .read(rootViewModelProvider.notifier)
+                        .onTabItemTapped(index),
+                  ),
                 ),
               )
-              .toList(),
-          onTap: (index) =>
-              ref.read(rootViewModelProvider.notifier).onTabItemTapped(index),
-        ),
-      ),
-    );
+            : AppTutorial(
+                onDismissed: () => ref
+                    .read(rootViewModelProvider.notifier)
+                    .onAppTutorialDismissed(),
+              );
+
+      case AsyncError(:final error):
+        debugPrint('RootScreen Error: $error');
+        return const SizedBox.shrink();
+
+      case AsyncLoading():
+        return const CircularProgressIndicator();
+
+      default:
+        return const SizedBox.shrink();
+    }
   }
 }

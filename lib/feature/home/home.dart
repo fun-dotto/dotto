@@ -1,4 +1,9 @@
 import 'package:dotto/controller/config_controller.dart';
+import 'package:dotto/feature/bus/controller/bus_data_controller.dart';
+import 'package:dotto/feature/bus/controller/bus_polling_controller.dart';
+import 'package:dotto/feature/bus/controller/bus_stops_controller.dart';
+import 'package:dotto/feature/bus/controller/my_bus_stop_controller.dart';
+import 'package:dotto/feature/bus/repository/bus_repository.dart';
 import 'package:dotto/feature/bus/widget/bus_card_home.dart';
 import 'package:dotto/feature/funch/widget/funch_mypage_card.dart';
 import 'package:dotto/feature/timetable/controller/timetable_period_style_controller.dart';
@@ -6,6 +11,7 @@ import 'package:dotto/feature/timetable/controller/two_week_timetable_controller
 import 'package:dotto/feature/timetable/course_cancellation_screen.dart';
 import 'package:dotto/feature/timetable/domain/timetable_period_style.dart';
 import 'package:dotto/feature/timetable/edit_timetable_screen.dart';
+import 'package:dotto/feature/timetable/repository/timetable_repository.dart';
 import 'package:dotto/feature/timetable/widget/my_page_timetable.dart';
 import 'package:dotto/theme/v1/color_fun.dart';
 import 'package:dotto/widget/web_pdf_viewer.dart';
@@ -22,6 +28,18 @@ final class HomeScreen extends ConsumerStatefulWidget {
 
 final class _HomeScreenState extends ConsumerState<HomeScreen> {
   List<int> personalTimetableList = [];
+
+  Future<void> getPersonalLessonIdList() async {
+    await TimetableRepository().loadPersonalTimetableList(ref);
+  }
+
+  Future<void> getBus() async {
+    await ref.read(busStopsNotifierProvider.notifier).build();
+    await ref.read(busDataNotifierProvider.notifier).build();
+    await ref.read(myBusStopNotifierProvider.notifier).load();
+    ref.read(busPollingNotifierProvider.notifier).start();
+    await BusRepository().changeDirectionOnCurrentLocation(ref);
+  }
 
   Widget _fileButton(
     BuildContext context,
@@ -117,6 +135,8 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   void initState() {
     super.initState();
+    getPersonalLessonIdList();
+    getBus();
   }
 
   @override

@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_overboard/flutter_overboard.dart';
 
 final class AppTutorial extends StatelessWidget {
-  const AppTutorial({super.key});
+  const AppTutorial({required this.onDismissed, super.key});
+
+  final void Function() onDismissed;
 
   Widget _withImage(
     double topMargin,
@@ -135,14 +137,8 @@ final class AppTutorial extends StatelessWidget {
           finishText: '閉じる',
           skipText: '閉じる',
           pages: pages,
-          skipCallback: () {
-            // when user select SKIP
-            Navigator.of(context).pop();
-          },
-          finishCallback: () {
-            // when user select NEXT
-            Navigator.of(context).pop();
-          },
+          skipCallback: onDismissed,
+          finishCallback: onDismissed,
         ),
       ),
     );
