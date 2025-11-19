@@ -1,4 +1,5 @@
 import 'package:dotto/domain/tab_item.dart';
+import 'package:dotto/helper/logger.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final tabItemProvider = NotifierProvider<TabNotifier, TabItem>(TabNotifier.new);
@@ -24,5 +25,7 @@ final class TabNotifier extends Notifier<TabItem> {
       return;
     }
     currentState.popUntil((route) => route.isFirst);
+
+    ref.read(loggerProvider).logChangedTab(tabItem: selectedTab);
   }
 }
