@@ -6,6 +6,7 @@ import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
+import 'package:share_plus/share_plus.dart';
 
 /// Web上のPDFのURLからPDFを閲覧するWidget
 final class WebPdfViewer extends StatefulWidget {
@@ -28,6 +29,7 @@ final class _WebPdfViewerState extends State<WebPdfViewer>
   bool _isLoading = true;
   String? _errorMessage;
   int _currentPage = 0;
+  final GlobalKey _iconButtonKey = GlobalKey();
 
   @override
   void initState() {
@@ -104,6 +106,28 @@ final class _WebPdfViewerState extends State<WebPdfViewer>
     return basename.isNotEmpty ? basename : 'PDF Viewer';
   }
 
+  Future<void> _sharePdf() async {
+    if (_filePath == null) {
+      return;
+    }
+
+    if (context.mounted) {
+      final content = _iconButtonKey.currentContext;
+      if (content != null) {
+        final box = content.findRenderObject() as RenderBox?;
+        if (box != null) {
+          await Share.shareXFiles([
+            XFile(_filePath!),
+          ], sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size);
+        } else {
+          await Share.shareXFiles([XFile(_filePath!)]);
+        }
+      } else {
+        await Share.shareXFiles([XFile(_filePath!)]);
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     if (_isLoading) {
@@ -145,7 +169,16 @@ final class _WebPdfViewerState extends State<WebPdfViewer>
     }
 
     return Scaffold(
-      appBar: AppBar(title: Text(_getDisplayTitle())),
+      appBar: AppBar(
+        title: Text(_getDisplayTitle()),
+        actions: <Widget>[
+          IconButton(
+            key: _iconButtonKey,
+            icon: const Icon(Icons.share),
+            onPressed: _filePath != null ? _sharePdf : null,
+          ),
+        ],
+      ),
       body: SizedBox(
         height: MediaQuery.of(context).size.height,
         child: PDFView(
