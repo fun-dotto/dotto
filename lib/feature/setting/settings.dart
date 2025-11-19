@@ -5,12 +5,14 @@ import 'package:dotto/controller/user_controller.dart';
 import 'package:dotto/domain/user_preference_keys.dart';
 import 'package:dotto/feature/announcement/announcement_screen.dart';
 import 'package:dotto/feature/assignment/setup_hope_continuity_screen.dart';
+import 'package:dotto/feature/debug/debug_screen.dart';
 import 'package:dotto/feature/setting/controller/settings_controller.dart';
 import 'package:dotto/feature/setting/repository/settings_repository.dart';
 import 'package:dotto/feature/setting/widget/license.dart';
 import 'package:dotto/helper/user_preference_repository.dart';
 import 'package:dotto/widget/app_tutorial.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -255,16 +257,28 @@ final class SettingsScreen extends ConsumerWidget {
                   );
                 },
                 // バージョン
-                description: FutureBuilder(
-                  future: PackageInfo.fromPlatform(),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      final data = snapshot.data!;
-                      return Text('${data.version} (${data.buildNumber})');
-                    } else {
-                      return const Text('');
+                description: GestureDetector(
+                  onTap: () {
+                    if (!kDebugMode) {
+                      return;
                     }
+                    Navigator.of(context).push(
+                      MaterialPageRoute<void>(
+                        builder: (_) => const DebugScreen(),
+                      ),
+                    );
                   },
+                  child: FutureBuilder(
+                    future: PackageInfo.fromPlatform(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        final data = snapshot.data!;
+                        return Text('${data.version} (${data.buildNumber})');
+                      } else {
+                        return const Text('');
+                      }
+                    },
+                  ),
                 ),
               ),
             ],
