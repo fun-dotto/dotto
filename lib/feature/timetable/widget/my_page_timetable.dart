@@ -73,7 +73,7 @@ final class MyPageTimetable extends ConsumerWidget {
                       ),
                       settings: RouteSettings(
                         name:
-                            '/course_detail?lessonId=${record['LessonId'] as int}&lessonName=${record['授業名'] as String}&kakomonLessonId=${record['過去問'] as int?}',
+                            '/home/course_detail?lessonId=${record['LessonId'] as int}&lessonName=${record['授業名'] as String}&kakomonLessonId=${record['過去問'] as int?}',
                       ),
                     ),
                   );

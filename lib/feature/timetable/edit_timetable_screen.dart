@@ -117,7 +117,7 @@ class _EditTimetableScreenState extends ConsumerState<EditTimetableScreen>
                 builder: (_) => SelectCourseScreen(semester, dayOfWeek, period),
                 settings: RouteSettings(
                   name:
-                      '/select_course?semester=${semester.number}&dayOfWeek=${dayOfWeek.number}&period=${period.number}',
+                      '/home/edit_timetable/select_course?semester=${semester.number}&dayOfWeek=${dayOfWeek.number}&period=${period.number}',
                 ),
               ),
             );

@@ -176,7 +176,7 @@ final class SettingsScreen extends ConsumerWidget {
                         ),
                       ),
                       settings: const RouteSettings(
-                        name: '/setup_hope_continuity',
+                        name: '/setting/hope_continuity',
                       ),
                     ),
                   );
@@ -196,7 +196,9 @@ final class SettingsScreen extends ConsumerWidget {
                   Navigator.of(context).push(
                     MaterialPageRoute<void>(
                       builder: (_) => const AnnouncementScreen(),
-                      settings: const RouteSettings(name: '/announcement'),
+                      settings: const RouteSettings(
+                        name: '/setting/announcement',
+                      ),
                     ),
                   );
                 },
@@ -217,7 +219,9 @@ final class SettingsScreen extends ConsumerWidget {
                   Navigator.of(context).push(
                     MaterialPageRoute<void>(
                       builder: (_) => const AppTutorial(),
-                      settings: const RouteSettings(name: '/app_tutorial'),
+                      settings: const RouteSettings(
+                        name: '/setting/app_tutorial',
+                      ),
                     ),
                   );
                 },
@@ -246,7 +250,7 @@ final class SettingsScreen extends ConsumerWidget {
                   Navigator.of(context).push(
                     MaterialPageRoute<void>(
                       builder: (_) => const SettingsLicenseScreen(),
-                      settings: const RouteSettings(name: '/settings_license'),
+                      settings: const RouteSettings(name: '/setting/license'),
                     ),
                   );
                 },

@@ -32,7 +32,7 @@ final class _KamokuDetailKakomonListObjectsState
                 ),
                 settings: RouteSettings(
                   name:
-                      '/file_viewer?filename=$filename&url=${widget.url}&storage=cloudflare',
+                      '/course/course_detail/past_exam/file_viewer?filename=$filename&url=${widget.url}&storage=cloudflare',
                 ),
               ),
             );

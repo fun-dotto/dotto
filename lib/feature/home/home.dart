@@ -79,7 +79,9 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
               Navigator.of(context).push(
                 MaterialPageRoute<void>(
                   builder: (_) => const CourseCancellationScreen(),
-                  settings: const RouteSettings(name: '/course_cancellation'),
+                  settings: const RouteSettings(
+                    name: '/home/course_cancellation',
+                  ),
                 ),
               );
             },
@@ -93,7 +95,9 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
                   .push(
                     MaterialPageRoute<void>(
                       builder: (_) => const EditTimetableScreen(),
-                      settings: const RouteSettings(name: '/edit_timetable'),
+                      settings: const RouteSettings(
+                        name: '/home/edit_timetable',
+                      ),
                     ),
                   )
                   .then(
@@ -141,7 +145,7 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
                 ),
                 settings: RouteSettings(
                   name:
-                      '/file_viewer?filename=${item.key}&url=${item.value}&storage=firebase',
+                      '/home/file_viewer?filename=${item.key}&url=${item.value}&storage=firebase',
                 ),
               ),
             );

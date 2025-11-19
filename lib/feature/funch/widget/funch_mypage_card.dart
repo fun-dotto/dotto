@@ -170,7 +170,7 @@ final class FunchMyPageCard extends ConsumerWidget {
         Navigator.of(context).push(
           MaterialPageRoute<void>(
             builder: (_) => const FunchScreen(),
-            settings: const RouteSettings(name: '/funch_screen'),
+            settings: const RouteSettings(name: '/home/funch'),
           ),
         );
       },

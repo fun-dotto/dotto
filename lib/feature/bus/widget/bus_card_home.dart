@@ -58,7 +58,7 @@ final class BusCardHome extends ConsumerWidget {
               Navigator.of(context).push(
                 MaterialPageRoute<void>(
                   builder: (_) => const BusScreen(),
-                  settings: const RouteSettings(name: '/bus_screen'),
+                  settings: const RouteSettings(name: '/home/bus'),
                 ),
               );
             },
@@ -77,7 +77,7 @@ final class BusCardHome extends ConsumerWidget {
             Navigator.of(context).push(
               MaterialPageRoute<void>(
                 builder: (_) => const BusScreen(),
-                settings: const RouteSettings(name: '/bus_screen'),
+                settings: const RouteSettings(name: '/home/bus'),
               ),
             );
           },

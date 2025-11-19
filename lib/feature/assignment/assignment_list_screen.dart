@@ -595,7 +595,7 @@ final class _AssignmentListScreenState
                   builder: (_) =>
                       HiddenAssignmentListScreen(deletedKadaiLists: data),
                   settings: const RouteSettings(
-                    name: '/hidden_assignment_list',
+                    name: '/assignment/hidden_assignment_list',
                   ),
                 ),
               );

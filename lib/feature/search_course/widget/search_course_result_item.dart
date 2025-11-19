@@ -32,7 +32,7 @@ final class SearchCourseResultItem extends ConsumerWidget {
             ),
             settings: RouteSettings(
               name:
-                  '/course_detail?lessonId=$lessonId&lessonName=${record['授業名'] as String}&kakomonLessonId=${record['過去問'] as int?}',
+                  '/course/course_detail?lessonId=$lessonId&lessonName=${record['授業名'] as String}&kakomonLessonId=${record['過去問'] as int?}',
             ),
           ),
         );
