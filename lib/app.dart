@@ -19,7 +19,7 @@ import 'package:dotto/helper/logger.dart';
 import 'package:dotto/helper/notification_repository.dart';
 import 'package:dotto/helper/user_preference_repository.dart';
 import 'package:dotto/theme/v1/theme.dart';
-import 'package:dotto/widget/app_tutorial.dart';
+// import 'package:dotto/widget/app_tutorial.dart';
 import 'package:dotto/widget/invalid_app_version_screen.dart';
 import 'package:dotto_design_system/style/theme.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
@@ -27,7 +27,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:url_launcher/url_launcher_string.dart';
+// import 'package:url_launcher/url_launcher_string.dart';
 
 final class MyApp extends ConsumerStatefulWidget {
   const MyApp({super.key});
@@ -75,7 +75,7 @@ final class BasePage extends ConsumerStatefulWidget {
 
 final class _BasePageState extends ConsumerState<BasePage> {
   late List<String?> parameter;
-  bool _hasShownDialogs = false;
+  // bool _hasShownDialogs = false;
 
   Future<void> setupUniversalLinks() async {
     final appLinks = AppLinks();
@@ -164,52 +164,52 @@ final class _BasePageState extends ConsumerState<BasePage> {
     ref.read(tabItemProvider.notifier).selected(selectedTab);
   }
 
-  Future<void> _showAppTutorial(BuildContext context) async {
-    if (await UserPreferenceRepository.getBool(
-          UserPreferenceKeys.isAppTutorialComplete,
-        ) ??
-        false) {
-      return;
-    }
-    if (context.mounted) {
-      await Navigator.of(context).push(
-        MaterialPageRoute<void>(
-          builder: (_) => const AppTutorial(),
-          settings: const RouteSettings(name: '/app_tutorial'),
-        ),
-      );
-      await UserPreferenceRepository.setBool(
-        UserPreferenceKeys.isAppTutorialComplete,
-        value: true,
-      );
-    }
-  }
+  // Future<void> _showAppTutorial(BuildContext context) async {
+  //   if (await UserPreferenceRepository.getBool(
+  //         UserPreferenceKeys.isAppTutorialComplete,
+  //       ) ??
+  //       false) {
+  //     return;
+  //   }
+  //   if (context.mounted) {
+  //     await Navigator.of(context).push(
+  //       MaterialPageRoute<void>(
+  //         builder: (_) => const AppTutorial(),
+  //         settings: const RouteSettings(name: '/app_tutorial'),
+  //       ),
+  //     );
+  //     await UserPreferenceRepository.setBool(
+  //       UserPreferenceKeys.isAppTutorialComplete,
+  //       value: true,
+  //     );
+  //   }
+  // }
 
-  Future<void> _showInvalidAppVersionDialog(
-    BuildContext context,
-    String appStorePageUrl,
-  ) async {
-    await showDialog<void>(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('アップデートが必要です'),
-        content: const Text('最新版のDottoをご利用ください。'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: const Text('あとで'),
-          ),
-          TextButton(
-            onPressed: () => launchUrlString(
-              appStorePageUrl,
-              mode: LaunchMode.externalApplication,
-            ),
-            child: const Text('今すぐアップデート'),
-          ),
-        ],
-      ),
-    );
-  }
+  // Future<void> _showInvalidAppVersionDialog(
+  //   BuildContext context,
+  //   String appStorePageUrl,
+  // ) async {
+  //   await showDialog<void>(
+  //     context: context,
+  //     builder: (context) => AlertDialog(
+  //       title: const Text('アップデートが必要です'),
+  //       content: const Text('最新版のDottoをご利用ください。'),
+  //       actions: [
+  //         TextButton(
+  //           onPressed: () => Navigator.of(context).pop(),
+  //           child: const Text('あとで'),
+  //         ),
+  //         TextButton(
+  //           onPressed: () => launchUrlString(
+  //             appStorePageUrl,
+  //             mode: LaunchMode.externalApplication,
+  //           ),
+  //           child: const Text('今すぐアップデート'),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -218,14 +218,14 @@ final class _BasePageState extends ConsumerState<BasePage> {
       debugPrint('Invalid App Version');
       return InvalidAppVersionScreen(appStorePageUrl: config.appStorePageUrl);
     }
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!_hasShownDialogs && !config.isLatestAppVersion) {
-        debugPrint('Not Latest App Version');
-        _showInvalidAppVersionDialog(context, config.appStorePageUrl);
-        _hasShownDialogs = true;
-      }
-      _showAppTutorial(context);
-    });
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   if (!_hasShownDialogs && !config.isLatestAppVersion) {
+    //     debugPrint('Not Latest App Version');
+    //     _showInvalidAppVersionDialog(context, config.appStorePageUrl);
+    //     _hasShownDialogs = true;
+    //   }
+    //   _showAppTutorial(context);
+    // });
     final tabItem = ref.watch(tabItemProvider);
     return PopScope(
       canPop: Platform.isIOS,
