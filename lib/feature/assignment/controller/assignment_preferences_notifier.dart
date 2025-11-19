@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:dotto/domain/user_preference_keys.dart';
 import 'package:dotto/feature/assignment/domain/assignment_state.dart';
+import 'package:dotto/helper/logger.dart';
 import 'package:dotto/helper/user_preference_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -75,6 +76,9 @@ class AssignmentPreferencesNotifier extends _$AssignmentPreferencesNotifier {
     final list = _sorted(updated);
     state = state.copyWith(doneAssignmentIds: list);
     await _saveList(UserPreferenceKeys.kadaiFinishList, list);
+    await ref
+        .read(loggerProvider)
+        .logSetAssignmentStatus(assignmentId: id, isDone: true);
     return true;
   }
 
@@ -86,6 +90,9 @@ class AssignmentPreferencesNotifier extends _$AssignmentPreferencesNotifier {
     final list = _sorted(updated);
     state = state.copyWith(doneAssignmentIds: list);
     await _saveList(UserPreferenceKeys.kadaiFinishList, list);
+    await ref
+        .read(loggerProvider)
+        .logSetAssignmentStatus(assignmentId: id, isDone: false);
     return true;
   }
 
@@ -104,6 +111,11 @@ class AssignmentPreferencesNotifier extends _$AssignmentPreferencesNotifier {
     final list = _sorted(updated);
     state = state.copyWith(doneAssignmentIds: list);
     await _saveList(UserPreferenceKeys.kadaiFinishList, list);
+    for (final id in changed) {
+      await ref
+          .read(loggerProvider)
+          .logSetAssignmentStatus(assignmentId: id, isDone: isDone);
+    }
     return changed;
   }
 
@@ -115,6 +127,9 @@ class AssignmentPreferencesNotifier extends _$AssignmentPreferencesNotifier {
     final list = _sorted(updated);
     state = state.copyWith(alertAssignmentIds: list);
     await _saveList(UserPreferenceKeys.kadaiAlertList, list);
+    await ref
+        .read(loggerProvider)
+        .logSetAssignmentStatus(assignmentId: id, isAlertScheduled: true);
     return true;
   }
 
@@ -126,6 +141,9 @@ class AssignmentPreferencesNotifier extends _$AssignmentPreferencesNotifier {
     final list = _sorted(updated);
     state = state.copyWith(alertAssignmentIds: list);
     await _saveList(UserPreferenceKeys.kadaiAlertList, list);
+    await ref
+        .read(loggerProvider)
+        .logSetAssignmentStatus(assignmentId: id, isAlertScheduled: false);
     return true;
   }
 
@@ -142,6 +160,11 @@ class AssignmentPreferencesNotifier extends _$AssignmentPreferencesNotifier {
     final list = _sorted(updated);
     state = state.copyWith(alertAssignmentIds: list);
     await _saveList(UserPreferenceKeys.kadaiAlertList, list);
+    for (final id in added) {
+      await ref
+          .read(loggerProvider)
+          .logSetAssignmentStatus(assignmentId: id, isAlertScheduled: true);
+    }
     return added;
   }
 
@@ -158,6 +181,11 @@ class AssignmentPreferencesNotifier extends _$AssignmentPreferencesNotifier {
     final list = _sorted(updated);
     state = state.copyWith(alertAssignmentIds: list);
     await _saveList(UserPreferenceKeys.kadaiAlertList, list);
+    for (final id in removed) {
+      await ref
+          .read(loggerProvider)
+          .logSetAssignmentStatus(assignmentId: id, isAlertScheduled: false);
+    }
     return removed;
   }
 
@@ -188,6 +216,11 @@ class AssignmentPreferencesNotifier extends _$AssignmentPreferencesNotifier {
       _saveList(UserPreferenceKeys.kadaiDeleteList, hiddenList),
       _saveList(UserPreferenceKeys.kadaiAlertList, alertList),
     ]);
+    for (final id in removedAlerts) {
+      await ref
+          .read(loggerProvider)
+          .logSetAssignmentStatus(assignmentId: id, isHidden: true);
+    }
     return removedAlerts;
   }
 }
