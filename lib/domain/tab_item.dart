@@ -13,13 +13,13 @@ enum TabItem {
     icon: Icons.map_outlined,
     activeIcon: Icons.map,
   ),
-  kamoku(
+  course(
     key: 'course',
     title: '科目',
     icon: Icons.search_outlined,
     activeIcon: Icons.search,
   ),
-  kadai(
+  assignment(
     key: 'assignment',
     title: '課題',
     icon: Icons.assignment_outlined,
@@ -48,6 +48,6 @@ enum TabItem {
 final Map<TabItem, GlobalKey<NavigatorState>> tabNavigatorKeyMaps = {
   TabItem.home: GlobalKey<NavigatorState>(),
   TabItem.map: GlobalKey<NavigatorState>(),
-  TabItem.kamoku: GlobalKey<NavigatorState>(),
-  TabItem.kadai: GlobalKey<NavigatorState>(),
+  TabItem.course: GlobalKey<NavigatorState>(),
+  TabItem.assignment: GlobalKey<NavigatorState>(),
 };

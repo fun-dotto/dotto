@@ -39,19 +39,19 @@ void main() {
     verify(listener(TabItem.home, TabItem.map)).called(1);
     verifyNoMoreInteractions(listener);
 
-    container.read(tabItemProvider.notifier).selected(TabItem.kamoku);
+    container.read(tabItemProvider.notifier).selected(TabItem.course);
 
-    verify(listener(TabItem.map, TabItem.kamoku)).called(1);
+    verify(listener(TabItem.map, TabItem.course)).called(1);
     verifyNoMoreInteractions(listener);
 
-    container.read(tabItemProvider.notifier).selected(TabItem.kadai);
+    container.read(tabItemProvider.notifier).selected(TabItem.assignment);
 
-    verify(listener(TabItem.kamoku, TabItem.kadai)).called(1);
+    verify(listener(TabItem.course, TabItem.assignment)).called(1);
     verifyNoMoreInteractions(listener);
 
     container.read(tabItemProvider.notifier).selected(TabItem.setting);
 
-    verify(listener(TabItem.kadai, TabItem.setting)).called(1);
+    verify(listener(TabItem.assignment, TabItem.setting)).called(1);
     verifyNoMoreInteractions(listener);
 
     container.read(tabItemProvider.notifier).selected(TabItem.home);

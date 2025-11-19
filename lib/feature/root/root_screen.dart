@@ -222,8 +222,8 @@ final class _RootScreenState extends ConsumerState<RootScreen> {
                                   .read(rootViewModelProvider.notifier)
                                   .onGoToSettingButtonTapped(),
                             ),
-                            TabItem.kamoku => const SearchCourseScreen(),
-                            TabItem.kadai => const AssignmentListScreen(),
+                            TabItem.course => const SearchCourseScreen(),
+                            TabItem.assignment => const AssignmentListScreen(),
                             TabItem.setting => const SettingsScreen(),
                           },
                         );
