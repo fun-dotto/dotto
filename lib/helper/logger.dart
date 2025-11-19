@@ -18,6 +18,7 @@ abstract class Logger {
   Future<void> logSetTimetableSetting({
     required TimetablePeriodStyle timetablePeriodStyle,
   });
+  Future<void> logSetHopeUserKey({required String userKey});
 }
 
 final class LoggerImpl implements Logger {
@@ -79,5 +80,15 @@ final class LoggerImpl implements Logger {
     );
     debugPrint('[Logger] set_timetable_setting');
     debugPrint('timetable_period_style: ${timetablePeriodStyle.key}');
+  }
+
+  @override
+  Future<void> logSetHopeUserKey({required String userKey}) async {
+    await FirebaseAnalytics.instance.logEvent(
+      name: 'set_hope_user_key',
+      parameters: {'user_key': userKey},
+    );
+    debugPrint('[Logger] set_hope_user_key');
+    debugPrint('user_key: $userKey');
   }
 }
