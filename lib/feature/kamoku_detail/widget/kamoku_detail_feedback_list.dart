@@ -72,12 +72,6 @@ final class _KamokuDetailFeedbackListState
             BuildContext context,
             AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot,
           ) {
-            if (snapshot.hasError) {
-              return Text('エラー: ${snapshot.error}');
-            }
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const CircularProgressIndicator();
-            }
             if (snapshot.hasData) {
               final querySnapshot = snapshot.data!;
               final documents = querySnapshot.docs;
@@ -200,6 +194,12 @@ final class _KamokuDetailFeedbackListState
                   ],
                 ),
               );
+            }
+            if (snapshot.hasError) {
+              return Text('エラー: ${snapshot.error}');
+            }
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const CircularProgressIndicator();
             }
             return const Center(child: Text('データがありません'));
           },
