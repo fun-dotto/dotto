@@ -19,6 +19,12 @@ abstract class Logger {
     required TimetablePeriodStyle timetablePeriodStyle,
   });
   Future<void> logSetHopeUserKey({required String userKey});
+  Future<void> logSetAssignmentStatus({
+    required int assignmentId,
+    bool? isDone,
+    bool? isHidden,
+    bool? isAlertScheduled,
+  });
 }
 
 final class LoggerImpl implements Logger {
@@ -90,5 +96,32 @@ final class LoggerImpl implements Logger {
     );
     debugPrint('[Logger] set_hope_user_key');
     debugPrint('user_key: $userKey');
+  }
+
+  @override
+  Future<void> logSetAssignmentStatus({
+    required int assignmentId,
+    bool? isDone,
+    bool? isHidden,
+    bool? isAlertScheduled,
+  }) async {
+    final parameters = <String, Object>{'assignment_id': assignmentId};
+    if (isDone != null) {
+      parameters['is_done'] = isDone;
+    }
+    if (isHidden != null) {
+      parameters['is_hidden'] = isHidden;
+    }
+    if (isAlertScheduled != null) {
+      parameters['is_alert_scheduled'] = isAlertScheduled;
+    }
+    await FirebaseAnalytics.instance.logEvent(
+      name: 'set_assignment_status',
+      parameters: parameters,
+    );
+    debugPrint('[Logger] set_assignment_status');
+    debugPrint('assignment_id: $assignmentId');
+    debugPrint('is_done: $isDone');
+    debugPrint('is_hidden: $isHidden');
   }
 }
