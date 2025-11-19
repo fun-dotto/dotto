@@ -8,7 +8,7 @@ import 'package:dotto/feature/timetable/domain/timetable_period_style.dart';
 import 'package:dotto/feature/timetable/edit_timetable_screen.dart';
 import 'package:dotto/feature/timetable/widget/my_page_timetable.dart';
 import 'package:dotto/theme/v1/color_fun.dart';
-import 'package:dotto/widget/file_viewer.dart';
+import 'package:dotto/widget/web_pdf_viewer.dart';
 import 'package:dotto_design_system/component/button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -126,10 +126,10 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
       timetablePeriodStyleNotifierProvider,
     );
 
-    const fileNamePath = <String, String>{
-      '学年暦': 'home/academic_calendar.pdf',
-      '前期時間割': 'home/timetable_first.pdf',
-      '後期時間割': 'home/timetable_second.pdf',
+    final fileNamePath = <String, String>{
+      '学年暦': config.officialCalendarPdfUrl,
+      '時間割 前期': config.timetable1PdfUrl,
+      '時間割 後期': config.timetable2PdfUrl,
     };
     final infoTiles = <Widget>[
       ...fileNamePath.entries.map(
@@ -138,14 +138,10 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
           () {
             Navigator.of(context).push(
               MaterialPageRoute<void>(
-                builder: (_) => FileViewerScreen(
-                  filename: item.key,
-                  url: item.value,
-                  storage: StorageService.firebase,
-                ),
+                builder: (_) =>
+                    WebPdfViewer(url: item.value, filename: item.key),
                 settings: RouteSettings(
-                  name:
-                      '/home/file_viewer?filename=${item.key}&url=${item.value}&storage=firebase',
+                  name: '/home/web_pdf_viewer?url=${item.value}',
                 ),
               ),
             );
