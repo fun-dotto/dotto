@@ -1,9 +1,7 @@
 import 'package:collection/collection.dart';
-import 'package:dotto/controller/tab_controller.dart';
 import 'package:dotto/controller/user_controller.dart';
 import 'package:dotto/domain/map_tile_props.dart';
 import 'package:dotto/domain/room.dart';
-import 'package:dotto/domain/tab_item.dart';
 import 'package:dotto/feature/map/fun_map.dart';
 import 'package:dotto/feature/map/map_view_model.dart';
 import 'package:dotto/feature/map/widget/map.dart';
@@ -18,7 +16,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final class MapScreen extends ConsumerWidget {
-  const MapScreen({super.key});
+  const MapScreen({required this.onGoToSettingButtonTapped, super.key});
+
+  final void Function() onGoToSettingButtonTapped;
 
   Widget _datePickerSection({
     required User? user,
@@ -195,11 +195,7 @@ final class MapScreen extends ConsumerWidget {
                           .read(mapViewModelProvider.notifier)
                           .onBottomSheetDismissed();
                     },
-                    onGoToSettingButtonTapped: () {
-                      ref
-                          .read(tabItemProvider.notifier)
-                          .selected(TabItem.setting);
-                    },
+                    onGoToSettingButtonTapped: onGoToSettingButtonTapped,
                   ),
                   MapSearchResultList(
                     rooms: viewModel.filteredRooms,
