@@ -46,6 +46,12 @@ final class RemoteConfigRepository {
         RemoteConfigKeys.assignmentSetupUrl: 'https://dotto.web.app/',
         RemoteConfigKeys.feedbackFormUrl: 'https://forms.gle/ruo8iBxLMmvScNMFA',
         RemoteConfigKeys.appStorePageUrl: 'https://fun-dotto.github.io',
+        RemoteConfigKeys.officialCalendarPdfUrl:
+            'https://fun-dotto.github.io/files/official_calendar_2025.pdf',
+        RemoteConfigKeys.timetable1PdfUrl:
+            'https://fun-dotto.github.io/files/timetable_2025_1.pdf',
+        RemoteConfigKeys.timetable2PdfUrl:
+            'https://fun-dotto.github.io/files/timetable_2025_2.pdf',
       });
     }
 

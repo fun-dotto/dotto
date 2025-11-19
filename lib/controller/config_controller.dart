@@ -44,6 +44,15 @@ final class ConfigNotifier extends _$ConfigNotifier {
     final appStorePageUrl = remoteConfigRepository.getString(
       RemoteConfigKeys.appStorePageUrl,
     );
+    final officialCalendarPdfUrl = remoteConfigRepository.getString(
+      RemoteConfigKeys.officialCalendarPdfUrl,
+    );
+    final timetable1PdfUrl = remoteConfigRepository.getString(
+      RemoteConfigKeys.timetable1PdfUrl,
+    );
+    final timetable2PdfUrl = remoteConfigRepository.getString(
+      RemoteConfigKeys.timetable2PdfUrl,
+    );
 
     return Config(
       isDesignV2Enabled: isDesignV2Enabled,
@@ -56,6 +65,9 @@ final class ConfigNotifier extends _$ConfigNotifier {
       termsOfServiceUrl: termsOfServiceUrl,
       privacyPolicyUrl: privacyPolicyUrl,
       appStorePageUrl: appStorePageUrl,
+      officialCalendarPdfUrl: officialCalendarPdfUrl,
+      timetable1PdfUrl: timetable1PdfUrl,
+      timetable2PdfUrl: timetable2PdfUrl,
     );
   }
 

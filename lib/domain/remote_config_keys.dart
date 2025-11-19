@@ -42,4 +42,13 @@ final class RemoteConfigKeys {
 
   /// アプリストアURL
   static const String appStorePageUrl = 'app_store_page_url';
+
+  /// 学年暦PDF URL
+  static const String officialCalendarPdfUrl = 'official_calendar_pdf_url';
+
+  /// 時間割 (前期) PDF URL
+  static const String timetable1PdfUrl = 'timetable_1_pdf_url';
+
+  /// 時間割 (後期) PDF URL
+  static const String timetable2PdfUrl = 'timetable_2_pdf_url';
 }
