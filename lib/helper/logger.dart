@@ -1,3 +1,4 @@
+import 'package:dotto/domain/tab_item.dart';
 import 'package:dotto/feature/timetable/domain/timetable_period_style.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -10,6 +11,7 @@ abstract class Logger {
   Future<void> setup();
   Future<void> logAppOpen();
   Future<void> logLogin();
+  Future<void> logChangedTab({required TabItem tabItem});
   Future<void> logBuiltTimetableSetting({
     required TimetablePeriodStyle timetablePeriodStyle,
   });
@@ -48,6 +50,11 @@ final class LoggerImpl implements Logger {
     await FirebaseAnalytics.instance.logLogin();
     debugPrint('[Logger] login');
     debugPrint('User ID: $userId');
+  }
+
+  @override
+  Future<void> logChangedTab({required TabItem tabItem}) async {
+    await FirebaseAnalytics.instance.logScreenView(screenName: tabItem.key);
   }
 
   @override
