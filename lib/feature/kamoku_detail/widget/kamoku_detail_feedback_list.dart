@@ -199,7 +199,7 @@ final class _KamokuDetailFeedbackListState
               return Text('エラー: ${snapshot.error}');
             }
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const CircularProgressIndicator();
+              return const Center(child: CircularProgressIndicator());
             }
             return const Center(child: Text('データがありません'));
           },
