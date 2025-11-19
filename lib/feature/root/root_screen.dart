@@ -4,16 +4,21 @@ import 'dart:io';
 import 'package:app_links/app_links.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dotto/controller/config_controller.dart';
-import 'package:dotto/controller/tab_controller.dart';
 import 'package:dotto/controller/user_controller.dart';
 import 'package:dotto/domain/tab_item.dart';
 import 'package:dotto/domain/user_preference_keys.dart';
+import 'package:dotto/feature/assignment/assignment_list_screen.dart';
 import 'package:dotto/feature/bus/controller/bus_data_controller.dart';
 import 'package:dotto/feature/bus/controller/bus_polling_controller.dart';
 import 'package:dotto/feature/bus/controller/bus_stops_controller.dart';
 import 'package:dotto/feature/bus/controller/my_bus_stop_controller.dart';
 import 'package:dotto/feature/bus/repository/bus_repository.dart';
+import 'package:dotto/feature/home/home.dart';
+import 'package:dotto/feature/map/map_screen.dart';
+import 'package:dotto/feature/root/root_viewmodel.dart';
+import 'package:dotto/feature/search_course/search_course_screen.dart';
 import 'package:dotto/feature/setting/repository/settings_repository.dart';
+import 'package:dotto/feature/setting/settings.dart';
 import 'package:dotto/feature/timetable/repository/timetable_repository.dart';
 import 'package:dotto/helper/logger.dart';
 import 'package:dotto/helper/notification_repository.dart';
@@ -120,11 +125,6 @@ final class _RootScreenState extends ConsumerState<RootScreen> {
     unawaited(init());
   }
 
-  Future<void> _onItemTapped(int index) async {
-    final selectedTab = TabItem.values[index];
-    ref.read(tabItemProvider.notifier).selected(selectedTab);
-  }
-
   // Future<void> _showAppTutorial(BuildContext context) async {
   //   if (await UserPreferenceRepository.getBool(
   //         UserPreferenceKeys.isAppTutorialComplete,
@@ -174,7 +174,9 @@ final class _RootScreenState extends ConsumerState<RootScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final viewModel = ref.watch(rootViewModelProvider);
     final config = ref.watch(configNotifierProvider);
+
     if (!config.isValidAppVersion) {
       debugPrint('Invalid App Version');
       return InvalidAppVersionScreen(appStorePageUrl: config.appStorePageUrl);
@@ -187,7 +189,6 @@ final class _RootScreenState extends ConsumerState<RootScreen> {
     //   }
     //   _showAppTutorial(context);
     // });
-    final tabItem = ref.watch(tabItemProvider);
 
     return PopScope(
       canPop: Platform.isIOS,
@@ -197,7 +198,8 @@ final class _RootScreenState extends ConsumerState<RootScreen> {
         }
         final navigator = Navigator.of(context);
         final shouldPop =
-            !((await tabNavigatorKeyMaps[tabItem]?.currentState?.maybePop()) ??
+            !((await tabNavigatorKeyMaps[viewModel.selectedTab]?.currentState
+                    ?.maybePop()) ??
                 true);
         if (shouldPop && navigator.canPop()) navigator.pop();
       },
@@ -208,12 +210,22 @@ final class _RootScreenState extends ConsumerState<RootScreen> {
             children: TabItem.values
                 .map(
                   (tabItemOnce) => Offstage(
-                    offstage: tabItem != tabItemOnce,
+                    offstage: viewModel.selectedTab != tabItemOnce,
                     child: Navigator(
                       key: tabNavigatorKeyMaps[tabItemOnce],
                       onGenerateRoute: (settings) {
                         return MaterialPageRoute(
-                          builder: (context) => tabItemOnce.page,
+                          builder: (context) => switch (tabItemOnce) {
+                            TabItem.home => const HomeScreen(),
+                            TabItem.map => MapScreen(
+                              onGoToSettingButtonTapped: () => ref
+                                  .read(rootViewModelProvider.notifier)
+                                  .onGoToSettingButtonTapped(),
+                            ),
+                            TabItem.kamoku => const SearchCourseScreen(),
+                            TabItem.kadai => const AssignmentListScreen(),
+                            TabItem.setting => const SettingsScreen(),
+                          },
                         );
                       },
                     ),
@@ -224,7 +236,7 @@ final class _RootScreenState extends ConsumerState<RootScreen> {
         ),
         bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
-          currentIndex: TabItem.values.indexOf(tabItem),
+          currentIndex: TabItem.values.indexOf(viewModel.selectedTab),
           items: TabItem.values
               .map(
                 (tabItem) => BottomNavigationBarItem(
@@ -234,7 +246,8 @@ final class _RootScreenState extends ConsumerState<RootScreen> {
                 ),
               )
               .toList(),
-          onTap: _onItemTapped,
+          onTap: (index) =>
+              ref.read(rootViewModelProvider.notifier).onTabItemTapped(index),
         ),
       ),
     );
