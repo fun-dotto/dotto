@@ -9,7 +9,6 @@ import 'package:dotto/feature/setting/controller/settings_controller.dart';
 import 'package:dotto/feature/setting/repository/settings_repository.dart';
 import 'package:dotto/feature/setting/widget/license.dart';
 import 'package:dotto/helper/user_preference_repository.dart';
-import 'package:dotto/theme/v1/animation.dart';
 import 'package:dotto/widget/app_tutorial.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -167,17 +166,18 @@ final class SettingsScreen extends ConsumerWidget {
                 leading: const Icon(Icons.assignment),
                 onPressed: (_) {
                   Navigator.of(context).push(
-                    PageRouteBuilder<void>(
-                      pageBuilder: (context, animation, secondaryAnimation) =>
-                          Scaffold(
-                            appBar: AppBar(title: const Text('HOPE連携')),
-                            body: SetupHopeContinuityScreen(
-                              onUserKeySaved: () {
-                                Navigator.of(context).pop();
-                              },
-                            ),
-                          ),
-                      transitionsBuilder: fromRightAnimation,
+                    MaterialPageRoute<void>(
+                      builder: (_) => Scaffold(
+                        appBar: AppBar(title: const Text('HOPE連携')),
+                        body: SetupHopeContinuityScreen(
+                          onUserKeySaved: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ),
+                      settings: const RouteSettings(
+                        name: '/setting/hope_continuity',
+                      ),
                     ),
                   );
                 },
@@ -194,10 +194,11 @@ final class SettingsScreen extends ConsumerWidget {
                 leading: const Icon(Icons.notifications),
                 onPressed: (_) {
                   Navigator.of(context).push(
-                    PageRouteBuilder<void>(
-                      pageBuilder: (context, animation, secondaryAnimation) =>
-                          const AnnouncementScreen(),
-                      transitionsBuilder: fromRightAnimation,
+                    MaterialPageRoute<void>(
+                      builder: (_) => const AnnouncementScreen(),
+                      settings: const RouteSettings(
+                        name: '/setting/announcement',
+                      ),
                     ),
                   );
                 },
@@ -216,10 +217,11 @@ final class SettingsScreen extends ConsumerWidget {
                 leading: const Icon(Icons.assignment),
                 onPressed: (_) {
                   Navigator.of(context).push(
-                    PageRouteBuilder<void>(
-                      pageBuilder: (context, animation, secondaryAnimation) =>
-                          const AppTutorial(),
-                      transitionsBuilder: fromRightAnimation,
+                    MaterialPageRoute<void>(
+                      builder: (_) => const AppTutorial(),
+                      settings: const RouteSettings(
+                        name: '/setting/app_tutorial',
+                      ),
                     ),
                   );
                 },
@@ -246,10 +248,9 @@ final class SettingsScreen extends ConsumerWidget {
                 leading: const Icon(Icons.info),
                 onPressed: (_) {
                   Navigator.of(context).push(
-                    PageRouteBuilder<void>(
-                      pageBuilder: (context, animation, secondaryAnimation) =>
-                          const SettingsLicenseScreen(),
-                      transitionsBuilder: fromRightAnimation,
+                    MaterialPageRoute<void>(
+                      builder: (_) => const SettingsLicenseScreen(),
+                      settings: const RouteSettings(name: '/setting/license'),
                     ),
                   );
                 },

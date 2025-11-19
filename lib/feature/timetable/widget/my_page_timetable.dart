@@ -8,7 +8,6 @@ import 'package:dotto/feature/timetable/domain/period.dart';
 import 'package:dotto/feature/timetable/domain/timetable_course.dart';
 import 'package:dotto/feature/timetable/domain/timetable_period_style.dart';
 import 'package:dotto/feature/timetable/repository/timetable_repository.dart';
-import 'package:dotto/theme/v1/animation.dart';
 import 'package:dotto/theme/v1/color_fun.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -66,15 +65,16 @@ final class MyPageTimetable extends ConsumerWidget {
                 if (record == null) return;
                 if (context.mounted) {
                   await Navigator.of(context).push(
-                    PageRouteBuilder<void>(
-                      pageBuilder: (context, animation, secondaryAnimation) {
-                        return KamokuDetailScreen(
-                          lessonId: record['LessonId'] as int,
-                          lessonName: record['授業名'] as String,
-                          kakomonLessonId: record['過去問'] as int?,
-                        );
-                      },
-                      transitionsBuilder: fromRightAnimation,
+                    MaterialPageRoute<void>(
+                      builder: (_) => KamokuDetailScreen(
+                        lessonId: record['LessonId'] as int,
+                        lessonName: record['授業名'] as String,
+                        kakomonLessonId: record['過去問'] as int?,
+                      ),
+                      settings: RouteSettings(
+                        name:
+                            '/home/course_detail?lessonId=${record['LessonId'] as int}&lessonName=${record['授業名'] as String}&kakomonLessonId=${record['過去問'] as int?}',
+                      ),
                     ),
                   );
                 }

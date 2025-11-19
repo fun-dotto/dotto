@@ -1,6 +1,7 @@
 import 'package:dotto/controller/config_controller.dart';
 import 'package:dotto/feature/assignment/controller/hope_continuity_text_editing_controller.dart';
 import 'package:dotto/feature/assignment/controller/hope_user_key_controller.dart';
+import 'package:dotto/helper/logger.dart';
 import 'package:dotto_design_system/component/button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -58,6 +59,11 @@ class SetupHopeContinuityScreen extends ConsumerWidget {
                           textEditingController.text,
                         );
                         onUserKeySaved?.call();
+                        await ref
+                            .read(loggerProvider)
+                            .logSetHopeUserKey(
+                              userKey: textEditingController.text,
+                            );
                       }
                     : null,
                 child: const Text('保存'),

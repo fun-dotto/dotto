@@ -80,6 +80,7 @@ final class BusScreen extends ConsumerWidget {
         Navigator.of(context).push(
           MaterialPageRoute<void>(
             builder: (context) => const BusStopSelectScreen(),
+            settings: const RouteSettings(name: '/home/bus/bus_stop_select'),
           ),
         );
       },
@@ -148,6 +149,9 @@ final class BusScreen extends ConsumerWidget {
                   Navigator.of(context).push(
                     MaterialPageRoute<void>(
                       builder: (context) => BusTimetableScreen(busTrip),
+                      settings: const RouteSettings(
+                        name: '/home/bus/bus_timetable',
+                      ),
                     ),
                   );
                 },

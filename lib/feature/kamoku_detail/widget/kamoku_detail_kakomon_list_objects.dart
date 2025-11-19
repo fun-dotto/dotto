@@ -24,28 +24,16 @@ final class _KamokuDetailKakomonListObjectsState
         TextButton(
           onPressed: () {
             Navigator.of(context).push(
-              PageRouteBuilder<void>(
-                pageBuilder: (context, animation, secondaryAnimation) {
-                  return FileViewerScreen(
-                    url: widget.url,
-                    filename: filename,
-                    storage: StorageService.cloudflare,
-                  );
-                },
-                transitionsBuilder:
-                    (context, animation, secondaryAnimation, child) {
-                      const begin = Offset(0, 1); // 下から上
-                      const end = Offset.zero;
-                      final tween = Tween(
-                        begin: begin,
-                        end: end,
-                      ).chain(CurveTween(curve: Curves.easeInOut));
-                      final offsetAnimation = animation.drive(tween);
-                      return SlideTransition(
-                        position: offsetAnimation,
-                        child: child,
-                      );
-                    },
+              MaterialPageRoute<void>(
+                builder: (_) => FileViewerScreen(
+                  url: widget.url,
+                  filename: filename,
+                  storage: StorageService.cloudflare,
+                ),
+                settings: RouteSettings(
+                  name:
+                      '/course/course_detail/past_exam/file_viewer?filename=$filename&url=${widget.url}&storage=cloudflare',
+                ),
               ),
             );
           },

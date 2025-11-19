@@ -7,7 +7,6 @@ import 'package:dotto/feature/bus/controller/bus_is_weekday_controller.dart';
 import 'package:dotto/feature/bus/controller/bus_polling_controller.dart';
 import 'package:dotto/feature/bus/controller/my_bus_stop_controller.dart';
 import 'package:dotto/feature/bus/widget/bus_card.dart';
-import 'package:dotto/theme/v1/animation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -57,10 +56,9 @@ final class BusCardHome extends ConsumerWidget {
             onTap: () {
               ref.read(busIsScrolledNotifierProvider.notifier).value = false;
               Navigator.of(context).push(
-                PageRouteBuilder<void>(
-                  pageBuilder: (context, animation, secondaryAnimation) =>
-                      const BusScreen(),
-                  transitionsBuilder: fromRightAnimation,
+                MaterialPageRoute<void>(
+                  builder: (_) => const BusScreen(),
+                  settings: const RouteSettings(name: '/home/bus'),
                 ),
               );
             },
@@ -77,7 +75,10 @@ final class BusCardHome extends ConsumerWidget {
         return InkWell(
           onTap: () {
             Navigator.of(context).push(
-              MaterialPageRoute<void>(builder: (context) => const BusScreen()),
+              MaterialPageRoute<void>(
+                builder: (_) => const BusScreen(),
+                settings: const RouteSettings(name: '/home/bus'),
+              ),
             );
           },
           child: const BusCard(

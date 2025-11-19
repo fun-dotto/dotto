@@ -591,26 +591,12 @@ final class _AssignmentListScreenState
               final data = assignments.value;
               if (data == null) return;
               final result = await Navigator.of(context).push(
-                PageRouteBuilder<String?>(
-                  pageBuilder: (context, animation, secondaryAnimation) =>
+                MaterialPageRoute<String?>(
+                  builder: (_) =>
                       HiddenAssignmentListScreen(deletedKadaiLists: data),
-                  transitionsBuilder:
-                      (context, animation, secondaryAnimation, child) {
-                        const begin = Offset(1, 0);
-                        const end = Offset.zero;
-                        final tween = Tween(
-                          begin: begin,
-                          end: end,
-                        ).chain(CurveTween(curve: Curves.easeInOut));
-                        final offsetAnimation = animation.drive(tween);
-                        return FadeTransition(
-                          opacity: animation,
-                          child: SlideTransition(
-                            position: offsetAnimation,
-                            child: child,
-                          ),
-                        );
-                      },
+                  settings: const RouteSettings(
+                    name: '/assignment/hidden_assignment_list',
+                  ),
                 ),
               );
               if (result == 'back') {

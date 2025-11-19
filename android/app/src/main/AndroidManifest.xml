@@ -80,6 +80,7 @@
                 <action android:name="com.htc.intent.action.QUICKBOOT_POWERON" />
             </intent-filter>
         </receiver>
+        <meta-data android:name="google_analytics_automatic_screen_reporting_enabled" android:value="false" />
     </application>
     <!-- The INTERNET permission is required for development. Specifically,
        flutter needs it to communicate with the running application
