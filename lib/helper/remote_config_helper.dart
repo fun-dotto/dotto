@@ -39,7 +39,7 @@ final class _RemoteConfigHelperImpl implements RemoteConfigHelper {
         RemoteConfigKeys.isDesignV2Enabled: false,
         RemoteConfigKeys.isFunchEnabled: true,
         RemoteConfigKeys.isValidAppVersion: true,
-        RemoteConfigKeys.isLatestAppVersion: true,
+        RemoteConfigKeys.isLatestAppVersion: false,
         RemoteConfigKeys.announcementsUrl:
             'https://fun-dotto.github.io/data/announcements.json',
         RemoteConfigKeys.assignmentSetupUrl: 'https://dotto.web.app/',

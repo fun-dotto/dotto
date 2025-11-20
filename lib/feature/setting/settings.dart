@@ -220,7 +220,9 @@ final class SettingsScreen extends ConsumerWidget {
                 onPressed: (_) {
                   Navigator.of(context).push(
                     MaterialPageRoute<void>(
-                      builder: (_) => const AppTutorial(),
+                      builder: (_) => AppTutorial(
+                        onDismissed: () => Navigator.of(context).pop(),
+                      ),
                       settings: const RouteSettings(
                         name: '/setting/app_tutorial',
                       ),

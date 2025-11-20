@@ -5,14 +5,8 @@ final class DottoThemev1 {
   static ThemeData get theme {
     return ThemeData(
       primarySwatch: customFunColor,
-      colorScheme: ColorScheme.light(
-        primary: customFunColor,
-        onSurface: Colors.grey.shade900,
-        surface: Colors.grey.shade100,
-      ),
+      colorScheme: const ColorScheme.light(primary: customFunColor),
       appBarTheme: const AppBarTheme(
-        foregroundColor: customFunColor,
-        backgroundColor: Colors.transparent,
         surfaceTintColor: Colors.transparent,
         titleTextStyle: TextStyle(
           color: customFunColor,

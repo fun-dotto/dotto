@@ -4,6 +4,7 @@ import 'package:dotto/app.dart';
 import 'package:dotto/firebase_options.dart';
 import 'package:dotto/helper/firebase_storage_repository.dart';
 import 'package:dotto/helper/location_repository.dart';
+import 'package:dotto/helper/logger.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -49,7 +50,8 @@ Future<void> main() async {
   ]);
 
   // ローカルタイムゾーンの設定
-  await _configureLocalTimeZone();
+  tz.initializeTimeZones();
+  tz.setLocalLocation(tz.getLocation('Asia/Tokyo'));
 
   // Firebase Messagingの通知許可をリクエスト
   await FirebaseMessaging.instance.requestPermission();
@@ -61,31 +63,14 @@ Future<void> main() async {
   await LocationRepository().requestLocationPermission();
 
   // ファイルをダウンロード
-  await _downloadFiles();
-
-  // アプリの起動
-  runApp(const ProviderScope(child: MyApp()));
-}
-
-@pragma('vm:entry-point')
-Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  await Firebase.initializeApp();
-}
-
-Future<void> _configureLocalTimeZone() async {
-  tz.initializeTimeZones();
-  tz.setLocalLocation(tz.getLocation('Asia/Tokyo'));
-}
-
-Future<void> _downloadFiles() async {
   try {
     await Future(() {
       // Firebaseからファイルをダウンロード
       final filePaths = <String>[
-        'map/oneweek_schedule.json',
+        'funch/menu.json',
         'home/cancel_lecture.json',
         'home/sup_lecture.json',
-        'funch/menu.json',
+        'map/oneweek_schedule.json',
       ];
       for (final path in filePaths) {
         FirebaseStorageRepository().download(path);
@@ -94,4 +79,14 @@ Future<void> _downloadFiles() async {
   } on Exception catch (e) {
     debugPrint(e.toString());
   }
+
+  await LoggerImpl().logAppOpen();
+
+  // アプリの起動
+  runApp(const ProviderScope(child: MyApp()));
+}
+
+@pragma('vm:entry-point')
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp();
 }
