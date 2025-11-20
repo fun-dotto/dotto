@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:dotto/controller/config_controller.dart';
 import 'package:dotto/domain/tab_item.dart';
 import 'package:dotto/feature/assignment/assignment_list_screen.dart';
 import 'package:dotto/feature/home/home.dart';
@@ -99,69 +98,67 @@ final class RootScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final viewModelAsync = ref.watch(rootViewModelProvider);
-    final config = ref.watch(configNotifierProvider);
-
-    if (!config.isValidAppVersion) {
-      debugPrint('Invalid App Version');
-      return InvalidAppVersionScreen(appStorePageUrl: config.appStorePageUrl);
-    }
 
     switch (viewModelAsync) {
       case AsyncData(:final value):
+        if (!value.hasShownAppTutorial) {
+          debugPrint('Show App Tutorial');
+          return AppTutorial(
+            onDismissed: () => ref
+                .read(rootViewModelProvider.notifier)
+                .onAppTutorialDismissed(),
+          );
+        }
+        if (!value.isValidAppVersion) {
+          debugPrint('Invalid App Version');
+          return InvalidAppVersionScreen(
+            appStorePageUrl: value.appStorePageUrl,
+          );
+        }
+
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          if (!config.isLatestAppVersion &&
-              !value.hasShownUpdateAlert &&
-              value.hasShownAppTutorial) {
+          if (!value.isLatestAppVersion && !value.hasShownUpdateAlert) {
+            debugPrint('Not Latest App Version');
             ref.read(rootViewModelProvider.notifier).onUpdateAlertShown();
             showDialog<void>(
               context: context,
               builder: (context) => _updateAlertDialog(
                 context: context,
-                appStorePageUrl: config.appStorePageUrl,
+                appStorePageUrl: value.appStorePageUrl,
               ),
             );
           }
         });
 
-        return value.hasShownAppTutorial
-            ? PopScope(
-                canPop: Platform.isIOS,
-                onPopInvokedWithResult: (didPop, result) async {
-                  if (didPop) {
-                    return;
-                  }
-                  final navigator = Navigator.of(context);
-                  final shouldPop =
-                      !((await value
-                              .navigatorStates[value.selectedTab]
-                              ?.currentState
-                              ?.maybePop()) ??
-                          true);
-                  if (shouldPop && navigator.canPop()) navigator.pop();
-                },
-                child: Scaffold(
-                  resizeToAvoidBottomInset: false,
-                  body: _body(
-                    context: context,
-                    viewModel: value,
-                    onGoToSettingButtonTapped: () => ref
-                        .read(rootViewModelProvider.notifier)
-                        .onGoToSettingButtonTapped(),
-                  ),
-                  bottomNavigationBar: _bottomNavigationBar(
-                    context: context,
-                    viewModel: value,
-                    onTabItemTapped: (index) => ref
-                        .read(rootViewModelProvider.notifier)
-                        .onTabItemTapped(index),
-                  ),
-                ),
-              )
-            : AppTutorial(
-                onDismissed: () => ref
-                    .read(rootViewModelProvider.notifier)
-                    .onAppTutorialDismissed(),
-              );
+        return PopScope(
+          canPop: Platform.isIOS,
+          onPopInvokedWithResult: (didPop, result) async {
+            if (didPop) return;
+            final navigator = Navigator.of(context);
+            final shouldPop =
+                !((await value.navigatorStates[value.selectedTab]?.currentState
+                        ?.maybePop()) ??
+                    true);
+            if (shouldPop && navigator.canPop()) navigator.pop();
+          },
+          child: Scaffold(
+            resizeToAvoidBottomInset: false,
+            body: _body(
+              context: context,
+              viewModel: value,
+              onGoToSettingButtonTapped: () => ref
+                  .read(rootViewModelProvider.notifier)
+                  .onGoToSettingButtonTapped(),
+            ),
+            bottomNavigationBar: _bottomNavigationBar(
+              context: context,
+              viewModel: value,
+              onTabItemTapped: (index) => ref
+                  .read(rootViewModelProvider.notifier)
+                  .onTabItemTapped(index),
+            ),
+          ),
+        );
 
       case AsyncError(:final error):
         debugPrint('RootScreen Error: $error');

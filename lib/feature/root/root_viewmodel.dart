@@ -1,5 +1,6 @@
 import 'package:app_links/app_links.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dotto/controller/config_controller.dart';
 import 'package:dotto/controller/user_controller.dart';
 import 'package:dotto/domain/tab_item.dart';
 import 'package:dotto/domain/user_preference_keys.dart';
@@ -55,10 +56,15 @@ class RootViewModel extends _$RootViewModel {
         ) ??
         false;
 
+    final config = ref.read(configNotifierProvider);
+
     return RootViewModelState(
       selectedTab: TabItem.home,
       hasShownAppTutorial: hasShownAppTutorial,
       hasShownUpdateAlert: false,
+      isValidAppVersion: config.isValidAppVersion,
+      isLatestAppVersion: config.isLatestAppVersion,
+      appStorePageUrl: config.appStorePageUrl,
       navigatorStates: {
         for (final tabItem in TabItem.values)
           tabItem: GlobalKey<NavigatorState>(),
