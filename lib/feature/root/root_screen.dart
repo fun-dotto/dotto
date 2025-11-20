@@ -106,20 +106,23 @@ final class RootScreen extends ConsumerWidget {
       return InvalidAppVersionScreen(appStorePageUrl: config.appStorePageUrl);
     }
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!config.isLatestAppVersion) {
-        showDialog<void>(
-          context: context,
-          builder: (context) => _updateAlertDialog(
-            context: context,
-            appStorePageUrl: config.appStorePageUrl,
-          ),
-        );
-      }
-    });
-
     switch (viewModelAsync) {
       case AsyncData(:final value):
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (!config.isLatestAppVersion &&
+              !value.hasShownUpdateAlert &&
+              value.hasShownAppTutorial) {
+            ref.read(rootViewModelProvider.notifier).onUpdateAlertShown();
+            showDialog<void>(
+              context: context,
+              builder: (context) => _updateAlertDialog(
+                context: context,
+                appStorePageUrl: config.appStorePageUrl,
+              ),
+            );
+          }
+        });
+
         return value.hasShownAppTutorial
             ? PopScope(
                 canPop: Platform.isIOS,
@@ -165,7 +168,10 @@ final class RootScreen extends ConsumerWidget {
         return const SizedBox.shrink();
 
       case AsyncLoading():
-        return const CircularProgressIndicator();
+        return const Scaffold(
+          resizeToAvoidBottomInset: false,
+          body: Center(child: CircularProgressIndicator()),
+        );
 
       default:
         return const SizedBox.shrink();

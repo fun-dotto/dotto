@@ -10,5 +10,6 @@ abstract class RootViewModelState with _$RootViewModelState {
     required TabItem selectedTab,
     required Map<TabItem, GlobalKey<NavigatorState>> navigatorStates,
     required bool hasShownAppTutorial,
+    required bool hasShownUpdateAlert,
   }) = _RootViewModelState;
 }

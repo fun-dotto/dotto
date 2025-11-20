@@ -58,6 +58,7 @@ class RootViewModel extends _$RootViewModel {
     return RootViewModelState(
       selectedTab: TabItem.home,
       hasShownAppTutorial: hasShownAppTutorial,
+      hasShownUpdateAlert: false,
       navigatorStates: {
         for (final tabItem in TabItem.values)
           tabItem: GlobalKey<NavigatorState>(),
@@ -136,5 +137,9 @@ class RootViewModel extends _$RootViewModel {
         value: true,
       );
     }
+  }
+
+  void onUpdateAlertShown() {
+    state = AsyncValue.data(state.value!.copyWith(hasShownUpdateAlert: true));
   }
 }
