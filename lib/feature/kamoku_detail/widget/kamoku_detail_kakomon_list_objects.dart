@@ -1,4 +1,4 @@
-import 'package:dotto/widget/file_viewer.dart';
+import 'package:dotto/widget/cloudflare_pdf_viewer.dart';
 import 'package:flutter/material.dart';
 
 final class KamokuDetailKakomonListObjects extends StatefulWidget {
@@ -25,11 +25,8 @@ final class _KamokuDetailKakomonListObjectsState
           onPressed: () {
             Navigator.of(context).push(
               MaterialPageRoute<void>(
-                builder: (_) => FileViewerScreen(
-                  url: widget.url,
-                  filename: filename,
-                  storage: StorageService.cloudflare,
-                ),
+                builder: (_) =>
+                    CloudflarePdfViewer(url: widget.url, filename: filename),
                 settings: RouteSettings(
                   name:
                       '/course/course_detail/past_exam/file_viewer?filename=$filename&url=${widget.url}&storage=cloudflare',
