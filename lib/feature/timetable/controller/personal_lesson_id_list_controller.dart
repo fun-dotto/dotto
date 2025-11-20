@@ -39,7 +39,7 @@ final class PersonalLessonIdListNotifier
 
   Future<void> _updateState(List<int> Function(List<int>) transform) async {
     state = await AsyncValue.guard(() async {
-      final current = state.valueOrNull ?? await _get();
+      final current = state.value ?? await _get();
       final next = transform(current);
       await _save(next);
       return next;

@@ -38,8 +38,8 @@ final class BusCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final busIsTo = ref.watch(busIsToNotifierProvider);
-    final myBusStop = ref.watch(myBusStopNotifierProvider);
+    final busIsTo = ref.watch(busIsToProvider);
+    final myBusStop = ref.watch(myBusStopProvider);
     final tripType = getType();
     final headerText = tripType != BusType.other
         ? tripType.where + (busIsTo ? 'から' : '行き')
@@ -75,7 +75,7 @@ final class BusCard extends ConsumerWidget {
                       iconSize: 20,
                       color: AppColor.linkTextBlue,
                       onPressed: () {
-                        ref.read(busIsToNotifierProvider.notifier).toggle();
+                        ref.read(busIsToProvider.notifier).toggle();
                       },
                       icon: const Icon(Icons.swap_horiz_outlined),
                       padding: EdgeInsets.zero,

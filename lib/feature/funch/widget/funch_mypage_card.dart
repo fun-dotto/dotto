@@ -120,7 +120,7 @@ final class FunchMyPageCard extends ConsumerWidget {
             autoPlay: true,
             viewportFraction: 1,
             onPageChanged: (index, reason) {
-              ref.read(funchMyPageCardIndexProvider.notifier).state = index;
+              ref.read(funchMyPageCardIndexProvider.notifier).value = index;
             },
           ),
         ),

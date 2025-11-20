@@ -67,12 +67,12 @@ final class BusScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final busData = ref.watch(busDataNotifierProvider);
-    final myBusStop = ref.watch(myBusStopNotifierProvider);
-    final busIsTo = ref.watch(busIsToNotifierProvider);
-    final busPolling = ref.watch(busPollingNotifierProvider);
-    final busIsWeekday = ref.watch(busIsWeekdayNotifierProvider);
-    final busScrolled = ref.watch(busIsScrolledNotifierProvider);
+    final busData = ref.watch(busDataProvider);
+    final myBusStop = ref.watch(myBusStopProvider);
+    final busIsTo = ref.watch(busIsToProvider);
+    final busPolling = ref.watch(busPollingProvider);
+    final busIsWeekday = ref.watch(busIsWeekdayProvider);
+    final busScrolled = ref.watch(busIsScrolledProvider);
 
     final myBusStopButton = busStopButton(
       context,
@@ -96,8 +96,8 @@ final class BusScreen extends ConsumerWidget {
       iconSize: 20,
       color: AppColor.linkTextBlue,
       onPressed: () {
-        ref.read(busIsToNotifierProvider.notifier).toggle();
-        ref.read(busIsScrolledNotifierProvider.notifier).value = false;
+        ref.read(busIsToProvider.notifier).toggle();
+        ref.read(busIsScrolledProvider.notifier).value = false;
       },
       icon: const Icon(Icons.swap_horiz_outlined),
     );
@@ -188,7 +188,7 @@ final class BusScreen extends ConsumerWidget {
         duration: const Duration(milliseconds: 500),
         curve: Curves.easeInOut,
       );
-      ref.read(busIsScrolledNotifierProvider.notifier).value = true;
+      ref.read(busIsScrolledProvider.notifier).value = true;
     });
 
     return Scaffold(
@@ -197,8 +197,8 @@ final class BusScreen extends ConsumerWidget {
         actions: [
           DottoButton(
             onPressed: () {
-              ref.read(busIsWeekdayNotifierProvider.notifier).toggle();
-              ref.read(busIsScrolledNotifierProvider.notifier).value = false;
+              ref.read(busIsWeekdayProvider.notifier).toggle();
+              ref.read(busIsScrolledProvider.notifier).value = false;
             },
             type: DottoButtonType.text,
             child: Row(

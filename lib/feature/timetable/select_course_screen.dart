@@ -23,12 +23,8 @@ final class SelectCourseScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final personalLessonIdList = ref.watch(
-      personalLessonIdListNotifierProvider,
-    );
-    final weekPeriodAllRecords = ref.watch(
-      weekPeriodAllRecordsNotifierProvider,
-    );
+    final personalLessonIdList = ref.watch(personalLessonIdListProvider);
+    final weekPeriodAllRecords = ref.watch(weekPeriodAllRecordsProvider);
 
     return Scaffold(
       appBar: AppBar(

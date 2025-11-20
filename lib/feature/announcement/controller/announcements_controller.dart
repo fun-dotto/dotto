@@ -6,17 +6,13 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'announcements_controller.g.dart';
 
-final announcementRepositoryProvider = Provider<AnnouncementRepository>(
-  (ref) => AnnouncementRepositoryImpl(),
-);
-
 @riverpod
 final class AnnouncementsNotifier extends _$AnnouncementsNotifier {
   @override
   Future<List<Announcement>> build() async {
     try {
       final announcementRepository = ref.read(announcementRepositoryProvider);
-      final config = ref.read(configNotifierProvider);
+      final config = ref.read(configProvider);
       final url = Uri.parse(config.announcementsUrl);
       final announcements = await announcementRepository.getAnnouncements(url);
       return announcements.where((e) => e.isActive).toList()

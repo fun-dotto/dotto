@@ -10,7 +10,7 @@ final class SearchCourseFilterSection extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final kamokuSearchController = ref.watch(kamokuSearchControllerProvider);
+    final kamokuSearchController = ref.watch(kamokuSearchProvider);
 
     return Column(
       children: [
@@ -19,10 +19,12 @@ final class SearchCourseFilterSection extends ConsumerWidget {
             .where((e) => e != SearchCourseFilterOptions.largeCategory)
             .map(
               (e) => Visibility(
-                visible: kamokuSearchController.visibilityStatus.contains(e),
-                child: SearchCourseFilterCheckbox(
-                  filterOption: e,
-                ),
+                visible:
+                    kamokuSearchController.value?.visibilityStatus.contains(
+                      e,
+                    ) ??
+                    false,
+                child: SearchCourseFilterCheckbox(filterOption: e),
               ),
             ),
       ],

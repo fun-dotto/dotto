@@ -39,9 +39,7 @@ final class _AssignmentListScreenState
     _initNotifications();
     // Ensure preferences are loaded once the widget mounts
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref
-          .read(assignmentPreferencesNotifierProvider.notifier)
-          .ensureInitialized();
+      ref.read(assignmentPreferencesProvider.notifier).ensureInitialized();
     });
   }
 
@@ -138,7 +136,7 @@ final class _AssignmentListScreenState
                 final id = kadai.id;
                 if (id == null) return;
                 final removedAlerts = await ref
-                    .read(assignmentPreferencesNotifierProvider.notifier)
+                    .read(assignmentPreferencesProvider.notifier)
                     .hideAssignments([id]);
                 if (removedAlerts.contains(id)) {
                   await _cancelNotification(id);
@@ -177,14 +175,14 @@ final class _AssignmentListScreenState
                 final visible = listKadai
                     .hiddenKadai(
                       ref
-                          .read(assignmentPreferencesNotifierProvider)
+                          .read(assignmentPreferencesProvider)
                           .hiddenAssignmentIds,
                     )
                     .map((kadai) => kadai.id)
                     .whereType<int>()
                     .toList();
                 final removedAlerts = await ref
-                    .read(assignmentPreferencesNotifierProvider.notifier)
+                    .read(assignmentPreferencesProvider.notifier)
                     .hideAssignments(visible);
                 for (final id in removedAlerts) {
                   await _cancelNotification(id);
@@ -270,7 +268,7 @@ final class _AssignmentListScreenState
     AssignmentState assignmentState,
     Kadai kadai,
   ) {
-    final notifier = ref.read(assignmentPreferencesNotifierProvider.notifier);
+    final notifier = ref.read(assignmentPreferencesProvider.notifier);
     final isAlertOn = assignmentState.alertAssignmentIds.contains(kadai.id);
     return ActionPane(
       motion: const StretchMotion(),
@@ -306,7 +304,7 @@ final class _AssignmentListScreenState
     AssignmentState assignmentState,
     Kadai kadai,
   ) {
-    final notifier = ref.read(assignmentPreferencesNotifierProvider.notifier);
+    final notifier = ref.read(assignmentPreferencesProvider.notifier);
     final isDone = assignmentState.doneAssignmentIds.contains(kadai.id);
     return ActionPane(
       motion: const StretchMotion(),
@@ -349,7 +347,7 @@ final class _AssignmentListScreenState
     AssignmentState assignmentState,
     KadaiList kadaiList,
   ) {
-    final notifier = ref.read(assignmentPreferencesNotifierProvider.notifier);
+    final notifier = ref.read(assignmentPreferencesProvider.notifier);
     final hidden = assignmentState.hiddenAssignmentIds;
     final visible = kadaiList.hiddenKadai(hidden);
     final isAlertOn = _listAllCheck(
@@ -393,7 +391,7 @@ final class _AssignmentListScreenState
     AssignmentState assignmentState,
     KadaiList kadaiList,
   ) {
-    final notifier = ref.read(assignmentPreferencesNotifierProvider.notifier);
+    final notifier = ref.read(assignmentPreferencesProvider.notifier);
     final hidden = assignmentState.hiddenAssignmentIds;
     final visible = kadaiList.hiddenKadai(hidden);
     final isDone = _listAllCheck(
@@ -578,8 +576,8 @@ final class _AssignmentListScreenState
   @override
   Widget build(BuildContext context) {
     ref.watch(settingsUserKeyProvider);
-    final assignmentState = ref.watch(assignmentPreferencesNotifierProvider);
-    final assignments = ref.watch(assignmentsNotifierProvider);
+    final assignmentState = ref.watch(assignmentPreferencesProvider);
+    final assignments = ref.watch(assignmentsProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -600,10 +598,8 @@ final class _AssignmentListScreenState
                 ),
               );
               if (result == 'back') {
-                await ref
-                    .read(assignmentPreferencesNotifierProvider.notifier)
-                    .reload();
-                await ref.read(assignmentsNotifierProvider.notifier).refresh();
+                await ref.read(assignmentPreferencesProvider.notifier).reload();
+                await ref.read(assignmentsProvider.notifier).refresh();
               }
             },
             type: DottoButtonType.text,
@@ -614,7 +610,7 @@ final class _AssignmentListScreenState
       body: RefreshIndicator(
         edgeOffset: 50,
         onRefresh: () async {
-          await ref.read(assignmentsNotifierProvider.notifier).refresh();
+          await ref.read(assignmentsProvider.notifier).refresh();
         },
         child: GestureDetector(
           onPanDown: (_) => Slidable.of(context)?.close(),
@@ -622,7 +618,7 @@ final class _AssignmentListScreenState
             data: (data) => _buildList(data, assignmentState),
             error: (error, stackTrace) => SetupHopeContinuityScreen(
               onUserKeySaved: () async {
-                await ref.read(assignmentsNotifierProvider.notifier).refresh();
+                await ref.read(assignmentsProvider.notifier).refresh();
               },
             ),
             loading: () => const Center(child: CircularProgressIndicator()),

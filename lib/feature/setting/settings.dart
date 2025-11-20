@@ -73,11 +73,11 @@ final class SettingsScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final userNotifier = ref.read(userProvider.notifier);
     final user = ref.watch(userProvider);
-    final config = ref.watch(configNotifierProvider);
+    final config = ref.watch(configProvider);
 
     // 設定を取得
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(configNotifierProvider.notifier).refresh();
+      ref.read(configProvider.notifier).refresh();
     });
 
     return Scaffold(
@@ -134,9 +134,7 @@ final class SettingsScreen extends ConsumerWidget {
                 },
                 leading: const Icon(Icons.school),
                 title: const Text('学年'),
-                value: Text(
-                  ref.watch(settingsGradeProvider).valueOrNull ?? 'なし',
-                ),
+                value: Text(ref.watch(settingsGradeProvider).value ?? 'なし'),
               ),
               // コース
               SettingsTile.navigation(
@@ -158,9 +156,7 @@ final class SettingsScreen extends ConsumerWidget {
                 },
                 leading: const Icon(Icons.school),
                 title: const Text('コース'),
-                value: Text(
-                  ref.watch(settingsCourseProvider).valueOrNull ?? 'なし',
-                ),
+                value: Text(ref.watch(settingsCourseProvider).value ?? 'なし'),
               ),
               // HOPE連携
               SettingsTile.navigation(

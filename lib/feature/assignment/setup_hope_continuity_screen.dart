@@ -15,9 +15,9 @@ class SetupHopeContinuityScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final config = ref.watch(configNotifierProvider);
-    final hopeUserKey = ref.watch(hopeUserKeyNotifierProvider);
-    final hopeUserKeyNotifier = ref.read(hopeUserKeyNotifierProvider.notifier);
+    final config = ref.watch(configProvider);
+    final hopeUserKey = ref.watch(hopeUserKeyProvider);
+    final hopeUserKeyNotifier = ref.read(hopeUserKeyProvider.notifier);
     final textEditingController = ref.watch(
       hopeContinuityTextEditingControllerProvider,
     );
