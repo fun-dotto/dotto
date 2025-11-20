@@ -35,6 +35,8 @@ android {
     namespace "jp.ac.fun.dotto"
     compileSdkVersion 35
 
+    ndkVersion = '29.0.14206865'
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
