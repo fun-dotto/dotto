@@ -1,3 +1,4 @@
+import 'package:dotto/controller/user_controller.dart';
 import 'package:dotto/feature/kamoku_detail/kamoku_detail_screen.dart';
 import 'package:dotto/feature/search_course/controller/kamoku_search_controller.dart';
 import 'package:dotto/feature/search_course/widget/add_course_button.dart';
@@ -16,6 +17,7 @@ final class SearchCourseResultItem extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final user = ref.watch(userProvider);
     final kamokuSearchController = ref.watch(kamokuSearchControllerProvider);
     final lessonId = record['LessonId'] as int;
 
@@ -29,6 +31,7 @@ final class SearchCourseResultItem extends ConsumerWidget {
               lessonId: lessonId,
               lessonName: record['授業名'] as String,
               kakomonLessonId: record['過去問'] as int?,
+              isAuthenticated: user != null,
             ),
             settings: RouteSettings(
               name:

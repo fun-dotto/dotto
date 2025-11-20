@@ -1,27 +1,25 @@
-import 'package:dotto/feature/kamoku_detail/repository/kamoku_detail_repository.dart';
 import 'package:dotto/feature/kamoku_detail/widget/kamoku_detail_kakomon_list_objects.dart';
 import 'package:dotto/helper/s3_repository.dart';
 import 'package:flutter/material.dart';
 
-final class KamokuDetailKakomonListScreen extends StatefulWidget {
-  const KamokuDetailKakomonListScreen({required this.url, super.key});
-  final int url;
+final class KamokuDetailKakomonListScreen extends StatelessWidget {
+  const KamokuDetailKakomonListScreen({
+    required this.lessonId,
+    required this.isAuthenticated,
+    super.key,
+  });
 
-  @override
-  State<KamokuDetailKakomonListScreen> createState() =>
-      _KamokuDetailKakomonListScreenState();
-}
+  final int lessonId;
+  final bool isAuthenticated;
 
-final class _KamokuDetailKakomonListScreenState
-    extends State<KamokuDetailKakomonListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: (KamokuDetailRepository().isLoggedinGoogle())
+        child: isAuthenticated
             ? FutureBuilder(
                 future: S3Repository().getListObjectsKey(
-                  url: widget.url.toString(),
+                  url: lessonId.toString(),
                 ),
                 builder:
                     (
@@ -39,9 +37,14 @@ final class _KamokuDetailKakomonListScreenState
                               )
                               .toList(),
                         );
-                      } else {
+                      }
+                      if (snapshot.hasError) {
+                        return Center(child: Text('Error: ${snapshot.error}'));
+                      }
+                      if (snapshot.connectionState == ConnectionState.waiting) {
                         return const CircularProgressIndicator();
                       }
+                      return const SizedBox.shrink();
                     },
               )
             : const Text('未来大Googleアカウントでログインが必要です'),

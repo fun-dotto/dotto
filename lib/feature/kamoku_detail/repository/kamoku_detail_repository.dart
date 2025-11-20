@@ -12,19 +12,19 @@ final class KamokuDetailRepository {
       KamokuDetailRepository._internal();
 
   Stream<QuerySnapshot<Map<String, dynamic>>> getFeedbackListFromFirestore(
-      int lessonId) {
+    int lessonId,
+  ) {
     return FirebaseFirestore.instance
         .collection('feedback')
         .where('lessonId', isEqualTo: lessonId)
         .snapshots();
   }
 
-  bool isLoggedinGoogle() {
-    return FirebaseAuth.instance.currentUser != null;
-  }
-
   Future<bool> postFeedback(
-      int lessonId, double? selectedScore, String text) async {
+    int lessonId,
+    double? selectedScore,
+    String text,
+  ) async {
     final userKey = FirebaseAuth.instance.currentUser?.uid;
     if (userKey != '' && selectedScore != null) {
       // Firestoreで同じUserKeyとlessonIdを持つフィードバックを検索
@@ -37,22 +37,18 @@ final class KamokuDetailRepository {
       if (querySnapshot.docs.isNotEmpty) {
         // 既存のフィードバックが存在してたらそれを更新
         final docId = querySnapshot.docs[0].id;
-        FirebaseFirestore.instance.collection('feedback').doc(docId).update(
-          {
-            'score': selectedScore,
-            'detail': text,
-          },
-        ).ignore();
+        FirebaseFirestore.instance.collection('feedback').doc(docId).update({
+          'score': selectedScore,
+          'detail': text,
+        }).ignore();
       } else {
         // 既存のフィードバックが存在しなかったら新しいドキュメントを作成
-        FirebaseFirestore.instance.collection('feedback').add(
-          {
-            'User': userKey,
-            'lessonId': lessonId,
-            'score': selectedScore,
-            'detail': text,
-          },
-        ).ignore();
+        FirebaseFirestore.instance.collection('feedback').add({
+          'User': userKey,
+          'lessonId': lessonId,
+          'score': selectedScore,
+          'detail': text,
+        }).ignore();
       }
       return true;
     } else {
@@ -63,8 +59,11 @@ final class KamokuDetailRepository {
   Future<Map<String, dynamic>> fetchDetails(int lessonId) async {
     final dbPath = await SyllabusDatabaseConfig().getDBPath();
     final database = await openDatabase(dbPath);
-    final List<Map<String, dynamic>> details = await database
-        .query('detail', where: 'LessonId = ?', whereArgs: [lessonId]);
+    final List<Map<String, dynamic>> details = await database.query(
+      'detail',
+      where: 'LessonId = ?',
+      whereArgs: [lessonId],
+    );
 
     if (details.isNotEmpty) {
       return details.first;

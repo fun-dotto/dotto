@@ -5,9 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 final class KamokuFeedbackScreen extends StatefulWidget {
-  const KamokuFeedbackScreen({required this.lessonId, super.key});
+  const KamokuFeedbackScreen({
+    required this.lessonId,
+    required this.isAuthenticated,
+    super.key,
+  });
 
   final int lessonId;
+  final bool isAuthenticated;
 
   @override
   State<KamokuFeedbackScreen> createState() => _KamokuFeedbackScreenState();
@@ -36,7 +41,7 @@ final class _KamokuFeedbackScreenState extends State<KamokuFeedbackScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          if (KamokuDetailRepository().isLoggedinGoogle()) {
+          if (widget.isAuthenticated) {
             _showCustomDialog(context);
           } else {
             ScaffoldMessenger.of(context).showSnackBar(

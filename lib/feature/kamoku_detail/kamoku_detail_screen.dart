@@ -7,12 +7,15 @@ final class KamokuDetailScreen extends StatelessWidget {
   const KamokuDetailScreen({
     required this.lessonId,
     required this.lessonName,
+    required this.isAuthenticated,
     super.key,
     this.kakomonLessonId,
   });
+
   final int lessonId;
   final String lessonName;
   final int? kakomonLessonId;
+  final bool isAuthenticated;
 
   @override
   Widget build(BuildContext context) {
@@ -33,8 +36,14 @@ final class KamokuDetailScreen extends StatelessWidget {
         body: TabBarView(
           children: <Widget>[
             KamokuDetailSyllabusScreen(lessonId: lessonId),
-            KamokuFeedbackScreen(lessonId: lessonId),
-            KamokuDetailKakomonListScreen(url: kakomonLessonId ?? lessonId),
+            KamokuFeedbackScreen(
+              lessonId: lessonId,
+              isAuthenticated: isAuthenticated,
+            ),
+            KamokuDetailKakomonListScreen(
+              lessonId: kakomonLessonId ?? lessonId,
+              isAuthenticated: isAuthenticated,
+            ),
           ],
         ),
       ),
