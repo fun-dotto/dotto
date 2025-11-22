@@ -294,19 +294,17 @@ final class TimetableRepository {
     WidgetRef ref,
   ) async {
     await ref
-        .read(personalLessonIdListNotifierProvider.notifier)
+        .read(personalLessonIdListProvider.notifier)
         .set(personalTimetableList);
   }
 
   Future<void> addPersonalTimetableList(int lessonId, WidgetRef ref) async {
-    await ref.read(personalLessonIdListNotifierProvider.notifier).add(lessonId);
+    await ref.read(personalLessonIdListProvider.notifier).add(lessonId);
     await addPersonalTimetableListToFirestore(lessonId, ref);
   }
 
   Future<void> removePersonalTimetableList(int lessonId, WidgetRef ref) async {
-    await ref
-        .read(personalLessonIdListNotifierProvider.notifier)
-        .remove(lessonId);
+    await ref.read(personalLessonIdListProvider.notifier).remove(lessonId);
     await removePersonalTimetableListFromFirestore(lessonId, ref);
   }
 
@@ -459,9 +457,7 @@ final class TimetableRepository {
 
   Future<bool> isOverSeleted(int lessonId, WidgetRef ref) async {
     final personalLessonIdList = await _getPersonalTimetableList();
-    final weekPeriodAllRecords = ref
-        .watch(weekPeriodAllRecordsNotifierProvider)
-        .value;
+    final weekPeriodAllRecords = ref.watch(weekPeriodAllRecordsProvider).value;
     if (weekPeriodAllRecords != null) {
       final filterWeekPeriod = weekPeriodAllRecords
           .where((element) => element['lessonId'] == lessonId)

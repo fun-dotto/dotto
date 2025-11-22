@@ -14,7 +14,7 @@ final class BusStopSelectScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final busStops = ref.watch(busStopsNotifierProvider);
+    final busStops = ref.watch(busStopsProvider);
     return Scaffold(
       appBar: AppBar(title: const Text('バス停選択')),
       body: busStops.when(
@@ -29,7 +29,7 @@ final class BusStopSelectScreen extends ConsumerWidget {
                         UserPreferenceKeys.myBusStop,
                         e.id,
                       );
-                      ref.read(myBusStopNotifierProvider.notifier).value = e;
+                      ref.read(myBusStopProvider.notifier).value = e;
                       if (context.mounted) {
                         Navigator.of(context).pop();
                       }

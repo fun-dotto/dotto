@@ -13,7 +13,7 @@ final class CourseCancellationNotifier extends _$CourseCancellationNotifier {
   @override
   Future<List<CourseCancellation>> build() async {
     final isFilteredOnlyTakingCourseCancellation = ref.watch(
-      isFilteredOnlyTakingCourseCancellationNotifierProvider,
+      isFilteredOnlyTakingCourseCancellationProvider,
     );
     final json = await readJsonFile('home/cancel_lecture.json');
     final decodedData = jsonDecode(json) as List<dynamic>;

@@ -34,10 +34,10 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 
   Future<void> getBus() async {
-    await ref.read(busStopsNotifierProvider.notifier).build();
-    await ref.read(busDataNotifierProvider.notifier).build();
-    await ref.read(myBusStopNotifierProvider.notifier).load();
-    ref.read(busPollingNotifierProvider.notifier).start();
+    await ref.read(busStopsProvider.notifier).build();
+    await ref.read(busDataProvider.notifier).build();
+    await ref.read(myBusStopProvider.notifier).load();
+    ref.read(busPollingProvider.notifier).start();
     await BusRepository().changeDirectionOnCurrentLocation(ref);
   }
 
@@ -119,9 +119,8 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
                     ),
                   )
                   .then(
-                    (value) => ref
-                        .read(twoWeekTimetableNotifierProvider.notifier)
-                        .refresh(),
+                    (value) =>
+                        ref.read(twoWeekTimetableProvider.notifier).refresh(),
                   );
             },
             type: DottoButtonType.text,
@@ -141,10 +140,8 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final config = ref.watch(configNotifierProvider);
-    final timetablePeriodStyle = ref.watch(
-      timetablePeriodStyleNotifierProvider,
-    );
+    final config = ref.watch(configProvider);
+    final timetablePeriodStyle = ref.watch(timetablePeriodStyleProvider);
 
     final fileNamePath = <String, String>{
       '学年暦': config.officialCalendarPdfUrl,
@@ -187,7 +184,7 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
                     value: style == TimetablePeriodStyle.numberAndTime,
                     onChanged: (value) {
                       ref
-                          .read(timetablePeriodStyleNotifierProvider.notifier)
+                          .read(timetablePeriodStyleProvider.notifier)
                           .setStyle(
                             value
                                 ? TimetablePeriodStyle.numberAndTime

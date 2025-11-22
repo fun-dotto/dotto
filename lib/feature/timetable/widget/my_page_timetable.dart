@@ -166,9 +166,7 @@ final class MyPageTimetable extends ConsumerWidget {
     Period period,
     List<TimetableCourse> timetableCourseList,
   ) {
-    final timetablePeriodStyle = ref.watch(
-      timetablePeriodStyleNotifierProvider,
-    );
+    final timetablePeriodStyle = ref.watch(timetablePeriodStyleProvider);
     return timetablePeriodStyle.when(
       data: (style) {
         return Row(
@@ -224,7 +222,7 @@ final class MyPageTimetable extends ConsumerWidget {
     final controller = ScrollController(
       initialScrollOffset: initialScrollOffset.toDouble(),
     );
-    final focusTimetableDay = ref.watch(focusedTimetableDateNotifierProvider);
+    final focusTimetableDay = ref.watch(focusedTimetableDateProvider);
     return SingleChildScrollView(
       controller: controller,
       scrollDirection: Axis.horizontal,
@@ -236,8 +234,7 @@ final class MyPageTimetable extends ConsumerWidget {
           children: dates.map((date) {
             return ElevatedButton(
               onPressed: () async {
-                ref.read(focusedTimetableDateNotifierProvider.notifier).value =
-                    date;
+                ref.read(focusedTimetableDateProvider.notifier).value = date;
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: focusTimetableDay.day == date.day
@@ -284,8 +281,8 @@ final class MyPageTimetable extends ConsumerWidget {
   }
 
   Widget _timetableColumn(BuildContext context, WidgetRef ref) {
-    final twoWeekTimetable = ref.watch(twoWeekTimetableNotifierProvider);
-    final focusTimetableDay = ref.watch(focusedTimetableDateNotifierProvider);
+    final twoWeekTimetable = ref.watch(twoWeekTimetableProvider);
+    final focusTimetableDay = ref.watch(focusedTimetableDateProvider);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(

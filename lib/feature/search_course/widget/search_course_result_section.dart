@@ -8,21 +8,18 @@ final class SearchCourseResultSection extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final kamokuSearchController = ref.watch(kamokuSearchControllerProvider);
+    final kamokuSearchController = ref.watch(kamokuSearchProvider);
 
-    if (kamokuSearchController.searchResults == null) {
+    if (kamokuSearchController.value?.searchResults == null) {
       return const SizedBox.shrink();
     }
-    if (kamokuSearchController.searchResults!.isNotEmpty) {
+    if (kamokuSearchController.value?.searchResults!.isNotEmpty ?? false) {
       return SearchCourseResult(
-        records: kamokuSearchController.searchResults!,
+        records: kamokuSearchController.value?.searchResults ?? [],
       );
     }
     return const Center(
-      child: Padding(
-        padding: EdgeInsets.all(16),
-        child: Text('見つかりませんでした'),
-      ),
+      child: Padding(padding: EdgeInsets.all(16), child: Text('見つかりませんでした')),
     );
   }
 }

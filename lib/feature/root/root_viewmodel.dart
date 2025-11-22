@@ -56,7 +56,7 @@ class RootViewModel extends _$RootViewModel {
         ) ??
         false;
 
-    final config = ref.read(configNotifierProvider);
+    final config = ref.read(configProvider);
 
     return RootViewModelState(
       selectedTab: TabItem.home,

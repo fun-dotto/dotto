@@ -177,7 +177,7 @@ final class FunchScreen extends ConsumerWidget {
         return data.keys.map((e) {
           return InkWell(
             onTap: () {
-              ref.read(funchDateProvider.notifier).state =
+              ref.read(funchDateProvider.notifier).value =
                   DateTimeUtility.parseDateKey(e);
               Navigator.of(context).pop();
             },

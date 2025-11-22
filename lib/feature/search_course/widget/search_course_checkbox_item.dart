@@ -15,8 +15,9 @@ final class SearchCourseCheckboxItem extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final kamokuSearchController = ref.watch(kamokuSearchControllerProvider);
-    final checkedList = kamokuSearchController.filterSelections[filterOption]!;
+    final kamokuSearchController = ref.watch(kamokuSearchProvider);
+    final checkedList =
+        kamokuSearchController.value?.filterSelections[filterOption] ?? [];
 
     return SizedBox(
       width: 100,
@@ -26,7 +27,7 @@ final class SearchCourseCheckboxItem extends ConsumerWidget {
             value: checkedList[index],
             onChanged: (value) {
               ref
-                  .read(kamokuSearchControllerProvider.notifier)
+                  .read(kamokuSearchProvider.notifier)
                   .checkboxOnChanged(
                     value: value,
                     filterOption: filterOption,

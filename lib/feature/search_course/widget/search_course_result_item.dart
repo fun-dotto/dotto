@@ -18,7 +18,7 @@ final class SearchCourseResultItem extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final user = ref.watch(userProvider);
-    final kamokuSearchController = ref.watch(kamokuSearchControllerProvider);
+    final kamokuSearchController = ref.watch(kamokuSearchProvider);
     final lessonId = record['LessonId'] as int;
 
     return ListTile(
@@ -39,7 +39,7 @@ final class SearchCourseResultItem extends ConsumerWidget {
             ),
           ),
         );
-        kamokuSearchController.searchBoxFocusNode.unfocus();
+        kamokuSearchController.value?.searchBoxFocusNode.unfocus();
       },
       trailing: const Icon(Icons.chevron_right),
       leading: AddCourseButton(lessonId: lessonId),

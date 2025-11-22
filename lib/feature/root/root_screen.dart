@@ -169,9 +169,6 @@ final class RootScreen extends ConsumerWidget {
           resizeToAvoidBottomInset: false,
           body: Center(child: CircularProgressIndicator()),
         );
-
-      default:
-        return const SizedBox.shrink();
     }
   }
 }

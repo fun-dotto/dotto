@@ -12,7 +12,7 @@ final class SearchCourseActionButtons extends ConsumerWidget {
       child: DottoButton(
         onPressed: () async {
           FocusScope.of(context).unfocus();
-          await ref.read(kamokuSearchControllerProvider.notifier).search();
+          await ref.read(kamokuSearchProvider.notifier).search();
         },
         child: const Row(
           spacing: 8,

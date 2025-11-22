@@ -12,9 +12,7 @@ final class AddCourseButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final personalLessonIdList = ref.watch(
-      personalLessonIdListNotifierProvider,
-    );
+    final personalLessonIdList = ref.watch(personalLessonIdListProvider);
 
     return personalLessonIdList.when(
       data: (data) {
@@ -39,7 +37,7 @@ final class AddCourseButton extends ConsumerWidget {
                   .removePersonalTimetableList(lessonId, ref)
                   .ignore();
             }
-            await ref.read(twoWeekTimetableNotifierProvider.notifier).refresh();
+            await ref.read(twoWeekTimetableProvider.notifier).refresh();
           },
         );
       },

@@ -41,9 +41,9 @@ final class CourseCancellationScreen extends ConsumerWidget {
         body: const Center(child: Text('Googleアカウント(@fun.ac.jp)ログインが必要です。')),
       );
     }
-    final courseCancellations = ref.watch(courseCancellationNotifierProvider);
+    final courseCancellations = ref.watch(courseCancellationProvider);
     final isFilteredOnlyTakingCourseCancellation = ref.watch(
-      isFilteredOnlyTakingCourseCancellationNotifierProvider,
+      isFilteredOnlyTakingCourseCancellationProvider,
     );
     return Scaffold(
       appBar: AppBar(
@@ -52,10 +52,7 @@ final class CourseCancellationScreen extends ConsumerWidget {
           DottoButton(
             onPressed: () {
               ref
-                  .read(
-                    isFilteredOnlyTakingCourseCancellationNotifierProvider
-                        .notifier,
-                  )
+                  .read(isFilteredOnlyTakingCourseCancellationProvider.notifier)
                   .toggle();
             },
             type: DottoButtonType.text,

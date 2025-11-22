@@ -8,21 +8,22 @@ final class SearchCourseBox extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final kamokuSearchController = ref.watch(kamokuSearchControllerProvider);
+    final kamokuSearchController = ref.watch(kamokuSearchProvider);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: DottoTextField(
-        controller: kamokuSearchController.textEditingController,
-        focusNode: kamokuSearchController.searchBoxFocusNode,
+        controller:
+            kamokuSearchController.value?.textEditingController ??
+            TextEditingController(),
+        focusNode:
+            kamokuSearchController.value?.searchBoxFocusNode ?? FocusNode(),
         placeholder: '科目名で検索',
         onCleared: () {
-          ref.read(kamokuSearchControllerProvider.notifier).setSearchWord('');
+          ref.read(kamokuSearchProvider.notifier).setSearchWord('');
         },
-        onChanged: ref
-            .read(kamokuSearchControllerProvider.notifier)
-            .setSearchWord,
+        onChanged: ref.read(kamokuSearchProvider.notifier).setSearchWord,
         onSubmitted: (_) {
-          ref.read(kamokuSearchControllerProvider.notifier).search();
+          ref.read(kamokuSearchProvider.notifier).search();
         },
       ),
     );
