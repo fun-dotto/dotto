@@ -16,28 +16,38 @@ final class SearchCourseCheckboxItem extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final kamokuSearchController = ref.watch(kamokuSearchProvider);
-    final checkedList =
-        kamokuSearchController.value?.filterSelections[filterOption] ?? [];
-
-    return SizedBox(
-      width: 100,
-      child: Row(
-        children: [
-          Checkbox(
-            value: checkedList[index],
-            onChanged: (value) {
-              ref
-                  .read(kamokuSearchProvider.notifier)
-                  .checkboxOnChanged(
-                    value: value,
-                    filterOption: filterOption,
-                    index: index,
-                  );
-            },
+    
+    return kamokuSearchController.when(
+      data: (state) {
+        final checkedList = state.filterSelections[filterOption] ?? [];
+        // インデックスが有効な範囲内にあることを確認
+        if (index >= checkedList.length) {
+          return const SizedBox.shrink();
+        }
+        
+        return SizedBox(
+          width: 100,
+          child: Row(
+            children: [
+              Checkbox(
+                value: checkedList[index],
+                onChanged: (value) {
+                  ref
+                      .read(kamokuSearchProvider.notifier)
+                      .checkboxOnChanged(
+                        value: value,
+                        filterOption: filterOption,
+                        index: index,
+                      );
+                },
+              ),
+              Text(filterOption.labels[index]),
+            ],
           ),
-          Text(filterOption.labels[index]),
-        ],
-      ),
+        );
+      },
+      loading: () => const SizedBox.shrink(),
+      error: (_, __) => const SizedBox.shrink(),
     );
   }
 }
