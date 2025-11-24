@@ -6,10 +6,10 @@ import 'package:dotto/helper/user_preference_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'kamoku_search_controller.g.dart';
+part 'search_course_viewmodel.g.dart';
 
 @riverpod
-final class KamokuSearchNotifier extends _$KamokuSearchNotifier {
+final class SearchCourseViewModel extends _$SearchCourseViewModel {
   @override
   Future<SearchCourseViewModelState> build() async {
     await updateCheckListFromPreferences();

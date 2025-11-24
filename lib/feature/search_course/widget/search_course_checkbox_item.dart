@@ -1,4 +1,4 @@
-import 'package:dotto/feature/search_course/controller/kamoku_search_controller.dart';
+import 'package:dotto/feature/search_course/controller/search_course_viewmodel.dart';
 import 'package:dotto/feature/search_course/domain/search_course_filter_options.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -15,25 +15,21 @@ final class SearchCourseCheckboxItem extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final kamokuSearchController = ref.watch(kamokuSearchProvider);
-    
-    return kamokuSearchController.when(
+    final viewModel = ref.watch(searchCourseViewModelProvider);
+
+    return viewModel.when(
       data: (state) {
-        final checkedList = state.filterSelections[filterOption] ?? [];
-        // インデックスが有効な範囲内にあることを確認
-        if (index >= checkedList.length) {
-          return const SizedBox.shrink();
-        }
-        
         return SizedBox(
           width: 100,
           child: Row(
             children: [
               Checkbox(
-                value: checkedList[index],
+                value:
+                    viewModel.value?.filterSelections[filterOption]?[index] ??
+                    false,
                 onChanged: (value) {
                   ref
-                      .read(kamokuSearchProvider.notifier)
+                      .read(searchCourseViewModelProvider.notifier)
                       .checkboxOnChanged(
                         value: value,
                         filterOption: filterOption,

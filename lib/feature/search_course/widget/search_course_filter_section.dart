@@ -1,4 +1,4 @@
-import 'package:dotto/feature/search_course/controller/kamoku_search_controller.dart';
+import 'package:dotto/feature/search_course/controller/search_course_viewmodel.dart';
 import 'package:dotto/feature/search_course/domain/search_course_filter_options.dart';
 import 'package:dotto/feature/search_course/widget/search_course_filter_checkbox.dart';
 import 'package:dotto/feature/search_course/widget/search_course_filter_section_large_category.dart';
@@ -10,7 +10,7 @@ final class SearchCourseFilterSection extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final kamokuSearchController = ref.watch(kamokuSearchProvider);
+    final viewModel = ref.watch(searchCourseViewModelProvider);
 
     return Column(
       children: [
@@ -19,11 +19,7 @@ final class SearchCourseFilterSection extends ConsumerWidget {
             .where((e) => e != SearchCourseFilterOptions.largeCategory)
             .map(
               (e) => Visibility(
-                visible:
-                    kamokuSearchController.value?.visibilityStatus.contains(
-                      e,
-                    ) ??
-                    false,
+                visible: viewModel.value?.visibilityStatus.contains(e) ?? false,
                 child: SearchCourseFilterCheckbox(filterOption: e),
               ),
             ),

@@ -1,4 +1,4 @@
-import 'package:dotto/feature/search_course/controller/kamoku_search_controller.dart';
+import 'package:dotto/feature/search_course/controller/search_course_viewmodel.dart';
 import 'package:dotto_design_system/component/text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -8,22 +8,23 @@ final class SearchCourseBox extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final kamokuSearchController = ref.watch(kamokuSearchProvider);
+    final viewModel = ref.watch(searchCourseViewModelProvider);
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: DottoTextField(
         controller:
-            kamokuSearchController.value?.textEditingController ??
-            TextEditingController(),
-        focusNode: kamokuSearchController.value?.focusNode ?? FocusNode(),
+            viewModel.value?.textEditingController ?? TextEditingController(),
+        focusNode: viewModel.value?.focusNode ?? FocusNode(),
         placeholder: '科目名で検索',
         onCleared: () {
-          ref.read(kamokuSearchProvider.notifier).setSearchWord('');
+          ref.read(searchCourseViewModelProvider.notifier).setSearchWord('');
         },
-        onChanged: ref.read(kamokuSearchProvider.notifier).setSearchWord,
+        onChanged: ref
+            .read(searchCourseViewModelProvider.notifier)
+            .setSearchWord,
         onSubmitted: (_) {
-          ref.read(kamokuSearchProvider.notifier).search();
+          ref.read(searchCourseViewModelProvider.notifier).search();
         },
       ),
     );

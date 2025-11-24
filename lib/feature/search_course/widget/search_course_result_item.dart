@@ -1,6 +1,6 @@
 import 'package:dotto/controller/user_controller.dart';
 import 'package:dotto/feature/kamoku_detail/kamoku_detail_screen.dart';
-import 'package:dotto/feature/search_course/controller/kamoku_search_controller.dart';
+import 'package:dotto/feature/search_course/controller/search_course_viewmodel.dart';
 import 'package:dotto/feature/search_course/widget/add_course_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -18,7 +18,7 @@ final class SearchCourseResultItem extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final user = ref.watch(userProvider);
-    final kamokuSearchController = ref.watch(kamokuSearchProvider);
+    final viewModel = ref.watch(searchCourseViewModelProvider);
     final lessonId = record['LessonId'] as int;
 
     return ListTile(
@@ -39,7 +39,7 @@ final class SearchCourseResultItem extends ConsumerWidget {
             ),
           ),
         );
-        kamokuSearchController.value?.focusNode.unfocus();
+        viewModel.value?.focusNode.unfocus();
       },
       trailing: const Icon(Icons.chevron_right),
       leading: AddCourseButton(lessonId: lessonId),
