@@ -1,9 +1,8 @@
 import 'package:dotto/feature/search_course/repository/search_course_repository.dart';
 import 'package:dotto/feature/search_course/widget/search_course_result_item.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final class SearchCourseResult extends ConsumerWidget {
+final class SearchCourseResult extends StatelessWidget {
   const SearchCourseResult({required this.records, super.key});
   final List<Map<String, dynamic>> records;
 
@@ -42,7 +41,7 @@ final class SearchCourseResult extends ConsumerWidget {
   }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     return FutureBuilder(
       future: getWeekPeriod(records.map((e) => e['LessonId'] as int).toList()),
       builder: (context, snapshot) {
