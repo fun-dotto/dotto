@@ -1,4 +1,4 @@
-import 'package:dotto/feature/search_course/controller/search_course_viewmodel.dart';
+import 'package:dotto/feature/search_course/search_course_viewmodel.dart';
 import 'package:dotto/feature/search_course/domain/search_course_filter_options.dart';
 import 'package:dotto/feature/search_course/widget/search_course_filter_checkbox.dart';
 import 'package:dotto/feature/search_course/widget/search_course_filter_section_large_category.dart';

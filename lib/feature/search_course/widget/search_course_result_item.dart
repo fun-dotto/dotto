@@ -1,6 +1,6 @@
 import 'package:dotto/controller/user_controller.dart';
 import 'package:dotto/feature/kamoku_detail/kamoku_detail_screen.dart';
-import 'package:dotto/feature/search_course/controller/search_course_viewmodel.dart';
+import 'package:dotto/feature/search_course/search_course_viewmodel.dart';
 import 'package:dotto/feature/search_course/widget/add_course_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

@@ -1,4 +1,4 @@
-import 'package:dotto/feature/search_course/controller/search_course_viewmodel.dart';
+import 'package:dotto/feature/search_course/search_course_viewmodel.dart';
 import 'package:dotto/feature/search_course/widget/search_course_result.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

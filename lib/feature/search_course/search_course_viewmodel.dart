@@ -1,5 +1,5 @@
 import 'package:dotto/domain/user_preference_keys.dart';
-import 'package:dotto/feature/search_course/controller/search_course_viewmodel_state.dart';
+import 'package:dotto/feature/search_course/search_course_viewmodel_state.dart';
 import 'package:dotto/feature/search_course/domain/search_course_filter_options.dart';
 import 'package:dotto/feature/search_course/repository/search_course_repository.dart';
 import 'package:dotto/helper/user_preference_repository.dart';
