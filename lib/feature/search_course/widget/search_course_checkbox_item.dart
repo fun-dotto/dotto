@@ -1,49 +1,27 @@
-import 'package:dotto/feature/search_course/search_course_viewmodel.dart';
-import 'package:dotto/feature/search_course/domain/search_course_filter_options.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final class SearchCourseCheckboxItem extends ConsumerWidget {
+final class SearchCourseCheckboxItem extends StatelessWidget {
   const SearchCourseCheckboxItem({
-    required this.filterOption,
-    required this.index,
+    required this.label,
+    required this.isSelected,
+    required this.onChanged,
     super.key,
   });
 
-  final SearchCourseFilterOptions filterOption;
-  final int index;
+  final String label;
+  final bool isSelected;
+  final void Function(bool?) onChanged;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final viewModel = ref.watch(searchCourseViewModelProvider);
-
-    return viewModel.when(
-      data: (state) {
-        return SizedBox(
-          width: 100,
-          child: Row(
-            children: [
-              Checkbox(
-                value:
-                    viewModel.value?.filterSelections[filterOption]?[index] ??
-                    false,
-                onChanged: (value) {
-                  ref
-                      .read(searchCourseViewModelProvider.notifier)
-                      .checkboxOnChanged(
-                        value: value,
-                        filterOption: filterOption,
-                        index: index,
-                      );
-                },
-              ),
-              Text(filterOption.labels[index]),
-            ],
-          ),
-        );
-      },
-      loading: () => const SizedBox.shrink(),
-      error: (_, __) => const SizedBox.shrink(),
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 100,
+      child: Row(
+        children: [
+          Checkbox(value: isSelected, onChanged: onChanged),
+          Text(label),
+        ],
+      ),
     );
   }
 }

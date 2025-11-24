@@ -1,3 +1,5 @@
+import 'package:dotto/feature/search_course/domain/search_course_filter_option_choice.dart';
+import 'package:dotto/feature/search_course/domain/search_course_filter_options.dart';
 import 'package:dotto/feature/search_course/search_course_viewmodel.dart';
 import 'package:dotto/feature/search_course/search_course_viewmodel_state.dart';
 import 'package:dotto/feature/search_course/widget/search_course_action_buttons.dart';
@@ -12,31 +14,37 @@ final class SearchCourseScreen extends ConsumerWidget {
 
   Widget _body({
     required AsyncValue<SearchCourseViewModelState> viewModelAsync,
+    required void Function(
+      SearchCourseFilterOptions,
+      SearchCourseFilterOptionChoice,
+      bool?,
+    )
+    onChanged,
     required void Function() onCleared,
     required void Function() onSearchButtonTapped,
   }) {
     switch (viewModelAsync) {
       case AsyncData(:final value):
-        return GestureDetector(
-          behavior: HitTestBehavior.opaque,
-          onTap: () => value.focusNode.unfocus(),
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SearchCourseBox(
-                  textEditingController: value.textEditingController,
-                  focusNode: value.focusNode,
-                  onCleared: onCleared,
-                  onSubmitted: (value) => onSearchButtonTapped(),
-                ),
-                const SearchCourseFilterSection(),
-                SearchCourseActionButtons(
-                  onSearchButtonTapped: onSearchButtonTapped,
-                ),
-                const SearchCourseResultSection(),
-              ],
-            ),
+        return SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SearchCourseBox(
+                textEditingController: value.textEditingController,
+                focusNode: value.focusNode,
+                onCleared: onCleared,
+                onSubmitted: (value) => onSearchButtonTapped(),
+              ),
+              SearchCourseFilterSection(
+                visibilityStatus: value.visibilityStatus,
+                selectedChoicesMap: value.selectedChoicesMap,
+                onChanged: onChanged,
+              ),
+              SearchCourseActionButtons(
+                onSearchButtonTapped: onSearchButtonTapped,
+              ),
+              const SearchCourseResultSection(),
+            ],
           ),
         );
       case AsyncLoading():
@@ -55,6 +63,13 @@ final class SearchCourseScreen extends ConsumerWidget {
       appBar: AppBar(title: const Text('科目'), centerTitle: false),
       body: _body(
         viewModelAsync: viewModelAsync,
+        onChanged: (filterOption, choice, isSelected) => ref
+            .read(searchCourseViewModelProvider.notifier)
+            .onCheckboxTapped(
+              filterOption: filterOption,
+              choice: choice,
+              isSelected: isSelected,
+            ),
         onCleared: () =>
             ref.read(searchCourseViewModelProvider.notifier).onCleared(),
         onSearchButtonTapped: () => ref

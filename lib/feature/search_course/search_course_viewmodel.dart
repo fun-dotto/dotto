@@ -1,8 +1,7 @@
-import 'package:dotto/domain/user_preference_keys.dart';
-import 'package:dotto/feature/search_course/search_course_viewmodel_state.dart';
+import 'package:dotto/feature/search_course/domain/search_course_filter_option_choice.dart';
 import 'package:dotto/feature/search_course/domain/search_course_filter_options.dart';
 import 'package:dotto/feature/search_course/repository/search_course_repository.dart';
-import 'package:dotto/helper/user_preference_repository.dart';
+import 'package:dotto/feature/search_course/search_course_viewmodel_state.dart';
 import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -12,185 +11,143 @@ part 'search_course_viewmodel.g.dart';
 final class SearchCourseViewModel extends _$SearchCourseViewModel {
   @override
   Future<SearchCourseViewModelState> build() async {
-    await updateCheckListFromPreferences();
+    await _loadPreferences();
     return SearchCourseViewModelState(
-      filterSelections: Map.fromIterables(
+      selectedChoicesMap: Map.fromIterables(
         SearchCourseFilterOptions.values,
-        SearchCourseFilterOptions.values.map(
-          (e) => List.filled(e.choices.length, false),
-        ),
+        SearchCourseFilterOptions.values.map((e) => []),
       ),
+      visibilityStatus: {
+        SearchCourseFilterOptions.largeCategory,
+        SearchCourseFilterOptions.term,
+        SearchCourseFilterOptions.classification,
+      },
       searchResults: null,
       textEditingController: TextEditingController(),
       focusNode: FocusNode(),
     );
   }
 
-  Future<void> updateCheckListFromPreferences() async {
-    final savedGrade = await UserPreferenceRepository.getString(
-      UserPreferenceKeys.grade,
-    );
-    final savedCourse = await UserPreferenceRepository.getString(
-      UserPreferenceKeys.course,
-    );
-    final filterSelections = state.value?.filterSelections ?? {};
-    if (savedGrade != null) {
-      final index = SearchCourseFilterOptions.grade.labels.indexOf(savedGrade);
-      if (index != -1 &&
-          index < filterSelections[SearchCourseFilterOptions.grade]!.length) {
-        filterSelections[SearchCourseFilterOptions.grade]![index] = true;
-      }
-    }
-    if (savedCourse != null) {
-      final index = SearchCourseFilterOptions.course.labels.indexOf(
-        savedCourse,
-      );
-      if (index != -1 &&
-          index < filterSelections[SearchCourseFilterOptions.course]!.length) {
-        filterSelections[SearchCourseFilterOptions.course]![index] = true;
-      }
-    }
-    state = AsyncValue.data(
-      state.value?.copyWith(filterSelections: filterSelections) ??
-          SearchCourseViewModelState(
-            filterSelections: filterSelections,
-            searchResults: null,
-            textEditingController: TextEditingController(),
-            focusNode: FocusNode(),
-          ),
-    );
+  Future<void> _loadPreferences() async {
+    // TODO: 保存されたデータを読み込む
   }
 
-  void reset() {
-    final filterSelections =
-        Map<SearchCourseFilterOptions, List<bool>>.fromIterables(
-          SearchCourseFilterOptions.values,
-          SearchCourseFilterOptions.values.map(
-            (e) => List.filled(e.choices.length, false),
-          ),
+  Future<void> onSearchButtonTapped() async {
+    switch (state) {
+      case AsyncData(:final value):
+        value.focusNode.unfocus();
+        final repository = SearchCourseRepository();
+        final searchResults = await repository.searchCourses(
+          selectedChoicesMap: value.selectedChoicesMap,
+          searchWord: value.textEditingController.text,
         );
-    final visibilityStatus = <SearchCourseFilterOptions>{
-      SearchCourseFilterOptions.largeCategory,
-      SearchCourseFilterOptions.term,
-    };
-    state.value?.textEditingController.clear();
-    state = AsyncValue.data(
-      state.value?.copyWith(
-            filterSelections: filterSelections,
-            visibilityStatus: visibilityStatus,
-          ) ??
-          SearchCourseViewModelState(
-            filterSelections: filterSelections,
-            searchResults: null,
-            textEditingController: TextEditingController(),
-            focusNode: FocusNode(),
-            visibilityStatus: visibilityStatus,
-          ),
-    );
+        final newState = value.copyWith(searchResults: searchResults);
+        state = AsyncValue.data(newState);
+      case AsyncLoading():
+        return;
+      case AsyncError():
+        return;
+    }
   }
 
-  void checkboxOnChanged({
-    required bool? value,
+  void onCleared() {
+    switch (state) {
+      case AsyncData(:final value):
+        value.textEditingController.clear();
+      case AsyncLoading():
+        return;
+      case AsyncError():
+        return;
+    }
+  }
+
+  void onCheckboxTapped({
     required SearchCourseFilterOptions filterOption,
-    required int index,
+    required SearchCourseFilterOptionChoice choice,
+    required bool? isSelected,
   }) {
-    final filterSelections = state.value?.filterSelections ?? {};
-    filterSelections[filterOption]![index] = value ?? false;
-    if (filterOption == SearchCourseFilterOptions.grade &&
-        index > 0 &&
-        filterSelections[SearchCourseFilterOptions.grade]![0]) {
-      filterSelections[SearchCourseFilterOptions.grade]![0] = false;
-    }
-    if (filterSelections[SearchCourseFilterOptions.grade]!.any(
-      (element) => element,
-    )) {
-      if (filterSelections[SearchCourseFilterOptions.grade]![0]) {
-        for (
-          var i = 1;
-          i < filterSelections[SearchCourseFilterOptions.grade]!.length;
-          i++
-        ) {
-          filterSelections[SearchCourseFilterOptions.grade]![i] = false;
-        }
-      }
-    }
-    state = AsyncValue.data(
-      state.value?.copyWith(
-            filterSelections: filterSelections,
-            visibilityStatus: setVisibilityStatus(filterSelections),
-          ) ??
-          SearchCourseViewModelState(
-            filterSelections: filterSelections,
-            searchResults: null,
-            textEditingController: TextEditingController(),
-            focusNode: FocusNode(),
-            visibilityStatus: setVisibilityStatus(filterSelections),
-          ),
+    debugPrint(
+      'onCheckboxTapped: ${filterOption.name}, ${choice.label}, $isSelected',
     );
+    switch (state) {
+      case AsyncData(:final value):
+        // Create a mutable deep copy of the map and its lists
+        final selectedChoicesMap =
+            Map<
+              SearchCourseFilterOptions,
+              List<SearchCourseFilterOptionChoice>
+            >.fromEntries(
+              value.selectedChoicesMap.entries.map(
+                (entry) => MapEntry(
+                  entry.key,
+                  List<SearchCourseFilterOptionChoice>.from(entry.value),
+                ),
+              ),
+            );
+        if (isSelected ?? false) {
+          selectedChoicesMap[filterOption]?.add(choice);
+        } else {
+          selectedChoicesMap[filterOption]?.remove(choice);
+        }
+
+        final visibilityStatus = _setVisibilityStatus(selectedChoicesMap);
+
+        for (final e in SearchCourseFilterOptions.values) {
+          if (!visibilityStatus.contains(e)) {
+            selectedChoicesMap[e] = [];
+          }
+        }
+
+        final newState = value.copyWith(
+          selectedChoicesMap: selectedChoicesMap,
+          visibilityStatus: visibilityStatus,
+        );
+        state = AsyncValue.data(newState);
+      case AsyncLoading():
+        return;
+      case AsyncError():
+        return;
+    }
   }
 
-  Set<SearchCourseFilterOptions> setVisibilityStatus(
-    Map<SearchCourseFilterOptions, List<bool>> filterSelections,
+  Set<SearchCourseFilterOptions> _setVisibilityStatus(
+    Map<SearchCourseFilterOptions, List<SearchCourseFilterOptionChoice>>
+    selectedChoicesMap,
   ) {
-    final largeCategorySelections =
-        filterSelections[SearchCourseFilterOptions.largeCategory] ?? [];
     final visibilityStatus = <SearchCourseFilterOptions>{
       SearchCourseFilterOptions.largeCategory,
       SearchCourseFilterOptions.term,
+      SearchCourseFilterOptions.classification,
     };
 
     // 専門が選択されている場合
-    if (largeCategorySelections[0]) {
-      visibilityStatus.add(SearchCourseFilterOptions.grade);
-      if (filterSelections[SearchCourseFilterOptions.grade]!.any(
-            (element) => element,
-          ) ||
-          filterSelections[SearchCourseFilterOptions.course]!.any(
-            (element) => element,
-          )) {
-        visibilityStatus.add(SearchCourseFilterOptions.classification);
-        if (!filterSelections[SearchCourseFilterOptions.grade]![0]) {
-          visibilityStatus.add(SearchCourseFilterOptions.course);
-        }
-      }
+    if (selectedChoicesMap[SearchCourseFilterOptions.largeCategory]?.contains(
+          SearchCourseFilterOptions.largeCategory.choices[0],
+        ) ??
+        false) {
+      visibilityStatus
+        ..add(SearchCourseFilterOptions.grade)
+        ..add(SearchCourseFilterOptions.course);
     }
 
     // 教養が選択されている場合
-    if (largeCategorySelections[1]) {
+    if (selectedChoicesMap[SearchCourseFilterOptions.largeCategory]?.contains(
+          SearchCourseFilterOptions.largeCategory.choices[1],
+        ) ??
+        false) {
       visibilityStatus
-        ..add(SearchCourseFilterOptions.educationField)
-        ..add(SearchCourseFilterOptions.classification);
+        ..add(SearchCourseFilterOptions.grade)
+        ..add(SearchCourseFilterOptions.educationField);
     }
 
     // 大学院が選択されている場合
-    if (largeCategorySelections[2]) {
+    if (selectedChoicesMap[SearchCourseFilterOptions.largeCategory]?.contains(
+          SearchCourseFilterOptions.largeCategory.choices[2],
+        ) ??
+        false) {
       visibilityStatus.add(SearchCourseFilterOptions.masterField);
     }
 
     return visibilityStatus;
-  }
-
-  // 科目検索ボタンが押されたときの処理
-  Future<void> onSearchButtonTapped() async {
-    state.value?.focusNode.unfocus();
-    final repository = SearchCourseRepository();
-    final searchResults = await repository.searchCourses(
-      filterSelections: state.value?.filterSelections ?? {},
-      searchWord: state.value?.textEditingController.text ?? '',
-    );
-    state = AsyncValue.data(
-      state.value?.copyWith(searchResults: searchResults) ??
-          SearchCourseViewModelState(
-            filterSelections: state.value?.filterSelections ?? {},
-            searchResults: searchResults,
-            textEditingController: TextEditingController(),
-            focusNode: FocusNode(),
-            visibilityStatus: state.value?.visibilityStatus ?? {},
-          ),
-    );
-  }
-
-  void onCleared() {
-    state.value?.textEditingController.clear();
   }
 }

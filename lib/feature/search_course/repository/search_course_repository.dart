@@ -1,3 +1,4 @@
+import 'package:dotto/feature/search_course/domain/search_course_filter_option_choice.dart';
 import 'package:dotto/feature/search_course/domain/search_course_filter_options.dart';
 import 'package:dotto/feature/search_course/repository/course_database_helper.dart';
 import 'package:dotto/feature/search_course/repository/course_filter_extractor.dart';
@@ -19,11 +20,17 @@ final class SearchCourseRepository {
   }
 
   Future<List<Map<String, dynamic>>> searchCourses({
-    required Map<SearchCourseFilterOptions, List<bool>> filterSelections,
+    required Map<
+      SearchCourseFilterOptions,
+      List<SearchCourseFilterOptionChoice>
+    >
+    selectedChoicesMap,
     required String searchWord,
   }) async {
     try {
-      final filterData = CourseFilterExtractor.extractFilters(filterSelections);
+      final filterData = CourseFilterExtractor.extractFilters(
+        selectedChoicesMap,
+      );
       final queryBuilder = CourseSearchQueryBuilder()
         ..addTermFilter(filterData.termCheckList)
         ..addCategoryFilters(
