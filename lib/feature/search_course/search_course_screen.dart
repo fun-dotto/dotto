@@ -12,6 +12,7 @@ final class SearchCourseScreen extends ConsumerWidget {
 
   Widget _body({
     required AsyncValue<SearchCourseViewModelState> viewModelAsync,
+    required void Function() onCleared,
     required void Function() onSearchButtonTapped,
   }) {
     switch (viewModelAsync) {
@@ -23,7 +24,12 @@ final class SearchCourseScreen extends ConsumerWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SearchCourseBox(),
+                SearchCourseBox(
+                  textEditingController: value.textEditingController,
+                  focusNode: value.focusNode,
+                  onCleared: onCleared,
+                  onSubmitted: (value) => onSearchButtonTapped(),
+                ),
                 const SearchCourseFilterSection(),
                 SearchCourseActionButtons(
                   onSearchButtonTapped: onSearchButtonTapped,
@@ -49,6 +55,8 @@ final class SearchCourseScreen extends ConsumerWidget {
       appBar: AppBar(title: const Text('科目'), centerTitle: false),
       body: _body(
         viewModelAsync: viewModelAsync,
+        onCleared: () =>
+            ref.read(searchCourseViewModelProvider.notifier).onCleared(),
         onSearchButtonTapped: () => ref
             .read(searchCourseViewModelProvider.notifier)
             .onSearchButtonTapped(),
