@@ -3,8 +3,14 @@ import 'package:dotto/feature/search_course/widget/search_course_result_item.dar
 import 'package:flutter/material.dart';
 
 final class SearchCourseResult extends StatelessWidget {
-  const SearchCourseResult({required this.records, super.key});
+  const SearchCourseResult({
+    required this.records,
+    required this.onTapped,
+    super.key,
+  });
+
   final List<Map<String, dynamic>> records;
+  final void Function(Map<String, dynamic>) onTapped;
 
   Future<Map<int, String>> getWeekPeriod(List<int> lessonIdList) async {
     final records = await SearchCourseRepository().fetchWeekPeriodDB(
@@ -55,9 +61,13 @@ final class SearchCourseResult extends StatelessWidget {
             itemBuilder: (context, index) {
               final record = records[index];
               final lessonId = record['LessonId'] as int;
+              final lessonName = record['授業名'] as String;
+              final weekPeriodString = weekPeriodStringMap[lessonId] ?? '';
               return SearchCourseResultItem(
-                record: record,
-                weekPeriodString: weekPeriodStringMap[lessonId] ?? '',
+                lessonId: lessonId,
+                lessonName: lessonName,
+                weekPeriodString: weekPeriodString,
+                onTapped: () => onTapped(record),
               );
             },
           );

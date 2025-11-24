@@ -94,12 +94,14 @@ final class SearchCourseViewModel extends _$SearchCourseViewModel {
         final visibilityStatus = _setVisibilityStatus(selectedChoicesMap);
 
         for (final e in SearchCourseFilterOptions.values) {
-          if (!visibilityStatus.contains(e)) {
+          if (value.visibilityStatus.contains(e) &&
+              !visibilityStatus.contains(e)) {
             selectedChoicesMap[e] = [];
           }
         }
 
-        if (visibilityStatus.contains(SearchCourseFilterOptions.grade)) {
+        if (!value.visibilityStatus.contains(SearchCourseFilterOptions.grade) &&
+            visibilityStatus.contains(SearchCourseFilterOptions.grade)) {
           final gradeChoice = SearchCourseFilterOptions.grade.choices
               .firstWhereOrNull(
                 (e) => e.id == value.grade?.deprecatedFilterOptionChoiceKey,
@@ -111,7 +113,10 @@ final class SearchCourseViewModel extends _$SearchCourseViewModel {
           }
         }
 
-        if (visibilityStatus.contains(SearchCourseFilterOptions.course)) {
+        if (!value.visibilityStatus.contains(
+              SearchCourseFilterOptions.course,
+            ) &&
+            visibilityStatus.contains(SearchCourseFilterOptions.course)) {
           final courseChoice = SearchCourseFilterOptions.course.choices
               .firstWhereOrNull(
                 (e) =>
@@ -175,5 +180,9 @@ final class SearchCourseViewModel extends _$SearchCourseViewModel {
     }
 
     return visibilityStatus;
+  }
+
+  void onResultRowTapped(Map<String, dynamic> record) {
+    state.value?.focusNode.unfocus();
   }
 }

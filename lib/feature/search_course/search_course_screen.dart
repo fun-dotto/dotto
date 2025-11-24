@@ -1,3 +1,5 @@
+import 'package:dotto/controller/user_controller.dart';
+import 'package:dotto/feature/kamoku_detail/kamoku_detail_screen.dart';
 import 'package:dotto/feature/search_course/domain/search_course_filter_option_choice.dart';
 import 'package:dotto/feature/search_course/domain/search_course_filter_options.dart';
 import 'package:dotto/feature/search_course/search_course_viewmodel.dart';
@@ -22,6 +24,7 @@ final class SearchCourseScreen extends ConsumerWidget {
     onChanged,
     required void Function() onCleared,
     required void Function() onSearchButtonTapped,
+    required void Function(Map<String, dynamic>) onTapped,
   }) {
     switch (viewModelAsync) {
       case AsyncData(:final value):
@@ -43,7 +46,7 @@ final class SearchCourseScreen extends ConsumerWidget {
               SearchCourseActionButtons(
                 onSearchButtonTapped: onSearchButtonTapped,
               ),
-              const SearchCourseResultSection(),
+              SearchCourseResultSection(onTapped: onTapped),
             ],
           ),
         );
@@ -57,6 +60,7 @@ final class SearchCourseScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final viewModelAsync = ref.watch(searchCourseViewModelProvider);
+    final user = ref.watch(userProvider);
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -75,6 +79,28 @@ final class SearchCourseScreen extends ConsumerWidget {
         onSearchButtonTapped: () => ref
             .read(searchCourseViewModelProvider.notifier)
             .onSearchButtonTapped(),
+        onTapped: (record) async {
+          final lessonId = record['LessonId'] as int;
+          final lessonName = record['授業名'] as String;
+          final kakomonLessonId = record['過去問'] as int?;
+          await Navigator.of(context).push(
+            MaterialPageRoute<void>(
+              builder: (_) => KamokuDetailScreen(
+                lessonId: lessonId,
+                lessonName: lessonName,
+                kakomonLessonId: kakomonLessonId,
+                isAuthenticated: user != null,
+              ),
+              settings: RouteSettings(
+                name:
+                    '/course/course_detail?lessonId=$lessonId&lessonName=$lessonName&kakomonLessonId=$kakomonLessonId',
+              ),
+            ),
+          );
+          ref
+              .read(searchCourseViewModelProvider.notifier)
+              .onResultRowTapped(record);
+        },
       ),
     );
   }
