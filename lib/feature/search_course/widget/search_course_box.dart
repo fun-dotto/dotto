@@ -21,7 +21,9 @@ final class SearchCourseBox extends ConsumerWidget {
           ref.read(searchCourseViewModelProvider.notifier).onCleared();
         },
         onSubmitted: (_) {
-          ref.read(searchCourseViewModelProvider.notifier).search();
+          ref
+              .read(searchCourseViewModelProvider.notifier)
+              .onSearchButtonTapped();
         },
       ),
     );

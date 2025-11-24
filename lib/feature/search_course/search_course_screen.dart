@@ -10,20 +10,25 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 final class SearchCourseScreen extends ConsumerWidget {
   const SearchCourseScreen({super.key});
 
-  Widget _body(AsyncValue<SearchCourseViewModelState> viewModelAsync) {
+  Widget _body({
+    required AsyncValue<SearchCourseViewModelState> viewModelAsync,
+    required void Function() onSearchButtonTapped,
+  }) {
     switch (viewModelAsync) {
       case AsyncData(:final value):
         return GestureDetector(
           behavior: HitTestBehavior.opaque,
           onTap: () => value.focusNode.unfocus(),
-          child: const SingleChildScrollView(
+          child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SearchCourseBox(),
-                SearchCourseFilterSection(),
-                SearchCourseActionButtons(),
-                SearchCourseResultSection(),
+                const SearchCourseBox(),
+                const SearchCourseFilterSection(),
+                SearchCourseActionButtons(
+                  onSearchButtonTapped: onSearchButtonTapped,
+                ),
+                const SearchCourseResultSection(),
               ],
             ),
           ),
@@ -42,7 +47,12 @@ final class SearchCourseScreen extends ConsumerWidget {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(title: const Text('科目'), centerTitle: false),
-      body: _body(viewModelAsync),
+      body: _body(
+        viewModelAsync: viewModelAsync,
+        onSearchButtonTapped: () => ref
+            .read(searchCourseViewModelProvider.notifier)
+            .onSearchButtonTapped(),
+      ),
     );
   }
 }

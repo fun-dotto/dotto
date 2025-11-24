@@ -171,7 +171,8 @@ final class SearchCourseViewModel extends _$SearchCourseViewModel {
   }
 
   // 科目検索ボタンが押されたときの処理
-  Future<void> search() async {
+  Future<void> onSearchButtonTapped() async {
+    state.value?.focusNode.unfocus();
     final repository = SearchCourseRepository();
     final searchResults = await repository.searchCourses(
       filterSelections: state.value?.filterSelections ?? {},
