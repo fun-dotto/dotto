@@ -22,7 +22,7 @@ final class KamokuSearchNotifier extends _$KamokuSearchNotifier {
       ),
       searchResults: null,
       textEditingController: TextEditingController(),
-      searchBoxFocusNode: FocusNode(),
+      focusNode: FocusNode(),
     );
   }
 
@@ -56,7 +56,7 @@ final class KamokuSearchNotifier extends _$KamokuSearchNotifier {
             filterSelections: filterSelections,
             searchResults: null,
             textEditingController: TextEditingController(),
-            searchBoxFocusNode: FocusNode(),
+            focusNode: FocusNode(),
           ),
     );
   }
@@ -85,7 +85,7 @@ final class KamokuSearchNotifier extends _$KamokuSearchNotifier {
             filterSelections: filterSelections,
             searchResults: null,
             textEditingController: TextEditingController(),
-            searchBoxFocusNode: FocusNode(),
+            focusNode: FocusNode(),
             visibilityStatus: visibilityStatus,
           ),
     );
@@ -98,7 +98,7 @@ final class KamokuSearchNotifier extends _$KamokuSearchNotifier {
             filterSelections: state.value?.filterSelections ?? {},
             searchResults: null,
             textEditingController: TextEditingController(),
-            searchBoxFocusNode: FocusNode(),
+            focusNode: FocusNode(),
             visibilityStatus: state.value?.visibilityStatus ?? {},
             searchWord: word,
           ),
@@ -139,7 +139,7 @@ final class KamokuSearchNotifier extends _$KamokuSearchNotifier {
             filterSelections: filterSelections,
             searchResults: null,
             textEditingController: TextEditingController(),
-            searchBoxFocusNode: FocusNode(),
+            focusNode: FocusNode(),
             visibilityStatus: setVisibilityStatus(filterSelections),
           ),
     );
@@ -199,7 +199,7 @@ final class KamokuSearchNotifier extends _$KamokuSearchNotifier {
             filterSelections: state.value?.filterSelections ?? {},
             searchResults: searchResults,
             textEditingController: TextEditingController(),
-            searchBoxFocusNode: FocusNode(),
+            focusNode: FocusNode(),
             visibilityStatus: state.value?.visibilityStatus ?? {},
             searchWord: state.value?.searchWord ?? '',
           ),

@@ -10,7 +10,7 @@ abstract class SearchCourseViewModelState with _$SearchCourseViewModelState {
     required Map<SearchCourseFilterOptions, List<bool>> filterSelections,
     required List<Map<String, dynamic>>? searchResults,
     required TextEditingController textEditingController,
-    required FocusNode searchBoxFocusNode,
+    required FocusNode focusNode,
     @Default({
       SearchCourseFilterOptions.largeCategory,
       SearchCourseFilterOptions.term,

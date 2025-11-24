@@ -39,7 +39,7 @@ final class SearchCourseResultItem extends ConsumerWidget {
             ),
           ),
         );
-        kamokuSearchController.value?.searchBoxFocusNode.unfocus();
+        kamokuSearchController.value?.focusNode.unfocus();
       },
       trailing: const Icon(Icons.chevron_right),
       leading: AddCourseButton(lessonId: lessonId),
