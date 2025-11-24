@@ -1,6 +1,8 @@
+import 'package:collection/collection.dart';
 import 'package:dotto/feature/search_course/domain/search_course_filter_option_choice.dart';
 import 'package:dotto/feature/search_course/domain/search_course_filter_options.dart';
 import 'package:dotto/feature/search_course/repository/search_course_repository.dart';
+import 'package:dotto/feature/search_course/search_course_usecase.dart';
 import 'package:dotto/feature/search_course/search_course_viewmodel_state.dart';
 import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -11,7 +13,8 @@ part 'search_course_viewmodel.g.dart';
 final class SearchCourseViewModel extends _$SearchCourseViewModel {
   @override
   Future<SearchCourseViewModelState> build() async {
-    await _loadPreferences();
+    final grade = await SearchCourseUsecase().getUserGrade();
+    final academicArea = await SearchCourseUsecase().getUserAcademicArea();
     return SearchCourseViewModelState(
       selectedChoicesMap: Map.fromIterables(
         SearchCourseFilterOptions.values,
@@ -25,11 +28,9 @@ final class SearchCourseViewModel extends _$SearchCourseViewModel {
       searchResults: null,
       textEditingController: TextEditingController(),
       focusNode: FocusNode(),
+      grade: grade,
+      academicArea: academicArea,
     );
-  }
-
-  Future<void> _loadPreferences() async {
-    // TODO: 保存されたデータを読み込む
   }
 
   Future<void> onSearchButtonTapped() async {
@@ -95,6 +96,31 @@ final class SearchCourseViewModel extends _$SearchCourseViewModel {
         for (final e in SearchCourseFilterOptions.values) {
           if (!visibilityStatus.contains(e)) {
             selectedChoicesMap[e] = [];
+          }
+        }
+
+        if (visibilityStatus.contains(SearchCourseFilterOptions.grade)) {
+          final gradeChoice = SearchCourseFilterOptions.grade.choices
+              .firstWhereOrNull(
+                (e) => e.id == value.grade?.deprecatedFilterOptionChoiceKey,
+              );
+          if (gradeChoice != null) {
+            selectedChoicesMap[SearchCourseFilterOptions.grade]?.add(
+              gradeChoice,
+            );
+          }
+        }
+
+        if (visibilityStatus.contains(SearchCourseFilterOptions.course)) {
+          final courseChoice = SearchCourseFilterOptions.course.choices
+              .firstWhereOrNull(
+                (e) =>
+                    e.id == value.academicArea?.deprecatedFilterOptionChoiceKey,
+              );
+          if (courseChoice != null) {
+            selectedChoicesMap[SearchCourseFilterOptions.course]?.add(
+              courseChoice,
+            );
           }
         }
 
