@@ -73,13 +73,11 @@ final class SearchCourseViewModel extends _$SearchCourseViewModel {
       SearchCourseFilterOptions.largeCategory,
       SearchCourseFilterOptions.term,
     };
-    const searchWord = '';
     state.value?.textEditingController.clear();
     state = AsyncValue.data(
       state.value?.copyWith(
             filterSelections: filterSelections,
             visibilityStatus: visibilityStatus,
-            searchWord: searchWord,
           ) ??
           SearchCourseViewModelState(
             filterSelections: filterSelections,
@@ -87,20 +85,6 @@ final class SearchCourseViewModel extends _$SearchCourseViewModel {
             textEditingController: TextEditingController(),
             focusNode: FocusNode(),
             visibilityStatus: visibilityStatus,
-          ),
-    );
-  }
-
-  void setSearchWord(String word) {
-    state = AsyncValue.data(
-      state.value?.copyWith(searchWord: word) ??
-          SearchCourseViewModelState(
-            filterSelections: state.value?.filterSelections ?? {},
-            searchResults: null,
-            textEditingController: TextEditingController(),
-            focusNode: FocusNode(),
-            visibilityStatus: state.value?.visibilityStatus ?? {},
-            searchWord: word,
           ),
     );
   }
@@ -191,7 +175,7 @@ final class SearchCourseViewModel extends _$SearchCourseViewModel {
     final repository = SearchCourseRepository();
     final searchResults = await repository.searchCourses(
       filterSelections: state.value?.filterSelections ?? {},
-      searchWord: state.value?.searchWord ?? '',
+      searchWord: state.value?.textEditingController.text ?? '',
     );
     state = AsyncValue.data(
       state.value?.copyWith(searchResults: searchResults) ??
@@ -201,8 +185,11 @@ final class SearchCourseViewModel extends _$SearchCourseViewModel {
             textEditingController: TextEditingController(),
             focusNode: FocusNode(),
             visibilityStatus: state.value?.visibilityStatus ?? {},
-            searchWord: state.value?.searchWord ?? '',
           ),
     );
+  }
+
+  void onCleared() {
+    state.value?.textEditingController.clear();
   }
 }

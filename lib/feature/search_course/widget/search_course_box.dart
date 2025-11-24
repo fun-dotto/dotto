@@ -18,11 +18,8 @@ final class SearchCourseBox extends ConsumerWidget {
         focusNode: viewModel.value?.focusNode ?? FocusNode(),
         placeholder: '科目名で検索',
         onCleared: () {
-          ref.read(searchCourseViewModelProvider.notifier).setSearchWord('');
+          ref.read(searchCourseViewModelProvider.notifier).onCleared();
         },
-        onChanged: ref
-            .read(searchCourseViewModelProvider.notifier)
-            .setSearchWord,
         onSubmitted: (_) {
           ref.read(searchCourseViewModelProvider.notifier).search();
         },

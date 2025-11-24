@@ -16,6 +16,5 @@ abstract class SearchCourseViewModelState with _$SearchCourseViewModelState {
       SearchCourseFilterOptions.term,
     })
     Set<SearchCourseFilterOptions> visibilityStatus,
-    @Default('') String searchWord,
   }) = _SearchCourseViewModelState;
 }
