@@ -146,7 +146,7 @@ void main() {
         ..listen(mapViewModelProvider, listener.call, fireImmediately: true);
 
       await expectLater(
-        container.read(mapViewModelProvider.future),
+        container.read(mapViewModelProvider.notifier).future,
         completion(
           isA<MapViewModelState>()
               .having((p0) => p0.rooms, 'rooms', testRooms)
@@ -177,7 +177,9 @@ void main() {
         ..listen(mapViewModelProvider, listener.call, fireImmediately: true);
 
       // 初期状態を待つ
-      final initialState = await container.read(mapViewModelProvider.future);
+      final initialState = await container
+          .read(mapViewModelProvider.notifier)
+          .future;
       expect(initialState.selectedFloor, Floor.third);
       expect(initialState.focusedMapTileProps, isNull);
 
@@ -187,22 +189,21 @@ void main() {
           .onFloorButtonTapped(Floor.first);
 
       // 状態が更新されたことを確認
-      await expectLater(
-        container.read(mapViewModelProvider.future),
-        completion(
-          isA<MapViewModelState>()
-              .having((p0) => p0.selectedFloor, 'selectedFloor', Floor.first)
-              .having(
-                (p0) => p0.focusedMapTileProps,
-                'focusedMapTileProps',
-                isNull,
-              )
-              .having(
-                (p0) => p0.transformationController.value,
-                'transformationController.value',
-                Matrix4.identity(),
-              ),
-        ),
+      final updatedState = container.read(mapViewModelProvider).requireValue;
+      expect(
+        updatedState,
+        isA<MapViewModelState>()
+            .having((p0) => p0.selectedFloor, 'selectedFloor', Floor.first)
+            .having(
+              (p0) => p0.focusedMapTileProps,
+              'focusedMapTileProps',
+              isNull,
+            )
+            .having(
+              (p0) => p0.transformationController.value,
+              'transformationController.value',
+              Matrix4.identity(),
+            ),
       );
 
       // listener が呼ばれたことを確認
@@ -214,7 +215,9 @@ void main() {
         ..listen(mapViewModelProvider, listener.call, fireImmediately: true);
 
       // 初期状態を待つ
-      final initialState = await container.read(mapViewModelProvider.future);
+      final initialState = await container
+          .read(mapViewModelProvider.notifier)
+          .future;
       expect(initialState.filteredRooms, isEmpty);
 
       // onSearchTextChanged を呼び出す
@@ -223,14 +226,13 @@ void main() {
           .onSearchTextChanged('101');
 
       // 状態が更新されたことを確認
-      await expectLater(
-        container.read(mapViewModelProvider.future),
-        completion(
-          isA<MapViewModelState>().having(
-            (p0) => p0.filteredRooms,
-            'filteredRooms',
-            [testRooms[0]],
-          ),
+      final updatedState = container.read(mapViewModelProvider).requireValue;
+      expect(
+        updatedState,
+        isA<MapViewModelState>().having(
+          (p0) => p0.filteredRooms,
+          'filteredRooms',
+          [testRooms[0]],
         ),
       );
 
@@ -243,21 +245,24 @@ void main() {
         ..listen(mapViewModelProvider, listener.call, fireImmediately: true);
 
       // 初期状態を待つ
-      final initialState = await container.read(mapViewModelProvider.future);
+      final initialState = await container
+          .read(mapViewModelProvider.notifier)
+          .future;
       expect(initialState.filteredRooms, isEmpty);
 
       // onSearchTextChanged を呼び出す
       await container
           .read(mapViewModelProvider.notifier)
           .onSearchTextChanged('101');
-      await expectLater(
-        container.read(mapViewModelProvider.future),
-        completion(
-          isA<MapViewModelState>().having(
-            (p0) => p0.filteredRooms,
-            'filteredRooms',
-            isNotEmpty,
-          ),
+      final stateAfterSearch = container
+          .read(mapViewModelProvider)
+          .requireValue;
+      expect(
+        stateAfterSearch,
+        isA<MapViewModelState>().having(
+          (p0) => p0.filteredRooms,
+          'filteredRooms',
+          isNotEmpty,
         ),
       );
 
@@ -265,14 +270,13 @@ void main() {
       container.read(mapViewModelProvider.notifier).onSearchTextCleared();
 
       // 状態が更新されたことを確認
-      await expectLater(
-        container.read(mapViewModelProvider.future),
-        completion(
-          isA<MapViewModelState>().having(
-            (p0) => p0.filteredRooms,
-            'filteredRooms',
-            isEmpty,
-          ),
+      final stateAfterClear = container.read(mapViewModelProvider).requireValue;
+      expect(
+        stateAfterClear,
+        isA<MapViewModelState>().having(
+          (p0) => p0.filteredRooms,
+          'filteredRooms',
+          isEmpty,
         ),
       );
 
@@ -285,7 +289,9 @@ void main() {
         ..listen(mapViewModelProvider, listener.call, fireImmediately: true);
 
       // 初期状態を待つ
-      final initialState = await container.read(mapViewModelProvider.future);
+      final initialState = await container
+          .read(mapViewModelProvider.notifier)
+          .future;
       expect(initialState.filteredRooms, isEmpty);
 
       // onSearchResultRowTapped を呼び出す
@@ -294,26 +300,21 @@ void main() {
           .onSearchResultRowTapped(testRooms[0]);
 
       // 状態が更新されたことを確認
-      await expectLater(
-        container.read(mapViewModelProvider.future),
-        completion(
-          isA<MapViewModelState>()
-              .having(
-                (p0) => p0.focusNode.hasFocus,
-                'focusNode.hasFocus',
-                false,
-              )
-              .having(
-                (p0) => p0.selectedFloor,
-                'selectedFloor',
-                testRooms[0].floor,
-              )
-              .having(
-                (p0) => p0.focusedMapTileProps,
-                'focusedMapTileProps',
-                testTileProps[0],
-              ),
-        ),
+      final updatedState = container.read(mapViewModelProvider).requireValue;
+      expect(
+        updatedState,
+        isA<MapViewModelState>()
+            .having((p0) => p0.focusNode.hasFocus, 'focusNode.hasFocus', false)
+            .having(
+              (p0) => p0.selectedFloor,
+              'selectedFloor',
+              testRooms[0].floor,
+            )
+            .having(
+              (p0) => p0.focusedMapTileProps,
+              'focusedMapTileProps',
+              testTileProps[0],
+            ),
       );
 
       // listener が呼ばれたことを確認
@@ -325,7 +326,9 @@ void main() {
         ..listen(mapViewModelProvider, listener.call, fireImmediately: true);
 
       // 初期状態を待つ
-      final initialState = await container.read(mapViewModelProvider.future);
+      final initialState = await container
+          .read(mapViewModelProvider.notifier)
+          .future;
       expect(initialState.focusedMapTileProps, isNull);
 
       // onMapTileTapped を呼び出す
@@ -334,21 +337,16 @@ void main() {
           .onMapTileTapped(testTileProps[0], testRooms[0]);
 
       // 状態が更新されたことを確認
-      await expectLater(
-        container.read(mapViewModelProvider.future),
-        completion(
-          isA<MapViewModelState>()
-              .having(
-                (p0) => p0.focusedMapTileProps,
-                'focusedMapTileProps',
-                testTileProps[0],
-              )
-              .having(
-                (p0) => p0.focusNode.hasFocus,
-                'focusNode.hasFocus',
-                false,
-              ),
-        ),
+      final updatedState = container.read(mapViewModelProvider).requireValue;
+      expect(
+        updatedState,
+        isA<MapViewModelState>()
+            .having(
+              (p0) => p0.focusedMapTileProps,
+              'focusedMapTileProps',
+              testTileProps[0],
+            )
+            .having((p0) => p0.focusNode.hasFocus, 'focusNode.hasFocus', false),
       );
 
       // listener が呼ばれたことを確認
@@ -367,10 +365,19 @@ void main() {
       final container = createContainer()
         ..listen(mapViewModelProvider, listener.call, fireImmediately: true);
 
-      await expectLater(
-        container.read(mapViewModelProvider.future),
-        throwsA(isA<Exception>()),
-      );
+      // AsyncValue がエラー状態になるまで待つ
+      var asyncValue = container.read(mapViewModelProvider);
+      var attempts = 0;
+      while (!asyncValue.hasError && attempts < 100) {
+        await Future<void>.delayed(const Duration(milliseconds: 10));
+        asyncValue = container.read(mapViewModelProvider);
+        attempts++;
+      }
+
+      // AsyncValue が AsyncError であることを確認
+      expect(asyncValue.hasError, isTrue);
+      expect(asyncValue.error, isA<Exception>());
+      expect(() => asyncValue.requireValue, throwsA(isA<Exception>()));
     });
   });
 }
