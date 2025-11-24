@@ -2,11 +2,11 @@ import 'package:dotto/feature/search_course/domain/search_course_filter_options.
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'course_detail_viewmodel_state.freezed.dart';
+part 'search_course_viewmodel_state.freezed.dart';
 
 @freezed
-abstract class CourseDetailViewModelState with _$CourseDetailViewModelState {
-  const factory CourseDetailViewModelState({
+abstract class SearchCourseViewModelState with _$SearchCourseViewModelState {
+  const factory SearchCourseViewModelState({
     required Map<SearchCourseFilterOptions, List<bool>> filterSelections,
     required List<Map<String, dynamic>>? searchResults,
     required TextEditingController textEditingController,
@@ -17,5 +17,5 @@ abstract class CourseDetailViewModelState with _$CourseDetailViewModelState {
     })
     Set<SearchCourseFilterOptions> visibilityStatus,
     @Default('') String searchWord,
-  }) = _CourseDetailViewModelState;
+  }) = _SearchCourseViewModelState;
 }

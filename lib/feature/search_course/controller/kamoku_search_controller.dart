@@ -1,5 +1,5 @@
 import 'package:dotto/domain/user_preference_keys.dart';
-import 'package:dotto/feature/search_course/controller/course_detail_viewmodel_state.dart';
+import 'package:dotto/feature/search_course/controller/search_course_viewmodel_state.dart';
 import 'package:dotto/feature/search_course/domain/search_course_filter_options.dart';
 import 'package:dotto/feature/search_course/repository/search_course_repository.dart';
 import 'package:dotto/helper/user_preference_repository.dart';
@@ -11,9 +11,9 @@ part 'kamoku_search_controller.g.dart';
 @riverpod
 final class KamokuSearchNotifier extends _$KamokuSearchNotifier {
   @override
-  Future<CourseDetailViewModelState> build() async {
+  Future<SearchCourseViewModelState> build() async {
     await updateCheckListFromPreferences();
-    return CourseDetailViewModelState(
+    return SearchCourseViewModelState(
       filterSelections: Map.fromIterables(
         SearchCourseFilterOptions.values,
         SearchCourseFilterOptions.values.map(
@@ -52,7 +52,7 @@ final class KamokuSearchNotifier extends _$KamokuSearchNotifier {
     }
     state = AsyncValue.data(
       state.value?.copyWith(filterSelections: filterSelections) ??
-          CourseDetailViewModelState(
+          SearchCourseViewModelState(
             filterSelections: filterSelections,
             searchResults: null,
             textEditingController: TextEditingController(),
@@ -81,7 +81,7 @@ final class KamokuSearchNotifier extends _$KamokuSearchNotifier {
             visibilityStatus: visibilityStatus,
             searchWord: searchWord,
           ) ??
-          CourseDetailViewModelState(
+          SearchCourseViewModelState(
             filterSelections: filterSelections,
             searchResults: null,
             textEditingController: TextEditingController(),
@@ -94,7 +94,7 @@ final class KamokuSearchNotifier extends _$KamokuSearchNotifier {
   void setSearchWord(String word) {
     state = AsyncValue.data(
       state.value?.copyWith(searchWord: word) ??
-          CourseDetailViewModelState(
+          SearchCourseViewModelState(
             filterSelections: state.value?.filterSelections ?? {},
             searchResults: null,
             textEditingController: TextEditingController(),
@@ -135,7 +135,7 @@ final class KamokuSearchNotifier extends _$KamokuSearchNotifier {
             filterSelections: filterSelections,
             visibilityStatus: setVisibilityStatus(filterSelections),
           ) ??
-          CourseDetailViewModelState(
+          SearchCourseViewModelState(
             filterSelections: filterSelections,
             searchResults: null,
             textEditingController: TextEditingController(),
@@ -195,7 +195,7 @@ final class KamokuSearchNotifier extends _$KamokuSearchNotifier {
     );
     state = AsyncValue.data(
       state.value?.copyWith(searchResults: searchResults) ??
-          CourseDetailViewModelState(
+          SearchCourseViewModelState(
             filterSelections: state.value?.filterSelections ?? {},
             searchResults: searchResults,
             textEditingController: TextEditingController(),
