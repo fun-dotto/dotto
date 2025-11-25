@@ -86,7 +86,7 @@ final class BusRepository {
       if (latitude > 41.838770 && latitude < 41.845295) {
         final longitude = position.longitude;
         if (longitude > 140.765061 && longitude < 140.770368) {
-          ref.read(busIsToNotifierProvider.notifier).toggle();
+          ref.read(busIsToProvider.notifier).toggle();
         }
       }
     }

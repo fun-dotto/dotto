@@ -1,19 +1,19 @@
-import 'package:dotto/feature/search_course/controller/kamoku_search_controller.dart';
 import 'package:dotto_design_system/component/button.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final class SearchCourseActionButtons extends ConsumerWidget {
-  const SearchCourseActionButtons({super.key});
+final class SearchCourseActionButtons extends StatelessWidget {
+  const SearchCourseActionButtons({
+    required this.onSearchButtonTapped,
+    super.key,
+  });
+
+  final void Function() onSearchButtonTapped;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     return Center(
       child: DottoButton(
-        onPressed: () async {
-          FocusScope.of(context).unfocus();
-          await ref.read(kamokuSearchControllerProvider.notifier).search();
-        },
+        onPressed: onSearchButtonTapped,
         child: const Row(
           spacing: 8,
           mainAxisSize: MainAxisSize.min,

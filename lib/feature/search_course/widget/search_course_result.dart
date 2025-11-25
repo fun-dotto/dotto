@@ -1,11 +1,16 @@
 import 'package:dotto/feature/search_course/repository/search_course_repository.dart';
 import 'package:dotto/feature/search_course/widget/search_course_result_item.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final class SearchCourseResult extends ConsumerWidget {
-  const SearchCourseResult({required this.records, super.key});
+final class SearchCourseResult extends StatelessWidget {
+  const SearchCourseResult({
+    required this.records,
+    required this.onTapped,
+    super.key,
+  });
+
   final List<Map<String, dynamic>> records;
+  final void Function(Map<String, dynamic>) onTapped;
 
   Future<Map<int, String>> getWeekPeriod(List<int> lessonIdList) async {
     final records = await SearchCourseRepository().fetchWeekPeriodDB(
@@ -42,7 +47,7 @@ final class SearchCourseResult extends ConsumerWidget {
   }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     return FutureBuilder(
       future: getWeekPeriod(records.map((e) => e['LessonId'] as int).toList()),
       builder: (context, snapshot) {
@@ -56,9 +61,13 @@ final class SearchCourseResult extends ConsumerWidget {
             itemBuilder: (context, index) {
               final record = records[index];
               final lessonId = record['LessonId'] as int;
+              final lessonName = record['授業名'] as String;
+              final weekPeriodString = weekPeriodStringMap[lessonId] ?? '';
               return SearchCourseResultItem(
-                record: record,
-                weekPeriodString: weekPeriodStringMap[lessonId] ?? '',
+                lessonId: lessonId,
+                lessonName: lessonName,
+                weekPeriodString: weekPeriodString,
+                onTapped: () => onTapped(record),
               );
             },
           );

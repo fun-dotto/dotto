@@ -1,4 +1,18 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-final StateProvider<int> funchMyPageCardIndexProvider =
-    StateProvider((ref) => 0);
+part 'funch_mypage_card_index_controller.g.dart';
+
+@riverpod
+final class FunchMyPageCardIndexNotifier
+    extends _$FunchMyPageCardIndexNotifier {
+  @override
+  int build() {
+    return 0;
+  }
+
+  int get value => state;
+
+  set value(int newValue) {
+    state = newValue;
+  }
+}

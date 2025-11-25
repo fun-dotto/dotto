@@ -1,28 +1,28 @@
-import 'package:dotto/feature/search_course/controller/kamoku_search_controller.dart';
+import 'package:dotto/feature/search_course/search_course_viewmodel.dart';
 import 'package:dotto/feature/search_course/widget/search_course_result.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final class SearchCourseResultSection extends ConsumerWidget {
-  const SearchCourseResultSection({super.key});
+  const SearchCourseResultSection({required this.onTapped, super.key});
+
+  final void Function(Map<String, dynamic>) onTapped;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final kamokuSearchController = ref.watch(kamokuSearchControllerProvider);
+    final viewModel = ref.watch(searchCourseViewModelProvider);
 
-    if (kamokuSearchController.searchResults == null) {
+    if (viewModel.value?.searchResults == null) {
       return const SizedBox.shrink();
     }
-    if (kamokuSearchController.searchResults!.isNotEmpty) {
+    if (viewModel.value?.searchResults!.isNotEmpty ?? false) {
       return SearchCourseResult(
-        records: kamokuSearchController.searchResults!,
+        records: viewModel.value?.searchResults ?? [],
+        onTapped: onTapped,
       );
     }
     return const Center(
-      child: Padding(
-        padding: EdgeInsets.all(16),
-        child: Text('見つかりませんでした'),
-      ),
+      child: Padding(padding: EdgeInsets.all(16), child: Text('見つかりませんでした')),
     );
   }
 }

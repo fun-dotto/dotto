@@ -1,31 +1,46 @@
-import 'package:dotto/feature/search_course/controller/kamoku_search_controller.dart';
+import 'package:dotto/feature/search_course/domain/search_course_filter_option_choice.dart';
 import 'package:dotto/feature/search_course/domain/search_course_filter_options.dart';
 import 'package:dotto/feature/search_course/widget/search_course_filter_checkbox.dart';
-import 'package:dotto/feature/search_course/widget/search_course_filter_section_large_category.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final class SearchCourseFilterSection extends ConsumerWidget {
-  const SearchCourseFilterSection({super.key});
+final class SearchCourseFilterSection extends StatelessWidget {
+  const SearchCourseFilterSection({
+    required this.visibilityStatus,
+    required this.selectedChoicesMap,
+    required this.onChanged,
+    super.key,
+  });
+
+  final Set<SearchCourseFilterOptions> visibilityStatus;
+  final Map<SearchCourseFilterOptions, List<SearchCourseFilterOptionChoice>>
+  selectedChoicesMap;
+  final void Function(
+    SearchCourseFilterOptions,
+    SearchCourseFilterOptionChoice,
+    bool?,
+  )
+  onChanged;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final kamokuSearchController = ref.watch(kamokuSearchControllerProvider);
-
+  Widget build(BuildContext context) {
     return Column(
-      children: [
-        const SearchCourseFilterSectionLargeCategory(),
-        ...SearchCourseFilterOptions.values
-            .where((e) => e != SearchCourseFilterOptions.largeCategory)
-            .map(
-              (e) => Visibility(
-                visible: kamokuSearchController.visibilityStatus.contains(e),
-                child: SearchCourseFilterCheckbox(
-                  filterOption: e,
-                ),
-              ),
-            ),
-      ],
+      children: SearchCourseFilterOptions.values.map((e) {
+        if (e == SearchCourseFilterOptions.largeCategory) {
+          return SearchCourseFilterCheckbox(
+            filterOption: e,
+            selectedChoices: selectedChoicesMap[e] ?? [],
+            onChanged: (choice, isSelected) => onChanged(e, choice, isSelected),
+          );
+        }
+        return Visibility(
+          visible: visibilityStatus.contains(e),
+          child: SearchCourseFilterCheckbox(
+            filterOption: e,
+            selectedChoices: selectedChoicesMap[e] ?? [],
+            onChanged: (choice, isSelected) => onChanged(e, choice, isSelected),
+          ),
+        );
+      }).toList(),
     );
   }
 }

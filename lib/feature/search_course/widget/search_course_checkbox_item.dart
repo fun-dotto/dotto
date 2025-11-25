@@ -1,40 +1,25 @@
-import 'package:dotto/feature/search_course/controller/kamoku_search_controller.dart';
-import 'package:dotto/feature/search_course/domain/search_course_filter_options.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final class SearchCourseCheckboxItem extends ConsumerWidget {
+final class SearchCourseCheckboxItem extends StatelessWidget {
   const SearchCourseCheckboxItem({
-    required this.filterOption,
-    required this.index,
+    required this.label,
+    required this.isSelected,
+    required this.onChanged,
     super.key,
   });
 
-  final SearchCourseFilterOptions filterOption;
-  final int index;
+  final String label;
+  final bool isSelected;
+  final void Function(bool?) onChanged;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final kamokuSearchController = ref.watch(kamokuSearchControllerProvider);
-    final checkedList = kamokuSearchController.filterSelections[filterOption]!;
-
+  Widget build(BuildContext context) {
     return SizedBox(
       width: 100,
       child: Row(
         children: [
-          Checkbox(
-            value: checkedList[index],
-            onChanged: (value) {
-              ref
-                  .read(kamokuSearchControllerProvider.notifier)
-                  .checkboxOnChanged(
-                    value: value,
-                    filterOption: filterOption,
-                    index: index,
-                  );
-            },
-          ),
-          Text(filterOption.labels[index]),
+          Checkbox(value: isSelected, onChanged: onChanged),
+          Text(label),
         ],
       ),
     );

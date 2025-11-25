@@ -1,46 +1,26 @@
-import 'package:dotto/controller/user_controller.dart';
-import 'package:dotto/feature/kamoku_detail/kamoku_detail_screen.dart';
-import 'package:dotto/feature/search_course/controller/kamoku_search_controller.dart';
 import 'package:dotto/feature/search_course/widget/add_course_button.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final class SearchCourseResultItem extends ConsumerWidget {
+final class SearchCourseResultItem extends StatelessWidget {
   const SearchCourseResultItem({
-    required this.record,
+    required this.lessonId,
+    required this.lessonName,
     required this.weekPeriodString,
+    required this.onTapped,
     super.key,
   });
 
-  final Map<String, dynamic> record;
+  final int lessonId;
+  final String lessonName;
   final String weekPeriodString;
+  final void Function() onTapped;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final user = ref.watch(userProvider);
-    final kamokuSearchController = ref.watch(kamokuSearchControllerProvider);
-    final lessonId = record['LessonId'] as int;
-
+  Widget build(BuildContext context) {
     return ListTile(
-      title: Text(record['授業名'] as String? ?? ''),
+      title: Text(lessonName),
       subtitle: Text(weekPeriodString),
-      onTap: () async {
-        await Navigator.of(context).push(
-          MaterialPageRoute<void>(
-            builder: (_) => KamokuDetailScreen(
-              lessonId: lessonId,
-              lessonName: record['授業名'] as String,
-              kakomonLessonId: record['過去問'] as int?,
-              isAuthenticated: user != null,
-            ),
-            settings: RouteSettings(
-              name:
-                  '/course/course_detail?lessonId=$lessonId&lessonName=${record['授業名'] as String}&kakomonLessonId=${record['過去問'] as int?}',
-            ),
-          ),
-        );
-        kamokuSearchController.searchBoxFocusNode.unfocus();
-      },
+      onTap: onTapped,
       trailing: const Icon(Icons.chevron_right),
       leading: AddCourseButton(lessonId: lessonId),
     );

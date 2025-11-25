@@ -2,10 +2,13 @@ import 'dart:convert';
 
 import 'package:dotto/feature/announcement/domain/announcement.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 
-//
-// ignore: one_member_abstracts
+final announcementRepositoryProvider = Provider<AnnouncementRepository>(
+  (ref) => AnnouncementRepositoryImpl(),
+);
+
 abstract class AnnouncementRepository {
   Future<List<Announcement>> getAnnouncements(Uri url);
 }
@@ -22,7 +25,8 @@ final class AnnouncementRepositoryImpl implements AnnouncementRepository {
       final list = jsonDecode(json) as List<dynamic>;
       final announcements = list
           .map<Announcement>(
-              (e) => Announcement.fromJson(e as Map<String, dynamic>))
+            (e) => Announcement.fromJson(e as Map<String, dynamic>),
+          )
           .toList();
       return announcements;
     } catch (e) {

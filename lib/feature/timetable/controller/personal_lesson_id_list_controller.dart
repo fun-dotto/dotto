@@ -38,12 +38,20 @@ final class PersonalLessonIdListNotifier
   }
 
   Future<void> _updateState(List<int> Function(List<int>) transform) async {
-    state = await AsyncValue.guard(() async {
-      final current = state.valueOrNull ?? await _get();
+    if (!ref.mounted) {
+      return;
+    }
+    final newState = await AsyncValue.guard(() async {
+      final current = state.value ?? await _get();
       final next = transform(current);
       await _save(next);
       return next;
     });
+    // 非同期処理後に再度mountedチェックしてからstateを設定
+    if (!ref.mounted) {
+      return;
+    }
+    state = newState;
   }
 
   Future<void> _save(List<int> lessonIdList) async {

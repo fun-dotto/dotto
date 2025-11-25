@@ -15,11 +15,11 @@ final class BusCardHome extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final busData = ref.watch(busDataNotifierProvider);
-    final myBusStop = ref.watch(myBusStopNotifierProvider);
-    final busIsTo = ref.watch(busIsToNotifierProvider);
-    final busPolling = ref.watch(busPollingNotifierProvider);
-    final busIsWeekday = ref.watch(busIsWeekdayNotifierProvider);
+    final busData = ref.watch(busDataProvider);
+    final myBusStop = ref.watch(myBusStopProvider);
+    final busIsTo = ref.watch(busIsToProvider);
+    final busPolling = ref.watch(busPollingProvider);
+    final busIsWeekday = ref.watch(busIsWeekdayProvider);
 
     final fromToString = busIsTo ? 'to_fun' : 'from_fun';
 
@@ -54,7 +54,7 @@ final class BusCardHome extends ConsumerWidget {
           }
           return InkWell(
             onTap: () {
-              ref.read(busIsScrolledNotifierProvider.notifier).value = false;
+              ref.read(busIsScrolledProvider.notifier).value = false;
               Navigator.of(context).push(
                 MaterialPageRoute<void>(
                   builder: (_) => const BusScreen(),

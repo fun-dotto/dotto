@@ -1,29 +1,30 @@
-import 'package:dotto/feature/search_course/controller/kamoku_search_controller.dart';
 import 'package:dotto_design_system/component/text_field.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final class SearchCourseBox extends ConsumerWidget {
-  const SearchCourseBox({super.key});
+final class SearchCourseBox extends StatelessWidget {
+  const SearchCourseBox({
+    required this.textEditingController,
+    required this.focusNode,
+    required this.onCleared,
+    required this.onSubmitted,
+    super.key,
+  });
+
+  final TextEditingController textEditingController;
+  final FocusNode focusNode;
+  final void Function() onCleared;
+  final void Function(String) onSubmitted;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final kamokuSearchController = ref.watch(kamokuSearchControllerProvider);
+  Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: DottoTextField(
-        controller: kamokuSearchController.textEditingController,
-        focusNode: kamokuSearchController.searchBoxFocusNode,
+        controller: textEditingController,
+        focusNode: focusNode,
         placeholder: '科目名で検索',
-        onCleared: () {
-          ref.read(kamokuSearchControllerProvider.notifier).setSearchWord('');
-        },
-        onChanged: ref
-            .read(kamokuSearchControllerProvider.notifier)
-            .setSearchWord,
-        onSubmitted: (_) {
-          ref.read(kamokuSearchControllerProvider.notifier).search();
-        },
+        onCleared: onCleared,
+        onSubmitted: onSubmitted,
       ),
     );
   }

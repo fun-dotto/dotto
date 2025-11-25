@@ -25,7 +25,7 @@ class _EditTimetableScreenState extends ConsumerState<EditTimetableScreen>
   @override
   void initState() {
     super.initState();
-    final initialSemester = ref.read(selectedSemesterNotifierProvider);
+    final initialSemester = ref.read(selectedSemesterProvider);
     _tabController = TabController(
       length: Semester.values.length,
       vsync: this,
@@ -38,10 +38,10 @@ class _EditTimetableScreenState extends ConsumerState<EditTimetableScreen>
     if (_tabController.indexIsChanging) {
       return;
     }
-    final current = ref.read(selectedSemesterNotifierProvider);
+    final current = ref.read(selectedSemesterProvider);
     final selected = Semester.values[_tabController.index];
     if (current != selected) {
-      ref.read(selectedSemesterNotifierProvider.notifier).value = selected;
+      ref.read(selectedSemesterProvider.notifier).value = selected;
     }
   }
 
@@ -60,9 +60,7 @@ class _EditTimetableScreenState extends ConsumerState<EditTimetableScreen>
     Semester semester,
     List<Map<String, dynamic>> records,
   ) {
-    final personalLessonIdList = ref.watch(
-      personalLessonIdListNotifierProvider,
-    );
+    final personalLessonIdList = ref.watch(personalLessonIdListProvider);
     return personalLessonIdList.when(
       data: (data) {
         final selectedLessonList = records.where((record) {
@@ -130,9 +128,7 @@ class _EditTimetableScreenState extends ConsumerState<EditTimetableScreen>
   }
 
   Widget _takingCourseTable(Semester semester) {
-    final weekPeriodAllRecords = ref.watch(
-      weekPeriodAllRecordsNotifierProvider,
-    );
+    final weekPeriodAllRecords = ref.watch(weekPeriodAllRecordsProvider);
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(8),
@@ -187,12 +183,8 @@ class _EditTimetableScreenState extends ConsumerState<EditTimetableScreen>
   }
 
   Widget _takingCourseList(Semester semester) {
-    final personalLessonIdList = ref.watch(
-      personalLessonIdListNotifierProvider,
-    );
-    final weekPeriodAllRecords = ref.watch(
-      weekPeriodAllRecordsNotifierProvider,
-    );
+    final personalLessonIdList = ref.watch(personalLessonIdListProvider);
+    final weekPeriodAllRecords = ref.watch(weekPeriodAllRecordsProvider);
     return weekPeriodAllRecords.when(
       data: (data) {
         return personalLessonIdList.when(
@@ -240,7 +232,7 @@ class _EditTimetableScreenState extends ConsumerState<EditTimetableScreen>
   }
 
   Widget _timetable(Semester semester) {
-    final timetableViewStyle = ref.watch(timetableViewStyleNotifierProvider);
+    final timetableViewStyle = ref.watch(timetableViewStyleProvider);
     switch (timetableViewStyle) {
       case TimetableViewStyle.table:
         return _takingCourseTable(semester);
@@ -251,8 +243,8 @@ class _EditTimetableScreenState extends ConsumerState<EditTimetableScreen>
 
   @override
   Widget build(BuildContext context) {
-    final timetableViewStyle = ref.watch(timetableViewStyleNotifierProvider);
-    final selectedSemester = ref.watch(selectedSemesterNotifierProvider);
+    final timetableViewStyle = ref.watch(timetableViewStyleProvider);
+    final selectedSemester = ref.watch(selectedSemesterProvider);
     final selectedIndex = Semester.values.indexOf(selectedSemester);
     if (_tabController.index != selectedIndex &&
         !_tabController.indexIsChanging) {
@@ -272,7 +264,7 @@ class _EditTimetableScreenState extends ConsumerState<EditTimetableScreen>
         actions: [
           IconButton(
             onPressed: () {
-              ref.read(timetableViewStyleNotifierProvider.notifier).toggle();
+              ref.read(timetableViewStyleProvider.notifier).toggle();
             },
             icon: timetableViewStyle.icon,
           ),
