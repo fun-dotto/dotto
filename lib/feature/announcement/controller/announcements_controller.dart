@@ -14,9 +14,7 @@ final class AnnouncementsNotifier extends _$AnnouncementsNotifier {
       final announcementRepository = ref.read(announcementRepositoryProvider);
       final config = ref.read(configProvider);
       final url = Uri.parse(config.announcementsUrl);
-      final announcements = await announcementRepository.getAnnouncements(url);
-      return announcements.where((e) => e.isActive).toList()
-        ..sort((lhs, rhs) => rhs.date.compareTo(lhs.date));
+      return await announcementRepository.getAnnouncements(url);
     } catch (e) {
       debugPrint(e.toString());
       rethrow;
