@@ -13,7 +13,7 @@ final class AnnouncementScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('お知らせ')),
       body: viewModel.when(
-        data: (data) => AnnouncementList(announcements: data),
+        data: (data) => AnnouncementList(announcements: data.announcements),
         error: (error, stackTrace) => const Center(child: Text('エラーが発生しました')),
         loading: () => const Center(child: CircularProgressIndicator()),
       ),
