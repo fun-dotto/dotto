@@ -12,6 +12,7 @@
 
 ## ルール
 
+- DRY 原則を遵守すること。
 - SOLID 原則を遵守すること。
 - 新規に実装する機能は、このプロジェクトで定められたアーキテクチャパターン`docs/onboarding/codebase/02_Architecture.md`に則って実装すること。
 - ブランチの運用は、`docs/onboarding/development/02_Branch.md`に従うこと。
