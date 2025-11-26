@@ -1,4 +1,5 @@
 enum UserPreferenceKeys {
+  environment(key: 'environment', type: String),
   grade(key: 'grade', type: String),
   course(key: 'course', type: String),
   userKey(key: 'userKey', type: String),
