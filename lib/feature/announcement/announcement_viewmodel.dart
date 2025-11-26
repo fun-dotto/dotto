@@ -12,4 +12,12 @@ final class AnnouncementViewModel extends _$AnnouncementViewModel {
     final announcements = await service.getAnnouncements();
     return AnnouncementViewState(announcements: announcements);
   }
+
+  Future<void> onRefresh() async {
+    state = await AsyncValue.guard(() async {
+      final service = AnnouncementService(ref);
+      final announcements = await service.getAnnouncements();
+      return AnnouncementViewState(announcements: announcements);
+    });
+  }
 }
