@@ -369,6 +369,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.5.0"
+  dio:
+    dependency: transitive
+    description:
+      name: dio
+      sha256: d90ee57923d1828ac14e492ca49440f65477f4bb1263575900be731a3dac66a9
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.9.0"
+  dio_web_adapter:
+    dependency: transitive
+    description:
+      name: dio_web_adapter
+      sha256: "7586e476d70caecaf1686d21eee7247ea43ef5c345eab9e0cc3583ff13378d78"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.1"
   dotto_design_system:
     dependency: "direct main"
     description:
@@ -1092,6 +1108,29 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.2"
+  one_of:
+    dependency: transitive
+    description:
+      name: one_of
+      sha256: "25fe0fcf181e761c6fcd604caf9d5fdf952321be17584ba81c72c06bdaa511f0"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.5.0"
+  one_of_serializer:
+    dependency: transitive
+    description:
+      name: one_of_serializer
+      sha256: "3f3dfb5c1578ba3afef1cb47fcc49e585e797af3f2b6c2cc7ed90aad0c5e7b83"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.5.0"
+  openapi:
+    dependency: "direct main"
+    description:
+      path: api
+      relative: true
+    source: path
+    version: "1.0.0"
   package_config:
     dependency: transitive
     description:
@@ -1236,6 +1275,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.5.0"
+  quiver:
+    dependency: transitive
+    description:
+      name: quiver
+      sha256: ea0b925899e64ecdfbf9c7becb60d5b50e706ade44a85b2363be2a22d88117d2
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.2.2"
   resizable_widget:
     dependency: transitive
     description:
