@@ -4,6 +4,9 @@ includes:
   dotto_design_system:
     taskfile: ./dotto_design_system/Taskfile.yml
     dir: ./dotto_design_system
+  api:
+    taskfile: ./api/Taskfile.yml
+    dir: ./api
 
 vars:
   FLUTTER: fvm flutter
@@ -22,6 +25,9 @@ tasks:
       - task: dotto_design_system:install
         vars:
           FLUTTER: "{{.FLUTTER}}"
+      - task: api:install
+        vars:
+          DART: "{{.DART}}"
       - |
         if [ "$GITHUB_ACTIONS" ]; then
           {{.FLUTTER}} --version
@@ -44,12 +50,20 @@ tasks:
       - task: dotto_design_system:build
         vars:
           DART: "{{.DART}}"
+      - task: api:build
+        vars:
+          DART: "{{.DART}}"
       - "{{.DART}} run build_runner build --delete-conflicting-outputs"
 
   watch:
     desc: Run build_runner to generate code in watch mode
     cmds:
       - "{{.DART}} run build_runner watch --delete-conflicting-outputs"
+
+  generate-openapi:
+    desc: Generate OpenAPI code
+    cmds:
+      - openapi-generator generate -i ./openapi/openapi.yaml -g dart-dio -o ./api
 
   run:
     desc: Run the Flutter app
