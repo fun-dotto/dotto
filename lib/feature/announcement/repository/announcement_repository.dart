@@ -28,7 +28,6 @@ final class AnnouncementRepositoryImpl implements AnnouncementRepository {
       if (data == null) {
         throw Exception('Failed to get announcements');
       }
-      debugPrint(data.toString());
       return data
           .map(
             (e) => Announcement(
