@@ -3,7 +3,7 @@ import 'package:dotto/repository/announcement_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final class AnnouncementService {
-  AnnouncementService({required this.ref});
+  AnnouncementService(this.ref);
 
   final Ref ref;
 

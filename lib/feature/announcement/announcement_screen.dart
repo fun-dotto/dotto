@@ -1,4 +1,4 @@
-import 'package:dotto/feature/announcement/controller/announcements_controller.dart';
+import 'package:dotto/feature/announcement/announcement_viewmodel.dart';
 import 'package:dotto/feature/announcement/widget/announcement_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -8,12 +8,12 @@ final class AnnouncementScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final announcements = ref.watch(announcementsProvider);
+    final viewModel = ref.watch(announcementViewModelProvider);
 
     return Scaffold(
       appBar: AppBar(title: const Text('お知らせ')),
-      body: announcements.when(
-        data: (data) => AnnouncementList(announcements: data),
+      body: viewModel.when(
+        data: (data) => AnnouncementList(announcements: data.announcements),
         error: (error, stackTrace) => const Center(child: Text('エラーが発生しました')),
         loading: () => const Center(child: CircularProgressIndicator()),
       ),
