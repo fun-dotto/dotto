@@ -27,7 +27,7 @@ tasks:
           FLUTTER: "{{.FLUTTER}}"
       - task: api:install
         vars:
-          DART: "{{.DART}}"
+          FLUTTER: "{{.FLUTTER}}"
       - |
         if [ "$GITHUB_ACTIONS" ]; then
           {{.FLUTTER}} --version
