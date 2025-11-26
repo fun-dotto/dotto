@@ -1,5 +1,4 @@
-import 'dart:async';
-
+import 'package:dotto/api/api_environment.dart';
 import 'package:dotto/feature/debug/debug_view_model_state.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -13,6 +12,7 @@ class DebugViewModel extends _$DebugViewModel {
   Future<DebugViewModelState> build() async {
     final appCheckAccessToken = await FirebaseAppCheck.instance.getToken();
     final idToken = await FirebaseAuth.instance.currentUser?.getIdToken();
+    await ref.read(apiEnvironmentProvider.notifier).load();
     return DebugViewModelState(
       appCheckAccessToken: appCheckAccessToken,
       idToken: idToken,
