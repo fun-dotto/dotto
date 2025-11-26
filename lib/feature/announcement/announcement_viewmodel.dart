@@ -3,10 +3,10 @@ import 'package:dotto/repository/announcement_repository.dart';
 import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'announcements_controller.g.dart';
+part 'announcement_viewmodel.g.dart';
 
 @riverpod
-final class AnnouncementsNotifier extends _$AnnouncementsNotifier {
+final class AnnouncementViewModel extends _$AnnouncementViewModel {
   @override
   Future<List<Announcement>> build() async {
     try {
