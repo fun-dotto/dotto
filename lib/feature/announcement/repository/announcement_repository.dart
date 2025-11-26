@@ -1,34 +1,44 @@
-import 'dart:convert';
-
+import 'package:dotto/api/api_client.dart';
 import 'package:dotto/feature/announcement/domain/announcement.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:http/http.dart' as http;
 
 final announcementRepositoryProvider = Provider<AnnouncementRepository>(
-  (ref) => AnnouncementRepositoryImpl(),
+  (ref) => AnnouncementRepositoryImpl(ref),
 );
 
 abstract class AnnouncementRepository {
-  Future<List<Announcement>> getAnnouncements(Uri url);
+  Future<List<Announcement>> getAnnouncements();
 }
 
 final class AnnouncementRepositoryImpl implements AnnouncementRepository {
+  AnnouncementRepositoryImpl(this.ref);
+
+  final Ref ref;
+
   @override
-  Future<List<Announcement>> getAnnouncements(Uri url) async {
+  Future<List<Announcement>> getAnnouncements() async {
     try {
-      final response = await http.get(url);
-      if (response.statusCode < 200 || response.statusCode > 299) {
-        return [];
+      final api = ref.read(apiClientProvider).getAnnouncementsApi();
+      final response = await api.announcementsList();
+      if (response.statusCode != 200) {
+        throw Exception('Failed to get announcements');
       }
-      final json = response.body;
-      final list = jsonDecode(json) as List<dynamic>;
-      final announcements = list
-          .map<Announcement>(
-            (e) => Announcement.fromJson(e as Map<String, dynamic>),
+      final data = response.data;
+      if (data == null) {
+        throw Exception('Failed to get announcements');
+      }
+      debugPrint(data.toString());
+      return data
+          .map(
+            (e) => Announcement(
+              id: e.id,
+              title: e.title,
+              date: e.date,
+              url: e.url,
+            ),
           )
           .toList();
-      return announcements;
     } catch (e) {
       debugPrint(e.toString());
       rethrow;
