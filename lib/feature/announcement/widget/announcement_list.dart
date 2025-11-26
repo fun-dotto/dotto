@@ -1,4 +1,4 @@
-import 'package:dotto/feature/announcement/domain/announcement.dart';
+import 'package:dotto/domain/announcement.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher_string.dart';
