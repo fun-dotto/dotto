@@ -130,33 +130,20 @@ final class RootScreen extends ConsumerWidget {
           }
         });
 
-        return PopScope(
-          canPop: Platform.isIOS,
-          onPopInvokedWithResult: (didPop, result) async {
-            if (didPop) return;
-            final navigator = Navigator.of(context);
-            final shouldPop =
-                !((await value.navigatorStates[value.selectedTab]?.currentState
-                        ?.maybePop()) ??
-                    true);
-            if (shouldPop && navigator.canPop()) navigator.pop();
-          },
-          child: Scaffold(
-            resizeToAvoidBottomInset: false,
-            body: _body(
-              context: context,
-              viewModel: value,
-              onGoToSettingButtonTapped: () => ref
-                  .read(rootViewModelProvider.notifier)
-                  .onGoToSettingButtonTapped(),
-            ),
-            bottomNavigationBar: _bottomNavigationBar(
-              context: context,
-              viewModel: value,
-              onTabItemTapped: (index) => ref
-                  .read(rootViewModelProvider.notifier)
-                  .onTabItemTapped(index),
-            ),
+        return Scaffold(
+          resizeToAvoidBottomInset: false,
+          body: _body(
+            context: context,
+            viewModel: value,
+            onGoToSettingButtonTapped: () => ref
+                .read(rootViewModelProvider.notifier)
+                .onGoToSettingButtonTapped(),
+          ),
+          bottomNavigationBar: _bottomNavigationBar(
+            context: context,
+            viewModel: value,
+            onTabItemTapped: (index) =>
+                ref.read(rootViewModelProvider.notifier).onTabItemTapped(index),
           ),
         );
 
