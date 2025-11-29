@@ -1,18 +1,17 @@
 openapi: 3.1.0
 info:
   title: App BFF Service
-  version: 0.0.0
+  version: 1.0.0
 tags:
   - name: Announcements
 paths:
   /announcements:
     get:
       operationId: Announcements_list
-      description: List announcements
       parameters: []
       responses:
         "200":
-          description: The request has succeeded.
+          description: おしらせのリスト
           content:
             application/json:
               schema:
@@ -41,3 +40,19 @@ components:
         url:
           type: string
           format: uri
+servers:
+  - url: http://localhost:8080
+    description: Local
+    variables: {}
+  - url: https://app-bff-api-dev-107577467292.asia-northeast1.run.app
+    description: Development
+    variables: {}
+  - url: https://app-bff-api-stg-107577467292.asia-northeast1.run.app
+    description: Staging
+    variables: {}
+  - url: https://app-bff-api-qa-107577467292.asia-northeast1.run.app
+    description: QA
+    variables: {}
+  - url: https://app-bff-api-107577467292.asia-northeast1.run.app
+    description: Production
+    variables: {}
