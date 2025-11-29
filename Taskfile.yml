@@ -43,7 +43,7 @@ tasks:
       - bundle install
       - cd ./ios && bundle install
       - cd ./android && bundle install
-  
+
   generate-openapi:
     desc: Generate OpenAPI code
     cmds:
@@ -64,11 +64,6 @@ tasks:
     desc: Run build_runner to generate code in watch mode
     cmds:
       - "{{.DART}} run build_runner watch --delete-conflicting-outputs"
-
-  generate-openapi:
-    desc: Generate OpenAPI code
-    cmds:
-      - openapi-generator generate -i ./openapi/openapi.yaml -g dart-dio -o ./api
 
   run:
     desc: Run the Flutter app
