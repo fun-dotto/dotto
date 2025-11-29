@@ -12,7 +12,7 @@ import 'package:openapi/src/auth/oauth.dart';
 import 'package:openapi/src/api/announcements_api.dart';
 
 class Openapi {
-  static const String basePath = r'http://localhost';
+  static const String basePath = r'http://localhost:8080';
 
   final Dio dio;
   final Serializers serializers;

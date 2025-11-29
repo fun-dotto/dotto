@@ -20,7 +20,7 @@ class AnnouncementsApi {
   const AnnouncementsApi(this._dio, this._serializers);
 
   /// announcementsList
-  /// List announcements
+  /// 
   ///
   /// Parameters:
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation

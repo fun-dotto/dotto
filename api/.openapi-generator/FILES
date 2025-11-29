@@ -1,5 +1,4 @@
 .gitignore
-.openapi-generator-ignore
 README.md
 analysis_options.yaml
 doc/Announcement.md
@@ -18,5 +17,3 @@ lib/src/model/announcement.dart
 lib/src/model/date.dart
 lib/src/serializers.dart
 pubspec.yaml
-test/announcement_test.dart
-test/announcements_api_test.dart

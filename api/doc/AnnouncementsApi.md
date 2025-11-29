@@ -5,7 +5,7 @@
 import 'package:openapi/api.dart';
 ```
 
-All URIs are relative to *http://localhost*
+All URIs are relative to *http://localhost:8080*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -16,8 +16,6 @@ Method | HTTP request | Description
 > BuiltList<Announcement> announcementsList()
 
 
-
-List announcements
 
 ### Example
 ```dart
