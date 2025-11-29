@@ -43,6 +43,11 @@ tasks:
       - bundle install
       - cd ./ios && bundle install
       - cd ./android && bundle install
+  
+  generate-openapi:
+    desc: Generate OpenAPI code
+    cmds:
+      - openapi-generator generate -i ./openapi/openapi.yaml -g dart-dio -o ./api
 
   build:
     desc: Run build_runner to generate code
