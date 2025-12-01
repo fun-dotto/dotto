@@ -13,7 +13,6 @@ abstract class Announcement with _$Announcement {
     required String title,
     required DateTime date,
     required String url,
-    required bool isActive,
   }) = _Announcement;
 
   factory Announcement.fromJson(Map<String, Object?> json) =>
