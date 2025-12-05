@@ -71,7 +71,7 @@ void main() {
         expect(room.isInUse(dateTime), isFalse);
       });
 
-      test('指定時刻がスケジュールの開始時刻と同じ場合はfalseを返す', () {
+      test('指定時刻がスケジュールの開始時刻と同じ場合はtrueを返す', () {
         final room = createRoom(
           schedules: [
             RoomSchedule(
@@ -83,11 +83,10 @@ void main() {
         );
         final dateTime = DateTime(2025, 11, 1, 9, 0);
 
-        // isBefore(9:00) は false なので、isInUse は false
-        expect(room.isInUse(dateTime), isFalse);
+        expect(room.isInUse(dateTime), isTrue);
       });
 
-      test('指定時刻がスケジュールの終了時刻と同じ場合はfalseを返す', () {
+      test('指定時刻がスケジュールの終了時刻と同じ場合はtrueを返す', () {
         final room = createRoom(
           schedules: [
             RoomSchedule(
@@ -99,8 +98,7 @@ void main() {
         );
         final dateTime = DateTime(2025, 11, 1, 10, 30);
 
-        // isAfter(10:30) は false なので、isInUse は false
-        expect(room.isInUse(dateTime), isFalse);
+        expect(room.isInUse(dateTime), isTrue);
       });
     });
 
