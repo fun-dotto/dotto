@@ -90,8 +90,10 @@ platform :ios do
     upload_to_testflight(
       skip_submission: true,
       notify_external_testers: true,
-      distribute_external: true,
-      groups: ["Dotto Developer"],
+      skip_waiting_for_build_processing: true,
+      # distribute_external: true,
+      # groups: ["Dotto Developer"],
+      # changelog: "",
     )
     reset_build_number
   end
