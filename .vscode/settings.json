@@ -1,5 +1,5 @@
 {
-  "dart.flutterSdkPath": ".fvm/versions/3.35.5",
+  "dart.flutterSdkPath": ".fvm/versions/3.38.4",
   "dart.lineLength": 80,
   "editor.detectIndentation": false,
   "editor.formatOnPaste": true,
