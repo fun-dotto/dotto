@@ -4,8 +4,8 @@ import 'package:dotto/domain/room.dart';
 import 'package:dotto/domain/room_equipment.dart';
 import 'package:dotto/domain/room_schedule.dart';
 import 'package:dotto/feature/map/fun_map.dart';
-import 'package:dotto/feature/map/map_view_model.dart';
-import 'package:dotto/feature/map/map_view_model_state.dart';
+import 'package:dotto/feature/map/map_viewstate.dart';
+import 'package:dotto/feature/map/map_viewmodel.dart';
 import 'package:dotto/repository/room_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -22,7 +22,7 @@ abstract interface class Listener<T> {
 @GenerateMocks([RoomRepository, Listener])
 void main() {
   final roomRepository = MockRoomRepository();
-  final listener = MockListener<AsyncValue<MapViewModelState>>();
+  final listener = MockListener<AsyncValue<MapViewState>>();
 
   final testRooms = [
     Room(
@@ -148,7 +148,7 @@ void main() {
       await expectLater(
         container.read(mapViewModelProvider.notifier).future,
         completion(
-          isA<MapViewModelState>()
+          isA<MapViewState>()
               .having((p0) => p0.rooms, 'rooms', testRooms)
               .having((p0) => p0.filteredRooms, 'filteredRooms', isEmpty)
               .having(
@@ -192,7 +192,7 @@ void main() {
       final updatedState = container.read(mapViewModelProvider).requireValue;
       expect(
         updatedState,
-        isA<MapViewModelState>()
+        isA<MapViewState>()
             .having((p0) => p0.selectedFloor, 'selectedFloor', Floor.first)
             .having(
               (p0) => p0.focusedMapTileProps,
@@ -229,11 +229,9 @@ void main() {
       final updatedState = container.read(mapViewModelProvider).requireValue;
       expect(
         updatedState,
-        isA<MapViewModelState>().having(
-          (p0) => p0.filteredRooms,
-          'filteredRooms',
-          [testRooms[0]],
-        ),
+        isA<MapViewState>().having((p0) => p0.filteredRooms, 'filteredRooms', [
+          testRooms[0],
+        ]),
       );
 
       // listener が呼ばれたことを確認
@@ -259,7 +257,7 @@ void main() {
           .requireValue;
       expect(
         stateAfterSearch,
-        isA<MapViewModelState>().having(
+        isA<MapViewState>().having(
           (p0) => p0.filteredRooms,
           'filteredRooms',
           isNotEmpty,
@@ -273,7 +271,7 @@ void main() {
       final stateAfterClear = container.read(mapViewModelProvider).requireValue;
       expect(
         stateAfterClear,
-        isA<MapViewModelState>().having(
+        isA<MapViewState>().having(
           (p0) => p0.filteredRooms,
           'filteredRooms',
           isEmpty,
@@ -303,7 +301,7 @@ void main() {
       final updatedState = container.read(mapViewModelProvider).requireValue;
       expect(
         updatedState,
-        isA<MapViewModelState>()
+        isA<MapViewState>()
             .having((p0) => p0.focusNode.hasFocus, 'focusNode.hasFocus', false)
             .having(
               (p0) => p0.selectedFloor,
@@ -340,7 +338,7 @@ void main() {
       final updatedState = container.read(mapViewModelProvider).requireValue;
       expect(
         updatedState,
-        isA<MapViewModelState>()
+        isA<MapViewState>()
             .having(
               (p0) => p0.focusedMapTileProps,
               'focusedMapTileProps',

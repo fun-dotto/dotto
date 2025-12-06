@@ -5,19 +5,19 @@ import 'package:dotto/domain/floor.dart';
 import 'package:dotto/domain/map_tile_props.dart';
 import 'package:dotto/domain/room.dart';
 import 'package:dotto/feature/map/fun_map.dart';
-import 'package:dotto/feature/map/map_usecase.dart';
-import 'package:dotto/feature/map/map_view_model_state.dart';
+import 'package:dotto/feature/map/map_service.dart';
+import 'package:dotto/feature/map/map_viewstate.dart';
 import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'map_view_model.g.dart';
+part 'map_viewmodel.g.dart';
 
 @riverpod
 class MapViewModel extends _$MapViewModel {
   @override
-  Future<MapViewModelState> build() async {
-    final rooms = await MapUseCase(ref: ref).getRooms();
-    final state = MapViewModelState(
+  Future<MapViewState> build() async {
+    final rooms = await MapService(ref: ref).getRooms();
+    final state = MapViewState(
       rooms: rooms,
       filteredRooms: [],
       focusedMapTileProps: null,
@@ -130,7 +130,7 @@ class MapViewModel extends _$MapViewModel {
 
   void onMapTileTapped(MapTileProps props, Room? room) {
     state.value?.focusNode.unfocus();
-    MapViewModelState? newState;
+    MapViewState? newState;
     if (props == state.value?.focusedMapTileProps) {
       newState = state.value?.copyWith(focusedMapTileProps: null);
     } else {

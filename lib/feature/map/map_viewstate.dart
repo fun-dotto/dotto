@@ -4,11 +4,11 @@ import 'package:dotto/domain/room.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'map_view_model_state.freezed.dart';
+part 'map_viewstate.freezed.dart';
 
 @freezed
-abstract class MapViewModelState with _$MapViewModelState {
-  const factory MapViewModelState({
+abstract class MapViewState with _$MapViewState {
+  const factory MapViewState({
     required List<Room> rooms,
     required List<Room> filteredRooms,
     required MapTileProps? focusedMapTileProps,
@@ -17,5 +17,5 @@ abstract class MapViewModelState with _$MapViewModelState {
     required FocusNode focusNode,
     required TextEditingController textEditingController,
     required TransformationController transformationController,
-  }) = _MapViewModelState;
+  }) = _MapViewState;
 }

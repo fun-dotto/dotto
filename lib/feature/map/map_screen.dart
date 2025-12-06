@@ -3,7 +3,7 @@ import 'package:dotto/controller/user_controller.dart';
 import 'package:dotto/domain/map_tile_props.dart';
 import 'package:dotto/domain/room.dart';
 import 'package:dotto/feature/map/fun_map.dart';
-import 'package:dotto/feature/map/map_view_model.dart';
+import 'package:dotto/feature/map/map_viewmodel.dart';
 import 'package:dotto/feature/map/widget/map.dart';
 import 'package:dotto/feature/map/widget/map_date_picker.dart';
 import 'package:dotto/feature/map/widget/map_detail_bottom_sheet.dart';
