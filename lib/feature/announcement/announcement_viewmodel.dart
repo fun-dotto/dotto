@@ -1,5 +1,5 @@
 import 'package:dotto/feature/announcement/announcement_service.dart';
-import 'package:dotto/feature/announcement/announcement_view_state.dart';
+import 'package:dotto/feature/announcement/announcement_viewstate.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'announcement_viewmodel.g.dart';

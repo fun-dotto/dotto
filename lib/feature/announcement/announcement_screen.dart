@@ -1,5 +1,5 @@
 import 'package:dotto/domain/announcement.dart';
-import 'package:dotto/feature/announcement/announcement_view_state.dart';
+import 'package:dotto/feature/announcement/announcement_viewstate.dart';
 import 'package:dotto/feature/announcement/announcement_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

@@ -1,6 +1,6 @@
 import 'package:dotto/domain/announcement.dart';
-import 'package:dotto/feature/announcement/announcement_view_state.dart';
 import 'package:dotto/feature/announcement/announcement_viewmodel.dart';
+import 'package:dotto/feature/announcement/announcement_viewstate.dart';
 import 'package:dotto/repository/announcement_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
