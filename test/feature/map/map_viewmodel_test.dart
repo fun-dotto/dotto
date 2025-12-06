@@ -4,8 +4,8 @@ import 'package:dotto/domain/room.dart';
 import 'package:dotto/domain/room_equipment.dart';
 import 'package:dotto/domain/room_schedule.dart';
 import 'package:dotto/feature/map/fun_map.dart';
-import 'package:dotto/feature/map/map_viewstate.dart';
 import 'package:dotto/feature/map/map_viewmodel.dart';
+import 'package:dotto/feature/map/map_viewstate.dart';
 import 'package:dotto/repository/room_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -13,7 +13,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
-import 'map_view_model_test.mocks.dart';
+import 'map_viewmodel_test.mocks.dart';
 
 abstract interface class Listener<T> {
   void call(T? previous, T next);
