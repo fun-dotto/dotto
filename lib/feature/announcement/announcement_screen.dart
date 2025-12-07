@@ -1,9 +1,9 @@
 import 'package:dotto/domain/announcement.dart';
-import 'package:dotto/feature/announcement/announcement_viewstate.dart';
 import 'package:dotto/feature/announcement/announcement_viewmodel.dart';
+import 'package:dotto/feature/announcement/announcement_viewstate.dart';
+import 'package:dotto/helper/date_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 final class AnnouncementScreen extends ConsumerWidget {
@@ -16,7 +16,7 @@ final class AnnouncementScreen extends ConsumerWidget {
         style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
       ),
       subtitle: Text(
-        DateFormat.yMMMd().add_jm().format(announcement.date),
+        DateFormatter.full(announcement.date),
         style: const TextStyle(fontSize: 12),
       ),
       onTap: () => launchUrlString(announcement.url),
