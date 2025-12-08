@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'contributor.freezed.dart';
+part 'github_profile.freezed.dart';
 
 @freezed
 abstract class GitHubProfile with _$GitHubProfile {
