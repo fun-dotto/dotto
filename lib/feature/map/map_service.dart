@@ -3,7 +3,7 @@ import 'package:dotto/repository/room_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final class MapService {
-  MapService({required this.ref});
+  MapService(this.ref);
 
   final Ref ref;
 
