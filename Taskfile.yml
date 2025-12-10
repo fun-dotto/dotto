@@ -22,12 +22,6 @@ tasks:
   install:
     desc: Install dependencies and configure Flutter
     cmds:
-      - task: dotto_design_system:install
-        vars:
-          FLUTTER: "{{.FLUTTER}}"
-      - task: api:install
-        vars:
-          FLUTTER: "{{.FLUTTER}}"
       - |
         if [ "$GITHUB_ACTIONS" ]; then
           {{.FLUTTER}} --version
@@ -36,6 +30,12 @@ tasks:
         fi
       - "{{.FLUTTER}} config --enable-swift-package-manager"
       - "{{.FLUTTER}} pub get"
+      - task: dotto_design_system:install
+        vars:
+          FLUTTER: "{{.FLUTTER}}"
+      - task: api:install
+        vars:
+          FLUTTER: "{{.FLUTTER}}"
 
   bundle-install:
     desc: Install bundle dependencies for iOS and Android
