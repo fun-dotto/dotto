@@ -1,0 +1,46 @@
+import 'package:dotto/domain/github_profile.dart';
+import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+final githubContributionRepositoryProvider =
+    Provider<GitHubContributorRepository>(
+      (ref) => GitHubContributorRepositoryImpl(ref),
+    );
+
+abstract class GitHubContributorRepository {
+  Future<List<GitHubProfile>> getContributors();
+}
+
+final class GitHubContributorRepositoryImpl
+    implements GitHubContributorRepository {
+  GitHubContributorRepositoryImpl(this.ref);
+
+  final Ref ref;
+
+  @override
+  Future<List<GitHubProfile>> getContributors() async {
+    try {
+      final dio = Dio();
+      // GitHub contributors API for this repository
+      const url = 'https://api.github.com/repos/fun-dotto/dotto/contributors';
+
+      final response = await dio.get(url);
+      if (response.statusCode != 200) {
+        throw Exception('Failed to get contributors');
+      }
+
+      final data = response.data;
+      if (data == null || data is! List) {
+        throw Exception('Failed to get contributors');
+      }
+
+      return data
+          .map((e) => GitHubProfile.fromJson(e as Map<String, dynamic>))
+          .toList();
+    } catch (e) {
+      debugPrint(e.toString());
+      rethrow;
+    }
+  }
+}
