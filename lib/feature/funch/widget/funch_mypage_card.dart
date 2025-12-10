@@ -157,6 +157,10 @@ final class FunchMyPageCard extends ConsumerWidget {
               error: (error, stackTrace) => _buildEmptyCard(context, date),
               loading: () => Shimmer(child: Container(color: Colors.grey)),
             ),
+            const Text(
+              'メニューは変更される可能性があります',
+              style: TextStyle(fontSize: 12, color: Colors.black54),
+            ),
           ],
         ),
       ),
