@@ -16,7 +16,7 @@ part 'map_viewmodel.g.dart';
 class MapViewModel extends _$MapViewModel {
   @override
   Future<MapViewState> build() async {
-    final rooms = await MapService(ref: ref).getRooms();
+    final rooms = await MapService(ref).getRooms();
     final state = MapViewState(
       rooms: rooms,
       filteredRooms: [],
