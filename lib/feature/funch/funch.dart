@@ -73,6 +73,14 @@ final class FunchScreen extends ConsumerWidget {
               children: menuTypeButton(ref),
             ),
           ),
+          const Padding(
+            padding: EdgeInsets.only(bottom: 8),
+            child: Text(
+              'メニューは変更される可能性があります',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 12, color: Colors.black54),
+            ),
+          ),
           Expanded(child: SingleChildScrollView(child: content)),
         ],
       ),
