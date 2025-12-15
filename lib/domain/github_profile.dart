@@ -7,7 +7,7 @@ part 'github_profile.g.dart';
 abstract class GitHubProfile with _$GitHubProfile {
   @JsonSerializable(fieldRename: FieldRename.snake)
   const factory GitHubProfile({
-    required String id,
+    @JsonKey(fromJson: _idFromJson) required String id,
     required String login,
     required String avatarUrl,
     required String htmlUrl,
@@ -16,3 +16,5 @@ abstract class GitHubProfile with _$GitHubProfile {
   factory GitHubProfile.fromJson(Map<String, Object?> json) =>
       _$GitHubProfileFromJson(json);
 }
+
+String _idFromJson(Object? json) => json == null ? '' : json.toString();
