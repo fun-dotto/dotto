@@ -8,10 +8,10 @@ import 'package:dotto/feature/timetable/domain/period.dart';
 import 'package:dotto/feature/timetable/domain/timetable_course.dart';
 import 'package:dotto/feature/timetable/domain/timetable_period_style.dart';
 import 'package:dotto/feature/timetable/repository/timetable_repository.dart';
+import 'package:dotto/helper/date_formatter.dart';
 import 'package:dotto/theme/v1/color_fun.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart';
 
 final class MyPageTimetable extends ConsumerWidget {
   const MyPageTimetable({super.key});
@@ -254,7 +254,7 @@ final class MyPageTimetable extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    DateFormat('dd').format(date),
+                    DateFormatter.dayOfMonth(date),
                     style: TextStyle(
                       fontWeight: (focusTimetableDay.day == date.day)
                           ? FontWeight.w600
@@ -263,7 +263,7 @@ final class MyPageTimetable extends ConsumerWidget {
                     ),
                   ),
                   Text(
-                    DateFormat('E').format(date),
+                    DateFormatter.dayOfWeek(date),
                     style: TextStyle(
                       fontSize: 10,
                       color: focusTimetableDay.day == date.day
