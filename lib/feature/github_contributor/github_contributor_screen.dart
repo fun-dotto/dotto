@@ -47,7 +47,7 @@ final class GitHubContributorScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final viewModelAsync = ref.watch(githubContributorViewmodelProvider);
+    final viewModelAsync = ref.watch(githubContributorViewModelProvider);
 
     return Scaffold(
       appBar: AppBar(title: const Text('開発者一覧')),
@@ -55,7 +55,7 @@ final class GitHubContributorScreen extends ConsumerWidget {
         viewModelAsync,
         onRefresh: () async {
           await ref
-              .read(githubContributorViewmodelProvider.notifier)
+              .read(githubContributorViewModelProvider.notifier)
               .onRefresh();
         },
       ),
