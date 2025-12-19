@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
-final class GithubContributorScreen extends ConsumerWidget {
-  const GithubContributorScreen({super.key});
+final class GitHubContributorScreen extends ConsumerWidget {
+  const GitHubContributorScreen({super.key});
 
   Widget _githubContributorListRow(GitHubProfile githubProfile) {
     return ListTile(
