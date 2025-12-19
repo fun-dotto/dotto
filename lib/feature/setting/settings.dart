@@ -6,6 +6,7 @@ import 'package:dotto/domain/user_preference_keys.dart';
 import 'package:dotto/feature/announcement/announcement_screen.dart';
 import 'package:dotto/feature/assignment/setup_hope_continuity_screen.dart';
 import 'package:dotto/feature/debug/debug_screen.dart';
+import 'package:dotto/feature/github_contributor/github_contributor_screen.dart';
 import 'package:dotto/feature/setting/controller/settings_controller.dart';
 import 'package:dotto/feature/setting/repository/settings_repository.dart';
 import 'package:dotto/feature/setting/widget/license.dart';
@@ -207,6 +208,21 @@ final class SettingsScreen extends ConsumerWidget {
                 leading: const Icon(Icons.messenger_rounded),
                 onPressed: (_) {
                   launchUrlString(config.feedbackFormUrl);
+                },
+              ),
+              // Contributors表示
+              SettingsTile.navigation(
+                title: const Text('開発者一覧'),
+                leading: const Icon(Icons.person),
+                onPressed: (_) {
+                  Navigator.of(context).push(
+                    MaterialPageRoute<void>(
+                      builder: (_) => const GitHubContributorScreen(),
+                      settings: const RouteSettings(
+                        name: '/setting/github_contributors',
+                      ),
+                    ),
+                  );
                 },
               ),
               // アプリの使い方
