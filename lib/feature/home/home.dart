@@ -143,10 +143,10 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
     final config = ref.watch(configProvider);
     final timetablePeriodStyle = ref.watch(timetablePeriodStyleProvider);
 
-    final fileNamePath = <String, String>{
-      '学年暦': config.officialCalendarPdfUrl,
-      '時間割 前期': config.timetable1PdfUrl,
-      '時間割 後期': config.timetable2PdfUrl,
+    final fileNamePath = <String, Map<String, Object>>{
+      '学年暦': {'url': config.officialCalendarPdfUrl, 'icon': Icons.event_note},
+      '時間割 前期': {'url': config.timetable1PdfUrl, 'icon': Icons.calendar_month},
+      '時間割 後期': {'url': config.timetable2PdfUrl, 'icon': Icons.calendar_month},
     };
     final infoTiles = <Widget>[
       ...fileNamePath.entries.map(
@@ -155,15 +155,18 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
           () {
             Navigator.of(context).push(
               MaterialPageRoute<void>(
-                builder: (_) =>
-                    WebPdfViewer(url: item.value, filename: item.key),
+                builder: (_) => WebPdfViewer(
+                  url: item.value['url']! as String,
+                  filename: item.key,
+                ),
                 settings: RouteSettings(
-                  name: '/home/web_pdf_viewer?url=${item.value}',
+                  name:
+                      '/home/web_pdf_viewer?url=${item.value['url']! as String}',
                 ),
               ),
             );
           },
-          Icons.picture_as_pdf,
+          item.value['icon']! as IconData,
           item.key,
         ),
       ),
