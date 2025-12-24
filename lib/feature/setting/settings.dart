@@ -212,7 +212,7 @@ final class SettingsScreen extends ConsumerWidget {
               ),
               // Contributors表示
               SettingsTile.navigation(
-                title: const Text('開発者一覧'),
+                title: const Text('開発者'),
                 leading: const Icon(Icons.person),
                 onPressed: (_) {
                   Navigator.of(context).push(
