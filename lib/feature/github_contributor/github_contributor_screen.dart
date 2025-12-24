@@ -11,13 +11,14 @@ final class GitHubContributorScreen extends ConsumerWidget {
   Widget _githubContributorListRow(GitHubProfile githubProfile) {
     return ListTile(
       leading: GestureDetector(
-        onTap: () => launchUrlString(githubProfile.htmlUrl),
         child: CircleAvatar(
           radius: 20,
           backgroundImage: NetworkImage(githubProfile.avatarUrl),
           backgroundColor: Colors.grey.shade200,
         ),
       ),
+      title: Text(githubProfile.login),
+      onTap: () => launchUrlString(githubProfile.htmlUrl),
     );
   }
 
