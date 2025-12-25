@@ -92,16 +92,12 @@ npm -v
 
 バージョン番号が表示されれば成功です。
 
-## Firebase CLI をインストール
+## [macOS] Firebase CLI のセットアップ
+
+以下のコマンドを実行して、Firebase CLI をインストールします。
 
 ```zsh
 npm install -g firebase-tools
-```
-
-[Windows] 以下のコマンドを実行します。
-
-```pwsh
-Set-ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
 ```
 
 以下のコマンドを実行して、Firebase CLI にログインします。
@@ -113,5 +109,31 @@ firebase login
 以下のコマンドを実行して、プロジェクト`dotto`が表示されれば成功です。
 
 ```zsh
+firebase projects:list
+```
+
+## [Windows] Firebase CLI のセットアップ
+
+Windowsのデフォルトの設定で「スクリプトの実行」が禁止されているため、以下のコマンドで設定を変更します。
+
+```pwsh
+Set-ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
+```
+
+以下のコマンドを実行して、Firebase CLI をインストールします。
+
+```pwsh
+npm install -g firebase-tools
+```
+
+以下のコマンドを実行して、Firebase CLI にログインします。
+
+```pwsh
+firebase login
+```
+
+以下のコマンドを実行して、プロジェクト`dotto`が表示されれば成功です。
+
+```pwsh
 firebase projects:list
 ```
