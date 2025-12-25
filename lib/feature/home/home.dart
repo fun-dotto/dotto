@@ -144,37 +144,36 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
 
     return LayoutBuilder(
       builder: (context, constraints) {
+        if (links.isEmpty) {
+          return const SizedBox.shrink();
+        }
         const rowGap = 27.0;
-        final available = (constraints.maxWidth - rowGap) / 2;
+        final available =
+            (constraints.maxWidth - rowGap * (links.length - 1)) /
+            links.length;
         final tileWidth = available.clamp(0.0, 184.0);
-        final totalWidth = tileWidth * 2 + rowGap;
+        final totalWidth =
+            tileWidth * links.length + rowGap * (links.length - 1);
 
         return Align(
           child: SizedBox(
             width: totalWidth,
             child: Row(
               children: [
-                SizedBox(
-                  width: tileWidth,
-                  child: _linkTile(
-                    title: links[0].label,
-                    onTap: () => launchUrlString(
-                      links[0].url,
-                      mode: LaunchMode.externalApplication,
+                for (var index = 0; index < links.length; index++) ...[
+                  SizedBox(
+                    width: tileWidth,
+                    child: _linkTile(
+                      title: links[index].label,
+                      onTap: () => launchUrlString(
+                        links[index].url,
+                        mode: LaunchMode.externalApplication,
+                      ),
                     ),
                   ),
-                ),
-                const SizedBox(width: rowGap),
-                SizedBox(
-                  width: tileWidth,
-                  child: _linkTile(
-                    title: links[1].label,
-                    onTap: () => launchUrlString(
-                      links[1].url,
-                      mode: LaunchMode.externalApplication,
-                    ),
-                  ),
-                ),
+                  if (index != links.length - 1)
+                    const SizedBox(width: rowGap),
+                ],
               ],
             ),
           ),
