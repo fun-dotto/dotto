@@ -158,7 +158,10 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
                   width: tileWidth,
                   child: _linkTile(
                     title: links[0].label,
-                    onTap: () => launchUrlString(links[0].url),
+                    onTap: () => launchUrlString(
+                      links[0].url,
+                      mode: LaunchMode.externalApplication,
+                    ),
                   ),
                 ),
                 const SizedBox(width: rowGap),
@@ -166,7 +169,10 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
                   width: tileWidth,
                   child: _linkTile(
                     title: links[1].label,
-                    onTap: () => launchUrlString(links[1].url),
+                    onTap: () => launchUrlString(
+                      links[1].url,
+                      mode: LaunchMode.externalApplication,
+                    ),
                   ),
                 ),
               ],
