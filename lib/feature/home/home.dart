@@ -146,7 +146,7 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
       builder: (context, constraints) {
         const rowGap = 27.0;
         final available = (constraints.maxWidth - rowGap) / 2;
-        final tileWidth = available.clamp(0.0, 184.0).toDouble();
+        final tileWidth = available.clamp(0.0, 184.0);
         final totalWidth = tileWidth * 2 + rowGap;
 
         return Align(
