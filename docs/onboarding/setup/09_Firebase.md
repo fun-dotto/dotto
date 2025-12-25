@@ -106,6 +106,14 @@ npm install -g firebase-tools
 firebase login
 ```
 
+※ 実行中に以下の質問が表示された場合は、どちらも n (No) を入力してEnterを押してください。
+- ? Enable Gemini in Firebase features?
+- ? Allow Firebase to collect CLI and ...?
+
+質問に答え終わると、自動的にブラウザが起動します。
+
+Dotto の Firebase プロジェクトに参加しているGoogleアカウントを選択してください。
+
 以下のコマンドを実行して、プロジェクト`dotto`が表示されれば成功です。
 
 ```zsh
@@ -131,6 +139,14 @@ npm install -g firebase-tools
 ```pwsh
 firebase login
 ```
+
+※ 実行中に以下の質問が表示された場合は、どちらも n (No) を入力してEnterを押してください。
+- ? Enable Gemini in Firebase features?
+- ? Allow Firebase to collect CLI and ...?
+
+質問に答え終わると、自動的にブラウザが起動します。
+
+Dotto の Firebase プロジェクトに参加しているGoogleアカウントを選択してください。
 
 以下のコマンドを実行して、プロジェクト`dotto`が表示されれば成功です。
 
