@@ -18,6 +18,7 @@ import 'package:dotto/widget/web_pdf_viewer.dart';
 import 'package:dotto_design_system/component/button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 final class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -84,6 +85,95 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
       children: List.generate(children.length, (index) {
         return children[index];
       }),
+    );
+  }
+
+  Widget _linkTile({required String title, required VoidCallback onTap}) {
+    return SizedBox(
+      height: 60,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: const Color(0xFFE3E3E3), width: 0.5),
+          boxShadow: const [
+            BoxShadow(
+              color: Color(0x40000000),
+              offset: Offset(0, 4),
+              blurRadius: 4,
+            ),
+          ],
+        ),
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            borderRadius: BorderRadius.circular(16),
+            onTap: onTap,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 24,
+                vertical: 12,
+              ).copyWith(right: 8),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      title,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        color: Colors.black87,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  const Icon(Icons.chevron_right, color: Colors.black45),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _linkRow() {
+    final links = [
+      (label: 'HOPE', url: 'https://hope.fun.ac.jp/my/courses.php'),
+      (label: '学生ポータル', url: 'https://students.fun.ac.jp/Portal'),
+    ];
+
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        const rowGap = 27.0;
+        final available = (constraints.maxWidth - rowGap) / 2;
+        final tileWidth = available.clamp(0.0, 184.0).toDouble();
+        final totalWidth = tileWidth * 2 + rowGap;
+
+        return Align(
+          child: SizedBox(
+            width: totalWidth,
+            child: Row(
+              children: [
+                SizedBox(
+                  width: tileWidth,
+                  child: _linkTile(
+                    title: links[0].label,
+                    onTap: () => launchUrlString(links[0].url),
+                  ),
+                ),
+                const SizedBox(width: rowGap),
+                SizedBox(
+                  width: tileWidth,
+                  child: _linkTile(
+                    title: links[1].label,
+                    onTap: () => launchUrlString(links[1].url),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 
@@ -215,11 +305,16 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
               child: ConstrainedBox(
                 constraints: const BoxConstraints(maxWidth: 480),
                 child: Column(
-                  spacing: 16,
                   children: [
                     const BusCardHome(),
-                    if (config.isFunchEnabled) const FunchMyPageCard(),
+                    if (config.isFunchEnabled) ...[
+                      const SizedBox(height: 16),
+                      const FunchMyPageCard(),
+                    ],
+                    const SizedBox(height: 16),
                     _fileButtons(infoTiles),
+                    const SizedBox(height: 27),
+                    _linkRow(),
                   ],
                 ),
               ),
