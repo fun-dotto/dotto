@@ -1,5 +1,5 @@
 import 'package:dotto/domain/github_profile.dart';
-import 'package:dotto/repository/github_contoributor_repository.dart';
+import 'package:dotto/repository/github_contributor_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final class GitHubContributorService {
@@ -8,6 +8,6 @@ final class GitHubContributorService {
   final Ref ref;
 
   Future<List<GitHubProfile>> getContributors() async {
-    return ref.read(githubContributionRepositoryProvider).getContributors();
+    return ref.read(gitHubContributorRepositoryProvider).getContributors();
   }
 }

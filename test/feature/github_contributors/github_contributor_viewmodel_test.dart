@@ -1,7 +1,7 @@
 import 'package:dotto/domain/github_profile.dart';
 import 'package:dotto/feature/github_contributor/github_contributor_viewmodel.dart';
 import 'package:dotto/feature/github_contributor/github_contributor_viewstate.dart';
-import 'package:dotto/repository/github_contoributor_repository.dart';
+import 'package:dotto/repository/github_contributor_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
@@ -35,7 +35,7 @@ void main() {
 
   ProviderContainer createContainer() => ProviderContainer(
     overrides: [
-      githubContributionRepositoryProvider.overrideWithValue(
+      gitHubContributorRepositoryProvider.overrideWithValue(
         githubContributorRepository,
       ),
     ],

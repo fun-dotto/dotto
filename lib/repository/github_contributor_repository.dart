@@ -1,11 +1,11 @@
-import 'package:dotto/domain/github_profile.dart';
 import 'package:dio/dio.dart';
+import 'package:dotto/domain/github_profile.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final githubContributionRepositoryProvider =
+final gitHubContributorRepositoryProvider =
     Provider<GitHubContributorRepository>(
-      (ref) => GitHubContributorRepositoryImpl(ref),
+      (_) => GitHubContributorRepositoryImpl(),
     );
 
 abstract class GitHubContributorRepository {
@@ -14,10 +14,6 @@ abstract class GitHubContributorRepository {
 
 final class GitHubContributorRepositoryImpl
     implements GitHubContributorRepository {
-  GitHubContributorRepositoryImpl(this.ref);
-
-  final Ref ref;
-
   @override
   Future<List<GitHubProfile>> getContributors() async {
     try {
