@@ -57,13 +57,13 @@ void main() {
     test('初期状態が正しく設定される', () async {
       final container = createContainer()
         ..listen(
-          githubContributorViewModelProvider,
+          gitHubContributorViewModelProvider,
           listener.call,
           fireImmediately: true,
         );
 
       await expectLater(
-        container.read(githubContributorViewModelProvider.notifier).future,
+        container.read(gitHubContributorViewModelProvider.notifier).future,
         completion(
           isA<GitHubContributorViewState>().having(
             (p0) => p0.contributors,
@@ -77,14 +77,14 @@ void main() {
     test('GitHubProfileが正しく取得される', () async {
       final container = createContainer()
         ..listen(
-          githubContributorViewModelProvider,
+          gitHubContributorViewModelProvider,
           listener.call,
           fireImmediately: true,
         );
 
       // 初期状態を待つ
       final initialState = await container
-          .read(githubContributorViewModelProvider.notifier)
+          .read(gitHubContributorViewModelProvider.notifier)
           .future;
 
       expect(initialState.contributors, testGitHubContributors);
@@ -106,14 +106,14 @@ void main() {
 
       final container = createContainer()
         ..listen(
-          githubContributorViewModelProvider,
+          gitHubContributorViewModelProvider,
           listener.call,
           fireImmediately: true,
         );
 
       // 初期状態を待つ
       final initialState = await container
-          .read(githubContributorViewModelProvider.notifier)
+          .read(gitHubContributorViewModelProvider.notifier)
           .future;
 
       expect(initialState.contributors, isEmpty);
@@ -133,17 +133,17 @@ void main() {
     test('GitHubProfileの取得に失敗した場合にエラーがthrowされる', () async {
       final container = createContainer()
         ..listen(
-          githubContributorViewModelProvider,
+          gitHubContributorViewModelProvider,
           listener.call,
           fireImmediately: true,
         );
 
       // AsyncValue がエラー状態になるまで待つ
-      var asyncValue = container.read(githubContributorViewModelProvider);
+      var asyncValue = container.read(gitHubContributorViewModelProvider);
       var attempts = 0;
       while (!asyncValue.hasError && attempts < 100) {
         await Future<void>.delayed(const Duration(milliseconds: 10));
-        asyncValue = container.read(githubContributorViewModelProvider);
+        asyncValue = container.read(gitHubContributorViewModelProvider);
         attempts++;
       }
 

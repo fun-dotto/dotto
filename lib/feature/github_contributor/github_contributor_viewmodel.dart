@@ -5,7 +5,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'github_contributor_viewmodel.g.dart';
 
 @riverpod
-final class GithubContributorViewmodel extends _$GithubContributorViewmodel {
+final class GitHubContributorViewModel extends _$GitHubContributorViewModel {
   late final GitHubContributorService _service;
 
   @override
