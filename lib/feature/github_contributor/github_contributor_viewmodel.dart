@@ -5,18 +5,19 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'github_contributor_viewmodel.g.dart';
 
 @riverpod
-final class GithubContributorViewModel extends _$GithubContributorViewModel {
+final class GithubContributorViewmodel extends _$GithubContributorViewmodel {
+  late final GitHubContributorService _service;
+
   @override
   Future<GitHubContributorViewState> build() async {
-    final service = GitHubContributorService(ref);
-    final contributors = await service.getContributors();
+    _service = GitHubContributorService(ref);
+    final contributors = await _service.getContributors();
     return GitHubContributorViewState(contributors: contributors);
   }
 
   Future<void> onRefresh() async {
     state = await AsyncValue.guard(() async {
-      final service = GitHubContributorService(ref);
-      final contributors = await service.getContributors();
+      final contributors = await _service.getContributors();
       return GitHubContributorViewState(contributors: contributors);
     });
   }
