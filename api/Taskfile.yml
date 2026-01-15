@@ -5,7 +5,6 @@ version: "3"
 vars:
   FLUTTER: fvm flutter
   DART: fvm dart
-  FASTLANE: bundle exec fastlane
 
 tasks:
   default:
