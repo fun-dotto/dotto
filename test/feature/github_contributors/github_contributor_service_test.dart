@@ -1,6 +1,6 @@
 import 'package:dotto/domain/github_profile.dart';
 import 'package:dotto/feature/github_contributor/github_contributor_service.dart';
-import 'package:dotto/repository/github_contoributor_repository.dart';
+import 'package:dotto/repository/github_contributor_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
@@ -34,7 +34,7 @@ void main() {
 
   ProviderContainer createContainer() => ProviderContainer(
     overrides: [
-      githubContributionRepositoryProvider.overrideWithValue(
+      gitHubContributorRepositoryProvider.overrideWithValue(
         githubContributorRepository,
       ),
     ],
@@ -51,7 +51,7 @@ void main() {
       ).thenAnswer((_) async => testGitHubProfiles);
 
       final container = createContainer();
-      final service = container.read(githubContributionRepositoryProvider);
+      final service = container.read(gitHubContributorRepositoryProvider);
 
       final result = await service.getContributors();
 

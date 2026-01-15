@@ -51,7 +51,7 @@ final class GitHubContributorScreen extends ConsumerWidget {
     final viewModelAsync = ref.watch(gitHubContributorViewModelProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('開発者一覧')),
+      appBar: AppBar(title: const Text('開発者')),
       body: _body(
         viewModelAsync,
         onRefresh: () async {

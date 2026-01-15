@@ -6,7 +6,7 @@
 import 'dart:async' as _i3;
 
 import 'package:dotto/domain/github_profile.dart' as _i4;
-import 'package:dotto/repository/github_contoributor_repository.dart' as _i2;
+import 'package:dotto/repository/github_contributor_repository.dart' as _i2;
 import 'package:mockito/mockito.dart' as _i1;
 
 import 'github_contributor_viewmodel_test.dart' as _i5;
