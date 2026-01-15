@@ -92,16 +92,20 @@ npm -v
 
 バージョン番号が表示されれば成功です。
 
-## Firebase CLI をインストール
+## Firebase CLI のセットアップ
 
-```zsh
-npm install -g firebase-tools
-```
-
-[Windows] 以下のコマンドを実行します。
+[Windows] デフォルトの設定で「スクリプトの実行」が禁止されているため、以下のコマンドで設定を変更します。
 
 ```pwsh
 Set-ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
+```
+
+以降の工程はmacOS・Windows共通です。
+
+以下のコマンドを実行して、Firebase CLI をインストールします。
+
+```zsh
+npm install -g firebase-tools
 ```
 
 以下のコマンドを実行して、Firebase CLI にログインします。
@@ -109,6 +113,14 @@ Set-ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
 ```zsh
 firebase login
 ```
+
+※ 実行中に以下の質問が表示された場合は、どちらも n (No) を入力してEnterを押してください。
+- ? Enable Gemini in Firebase features?
+- ? Allow Firebase to collect CLI and ...?
+
+質問に答え終わると、自動的にブラウザが起動します。
+
+Dotto の Firebase プロジェクトに参加しているGoogleアカウントを選択してください。
 
 以下のコマンドを実行して、プロジェクト`dotto`が表示されれば成功です。
 
