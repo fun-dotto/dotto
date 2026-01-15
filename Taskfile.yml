@@ -11,7 +11,7 @@ includes:
 vars:
   FLUTTER: fvm flutter
   DART: fvm dart
-  FASTLANE: bundle exec fastlane
+  FASTLANE: fastlane
 
 tasks:
   default:
@@ -36,13 +36,6 @@ tasks:
       - task: api:install
         vars:
           FLUTTER: "{{.FLUTTER}}"
-
-  bundle-install:
-    desc: Install bundle dependencies for iOS and Android
-    cmds:
-      - bundle install
-      - cd ./ios && bundle install
-      - cd ./android && bundle install
 
   generate-openapi:
     desc: Generate OpenAPI code
