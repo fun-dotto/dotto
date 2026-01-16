@@ -25,7 +25,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       - name: Install Task
         uses: arduino/setup-task@v2
         with:
@@ -38,8 +38,6 @@ jobs:
         with:
           flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
           cache: true
-      - name: Setup Ruby
-        uses: ruby/setup-ruby@v1
       - name: Set up files
         run: touch ./.env.dev
       - name: Install Dependencies
