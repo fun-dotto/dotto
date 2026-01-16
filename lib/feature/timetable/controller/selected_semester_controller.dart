@@ -1,5 +1,6 @@
-import 'package:dotto/feature/timetable/domain/semester.dart';
+import 'package:dotto/domain/semester.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
 part 'selected_semester_controller.g.dart';
 
 @riverpod

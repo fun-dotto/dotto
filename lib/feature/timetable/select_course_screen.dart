@@ -1,8 +1,8 @@
 import 'package:dotto/domain/day_of_week.dart';
+import 'package:dotto/domain/semester.dart';
+import 'package:dotto/domain/timetable_slot.dart';
 import 'package:dotto/feature/timetable/controller/personal_lesson_id_list_controller.dart';
 import 'package:dotto/feature/timetable/controller/week_period_all_records_controller.dart';
-import 'package:dotto/feature/timetable/domain/period.dart';
-import 'package:dotto/feature/timetable/domain/semester.dart';
 import 'package:dotto/feature/timetable/repository/timetable_repository.dart';
 import 'package:dotto/feature/timetable/widget/timetable_is_over_selected_snack_bar.dart';
 import 'package:dotto_design_system/component/button.dart';
@@ -19,7 +19,7 @@ final class SelectCourseScreen extends ConsumerWidget {
 
   final Semester semester;
   final DayOfWeek dayOfWeek;
-  final Period period;
+  final TimetableSlot period;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

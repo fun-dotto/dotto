@@ -1,11 +1,11 @@
 import 'package:collection/collection.dart';
 import 'package:dotto/domain/day_of_week.dart';
+import 'package:dotto/domain/semester.dart';
+import 'package:dotto/domain/timetable_slot.dart';
 import 'package:dotto/feature/timetable/controller/personal_lesson_id_list_controller.dart';
 import 'package:dotto/feature/timetable/controller/selected_semester_controller.dart';
 import 'package:dotto/feature/timetable/controller/timetable_view_style_controller.dart';
 import 'package:dotto/feature/timetable/controller/week_period_all_records_controller.dart';
-import 'package:dotto/feature/timetable/domain/period.dart';
-import 'package:dotto/feature/timetable/domain/semester.dart';
 import 'package:dotto/feature/timetable/select_course_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -56,7 +56,7 @@ class _EditTimetableScreenState extends ConsumerState<EditTimetableScreen>
   Widget _tableText(
     BuildContext context,
     DayOfWeek dayOfWeek,
-    Period period,
+    TimetableSlot period,
     Semester semester,
     List<Map<String, dynamic>> records,
   ) {
@@ -157,7 +157,7 @@ class _EditTimetableScreenState extends ConsumerState<EditTimetableScreen>
                     )
                     .toList(),
               ),
-              ...Period.values.map(
+              ...TimetableSlot.values.map(
                 (period) => TableRow(
                   children: DayOfWeek.weekdays
                       .map(
@@ -215,7 +215,7 @@ class _EditTimetableScreenState extends ConsumerState<EditTimetableScreen>
                   title: Text(seasonList[index]['授業名'] as String),
                   subtitle: Text(
                     '${DayOfWeek.fromNumber(seasonList[index]['week'] as int).label}'
-                    '${Period.fromNumber(seasonList[index]['period'] as int).number}',
+                    '${TimetableSlot.fromNumber(seasonList[index]['period'] as int).number}',
                   ),
                 );
               },
