@@ -9,7 +9,7 @@ import 'package:dotto/feature/timetable/domain/timetable_course.dart';
 import 'package:dotto/feature/timetable/domain/timetable_period_style.dart';
 import 'package:dotto/feature/timetable/repository/timetable_repository.dart';
 import 'package:dotto/helper/date_formatter.dart';
-import 'package:dotto/theme/v1/color_fun.dart';
+import 'package:dotto_design_system/style/semantic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -238,7 +238,7 @@ final class MyPageTimetable extends ConsumerWidget {
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: focusTimetableDay.day == date.day
-                    ? customFunColor
+                    ? SemanticColor.light.accentPrimary
                     : Colors.white,
                 foregroundColor: focusTimetableDay.day == date.day
                     ? Colors.white

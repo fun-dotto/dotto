@@ -68,6 +68,22 @@ final class SemanticColor extends ThemeExtension<SemanticColor> {
     accentError: PrimitiveColor.red600,
   );
 
+  static final MaterialColor accentMaterialColor = MaterialColor(
+    PrimitiveColor.accent.toARGB32(),
+    const {
+      50: PrimitiveColor.accent50,
+      100: PrimitiveColor.accent100,
+      200: PrimitiveColor.accent200,
+      300: PrimitiveColor.accent300,
+      400: PrimitiveColor.accent400,
+      500: PrimitiveColor.accent500,
+      600: PrimitiveColor.accent600,
+      700: PrimitiveColor.accent700,
+      800: PrimitiveColor.accent800,
+      900: PrimitiveColor.accent900,
+    },
+  );
+
   @override
   ThemeExtension<SemanticColor> copyWith({
     Color? labelPrimary,

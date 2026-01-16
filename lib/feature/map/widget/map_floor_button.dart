@@ -1,5 +1,5 @@
 import 'package:dotto/domain/floor.dart';
-import 'package:dotto/theme/v1/color_fun.dart';
+import 'package:dotto_design_system/style/semantic_color.dart';
 import 'package:flutter/material.dart';
 
 final class MapFloorButton extends StatelessWidget {
@@ -24,7 +24,9 @@ final class MapFloorButton extends StatelessWidget {
         floor.label,
         style: TextStyle(
           fontSize: 18,
-          color: selectedFloor == floor ? customFunColor : Colors.black87,
+          color: selectedFloor == floor
+              ? SemanticColor.light.accentPrimary
+              : Colors.black87,
         ),
       ),
     );

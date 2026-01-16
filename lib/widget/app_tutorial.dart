@@ -1,5 +1,5 @@
 import 'package:dotto/asset.dart';
-import 'package:dotto/theme/v1/color_fun.dart';
+import 'package:dotto_design_system/style/semantic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_overboard/flutter_overboard.dart';
 
@@ -68,7 +68,7 @@ final class AppTutorial extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final topMargin = MediaQuery.of(context).size.height / 2;
-    final backgroundColor = customFunColor.shade50;
+    final backgroundColor = SemanticColor.accentMaterialColor.shade50;
     final pages = [
       PageModel.withChild(
         child: _withImage(
@@ -122,7 +122,7 @@ final class AppTutorial extends StatelessWidget {
             ),
           ),
         ),
-        color: const Color(0xFFE0B3B3),
+        color: SemanticColor.accentMaterialColor.shade100,
         doAnimateChild: true,
       ),
     ];
