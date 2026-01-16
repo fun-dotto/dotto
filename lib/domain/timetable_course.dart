@@ -7,15 +7,10 @@ part 'timetable_course.freezed.dart';
 @freezed
 abstract class TimetableCourse with _$TimetableCourse {
   const factory TimetableCourse({
-    // 時限
-    required TimetableSlot slot,
-    // Deprecated: 科目ID
-    required int lessonId,
-    // 科目名
-    required String courseName,
-    // 部屋名
-    required String roomName,
-    // 通常・休講・補講
-    required TimetableCourseType type,
+    required TimetableSlot slot, // 時限
+    required int lessonId, // Deprecated: 科目ID
+    required String courseName, // 科目名
+    required String roomName, // 部屋名
+    @Default(TimetableCourseType.normal) TimetableCourseType type, // 通常・休講・補講
   }) = _TimetableCourse;
 }
