@@ -1,5 +1,5 @@
-import 'package:dotto/api/firebase/room_response.dart';
-import 'package:dotto/api/firebase/room_schedule_response.dart';
+import 'package:dotto/api/firebase/model/room_response.dart';
+import 'package:dotto/api/firebase/model/room_schedule_response.dart';
 import 'package:dotto/helper/firebase_realtime_database_repository.dart';
 
 final class RoomAPI {
