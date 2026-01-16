@@ -1,13 +1,24 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:collection/collection.dart';
 import 'package:dotto/domain/timetable.dart';
+import 'package:dotto/domain/timetable_course.dart';
 import 'package:dotto/feature/home/component/timetable_view.dart';
 import 'package:dotto/helper/date_formatter.dart';
 import 'package:dotto_design_system/style/semantic_color.dart';
 import 'package:flutter/material.dart';
 
 final class TimetableCalendarView extends StatelessWidget {
-  const TimetableCalendarView({required this.timetables, super.key});
+  const TimetableCalendarView({
+    required this.timetables,
+    required this.selectedDate,
+    required this.onDateSelected,
+    required this.onCourseSelected,
+    super.key,
+  });
   final List<Timetable> timetables;
+  final DateTime selectedDate;
+  final void Function(DateTime) onDateSelected;
+  final void Function(TimetableCourse) onCourseSelected;
 
   Widget _dateButton({
     required DateTime date,
@@ -42,6 +53,33 @@ final class TimetableCalendarView extends StatelessWidget {
     required DateTime selectedDate,
     required void Function(DateTime) onPressed,
   }) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      spacing: 16,
+      children: dates
+          .map(
+            (date) => _dateButton(
+              date: date,
+              isSelected: selectedDate == date,
+              onPressed: () {
+                onPressed(date);
+              },
+            ),
+          )
+          .toList(),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    final monday = today.subtract(Duration(days: today.weekday - 1));
+    final selectedDate = DateTime(now.year, now.month, now.day);
+    final dates = List.generate(
+      5,
+      (index) => monday.add(Duration(days: index)),
+    );
     return Column(
       spacing: 8,
       children: [
@@ -65,47 +103,28 @@ final class TimetableCalendarView extends StatelessWidget {
               )
               .toList(),
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          spacing: 16,
-          children: dates
-              .map(
-                (date) => _dateButton(
-                  date: date,
-                  isSelected: selectedDate == date,
-                  onPressed: () {
-                    onPressed(date);
-                  },
-                ),
-              )
-              .toList(),
-        ),
-      ],
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final now = DateTime.now();
-    final today = DateTime(now.year, now.month, now.day);
-    final monday = today.subtract(Duration(days: today.weekday - 1));
-    final selectedDate = DateTime(now.year, now.month, now.day);
-    final dates = List.generate(
-      5,
-      (index) => monday.add(Duration(days: index)),
-    );
-    return Column(
-      spacing: 8,
-      children: [
-        _dateButtons(
-          dates: dates,
-          selectedDate: selectedDate,
-          onPressed: (date) {},
+        CarouselSlider(
+          items: [
+            _dateButtons(
+              dates: dates,
+              selectedDate: selectedDate,
+              onPressed: onDateSelected,
+            ),
+            _dateButtons(
+              dates: dates
+                  .map((date) => date.add(const Duration(days: 7)))
+                  .toList(),
+              selectedDate: selectedDate,
+              onPressed: onDateSelected,
+            ),
+          ],
+          options: CarouselOptions(height: 48, viewportFraction: 1),
         ),
         TimetableView(
           timetable: timetables.firstWhereOrNull(
             (timetable) => timetable.date.isAtSameMomentAs(selectedDate),
           ),
+          onCourseSelected: onCourseSelected,
         ),
       ],
     );

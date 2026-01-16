@@ -7,8 +7,13 @@ import 'package:dotto_design_system/style/semantic_color.dart';
 import 'package:flutter/material.dart';
 
 final class TimetableView extends StatelessWidget {
-  const TimetableView({required this.timetable, super.key});
+  const TimetableView({
+    required this.timetable,
+    required this.onCourseSelected,
+    super.key,
+  });
   final Timetable? timetable;
+  final void Function(TimetableCourse) onCourseSelected;
 
   Widget _canceledLabel() {
     return Row(
@@ -41,7 +46,7 @@ final class TimetableView extends StatelessWidget {
         side: BorderSide(color: SemanticColor.light.borderPrimary),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       ),
-      onPressed: course != null ? () {} : null,
+      onPressed: course != null ? () => onCourseSelected(course) : null,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
