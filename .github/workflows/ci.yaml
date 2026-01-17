@@ -41,8 +41,8 @@ jobs:
       - name: Set up files
         run: touch ./.env.dev
       - name: Install Dependencies
-        run: task install FLUTTER=flutter
+        run: task install-all FLUTTER=flutter
       - name: Run Build
-        run: task build DART=dart
+        run: task build-all DART=dart
       - name: Run Tests
         run: task test FLUTTER=flutter

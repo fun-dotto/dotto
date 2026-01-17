@@ -30,6 +30,13 @@ tasks:
         fi
       - "{{.FLUTTER}} config --enable-swift-package-manager"
       - "{{.FLUTTER}} pub get"
+
+  install-all:
+    desc: Install dependencies for all projects
+    deps:
+      - task: install
+        vars:
+          FLUTTER: "{{.FLUTTER}}"
       - task: dotto_design_system:install
         vars:
           FLUTTER: "{{.FLUTTER}}"
@@ -45,18 +52,38 @@ tasks:
   build:
     desc: Run build_runner to generate code
     cmds:
+      - "{{.DART}} run build_runner build --delete-conflicting-outputs"
+
+  build-all:
+    desc: Run build_runner to generate code for all projects
+    deps:
+      - task: build
+        vars:
+          DART: "{{.DART}}"
       - task: dotto_design_system:build
         vars:
           DART: "{{.DART}}"
       - task: api:build
         vars:
           DART: "{{.DART}}"
-      - "{{.DART}} run build_runner build --delete-conflicting-outputs"
 
   watch:
     desc: Run build_runner to generate code in watch mode
     cmds:
       - "{{.DART}} run build_runner watch --delete-conflicting-outputs"
+
+  watch-all:
+    desc: Run build_runner to generate code in watch mode for all projects
+    deps:
+      - task: watch
+        vars:
+          DART: "{{.DART}}"
+      - task: dotto_design_system:watch
+        vars:
+          DART: "{{.DART}}"
+      - task: api:watch
+        vars:
+          DART: "{{.DART}}"
 
   run:
     desc: Run the Flutter app
