@@ -23,6 +23,11 @@ tasks:
     cmds:
       - "{{.DART}} run build_runner build --delete-conflicting-outputs"
 
+  watch:
+    desc: Run build_runner to generate code in watch mode
+    cmds:
+      - "{{.DART}} run build_runner watch --delete-conflicting-outputs"
+
   run:
     desc: Run the Flutter app
     cmds:
