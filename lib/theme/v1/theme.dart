@@ -15,7 +15,7 @@ final class DottoThemev1 {
         ),
       ),
       dividerTheme: DividerThemeData(color: Colors.grey.shade300),
-      fontFamily: 'NotoSansJP',
+      fontFamily: 'Inter',
     );
   }
 }

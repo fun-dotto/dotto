@@ -233,7 +233,7 @@ final class DottoButton extends ButtonStyleButton {
       disabledForegroundColor: disabledForegroundColor,
       shadowColor: Colors.transparent,
       elevation: 0,
-      textStyle: Theme.of(context).textTheme.bodyMedium,
+      textStyle: Theme.of(context).textTheme.bodyRegular,
       padding: padding,
       minimumSize: const Size(44, 44),
       maximumSize: const Size(double.infinity, 44),

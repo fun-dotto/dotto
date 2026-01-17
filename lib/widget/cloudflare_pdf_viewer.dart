@@ -148,7 +148,7 @@ final class _CloudflarePdfViewerState extends State<CloudflarePdfViewer>
               const SizedBox(height: 16),
               Text(
                 'PDFの読み込みに失敗しました',
-                style: Theme.of(context).textTheme.titleLarge,
+                style: Theme.of(context).textTheme.largeTitleRegular,
               ),
               const SizedBox(height: 8),
               Padding(
@@ -156,7 +156,7 @@ final class _CloudflarePdfViewerState extends State<CloudflarePdfViewer>
                 child: Text(
                   _errorMessage!,
                   textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.bodyMedium,
+                  style: Theme.of(context).textTheme.bodyRegular,
                 ),
               ),
               const SizedBox(height: 24),
