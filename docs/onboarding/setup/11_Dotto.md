@@ -15,7 +15,7 @@ cd dotto
 プロジェクトの依存関係のインストールをします。
 
 ```zsh
-task install
+task install-all
 ```
 
 Firebase の情報をセットアップします。
@@ -33,7 +33,7 @@ flutterfire configure
 必要なコードを生成します。
 
 ```zsh
-task build
+task build-all
 ```
 
 ## [macOS] iOS Simulator で起動する
