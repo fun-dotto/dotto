@@ -988,7 +988,7 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.5"
-    js:
+  js:
     dependency: transitive
     description:
       name: js
