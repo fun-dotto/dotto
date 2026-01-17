@@ -9,14 +9,17 @@ final class DottoTheme {
       extensions: const [SemanticColor.light],
       textTheme: const TextTheme(
         largeTitleRegular: TextStyle(fontWeight: FontWeight.w400, fontSize: 28),
-        largeTitleEmphasis: TextStyle(fontWeight: FontWeight.bold, fontSize: 28),
+        largeTitleEmphasized: TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: 28,
+        ),
         headlineRegular: TextStyle(fontWeight: FontWeight.w400, fontSize: 24),
         titleRegular: TextStyle(fontWeight: FontWeight.w400, fontSize: 20),
-        titleEmphasis: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+        titleEmphasized: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
         bodyRegular: TextStyle(fontWeight: FontWeight.w400, fontSize: 16),
-        bodyEmphasis: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+        bodyEmphasized: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
         captionRegular: TextStyle(fontWeight: FontWeight.w400, fontSize: 12),
-        captionEmphasis: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+        captionEmphasized: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
       ),
     );
   }
