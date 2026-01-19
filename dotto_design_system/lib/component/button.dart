@@ -174,14 +174,15 @@ final class DottoButton extends ButtonStyleButton {
 
     WidgetStateProperty<double>? elevationValue;
     if (elevation != null) {
-      elevationValue =
-          WidgetStateProperty<double>.fromMap(<WidgetStatesConstraint, double>{
-            WidgetState.disabled: 0,
-            WidgetState.pressed: elevation + 6,
-            WidgetState.hovered: elevation + 2,
-            WidgetState.focused: elevation + 2,
-            WidgetState.any: elevation,
-          });
+      elevationValue = WidgetStateProperty<double>.fromMap(
+        <WidgetStatesConstraint, double>{
+          WidgetState.disabled: 0,
+          WidgetState.pressed: elevation + 6,
+          WidgetState.hovered: elevation + 2,
+          WidgetState.focused: elevation + 2,
+          WidgetState.any: elevation,
+        },
+      );
     }
 
     return ButtonStyle(
@@ -233,7 +234,7 @@ final class DottoButton extends ButtonStyleButton {
       disabledForegroundColor: disabledForegroundColor,
       shadowColor: Colors.transparent,
       elevation: 0,
-      textStyle: Theme.of(context).textTheme.bodyRegular,
+      textStyle: Theme.of(context).textTheme.bodyMedium,
       padding: padding,
       minimumSize: const Size(44, 44),
       maximumSize: const Size(double.infinity, 44),

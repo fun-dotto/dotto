@@ -145,7 +145,7 @@ final class _WebPdfViewerState extends State<WebPdfViewer>
               const SizedBox(height: 16),
               Text(
                 'PDFの読み込みに失敗しました',
-                style: Theme.of(context).textTheme.largeTitleRegular,
+                style: Theme.of(context).textTheme.titleLarge,
               ),
               const SizedBox(height: 8),
               Padding(
@@ -153,7 +153,7 @@ final class _WebPdfViewerState extends State<WebPdfViewer>
                 child: Text(
                   _errorMessage!,
                   textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.bodyRegular,
+                  style: Theme.of(context).textTheme.bodyMedium,
                 ),
               ),
               const SizedBox(height: 24),

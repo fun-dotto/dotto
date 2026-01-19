@@ -8,18 +8,18 @@ final class DottoTheme {
       fontFamily: 'NotoSansJP',
       extensions: const [SemanticColor.light],
       textTheme: const TextTheme(
-        largeTitleRegular: TextStyle(fontWeight: FontWeight.w400, fontSize: 28),
-        largeTitleEmphasized: TextStyle(
-          fontWeight: FontWeight.w500,
+        displayLarge: TextStyle(
+          fontWeight: FontWeight.w700,
           fontSize: 28,
         ),
-        headlineRegular: TextStyle(fontWeight: FontWeight.w400, fontSize: 24),
-        titleRegular: TextStyle(fontWeight: FontWeight.w400, fontSize: 20),
-        titleEmphasized: TextStyle(fontWeight: FontWeight.w500, fontSize: 20),
-        bodyRegular: TextStyle(fontWeight: FontWeight.w400, fontSize: 16),
-        bodyEmphasized: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
-        captionRegular: TextStyle(fontWeight: FontWeight.w400, fontSize: 12),
-        captionEmphasized: TextStyle(fontWeight: FontWeight.w500, fontSize: 12),
+        displayMedium: TextStyle(fontWeight: FontWeight.w400, fontSize: 28),
+        headlineLarge: TextStyle(fontWeight: FontWeight.w700, fontSize: 24),
+        titleLarge: TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
+        titleMedium: TextStyle(fontWeight: FontWeight.w400, fontSize: 20),
+        bodyLarge: TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
+        bodyMedium: TextStyle(fontWeight: FontWeight.w400, fontSize: 16),
+        labelLarge: TextStyle(fontWeight: FontWeight.w700, fontSize: 12),
+        labelMedium: TextStyle(fontWeight: FontWeight.w400, fontSize: 12),
       ),
     );
   }
