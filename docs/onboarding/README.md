@@ -14,6 +14,16 @@
 - [Task](setup/10_Task.md)
 - [Dotto](setup/11_Dotto.md)
 
+---
+
+- [パッケージマネージャー](setup/01_PackageManager.md)
+- [[Windows] PowerShell](setup/02_WindowsPowerShell.md)
+- [Git](setup/03_Git.md)
+- [テキストエディタ](setup/04_TextEditor.md)
+- [IDE](setup/05_IDE.md)
+- [mise](setup/06_Mise.md)
+- [Dotto](setup/07_Dotto.md)
+
 ## チュートリアル
 
 - [[WIP] Flutter チュートリアル](https://github.com/fun-dotto/tutorial-flutter)
