@@ -10,37 +10,14 @@
 - [mise](setup/06_Mise.md)
 - [Dotto](setup/07_Dotto.md)
 
-## チュートリアル
-
-- [[WIP] Flutter チュートリアル](https://github.com/fun-dotto/tutorial-flutter)
-
 ## 技術概要
 
-- [[WIP] システムアーキテクチャ](system/README.md)
+[システムアーキテクチャ](https://www.figma.com/board/yBfYmlmkbu6yq46QsKbsPp?node-id=1-990&t=38PQwdP8ZtjZN2dE-4)
 
-### 概要図
+### モバイルアプリ
 
-```mermaid
-classDiagram
-  Flutter --> Cloudflare_R2 : ファイルの取得
-  Flutter --> Firebase : ファイルの取得・DBへのアクセスなど
-  HOPE --> Firebase : 各ユーザがHOPEで設定
-  Firebase --> 教務システム : 施設予約・シラバスなど
-
-  Flutter : - Dart
-  Firebase : - Python
-  Firebase : - JavaScript
-```
-
-## コードベース
-
-- [Feature](codebase/01_Feature.md)
+- [機能](codebase/01_Feature.md)
 - [アーキテクチャ](codebase/02_Architecture.md)
-
-## リリースフロー
-
-- 毎週木曜日午後 5 時を目安に審査に提出
-- 次週月曜日に配信開始
 
 ## 開発フロー
 
@@ -48,3 +25,8 @@ classDiagram
 - [Branch](development/02_Branch.md)
 - [Commit](development/03_Commit.md)
 - [Pull Request](development/04_PR.md)
+
+## リリースフロー
+
+- 毎週木曜日午後 5 時を目安に審査に提出
+- 次週月曜日に配信開始
