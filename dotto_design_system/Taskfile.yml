@@ -3,8 +3,8 @@
 version: "3"
 
 vars:
-  FLUTTER: fvm flutter
-  DART: fvm dart
+  FLUTTER: flutter
+  DART: dart
 
 tasks:
   default:
