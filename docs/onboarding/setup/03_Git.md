@@ -55,42 +55,15 @@ git config --global user.email "<メールアドレス: GitHubで登録したも
 
 ## GitHub の SSH を設定
 
-### [macOS] 秘密鍵と公開鍵を生成
+### 秘密鍵と公開鍵を生成
 
 ```zsh
 mkdir ~/.ssh
 ```
 
 ```zsh
-ssh-keygen -t ed25519 -C "<メールアドレス>"
+ssh-keygen -t ed25519 -f ~/.ssh/github -C "<メールアドレス>"
 ```
-
-出力例
-
-```
-Enter a file in which to save the key (/Users/<username>/.ssh/id_ed25519): /Users/<username>/.ssh/github
-Enter passphrase (empty for no passphrase): <Enterキーを押下>
-Enter same passphrase again: <Enterキーを押下>
-```
-
-### [Windows] 秘密鍵と公開鍵を生成
-
-```pwsh
-mkdir ~/.ssh
-```
-
-```pwsh
-ssh-keygen -t ed25519 -C "<メールアドレス>"
-```
-
-````pwsh
-Enter a file in which to save the key (C:\Users\<username>\.ssh\id_ed25519): C:\Users\<username>\.ssh\github
-Enter passphrase (empty for no passphrase): <Enterキーを押下>
-Enter same passphrase again: <Enterキーを押下>
-```pwsh
-Get-Service -Name ssh-agent | Set-Service -StartupType Manual
-Start-Service ssh-agent
-````
 
 ### [macOS] SSH Agent に秘密鍵を登録
 
@@ -155,4 +128,8 @@ ssh -T git@github.com
 
 ```
 Hi <username>! You've successfully authenticated, but GitHub does not provide shell access.
+```
+
+```
+
 ```
