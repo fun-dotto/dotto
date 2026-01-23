@@ -19,7 +19,7 @@ final class DottoTheme {
         ),
       ),
       dividerTheme: DividerThemeData(color: Colors.grey.shade300),
-      fontFamily: 'NotoSansJP',
+      fontFamily: 'MPLUS1p',
       extensions: [SemanticColor.light],
       textTheme: const TextTheme(
         displayLarge: TextStyle(
