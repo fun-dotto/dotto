@@ -104,10 +104,12 @@ final class MapTile extends StatelessWidget {
     );
   }
 
-  Widget get label {
+  Widget _label(BuildContext context) {
     return Text(
       labelText,
-      style: TextStyle(fontSize: fontSize, color: labelColor),
+      style: Theme.of(
+        context,
+      ).textTheme.labelSmall?.copyWith(fontSize: fontSize, color: labelColor),
     );
   }
 
@@ -191,7 +193,7 @@ final class MapTile extends StatelessWidget {
         alignment: AlignmentDirectional.center,
         children: [
           tile,
-          label,
+          Padding(padding: const EdgeInsets.all(2), child: _label(context)),
           if (props is RestroomMapTileProps) restroomIcons,
           if (props is StairMapTileProps) stair,
           if (props is ElevatorMapTileProps) elevator,

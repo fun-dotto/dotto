@@ -64,10 +64,7 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
                 child: Center(child: Icon(icon, color: Colors.white, size: 24)),
               ),
             ),
-            Text(
-              title,
-              style: const TextStyle(fontSize: 12, color: Colors.black),
-            ),
+            Text(title, style: Theme.of(context).textTheme.labelMedium),
           ],
         ),
       ),

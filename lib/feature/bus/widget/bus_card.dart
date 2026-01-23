@@ -72,7 +72,6 @@ final class BusCard extends ConsumerWidget {
                   Transform.translate(
                     offset: const Offset(0, 5),
                     child: IconButton(
-                      iconSize: 20,
                       color: SemanticColor.light.accentInfo,
                       onPressed: () {
                         ref.read(busIsToProvider.notifier).toggle();
@@ -85,6 +84,7 @@ final class BusCard extends ConsumerWidget {
               ),
             if (route != '0')
               Column(
+                spacing: 8,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text('$route $headerText'),
@@ -93,7 +93,7 @@ final class BusCard extends ConsumerWidget {
                     children: [
                       Text(
                         BusRepository().formatDuration(beginTime),
-                        style: const TextStyle(fontSize: 40),
+                        style: Theme.of(context).textTheme.displayMedium,
                       ),
                       Transform.translate(
                         offset: const Offset(0, -5),
@@ -110,7 +110,6 @@ final class BusCard extends ConsumerWidget {
                     ],
                   ),
                   Divider(height: 6, color: tripType.dividerColor),
-                  const SizedBox(height: 5),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [Text('出発まで${arriveAt.inMinutes}分')],
@@ -119,20 +118,6 @@ final class BusCard extends ConsumerWidget {
               )
             else
               const Text('今日の運行は終了しました。'),
-            if (home)
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Text(
-                    'バス一覧',
-                    style: TextStyle(color: SemanticColor.light.accentInfo),
-                  ),
-                  Icon(
-                    Icons.chevron_right,
-                    color: SemanticColor.light.accentInfo,
-                  ),
-                ],
-              ),
           ],
         ),
       ),

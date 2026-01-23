@@ -1,4 +1,5 @@
 import 'package:dotto_design_system/style/semantic_color.dart';
+import 'package:dotto_design_system/style/text_style.dart';
 import 'package:flutter/material.dart';
 
 final class DottoTheme {
@@ -12,28 +13,29 @@ final class DottoTheme {
       ),
       appBarTheme: AppBarTheme(
         surfaceTintColor: Colors.transparent,
-        titleTextStyle: TextStyle(
+        titleTextStyle: DottoTextStyle.titleMedium.copyWith(
           color: SemanticColor.light.accentPrimary,
-          fontSize: 18,
-          fontWeight: FontWeight.w600,
         ),
       ),
       dividerTheme: DividerThemeData(color: Colors.grey.shade300),
       fontFamily: 'MPLUS1p',
       extensions: [SemanticColor.light],
       textTheme: const TextTheme(
-        displayLarge: TextStyle(
-          fontWeight: FontWeight.w700,
-          fontSize: 28,
-        ),
-        displayMedium: TextStyle(fontWeight: FontWeight.w400, fontSize: 28),
-        headlineLarge: TextStyle(fontWeight: FontWeight.w700, fontSize: 24),
-        titleLarge: TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
-        titleMedium: TextStyle(fontWeight: FontWeight.w400, fontSize: 20),
-        bodyLarge: TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
-        bodyMedium: TextStyle(fontWeight: FontWeight.w400, fontSize: 16),
-        labelLarge: TextStyle(fontWeight: FontWeight.w700, fontSize: 12),
-        labelMedium: TextStyle(fontWeight: FontWeight.w400, fontSize: 12),
+        displayLarge: DottoTextStyle.displayLarge,
+        displayMedium: DottoTextStyle.displayMedium,
+        displaySmall: DottoTextStyle.displaySmall,
+        headlineLarge: DottoTextStyle.headlineLarge,
+        headlineMedium: DottoTextStyle.headlineMedium,
+        headlineSmall: DottoTextStyle.headlineSmall,
+        titleLarge: DottoTextStyle.titleLarge,
+        titleMedium: DottoTextStyle.titleMedium,
+        titleSmall: DottoTextStyle.titleSmall,
+        bodyLarge: DottoTextStyle.bodyLarge,
+        bodyMedium: DottoTextStyle.bodyMedium,
+        bodySmall: DottoTextStyle.bodySmall,
+        labelLarge: DottoTextStyle.labelLarge,
+        labelMedium: DottoTextStyle.labelMedium,
+        labelSmall: DottoTextStyle.labelSmall,
       ),
     );
   }

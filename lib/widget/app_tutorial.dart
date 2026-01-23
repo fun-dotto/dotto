@@ -9,6 +9,7 @@ final class AppTutorial extends StatelessWidget {
   final void Function() onDismissed;
 
   Widget _withImage(
+    BuildContext context,
     double topMargin,
     String imagePath,
     String title,
@@ -48,15 +49,9 @@ final class AppTutorial extends StatelessWidget {
             padding: EdgeInsets.only(top: topMargin),
             child: Column(
               children: [
-                Text(
-                  title,
-                  style: const TextStyle(
-                    fontSize: 28,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
+                Text(title, style: Theme.of(context).textTheme.titleLarge),
                 const SizedBox(height: 20),
-                Text(body, style: const TextStyle(fontSize: 20)),
+                Text(body, style: Theme.of(context).textTheme.bodyMedium),
               ],
             ),
           ),
@@ -72,6 +67,7 @@ final class AppTutorial extends StatelessWidget {
     final pages = [
       PageModel.withChild(
         child: _withImage(
+          context,
           topMargin,
           Asset.tutorialHome,
           'ホーム',
@@ -82,6 +78,7 @@ final class AppTutorial extends StatelessWidget {
       ),
       PageModel.withChild(
         child: _withImage(
+          context,
           topMargin,
           Asset.tutorialMap,
           '学内マップ',
@@ -92,6 +89,7 @@ final class AppTutorial extends StatelessWidget {
       ),
       PageModel.withChild(
         child: _withImage(
+          context,
           topMargin,
           Asset.tutorialKamoku,
           '科目検索',
@@ -102,6 +100,7 @@ final class AppTutorial extends StatelessWidget {
       ),
       PageModel.withChild(
         child: _withImage(
+          context,
           topMargin,
           Asset.tutorialKadai,
           'HOPE課題',
@@ -111,15 +110,11 @@ final class AppTutorial extends StatelessWidget {
         color: backgroundColor,
       ),
       PageModel.withChild(
-        child: const Padding(
-          padding: EdgeInsets.only(bottom: 25),
+        child: Padding(
+          padding: const EdgeInsets.only(bottom: 25),
           child: Text(
             'さあ、始めましょう！',
-            style: TextStyle(
-              color: Colors.black,
-              fontWeight: FontWeight.w600,
-              fontSize: 32,
-            ),
+            style: Theme.of(context).textTheme.headlineMedium,
           ),
         ),
         color: SemanticColor.accentMaterialColor.shade100,

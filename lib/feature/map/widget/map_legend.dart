@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 final class MapLegend extends StatelessWidget {
   const MapLegend({super.key});
 
-  Widget _mapInfoTile(Color color, String text) {
+  Widget _mapInfoTile(BuildContext context, Color color, String text) {
     return Row(
       spacing: 4,
       children: [
@@ -13,7 +13,7 @@ final class MapLegend extends StatelessWidget {
           width: 10,
           height: 10,
         ),
-        Text(text, style: const TextStyle(fontSize: 12)),
+        Text(text, style: Theme.of(context).textTheme.labelMedium),
       ],
     );
   }
@@ -28,8 +28,8 @@ final class MapLegend extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          _mapInfoTile(MapColors.roomInUseTile, '使用中'),
-          _mapInfoTile(MapColors.restroomTile, 'トイレ・給湯室'),
+          _mapInfoTile(context, MapColors.roomInUseTile, '使用中'),
+          _mapInfoTile(context, MapColors.restroomTile, 'トイレ・給湯室'),
         ],
       ),
     );

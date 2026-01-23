@@ -41,7 +41,7 @@ final class FunchMyPageCard extends ConsumerWidget {
     );
   }
 
-  Widget _buildCarouselItem(FunchMenu menu) {
+  Widget _buildCarouselItem(BuildContext context, FunchMenu menu) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -64,7 +64,7 @@ final class FunchMyPageCard extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(menu.name, style: const TextStyle(fontSize: 18)),
+              Text(menu.name, style: Theme.of(context).textTheme.titleMedium),
               Divider(height: 2, color: SemanticColor.light.borderPrimary),
               const SizedBox(height: 5),
               FunchPriceList(menu, isHome: true),
@@ -114,7 +114,9 @@ final class FunchMyPageCard extends ConsumerWidget {
       spacing: 8,
       children: [
         CarouselSlider(
-          items: menuItems.map(_buildCarouselItem).toList(),
+          items: menuItems
+              .map((menu) => _buildCarouselItem(context, menu))
+              .toList(),
           options: CarouselOptions(
             aspectRatio: 4 / 3,
             autoPlay: true,
@@ -157,9 +159,11 @@ final class FunchMyPageCard extends ConsumerWidget {
               error: (error, stackTrace) => _buildEmptyCard(context, date),
               loading: () => Shimmer(child: Container(color: Colors.grey)),
             ),
-            const Text(
+            Text(
               'メニューは変更される可能性があります',
-              style: TextStyle(fontSize: 12, color: Colors.black54),
+              style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                color: SemanticColor.light.labelSecondary,
+              ),
             ),
           ],
         ),

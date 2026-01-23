@@ -21,7 +21,7 @@ final class CourseCancellationScreen extends ConsumerWidget {
         return ListTile(
           title: Text(
             '${item.date} ${item.period}限',
-            style: const TextStyle(fontWeight: FontWeight.w600),
+            style: Theme.of(context).textTheme.labelMedium,
           ),
           subtitle: Text(
             '${item.lessonName}\n'

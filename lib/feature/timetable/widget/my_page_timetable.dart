@@ -103,11 +103,8 @@ final class MyPageTimetable extends ConsumerWidget {
                         (timetableCourse != null) ? timetableCourse.title : '',
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          color: foregroundColor,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500,
-                        ),
+                        style: Theme.of(context).textTheme.labelMedium
+                            ?.copyWith(color: foregroundColor),
                       ),
                       if (timetableCourse != null)
                         Text(
@@ -119,11 +116,10 @@ final class MyPageTimetable extends ConsumerWidget {
                               )
                               .toList()
                               .join(', '),
-                          style: const TextStyle(
-                            color: Colors.grey,
-                            fontSize: 9,
-                            fontWeight: FontWeight.w500,
-                          ),
+                          style: Theme.of(context).textTheme.labelMedium
+                              ?.copyWith(
+                                color: SemanticColor.light.labelSecondary,
+                              ),
                         ),
                     ],
                   ),
@@ -131,9 +127,9 @@ final class MyPageTimetable extends ConsumerWidget {
                 // 休講情報など
                 if (timetableCourse != null && user != null)
                   if (timetableCourse.cancel)
-                    _canceledLabel()
+                    _canceledLabel(context)
                   else if (timetableCourse.sup)
-                    _madeUpLabel(),
+                    _madeUpLabel(context),
               ],
             ),
           ),
@@ -142,20 +138,30 @@ final class MyPageTimetable extends ConsumerWidget {
     );
   }
 
-  Widget _canceledLabel() {
-    return const Row(
+  Widget _canceledLabel(BuildContext context) {
+    return Row(
       children: [
-        Icon(Icons.cancel_outlined, color: Colors.red),
-        Text('休講', style: TextStyle(color: Colors.red)),
+        Icon(Icons.cancel_outlined, color: SemanticColor.light.accentError),
+        Text(
+          '休講',
+          style: Theme.of(context).textTheme.labelMedium?.copyWith(
+            color: SemanticColor.light.accentError,
+          ),
+        ),
       ],
     );
   }
 
-  Widget _madeUpLabel() {
-    return const Row(
+  Widget _madeUpLabel(BuildContext context) {
+    return Row(
       children: [
-        Icon(Icons.info_outline, color: Colors.orange),
-        Text('補講', style: TextStyle(color: Colors.orange)),
+        Icon(Icons.info_outline, color: SemanticColor.light.accentWarning),
+        Text(
+          '補講',
+          style: Theme.of(context).textTheme.labelMedium?.copyWith(
+            color: SemanticColor.light.accentWarning,
+          ),
+        ),
       ],
     );
   }
@@ -181,7 +187,7 @@ final class MyPageTimetable extends ConsumerWidget {
                   if (style == TimetablePeriodStyle.numberAndTime)
                     Text(
                       '${period.startTime.format(context)} - ${period.endTime.format(context)}',
-                      style: const TextStyle(fontSize: 10),
+                      style: Theme.of(context).textTheme.labelMedium,
                     ),
                 ],
               ),
@@ -255,19 +261,17 @@ final class MyPageTimetable extends ConsumerWidget {
                 children: [
                   Text(
                     DateFormatter.dayOfMonth(date),
-                    style: TextStyle(
-                      fontWeight: (focusTimetableDay.day == date.day)
-                          ? FontWeight.w600
-                          : null,
-                      fontSize: 14,
+                    style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                      color: focusTimetableDay.day == date.day
+                          ? SemanticColor.light.labelTertiary
+                          : DayOfWeek.fromDateTime(date).color,
                     ),
                   ),
                   Text(
                     DateFormatter.dayOfWeek(date),
-                    style: TextStyle(
-                      fontSize: 10,
+                    style: Theme.of(context).textTheme.labelMedium?.copyWith(
                       color: focusTimetableDay.day == date.day
-                          ? Colors.white
+                          ? SemanticColor.light.labelTertiary
                           : DayOfWeek.fromDateTime(date).color,
                     ),
                   ),

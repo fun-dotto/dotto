@@ -92,7 +92,7 @@ class _EditTimetableScreenState extends ConsumerState<EditTimetableScreen>
                               child: Text(
                                 lesson['授業名'] as String,
                                 textAlign: TextAlign.center,
-                                style: const TextStyle(fontSize: 10),
+                                style: Theme.of(context).textTheme.labelMedium,
                               ),
                             ),
                           ),
@@ -150,7 +150,7 @@ class _EditTimetableScreenState extends ConsumerState<EditTimetableScreen>
                         child: Center(
                           child: Text(
                             e.label,
-                            style: const TextStyle(fontSize: 10),
+                            style: Theme.of(context).textTheme.labelMedium,
                           ),
                         ),
                       ),

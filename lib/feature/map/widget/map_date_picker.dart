@@ -14,20 +14,20 @@ final class MapDatePicker extends StatelessWidget {
   final void Function(DateTime) onPeriodButtonTapped;
   final void Function(DateTime) onDatePickerConfirmed;
 
-  Widget _periodButton(String label, DateTime dateTime) {
+  Widget _periodButton(BuildContext context, String label, DateTime dateTime) {
     return TextButton(
       style: TextButton.styleFrom(
         backgroundColor: searchDatetime == dateTime ? Colors.black12 : null,
-        textStyle: const TextStyle(fontSize: 12),
+        textStyle: Theme.of(context).textTheme.labelMedium,
         padding: EdgeInsets.zero,
       ),
       onPressed: () => onPeriodButtonTapped(dateTime),
       child: Text(
         label,
-        style: TextStyle(
+        style: Theme.of(context).textTheme.labelMedium?.copyWith(
           color: searchDatetime == dateTime
               ? SemanticColor.light.accentPrimary
-              : Colors.black87,
+              : SemanticColor.light.labelSecondary,
         ),
       ),
     );
@@ -41,7 +41,7 @@ final class MapDatePicker extends StatelessWidget {
   ) {
     return TextButton(
       style: TextButton.styleFrom(
-        textStyle: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
+        textStyle: Theme.of(context).textTheme.labelMedium,
         padding: EdgeInsets.zero,
       ),
       onPressed: () {
@@ -82,7 +82,7 @@ final class MapDatePicker extends StatelessWidget {
       children: [
         ...timeMap.entries.map(
           (item) => Expanded(
-            child: Center(child: _periodButton(item.key, item.value)),
+            child: Center(child: _periodButton(context, item.key, item.value)),
           ),
         ),
         _datePickerButton(context, searchDatetime, monday, nextSunday),
