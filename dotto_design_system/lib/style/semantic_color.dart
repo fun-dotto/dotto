@@ -7,15 +7,14 @@ final class SemanticColor extends ThemeExtension<SemanticColor> {
     required this.labelPrimary,
     required this.labelSecondary,
     required this.labelTertiary,
-    required this.labelDisabled,
 
     required this.backgroundPrimary,
     required this.backgroundSecondary,
-    required this.backgroundDisabled,
+    required this.backgroundTertiary,
+    required this.backgroundQuaternary,
 
     required this.borderPrimary,
     required this.borderSecondary,
-    required this.borderTertiary,
 
     required this.accentPrimary,
     required this.accentSecondary,
@@ -29,17 +28,16 @@ final class SemanticColor extends ThemeExtension<SemanticColor> {
   final Color labelPrimary;
   final Color labelSecondary;
   final Color labelTertiary;
-  final Color labelDisabled;
 
   // Background
   final Color backgroundPrimary;
   final Color backgroundSecondary;
-  final Color backgroundDisabled;
+  final Color backgroundTertiary;
+  final Color backgroundQuaternary;
 
   // Border
   final Color borderPrimary;
   final Color borderSecondary;
-  final Color borderTertiary;
 
   // Accent
   final Color accentPrimary;
@@ -49,26 +47,41 @@ final class SemanticColor extends ThemeExtension<SemanticColor> {
   final Color accentWarning;
   final Color accentError;
 
-  static const light = SemanticColor(
+  static final light = SemanticColor(
     labelPrimary: PrimitiveColor.gray900,
     labelSecondary: PrimitiveColor.gray600,
-    labelTertiary: PrimitiveColor.gray300,
-    labelDisabled: PrimitiveColor.gray500,
+    labelTertiary: PrimitiveColor.white,
 
-    backgroundPrimary: PrimitiveColor.gray100,
+    backgroundPrimary: PrimitiveColor.gray50,
     backgroundSecondary: PrimitiveColor.white,
-    backgroundDisabled: PrimitiveColor.gray300,
+    backgroundTertiary: PrimitiveColor.gray200,
+    backgroundQuaternary: PrimitiveColor.gray900.withValues(alpha: 0.4),
 
-    borderPrimary: PrimitiveColor.gray400,
-    borderSecondary: PrimitiveColor.gray300,
-    borderTertiary: PrimitiveColor.gray500,
+    borderPrimary: PrimitiveColor.gray200,
+    borderSecondary: PrimitiveColor.white,
 
     accentPrimary: PrimitiveColor.accent,
     accentSecondary: PrimitiveColor.red300,
     accentSuccess: PrimitiveColor.green600,
     accentInfo: PrimitiveColor.blue600,
-    accentWarning: PrimitiveColor.yellow600,
+    accentWarning: PrimitiveColor.orange600,
     accentError: PrimitiveColor.red600,
+  );
+
+  static final MaterialColor accentMaterialColor = MaterialColor(
+    PrimitiveColor.accent.toARGB32(),
+    const {
+      50: PrimitiveColor.accent50,
+      100: PrimitiveColor.accent100,
+      200: PrimitiveColor.accent200,
+      300: PrimitiveColor.accent300,
+      400: PrimitiveColor.accent400,
+      500: PrimitiveColor.accent500,
+      600: PrimitiveColor.accent600,
+      700: PrimitiveColor.accent700,
+      800: PrimitiveColor.accent800,
+      900: PrimitiveColor.accent900,
+    },
   );
 
   @override
@@ -76,13 +89,12 @@ final class SemanticColor extends ThemeExtension<SemanticColor> {
     Color? labelPrimary,
     Color? labelSecondary,
     Color? labelTertiary,
-    Color? labelDisabled,
     Color? backgroundPrimary,
     Color? backgroundSecondary,
-    Color? backgroundDisabled,
+    Color? backgroundTertiary,
+    Color? backgroundQuaternary,
     Color? borderPrimary,
     Color? borderSecondary,
-    Color? borderTertiary,
     Color? accentPrimary,
     Color? accentSecondary,
     Color? accentSuccess,
@@ -94,13 +106,12 @@ final class SemanticColor extends ThemeExtension<SemanticColor> {
       labelPrimary: labelPrimary ?? this.labelPrimary,
       labelSecondary: labelSecondary ?? this.labelSecondary,
       labelTertiary: labelTertiary ?? this.labelTertiary,
-      labelDisabled: labelDisabled ?? this.labelDisabled,
       backgroundPrimary: backgroundPrimary ?? this.backgroundPrimary,
       backgroundSecondary: backgroundSecondary ?? this.backgroundSecondary,
-      backgroundDisabled: backgroundDisabled ?? this.backgroundDisabled,
+      backgroundTertiary: backgroundTertiary ?? this.backgroundTertiary,
+      backgroundQuaternary: backgroundQuaternary ?? this.backgroundQuaternary,
       borderPrimary: borderPrimary ?? this.borderPrimary,
       borderSecondary: borderSecondary ?? this.borderSecondary,
-      borderTertiary: borderTertiary ?? this.borderTertiary,
       accentPrimary: accentPrimary ?? this.accentPrimary,
       accentSecondary: accentSecondary ?? this.accentSecondary,
       accentSuccess: accentSuccess ?? this.accentSuccess,
@@ -122,16 +133,28 @@ final class SemanticColor extends ThemeExtension<SemanticColor> {
       labelPrimary: Color.lerp(labelPrimary, other.labelPrimary, t)!,
       labelSecondary: Color.lerp(labelSecondary, other.labelSecondary, t)!,
       labelTertiary: Color.lerp(labelTertiary, other.labelTertiary, t)!,
-      labelDisabled: Color.lerp(labelDisabled, other.labelDisabled, t)!,
-      backgroundPrimary:
-          Color.lerp(backgroundPrimary, other.backgroundPrimary, t)!,
-      backgroundSecondary:
-          Color.lerp(backgroundSecondary, other.backgroundSecondary, t)!,
-      backgroundDisabled:
-          Color.lerp(backgroundDisabled, other.backgroundDisabled, t)!,
+      backgroundPrimary: Color.lerp(
+        backgroundPrimary,
+        other.backgroundPrimary,
+        t,
+      )!,
+      backgroundSecondary: Color.lerp(
+        backgroundSecondary,
+        other.backgroundSecondary,
+        t,
+      )!,
+      backgroundTertiary: Color.lerp(
+        backgroundTertiary,
+        other.backgroundTertiary,
+        t,
+      )!,
+      backgroundQuaternary: Color.lerp(
+        backgroundQuaternary,
+        other.backgroundQuaternary,
+        t,
+      )!,
       borderPrimary: Color.lerp(borderPrimary, other.borderPrimary, t)!,
       borderSecondary: Color.lerp(borderSecondary, other.borderSecondary, t)!,
-      borderTertiary: Color.lerp(borderTertiary, other.borderTertiary, t)!,
       accentPrimary: Color.lerp(accentPrimary, other.accentPrimary, t)!,
       accentSecondary: Color.lerp(accentSecondary, other.accentSecondary, t)!,
       accentSuccess: Color.lerp(accentSuccess, other.accentSuccess, t)!,

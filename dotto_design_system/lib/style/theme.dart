@@ -4,9 +4,23 @@ import 'package:flutter/material.dart';
 final class DottoTheme {
   static ThemeData get v2 {
     return ThemeData(
-      colorScheme: const ColorScheme.light(),
+      primarySwatch: SemanticColor.accentMaterialColor,
+      colorScheme: ColorScheme.light(
+        primary: SemanticColor.light.accentPrimary,
+        surface: SemanticColor.light.backgroundPrimary,
+        onSurface: SemanticColor.light.labelPrimary,
+      ),
+      appBarTheme: AppBarTheme(
+        surfaceTintColor: Colors.transparent,
+        titleTextStyle: TextStyle(
+          color: SemanticColor.light.accentPrimary,
+          fontSize: 18,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+      dividerTheme: DividerThemeData(color: Colors.grey.shade300),
       fontFamily: 'NotoSansJP',
-      extensions: const [SemanticColor.light],
+      extensions: [SemanticColor.light],
       textTheme: const TextTheme(
         displayLarge: TextStyle(
           fontWeight: FontWeight.w700,

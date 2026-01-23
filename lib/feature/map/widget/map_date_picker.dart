@@ -1,4 +1,4 @@
-import 'package:dotto/theme/v1/color_fun.dart';
+import 'package:dotto_design_system/style/semantic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart';
 import 'package:intl/intl.dart';
@@ -25,7 +25,9 @@ final class MapDatePicker extends StatelessWidget {
       child: Text(
         label,
         style: TextStyle(
-          color: searchDatetime == dateTime ? customFunColor : Colors.black87,
+          color: searchDatetime == dateTime
+              ? SemanticColor.light.accentPrimary
+              : Colors.black87,
         ),
       ),
     );
