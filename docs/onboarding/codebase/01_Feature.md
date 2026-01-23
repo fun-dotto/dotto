@@ -18,7 +18,7 @@ Dotto アプリは、公立はこだて未来大学の情報をまとめたア�
 
 ### Announcement
 
-![Architecture](https://img.shields.io/badge/Architecture-Transfering-yellow.svg)
+![Architecture](https://img.shields.io/badge/Architecture-MVVM+UseCase-green.svg)
 ![DataSource](https://img.shields.io/badge/Data_Source-Dotto_API-green.svg)
 
 お知らせ機能を提供する Feature です。
@@ -66,6 +66,13 @@ Dotto アプリは、公立はこだて未来大学の情報をまとめたア�
 - カテゴリー別のメニュー表示（主食、主菜、副菜、汁物など）
 - 日付選択機能
 - 価格情報の表示
+
+### GitHub Contributor
+
+![Architecture](https://img.shields.io/badge/Architecture-MVVM+UseCase-green.svg)
+![DataSource](https://img.shields.io/badge/Data_Source-GitHub_API-green.svg)
+
+Dotto モバイルアプリの開発者一覧を表示する機能です。
 
 ### Map
 

@@ -1,5 +1,7 @@
 # [macOS] Homebrew
 
+macOS のためのパッケージ管理ツールです。
+
 `ターミナル.app` (英: `Terminal.app`) を起動します。
 
 ## Command Line Tools をインストール
@@ -7,10 +9,6 @@
 ```zsh
 xcode-select --install
 ```
-
-## [Homebrew](https://brew.sh/ja/) とは
-
-macOS のためのパッケージ管理ツールです。
 
 ## Homebrew をインストール
 
@@ -20,18 +18,13 @@ macOS のためのパッケージ管理ツールです。
 
 ```zsh
 echo 'eval $(/opt/homebrew/bin/brew shellenv)' >> ~/.zprofile
-```
-
-```zsh
 eval $(/opt/homebrew/bin/brew shellenv)
 ```
 
-```zsh
-brew -v
-```
+# [Windows] Winget
 
-出力例
+Windows のためのパッケージ管理ツールです。
 
-```
-Homebrew X.X.X
-```
+## WinGet をインストール
+
+[Microsoft Store](https://apps.microsoft.com/detail/9nblggh4nns1?hl=ja-JP&gl=JP) からインストールします。

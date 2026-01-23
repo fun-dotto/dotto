@@ -1,10 +1,8 @@
-# [Windows] Windows ターミナル
+# [Windows] PowerShell をアップデート
 
-## Windows ターミナル をインストール
+`Windows ターミナル` (英: `Windows Terminal`) を起動します。
 
-[Microsoft Store](https://apps.microsoft.com/detail/9n0dx20hk701?hl=ja-JP&gl=JP) からインストールします。
-
-## PowerShell をアップデート
+インストールされていない場合は、[Microsoft Store](https://apps.microsoft.com/detail/9n0dx20hk701?hl=ja-JP&gl=JP) からインストールします。
 
 Windows ターミナルでは、Powershell を使用します。デフォルトでインストールされている Powershell は最新版でないため、アップデートします。
 

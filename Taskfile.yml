@@ -9,8 +9,8 @@ includes:
     dir: ./api
 
 vars:
-  FLUTTER: fvm flutter
-  DART: fvm dart
+  FLUTTER: flutter
+  DART: dart
   FASTLANE: fastlane
 
 tasks:
@@ -22,12 +22,6 @@ tasks:
   install:
     desc: Install dependencies and configure Flutter
     cmds:
-      - |
-        if [ "$GITHUB_ACTIONS" ]; then
-          {{.FLUTTER}} --version
-        else
-          fvm install
-        fi
       - "{{.FLUTTER}} config --enable-swift-package-manager"
       - "{{.FLUTTER}} pub get"
 
