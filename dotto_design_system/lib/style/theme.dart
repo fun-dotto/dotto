@@ -6,7 +6,7 @@ final class DottoTheme {
     return ThemeData(
       colorScheme: const ColorScheme.light(),
       fontFamily: 'NotoSansJP',
-      extensions: const [SemanticColor.light],
+      extensions: [SemanticColor.light],
       textTheme: const TextTheme(
         displayLarge: TextStyle(fontWeight: FontWeight.w400, fontSize: 12),
         displayMedium: TextStyle(fontWeight: FontWeight.w400, fontSize: 12),
