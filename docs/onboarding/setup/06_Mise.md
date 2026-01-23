@@ -6,6 +6,10 @@
 brew install mise
 ```
 
+```
+echo 'eval "$(mise activate zsh)"' >> ~/.zshrc
+```
+
 ## Windows
 
 ```pwsh
