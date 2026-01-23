@@ -2,7 +2,7 @@ import 'package:dotto/feature/bus/controller/bus_is_to_controller.dart';
 import 'package:dotto/feature/bus/controller/my_bus_stop_controller.dart';
 import 'package:dotto/feature/bus/domain/bus_type.dart';
 import 'package:dotto/feature/bus/repository/bus_repository.dart';
-import 'package:dotto/theme/v1/app_color.dart';
+import 'package:dotto_design_system/style/semantic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -73,7 +73,7 @@ final class BusCard extends ConsumerWidget {
                     offset: const Offset(0, 5),
                     child: IconButton(
                       iconSize: 20,
-                      color: AppColor.linkTextBlue,
+                      color: SemanticColor.light.accentInfo,
                       onPressed: () {
                         ref.read(busIsToProvider.notifier).toggle();
                       },
@@ -120,11 +120,17 @@ final class BusCard extends ConsumerWidget {
             else
               const Text('今日の運行は終了しました。'),
             if (home)
-              const Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Text('バス一覧', style: TextStyle(color: AppColor.linkTextBlue)),
-                  Icon(Icons.chevron_right, color: AppColor.linkTextBlue),
+                  Text(
+                    'バス一覧',
+                    style: TextStyle(color: SemanticColor.light.accentInfo),
+                  ),
+                  Icon(
+                    Icons.chevron_right,
+                    color: SemanticColor.light.accentInfo,
+                  ),
                 ],
               ),
           ],

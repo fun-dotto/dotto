@@ -12,7 +12,7 @@ final class _CircularProgressIndicatorInButton extends StatelessWidget {
         width: 16,
         height: 16,
         child: CircularProgressIndicator(
-          color: SemanticColor.light.labelDisabled,
+          color: SemanticColor.light.labelSecondary,
           strokeWidth: 2,
         ),
       ),
@@ -77,7 +77,7 @@ final class DottoButton extends ButtonStyleButton {
   Color get disabledBackgroundColor {
     switch (type) {
       case DottoButtonType.contained:
-        return SemanticColor.light.backgroundDisabled;
+        return SemanticColor.light.backgroundTertiary;
       case DottoButtonType.outlined:
         return Colors.transparent;
       case DottoButtonType.text:
@@ -88,11 +88,11 @@ final class DottoButton extends ButtonStyleButton {
   Color get disabledForegroundColor {
     switch (type) {
       case DottoButtonType.contained:
-        return SemanticColor.light.labelDisabled;
+        return SemanticColor.light.labelSecondary;
       case DottoButtonType.outlined:
-        return SemanticColor.light.labelDisabled;
+        return SemanticColor.light.labelSecondary;
       case DottoButtonType.text:
-        return SemanticColor.light.labelDisabled;
+        return SemanticColor.light.labelSecondary;
     }
   }
 
@@ -102,7 +102,7 @@ final class DottoButton extends ButtonStyleButton {
         return Colors.transparent;
       case DottoButtonType.outlined:
         return isDisabled
-            ? SemanticColor.light.borderTertiary
+            ? SemanticColor.light.borderPrimary
             : SemanticColor.light.accentPrimary;
       case DottoButtonType.text:
         return Colors.transparent;
@@ -174,14 +174,15 @@ final class DottoButton extends ButtonStyleButton {
 
     WidgetStateProperty<double>? elevationValue;
     if (elevation != null) {
-      elevationValue =
-          WidgetStateProperty<double>.fromMap(<WidgetStatesConstraint, double>{
-            WidgetState.disabled: 0,
-            WidgetState.pressed: elevation + 6,
-            WidgetState.hovered: elevation + 2,
-            WidgetState.focused: elevation + 2,
-            WidgetState.any: elevation,
-          });
+      elevationValue = WidgetStateProperty<double>.fromMap(
+        <WidgetStatesConstraint, double>{
+          WidgetState.disabled: 0,
+          WidgetState.pressed: elevation + 6,
+          WidgetState.hovered: elevation + 2,
+          WidgetState.focused: elevation + 2,
+          WidgetState.any: elevation,
+        },
+      );
     }
 
     return ButtonStyle(

@@ -1,6 +1,6 @@
 import 'package:dotto/feature/kamoku_detail/repository/kamoku_detail_repository.dart';
 import 'package:dotto/feature/kamoku_detail/widget/kamoku_detail_feedback_list.dart';
-import 'package:dotto/theme/v1/color_fun.dart';
+import 'package:dotto_design_system/style/semantic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
@@ -93,7 +93,7 @@ final class _KamokuFeedbackScreenState extends State<KamokuFeedbackScreen> {
                               style: TextStyle(
                                 fontSize: dialogWidth * 0.03,
                                 fontWeight: FontWeight.w600,
-                                color: customFunColor,
+                                color: SemanticColor.light.accentPrimary,
                               ),
                             ),
                           ),
@@ -127,7 +127,7 @@ final class _KamokuFeedbackScreenState extends State<KamokuFeedbackScreen> {
                           'フィードバック (推奨)',
                           style: TextStyle(
                             fontSize: dialogWidth * 0.03,
-                            color: customFunColor,
+                            color: SemanticColor.light.accentPrimary,
                           ),
                         ),
                       ),
@@ -157,9 +157,12 @@ final class _KamokuFeedbackScreenState extends State<KamokuFeedbackScreen> {
                             child: ElevatedButton(
                               style: TextButton.styleFrom(
                                 surfaceTintColor: Colors.white,
-                                foregroundColor: customFunColor,
-                                side: const BorderSide(
-                                  color: customFunColor, // 色 // 太さ
+                                foregroundColor:
+                                    SemanticColor.light.accentPrimary,
+                                side: BorderSide(
+                                  color: SemanticColor
+                                      .light
+                                      .accentPrimary, // 色 // 太さ
                                 ),
                               ),
                               onPressed: () {
@@ -175,7 +178,8 @@ final class _KamokuFeedbackScreenState extends State<KamokuFeedbackScreen> {
                             height: dialogHeight * 0.15,
                             child: ElevatedButton(
                               style: TextButton.styleFrom(
-                                backgroundColor: customFunColor,
+                                backgroundColor:
+                                    SemanticColor.light.accentPrimary,
                                 foregroundColor: Colors.white,
                               ),
                               onPressed: () async {
