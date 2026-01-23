@@ -13,9 +13,9 @@ import 'package:dotto/feature/timetable/domain/timetable_period_style.dart';
 import 'package:dotto/feature/timetable/edit_timetable_screen.dart';
 import 'package:dotto/feature/timetable/repository/timetable_repository.dart';
 import 'package:dotto/feature/timetable/widget/my_page_timetable.dart';
-import 'package:dotto/theme/v1/color_fun.dart';
 import 'package:dotto/widget/web_pdf_viewer.dart';
 import 'package:dotto_design_system/component/button.dart';
+import 'package:dotto_design_system/style/semantic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -60,7 +60,7 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
               child: Container(
                 width: 44,
                 height: 44,
-                color: customFunColor,
+                color: SemanticColor.light.accentPrimary,
                 child: Center(child: Icon(icon, color: Colors.white, size: 24)),
               ),
             ),

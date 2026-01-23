@@ -1,7 +1,7 @@
 import 'package:dotto/asset.dart';
 import 'package:dotto/feature/funch/domain/funch_menu.dart';
 import 'package:dotto/feature/funch/widget/funch_price_list.dart';
-import 'package:dotto/theme/v1/app_color.dart';
+import 'package:dotto_design_system/style/semantic_color.dart';
 import 'package:flutter/material.dart';
 
 final class MenuCard extends StatelessWidget {
@@ -68,7 +68,7 @@ final class MenuCard extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [Text('${energy}kcal')],
                     ),
-                  const Divider(height: 6, color: AppColor.dividerGrey),
+                  Divider(height: 6, color: SemanticColor.light.borderPrimary),
                   const SizedBox(height: 5),
                   FunchPriceList(menu),
                 ],
