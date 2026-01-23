@@ -55,7 +55,7 @@ final class BusScreen extends ConsumerWidget {
               const SizedBox(height: 5),
               Text(
                 title,
-                style: const TextStyle(fontSize: 11),
+                style: Theme.of(context).textTheme.labelMedium,
                 overflow: TextOverflow.ellipsis,
               ),
             ],

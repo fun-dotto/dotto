@@ -15,18 +15,19 @@ final class MapFloorButton extends StatelessWidget {
   Widget _floorButton(BuildContext context, Floor floor) {
     return TextButton(
       style: TextButton.styleFrom(
-        backgroundColor: selectedFloor == floor ? Colors.black12 : null,
+        backgroundColor: selectedFloor == floor
+            ? SemanticColor.light.backgroundTertiary
+            : null,
       ),
       onPressed: () {
         onPressed(floor);
       },
       child: Text(
         floor.label,
-        style: TextStyle(
-          fontSize: 18,
+        style: Theme.of(context).textTheme.titleMedium?.copyWith(
           color: selectedFloor == floor
               ? SemanticColor.light.accentPrimary
-              : Colors.black87,
+              : SemanticColor.light.labelSecondary,
         ),
       ),
     );

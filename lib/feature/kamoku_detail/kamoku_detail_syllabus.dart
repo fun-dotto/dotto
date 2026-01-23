@@ -22,7 +22,7 @@ final class KamokuDetailSyllabusScreen extends StatelessWidget {
                   const Divider(),
                   ...details.keys.map((e) {
                     if (details[e] is String) {
-                      return syllabusItem(e, details[e] as String?);
+                      return syllabusItem(context, e, details[e] as String?);
                     }
                     return Container();
                   }),
@@ -37,14 +37,14 @@ final class KamokuDetailSyllabusScreen extends StatelessWidget {
     );
   }
 
-  Widget syllabusItem(String title, String? value) {
+  Widget syllabusItem(BuildContext context, String title, String? value) {
     if (value == null) {
       return Container();
     }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(title, style: const TextStyle(fontWeight: FontWeight.w600)),
+        Text(title, style: Theme.of(context).textTheme.bodyMedium),
         SelectableText(value),
         const Divider(),
       ],

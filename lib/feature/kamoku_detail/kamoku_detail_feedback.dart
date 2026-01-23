@@ -90,11 +90,10 @@ final class _KamokuFeedbackScreenState extends State<KamokuFeedbackScreen> {
                             alignment: Alignment.centerLeft,
                             child: Text(
                               '満足度(必須)',
-                              style: TextStyle(
-                                fontSize: dialogWidth * 0.03,
-                                fontWeight: FontWeight.w600,
-                                color: SemanticColor.light.accentPrimary,
-                              ),
+                              style: Theme.of(context).textTheme.labelMedium
+                                  ?.copyWith(
+                                    color: SemanticColor.light.accentPrimary,
+                                  ),
                             ),
                           ),
                           SizedBox(width: dialogWidth * 0.1),
@@ -115,20 +114,20 @@ final class _KamokuFeedbackScreenState extends State<KamokuFeedbackScreen> {
                         padding: const EdgeInsets.only(top: 1, bottom: 1),
                         child: Text(
                           showErrorMessage ? '満足度が入力されていません' : '',
-                          style: TextStyle(
-                            color: Colors.red,
-                            fontSize: dialogHeight * 0.045,
-                          ),
+                          style: Theme.of(context).textTheme.labelMedium
+                              ?.copyWith(
+                                color: SemanticColor.light.accentError,
+                              ),
                         ),
                       ),
                       Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
                           'フィードバック (推奨)',
-                          style: TextStyle(
-                            fontSize: dialogWidth * 0.03,
-                            color: SemanticColor.light.accentPrimary,
-                          ),
+                          style: Theme.of(context).textTheme.labelMedium
+                              ?.copyWith(
+                                color: SemanticColor.light.accentPrimary,
+                              ),
                         ),
                       ),
                       SizedBox(
@@ -143,7 +142,7 @@ final class _KamokuFeedbackScreenState extends State<KamokuFeedbackScreen> {
                                 FloatingLabelAlignment.start,
                             border: const OutlineInputBorder(),
                             hintText: '単位、出席、テストの情報など...',
-                            hintStyle: TextStyle(fontSize: dialogHeight * 0.05),
+                            hintStyle: Theme.of(context).textTheme.labelMedium,
                           ),
                           controller: detailController,
                         ),

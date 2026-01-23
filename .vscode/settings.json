@@ -1,5 +1,5 @@
 {
-  "dart.flutterSdkPath": ".fvm/versions/3.38.4",
+  "dart.flutterSdkPath": "~/.local/share/mise/installs/flutter/3.38.7",
   "dart.lineLength": 80,
   "editor.detectIndentation": false,
   "editor.formatOnPaste": true,
@@ -13,7 +13,5 @@
   "editor.wordWrap": "on",
   "files.insertFinalNewline": true,
   "git.autofetch": true,
-  "cSpell.words": [
-    "dotto"
-  ]
+  "cSpell.words": ["dotto"]
 }

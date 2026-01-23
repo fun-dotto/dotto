@@ -17,7 +17,7 @@ final class BusTimetableScreen extends StatelessWidget {
             title: Text(busTripStop.stop.name),
             trailing: Text(
               BusRepository().formatDuration(busTripStop.time),
-              style: const TextStyle(fontSize: 14),
+              style: Theme.of(context).textTheme.labelMedium,
             ),
             subtitle: terminal != null ? Text('$terminal番乗り場') : null,
           );

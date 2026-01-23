@@ -61,7 +61,7 @@ final class MenuCard extends StatelessWidget {
                   Text(
                     menu.name,
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(fontSize: 24),
+                    style: Theme.of(context).textTheme.titleMedium,
                   ),
                   if (energy != null)
                     Row(

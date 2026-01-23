@@ -9,15 +9,15 @@ import 'package:url_launcher/url_launcher_string.dart';
 final class AnnouncementScreen extends ConsumerWidget {
   const AnnouncementScreen({super.key});
 
-  Widget _announcementListRow(Announcement announcement) {
+  Widget _announcementListRow(BuildContext context, Announcement announcement) {
     return ListTile(
       title: Text(
         announcement.title,
-        style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+        style: Theme.of(context).textTheme.titleSmall,
       ),
       subtitle: Text(
         DateFormatter.full(announcement.date),
-        style: const TextStyle(fontSize: 12),
+        style: Theme.of(context).textTheme.labelMedium,
       ),
       onTap: () => launchUrlString(announcement.url),
       trailing: const Icon(Icons.chevron_right_outlined),
@@ -25,6 +25,7 @@ final class AnnouncementScreen extends ConsumerWidget {
   }
 
   Widget _body(
+    BuildContext context,
     AsyncValue<AnnouncementViewState> viewModelAsync, {
     required Future<void> Function() onRefresh,
   }) {
@@ -37,7 +38,7 @@ final class AnnouncementScreen extends ConsumerWidget {
             separatorBuilder: (_, _) => const Divider(height: 0),
             itemBuilder: (_, index) {
               final announcement = value.announcements[index];
-              return _announcementListRow(announcement);
+              return _announcementListRow(context, announcement);
             },
           ),
         );
@@ -55,6 +56,7 @@ final class AnnouncementScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('お知らせ')),
       body: _body(
+        context,
         viewModelAsync,
         onRefresh: () async {
           await ref.read(announcementViewModelProvider.notifier).onRefresh();

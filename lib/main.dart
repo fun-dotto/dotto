@@ -24,20 +24,24 @@ Future<void> main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   // Firebase Crashlyticsの初期化
-  FlutterError.onError = (errorDetails) {
-    FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
+  FlutterError.onError = (errorDetails) async {
+    await FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
   };
   PlatformDispatcher.instance.onError = (error, stack) {
-    FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+    unawaited(
+      FirebaseCrashlytics.instance.recordError(error, stack, fatal: true),
+    );
     return true;
   };
 
   // Firebase App Checkの初期化
   await FirebaseAppCheck.instance.activate(
-    androidProvider: kReleaseMode
-        ? AndroidProvider.playIntegrity
-        : AndroidProvider.debug,
-    appleProvider: kReleaseMode ? AppleProvider.appAttest : AppleProvider.debug,
+    providerApple: kReleaseMode
+        ? const AppleAppAttestProvider()
+        : const AppleDebugProvider(),
+    providerAndroid: kReleaseMode
+        ? const AndroidPlayIntegrityProvider()
+        : const AndroidDebugProvider(),
   );
 
   // Firebase Realtime Databaseのパーシステンスを有効化
@@ -54,7 +58,9 @@ Future<void> main() async {
   tz.setLocalLocation(tz.getLocation('Asia/Tokyo'));
 
   // Firebase Messagingの通知許可をリクエスト
-  await FirebaseMessaging.instance.requestPermission();
+  await FirebaseMessaging.instance.requestPermission(
+    provisional: true,
+  );
 
   // Firebase Messagingのバックグラウンドハンドラーを設定
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
@@ -66,15 +72,12 @@ Future<void> main() async {
   try {
     await Future(() {
       // Firebaseからファイルをダウンロード
-      final filePaths = <String>[
+      <String>[
         'funch/menu.json',
         'home/cancel_lecture.json',
         'home/sup_lecture.json',
         'map/oneweek_schedule.json',
-      ];
-      for (final path in filePaths) {
-        FirebaseStorageRepository().download(path);
-      }
+      ].forEach(FirebaseStorageRepository().download);
     });
   } on Exception catch (e) {
     debugPrint(e.toString());

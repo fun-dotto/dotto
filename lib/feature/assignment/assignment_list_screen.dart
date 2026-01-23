@@ -8,6 +8,7 @@ import 'package:dotto/feature/assignment/hidden_assignment_list_screen.dart';
 import 'package:dotto/feature/assignment/setup_hope_continuity_screen.dart';
 import 'package:dotto/feature/setting/controller/settings_controller.dart';
 import 'package:dotto_design_system/component/button.dart';
+import 'package:dotto_design_system/style/semantic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -252,16 +253,16 @@ final class _AssignmentListScreenState
     return !endtime.isBefore(threshold);
   }
 
-  TextStyle _titleTextStyle(bool isDone) {
-    return TextStyle(
-      fontSize: 14,
-      fontWeight: FontWeight.w600,
-      color: isDone ? Colors.green : null,
+  TextStyle? _titleTextStyle(BuildContext context, bool isDone) {
+    return Theme.of(context).textTheme.titleSmall?.copyWith(
+      color: isDone ? SemanticColor.light.accentSuccess : null,
     );
   }
 
-  TextStyle _subtitleTextStyle(bool isDone) {
-    return TextStyle(fontSize: 12, color: isDone ? Colors.green : null);
+  TextStyle? _subtitleTextStyle(BuildContext context, bool isDone) {
+    return Theme.of(context).textTheme.labelMedium?.copyWith(
+      color: isDone ? SemanticColor.light.accentSuccess : null,
+    );
   }
 
   ActionPane _singleStartActionPane(
@@ -454,18 +455,21 @@ final class _AssignmentListScreenState
                 : null,
             endActionPane: _singleEndActionPane(state, kadai),
             child: ListTile(
-              title: Text(kadai.name ?? '', style: _titleTextStyle(isDone)),
+              title: Text(
+                kadai.name ?? '',
+                style: _titleTextStyle(context, isDone),
+              ),
               subtitle: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     kadai.courseName ?? '',
-                    style: _subtitleTextStyle(isDone),
+                    style: _subtitleTextStyle(context, isDone),
                   ),
                   if (kadai.endtime != null)
                     Text(
                       '${AssignmentDateFormatter.string(kadai.endtime!)} まで',
-                      style: _subtitleTextStyle(isDone).copyWith(
+                      style: _subtitleTextStyle(context, isDone)?.copyWith(
                         color: isDone
                             ? Colors.green
                             : _hasUpcomingDeadline(kadaiList)
@@ -506,22 +510,25 @@ final class _AssignmentListScreenState
             child: ExpansionTile(
               title: Text(
                 kadaiList.courseName,
-                style: _titleTextStyle(isDoneGroup),
+                style: _titleTextStyle(context, isDoneGroup),
               ),
               subtitle: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     '${_unFinishedCount(kadaiList, state.doneAssignmentIds, hidden)}個の課題',
-                    style: _subtitleTextStyle(isDoneGroup),
+                    style: _subtitleTextStyle(context, isDoneGroup),
                   ),
                   if (kadaiList.endtime != null)
                     Text(
                       '${AssignmentDateFormatter.string(kadaiList.endtime!)} まで',
-                      style: _subtitleTextStyle(isDoneGroup),
+                      style: _subtitleTextStyle(context, isDoneGroup),
                     )
                   else
-                    Text('期限なし', style: _subtitleTextStyle(isDoneGroup)),
+                    Text(
+                      '期限なし',
+                      style: _subtitleTextStyle(context, isDoneGroup),
+                    ),
                 ],
               ),
               children: [
@@ -546,7 +553,7 @@ final class _AssignmentListScreenState
                           child: ListTile(
                             title: Text(
                               kadai.name ?? '',
-                              style: _titleTextStyle(isDone),
+                              style: _titleTextStyle(context, isDone),
                             ),
                             trailing: Icon(
                               hasAlert ? Icons.notifications_active : null,
