@@ -116,22 +116,19 @@ final class _HiddenAssignmentListScreenState
                     child: ListTile(
                       title: Text(
                         hiddenKadai[index].name!,
-                        style: const TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                        ),
+                        style: Theme.of(context).textTheme.titleSmall,
                       ),
                       subtitle: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             hiddenKadai[index].courseName!,
-                            style: const TextStyle(fontSize: 12),
+                            style: Theme.of(context).textTheme.labelMedium,
                           ),
                           if (hiddenKadai[index].endtime != null)
                             Text(
                               '${AssignmentDateFormatter.string(hiddenKadai[index].endtime!)} まで',
-                              style: const TextStyle(fontSize: 12),
+                              style: Theme.of(context).textTheme.labelMedium,
                             ),
                         ],
                       ),

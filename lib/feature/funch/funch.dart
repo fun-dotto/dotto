@@ -40,21 +40,11 @@ final class FunchScreen extends ConsumerWidget {
       appBar: AppBar(
         centerTitle: true,
         title: TextButton(
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Icon(
-                Icons.expand_more,
-                color: Colors.white,
-                size: 30,
-              ), // アイコンの配置
-              const SizedBox(width: 8),
-              Text(
-                getDateString(date),
-                style: const TextStyle(color: Colors.white, fontSize: 20),
-              ),
-            ],
+          child: Text(
+            getDateString(date),
+            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+              color: SemanticColor.light.accentPrimary,
+            ),
           ),
           onPressed: () async {
             if (context.mounted) {
@@ -64,21 +54,19 @@ final class FunchScreen extends ConsumerWidget {
         ),
       ),
       body: Column(
+        spacing: 16,
         children: [
-          // 均等配置
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 16),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly, // 均等配置
-              children: menuTypeButton(ref),
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: menuTypeButton(context, ref),
             ),
           ),
-          const Padding(
-            padding: EdgeInsets.only(bottom: 8),
-            child: Text(
-              'メニューは変更される可能性があります',
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 12, color: Colors.black54),
+          Text(
+            'メニューは変更される可能性があります',
+            style: Theme.of(context).textTheme.labelMedium?.copyWith(
+              color: SemanticColor.light.labelSecondary,
             ),
           ),
           Expanded(child: SingleChildScrollView(child: content)),
@@ -114,11 +102,15 @@ final class FunchScreen extends ConsumerWidget {
     );
   }
 
-  Widget makeMenuTypeButton(FunchMenuCategory menuType, WidgetRef ref) {
-    const buttonSize = 50.0;
+  Widget makeMenuTypeButton(
+    BuildContext context,
+    WidgetRef ref,
+    FunchMenuCategory menuType,
+  ) {
     final funchMenuType = ref.watch(funchMenuCategoryProvider);
 
     return Column(
+      spacing: 8,
       children: [
         ElevatedButton(
           onPressed: () {
@@ -129,19 +121,23 @@ final class FunchScreen extends ConsumerWidget {
             backgroundColor: funchMenuType == menuType
                 ? SemanticColor.light.accentPrimary
                 : Colors.white,
-            shape: const CircleBorder(side: BorderSide()),
-            minimumSize: const Size(buttonSize, buttonSize),
-            fixedSize: const Size(buttonSize, buttonSize),
+            foregroundColor: funchMenuType == menuType
+                ? Colors.white
+                : Colors.black,
+            shape: const CircleBorder(
+              side: BorderSide(style: BorderStyle.none),
+            ),
+            minimumSize: const Size(48, 48),
+            fixedSize: const Size(48, 48),
             padding: EdgeInsets.zero,
           ),
-          // アイコンの配置
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Icon(
                 menuType.icon,
                 color: funchMenuType == menuType
-                    ? Colors.white
+                    ? SemanticColor.light.labelTertiary
                     : SemanticColor.light.accentPrimary,
               ),
             ],
@@ -149,15 +145,17 @@ final class FunchScreen extends ConsumerWidget {
         ),
         Text(
           menuType.title,
-          style: const TextStyle(fontSize: 10, color: Colors.black),
+          style: Theme.of(context).textTheme.labelSmall?.copyWith(
+            color: SemanticColor.light.labelPrimary,
+          ),
         ),
       ],
     );
   }
 
-  List<Widget> menuTypeButton(WidgetRef ref) {
+  List<Widget> menuTypeButton(BuildContext context, WidgetRef ref) {
     return FunchMenuCategory.values
-        .map((e) => makeMenuTypeButton(e, ref))
+        .map((e) => makeMenuTypeButton(context, ref, e))
         .toList();
   }
 
@@ -199,7 +197,7 @@ final class FunchScreen extends ConsumerWidget {
                 children: [
                   Text(
                     getDateString(DateTimeUtility.parseDateKey(e)),
-                    style: const TextStyle(fontSize: 15, color: Colors.black),
+                    style: Theme.of(context).textTheme.titleMedium,
                   ),
                 ],
               ),

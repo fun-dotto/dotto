@@ -3,6 +3,7 @@ import 'package:dotto/domain/map_tile_props.dart';
 import 'package:dotto/domain/room.dart';
 import 'package:dotto/domain/room_equipment.dart';
 import 'package:dotto_design_system/component/button.dart';
+import 'package:dotto_design_system/style/semantic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -51,23 +52,22 @@ final class MapDetailBottomSheet extends StatelessWidget {
         children: [
           SelectableText(
             title,
-            style: const TextStyle(overflow: TextOverflow.ellipsis),
+            style: Theme.of(
+              context,
+            ).textTheme.titleSmall?.copyWith(overflow: TextOverflow.ellipsis),
           ),
           Row(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(
                 DateFormat('MM/dd').format(begin),
-                style: const TextStyle(fontSize: 16),
+                style: Theme.of(context).textTheme.labelMedium,
               ),
               const SizedBox(width: 5),
               Text(
-                '${DateFormat('HH:mm').format(begin)} ~ '
+                '${DateFormat('HH:mm').format(begin)} - '
                 '${DateFormat('HH:mm').format(end)}',
-                style: const TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 18,
-                ),
+                style: Theme.of(context).textTheme.labelMedium,
               ),
             ],
           ),
@@ -77,8 +77,8 @@ final class MapDetailBottomSheet extends StatelessWidget {
     );
   }
 
-  Widget roomEquipment(RoomEquipment equipment) {
-    const fontColor = Colors.white;
+  Widget roomEquipment(BuildContext context, RoomEquipment equipment) {
+    final fontColor = SemanticColor.light.labelTertiary;
     return Container(
       width: 140,
       decoration: BoxDecoration(
@@ -91,7 +91,12 @@ final class MapDetailBottomSheet extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Icon(equipment.icon, color: fontColor, size: 20),
-          Text(equipment.label, style: const TextStyle(color: fontColor)),
+          Text(
+            equipment.label,
+            style: Theme.of(
+              context,
+            ).textTheme.labelMedium?.copyWith(color: fontColor),
+          ),
           Icon(equipment.quality.icon, color: fontColor, size: 20),
         ],
       ),
@@ -111,10 +116,7 @@ final class MapDetailBottomSheet extends StatelessWidget {
               Expanded(
                 child: SelectableText(
                   room.name,
-                  style: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w600,
-                  ),
+                  style: Theme.of(context).textTheme.titleMedium,
                 ),
               ),
               IconButton(onPressed: onDismissed, icon: const Icon(Icons.close)),
@@ -131,12 +133,15 @@ final class MapDetailBottomSheet extends StatelessWidget {
                       children: [
                         if (props is ClassroomMapTileProps) ...[
                           roomEquipment(
+                            context,
                             (props as ClassroomMapTileProps).equipment.food,
                           ),
                           roomEquipment(
+                            context,
                             (props as ClassroomMapTileProps).equipment.drink,
                           ),
                           roomEquipment(
+                            context,
                             (props as ClassroomMapTileProps).equipment.outlet,
                           ),
                         ],
@@ -144,12 +149,15 @@ final class MapDetailBottomSheet extends StatelessWidget {
                             (props as SubRoomMapTileProps).equipment !=
                                 null) ...[
                           roomEquipment(
+                            context,
                             (props as SubRoomMapTileProps).equipment!.food,
                           ),
                           roomEquipment(
+                            context,
                             (props as SubRoomMapTileProps).equipment!.drink,
                           ),
                           roomEquipment(
+                            context,
                             (props as SubRoomMapTileProps).equipment!.outlet,
                           ),
                         ],

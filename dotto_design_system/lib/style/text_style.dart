@@ -40,19 +40,19 @@ abstract final class DottoTextStyle {
   static const titleLarge = TextStyle(
     fontSize: 22,
     height: 28 / 22,
-    fontWeight: FontWeight.w500,
+    fontWeight: FontWeight.w700,
     letterSpacing: 0,
   );
   static const titleMedium = TextStyle(
     fontSize: 16,
     height: 24 / 16,
-    fontWeight: FontWeight.w500,
+    fontWeight: FontWeight.w700,
     letterSpacing: 0.15,
   );
   static const titleSmall = TextStyle(
     fontSize: 14,
     height: 20 / 14,
-    fontWeight: FontWeight.w500,
+    fontWeight: FontWeight.w700,
     letterSpacing: 0.1,
   );
   static const bodyLarge = TextStyle(

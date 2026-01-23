@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dotto/feature/kamoku_detail/repository/kamoku_detail_repository.dart';
+import 'package:dotto_design_system/style/semantic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
@@ -93,11 +94,7 @@ final class _KamokuDetailFeedbackListState
                           children: [
                             Text(
                               averageScore.toStringAsFixed(2),
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w600,
-                                fontSize: 40,
-                                color: Colors.black,
-                              ),
+                              style: Theme.of(context).textTheme.titleMedium,
                             ),
                             RatingBarIndicator(
                               rating: averageScore,
@@ -107,7 +104,10 @@ final class _KamokuDetailFeedbackListState
                             ),
                             Text(
                               'BASED OF ${documents.length} REVIEWS',
-                              style: TextStyle(color: Colors.grey[700]),
+                              style: Theme.of(context).textTheme.labelMedium
+                                  ?.copyWith(
+                                    color: SemanticColor.light.labelSecondary,
+                                  ),
                             ),
                           ],
                         ),
@@ -184,7 +184,10 @@ final class _KamokuDetailFeedbackListState
                               ),
                               title: Text(
                                 '$detail',
-                                style: TextStyle(color: Colors.grey[800]),
+                                style: Theme.of(context).textTheme.labelMedium
+                                    ?.copyWith(
+                                      color: SemanticColor.light.labelSecondary,
+                                    ),
                               ),
                             ),
                           );
