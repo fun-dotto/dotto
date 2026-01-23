@@ -6,7 +6,7 @@ import 'package:dotto/feature/funch/domain/funch_daily_menu.dart';
 import 'package:dotto/feature/funch/domain/funch_menu_category.dart';
 import 'package:dotto/feature/funch/utility/datetime.dart';
 import 'package:dotto/feature/funch/widget/funch_menu_card.dart';
-import 'package:dotto/theme/v1/color_fun.dart';
+import 'package:dotto_design_system/style/semantic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -127,7 +127,7 @@ final class FunchScreen extends ConsumerWidget {
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: funchMenuType == menuType
-                ? customFunColor
+                ? SemanticColor.light.accentPrimary
                 : Colors.white,
             shape: const CircleBorder(side: BorderSide()),
             minimumSize: const Size(buttonSize, buttonSize),
@@ -142,7 +142,7 @@ final class FunchScreen extends ConsumerWidget {
                 menuType.icon,
                 color: funchMenuType == menuType
                     ? Colors.white
-                    : customFunColor,
+                    : SemanticColor.light.accentPrimary,
               ),
             ],
           ),

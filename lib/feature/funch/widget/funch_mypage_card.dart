@@ -6,7 +6,7 @@ import 'package:dotto/feature/funch/domain/funch_menu.dart';
 import 'package:dotto/feature/funch/funch.dart';
 import 'package:dotto/feature/funch/utility/datetime.dart';
 import 'package:dotto/feature/funch/widget/funch_price_list.dart';
-import 'package:dotto/theme/v1/app_color.dart';
+import 'package:dotto_design_system/style/semantic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -65,7 +65,7 @@ final class FunchMyPageCard extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(menu.name, style: const TextStyle(fontSize: 18)),
-              const Divider(height: 2, color: AppColor.dividerGrey),
+              Divider(height: 2, color: SemanticColor.light.borderPrimary),
               const SizedBox(height: 5),
               FunchPriceList(menu, isHome: true),
             ],

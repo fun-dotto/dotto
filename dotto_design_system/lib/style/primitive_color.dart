@@ -3,6 +3,16 @@ import 'package:flutter/material.dart';
 final class PrimitiveColor {
   // Accent
   static const accent = Color(0xFF990000);
+  static const accent50 = Color(0xFFF3E0E0);
+  static const accent100 = Color(0xFFE0B3B3);
+  static const accent200 = Color(0xFFCC8080);
+  static const accent300 = Color(0xFFB84D4D);
+  static const accent400 = Color(0xFFA82626);
+  static const accent500 = Color(0xFF990000);
+  static const accent600 = Color(0xFF910000);
+  static const accent700 = Color(0xFF860000);
+  static const accent800 = Color(0xFF7C0000);
+  static const accent900 = Color(0xFF6B0000);
 
   // White
   static const white = Color(0xFFFFFFFF);

@@ -1,6 +1,6 @@
 import 'package:dotto/feature/funch/domain/funch_menu.dart';
 import 'package:dotto/feature/funch/domain/funch_menu_category.dart';
-import 'package:dotto/theme/v1/color_fun.dart';
+import 'package:dotto_design_system/style/semantic_color.dart';
 import 'package:flutter/material.dart';
 
 final class FunchPriceList extends StatelessWidget {
@@ -44,7 +44,7 @@ final class FunchPriceList extends StatelessWidget {
               child: Container(
                 width: isHome ? 14 : 18,
                 height: isHome ? 14 : 18,
-                color: customFunColor.shade400,
+                color: SemanticColor.accentMaterialColor.shade400,
                 child: Center(
                   child: Text(
                     style: TextStyle(
