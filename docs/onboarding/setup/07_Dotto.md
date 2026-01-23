@@ -4,21 +4,51 @@
 
 ```zsh
 git clone git@github.com:fun-dotto/dotto.git
-```
-
-```zsh
 cd dotto
 ```
 
-## プロジェクトをセットアップ
-
-プロジェクトの依存関係のインストールをします。
+## ツールをインストール
 
 ```zsh
-task install
+mise install
 ```
 
-Firebase の情報をセットアップします。
+## Flutter をセットアップ
+
+```zsh
+flutter doctor --android-licenses
+```
+
+## Firebase のセットアップ
+
+[Windows] デフォルトの設定で「スクリプトの実行」が禁止されているため、以下のコマンドで設定を変更します。
+
+```pwsh
+Set-ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
+```
+
+Firebase CLI をインストールします。
+
+```zsh
+npm install -g firebase-tools
+```
+
+Firebase CLI にログインします。
+
+```zsh
+firebase login
+```
+
+以下が出力された場合、どちらもEnterキーを押下して承諾します。
+
+```
+? Enable Gemini in Firebase features? (Y/n)
+? Allow Firebase to collect CLI and Emulator Suite usage and error reporting information? (Y/n)
+```
+
+自動的にブラウザが起動したら、Dotto の Firebase プロジェクトに参加しているGoogleアカウントを選択してください。
+
+Firebase のアプリ情報をセットアップします。
 
 ```zsh
 dart pub global activate flutterfire_cli
@@ -30,10 +60,18 @@ flutterfire configure
 
 メンバーに`.env`ファイルをもらい、プロジェクト直下に配置します。
 
+## プロジェクトをセットアップ
+
+プロジェクトの依存関係のインストールをします。
+
+```zsh
+task install-all
+```
+
 必要なコードを生成します。
 
 ```zsh
-task build
+task build-all
 ```
 
 ## [macOS] iOS Simulator で起動する

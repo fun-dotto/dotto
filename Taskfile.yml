@@ -9,9 +9,9 @@ includes:
     dir: ./api
 
 vars:
-  FLUTTER: fvm flutter
-  DART: fvm dart
-  FASTLANE: bundle exec fastlane
+  FLUTTER: flutter
+  DART: dart
+  FASTLANE: fastlane
 
 tasks:
   default:
@@ -22,27 +22,21 @@ tasks:
   install:
     desc: Install dependencies and configure Flutter
     cmds:
-      - |
-        if [ "$GITHUB_ACTIONS" ]; then
-          {{.FLUTTER}} --version
-        else
-          fvm install
-        fi
       - "{{.FLUTTER}} config --enable-swift-package-manager"
       - "{{.FLUTTER}} pub get"
+
+  install-all:
+    desc: Install dependencies for all projects
+    deps:
+      - task: install
+        vars:
+          FLUTTER: "{{.FLUTTER}}"
       - task: dotto_design_system:install
         vars:
           FLUTTER: "{{.FLUTTER}}"
       - task: api:install
         vars:
           FLUTTER: "{{.FLUTTER}}"
-
-  bundle-install:
-    desc: Install bundle dependencies for iOS and Android
-    cmds:
-      - bundle install
-      - cd ./ios && bundle install
-      - cd ./android && bundle install
 
   generate-openapi:
     desc: Generate OpenAPI code
@@ -52,18 +46,38 @@ tasks:
   build:
     desc: Run build_runner to generate code
     cmds:
+      - "{{.DART}} run build_runner build --delete-conflicting-outputs"
+
+  build-all:
+    desc: Run build_runner to generate code for all projects
+    deps:
+      - task: build
+        vars:
+          DART: "{{.DART}}"
       - task: dotto_design_system:build
         vars:
           DART: "{{.DART}}"
       - task: api:build
         vars:
           DART: "{{.DART}}"
-      - "{{.DART}} run build_runner build --delete-conflicting-outputs"
 
   watch:
     desc: Run build_runner to generate code in watch mode
     cmds:
       - "{{.DART}} run build_runner watch --delete-conflicting-outputs"
+
+  watch-all:
+    desc: Run build_runner to generate code in watch mode for all projects
+    deps:
+      - task: watch
+        vars:
+          DART: "{{.DART}}"
+      - task: dotto_design_system:watch
+        vars:
+          DART: "{{.DART}}"
+      - task: api:watch
+        vars:
+          DART: "{{.DART}}"
 
   run:
     desc: Run the Flutter app

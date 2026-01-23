@@ -1,3 +1,26 @@
+# [macOS] Xcode
+
+## Xcodes をインストール
+
+Xcode を管理するためのアプリケーションです。Homebrew を使ってインストールします。  
+Xcode を高速にインストールするためのパッケージ `aria2` も合わせてインストールします。
+
+```zsh
+brew install xcodes aria2
+```
+
+## Xcode をインストール
+
+Xcodes で Xcode をインストールします。
+
+```zsh
+xcodes install
+```
+
+## iOS SDK をインストール
+
+インストールされた`Xcode-X.X.X.app`を起動して、iOSのSDKをインストールします。
+
 # Android Studio
 
 Android Studio のセットアップは、Windows では必須、macOS では任意です。

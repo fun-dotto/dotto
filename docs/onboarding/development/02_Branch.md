@@ -23,19 +23,19 @@ Branch 名は、スラッシュ（`/`）で区切り、小文字とハイフン�
 
 1. 最新の `main` Branch に切り替えます：
 
-   ```bash
+   ```zsh
    git checkout main
    ```
 
 2. 最新の状態に更新します：
 
-   ```bash
+   ```zsh
    git pull origin main
    ```
 
 3. 新しい Branch を作成して切り替えます：
 
-   ```bash
+   ```zsh
    git checkout -b feature/your-feature-name
    ```
 
