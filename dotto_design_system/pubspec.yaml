@@ -15,27 +15,4 @@ dev_dependencies:
   widgetbook_generator:
 
 flutter:
-  assets:
-    - assets/
-  fonts:
-    - family: NotoSansJP
-      fonts:
-        - asset: assets/fonts/Noto_Sans_JP/static/NotoSansJP-Thin.ttf
-          weight: 100
-        - asset: assets/fonts/Noto_Sans_JP/static/NotoSansJP-ExtraLight.ttf
-          weight: 200
-        - asset: assets/fonts/Noto_Sans_JP/static/NotoSansJP-Light.ttf
-          weight: 300
-        - asset: assets/fonts/Noto_Sans_JP/static/NotoSansJP-Regular.ttf
-          weight: 400
-        - asset: assets/fonts/Noto_Sans_JP/static/NotoSansJP-Medium.ttf
-          weight: 500
-        - asset: assets/fonts/Noto_Sans_JP/static/NotoSansJP-SemiBold.ttf
-          weight: 600
-        - asset: assets/fonts/Noto_Sans_JP/static/NotoSansJP-Bold.ttf
-          weight: 700
-        - asset: assets/fonts/Noto_Sans_JP/static/NotoSansJP-ExtraBold.ttf
-          weight: 800
-        - asset: assets/fonts/Noto_Sans_JP/static/NotoSansJP-Black.ttf
-          weight: 900
   uses-material-design: true
