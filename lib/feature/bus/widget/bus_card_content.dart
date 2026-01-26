@@ -6,8 +6,8 @@ import 'package:dotto_design_system/style/semantic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final class BusCard extends ConsumerWidget {
-  const BusCard(
+final class BusCardContent extends ConsumerWidget {
+  const BusCardContent(
     this.route,
     this.beginTime,
     this.endTime,
@@ -44,9 +44,12 @@ final class BusCard extends ConsumerWidget {
     final headerText = tripType != BusType.other
         ? tripType.where + (busIsTo ? 'から' : '行き')
         : '';
-    return Card(
-      color: Colors.white,
-      shadowColor: Colors.black,
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: SemanticColor.light.backgroundSecondary,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: SemanticColor.light.borderPrimary),
+      ),
       child: Container(
         padding: EdgeInsets.only(
           top: home ? 0 : 16,

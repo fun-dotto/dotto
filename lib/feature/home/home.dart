@@ -7,8 +7,8 @@ import 'package:dotto/feature/bus/controller/bus_polling_controller.dart';
 import 'package:dotto/feature/bus/controller/bus_stops_controller.dart';
 import 'package:dotto/feature/bus/controller/my_bus_stop_controller.dart';
 import 'package:dotto/feature/bus/repository/bus_repository.dart';
-import 'package:dotto/feature/bus/widget/bus_card_home.dart';
-import 'package:dotto/feature/funch/widget/funch_mypage_card.dart';
+import 'package:dotto/feature/home/component/bus_card.dart';
+import 'package:dotto/feature/home/component/funch_card.dart';
 import 'package:dotto/feature/home/component/file_grid.dart';
 import 'package:dotto/feature/home/component/file_tile.dart';
 import 'package:dotto/feature/home/component/link_grid.dart';
@@ -157,9 +157,9 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
                 child: Column(
                   spacing: 16,
                   children: [
-                    const BusCardHome(),
+                    const BusCard(),
                     if (config.isFunchEnabled) ...[
-                      const FunchMyPageCard(),
+                      const FunchCard(),
                     ],
                     Column(
                       spacing: 8,

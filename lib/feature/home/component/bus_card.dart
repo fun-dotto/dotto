@@ -6,12 +6,12 @@ import 'package:dotto/feature/bus/controller/bus_is_to_controller.dart';
 import 'package:dotto/feature/bus/controller/bus_is_weekday_controller.dart';
 import 'package:dotto/feature/bus/controller/bus_polling_controller.dart';
 import 'package:dotto/feature/bus/controller/my_bus_stop_controller.dart';
-import 'package:dotto/feature/bus/widget/bus_card.dart';
+import 'package:dotto/feature/bus/widget/bus_card_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final class BusCardHome extends ConsumerWidget {
-  const BusCardHome({super.key});
+final class BusCard extends ConsumerWidget {
+  const BusCard({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -62,7 +62,7 @@ final class BusCardHome extends ConsumerWidget {
                 ),
               );
             },
-            child: BusCard(
+            child: BusCardContent(
               busTrip.route,
               fromBusTripStop.time,
               toBusTripStop.time,
@@ -81,7 +81,7 @@ final class BusCardHome extends ConsumerWidget {
               ),
             );
           },
-          child: const BusCard(
+          child: const BusCardContent(
             '0',
             Duration.zero,
             Duration.zero,

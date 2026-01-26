@@ -12,8 +12,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
 
-final class FunchMyPageCard extends ConsumerWidget {
-  const FunchMyPageCard({super.key});
+final class FunchCard extends ConsumerWidget {
+  const FunchCard({super.key});
 
   ImageProvider<Object> _getBackgroundImage(String imageUrl) {
     if (imageUrl.isNotEmpty) {
@@ -135,8 +135,12 @@ final class FunchMyPageCard extends ConsumerWidget {
     final date = DateTimeUtility.startOfDay(DateTime.now());
     final funchDailyMenuList = ref.watch(funchTodayDailyMenuListProvider);
 
-    return Card(
-      color: Colors.white,
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: SemanticColor.light.backgroundSecondary,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: SemanticColor.light.borderPrimary),
+      ),
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
