@@ -18,7 +18,7 @@ final class DottoTheme {
         ),
       ),
       dividerTheme: DividerThemeData(color: Colors.grey.shade300),
-      fontFamily: 'MPLUS1p',
+      fontFamily: 'NotoSansJP',
       extensions: [SemanticColor.light],
       textTheme: const TextTheme(
         displayLarge: DottoTextStyle.displayLarge,
