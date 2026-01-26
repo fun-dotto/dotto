@@ -24,7 +24,10 @@ final class LinkGrid extends StatelessWidget {
         return LinkTile(
           title: links[index].label,
           icon: links[index].icon,
-          onTap: () => launchUrlString(links[index].url),
+          onTap: () => launchUrlString(
+            links[index].url,
+            mode: LaunchMode.externalApplication,
+          ),
         );
       },
     );
