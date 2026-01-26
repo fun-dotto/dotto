@@ -5,10 +5,13 @@ import 'package:dotto/feature/funch/widget/funch_mypage_card.dart';
 import 'package:dotto/feature/home/component/file_grid.dart';
 import 'package:dotto/feature/home/component/file_tile.dart';
 import 'package:dotto/feature/home/component/link_grid.dart';
+import 'package:dotto/feature/home/component/timetable_buttons.dart';
 import 'package:dotto/feature/home/component/timetable_calendar_view.dart';
 import 'package:dotto/feature/home/home_viewmodel.dart';
 import 'package:dotto/feature/timetable/controller/timetable_period_style_controller.dart';
+import 'package:dotto/feature/timetable/course_cancellation_screen.dart';
 import 'package:dotto/feature/timetable/domain/timetable_period_style.dart';
+import 'package:dotto/feature/timetable/edit_timetable_screen.dart';
 import 'package:dotto/widget/web_pdf_viewer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -80,17 +83,44 @@ final class HomeScreen extends ConsumerWidget {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(16).copyWith(top: 0),
           child: ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 480),
             child: Column(
               spacing: 16,
               children: [
-                TimetableCalendarView(
-                  timetables: viewModelAsync.value?.timetables ?? [],
-                  selectedDate: DateTime.now(),
-                  onDateSelected: (date) {},
-                  onCourseSelected: (course) {},
+                Column(
+                  spacing: 8,
+                  children: [
+                    TimetableCalendarView(
+                      timetables: viewModelAsync.value?.timetables ?? [],
+                      selectedDate: DateTime.now(),
+                      onDateSelected: (date) {},
+                      onCourseSelected: (course) {},
+                    ),
+                    TimetableButtons(
+                      onCourseCancellationPressed: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute<void>(
+                            builder: (_) => const CourseCancellationScreen(),
+                            settings: const RouteSettings(
+                              name: '/home/course_cancellation',
+                            ),
+                          ),
+                        );
+                      },
+                      onEditTimetablePressed: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute<void>(
+                            builder: (_) => const EditTimetableScreen(),
+                            settings: const RouteSettings(
+                              name: '/home/edit_timetable',
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ],
                 ),
                 const BusCardHome(),
                 if (config.isFunchEnabled) ...[
