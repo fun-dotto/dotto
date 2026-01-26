@@ -1,106 +1,20 @@
 import 'package:dotto/controller/config_controller.dart';
+import 'package:dotto/domain/quick_link.dart';
 import 'package:dotto/feature/bus/widget/bus_card_home.dart';
 import 'package:dotto/feature/funch/widget/funch_mypage_card.dart';
+import 'package:dotto/feature/home/component/file_grid.dart';
+import 'package:dotto/feature/home/component/file_tile.dart';
+import 'package:dotto/feature/home/component/link_grid.dart';
 import 'package:dotto/feature/home/component/timetable_calendar_view.dart';
 import 'package:dotto/feature/home/home_viewmodel.dart';
 import 'package:dotto/feature/timetable/controller/timetable_period_style_controller.dart';
-import 'package:dotto/feature/timetable/controller/two_week_timetable_controller.dart';
-import 'package:dotto/feature/timetable/course_cancellation_screen.dart';
 import 'package:dotto/feature/timetable/domain/timetable_period_style.dart';
-import 'package:dotto/feature/timetable/edit_timetable_screen.dart';
 import 'package:dotto/widget/web_pdf_viewer.dart';
-import 'package:dotto_design_system/component/button.dart';
-import 'package:dotto_design_system/style/semantic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
-
-  Widget _fileButton(
-    BuildContext context,
-    void Function() onPressed,
-    IconData icon,
-    String title,
-  ) {
-    return InkWell(
-      onTap: onPressed,
-      child: Card(
-        color: Colors.white,
-        shadowColor: Colors.black,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          spacing: 4,
-          children: [
-            ClipOval(
-              child: Container(
-                width: 44,
-                height: 44,
-                color: SemanticColor.light.accentPrimary,
-                child: Center(child: Icon(icon, color: Colors.white, size: 24)),
-              ),
-            ),
-            Text(
-              title,
-              style: const TextStyle(fontSize: 12, color: Colors.black),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _fileButtons(List<Widget> children) {
-    return GridView.count(
-      shrinkWrap: true,
-      crossAxisCount: 3,
-      physics: const NeverScrollableScrollPhysics(),
-      mainAxisSpacing: 8,
-      crossAxisSpacing: 8,
-      children: List.generate(children.length, (index) {
-        return children[index];
-      }),
-    );
-  }
-
-  Widget _timetableButtons(BuildContext context, WidgetRef ref) {
-    return Row(
-      children: [
-        DottoButton(
-          onPressed: () {
-            Navigator.of(context).push(
-              MaterialPageRoute<void>(
-                builder: (_) => const CourseCancellationScreen(),
-                settings: const RouteSettings(
-                  name: '/home/course_cancellation',
-                ),
-              ),
-            );
-          },
-          type: DottoButtonType.text,
-          child: const Text('休講・補講'),
-        ),
-        const Spacer(),
-        DottoButton(
-          onPressed: () {
-            Navigator.of(context)
-                .push(
-                  MaterialPageRoute<void>(
-                    builder: (_) => const EditTimetableScreen(),
-                    settings: const RouteSettings(name: '/home/edit_timetable'),
-                  ),
-                )
-                .then(
-                  (value) =>
-                      ref.read(twoWeekTimetableProvider.notifier).refresh(),
-                );
-          },
-          type: DottoButtonType.text,
-          child: const Text('時間割を編集'),
-        ),
-      ],
-    );
-  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -115,9 +29,10 @@ final class HomeScreen extends ConsumerWidget {
     };
     final infoTiles = <Widget>[
       ...fileNamePath.entries.map(
-        (item) => _fileButton(
-          context,
-          () {
+        (item) => FileTile(
+          title: item.key,
+          icon: Icons.picture_as_pdf,
+          onPressed: () {
             Navigator.of(context).push(
               MaterialPageRoute<void>(
                 builder: (_) =>
@@ -128,8 +43,6 @@ final class HomeScreen extends ConsumerWidget {
               ),
             );
           },
-          Icons.picture_as_pdf,
-          item.key,
         ),
       ),
     ];
@@ -173,20 +86,23 @@ final class HomeScreen extends ConsumerWidget {
             child: Column(
               spacing: 16,
               children: [
-                Column(
-                  children: [
-                    TimetableCalendarView(
-                      timetables: viewModelAsync.value?.timetables ?? [],
-                      selectedDate: DateTime.now(),
-                      onDateSelected: (date) {},
-                      onCourseSelected: (course) {},
-                    ),
-                    _timetableButtons(context, ref),
-                  ],
+                TimetableCalendarView(
+                  timetables: viewModelAsync.value?.timetables ?? [],
+                  selectedDate: DateTime.now(),
+                  onDateSelected: (date) {},
+                  onCourseSelected: (course) {},
                 ),
                 const BusCardHome(),
-                if (config.isFunchEnabled) const FunchMyPageCard(),
-                _fileButtons(infoTiles),
+                if (config.isFunchEnabled) ...[
+                  const FunchMyPageCard(),
+                ],
+                Column(
+                  spacing: 8,
+                  children: [
+                    FileGrid(children: infoTiles),
+                    const LinkGrid(links: QuickLink.links),
+                  ],
+                ),
               ],
             ),
           ),
