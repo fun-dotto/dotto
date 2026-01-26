@@ -88,11 +88,16 @@ final class TimetableView extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8),
-          child: Text(
-            slot.number.toString(),
-            style: TextStyle(
-              fontSize: 20,
-              color: SemanticColor.light.accentPrimary,
+          child: SizedBox(
+            width: 24,
+            child: Center(
+              child: Text(
+                slot.number.toString(),
+                style: TextStyle(
+                  fontSize: 20,
+                  color: SemanticColor.light.accentPrimary,
+                ),
+              ),
             ),
           ),
         ),
