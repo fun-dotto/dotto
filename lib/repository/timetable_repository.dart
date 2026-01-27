@@ -41,6 +41,15 @@ abstract class TimetableRepository {
 
   /// ローカル側のデータを採用して同期を完了
   Future<void> resolveConflictWithLocal(TimetableSyncResult result);
+
+  /// 個人時間割に科目を追加
+  Future<void> addLesson(int lessonId);
+
+  /// 個人時間割から科目を削除
+  Future<void> removeLesson(int lessonId);
+
+  /// 授業名とlessonIdのマップを取得
+  Future<Map<String, int>> getPersonalTimetableMapString();
 }
 
 /// 時間割同期結果
@@ -228,6 +237,39 @@ final class TimetableRepositoryImpl implements TimetableRepository {
       await TimetableAPI.saveUserTimetable(user.uid, result.localList);
     }
     await TimetablePreference.savePersonalTimetableList(result.localList);
+  }
+
+  @override
+  Future<void> addLesson(int lessonId) async {
+    final currentList = await TimetablePreference.getPersonalTimetableList();
+    if (!currentList.contains(lessonId)) {
+      currentList.add(lessonId);
+      await TimetablePreference.savePersonalTimetableList(currentList);
+
+      final user = _currentUser;
+      if (user != null) {
+        await TimetableAPI.addLessonToTimetable(user.uid, lessonId);
+      }
+    }
+  }
+
+  @override
+  Future<void> removeLesson(int lessonId) async {
+    final currentList = await TimetablePreference.getPersonalTimetableList();
+    currentList.remove(lessonId);
+    await TimetablePreference.savePersonalTimetableList(currentList);
+
+    final user = _currentUser;
+    if (user != null) {
+      await TimetableAPI.removeLessonFromTimetable(user.uid, lessonId);
+    }
+  }
+
+  @override
+  Future<Map<String, int>> getPersonalTimetableMapString() async {
+    final personalTimetableList =
+        await TimetablePreference.getPersonalTimetableList();
+    return CourseDB.getLessonIdMap(personalTimetableList);
   }
 
   /// 月曜から次の週の日曜までの日付を返す

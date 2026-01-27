@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import 'package:dotto/feature/timetable/controller/is_filtered_only_taking_course_cancellation_controller.dart';
 import 'package:dotto/feature/timetable/domain/course_cancellation.dart';
-import 'package:dotto/feature/timetable/repository/timetable_repository.dart';
 import 'package:dotto/helper/read_json_file.dart';
+import 'package:dotto/repository/timetable_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'course_cancellation_controller.g.dart';
@@ -26,8 +26,9 @@ final class CourseCancellationNotifier extends _$CourseCancellationNotifier {
     if (!isFilteredOnlyTakingCourseCancellation) {
       return courseCancellations;
     }
-    final personalTimetableMap = await TimetableRepository()
-        .loadPersonalTimetableMapString();
+    final repository = ref.read(timetableRepositoryProvider);
+    final personalTimetableMap =
+        await repository.getPersonalTimetableMapString();
     return courseCancellations.where((courseCancellation) {
       return personalTimetableMap.keys.contains(courseCancellation.lessonName);
     }).toList();

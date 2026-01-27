@@ -3,8 +3,8 @@ import 'package:dotto/domain/semester.dart';
 import 'package:dotto/domain/timetable_slot.dart';
 import 'package:dotto/feature/timetable/controller/personal_lesson_id_list_controller.dart';
 import 'package:dotto/feature/timetable/controller/week_period_all_records_controller.dart';
-import 'package:dotto/feature/timetable/repository/timetable_repository.dart';
 import 'package:dotto/feature/timetable/widget/timetable_is_over_selected_snack_bar.dart';
+import 'package:dotto/repository/timetable_repository.dart';
 import 'package:dotto_design_system/component/button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -53,8 +53,10 @@ final class SelectCourseScreen extends ConsumerWidget {
                           )
                           ? DottoButton(
                               onPressed: () async {
-                                await TimetableRepository()
-                                    .removePersonalTimetableList(lessonId, ref);
+                                final repository =
+                                    ref.read(timetableRepositoryProvider);
+                                await repository.removeLesson(lessonId);
+                                ref.invalidate(personalLessonIdListProvider);
                                 if (context.mounted) {
                                   Navigator.of(context).pop();
                                 }
@@ -64,16 +66,20 @@ final class SelectCourseScreen extends ConsumerWidget {
                             )
                           : DottoButton(
                               onPressed: () async {
-                                if (await TimetableRepository().isOverSeleted(
+                                final notifier = ref.read(
+                                  personalLessonIdListProvider.notifier,
+                                );
+                                if (await notifier.isOverSelected(
                                   termList[index]['lessonId'] as int,
-                                  ref,
                                 )) {
                                   if (context.mounted) {
                                     timetableIsOverSelectedSnackBar(context);
                                   }
                                 } else {
-                                  await TimetableRepository()
-                                      .addPersonalTimetableList(lessonId, ref);
+                                  final repository =
+                                      ref.read(timetableRepositoryProvider);
+                                  await repository.addLesson(lessonId);
+                                  ref.invalidate(personalLessonIdListProvider);
                                   if (context.mounted) {
                                     Navigator.of(context).pop();
                                   }
