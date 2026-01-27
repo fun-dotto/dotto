@@ -115,9 +115,9 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
                             .read(homeViewModelProvider.notifier)
                             .onDateSelected,
                         onCourseSelected: (course) async {
-                          // TODO: CourseDetailScreenへの置き換え
                           await Navigator.of(context).push(
                             MaterialPageRoute<void>(
+                              // TODO: CourseDetailScreenへの置き換え
                               builder: (_) => KamokuDetailScreen(
                                 lessonId: course.lessonId,
                                 lessonName: course.courseName,
