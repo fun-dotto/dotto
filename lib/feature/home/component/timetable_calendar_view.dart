@@ -50,8 +50,6 @@ final class TimetableCalendarView extends StatelessWidget {
 
   Widget _dateButtons({
     required List<DateTime> dates,
-    required DateTime selectedDate,
-    required void Function(DateTime) onPressed,
   }) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -62,7 +60,7 @@ final class TimetableCalendarView extends StatelessWidget {
               date: date,
               isSelected: selectedDate == date,
               onPressed: () {
-                onPressed(date);
+                onDateSelected(date);
               },
             ),
           )
@@ -107,15 +105,11 @@ final class TimetableCalendarView extends StatelessWidget {
           items: [
             _dateButtons(
               dates: dates,
-              selectedDate: selectedDate,
-              onPressed: onDateSelected,
             ),
             _dateButtons(
               dates: dates
                   .map((date) => date.add(const Duration(days: 7)))
                   .toList(),
-              selectedDate: selectedDate,
-              onPressed: onDateSelected,
             ),
           ],
           options: CarouselOptions(height: 48, viewportFraction: 1),
