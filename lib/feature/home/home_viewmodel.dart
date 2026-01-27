@@ -14,7 +14,7 @@ final class HomeViewModel extends _$HomeViewModel {
     final now = DateTime.now();
     final selectedDate = DateTime(now.year, now.month, now.day);
     return HomeViewState(
-      timetables: AsyncValue.loading(),
+      timetables: const AsyncValue.loading(),
       selectedDate: selectedDate,
     );
   }
