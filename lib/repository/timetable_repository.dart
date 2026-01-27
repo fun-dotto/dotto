@@ -1,5 +1,4 @@
 import 'package:dotto/data/db/course_db.dart';
-import 'package:dotto/data/firebase/model/timetable_course_response.dart';
 import 'package:dotto/data/firebase/room_api.dart';
 import 'package:dotto/data/json/model/one_week_schedule.dart';
 import 'package:dotto/data/json/timetable_json.dart';
@@ -8,6 +7,7 @@ import 'package:dotto/domain/timetable.dart';
 import 'package:dotto/domain/timetable_course.dart';
 import 'package:dotto/domain/timetable_course_type.dart';
 import 'package:dotto/domain/timetable_slot.dart';
+import 'package:dotto/repository/timetable_course_response.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -92,8 +92,6 @@ final class TimetableRepositoryImpl implements TimetableRepository {
       type: type,
     );
   }
-
-  // TODO: Refactor
 
   /// 月曜から次の週の日曜までの日付を返す
   static List<DateTime> _getDateRange() {
