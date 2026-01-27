@@ -117,7 +117,7 @@ final class AppTutorial extends StatelessWidget {
             style: Theme.of(context).textTheme.headlineMedium,
           ),
         ),
-        color: const Color(0xFFE0B3B3),
+        color: SemanticColor.accentMaterialColor.shade100,
         doAnimateChild: true,
       ),
     ];
