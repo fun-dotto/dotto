@@ -20,7 +20,11 @@ final class HomeViewModel extends _$HomeViewModel {
   }
 
   Future<void> onAppear() async {
-    await _refresh();
+    _service.startBusPolling();
+    await Future.wait([
+      _refresh(),
+      _service.changeDirectionOnCurrentLocation(),
+    ]);
   }
 
   void onDateSelected(DateTime date) {
