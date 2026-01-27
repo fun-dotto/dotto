@@ -1,4 +1,3 @@
-import 'package:dotto/controller/user_controller.dart';
 import 'package:dotto/feature/kamoku_detail/kamoku_detail_screen.dart';
 import 'package:dotto/feature/search_course/domain/search_course_filter_option_choice.dart';
 import 'package:dotto/feature/search_course/domain/search_course_filter_options.dart';
@@ -60,7 +59,6 @@ final class SearchCourseScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final viewModelAsync = ref.watch(searchCourseViewModelProvider);
-    final user = ref.watch(userProvider);
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -89,7 +87,6 @@ final class SearchCourseScreen extends ConsumerWidget {
                 lessonId: lessonId,
                 lessonName: lessonName,
                 kakomonLessonId: kakomonLessonId,
-                isAuthenticated: user != null,
               ),
               settings: RouteSettings(
                 name:

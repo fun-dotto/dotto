@@ -70,7 +70,6 @@ final class MyPageTimetable extends ConsumerWidget {
                         lessonId: record['LessonId'] as int,
                         lessonName: record['授業名'] as String,
                         kakomonLessonId: record['過去問'] as int?,
-                        isAuthenticated: user != null,
                       ),
                       settings: RouteSettings(
                         name:
