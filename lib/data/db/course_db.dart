@@ -1,4 +1,5 @@
 import 'package:dotto/data/db/model/course.dart';
+import 'package:dotto/data/db/model/week_period_record.dart';
 import 'package:dotto/feature/search_course/repository/syllabus_database_config.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -50,5 +51,35 @@ final class CourseDB {
       lessonIdMap[lessonName] = lessonId;
     }
     return lessonIdMap;
+  }
+
+  /// week_periodテーブルから全レコードを取得する
+  static Future<List<WeekPeriodRecord>> getWeekPeriodAllRecords() async {
+    final dbPath = await SyllabusDatabaseConfig().getDBPath();
+    final database = await openDatabase(dbPath);
+    final List<Map<String, dynamic>> records = await database.rawQuery(
+      'SELECT * FROM week_period order by lessonId',
+    );
+    return records.map(WeekPeriodRecord.fromMap).toList();
+  }
+
+  /// 指定された曜日・時限・学期に該当するweek_periodレコードを取得する
+  static Future<List<WeekPeriodRecord>> getAvailableCourses({
+    required int week,
+    required int period,
+    required int semester,
+  }) async {
+    final dbPath = await SyllabusDatabaseConfig().getDBPath();
+    final database = await openDatabase(dbPath);
+    final List<Map<String, dynamic>> records = await database.rawQuery(
+      'SELECT * FROM week_period order by lessonId',
+    );
+    return records
+        .where((record) =>
+            record['week'] == week &&
+            record['period'] == period &&
+            (record['開講時期'] == semester || record['開講時期'] == 0))
+        .map(WeekPeriodRecord.fromMap)
+        .toList();
   }
 }

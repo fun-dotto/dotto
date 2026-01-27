@@ -1,45 +1,31 @@
-import 'dart:convert';
-
+import 'package:dotto/data/db/course_db.dart';
+import 'package:dotto/data/db/model/week_period_record.dart';
+import 'package:dotto/data/preference/timetable_preference.dart';
 import 'package:dotto/domain/day_of_week.dart';
 import 'package:dotto/domain/semester.dart';
 import 'package:dotto/domain/timetable_slot.dart';
-import 'package:dotto/domain/user_preference_keys.dart';
-import 'package:dotto/feature/search_course/repository/syllabus_database_config.dart';
-import 'package:dotto/helper/user_preference_repository.dart';
 import 'package:dotto/repository/timetable_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sqflite/sqflite.dart';
 
 final class SelectCourseService {
   SelectCourseService(this.ref);
 
   final Ref ref;
 
-  Future<List<Map<String, dynamic>>> getAvailableCourses({
+  Future<List<WeekPeriodRecord>> getAvailableCourses({
     required Semester semester,
     required DayOfWeek dayOfWeek,
     required TimetableSlot period,
   }) async {
-    final dbPath = await SyllabusDatabaseConfig().getDBPath();
-    final database = await openDatabase(dbPath);
-    final List<Map<String, dynamic>> records = await database.rawQuery(
-      'SELECT * FROM week_period order by lessonId',
+    return CourseDB.getAvailableCourses(
+      week: dayOfWeek.number,
+      period: period.number,
+      semester: semester.number,
     );
-    return records.where((record) {
-      return record['week'] == dayOfWeek.number &&
-          record['period'] == period.number &&
-          (record['開講時期'] == semester.number || record['開講時期'] == 0);
-    }).toList();
   }
 
   Future<List<int>> getPersonalLessonIdList() async {
-    final jsonString = await UserPreferenceRepository.getString(
-      UserPreferenceKeys.personalTimetableListKey,
-    );
-    if (jsonString != null) {
-      return List<int>.from(json.decode(jsonString) as List);
-    }
-    return [];
+    return TimetablePreference.getPersonalTimetableList();
   }
 
   Future<void> addLesson(int lessonId) async {
@@ -53,25 +39,21 @@ final class SelectCourseService {
   }
 
   Future<bool> isOverSelected(int lessonId) async {
-    final dbPath = await SyllabusDatabaseConfig().getDBPath();
-    final database = await openDatabase(dbPath);
-    final List<Map<String, dynamic>> weekPeriodAllRecords =
-        await database.rawQuery('SELECT * FROM week_period order by lessonId');
+    final weekPeriodAllRecords = await CourseDB.getWeekPeriodAllRecords();
     final personalLessonIdList = await getPersonalLessonIdList();
 
     final filterWeekPeriod = weekPeriodAllRecords
-        .where((element) => element['lessonId'] == lessonId)
+        .where((element) => element.lessonId == lessonId)
         .toList();
     final targetWeekPeriod = filterWeekPeriod
-        .where((element) => element['開講時期'] != 0)
+        .where((element) => element.semester != 0)
         .toList();
 
-    for (final element
-        in filterWeekPeriod.where((element) => element['開講時期'] == 0)) {
-      final e1 = <String, dynamic>{...element};
-      final e2 = <String, dynamic>{...element};
-      e1['開講時期'] = 10;
-      e2['開講時期'] = 20;
+    for (final element in filterWeekPeriod.where(
+      (element) => element.semester == 0,
+    )) {
+      final e1 = element.copyWith(semester: 10);
+      final e2 = element.copyWith(semester: 20);
       targetWeekPeriod.addAll([e1, e2]);
     }
 
@@ -79,15 +61,11 @@ final class SelectCourseService {
     var flag = false;
 
     for (final record in targetWeekPeriod) {
-      final term = record['開講時期'] as int;
-      final week = record['week'] as int;
-      final period = record['period'] as int;
-
-      final selectedLessonList = weekPeriodAllRecords.where((record) {
-        return record['week'] == week &&
-            record['period'] == period &&
-            (record['開講時期'] == term || record['開講時期'] == 0) &&
-            personalLessonIdList.contains(record['lessonId']);
+      final selectedLessonList = weekPeriodAllRecords.where((r) {
+        return r.week == record.week &&
+            r.period == record.period &&
+            (r.semester == record.semester || r.semester == 0) &&
+            personalLessonIdList.contains(r.lessonId);
       }).toList();
 
       if (selectedLessonList.length > 1) {
@@ -97,7 +75,7 @@ final class SelectCourseService {
         );
         if (removeLessonList.isNotEmpty) {
           removeLessonIdList.addAll(
-            removeLessonList.map((e) => e['lessonId'] as int).toSet(),
+            removeLessonList.map((e) => e.lessonId).toSet(),
           );
         }
         flag = true;
@@ -115,13 +93,6 @@ final class SelectCourseService {
   }
 
   Future<void> _savePersonalLessonIdList(List<int> lessonIdList) async {
-    await UserPreferenceRepository.setString(
-      UserPreferenceKeys.personalTimetableListKey,
-      json.encode(lessonIdList),
-    );
-    await UserPreferenceRepository.setInt(
-      UserPreferenceKeys.personalTimetableLastUpdateKey,
-      DateTime.now().millisecondsSinceEpoch,
-    );
+    await TimetablePreference.savePersonalTimetableList(lessonIdList);
   }
 }

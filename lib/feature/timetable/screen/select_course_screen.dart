@@ -70,10 +70,9 @@ final class _SelectCourseScreenState extends ConsumerState<SelectCourseScreen> {
                 itemCount: availableCourses.length,
                 itemBuilder: (context, index) {
                   final course = availableCourses[index];
-                  final lessonId = course['lessonId'] as int;
-                  final isSelected = personalLessonIdList.contains(lessonId);
+                  final isSelected = personalLessonIdList.contains(course.lessonId);
                   return ListTile(
-                    title: Text(course['授業名'] as String),
+                    title: Text(course.lessonName),
                     trailing: isSelected
                         ? DottoButton(
                             onPressed: () async {
@@ -85,7 +84,7 @@ final class _SelectCourseScreenState extends ConsumerState<SelectCourseScreen> {
                                       widget.period,
                                     ).notifier,
                                   )
-                                  .onCourseRemoved(lessonId);
+                                  .onCourseRemoved(course.lessonId);
                               if (context.mounted) {
                                 Navigator.of(context).pop();
                               }
@@ -103,7 +102,7 @@ final class _SelectCourseScreenState extends ConsumerState<SelectCourseScreen> {
                                       widget.period,
                                     ).notifier,
                                   )
-                                  .onCourseAdded(lessonId);
+                                  .onCourseAdded(course.lessonId);
                               if (!success) {
                                 if (context.mounted) {
                                   ScaffoldMessenger.of(

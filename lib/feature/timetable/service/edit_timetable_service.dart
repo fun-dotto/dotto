@@ -1,32 +1,22 @@
-import 'dart:convert';
-
-import 'package:dotto/domain/user_preference_keys.dart';
-import 'package:dotto/feature/search_course/repository/syllabus_database_config.dart';
-import 'package:dotto/helper/user_preference_repository.dart';
+import 'package:dotto/data/db/course_db.dart';
+import 'package:dotto/data/db/model/week_period_record.dart';
+import 'package:dotto/data/preference/timetable_preference.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sqflite/sqflite.dart';
 
 final class EditTimetableService {
   EditTimetableService(this.ref);
 
   final Ref ref;
 
-  Future<List<Map<String, dynamic>>> getWeekPeriodAllRecords() async {
-    final dbPath = await SyllabusDatabaseConfig().getDBPath();
-    final database = await openDatabase(dbPath);
-    final List<Map<String, dynamic>> records = await database.rawQuery(
-      'SELECT * FROM week_period order by lessonId',
-    );
-    return records;
+  // TODO: ドメインモデルを作成
+  // TODO: TimetableRepositoryに移行
+  Future<List<WeekPeriodRecord>> getWeekPeriodAllRecords() async {
+    return CourseDB.getWeekPeriodAllRecords();
   }
 
+  // TODO: ドメインモデルを作成
+  // TODO: TimetableRepositoryに移行
   Future<List<int>> getPersonalLessonIdList() async {
-    final jsonString = await UserPreferenceRepository.getString(
-      UserPreferenceKeys.personalTimetableListKey,
-    );
-    if (jsonString != null) {
-      return List<int>.from(json.decode(jsonString) as List);
-    }
-    return [];
+    return TimetablePreference.getPersonalTimetableList();
   }
 }

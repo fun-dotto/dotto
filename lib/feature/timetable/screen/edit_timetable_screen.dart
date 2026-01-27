@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:collection/collection.dart';
+import 'package:dotto/data/db/model/week_period_record.dart';
 import 'package:dotto/domain/day_of_week.dart';
 import 'package:dotto/domain/semester.dart';
 import 'package:dotto/domain/timetable_slot.dart';
@@ -63,14 +64,14 @@ final class _EditTimetableScreenState extends ConsumerState<EditTimetableScreen>
     DayOfWeek dayOfWeek,
     TimetableSlot period,
     Semester semester,
-    List<Map<String, dynamic>> records,
+    List<WeekPeriodRecord> records,
     List<int> personalLessonIdList,
   ) {
     final selectedLessonList = records.where((record) {
-      return record['week'] == dayOfWeek.number &&
-          record['period'] == period.number &&
-          (record['開講時期'] == semester.number || record['開講時期'] == 0) &&
-          personalLessonIdList.contains(record['lessonId']);
+      return record.week == dayOfWeek.number &&
+          record.period == period.number &&
+          (record.semester == semester.number || record.semester == 0) &&
+          personalLessonIdList.contains(record.lessonId);
     }).toList();
     return InkWell(
       child: Container(
@@ -92,7 +93,7 @@ final class _EditTimetableScreenState extends ConsumerState<EditTimetableScreen>
                           ),
                           padding: const EdgeInsets.all(2),
                           child: Text(
-                            lesson['授業名'] as String,
+                            lesson.lessonName,
                             textAlign: TextAlign.center,
                             style: Theme.of(context).textTheme.labelMedium,
                           ),
@@ -132,7 +133,7 @@ final class _EditTimetableScreenState extends ConsumerState<EditTimetableScreen>
 
   Widget _takingCourseTable(
     Semester semester,
-    List<Map<String, dynamic>> records,
+    List<WeekPeriodRecord> records,
     List<int> personalLessonIdList,
   ) {
     return SingleChildScrollView(
@@ -186,31 +187,32 @@ final class _EditTimetableScreenState extends ConsumerState<EditTimetableScreen>
 
   Widget _takingCourseList(
     Semester semester,
-    List<Map<String, dynamic>> records,
+    List<WeekPeriodRecord> records,
     List<int> personalLessonIdList,
   ) {
     final seasonList = records
         .where((record) {
-          return personalLessonIdList.contains(record['lessonId']) &&
-              (record['開講時期'] == semester.number || record['開講時期'] == 0);
+          return personalLessonIdList.contains(record.lessonId) &&
+              (record.semester == semester.number || record.semester == 0);
         })
         .toList()
         .sorted((a, b) {
-          final dayCompare = (a['week'] as int).compareTo(b['week'] as int);
+          final dayCompare = a.week.compareTo(b.week);
           if (dayCompare != 0) {
             return dayCompare;
           }
-          return (a['period'] as int).compareTo(b['period'] as int);
+          return a.period.compareTo(b.period);
         });
     return ListView.separated(
       itemCount: seasonList.length,
       separatorBuilder: (context, index) => const Divider(height: 0),
       itemBuilder: (context, index) {
+        final record = seasonList[index];
         return ListTile(
-          title: Text(seasonList[index]['授業名'] as String),
+          title: Text(record.lessonName),
           subtitle: Text(
-            '${DayOfWeek.fromNumber(seasonList[index]['week'] as int).label}'
-            '${TimetableSlot.fromNumber(seasonList[index]['period'] as int).number}',
+            '${DayOfWeek.fromNumber(record.week).label}'
+            '${TimetableSlot.fromNumber(record.period).number}',
           ),
         );
       },
@@ -220,7 +222,7 @@ final class _EditTimetableScreenState extends ConsumerState<EditTimetableScreen>
   Widget _timetable(
     Semester semester,
     TimetableViewStyle viewStyle,
-    List<Map<String, dynamic>> records,
+    List<WeekPeriodRecord> records,
     List<int> personalLessonIdList,
   ) {
     switch (viewStyle) {

@@ -1,3 +1,4 @@
+import 'package:dotto/data/db/model/week_period_record.dart';
 import 'package:dotto/domain/day_of_week.dart';
 import 'package:dotto/domain/semester.dart';
 import 'package:dotto/domain/timetable_slot.dart';
@@ -12,7 +13,7 @@ abstract class SelectCourseViewState with _$SelectCourseViewState {
     required Semester semester,
     required DayOfWeek dayOfWeek,
     required TimetableSlot period,
-    required AsyncValue<List<Map<String, dynamic>>> availableCourses,
+    required AsyncValue<List<WeekPeriodRecord>> availableCourses,
     required AsyncValue<List<int>> personalLessonIdList,
   }) = _SelectCourseViewState;
 }

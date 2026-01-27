@@ -9,6 +9,7 @@ final class CourseCancellationService {
   final Ref ref;
 
   // TODO: ドメインモデルを作成
+  // TODO: TimetableRepositoryに移行
   Future<List<CancelLecture>> getCourseCancellations({
     required bool isFilteredOnlyTaking,
   }) async {
