@@ -275,6 +275,7 @@ final class TimetableRepositoryImpl implements TimetableRepository {
           slot: TimetableSlot.fromNumber(period),
           courseName: courseData.title,
           roomName: roomName,
+          resourceIds: courseData.resourceIds,
           type: type,
         );
       }).toList();
@@ -286,8 +287,7 @@ final class TimetableRepositoryImpl implements TimetableRepository {
   Future<Map<DateTime, Map<int, List<TimetableCourse>>>>
   _getTimetables() async {
     final dates = _getDateRange();
-    final twoWeekLessonSchedule =
-        <DateTime, Map<int, List<TimetableCourse>>>{};
+    final twoWeekLessonSchedule = <DateTime, Map<int, List<TimetableCourse>>>{};
     try {
       for (final date in dates) {
         twoWeekLessonSchedule[date] = await _dailyLessonSchedule(date);
