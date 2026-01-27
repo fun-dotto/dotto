@@ -1,18 +1,18 @@
+import 'dart:async';
+
 import 'package:dotto/domain/day_of_week.dart';
 import 'package:dotto/domain/semester.dart';
 import 'package:dotto/domain/timetable_slot.dart';
-import 'package:dotto/feature/timetable/controller/personal_lesson_id_list_controller.dart';
-import 'package:dotto/feature/timetable/controller/week_period_all_records_controller.dart';
-import 'package:dotto/repository/timetable_repository.dart';
+import 'package:dotto/feature/timetable/viewmodel/select_course_viewmodel.dart';
 import 'package:dotto_design_system/component/button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final class SelectCourseScreen extends ConsumerWidget {
-  const SelectCourseScreen(
-    this.semester,
-    this.dayOfWeek,
-    this.period, {
+final class SelectCourseScreen extends ConsumerStatefulWidget {
+  const SelectCourseScreen({
+    required this.semester,
+    required this.dayOfWeek,
+    required this.period,
     super.key,
   });
 
@@ -21,88 +21,111 @@ final class SelectCourseScreen extends ConsumerWidget {
   final TimetableSlot period;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final personalLessonIdList = ref.watch(personalLessonIdListProvider);
-    final weekPeriodAllRecords = ref.watch(weekPeriodAllRecordsProvider);
+  ConsumerState<SelectCourseScreen> createState() => _SelectCourseScreenState();
+}
+
+final class _SelectCourseScreenState extends ConsumerState<SelectCourseScreen> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      unawaited(
+        ref
+            .read(
+              selectCourseViewModelProvider(
+                widget.semester,
+                widget.dayOfWeek,
+                widget.period,
+              ).notifier,
+            )
+            .onAppear(),
+      );
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final viewModel = ref.watch(
+      selectCourseViewModelProvider(
+        widget.semester,
+        widget.dayOfWeek,
+        widget.period,
+      ),
+    );
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('${semester.label} ${dayOfWeek.label}曜${period.number}限'),
+        title: Text(
+          '${widget.semester.label} ${widget.dayOfWeek.label}曜${widget.period.number}限',
+        ),
       ),
-      body: weekPeriodAllRecords.when(
-        data: (data) {
-          return personalLessonIdList.when(
-            data: (personalLessonIdListData) {
-              final termList = data.where((record) {
-                return record['week'] ==
-                        dayOfWeek.number && // Use dayOfWeek.number
-                    record['period'] == period.number && // Use period.number
-                    (record['開講時期'] == semester.number || record['開講時期'] == 0);
-              }).toList();
-              if (termList.isNotEmpty) {
-                return ListView.builder(
-                  itemCount: termList.length,
-                  itemBuilder: (context, index) {
-                    final lessonId = termList[index]['lessonId'] as int;
-                    return ListTile(
-                      title: Text(termList[index]['授業名'] as String),
-                      trailing:
-                          personalLessonIdListData.contains(
-                            termList[index]['lessonId'],
+      body: viewModel.availableCourses.when(
+        data: (availableCourses) {
+          return viewModel.personalLessonIdList.when(
+            data: (personalLessonIdList) {
+              if (availableCourses.isEmpty) {
+                return const Center(child: Text('対象の科目はありません'));
+              }
+              return ListView.builder(
+                itemCount: availableCourses.length,
+                itemBuilder: (context, index) {
+                  final course = availableCourses[index];
+                  final lessonId = course['lessonId'] as int;
+                  final isSelected = personalLessonIdList.contains(lessonId);
+                  return ListTile(
+                    title: Text(course['授業名'] as String),
+                    trailing: isSelected
+                        ? DottoButton(
+                            onPressed: () async {
+                              await ref
+                                  .read(
+                                    selectCourseViewModelProvider(
+                                      widget.semester,
+                                      widget.dayOfWeek,
+                                      widget.period,
+                                    ).notifier,
+                                  )
+                                  .onCourseRemoved(lessonId);
+                              if (context.mounted) {
+                                Navigator.of(context).pop();
+                              }
+                            },
+                            type: DottoButtonType.outlined,
+                            child: const Text('削除'),
                           )
-                          ? DottoButton(
-                              onPressed: () async {
-                                final repository = ref.read(
-                                  timetableRepositoryProvider,
-                                );
-                                await repository.removeLesson(lessonId);
-                                ref.invalidate(personalLessonIdListProvider);
+                        : DottoButton(
+                            onPressed: () async {
+                              final success = await ref
+                                  .read(
+                                    selectCourseViewModelProvider(
+                                      widget.semester,
+                                      widget.dayOfWeek,
+                                      widget.period,
+                                    ).notifier,
+                                  )
+                                  .onCourseAdded(lessonId);
+                              if (!success) {
+                                if (context.mounted) {
+                                  ScaffoldMessenger.of(
+                                    context,
+                                  ).removeCurrentSnackBar();
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text('3科目以上選択することはできません'),
+                                    ),
+                                  );
+                                }
+                              } else {
                                 if (context.mounted) {
                                   Navigator.of(context).pop();
                                 }
-                              },
-                              type: DottoButtonType.outlined,
-                              child: const Text('削除'),
-                            )
-                          : DottoButton(
-                              onPressed: () async {
-                                final notifier = ref.read(
-                                  personalLessonIdListProvider.notifier,
-                                );
-                                if (await notifier.isOverSelected(
-                                  termList[index]['lessonId'] as int,
-                                )) {
-                                  if (context.mounted) {
-                                    ScaffoldMessenger.of(
-                                      context,
-                                    ).removeCurrentSnackBar();
-                                    ScaffoldMessenger.of(
-                                      context,
-                                    ).showSnackBar(
-                                      const SnackBar(
-                                        content: Text('3科目以上選択することはできません'),
-                                      ),
-                                    );
-                                  }
-                                } else {
-                                  final repository = ref.read(
-                                    timetableRepositoryProvider,
-                                  );
-                                  await repository.addLesson(lessonId);
-                                  ref.invalidate(personalLessonIdListProvider);
-                                  if (context.mounted) {
-                                    Navigator.of(context).pop();
-                                  }
-                                }
-                              },
-                              child: const Text('追加'),
-                            ),
-                    );
-                  },
-                );
-              } else {
-                return const Center(child: Text('対象の科目はありません'));
-              }
+                              }
+                            },
+                            child: const Text('追加'),
+                          ),
+                  );
+                },
+              );
             },
             error: (error, stackTrace) => const SizedBox.shrink(),
             loading: () => const SizedBox.shrink(),
