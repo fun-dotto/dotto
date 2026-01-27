@@ -6,7 +6,7 @@ import 'package:dotto/feature/timetable/controller/personal_lesson_id_list_contr
 import 'package:dotto/feature/timetable/controller/selected_semester_controller.dart';
 import 'package:dotto/feature/timetable/controller/timetable_view_style_controller.dart';
 import 'package:dotto/feature/timetable/controller/week_period_all_records_controller.dart';
-import 'package:dotto/feature/timetable/select_course_screen.dart';
+import 'package:dotto/feature/timetable/screen/select_course_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
