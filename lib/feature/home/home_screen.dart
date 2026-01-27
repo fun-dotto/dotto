@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:dotto/controller/config_controller.dart';
 import 'package:dotto/domain/quick_link.dart';
+import 'package:dotto/domain/timetable_period_style.dart';
 import 'package:dotto/feature/home/component/bus_card.dart';
 import 'package:dotto/feature/home/component/file_grid.dart';
 import 'package:dotto/feature/home/component/file_tile.dart';
@@ -11,9 +12,7 @@ import 'package:dotto/feature/home/component/timetable_buttons.dart';
 import 'package:dotto/feature/home/component/timetable_calendar_view.dart';
 import 'package:dotto/feature/home/home_viewmodel.dart';
 import 'package:dotto/feature/kamoku_detail/kamoku_detail_screen.dart';
-import 'package:dotto/feature/timetable/controller/timetable_period_style_controller.dart';
 import 'package:dotto/feature/timetable/course_cancellation_screen.dart';
-import 'package:dotto/feature/timetable/domain/timetable_period_style.dart';
 import 'package:dotto/feature/timetable/edit_timetable_screen.dart';
 import 'package:dotto/widget/web_pdf_viewer.dart';
 import 'package:flutter/material.dart';
@@ -39,7 +38,6 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
   Widget build(BuildContext context) {
     final viewModel = ref.watch(homeViewModelProvider);
     final config = ref.watch(configProvider);
-    final timetablePeriodStyle = ref.watch(timetablePeriodStyleProvider);
 
     final fileItems = <(String label, String url, IconData icon)>[
       ('学年暦', config.officialCalendarPdfUrl, Icons.event_note),
@@ -70,7 +68,7 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
         title: const Text('Dotto'),
         centerTitle: false,
         actions: [
-          timetablePeriodStyle.when(
+          viewModel.timetablePeriodStyle.when(
             data: (style) {
               return Row(
                 spacing: 4,
@@ -78,10 +76,10 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
                   const Text('時刻を表示'),
                   Switch(
                     value: style == TimetablePeriodStyle.numberAndTime,
-                    onChanged: (value) async {
-                      await ref
-                          .read(timetablePeriodStyleProvider.notifier)
-                          .setStyle(
+                    onChanged: (value) {
+                      ref
+                          .read(homeViewModelProvider.notifier)
+                          .onTimetablePeriodStyleChanged(
                             value
                                 ? TimetablePeriodStyle.numberAndTime
                                 : TimetablePeriodStyle.numberOnly,

@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:dotto/domain/timetable_period_style.dart';
 import 'package:dotto/feature/home/home_service.dart';
 import 'package:dotto/feature/home/home_viewstate.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -16,6 +19,7 @@ final class HomeViewModel extends _$HomeViewModel {
     return HomeViewState(
       timetables: const AsyncValue.loading(),
       selectedDate: selectedDate,
+      timetablePeriodStyle: const AsyncValue.loading(),
     );
   }
 
@@ -31,11 +35,22 @@ final class HomeViewModel extends _$HomeViewModel {
     state = state.copyWith(selectedDate: date);
   }
 
+  void onTimetablePeriodStyleChanged(TimetablePeriodStyle style) {
+    unawaited(_service.setTimetablePeriodStyle(style));
+    state = state.copyWith(timetablePeriodStyle: AsyncValue.data(style));
+  }
+
   Future<void> _refresh() async {
     state = state.copyWith(timetables: const AsyncValue.loading());
     final timetables = await AsyncValue.guard(() async {
       return _service.getTimetables();
     });
-    state = state.copyWith(timetables: timetables);
+    final timetablePeriodStyle = await AsyncValue.guard(() async {
+      return _service.getTimetablePeriodStyle();
+    });
+    state = state.copyWith(
+      timetables: timetables,
+      timetablePeriodStyle: timetablePeriodStyle,
+    );
   }
 }
