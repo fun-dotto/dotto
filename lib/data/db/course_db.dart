@@ -27,4 +27,22 @@ final class CourseDB {
     final lessonNameList = records.map((e) => e['授業名'] as String).toList();
     return lessonNameList;
   }
+
+  /// 授業IDリストから授業名と授業IDのマップを取得する
+  static Future<Map<String, int>> getLessonIdMap(List<int> lessonIdList) async {
+    final dbPath = await SyllabusDatabaseConfig().getDBPath();
+    final database = await openDatabase(dbPath);
+
+    final List<Map<String, dynamic>> records = await database.rawQuery(
+      'SELECT LessonId, 授業名 FROM sort WHERE LessonId in (${lessonIdList.join(",")})',
+    );
+
+    final lessonIdMap = <String, int>{};
+    for (final record in records) {
+      final lessonName = record['授業名'] as String;
+      final lessonId = record['LessonId'] as int;
+      lessonIdMap[lessonName] = lessonId;
+    }
+    return lessonIdMap;
+  }
 }

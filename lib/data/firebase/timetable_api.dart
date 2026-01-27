@@ -3,10 +3,8 @@ import 'dart:convert';
 import 'package:dotto/data/db/course_db.dart';
 import 'package:dotto/data/firebase/model/timetable_course_response.dart';
 import 'package:dotto/domain/user_preference_keys.dart';
-import 'package:dotto/feature/search_course/repository/syllabus_database_config.dart';
 import 'package:dotto/helper/read_json_file.dart';
 import 'package:dotto/helper/user_preference_repository.dart';
-import 'package:sqflite/sqflite.dart';
 
 final class TimetableAPI {
   /// 月曜から次の週の日曜までの日付を返す
@@ -54,23 +52,6 @@ final class TimetableAPI {
       return List<int>.from(json.decode(jsonString) as List);
     }
     return [];
-  }
-
-  static Future<Map<String, int>> _loadPersonalTimetableMapString() async {
-    final personalTimetableList = await _getPersonalTimetableList();
-    final dbPath = await SyllabusDatabaseConfig().getDBPath();
-    final database = await openDatabase(dbPath);
-    final loadPersonalTimetableMap = <String, int>{};
-    final List<Map<String, dynamic>> records = await database.rawQuery(
-      'select LessonId, 授業名 from sort where LessonId in '
-      '(${personalTimetableList.join(",")})',
-    );
-    for (final record in records) {
-      final lessonName = record['授業名'] as String;
-      final lessonId = record['LessonId'] as int;
-      loadPersonalTimetableMap[lessonName] = lessonId;
-    }
-    return loadPersonalTimetableMap;
   }
 
   // 時間を入れたらその日の授業を返す
@@ -122,7 +103,8 @@ final class TimetableAPI {
     final cancelLectureData = jsonDecode(jsonData) as List<dynamic>;
     jsonData = await readJsonFile('home/sup_lecture.json');
     final supLectureData = jsonDecode(jsonData) as List<dynamic>;
-    final loadPersonalTimetableMap = await _loadPersonalTimetableMapString();
+    final personalTimetableList = await _getPersonalTimetableList();
+    final loadPersonalTimetableMap = await CourseDB.getLessonIdMap(personalTimetableList);
 
     for (final cancelLecture in cancelLectureData) {
       final cancelMap = cancelLecture as Map<String, dynamic>;
