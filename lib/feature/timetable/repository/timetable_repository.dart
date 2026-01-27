@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dotto/api/db/course_db.dart';
+import 'package:dotto/data/db/course_db.dart';
 import 'package:dotto/controller/user_controller.dart';
 import 'package:dotto/domain/user_preference_keys.dart';
 import 'package:dotto/feature/search_course/repository/syllabus_database_config.dart';

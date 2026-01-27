@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:dotto/api/api_environment.dart';
+import 'package:dotto/data/api_environment.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';

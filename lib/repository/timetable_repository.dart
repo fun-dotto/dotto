@@ -1,6 +1,6 @@
-import 'package:dotto/api/firebase/model/timetable_course_response.dart';
-import 'package:dotto/api/firebase/room_api.dart';
-import 'package:dotto/api/firebase/timetable_api.dart';
+import 'package:dotto/data/firebase/model/timetable_course_response.dart';
+import 'package:dotto/data/firebase/room_api.dart';
+import 'package:dotto/data/firebase/timetable_api.dart';
 import 'package:dotto/domain/timetable.dart';
 import 'package:dotto/domain/timetable_course.dart';
 import 'package:dotto/domain/timetable_course_type.dart';

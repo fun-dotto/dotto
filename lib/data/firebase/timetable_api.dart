@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:dotto/api/db/course_db.dart';
-import 'package:dotto/api/firebase/model/timetable_course_response.dart';
+import 'package:dotto/data/db/course_db.dart';
+import 'package:dotto/data/firebase/model/timetable_course_response.dart';
 import 'package:dotto/domain/user_preference_keys.dart';
 import 'package:dotto/feature/search_course/repository/syllabus_database_config.dart';
 import 'package:dotto/helper/read_json_file.dart';
