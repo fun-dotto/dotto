@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dotto/api/db/course_db.dart';
 import 'package:dotto/controller/user_controller.dart';
 import 'package:dotto/domain/user_preference_keys.dart';
 import 'package:dotto/feature/search_course/repository/syllabus_database_config.dart';
@@ -42,32 +43,6 @@ final class TimetableRepository {
     }
 
     return dates;
-  }
-
-  /// 指定された授業IDでデータベースから授業情報を取得する
-  Future<Map<String, dynamic>?> fetchDB(int lessonId) async {
-    final dbPath = await SyllabusDatabaseConfig().getDBPath();
-    final database = await openDatabase(dbPath);
-
-    final records = await database.rawQuery(
-      'SELECT LessonId, 過去問, 授業名 FROM sort where LessonId = ?',
-      [lessonId],
-    );
-    if (records.isEmpty) {
-      return null;
-    }
-    return records.first;
-  }
-
-  Future<List<String>> getLessonNameList(List<int> lessonIdList) async {
-    final dbPath = await SyllabusDatabaseConfig().getDBPath();
-    final database = await openDatabase(dbPath);
-
-    final List<Map<String, dynamic>> records = await database.rawQuery(
-      'SELECT 授業名 FROM sort WHERE LessonId in (${lessonIdList.join(",")})',
-    );
-    final lessonNameList = records.map((e) => e['授業名'] as String).toList();
-    return lessonNameList;
   }
 
   Future<List<int>> _getPersonalTimetableList() async {
@@ -121,10 +96,10 @@ final class TimetableRepository {
             personalTimetableList = firestoreList;
           } else {
             // LessonName取得
-            final firestoreLessonNameList = await getLessonNameList(
+            final firestoreLessonNameList = await CourseDB.getLessonNameList(
               firestoreSet.difference(localSet).toList(),
             );
-            final localLessonNameList = await getLessonNameList(
+            final localLessonNameList = await CourseDB.getLessonNameList(
               localSet.difference(firestoreSet).toList(),
             );
             if (context.mounted) {
