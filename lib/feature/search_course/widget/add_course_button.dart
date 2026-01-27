@@ -1,5 +1,4 @@
 import 'package:dotto/feature/timetable/controller/personal_lesson_id_list_controller.dart';
-import 'package:dotto/feature/timetable/controller/two_week_timetable_controller.dart';
 import 'package:dotto/feature/timetable/repository/timetable_repository.dart';
 import 'package:dotto/feature/timetable/widget/timetable_is_over_selected_snack_bar.dart';
 import 'package:flutter/material.dart';
@@ -37,7 +36,6 @@ final class AddCourseButton extends ConsumerWidget {
                   .removePersonalTimetableList(lessonId, ref)
                   .ignore();
             }
-            await ref.read(twoWeekTimetableProvider.notifier).refresh();
           },
         );
       },
