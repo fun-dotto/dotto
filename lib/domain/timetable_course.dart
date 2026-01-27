@@ -12,7 +12,7 @@ abstract class TimetableCourse with _$TimetableCourse {
     required String courseName, // 科目名
     required String roomName, // 部屋名
     required int? kakomonLessonId, // Deprecated: 過去問用科目ID
-    required List<int> resourceIds, // リソースID
+    required List<int> resourceIds, // Deprecated: リソースID
     @Default(TimetableCourseType.normal) TimetableCourseType type, // 通常・休講・補講
   }) = _TimetableCourse;
 }
