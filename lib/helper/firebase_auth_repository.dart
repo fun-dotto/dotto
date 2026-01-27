@@ -1,5 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 final class FirebaseAuthRepository {
@@ -10,39 +10,27 @@ final class FirebaseAuthRepository {
   static final FirebaseAuthRepository _instance =
       FirebaseAuthRepository._internal();
 
-  Future<UserCredential?> signInWithGoogle() async {
-    // Trigger the authentication flow
-    try {
-      final account = await GoogleSignIn.instance.authenticate();
-      final credential = GoogleAuthProvider.credential(
-        idToken: account.authentication.idToken,
-      );
-      return await FirebaseAuth.instance.signInWithCredential(credential);
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'internal-error') {
-        return null;
-      }
-      return null;
-    } on Exception {
-      return null;
-    }
+  Future<UserCredential?> _authenticate() async {
+    final account = await GoogleSignIn.instance.authenticate();
+    final credential = GoogleAuthProvider.credential(
+      idToken: account.authentication.idToken,
+    );
+    return FirebaseAuth.instance.signInWithCredential(credential);
   }
 
   Future<User?> signIn() async {
-    final userCredential = await signInWithGoogle();
-    if (userCredential == null) {
-      return null;
-    }
-    final user = userCredential.user;
-    if (user == null) {
-      return null;
-    }
-    debugPrint(user.uid);
-    if (user.email != null) {
+    try {
+      final credential = await _authenticate();
+      final user = credential?.user;
+      if (user?.email == null) {
+        await user?.delete();
+        return null;
+      }
       return user;
+    } on Exception catch (e) {
+      debugPrint('Error during signing-in with Google: $e');
+      return null;
     }
-    await user.delete();
-    return null;
   }
 
   Future<void> signOut() async {

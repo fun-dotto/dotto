@@ -86,5 +86,7 @@
 		<string>en</string>
 		<string>ja</string>
 	</array>
+  <key>GIDClientID</key>
+  <string>107577467292-gj27cmokt31u9s4vef4hajp9gl26fofp.apps.googleusercontent.com</string>
 </dict>
 </plist>
