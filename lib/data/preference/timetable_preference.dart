@@ -14,4 +14,24 @@ final class TimetablePreference {
     }
     return [];
   }
+
+  /// 個人の時間割リストを保存
+  static Future<void> savePersonalTimetableList(List<int> lessonIds) async {
+    await UserPreferenceRepository.setString(
+      UserPreferenceKeys.personalTimetableListKey,
+      json.encode(lessonIds),
+    );
+    await UserPreferenceRepository.setInt(
+      UserPreferenceKeys.personalTimetableLastUpdateKey,
+      DateTime.now().millisecondsSinceEpoch,
+    );
+  }
+
+  /// 最終更新タイムスタンプを取得（ミリ秒）
+  static Future<int> getLastUpdateTimestamp() async {
+    return await UserPreferenceRepository.getInt(
+          UserPreferenceKeys.personalTimetableLastUpdateKey,
+        ) ??
+        0;
+  }
 }
