@@ -8,9 +8,9 @@ import 'package:dotto/feature/bus/controller/bus_stops_controller.dart';
 import 'package:dotto/feature/bus/controller/my_bus_stop_controller.dart';
 import 'package:dotto/feature/bus/repository/bus_repository.dart';
 import 'package:dotto/feature/home/component/bus_card.dart';
-import 'package:dotto/feature/home/component/funch_card.dart';
 import 'package:dotto/feature/home/component/file_grid.dart';
 import 'package:dotto/feature/home/component/file_tile.dart';
+import 'package:dotto/feature/home/component/funch_card.dart';
 import 'package:dotto/feature/home/component/link_grid.dart';
 import 'package:dotto/feature/home/component/timetable_buttons.dart';
 import 'package:dotto/feature/timetable/controller/timetable_period_style_controller.dart';
@@ -66,8 +66,8 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
     final infoTiles = <Widget>[
       ...fileItems.map(
         (item) => FileTile(
-          onPressed: () {
-            Navigator.of(context).push(
+          onPressed: () async {
+            await Navigator.of(context).push(
               MaterialPageRoute<void>(
                 builder: (_) => WebPdfViewer(url: item.$2, filename: item.$1),
                 settings: RouteSettings(
@@ -95,8 +95,8 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
                   const Text('時刻を表示'),
                   Switch(
                     value: style == TimetablePeriodStyle.numberAndTime,
-                    onChanged: (value) {
-                      ref
+                    onChanged: (value) async {
+                      await ref
                           .read(timetablePeriodStyleProvider.notifier)
                           .setStyle(
                             value
@@ -121,8 +121,8 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
               children: [
                 const MyPageTimetable(),
                 TimetableButtons(
-                  onCourseCancellationPressed: () {
-                    Navigator.of(context).push(
+                  onCourseCancellationPressed: () async {
+                    await Navigator.of(context).push(
                       MaterialPageRoute<void>(
                         builder: (_) => const CourseCancellationScreen(),
                         settings: const RouteSettings(
@@ -131,8 +131,8 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
                       ),
                     );
                   },
-                  onEditTimetablePressed: () {
-                    Navigator.of(context)
+                  onEditTimetablePressed: () async {
+                    await Navigator.of(context)
                         .push(
                           MaterialPageRoute<void>(
                             builder: (_) => const EditTimetableScreen(),
