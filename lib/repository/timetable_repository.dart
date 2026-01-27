@@ -81,8 +81,9 @@ final class TimetableRepositoryImpl implements TimetableRepository {
     }
 
     return TimetableCourse(
-      slot: TimetableSlot.fromNumber(period),
       lessonId: response.lessonId,
+      kakomonLessonId: response.kakomonLessonId,
+      slot: TimetableSlot.fromNumber(period),
       courseName: response.title,
       roomName: roomName,
       type: type,

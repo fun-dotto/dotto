@@ -11,6 +11,7 @@ abstract class TimetableCourseResponse with _$TimetableCourseResponse {
   const factory TimetableCourseResponse({
     required int lessonId,
     required String title,
+    required int? kakomonLessonId,
     required List<int> resourseIds,
     @Default(false) bool cancel,
     @Default(false) bool sup,

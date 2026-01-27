@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:dotto/api/db/course_db.dart';
 import 'package:dotto/api/firebase/model/timetable_course_response.dart';
 import 'package:dotto/domain/user_preference_keys.dart';
 import 'package:dotto/feature/search_course/repository/syllabus_database_config.dart';
@@ -107,9 +108,11 @@ final class TimetableAPI {
             continue;
           }
         }
+        final courseData = await CourseDB.fetchDB(lessonId);
         periodData[period]![lessonId] = TimetableCourseResponse(
           lessonId: lessonId,
           title: itemMap['title'] as String,
+          kakomonLessonId: courseData?['過去問'] as int?,
           resourseIds: resourceId,
         );
       }
@@ -128,10 +131,12 @@ final class TimetableAPI {
         final lessonName = cancelMap['lessonName'] as String;
         if (loadPersonalTimetableMap.containsKey(lessonName)) {
           final lessonId = loadPersonalTimetableMap[lessonName]!;
+          final courseData = await CourseDB.fetchDB(lessonId);
           periodData[cancelMap['period']
               as int]![lessonId] = TimetableCourseResponse(
             lessonId: lessonId,
             title: lessonName,
+            kakomonLessonId: courseData?['過去問'] as int?,
             resourseIds: [],
             cancel: true,
           );
