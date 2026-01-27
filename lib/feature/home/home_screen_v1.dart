@@ -13,25 +13,25 @@ import 'package:dotto/feature/home/component/file_tile.dart';
 import 'package:dotto/feature/home/component/funch_card.dart';
 import 'package:dotto/feature/home/component/link_grid.dart';
 import 'package:dotto/feature/home/component/timetable_buttons.dart';
+import 'package:dotto/feature/home/component/timetable_view_v1.dart';
 import 'package:dotto/feature/timetable/controller/timetable_period_style_controller.dart';
 import 'package:dotto/feature/timetable/controller/two_week_timetable_controller.dart';
 import 'package:dotto/feature/timetable/course_cancellation_screen.dart';
 import 'package:dotto/feature/timetable/domain/timetable_period_style.dart';
 import 'package:dotto/feature/timetable/edit_timetable_screen.dart';
 import 'package:dotto/feature/timetable/repository/timetable_repository.dart';
-import 'package:dotto/feature/timetable/widget/my_page_timetable.dart';
 import 'package:dotto/widget/web_pdf_viewer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final class HomeScreen extends ConsumerStatefulWidget {
-  const HomeScreen({super.key});
+final class HomeScreenV1 extends ConsumerStatefulWidget {
+  const HomeScreenV1({super.key});
 
   @override
-  ConsumerState<HomeScreen> createState() => _HomeScreenState();
+  ConsumerState<HomeScreenV1> createState() => _HomeScreenState();
 }
 
-final class _HomeScreenState extends ConsumerState<HomeScreen> {
+final class _HomeScreenState extends ConsumerState<HomeScreenV1> {
   List<int> personalTimetableList = [];
 
   Future<void> getPersonalLessonIdList() async {
@@ -119,7 +119,7 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
             Column(
               spacing: 8,
               children: [
-                const MyPageTimetable(),
+                const TimetableViewV1(),
                 TimetableButtons(
                   onCourseCancellationPressed: () async {
                     await Navigator.of(context).push(

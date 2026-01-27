@@ -13,8 +13,8 @@ import 'package:dotto_design_system/style/semantic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final class MyPageTimetable extends ConsumerWidget {
-  const MyPageTimetable({super.key});
+final class TimetableViewV1 extends ConsumerWidget {
+  const TimetableViewV1({super.key});
 
   Widget timetableLessonButton(
     BuildContext context,
