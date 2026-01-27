@@ -20,25 +20,6 @@ abstract class TimetableRepository {
   Future<List<Timetable>> getTimetables();
 }
 
-/// 時間割データ構築用の内部クラス
-class _CourseData {
-  _CourseData({
-    required this.lessonId,
-    required this.title,
-    required this.kakomonLessonId,
-    required this.resourceIds,
-    this.cancel = false,
-    this.sup = false,
-  });
-
-  final int lessonId;
-  final String title;
-  final int? kakomonLessonId;
-  final List<int> resourceIds;
-  bool cancel;
-  bool sup;
-}
-
 final class TimetableRepositoryImpl implements TimetableRepository {
   @override
   Future<List<Timetable>> getTimetables() async {
@@ -128,7 +109,7 @@ final class TimetableRepositoryImpl implements TimetableRepository {
   }
 
   /// 時限ごとのデータマップを初期化
-  Map<int, Map<int, _CourseData>> _initializePeriodData() {
+  Map<int, Map<int, TimetableCourse>> _initializePeriodData() {
     return {
       1: {},
       2: {},
@@ -142,7 +123,7 @@ final class TimetableRepositoryImpl implements TimetableRepository {
   /// 通常授業の処理
   Future<void> _processNormalCourses(
     DateTime selectTime,
-    Map<int, Map<int, _CourseData>> periodData,
+    Map<int, Map<int, TimetableCourse>> periodData,
   ) async {
     final lessonData = await _filterTimetable();
 
@@ -156,15 +137,24 @@ final class TimetableRepositoryImpl implements TimetableRepository {
 
         // 既に同じ授業が登録されている場合は教室情報を追加
         if (periodData[period]?.containsKey(lessonId) ?? false) {
-          periodData[period]![lessonId]!.resourceIds.addAll(resourceIds);
+          final existingCourse = periodData[period]![lessonId]!;
+          final updatedResourceIds = [
+            ...existingCourse.resourceIds,
+            ...resourceIds,
+          ];
+          periodData[period]![lessonId] = existingCourse.copyWith(
+            resourceIds: updatedResourceIds,
+          );
           continue;
         }
 
         final courseData = await CourseDB.fetchDB(lessonId);
-        periodData[period]![lessonId] = _CourseData(
+        periodData[period]![lessonId] = TimetableCourse(
           lessonId: lessonId,
-          title: item.title,
           kakomonLessonId: courseData?.kakomonLessonId,
+          slot: TimetableSlot.fromNumber(period),
+          courseName: item.title,
+          roomName: '',
           resourceIds: resourceIds,
         );
       }
@@ -174,7 +164,7 @@ final class TimetableRepositoryImpl implements TimetableRepository {
   /// 休講情報の処理
   Future<void> _processCancelledLectures(
     DateTime selectTime,
-    Map<int, Map<int, _CourseData>> periodData,
+    Map<int, Map<int, TimetableCourse>> periodData,
     Map<String, int> lessonIdMap,
   ) async {
     final cancelLectureData = await TimetableJSON.fetchCancelLectures();
@@ -192,12 +182,14 @@ final class TimetableRepositoryImpl implements TimetableRepository {
       final lessonId = lessonIdMap[lessonName]!;
       final courseData = await CourseDB.fetchDB(lessonId);
 
-      periodData[cancelLecture.period]![lessonId] = _CourseData(
+      periodData[cancelLecture.period]![lessonId] = TimetableCourse(
         lessonId: lessonId,
-        title: lessonName,
         kakomonLessonId: courseData?.kakomonLessonId,
+        slot: TimetableSlot.fromNumber(cancelLecture.period),
+        courseName: lessonName,
+        roomName: '',
         resourceIds: [],
-        cancel: true,
+        type: TimetableCourseType.cancelled,
       );
     }
   }
@@ -205,7 +197,7 @@ final class TimetableRepositoryImpl implements TimetableRepository {
   /// 補講情報の処理
   Future<void> _processSupplementaryLectures(
     DateTime selectTime,
-    Map<int, Map<int, _CourseData>> periodData,
+    Map<int, Map<int, TimetableCourse>> periodData,
     Map<String, int> lessonIdMap,
   ) async {
     final supLectureData = await TimetableJSON.fetchSupLectures();
@@ -224,7 +216,9 @@ final class TimetableRepositoryImpl implements TimetableRepository {
       final existingCourse = periodData[supLecture.period]?[lessonId];
 
       if (existingCourse != null) {
-        existingCourse.sup = true;
+        periodData[supLecture.period]![lessonId] = existingCourse.copyWith(
+          type: TimetableCourseType.madeUp,
+        );
       }
     }
   }
@@ -244,40 +238,22 @@ final class TimetableRepositoryImpl implements TimetableRepository {
     return date.month == target.month && date.day == target.day;
   }
 
-  /// periodDataをTimetableCourseに変換
+  /// periodDataをTimetableCourseに変換（部屋名を設定）
   Map<int, List<TimetableCourse>> _convertPeriodDataToCourses(
-    Map<int, Map<int, _CourseData>> periodData,
+    Map<int, Map<int, TimetableCourse>> periodData,
     Map<int, String> roomNameMap,
   ) {
     final returnData = <int, List<TimetableCourse>>{};
     periodData.forEach((period, courseMap) {
-      final courses = courseMap.values.map((courseData) {
+      final courses = courseMap.values.map((course) {
         // 部屋名を取得（複数ある場合はカンマ区切りで結合）
-        final roomNames = courseData.resourceIds
+        final roomNames = course.resourceIds
             .map((id) => roomNameMap[id] ?? '')
             .where((name) => name.isNotEmpty)
             .toList();
         final roomName = roomNames.isNotEmpty ? roomNames.join(', ') : '';
 
-        // 授業タイプを判定
-        TimetableCourseType type;
-        if (courseData.cancel) {
-          type = TimetableCourseType.cancelled;
-        } else if (courseData.sup) {
-          type = TimetableCourseType.madeUp;
-        } else {
-          type = TimetableCourseType.normal;
-        }
-
-        return TimetableCourse(
-          lessonId: courseData.lessonId,
-          kakomonLessonId: courseData.kakomonLessonId,
-          slot: TimetableSlot.fromNumber(period),
-          courseName: courseData.title,
-          roomName: roomName,
-          resourceIds: courseData.resourceIds,
-          type: type,
-        );
+        return course.copyWith(roomName: roomName);
       }).toList();
       returnData[period] = courses;
     });
