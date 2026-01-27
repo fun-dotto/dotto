@@ -25,7 +25,7 @@ final class TimetableRepositoryImpl implements TimetableRepository {
   @override
   Future<List<Timetable>> getTimetables() async {
     try {
-      final response = await TimetableRepositoryImpl._getTimetables();
+      final response = await _getTimetables();
       final rooms = await RoomAPI.getRooms();
 
       // 部屋IDから部屋名を取得するマップを作成
@@ -94,7 +94,7 @@ final class TimetableRepositoryImpl implements TimetableRepository {
   }
 
   /// 月曜から次の週の日曜までの日付を返す
-  static List<DateTime> _getDateRange() {
+  List<DateTime> _getDateRange() {
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
     // 月曜
@@ -109,7 +109,7 @@ final class TimetableRepositoryImpl implements TimetableRepository {
   }
 
   // 施設予約のjsonファイルの中から取得している科目のみに絞り込み
-  static Future<List<OneWeekSchedule>> _filterTimetable() async {
+  Future<List<OneWeekSchedule>> _filterTimetable() async {
     try {
       final jsonData = await TimetableJSON.fetchOneWeekSchedule();
       final personalTimetableList =
@@ -129,7 +129,7 @@ final class TimetableRepositoryImpl implements TimetableRepository {
   }
 
   // 時間を入れたらその日の授業を返す
-  static Future<Map<int, List<TimetableCourseResponse>>> _dailyLessonSchedule(
+  Future<Map<int, List<TimetableCourseResponse>>> _dailyLessonSchedule(
     DateTime selectTime,
   ) async {
     final periodData = _initializePeriodData();
@@ -147,7 +147,7 @@ final class TimetableRepositoryImpl implements TimetableRepository {
   }
 
   /// 時限ごとのデータマップを初期化
-  static Map<int, Map<int, TimetableCourseResponse>> _initializePeriodData() {
+  Map<int, Map<int, TimetableCourseResponse>> _initializePeriodData() {
     return {
       1: {},
       2: {},
@@ -159,7 +159,7 @@ final class TimetableRepositoryImpl implements TimetableRepository {
   }
 
   /// 通常授業の処理
-  static Future<void> _processNormalCourses(
+  Future<void> _processNormalCourses(
     DateTime selectTime,
     Map<int, Map<int, TimetableCourseResponse>> periodData,
   ) async {
@@ -191,7 +191,7 @@ final class TimetableRepositoryImpl implements TimetableRepository {
   }
 
   /// 休講情報の処理
-  static Future<void> _processCancelledLectures(
+  Future<void> _processCancelledLectures(
     DateTime selectTime,
     Map<int, Map<int, TimetableCourseResponse>> periodData,
     Map<String, int> lessonIdMap,
@@ -222,7 +222,7 @@ final class TimetableRepositoryImpl implements TimetableRepository {
   }
 
   /// 補講情報の処理
-  static Future<void> _processSupplementaryLectures(
+  Future<void> _processSupplementaryLectures(
     DateTime selectTime,
     Map<int, Map<int, TimetableCourseResponse>> periodData,
     Map<String, int> lessonIdMap,
@@ -251,7 +251,7 @@ final class TimetableRepositoryImpl implements TimetableRepository {
   }
 
   /// リソースIDをパース
-  static List<int> _parseResourceId(String resourceId) {
+  List<int> _parseResourceId(String resourceId) {
     try {
       return [int.parse(resourceId)];
     } on FormatException {
@@ -260,13 +260,13 @@ final class TimetableRepositoryImpl implements TimetableRepository {
   }
 
   /// 日付が同じかどうかを判定
-  static bool _isSameDate(String dateString, DateTime target) {
+  bool _isSameDate(String dateString, DateTime target) {
     final date = DateTime.parse(dateString);
     return date.month == target.month && date.day == target.day;
   }
 
   /// periodDataをレスポンス形式に変換
-  static Map<int, List<TimetableCourseResponse>> _convertPeriodDataToResponse(
+  Map<int, List<TimetableCourseResponse>> _convertPeriodDataToResponse(
     Map<int, Map<int, TimetableCourseResponse>> periodData,
   ) {
     final returnData = <int, List<TimetableCourseResponse>>{};
@@ -276,7 +276,7 @@ final class TimetableRepositoryImpl implements TimetableRepository {
     return returnData;
   }
 
-  static Future<Map<DateTime, Map<int, List<TimetableCourseResponse>>>>
+  Future<Map<DateTime, Map<int, List<TimetableCourseResponse>>>>
   _getTimetables() async {
     final dates = _getDateRange();
     final twoWeekLessonSchedule =
