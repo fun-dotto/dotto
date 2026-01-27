@@ -1,15 +1,12 @@
-import 'dart:convert';
-
 import 'package:dotto/data/db/course_db.dart';
 import 'package:dotto/data/firebase/model/timetable_course_response.dart';
 import 'package:dotto/data/firebase/room_api.dart';
 import 'package:dotto/data/json/timetable_json.dart';
+import 'package:dotto/data/preference/timetable_preference.dart';
 import 'package:dotto/domain/timetable.dart';
 import 'package:dotto/domain/timetable_course.dart';
 import 'package:dotto/domain/timetable_course_type.dart';
 import 'package:dotto/domain/timetable_slot.dart';
-import 'package:dotto/domain/user_preference_keys.dart';
-import 'package:dotto/helper/user_preference_repository.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -116,7 +113,8 @@ final class TimetableRepositoryImpl implements TimetableRepository {
   static Future<List<dynamic>> _filterTimetable() async {
     try {
       final jsonData = await TimetableJSON.fetchOneWeekSchedule();
-      final personalTimetableList = await _getPersonalTimetableList();
+      final personalTimetableList =
+          await TimetablePreference.getPersonalTimetableList();
       final filteredData = <dynamic>[];
       for (final lessonId in personalTimetableList) {
         for (final item in jsonData) {
@@ -130,16 +128,6 @@ final class TimetableRepositoryImpl implements TimetableRepository {
     } on Exception {
       return [];
     }
-  }
-
-  static Future<List<int>> _getPersonalTimetableList() async {
-    final jsonString = await UserPreferenceRepository.getString(
-      UserPreferenceKeys.personalTimetableListKey,
-    );
-    if (jsonString != null) {
-      return List<int>.from(json.decode(jsonString) as List);
-    }
-    return [];
   }
 
   // 時間を入れたらその日の授業を返す
@@ -189,7 +177,8 @@ final class TimetableRepositoryImpl implements TimetableRepository {
 
     final cancelLectureData = await TimetableJSON.fetchCancelLectures();
     final supLectureData = await TimetableJSON.fetchSupLectures();
-    final personalTimetableList = await _getPersonalTimetableList();
+    final personalTimetableList =
+        await TimetablePreference.getPersonalTimetableList();
     final loadPersonalTimetableMap = await CourseDB.getLessonIdMap(
       personalTimetableList,
     );
