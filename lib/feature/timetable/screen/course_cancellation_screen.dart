@@ -68,8 +68,8 @@ final class _CourseCancellationScreenState
         title: const Text('休講・補講'),
         actions: <Widget>[
           DottoButton(
-            onPressed: () {
-              ref
+            onPressed: () async {
+              await ref
                   .read(courseCancellationViewModelProvider.notifier)
                   .onFilterToggled();
             },
