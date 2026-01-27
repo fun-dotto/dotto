@@ -3,12 +3,12 @@ import 'dart:convert';
 import 'package:dotto/data/db/course_db.dart';
 import 'package:dotto/data/firebase/model/timetable_course_response.dart';
 import 'package:dotto/data/firebase/room_api.dart';
+import 'package:dotto/data/json/timetable_json.dart';
 import 'package:dotto/domain/timetable.dart';
 import 'package:dotto/domain/timetable_course.dart';
 import 'package:dotto/domain/timetable_course_type.dart';
 import 'package:dotto/domain/timetable_slot.dart';
 import 'package:dotto/domain/user_preference_keys.dart';
-import 'package:dotto/helper/read_json_file.dart';
 import 'package:dotto/helper/user_preference_repository.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -114,10 +114,8 @@ final class TimetableRepositoryImpl implements TimetableRepository {
 
   // 施設予約のjsonファイルの中から取得している科目のみに絞り込み
   static Future<List<dynamic>> _filterTimetable() async {
-    const fileName = 'map/oneweek_schedule.json';
     try {
-      final jsonString = await readJsonFile(fileName);
-      final jsonData = json.decode(jsonString) as List<dynamic>;
+      final jsonData = await TimetableJSON.fetchOneWeekSchedule();
       final personalTimetableList = await _getPersonalTimetableList();
       final filteredData = <dynamic>[];
       for (final lessonId in personalTimetableList) {
@@ -189,10 +187,8 @@ final class TimetableRepositoryImpl implements TimetableRepository {
       }
     }
 
-    var jsonData = await readJsonFile('home/cancel_lecture.json');
-    final cancelLectureData = jsonDecode(jsonData) as List<dynamic>;
-    jsonData = await readJsonFile('home/sup_lecture.json');
-    final supLectureData = jsonDecode(jsonData) as List<dynamic>;
+    final cancelLectureData = await TimetableJSON.fetchCancelLectures();
+    final supLectureData = await TimetableJSON.fetchSupLectures();
     final personalTimetableList = await _getPersonalTimetableList();
     final loadPersonalTimetableMap = await CourseDB.getLessonIdMap(
       personalTimetableList,
