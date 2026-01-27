@@ -132,7 +132,23 @@ final class TimetableRepositoryImpl implements TimetableRepository {
   static Future<Map<int, List<TimetableCourseResponse>>> _dailyLessonSchedule(
     DateTime selectTime,
   ) async {
-    final periodData = <int, Map<int, TimetableCourseResponse>>{
+    final periodData = _initializePeriodData();
+
+    await _processNormalCourses(selectTime, periodData);
+
+    final personalTimetableList =
+        await TimetablePreference.getPersonalTimetableList();
+    final lessonIdMap = await CourseDB.getLessonIdMap(personalTimetableList);
+
+    await _processCancelledLectures(selectTime, periodData, lessonIdMap);
+    await _processSupplementaryLectures(selectTime, periodData, lessonIdMap);
+
+    return _convertPeriodDataToResponse(periodData);
+  }
+
+  /// 時限ごとのデータマップを初期化
+  static Map<int, Map<int, TimetableCourseResponse>> _initializePeriodData() {
+    return {
       1: {},
       2: {},
       3: {},
@@ -140,8 +156,13 @@ final class TimetableRepositoryImpl implements TimetableRepository {
       5: {},
       6: {},
     };
-    final returnData = <int, List<TimetableCourseResponse>>{};
+  }
 
+  /// 通常授業の処理
+  static Future<void> _processNormalCourses(
+    DateTime selectTime,
+    Map<int, Map<int, TimetableCourseResponse>> periodData,
+  ) async {
     final lessonData = await _filterTimetable();
 
     for (final item in lessonData) {
@@ -150,67 +171,105 @@ final class TimetableRepositoryImpl implements TimetableRepository {
       if (selectTime.day == lessonTime.day) {
         final period = item.period;
         final lessonId = int.parse(item.lessonId);
-        final resourceId = <int>[];
-        try {
-          resourceId.add(int.parse(item.resourceId));
-        } on FormatException {
-          // resourceIdが空白
+        final resourceIds = _parseResourceId(item.resourceId);
+
+        // 既に同じ授業が登録されている場合は教室情報を追加
+        if (periodData[period]?.containsKey(lessonId) ?? false) {
+          periodData[period]![lessonId]!.resourseIds.addAll(resourceIds);
+          continue;
         }
-        if (periodData.containsKey(period)) {
-          if (periodData[period]!.containsKey(lessonId)) {
-            periodData[period]![lessonId]!.resourseIds.addAll(resourceId);
-            continue;
-          }
-        }
+
         final courseData = await CourseDB.fetchDB(lessonId);
         periodData[period]![lessonId] = TimetableCourseResponse(
           lessonId: lessonId,
           title: item.title,
           kakomonLessonId: courseData?.kakomonLessonId,
-          resourseIds: resourceId,
+          resourseIds: resourceIds,
         );
       }
     }
+  }
 
+  /// 休講情報の処理
+  static Future<void> _processCancelledLectures(
+    DateTime selectTime,
+    Map<int, Map<int, TimetableCourseResponse>> periodData,
+    Map<String, int> lessonIdMap,
+  ) async {
     final cancelLectureData = await TimetableJSON.fetchCancelLectures();
-    final supLectureData = await TimetableJSON.fetchSupLectures();
-    final personalTimetableList =
-        await TimetablePreference.getPersonalTimetableList();
-    final loadPersonalTimetableMap = await CourseDB.getLessonIdMap(
-      personalTimetableList,
-    );
 
     for (final cancelLecture in cancelLectureData) {
-      final dt = DateTime.parse(cancelLecture.date);
-      if (dt.month == selectTime.month && dt.day == selectTime.day) {
-        final lessonName = cancelLecture.lessonName;
-        if (loadPersonalTimetableMap.containsKey(lessonName)) {
-          final lessonId = loadPersonalTimetableMap[lessonName]!;
-          final courseData = await CourseDB.fetchDB(lessonId);
-          periodData[cancelLecture.period]![lessonId] = TimetableCourseResponse(
-            lessonId: lessonId,
-            title: lessonName,
-            kakomonLessonId: courseData?.kakomonLessonId,
-            resourseIds: [],
-            cancel: true,
-          );
-        }
+      if (!_isSameDate(cancelLecture.date, selectTime)) {
+        continue;
       }
+
+      final lessonName = cancelLecture.lessonName;
+      if (!lessonIdMap.containsKey(lessonName)) {
+        continue;
+      }
+
+      final lessonId = lessonIdMap[lessonName]!;
+      final courseData = await CourseDB.fetchDB(lessonId);
+
+      periodData[cancelLecture.period]![lessonId] = TimetableCourseResponse(
+        lessonId: lessonId,
+        title: lessonName,
+        kakomonLessonId: courseData?.kakomonLessonId,
+        resourseIds: [],
+        cancel: true,
+      );
     }
+  }
+
+  /// 補講情報の処理
+  static Future<void> _processSupplementaryLectures(
+    DateTime selectTime,
+    Map<int, Map<int, TimetableCourseResponse>> periodData,
+    Map<String, int> lessonIdMap,
+  ) async {
+    final supLectureData = await TimetableJSON.fetchSupLectures();
 
     for (final supLecture in supLectureData) {
-      final dt = DateTime.parse(supLecture.date);
-      if (dt.month == selectTime.month && dt.day == selectTime.day) {
-        final lessonName = supLecture.lessonName;
-        if (loadPersonalTimetableMap.containsKey(lessonName)) {
-          final lessonId = loadPersonalTimetableMap[lessonName]!;
-          periodData[supLecture.period]![lessonId] =
-              periodData[supLecture.period]![lessonId]!.copyWith(
-                sup: true,
-              );
-        }
+      if (!_isSameDate(supLecture.date, selectTime)) {
+        continue;
+      }
+
+      final lessonName = supLecture.lessonName;
+      if (!lessonIdMap.containsKey(lessonName)) {
+        continue;
+      }
+
+      final lessonId = lessonIdMap[lessonName]!;
+      final existingCourse = periodData[supLecture.period]?[lessonId];
+
+      if (existingCourse != null) {
+        periodData[supLecture.period]![lessonId] = existingCourse.copyWith(
+          sup: true,
+        );
       }
     }
+  }
+
+  /// リソースIDをパース
+  static List<int> _parseResourceId(String resourceId) {
+    try {
+      return [int.parse(resourceId)];
+    } on FormatException {
+      return [];
+    }
+  }
+
+  /// 日付が同じかどうかを判定
+  static bool _isSameDate(String dateString, DateTime target) {
+    final date = DateTime.parse(dateString);
+    return date.month == target.month && date.day == target.day;
+  }
+
+  /// periodDataをレスポンス形式に変換
+  static Map<int, List<TimetableCourseResponse>> _convertPeriodDataToResponse(
+    Map<int, Map<int, TimetableCourseResponse>> periodData,
+  ) {
+    final returnData = <int, List<TimetableCourseResponse>>{};
     periodData.forEach((key, value) {
       returnData[key] = value.values.toList();
     });
