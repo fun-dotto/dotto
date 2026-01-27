@@ -1,9 +1,10 @@
+import 'package:dotto/data/db/model/course.dart';
 import 'package:dotto/feature/search_course/repository/syllabus_database_config.dart';
 import 'package:sqflite/sqflite.dart';
 
 final class CourseDB {
   /// 指定された授業IDでデータベースから授業情報を取得する
-  static Future<Map<String, dynamic>?> fetchDB(int lessonId) async {
+  static Future<Course?> fetchDB(int lessonId) async {
     final dbPath = await SyllabusDatabaseConfig().getDBPath();
     final database = await openDatabase(dbPath);
 
@@ -14,7 +15,12 @@ final class CourseDB {
     if (records.isEmpty) {
       return null;
     }
-    return records.first;
+    final record = records.first;
+    return Course(
+      lessonId: record['LessonId'] as int,
+      kakomonLessonId: record['過去問'] as int?,
+      lessonName: record['授業名'] as String,
+    );
   }
 
   static Future<List<String>> getLessonNameList(List<int> lessonIdList) async {

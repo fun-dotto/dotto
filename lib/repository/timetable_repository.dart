@@ -168,7 +168,7 @@ final class TimetableRepositoryImpl implements TimetableRepository {
         periodData[period]![lessonId] = TimetableCourseResponse(
           lessonId: lessonId,
           title: item.title,
-          kakomonLessonId: courseData?['過去問'] as int?,
+          kakomonLessonId: courseData?.kakomonLessonId,
           resourseIds: resourceId,
         );
       }
@@ -192,7 +192,7 @@ final class TimetableRepositoryImpl implements TimetableRepository {
           periodData[cancelLecture.period]![lessonId] = TimetableCourseResponse(
             lessonId: lessonId,
             title: lessonName,
-            kakomonLessonId: courseData?['過去問'] as int?,
+            kakomonLessonId: courseData?.kakomonLessonId,
             resourseIds: [],
             cancel: true,
           );
