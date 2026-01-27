@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
 
-final class LocationRepository {
-  factory LocationRepository() {
-    return _instance;
-  }
+final locationHelperProvider = Provider<LocationHelper>(
+  (_) => LocationHelperImpl(),
+);
 
-  LocationRepository._internal();
+abstract class LocationHelper {
+  Future<bool> requestLocationPermission();
+  Future<Position?> determinePosition();
+}
 
-  static final LocationRepository _instance = LocationRepository._internal();
-
+// TODO: Refactor
+final class LocationHelperImpl implements LocationHelper {
+  @override
   Future<bool> requestLocationPermission() async {
     bool serviceEnabled;
     LocationPermission permission;
@@ -42,6 +46,7 @@ final class LocationRepository {
   }
 
   /// 位置情報サービスが有効でない場合、または許可されていない場合、null
+  @override
   Future<Position?> determinePosition() async {
     if (await requestLocationPermission()) {
       return Geolocator.getCurrentPosition();

@@ -2,7 +2,7 @@ import 'package:dotto/feature/bus/controller/bus_is_to_controller.dart';
 import 'package:dotto/feature/bus/domain/bus_stop.dart';
 import 'package:dotto/feature/bus/domain/bus_trip.dart';
 import 'package:dotto/helper/firebase_realtime_database_repository.dart';
-import 'package:dotto/helper/location_repository.dart';
+import 'package:dotto/helper/location_helper.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final class BusRepository {
@@ -80,7 +80,7 @@ final class BusRepository {
   }
 
   Future<void> changeDirectionOnCurrentLocation(WidgetRef ref) async {
-    final position = await LocationRepository().determinePosition();
+    final position = await LocationHelperImpl().determinePosition();
     if (position != null) {
       final latitude = position.latitude;
       if (latitude > 41.838770 && latitude < 41.845295) {
