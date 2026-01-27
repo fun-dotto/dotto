@@ -1,5 +1,4 @@
 import 'package:dotto/feature/timetable/controller/personal_lesson_id_list_controller.dart';
-import 'package:dotto/feature/timetable/widget/timetable_is_over_selected_snack_bar.dart';
 import 'package:dotto/repository/timetable_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -26,7 +25,16 @@ final class AddCourseButton extends ConsumerWidget {
             if (!data.contains(lessonId)) {
               if (await notifier.isOverSelected(lessonId)) {
                 if (context.mounted) {
-                  timetableIsOverSelectedSnackBar(context);
+                  ScaffoldMessenger.of(
+                    context,
+                  ).removeCurrentSnackBar();
+                  ScaffoldMessenger.of(
+                    context,
+                  ).showSnackBar(
+                    const SnackBar(
+                      content: Text('3科目以上選択することはできません'),
+                    ),
+                  );
                 }
               } else {
                 await repository.addLesson(lessonId);

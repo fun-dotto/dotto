@@ -3,7 +3,6 @@ import 'package:dotto/domain/semester.dart';
 import 'package:dotto/domain/timetable_slot.dart';
 import 'package:dotto/feature/timetable/controller/personal_lesson_id_list_controller.dart';
 import 'package:dotto/feature/timetable/controller/week_period_all_records_controller.dart';
-import 'package:dotto/feature/timetable/widget/timetable_is_over_selected_snack_bar.dart';
 import 'package:dotto/repository/timetable_repository.dart';
 import 'package:dotto_design_system/component/button.dart';
 import 'package:flutter/material.dart';
@@ -53,8 +52,9 @@ final class SelectCourseScreen extends ConsumerWidget {
                           )
                           ? DottoButton(
                               onPressed: () async {
-                                final repository =
-                                    ref.read(timetableRepositoryProvider);
+                                final repository = ref.read(
+                                  timetableRepositoryProvider,
+                                );
                                 await repository.removeLesson(lessonId);
                                 ref.invalidate(personalLessonIdListProvider);
                                 if (context.mounted) {
@@ -73,11 +73,21 @@ final class SelectCourseScreen extends ConsumerWidget {
                                   termList[index]['lessonId'] as int,
                                 )) {
                                   if (context.mounted) {
-                                    timetableIsOverSelectedSnackBar(context);
+                                    ScaffoldMessenger.of(
+                                      context,
+                                    ).removeCurrentSnackBar();
+                                    ScaffoldMessenger.of(
+                                      context,
+                                    ).showSnackBar(
+                                      const SnackBar(
+                                        content: Text('3科目以上選択することはできません'),
+                                      ),
+                                    );
                                   }
                                 } else {
-                                  final repository =
-                                      ref.read(timetableRepositoryProvider);
+                                  final repository = ref.read(
+                                    timetableRepositoryProvider,
+                                  );
                                   await repository.addLesson(lessonId);
                                   ref.invalidate(personalLessonIdListProvider);
                                   if (context.mounted) {
