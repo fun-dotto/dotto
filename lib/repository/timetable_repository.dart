@@ -1,6 +1,7 @@
 import 'package:dotto/data/db/course_db.dart';
 import 'package:dotto/data/firebase/model/timetable_course_response.dart';
 import 'package:dotto/data/firebase/room_api.dart';
+import 'package:dotto/data/json/model/one_week_schedule.dart';
 import 'package:dotto/data/json/timetable_json.dart';
 import 'package:dotto/data/preference/timetable_preference.dart';
 import 'package:dotto/domain/timetable.dart';
@@ -110,16 +111,15 @@ final class TimetableRepositoryImpl implements TimetableRepository {
   }
 
   // 施設予約のjsonファイルの中から取得している科目のみに絞り込み
-  static Future<List<dynamic>> _filterTimetable() async {
+  static Future<List<OneWeekSchedule>> _filterTimetable() async {
     try {
       final jsonData = await TimetableJSON.fetchOneWeekSchedule();
       final personalTimetableList =
           await TimetablePreference.getPersonalTimetableList();
-      final filteredData = <dynamic>[];
+      final filteredData = <OneWeekSchedule>[];
       for (final lessonId in personalTimetableList) {
         for (final item in jsonData) {
-          final itemMap = item as Map<String, dynamic>;
-          if (itemMap['lessonId'] == lessonId.toString()) {
+          if (item.lessonId == lessonId.toString()) {
             filteredData.add(item);
           }
         }
@@ -147,15 +147,14 @@ final class TimetableRepositoryImpl implements TimetableRepository {
     final lessonData = await _filterTimetable();
 
     for (final item in lessonData) {
-      final itemMap = item as Map<String, dynamic>;
-      final lessonTime = DateTime.parse(itemMap['start'] as String);
+      final lessonTime = DateTime.parse(item.start);
 
       if (selectTime.day == lessonTime.day) {
-        final period = itemMap['period'] as int;
-        final lessonId = int.parse(itemMap['lessonId'] as String);
+        final period = item.period;
+        final lessonId = int.parse(item.lessonId);
         final resourceId = <int>[];
         try {
-          resourceId.add(int.parse(itemMap['resourceId'] as String));
+          resourceId.add(int.parse(item.resourceId));
         } on FormatException {
           // resourceIdが空白
         }
@@ -168,7 +167,7 @@ final class TimetableRepositoryImpl implements TimetableRepository {
         final courseData = await CourseDB.fetchDB(lessonId);
         periodData[period]![lessonId] = TimetableCourseResponse(
           lessonId: lessonId,
-          title: itemMap['title'] as String,
+          title: item.title,
           kakomonLessonId: courseData?['過去問'] as int?,
           resourseIds: resourceId,
         );
@@ -184,15 +183,13 @@ final class TimetableRepositoryImpl implements TimetableRepository {
     );
 
     for (final cancelLecture in cancelLectureData) {
-      final cancelMap = cancelLecture as Map<String, dynamic>;
-      final dt = DateTime.parse(cancelMap['date'] as String);
+      final dt = DateTime.parse(cancelLecture.date);
       if (dt.month == selectTime.month && dt.day == selectTime.day) {
-        final lessonName = cancelMap['lessonName'] as String;
+        final lessonName = cancelLecture.lessonName;
         if (loadPersonalTimetableMap.containsKey(lessonName)) {
           final lessonId = loadPersonalTimetableMap[lessonName]!;
           final courseData = await CourseDB.fetchDB(lessonId);
-          periodData[cancelMap['period']
-              as int]![lessonId] = TimetableCourseResponse(
+          periodData[cancelLecture.period]![lessonId] = TimetableCourseResponse(
             lessonId: lessonId,
             title: lessonName,
             kakomonLessonId: courseData?['過去問'] as int?,
@@ -204,14 +201,13 @@ final class TimetableRepositoryImpl implements TimetableRepository {
     }
 
     for (final supLecture in supLectureData) {
-      final supMap = supLecture as Map<String, dynamic>;
-      final dt = DateTime.parse(supMap['date'] as String);
+      final dt = DateTime.parse(supLecture.date);
       if (dt.month == selectTime.month && dt.day == selectTime.day) {
-        final lessonName = supMap['lessonName'] as String;
+        final lessonName = supLecture.lessonName;
         if (loadPersonalTimetableMap.containsKey(lessonName)) {
           final lessonId = loadPersonalTimetableMap[lessonName]!;
-          periodData[supMap['period'] as int]![lessonId] =
-              periodData[supMap['period'] as int]![lessonId]!.copyWith(
+          periodData[supLecture.period]![lessonId] =
+              periodData[supLecture.period]![lessonId]!.copyWith(
                 sup: true,
               );
         }
