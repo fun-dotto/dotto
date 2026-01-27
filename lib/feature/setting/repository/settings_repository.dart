@@ -92,10 +92,12 @@ final class SettingsRepository {
     TimetableRepository repository,
     TimetableConflictDetected conflict,
   ) async {
-    final firestoreLessonNameList =
-        await CourseDB.getLessonNameList(conflict.firestoreOnlyIds);
-    final localLessonNameList =
-        await CourseDB.getLessonNameList(conflict.localOnlyIds);
+    final firestoreLessonNameList = await CourseDB.getLessonNameList(
+      conflict.firestoreOnlyIds,
+    );
+    final localLessonNameList = await CourseDB.getLessonNameList(
+      conflict.localOnlyIds,
+    );
 
     if (!context.mounted) return;
 
@@ -109,13 +111,12 @@ final class SettingsRepository {
             child: Column(
               children: <Widget>[
                 const Text(
-                  'アカウントに紐づいている時間割とローカルの時間割が'
-                  '異なっています。どちらを残しますか？',
+                  'クラウドに保存された時間割と端末に保存された時間割が異なっています。どちらを残しますか？',
                 ),
-                const Text('-- アカウント側に多い科目 --'),
+                const Text('-- クラウドにのみ存在する科目 --'),
                 ...firestoreLessonNameList.map(Text.new),
                 const SizedBox(height: 10),
-                const Text('-- ローカル側に多い科目 --'),
+                const Text('-- 端末にのみ存在する科目 --'),
                 ...localLessonNameList.map(Text.new),
               ],
             ),
@@ -128,7 +129,7 @@ final class SettingsRepository {
                   Navigator.of(context).pop();
                 }
               },
-              child: const Text('アカウント方を残す'),
+              child: const Text('クラウドに保存された時間割を残す'),
             ),
             TextButton(
               onPressed: () async {
@@ -137,7 +138,7 @@ final class SettingsRepository {
                   Navigator.of(context).pop();
                 }
               },
-              child: const Text('ローカル方を残す'),
+              child: const Text('端末に保存された時間割を残す'),
             ),
           ],
         );
