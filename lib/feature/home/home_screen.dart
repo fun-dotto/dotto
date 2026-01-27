@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dotto/controller/config_controller.dart';
 import 'package:dotto/domain/quick_link.dart';
 import 'package:dotto/feature/home/component/bus_card.dart';
@@ -8,6 +10,7 @@ import 'package:dotto/feature/home/component/link_grid.dart';
 import 'package:dotto/feature/home/component/timetable_buttons.dart';
 import 'package:dotto/feature/home/component/timetable_calendar_view.dart';
 import 'package:dotto/feature/home/home_viewmodel.dart';
+import 'package:dotto/feature/kamoku_detail/kamoku_detail_screen.dart';
 import 'package:dotto/feature/timetable/controller/timetable_period_style_controller.dart';
 import 'package:dotto/feature/timetable/course_cancellation_screen.dart';
 import 'package:dotto/feature/timetable/domain/timetable_period_style.dart';
@@ -16,12 +19,25 @@ import 'package:dotto/widget/web_pdf_viewer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final class HomeScreen extends ConsumerWidget {
+final class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final viewModelAsync = ref.watch(homeViewModelProvider);
+  ConsumerState<HomeScreen> createState() => _HomeScreenState();
+}
+
+final class _HomeScreenState extends ConsumerState<HomeScreen> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      unawaited(ref.read(homeViewModelProvider.notifier).onAppear());
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final viewModel = ref.watch(homeViewModelProvider);
     final config = ref.watch(configProvider);
     final timetablePeriodStyle = ref.watch(timetablePeriodStyleProvider);
 
@@ -33,8 +49,8 @@ final class HomeScreen extends ConsumerWidget {
     final infoTiles = <Widget>[
       ...fileItems.map(
         (item) => FileTile(
-          onPressed: () {
-            Navigator.of(context).push(
+          onPressed: () async {
+            await Navigator.of(context).push(
               MaterialPageRoute<void>(
                 builder: (_) => WebPdfViewer(url: item.$2, filename: item.$1),
                 settings: RouteSettings(
@@ -62,8 +78,8 @@ final class HomeScreen extends ConsumerWidget {
                   const Text('時刻を表示'),
                   Switch(
                     value: style == TimetablePeriodStyle.numberAndTime,
-                    onChanged: (value) {
-                      ref
+                    onChanged: (value) async {
+                      await ref
                           .read(timetablePeriodStyleProvider.notifier)
                           .setStyle(
                             value
@@ -91,15 +107,35 @@ final class HomeScreen extends ConsumerWidget {
                 Column(
                   spacing: 8,
                   children: [
-                    TimetableCalendarView(
-                      timetables: viewModelAsync.value?.timetables ?? [],
-                      selectedDate: DateTime.now(),
-                      onDateSelected: (date) {},
-                      onCourseSelected: (course) {},
-                    ),
+                    switch (viewModel.timetables) {
+                      AsyncData(:final value) => TimetableCalendarView(
+                        timetables: value,
+                        selectedDate: viewModel.selectedDate,
+                        onDateSelected: ref
+                            .read(homeViewModelProvider.notifier)
+                            .onDateSelected,
+                        onCourseSelected: (course) async {
+                          // TODO: CourseDetailScreenへの置き換え
+                          await Navigator.of(context).push(
+                            MaterialPageRoute<void>(
+                              builder: (_) => KamokuDetailScreen(
+                                lessonId: course.lessonId,
+                                lessonName: course.courseName,
+                                kakomonLessonId: course.kakomonLessonId,
+                              ),
+                              settings: RouteSettings(
+                                name: '/courses/${course.lessonId}',
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                      AsyncError() => const SizedBox.shrink(),
+                      AsyncLoading() => const SizedBox.shrink(),
+                    },
                     TimetableButtons(
-                      onCourseCancellationPressed: () {
-                        Navigator.of(context).push(
+                      onCourseCancellationPressed: () async {
+                        await Navigator.of(context).push(
                           MaterialPageRoute<void>(
                             builder: (_) => const CourseCancellationScreen(),
                             settings: const RouteSettings(
@@ -108,8 +144,8 @@ final class HomeScreen extends ConsumerWidget {
                           ),
                         );
                       },
-                      onEditTimetablePressed: () {
-                        Navigator.of(context).push(
+                      onEditTimetablePressed: () async {
+                        await Navigator.of(context).push(
                           MaterialPageRoute<void>(
                             builder: (_) => const EditTimetableScreen(),
                             settings: const RouteSettings(

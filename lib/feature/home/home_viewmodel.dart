@@ -9,16 +9,29 @@ final class HomeViewModel extends _$HomeViewModel {
   late final HomeService _service;
 
   @override
-  Future<HomeViewState> build() async {
+  HomeViewState build() {
     _service = HomeService(ref);
-    final timetables = await _service.getTimetables();
-    return HomeViewState(timetables: timetables);
+    final now = DateTime.now();
+    final selectedDate = DateTime(now.year, now.month, now.day);
+    return HomeViewState(
+      timetables: AsyncValue.loading(),
+      selectedDate: selectedDate,
+    );
   }
 
-  Future<void> onRefresh() async {
-    state = await AsyncValue.guard(() async {
-      final timetables = await _service.getTimetables();
-      return HomeViewState(timetables: timetables);
+  Future<void> onAppear() async {
+    await _refresh();
+  }
+
+  void onDateSelected(DateTime date) {
+    state = state.copyWith(selectedDate: date);
+  }
+
+  Future<void> _refresh() async {
+    state = state.copyWith(timetables: const AsyncValue.loading());
+    final timetables = await AsyncValue.guard(() async {
+      return _service.getTimetables();
     });
+    state = state.copyWith(timetables: timetables);
   }
 }
