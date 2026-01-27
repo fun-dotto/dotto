@@ -112,7 +112,11 @@ final class TimetableCalendarView extends StatelessWidget {
                   .toList(),
             ),
           ],
-          options: CarouselOptions(height: 48, viewportFraction: 1),
+          options: CarouselOptions(
+            height: 48,
+            viewportFraction: 1,
+            enableInfiniteScroll: false,
+          ),
         ),
         TimetableView(
           timetable: timetables.firstWhereOrNull(
