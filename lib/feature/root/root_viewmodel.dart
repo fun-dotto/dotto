@@ -10,7 +10,9 @@ import 'package:dotto/helper/logger.dart';
 import 'package:dotto/helper/notification_helper.dart';
 import 'package:dotto/helper/remote_config_helper.dart';
 import 'package:dotto/helper/user_preference_repository.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -120,23 +122,44 @@ class RootViewModel extends _$RootViewModel {
     }
     final user = ref.read(userProvider);
 
-    // APNsトークンはiOSシミュレータでは取得できないため、エラーをキャッチする
+    // APNsトークンはiOSシミュレータでは取得できないことがある
+    // 実機でも通知許可がない場合などは失敗する可能性がある
     String? apnsToken;
     try {
       apnsToken = await FirebaseMessaging.instance.getAPNSToken();
-    } catch (e) {
-      debugPrint('APNs Token取得エラー（シミュレータでは正常）: $e');
+    } catch (e, st) {
+      if (kDebugMode) {
+        debugPrint('APNs Token取得エラー: $e');
+      }
+      await FirebaseCrashlytics.instance.recordError(
+        e,
+        st,
+        reason: 'APNs Token取得に失敗',
+        fatal: false,
+      );
     }
-    debugPrint('APNs Token: $apnsToken');
+    if (kDebugMode) {
+      debugPrint('APNs Token: ${_maskToken(apnsToken)}');
+    }
 
-    // FCMトークンの取得もシミュレータでは失敗する可能性がある
+    // FCMトークンの取得もシミュレータや通知許可がない場合は失敗する可能性がある
     String? fcmToken;
     try {
       fcmToken = await FirebaseMessaging.instance.getToken();
-    } catch (e) {
-      debugPrint('FCM Token取得エラー（シミュレータでは正常）: $e');
+    } catch (e, st) {
+      if (kDebugMode) {
+        debugPrint('FCM Token取得エラー: $e');
+      }
+      await FirebaseCrashlytics.instance.recordError(
+        e,
+        st,
+        reason: 'FCM Token取得に失敗',
+        fatal: false,
+      );
     }
-    debugPrint('FCM Token: $fcmToken');
+    if (kDebugMode) {
+      debugPrint('FCM Token: ${_maskToken(fcmToken)}');
+    }
 
     if (fcmToken != null && user != null) {
       final db = FirebaseFirestore.instance;
@@ -162,5 +185,12 @@ class RootViewModel extends _$RootViewModel {
 
   void onUpdateAlertShown() {
     state = AsyncValue.data(state.value!.copyWith(hasShownUpdateAlert: true));
+  }
+
+  /// トークンをマスキングして末尾8文字のみ表示する
+  String _maskToken(String? token) {
+    if (token == null) return 'null';
+    if (token.length <= 8) return '***';
+    return '***${token.substring(token.length - 8)}';
   }
 }
