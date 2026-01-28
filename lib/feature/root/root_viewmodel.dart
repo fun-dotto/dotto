@@ -119,10 +119,25 @@ class RootViewModel extends _$RootViewModel {
       return;
     }
     final user = ref.read(userProvider);
-    final apnsToken = await FirebaseMessaging.instance.getAPNSToken();
+
+    // APNsトークンはiOSシミュレータでは取得できないため、エラーをキャッチする
+    String? apnsToken;
+    try {
+      apnsToken = await FirebaseMessaging.instance.getAPNSToken();
+    } catch (e) {
+      debugPrint('APNs Token取得エラー（シミュレータでは正常）: $e');
+    }
     debugPrint('APNs Token: $apnsToken');
-    final fcmToken = await FirebaseMessaging.instance.getToken();
+
+    // FCMトークンの取得もシミュレータでは失敗する可能性がある
+    String? fcmToken;
+    try {
+      fcmToken = await FirebaseMessaging.instance.getToken();
+    } catch (e) {
+      debugPrint('FCM Token取得エラー（シミュレータでは正常）: $e');
+    }
     debugPrint('FCM Token: $fcmToken');
+
     if (fcmToken != null && user != null) {
       final db = FirebaseFirestore.instance;
       final tokenRef = db.collection('fcm_token');
