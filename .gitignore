@@ -1,6 +1,6 @@
-.env
 .env.dev
 .env.keys
+iOS/fastlane/.env
 .env.decrypted
 
 # FVM Version Cache
