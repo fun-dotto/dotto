@@ -1,5 +1,7 @@
 .env
 .env.dev
+.env.keys
+.env.decrypted
 
 # FVM Version Cache
 .fvm/
@@ -8,7 +10,7 @@ test.dart
 
 # build runner
 *.freezed.dart
-*.g.dart 
+*.g.dart
 
 # Miscellaneous
 *.class
