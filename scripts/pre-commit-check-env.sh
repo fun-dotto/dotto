@@ -29,7 +29,7 @@ if echo "$STAGED_FILES" | grep -qE '\.env\.decrypted$'; then
 fi
 # ステージングされた .env ファイル（ディレクトリに関わらず）をチェック
 # /\.env$ または ^\.env$ でマッチ（ディレクトリ区切り + .env または ルートの .env）
-ENV_FILES=$(echo "$STAGED_FILES" | grep -E '(^|/)\.env$' || true)
+ENV_FILES=$(echo "$STAGED_FILES" | grep -E '(^|/)\.env(\.|$)' | grep -vE '\.env\.(keys|decrypted)$' || true)
 
 if [ -n "$ENV_FILES" ]; then
   while IFS= read -r env_file; do
