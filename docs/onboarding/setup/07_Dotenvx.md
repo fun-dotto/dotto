@@ -13,5 +13,5 @@ dotenvx set KEY "value" -f [環境変数ファイルパス]
 
 平文を見たいときは以下を実行
 ```
-dotenvx decrypted --stdout -f [環境変数ファイルパス] > .env.decrypted
+dotenvx decrypt --stdout -f [環境変数ファイルパス] > .env.decrypted
 ```
