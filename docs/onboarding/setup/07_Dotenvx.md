@@ -1,5 +1,5 @@
 # dotenvxとpre-commitのセットアップ
-##分からなければ先輩に聞いて下さい
+## 分からなければ先輩に聞いて下さい
 
 mise経由でdotenvxとpre-commitをインストールする
 
