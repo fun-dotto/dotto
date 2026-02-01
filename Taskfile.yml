@@ -24,7 +24,6 @@ tasks:
     cmds:
       - "{{.FLUTTER}} config --enable-swift-package-manager"
       - "{{.FLUTTER}} pub get"
-      - "mise install"
       - "pre-commit install"
 
   install-all:
