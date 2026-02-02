@@ -1,7 +1,7 @@
 [tools]
 "aqua:go-task/task" = "latest"
 dotenvx = "latest"
-flutter = "3.38.7"
+flutter = "3.38.9"
 node = "24"
 pre-commit = "latest"
 ruby = "4.0"
