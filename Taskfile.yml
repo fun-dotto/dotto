@@ -12,6 +12,8 @@ vars:
   FLUTTER: flutter
   DART: dart
   FASTLANE: fastlane
+  DOTENVX: dotenvx
+  PRE_COMMIT: pre-commit
 
 tasks:
   default:
@@ -25,9 +27,17 @@ tasks:
       - "{{.FLUTTER}} config --enable-swift-package-manager"
       - "{{.FLUTTER}} pub get"
 
+  install-pre-commit:
+    desc: Install pre-commit hooks
+    cmds:
+      - "{{.PRE_COMMIT}} install"
+
   install-all:
     desc: Install dependencies for all projects
     deps:
+      - task: install-pre-commit
+        vars:
+          PRE_COMMIT: "{{.PRE_COMMIT}}"
       - task: install
         vars:
           FLUTTER: "{{.FLUTTER}}"
@@ -82,7 +92,7 @@ tasks:
   run:
     desc: Run the Flutter app
     cmds:
-      - "{{.FLUTTER}} run --dart-define-from-file=./.env"
+      - "{{.FLUTTER}} run $({{.DOTENVX}} decrypt --stdout | grep -v '^#' | sed 's/^/--dart-define=/')"
 
   run-storybook:
     desc: Run the Storybook app
@@ -125,43 +135,43 @@ tasks:
     desc: Build iOS release
     cmds:
       - task: build
-      - "{{.FLUTTER}} build ios --release --dart-define-from-file=./.env"
+      - "{{.FLUTTER}} build ios --release $({{.DOTENVX}} decrypt --stdout | grep -v '^#' | sed 's/^/--dart-define=/')"
 
   build-android:
     desc: Build Android release appbundle
     cmds:
       - task: build
-      - "{{.FLUTTER}} build appbundle --release --dart-define-from-file=./.env"
+      - "{{.FLUTTER}} build appbundle --release $({{.DOTENVX}} decrypt --stdout | grep -v '^#' | sed 's/^/--dart-define=/')"
 
   deploy-ios-firebase-app-distribution:
     desc: Deploy iOS to Firebase App Distribution
     dir: ./ios
     cmds:
-      - "{{.FASTLANE}} deploy_firebase_app_distribution"
+      - "{{.DOTENVX}} run -f ../.env.keys -- {{.DOTENVX}} run -f ./fastlane/.env -- {{.FASTLANE}} deploy_firebase_app_distribution"
 
   deploy-android-firebase-app-distribution:
     desc: Deploy Android to Firebase App Distribution
     dir: ./android
     cmds:
-      - "{{.FASTLANE}} deploy_firebase_app_distribution"
+      - "{{.DOTENVX}} run -f ../.env.keys -- {{.DOTENVX}} run -f ./fastlane/.env -- {{.FASTLANE}} deploy_firebase_app_distribution"
 
   deploy-ios-testflight:
     desc: Deploy iOS to TestFlight
     dir: ./ios
     cmds:
-      - "{{.FASTLANE}} deploy_testflight"
+      - "{{.DOTENVX}} run -f ../.env.keys -- {{.DOTENVX}} run -f ./fastlane/.env -- {{.FASTLANE}} deploy_testflight"
 
   deploy-android-google-play:
     desc: Deploy Android to Google Play
     dir: ./android
     cmds:
-      - "{{.FASTLANE}} deploy_google_play"
+      - "{{.DOTENVX}} run -f ../.env.keys -- {{.DOTENVX}} run -f ./fastlane/.env -- {{.FASTLANE}} deploy_google_play"
 
   match-development:
     desc: Match development certificates (readonly)
     dir: ./ios
     cmds:
-      - "{{.FASTLANE}} match_development_readonly"
+      - "{{.DOTENVX}} run -f ../.env.keys -- {{.DOTENVX}} run -f ./fastlane/.env -- {{.FASTLANE}} match_development_readonly"
 
   bump-build:
     desc: Bump build number
@@ -194,7 +204,7 @@ tasks:
       NAME: "{{.name}}"
       UDID: "{{.udid}}"
     cmds:
-      - "{{.FASTLANE}} run register_device name:{{.NAME}} udid:{{.UDID}}"
-      - "{{.FASTLANE}} match_development"
-      - "{{.FASTLANE}} match_adhoc"
-      - "{{.FASTLANE}} match_appstore"
+      - "{{.DOTENVX}} run -f ../.env.keys -- {{.DOTENVX}} run -f ./fastlane/.env -- {{.FASTLANE}} run register_device name:{{.NAME}} udid:{{.UDID}}"
+      - "{{.DOTENVX}} run -f ../.env.keys -- {{.DOTENVX}} run -f ./fastlane/.env -- {{.FASTLANE}} match_development"
+      - "{{.DOTENVX}} run -f ../.env.keys -- {{.DOTENVX}} run -f ./fastlane/.env -- {{.FASTLANE}} match_adhoc"
+      - "{{.DOTENVX}} run -f ../.env.keys -- {{.DOTENVX}} run -f ./fastlane/.env -- {{.FASTLANE}} match_appstore"
