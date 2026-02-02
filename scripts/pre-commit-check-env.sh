@@ -18,18 +18,9 @@ if echo "$STAGED_FILES" | grep -qE '\.env\.keys$'; then
   exit 1
 fi
 
-# .env.decrypted がステージングされていないかチェック
-if echo "$STAGED_FILES" | grep -qE '\.env\.decrypted$'; then
-  echo -e "${RED}❌ 重大なエラー: .env.decrypted ファイルはコミットできません！${NC}"
-  echo -e "${RED}   このファイルには復号済みの環境変数が含まれており、絶対にコミットしてはいけません。${NC}"
-  echo ""
-  echo "ステージングから削除してください:"
-  echo "  git reset HEAD .env.decrypted"
-  exit 1
-fi
 # ステージングされた .env ファイル（ディレクトリに関わらず）をチェック
 # /\.env$ または ^\.env$ でマッチ（ディレクトリ区切り + .env または ルートの .env）
-ENV_FILES=$(echo "$STAGED_FILES" | grep -E '(^|/)\.env(\.|$)' | grep -vE '\.env\.(keys|decrypted)$' || true)
+ENV_FILES=$(echo "$STAGED_FILES" | grep -E '(^|/)\.env(\.|$)' | grep -vE '\.env\.keys$' || true)
 
 if [ -n "$ENV_FILES" ]; then
   while IFS= read -r env_file; do
