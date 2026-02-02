@@ -13,6 +13,7 @@ vars:
   DART: dart
   FASTLANE: fastlane
   DOTENVX: dotenvx
+  PRE_COMMIT: pre-commit
 
 tasks:
   default:
@@ -25,11 +26,18 @@ tasks:
     cmds:
       - "{{.FLUTTER}} config --enable-swift-package-manager"
       - "{{.FLUTTER}} pub get"
-      - "pre-commit install"
+
+  install-pre-commit:
+    desc: Install pre-commit hooks
+    cmds:
+      - "{{.PRE_COMMIT}} install"
 
   install-all:
     desc: Install dependencies for all projects
     deps:
+      - task: install-pre-commit
+        vars:
+          PRE_COMMIT: "{{.PRE_COMMIT}}"
       - task: install
         vars:
           FLUTTER: "{{.FLUTTER}}"
