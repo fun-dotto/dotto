@@ -1,6 +1,4 @@
-.env.dev
 .env.keys
-.env.decrypted
 
 # FVM Version Cache
 .fvm/
