@@ -12,6 +12,7 @@ vars:
   FLUTTER: flutter
   DART: dart
   FASTLANE: fastlane
+  DOTENVX: dotenvx
 
 tasks:
   default:
@@ -83,7 +84,7 @@ tasks:
   run:
     desc: Run the Flutter app
     cmds:
-      - "dotenvx decrypt --stdout > .env.decrypted && {{.FLUTTER}} run --dart-define-from-file=.env.decrypted; rm -f .env.decrypted"
+      - "{{.FLUTTER}} run $({{.DOTENVX}} decrypt --stdout | grep -v '^#' | sed 's/^/--dart-define=/')"
 
   run-storybook:
     desc: Run the Storybook app
@@ -126,13 +127,13 @@ tasks:
     desc: Build iOS release
     cmds:
       - task: build
-      - "dotenvx decrypt --stdout > .env.decrypted && {{.FLUTTER}} build ios --release --dart-define-from-file=.env.decrypted; rm -f .env.decrypted"
+      - "{{.FLUTTER}} build ios --release $({{.DOTENVX}} decrypt --stdout | grep -v '^#' | sed 's/^/--dart-define=/')"
 
   build-android:
     desc: Build Android release appbundle
     cmds:
       - task: build
-      - "dotenvx decrypt --stdout > .env.decrypted && {{.FLUTTER}} build appbundle --release --dart-define-from-file=.env.decrypted; rm -f .env.decrypted"
+      - "{{.FLUTTER}} build appbundle --release $({{.DOTENVX}} decrypt --stdout | grep -v '^#' | sed 's/^/--dart-define=/')"
 
   deploy-ios-firebase-app-distribution:
     desc: Deploy iOS to Firebase App Distribution
