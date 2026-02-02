@@ -27,8 +27,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
       - uses: jdx/mise-action@v3
-      - name: Set up files
-        run: touch ./.env.dev
       - name: Install Dependencies
         run: task install-all
       - name: Run Build
