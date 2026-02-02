@@ -39,14 +39,14 @@ Firebase CLI にログインします。
 firebase login
 ```
 
-以下が出力された場合、どちらもEnterキーを押下して承諾します。
+以下が出力された場合、どちらも Enter キーを押下して承諾します。
 
 ```
 ? Enable Gemini in Firebase features? (Y/n)
 ? Allow Firebase to collect CLI and Emulator Suite usage and error reporting information? (Y/n)
 ```
 
-自動的にブラウザが起動したら、Dotto の Firebase プロジェクトに参加しているGoogleアカウントを選択してください。
+自動的にブラウザが起動したら、Dotto の Firebase プロジェクトに参加している Google アカウントを選択してください。
 
 Firebase のアプリ情報をセットアップします。
 
@@ -58,7 +58,9 @@ dart pub global activate flutterfire_cli
 flutterfire configure
 ```
 
-メンバーに`.env`ファイルをもらい、プロジェクト直下に配置します。
+## 環境変数をセットアップ
+
+メンバーから`.env.keys`ファイルをもらい、プロジェクトルートに配置します。
 
 ## プロジェクトをセットアップ
 
@@ -87,8 +89,6 @@ task run
 ## [macOS] iOS 端末で起動する
 
 Mac と iPhone を接続します。
-
-メンバーに iOS Fastlane の`.env`ファイルをもらい、`ios/fastlane/`に配置します。
 
 以下のコマンドを実行します。
 
