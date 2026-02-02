@@ -138,31 +138,31 @@ tasks:
     desc: Deploy iOS to Firebase App Distribution
     dir: ./ios
     cmds:
-      - "{{.FASTLANE}} deploy_firebase_app_distribution"
+      - "{{.DOTENVX}} run -f ../.env.keys -- {{.DOTENVX}} run -f ./fastlane/.env -- {{.FASTLANE}} deploy_firebase_app_distribution"
 
   deploy-android-firebase-app-distribution:
     desc: Deploy Android to Firebase App Distribution
     dir: ./android
     cmds:
-      - "{{.FASTLANE}} deploy_firebase_app_distribution"
+      - "{{.DOTENVX}} run -f ../.env.keys -- {{.DOTENVX}} run -f ./fastlane/.env -- {{.FASTLANE}} deploy_firebase_app_distribution"
 
   deploy-ios-testflight:
     desc: Deploy iOS to TestFlight
     dir: ./ios
     cmds:
-      - "{{.FASTLANE}} deploy_testflight"
+      - "{{.DOTENVX}} run -f ../.env.keys -- {{.DOTENVX}} run -f ./fastlane/.env -- {{.FASTLANE}} deploy_testflight"
 
   deploy-android-google-play:
     desc: Deploy Android to Google Play
     dir: ./android
     cmds:
-      - "{{.FASTLANE}} deploy_google_play"
+      - "{{.DOTENVX}} run -f ../.env.keys -- {{.DOTENVX}} run -f ./fastlane/.env -- {{.FASTLANE}} deploy_google_play"
 
   match-development:
     desc: Match development certificates (readonly)
     dir: ./ios
     cmds:
-      - "{{.FASTLANE}} match_development_readonly"
+      - "{{.DOTENVX}} run -f ../.env.keys -- {{.DOTENVX}} run -f ./fastlane/.env -- {{.FASTLANE}} match_development_readonly"
 
   bump-build:
     desc: Bump build number
@@ -195,7 +195,7 @@ tasks:
       NAME: "{{.name}}"
       UDID: "{{.udid}}"
     cmds:
-      - "{{.FASTLANE}} run register_device name:{{.NAME}} udid:{{.UDID}}"
-      - "{{.FASTLANE}} match_development"
-      - "{{.FASTLANE}} match_adhoc"
-      - "{{.FASTLANE}} match_appstore"
+      - "{{.DOTENVX}} run -f ../.env.keys -- {{.DOTENVX}} run -f ./fastlane/.env -- {{.FASTLANE}} run register_device name:{{.NAME}} udid:{{.UDID}}"
+      - "{{.DOTENVX}} run -f ../.env.keys -- {{.DOTENVX}} run -f ./fastlane/.env -- {{.FASTLANE}} match_development"
+      - "{{.DOTENVX}} run -f ../.env.keys -- {{.DOTENVX}} run -f ./fastlane/.env -- {{.FASTLANE}} match_adhoc"
+      - "{{.DOTENVX}} run -f ../.env.keys -- {{.DOTENVX}} run -f ./fastlane/.env -- {{.FASTLANE}} match_appstore"
