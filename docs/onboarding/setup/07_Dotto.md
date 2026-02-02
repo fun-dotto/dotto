@@ -90,8 +90,6 @@ task run
 
 Mac と iPhone を接続します。
 
-`.env.keys`ファイルも`ios/fastlane/`に配置する必要があります．詳細は[dotenvx と pre-commit のセットアップ](07_Dotenvx.md#envkeysファイルのセットアップ)を参照してください．
-
 以下のコマンドを実行します。
 
 ```zsh
