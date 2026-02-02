@@ -25,7 +25,6 @@ tasks:
     cmds:
       - "{{.FLUTTER}} config --enable-swift-package-manager"
       - "{{.FLUTTER}} pub get"
-      - "pre-commit install"
 
   install-all:
     desc: Install dependencies for all projects
