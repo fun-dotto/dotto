@@ -7,17 +7,37 @@ tags:
 paths:
   /announcements:
     get:
-      operationId: Announcements_list
+      operationId: AnnouncementsV0_list
       parameters: []
       responses:
-        "200":
+        '200':
           description: おしらせのリスト
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Announcement"
+                  $ref: '#/components/schemas/Announcement'
+      tags:
+        - Announcements
+  /v1/announcements:
+    get:
+      operationId: AnnouncementsV1_list
+      parameters: []
+      responses:
+        '200':
+          description: おしらせのリスト
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  announcements:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Announcement'
+                required:
+                  - announcements
       tags:
         - Announcements
 components:
