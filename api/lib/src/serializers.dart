@@ -15,11 +15,13 @@ import 'package:openapi/src/date_serializer.dart';
 import 'package:openapi/src/model/date.dart';
 
 import 'package:openapi/src/model/announcement.dart';
+import 'package:openapi/src/model/announcements_v1_list200_response.dart';
 
 part 'serializers.g.dart';
 
 @SerializersFor([
   Announcement,
+  AnnouncementsV1List200Response,
 ])
 Serializers serializers = (_$serializers.toBuilder()
       ..addBuilderFactory(

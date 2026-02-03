@@ -13,4 +13,5 @@ export 'package:openapi/src/model/date.dart';
 export 'package:openapi/src/api/announcements_api.dart';
 
 export 'package:openapi/src/model/announcement.dart';
+export 'package:openapi/src/model/announcements_v1_list200_response.dart';
 
