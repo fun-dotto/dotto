@@ -20,7 +20,7 @@ final class AnnouncementRepositoryImpl implements AnnouncementRepository {
   Future<List<Announcement>> getAnnouncements() async {
     try {
       final api = ref.read(apiClientProvider).getAnnouncementsApi();
-      final response = await api.announcementsList();
+      final response = await api.announcementsV1List();
       if (response.statusCode != 200) {
         throw Exception('Failed to get announcements');
       }
@@ -28,7 +28,7 @@ final class AnnouncementRepositoryImpl implements AnnouncementRepository {
       if (data == null) {
         throw Exception('Failed to get announcements');
       }
-      return data
+      return data.announcements
           .map(
             (e) => Announcement(
               id: e.id,
