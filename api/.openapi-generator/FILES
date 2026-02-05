@@ -3,6 +3,7 @@ README.md
 analysis_options.yaml
 doc/Announcement.md
 doc/AnnouncementsApi.md
+doc/AnnouncementsV1List200Response.md
 lib/openapi.dart
 lib/src/api.dart
 lib/src/api/announcements_api.dart
@@ -14,6 +15,8 @@ lib/src/auth/bearer_auth.dart
 lib/src/auth/oauth.dart
 lib/src/date_serializer.dart
 lib/src/model/announcement.dart
+lib/src/model/announcements_v1_list200_response.dart
 lib/src/model/date.dart
 lib/src/serializers.dart
 pubspec.yaml
+test/announcements_v1_list200_response_test.dart
