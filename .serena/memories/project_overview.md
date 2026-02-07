@@ -48,10 +48,11 @@ dotto-flutter/
 │   └── app.dart          # アプリルート
 ├── dotto_design_system/  # デザインシステム（独立パッケージ）
 ├── api/                  # OpenAPI生成コード
-├── docs/                 # ドキュメント
-│   └── onboarding/       # オンボーディング資料
-│       ├── codebase/     # コードベース説明
-│       └── development/  # 開発フロー
+├── dotto-docs/            # ドキュメント（サブモジュール）
+│   └── public/
+│       └── app-dev-onboarding/  # オンボーディング資料
+│           ├── codebase/        # コードベース説明
+│           └── development/     # 開発フロー
 ├── android/              # Androidネイティブ
 ├── ios/                  # iOSネイティブ
 ├── assets/               # 画像・リソース
@@ -150,16 +151,16 @@ feature/{feature_name}/
 
 - **DRY原則**: 重複を避ける
 - **SOLID原則**: オブジェクト指向設計
-- **アーキテクチャ準拠**: 新機能は `docs/onboarding/codebase/02_Architecture.md` に従う
-- **ドキュメント参照**: ブランチ・コミット・PRルールは `docs/onboarding/development/` を参照
+- **アーキテクチャ準拠**: 新機能は `dotto-docs/public/app-dev-onboarding/codebase/02_Architecture.md` に従う
+- **ドキュメント参照**: ブランチ・コミット・PRルールは `dotto-docs/public/app-dev-onboarding/development/` を参照
 
 ## 関連ドキュメント
 
-- アーキテクチャ詳細: `docs/onboarding/codebase/02_Architecture.md`
-- Feature詳細: `docs/onboarding/codebase/01_Feature.md`
-- ブランチ運用: `docs/onboarding/development/02_Branch.md`
-- コミットルール: `docs/onboarding/development/03_Commit.md`
-- Pull Request: `docs/onboarding/development/04_PR.md`
+- アーキテクチャ詳細: `dotto-docs/public/app-dev-onboarding/codebase/02_Architecture.md`
+- Feature詳細: `dotto-docs/public/app-dev-onboarding/codebase/01_Feature.md`
+- ブランチ運用: `dotto-docs/public/app-dev-onboarding/development/02_Branch.md`
+- コミットルール: `dotto-docs/public/app-dev-onboarding/development/03_Commit.md`
+- Pull Request: `dotto-docs/public/app-dev-onboarding/development/04_PR.md`
 
 ---
 © 2025 Dotto

@@ -18,7 +18,7 @@ color: cyan
    - 各コンポーネントは単一の明確な責任を持つべきです
    - 繰り返されるUIパターンを共有コンポーネントに抽出してください
    - アトミックコンポーネント(ボタン、入力欄)を作成し、それらを組み合わせてモルキュール(フォーム、カード)やオーガニズム(セクション、画面)を構成してください
-   - `docs/onboarding/codebase/02_Architecture.md`で定義されたアーキテクチャパターンに従ってください
+   - `dotto-docs/public/app-dev-onboarding/codebase/02_Architecture.md`で定義されたアーキテクチャパターンに従ってください
 
 3. **ViewModelの統合**: ViewModelが存在する場合:
    - 適切な状態管理パターンを使用してUIをViewModelに正しく接続してください
