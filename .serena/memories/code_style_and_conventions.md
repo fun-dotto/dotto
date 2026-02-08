@@ -188,7 +188,7 @@ void navigateBasedOnPermission() {
 ### ブランチ命名規則
 - `feature/`: 新機能追加（例: `feature/user-profile`）
 - `fix/`: バグ修正（例: `fix/map-display-on-ipad`）
-- `docs/`: ドキュメント更新（例: `docs/onboarding`）
+- `docs/`: ドキュメント更新（例: `docs/app-dev-onboarding`）
 - `issue/`: Issue番号含む（例: `issue/109-map-vending-machine`）
 
 **ルール**: 小文字とハイフン（`-`）のみ使用

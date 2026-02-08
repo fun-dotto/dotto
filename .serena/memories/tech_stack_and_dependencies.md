@@ -149,7 +149,7 @@
 - **ios/**: iOS固有コード、Fastlane設定
 
 ### ドキュメント
-- **docs/onboarding/**: オンボーディング資料
+- **dotto-docs/public/app-dev-onboarding/**: オンボーディング資料
   - **codebase/**: Feature、Architecture
   - **development/**: Project、Branch、Commit、PR
   - **setup/**: 開発環境セットアップ
