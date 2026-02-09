@@ -278,4 +278,4 @@ macos/Flutter/GeneratedPluginRegistrant.swift
 
 coverage/
 
-service-account-key.json
+**.mocks.dart
