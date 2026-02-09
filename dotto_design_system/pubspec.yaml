@@ -6,13 +6,13 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  widgetbook:
-  widgetbook_annotation:
+  widgetbook: 3.3.0
+  widgetbook_annotation: 3.9.0
 
 dev_dependencies:
-  build_runner:
-  very_good_analysis:
-  widgetbook_generator:
+  build_runner: 2.10.5
+  very_good_analysis: 10.0.0
+  widgetbook_generator: 3.20.1
 
 flutter:
   uses-material-design: true
