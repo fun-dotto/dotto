@@ -10,9 +10,7 @@ final class TimetableViewStyleNotifier extends _$TimetableViewStyleNotifier {
   }
 
   void toggle() {
-    state = state == TimetableViewStyle.table
-        ? TimetableViewStyle.list
-        : TimetableViewStyle.table;
+    state = state == TimetableViewStyle.table ? TimetableViewStyle.list : TimetableViewStyle.table;
   }
 }
 

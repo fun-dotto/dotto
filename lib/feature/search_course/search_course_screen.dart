@@ -16,12 +16,7 @@ final class SearchCourseScreen extends ConsumerWidget {
 
   Widget _body({
     required AsyncValue<SearchCourseViewModelState> viewModelAsync,
-    required void Function(
-      SearchCourseFilterOptions,
-      SearchCourseFilterOptionChoice,
-      bool?,
-    )
-    onChanged,
+    required void Function(SearchCourseFilterOptions, SearchCourseFilterOptionChoice, bool?) onChanged,
     required void Function() onCleared,
     required void Function() onSearchButtonTapped,
     required void Function(Map<String, dynamic>) onTapped,
@@ -43,9 +38,7 @@ final class SearchCourseScreen extends ConsumerWidget {
                 selectedChoicesMap: value.selectedChoicesMap,
                 onChanged: onChanged,
               ),
-              SearchCourseActionButtons(
-                onSearchButtonTapped: onSearchButtonTapped,
-              ),
+              SearchCourseActionButtons(onSearchButtonTapped: onSearchButtonTapped),
               SearchCourseResultSection(onTapped: onTapped),
             ],
           ),
@@ -69,16 +62,9 @@ final class SearchCourseScreen extends ConsumerWidget {
         viewModelAsync: viewModelAsync,
         onChanged: (filterOption, choice, isSelected) => ref
             .read(searchCourseViewModelProvider.notifier)
-            .onCheckboxTapped(
-              filterOption: filterOption,
-              choice: choice,
-              isSelected: isSelected,
-            ),
-        onCleared: () =>
-            ref.read(searchCourseViewModelProvider.notifier).onCleared(),
-        onSearchButtonTapped: () => ref
-            .read(searchCourseViewModelProvider.notifier)
-            .onSearchButtonTapped(),
+            .onCheckboxTapped(filterOption: filterOption, choice: choice, isSelected: isSelected),
+        onCleared: () => ref.read(searchCourseViewModelProvider.notifier).onCleared(),
+        onSearchButtonTapped: () => ref.read(searchCourseViewModelProvider.notifier).onSearchButtonTapped(),
         onTapped: (record) async {
           final lessonId = record['LessonId'] as int;
           final lessonName = record['授業名'] as String;
@@ -97,9 +83,7 @@ final class SearchCourseScreen extends ConsumerWidget {
               ),
             ),
           );
-          ref
-              .read(searchCourseViewModelProvider.notifier)
-              .onResultRowTapped(record);
+          ref.read(searchCourseViewModelProvider.notifier).onResultRowTapped(record);
         },
       ),
     );

@@ -6,26 +6,16 @@ import 'package:dotto/helper/user_preference_repository.dart';
 final class AssignmentRepository {
   factory AssignmentRepository() => _instance;
   AssignmentRepository._internal();
-  static final AssignmentRepository _instance =
-      AssignmentRepository._internal();
+  static final AssignmentRepository _instance = AssignmentRepository._internal();
 
   Future<List<KadaiList>> getKadaiFromFirebase() async {
-    final userKey = await UserPreferenceRepository.getString(
-      UserPreferenceKeys.userKey,
-    );
+    final userKey = await UserPreferenceRepository.getString(UserPreferenceKeys.userKey);
     final kadaiList = <Kadai>[];
-    final snapshot = await FirebaseRealtimeDatabaseRepository().getData(
-      'hope/users/dotto_hope_user_key_$userKey/data',
-    );
+    final snapshot = await FirebaseRealtimeDatabaseRepository().getData('hope/users/dotto_hope_user_key_$userKey/data');
     if (snapshot.exists) {
       final data = snapshot.value! as Map;
       for (final entry in data.entries) {
-        kadaiList.add(
-          Kadai.fromFirebase(
-            entry.key as String,
-            Map<String, dynamic>.from(entry.value as Map),
-          ),
-        );
+        kadaiList.add(Kadai.fromFirebase(entry.key as String, Map<String, dynamic>.from(entry.value as Map)));
       }
     } else {
       throw Exception();
@@ -55,14 +45,7 @@ final class AssignmentRepository {
       } else {
         if (courseId != null) {
           if (kadaiListTmp.isNotEmpty) {
-            returnList.add(
-              KadaiList(
-                courseId,
-                kadaiListTmp[0].courseName!,
-                endtime,
-                List.of(kadaiListTmp),
-              ),
-            );
+            returnList.add(KadaiList(courseId, kadaiListTmp[0].courseName!, endtime, List.of(kadaiListTmp)));
             kadaiListTmp.clear();
           }
         }

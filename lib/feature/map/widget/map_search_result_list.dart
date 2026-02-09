@@ -2,12 +2,7 @@ import 'package:dotto/domain/room.dart';
 import 'package:flutter/material.dart';
 
 final class MapSearchResultList extends StatelessWidget {
-  const MapSearchResultList({
-    required this.rooms,
-    required this.isFocused,
-    required this.onTapped,
-    super.key,
-  });
+  const MapSearchResultList({required this.rooms, required this.isFocused, required this.onTapped, super.key});
 
   final List<Room> rooms;
   final bool isFocused;
@@ -29,10 +24,7 @@ final class MapSearchResultList extends StatelessWidget {
               separatorBuilder: (_, _) => const Divider(height: 0),
               itemBuilder: (context, int index) {
                 final item = rooms[index];
-                return ListTile(
-                  title: Text(item.name),
-                  onTap: () => onTapped(item),
-                );
+                return ListTile(title: Text(item.name), onTap: () => onTapped(item));
               },
             ),
           ),

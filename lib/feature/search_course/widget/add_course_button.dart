@@ -17,10 +17,7 @@ final class AddCourseButton extends ConsumerWidget {
     return personalLessonIdList.when(
       data: (data) {
         return IconButton(
-          icon: Icon(
-            Icons.playlist_add,
-            color: data.contains(lessonId) ? Colors.green : Colors.black,
-          ),
+          icon: Icon(Icons.playlist_add, color: data.contains(lessonId) ? Colors.green : Colors.black),
           onPressed: () async {
             if (!data.contains(lessonId)) {
               if (await TimetableRepository().isOverSeleted(lessonId, ref)) {
@@ -28,23 +25,17 @@ final class AddCourseButton extends ConsumerWidget {
                   timetableIsOverSelectedSnackBar(context);
                 }
               } else {
-                TimetableRepository()
-                    .addPersonalTimetableList(lessonId, ref)
-                    .ignore();
+                TimetableRepository().addPersonalTimetableList(lessonId, ref).ignore();
               }
             } else {
-              TimetableRepository()
-                  .removePersonalTimetableList(lessonId, ref)
-                  .ignore();
+              TimetableRepository().removePersonalTimetableList(lessonId, ref).ignore();
             }
             await ref.read(twoWeekTimetableProvider.notifier).refresh();
           },
         );
       },
-      error: (error, stack) =>
-          IconButton(icon: const Icon(Icons.playlist_add), onPressed: () {}),
-      loading: () =>
-          IconButton(icon: const Icon(Icons.playlist_add), onPressed: () {}),
+      error: (error, stack) => IconButton(icon: const Icon(Icons.playlist_add), onPressed: () {}),
+      loading: () => IconButton(icon: const Icon(Icons.playlist_add), onPressed: () {}),
     );
   }
 }

@@ -15,23 +15,14 @@ import 'package:url_launcher/url_launcher_string.dart';
 final class RootScreen extends ConsumerWidget {
   const RootScreen({super.key});
 
-  Widget _updateAlertDialog({
-    required BuildContext context,
-    required String appStorePageUrl,
-  }) {
+  Widget _updateAlertDialog({required BuildContext context, required String appStorePageUrl}) {
     return AlertDialog(
       title: const Text('アップデートが必要です'),
       content: const Text('最新版のDottoをご利用ください。'),
       actions: [
+        TextButton(onPressed: () => Navigator.of(context).pop(), child: const Text('あとで')),
         TextButton(
-          onPressed: () => Navigator.of(context).pop(),
-          child: const Text('あとで'),
-        ),
-        TextButton(
-          onPressed: () => launchUrlString(
-            appStorePageUrl,
-            mode: LaunchMode.externalApplication,
-          ),
+          onPressed: () => launchUrlString(appStorePageUrl, mode: LaunchMode.externalApplication),
           child: const Text('今すぐアップデート'),
         ),
       ],
@@ -55,9 +46,7 @@ final class RootScreen extends ConsumerWidget {
                     return MaterialPageRoute(
                       builder: (context) => switch (tabItemOnce) {
                         TabItem.home => const HomeScreen(),
-                        TabItem.map => MapScreen(
-                          onGoToSettingButtonTapped: onGoToSettingButtonTapped,
-                        ),
+                        TabItem.map => MapScreen(onGoToSettingButtonTapped: onGoToSettingButtonTapped),
                         TabItem.course => const SearchCourseScreen(),
                         TabItem.assignment => const AssignmentListScreen(),
                         TabItem.setting => const SettingsScreen(),
@@ -101,17 +90,11 @@ final class RootScreen extends ConsumerWidget {
       case AsyncData(:final value):
         if (!value.hasShownAppTutorial) {
           debugPrint('Show App Tutorial');
-          return AppTutorial(
-            onDismissed: () => ref
-                .read(rootViewModelProvider.notifier)
-                .onAppTutorialDismissed(),
-          );
+          return AppTutorial(onDismissed: () => ref.read(rootViewModelProvider.notifier).onAppTutorialDismissed());
         }
         if (!value.isValidAppVersion) {
           debugPrint('Invalid App Version');
-          return InvalidAppVersionScreen(
-            appStorePageUrl: value.appStorePageUrl,
-          );
+          return InvalidAppVersionScreen(appStorePageUrl: value.appStorePageUrl);
         }
 
         WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -120,10 +103,7 @@ final class RootScreen extends ConsumerWidget {
             ref.read(rootViewModelProvider.notifier).onUpdateAlertShown();
             showDialog<void>(
               context: context,
-              builder: (context) => _updateAlertDialog(
-                context: context,
-                appStorePageUrl: value.appStorePageUrl,
-              ),
+              builder: (context) => _updateAlertDialog(context: context, appStorePageUrl: value.appStorePageUrl),
             );
           }
         });
@@ -133,15 +113,12 @@ final class RootScreen extends ConsumerWidget {
           body: _body(
             context: context,
             viewModel: value,
-            onGoToSettingButtonTapped: () => ref
-                .read(rootViewModelProvider.notifier)
-                .onGoToSettingButtonTapped(),
+            onGoToSettingButtonTapped: () => ref.read(rootViewModelProvider.notifier).onGoToSettingButtonTapped(),
           ),
           bottomNavigationBar: _bottomNavigationBar(
             context: context,
             viewModel: value,
-            onTabItemTapped: (index) =>
-                ref.read(rootViewModelProvider.notifier).onTabItemTapped(index),
+            onTabItemTapped: (index) => ref.read(rootViewModelProvider.notifier).onTabItemTapped(index),
           ),
         );
 
@@ -150,10 +127,7 @@ final class RootScreen extends ConsumerWidget {
         return const SizedBox.shrink();
 
       case AsyncLoading():
-        return const Scaffold(
-          resizeToAvoidBottomInset: false,
-          body: Center(child: CircularProgressIndicator()),
-        );
+        return const Scaffold(resizeToAvoidBottomInset: false, body: Center(child: CircularProgressIndicator()));
     }
   }
 }

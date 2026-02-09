@@ -10,45 +10,19 @@ final class ConfigNotifier extends _$ConfigNotifier {
   Config build() {
     final remoteConfigRepository = ref.read(remoteConfigHelperProvider);
 
-    final isDesignV2Enabled = remoteConfigRepository.getBool(
-      RemoteConfigKeys.isDesignV2Enabled,
-    );
-    final isFunchEnabled = remoteConfigRepository.getBool(
-      RemoteConfigKeys.isFunchEnabled,
-    );
-    final isValidAppVersion = remoteConfigRepository.getBool(
-      RemoteConfigKeys.isValidAppVersion,
-    );
-    final isLatestAppVersion = remoteConfigRepository.getBool(
-      RemoteConfigKeys.isLatestAppVersion,
-    );
-    final announcementsUrl = remoteConfigRepository.getString(
-      RemoteConfigKeys.announcementsUrl,
-    );
-    final assignmentSetupUrl = remoteConfigRepository.getString(
-      RemoteConfigKeys.assignmentSetupUrl,
-    );
-    final feedbackFormUrl = remoteConfigRepository.getString(
-      RemoteConfigKeys.feedbackFormUrl,
-    );
-    final termsOfServiceUrl = remoteConfigRepository.getString(
-      RemoteConfigKeys.termsOfServiceUrl,
-    );
-    final privacyPolicyUrl = remoteConfigRepository.getString(
-      RemoteConfigKeys.privacyPolicyUrl,
-    );
-    final appStorePageUrl = remoteConfigRepository.getString(
-      RemoteConfigKeys.appStorePageUrl,
-    );
-    final officialCalendarPdfUrl = remoteConfigRepository.getString(
-      RemoteConfigKeys.officialCalendarPdfUrl,
-    );
-    final timetable1PdfUrl = remoteConfigRepository.getString(
-      RemoteConfigKeys.timetable1PdfUrl,
-    );
-    final timetable2PdfUrl = remoteConfigRepository.getString(
-      RemoteConfigKeys.timetable2PdfUrl,
-    );
+    final isDesignV2Enabled = remoteConfigRepository.getBool(RemoteConfigKeys.isDesignV2Enabled);
+    final isFunchEnabled = remoteConfigRepository.getBool(RemoteConfigKeys.isFunchEnabled);
+    final isValidAppVersion = remoteConfigRepository.getBool(RemoteConfigKeys.isValidAppVersion);
+    final isLatestAppVersion = remoteConfigRepository.getBool(RemoteConfigKeys.isLatestAppVersion);
+    final announcementsUrl = remoteConfigRepository.getString(RemoteConfigKeys.announcementsUrl);
+    final assignmentSetupUrl = remoteConfigRepository.getString(RemoteConfigKeys.assignmentSetupUrl);
+    final feedbackFormUrl = remoteConfigRepository.getString(RemoteConfigKeys.feedbackFormUrl);
+    final termsOfServiceUrl = remoteConfigRepository.getString(RemoteConfigKeys.termsOfServiceUrl);
+    final privacyPolicyUrl = remoteConfigRepository.getString(RemoteConfigKeys.privacyPolicyUrl);
+    final appStorePageUrl = remoteConfigRepository.getString(RemoteConfigKeys.appStorePageUrl);
+    final officialCalendarPdfUrl = remoteConfigRepository.getString(RemoteConfigKeys.officialCalendarPdfUrl);
+    final timetable1PdfUrl = remoteConfigRepository.getString(RemoteConfigKeys.timetable1PdfUrl);
+    final timetable2PdfUrl = remoteConfigRepository.getString(RemoteConfigKeys.timetable2PdfUrl);
 
     return Config(
       isDesignV2Enabled: isDesignV2Enabled,

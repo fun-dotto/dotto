@@ -11,18 +11,12 @@ final class SearchCourseUsecase {
   static final SearchCourseUsecase _instance = SearchCourseUsecase._internal();
 
   Future<Grade?> getUserGrade() async {
-    final deprecatedGradeKey = await UserPreferenceRepository.getString(
-      UserPreferenceKeys.grade,
-    );
+    final deprecatedGradeKey = await UserPreferenceRepository.getString(UserPreferenceKeys.grade);
     return Grade.fromDeprecatedUserPreferenceKey(deprecatedGradeKey ?? '');
   }
 
   Future<AcademicArea?> getUserAcademicArea() async {
-    final deprecatedAcademicAreaKey = await UserPreferenceRepository.getString(
-      UserPreferenceKeys.course,
-    );
-    return AcademicArea.fromDeprecatedUserPreferenceKey(
-      deprecatedAcademicAreaKey ?? '',
-    );
+    final deprecatedAcademicAreaKey = await UserPreferenceRepository.getString(UserPreferenceKeys.course);
+    return AcademicArea.fromDeprecatedUserPreferenceKey(deprecatedAcademicAreaKey ?? '');
   }
 }

@@ -32,31 +32,11 @@ class MapViewModel extends _$MapViewModel {
 
   void onFloorButtonTapped(Floor floor) {
     state.value?.focusNode.unfocus();
-    final newState = state.value?.copyWith(
-      selectedFloor: floor,
-      focusedMapTileProps: null,
-    );
+    final newState = state.value?.copyWith(selectedFloor: floor, focusedMapTileProps: null);
     if (newState != null) {
       state = AsyncData(newState);
     }
-    state.value?.transformationController.value = Matrix4(
-      1,
-      0,
-      0,
-      0,
-      0,
-      1,
-      0,
-      0,
-      0,
-      0,
-      1,
-      0,
-      0,
-      0,
-      0,
-      1,
-    );
+    state.value?.transformationController.value = Matrix4(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
   }
 
   Future<void> onSearchTextChanged(String query) async {
@@ -93,10 +73,7 @@ class MapViewModel extends _$MapViewModel {
               room.name.toLowerCase().contains(query.toLowerCase()) ||
               room.description.toLowerCase().contains(query.toLowerCase()) ||
               room.email.toLowerCase().contains(query.toLowerCase()) ||
-              room.keywords.any(
-                (keyword) =>
-                    keyword.toLowerCase().contains(query.toLowerCase()),
-              ),
+              room.keywords.any((keyword) => keyword.toLowerCase().contains(query.toLowerCase())),
         )
         .toList();
   }
@@ -105,9 +82,7 @@ class MapViewModel extends _$MapViewModel {
     state.value?.focusNode.unfocus();
     final newState = state.value?.copyWith(
       selectedFloor: room.floor,
-      focusedMapTileProps: ref
-          .read(funMapProvider)
-          .firstWhereOrNull((e) => e.id == room.id),
+      focusedMapTileProps: ref.read(funMapProvider).firstWhereOrNull((e) => e.id == room.id),
     );
     if (newState != null) {
       state = AsyncData(newState);

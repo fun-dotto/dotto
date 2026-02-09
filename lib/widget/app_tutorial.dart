@@ -66,14 +66,7 @@ final class AppTutorial extends StatelessWidget {
     final backgroundColor = SemanticColor.accentMaterialColor.shade50;
     final pages = [
       PageModel.withChild(
-        child: _withImage(
-          context,
-          topMargin,
-          Asset.tutorialHome,
-          'ホーム',
-          '時間割を設定でき、休講・補講情報などの確認をできます',
-          backgroundColor,
-        ),
+        child: _withImage(context, topMargin, Asset.tutorialHome, 'ホーム', '時間割を設定でき、休講・補講情報などの確認をできます', backgroundColor),
         color: backgroundColor,
       ),
       PageModel.withChild(
@@ -88,14 +81,7 @@ final class AppTutorial extends StatelessWidget {
         color: backgroundColor,
       ),
       PageModel.withChild(
-        child: _withImage(
-          context,
-          topMargin,
-          Asset.tutorialKamoku,
-          '科目検索',
-          'シラバスから科目を検索できます',
-          backgroundColor,
-        ),
+        child: _withImage(context, topMargin, Asset.tutorialKamoku, '科目検索', 'シラバスから科目を検索できます', backgroundColor),
         color: backgroundColor,
       ),
       PageModel.withChild(
@@ -112,10 +98,7 @@ final class AppTutorial extends StatelessWidget {
       PageModel.withChild(
         child: Padding(
           padding: const EdgeInsets.only(bottom: 25),
-          child: Text(
-            'さあ、始めましょう！',
-            style: Theme.of(context).textTheme.headlineMedium,
-          ),
+          child: Text('さあ、始めましょう！', style: Theme.of(context).textTheme.headlineMedium),
         ),
         color: SemanticColor.accentMaterialColor.shade100,
         doAnimateChild: true,

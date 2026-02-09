@@ -1,8 +1,7 @@
 import 'package:dotto/feature/funch/domain/funch_menu_category.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final funchMenuCategoryProvider =
-    NotifierProvider<FunchMenuCategoryNotifier, FunchMenuCategory>(() {
+final funchMenuCategoryProvider = NotifierProvider<FunchMenuCategoryNotifier, FunchMenuCategory>(() {
   return FunchMenuCategoryNotifier();
 });
 
@@ -15,7 +14,7 @@ final class FunchMenuCategoryNotifier extends Notifier<FunchMenuCategory> {
   }
 
   FunchMenuCategory get menuCategory => state;
-  
+
   set menuCategory(FunchMenuCategory type) {
     state = type;
   }

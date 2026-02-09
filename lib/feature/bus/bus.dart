@@ -19,12 +19,7 @@ final GlobalKey<State<StatefulWidget>> busKey = GlobalKey();
 final class BusScreen extends ConsumerWidget {
   const BusScreen({super.key});
 
-  Widget busStopButton(
-    BuildContext context,
-    void Function()? onPressed,
-    IconData icon,
-    String title,
-  ) {
+  Widget busStopButton(BuildContext context, void Function()? onPressed, IconData icon, String title) {
     final width = MediaQuery.sizeOf(context).width * 0.3;
     const double height = 80;
     return Container(
@@ -38,9 +33,7 @@ final class BusScreen extends ConsumerWidget {
           backgroundColor: Colors.white,
           fixedSize: Size(width, height),
           padding: const EdgeInsets.all(3),
-          shape: ContinuousRectangleBorder(
-            borderRadius: BorderRadius.circular(15),
-          ),
+          shape: ContinuousRectangleBorder(borderRadius: BorderRadius.circular(15)),
           elevation: title == '未来大' ? 0 : null,
         ),
         onPressed: onPressed,
@@ -53,11 +46,7 @@ final class BusScreen extends ConsumerWidget {
             children: [
               Icon(icon, color: Colors.grey, size: 28),
               const SizedBox(height: 5),
-              Text(
-                title,
-                style: Theme.of(context).textTheme.labelMedium,
-                overflow: TextOverflow.ellipsis,
-              ),
+              Text(title, style: Theme.of(context).textTheme.labelMedium, overflow: TextOverflow.ellipsis),
             ],
           ),
         ),
@@ -107,67 +96,49 @@ final class BusScreen extends ConsumerWidget {
     var arriveAtSoon = true;
     final busListWidget = busData.when(
       data: (data) {
-        final busListWidget =
-            data[fromToString]![busIsWeekday ? 'weekday' : 'holiday']!.map((
-              busTrip,
-            ) {
-              final funBusTripStop = busTrip.stops.firstWhereOrNull(
-                (element) => element.stop.id == 14023,
-              );
-              if (funBusTripStop == null) {
-                return Container();
-              }
-              var targetBusTripStop = busTrip.stops.firstWhereOrNull(
-                (element) => element.stop.id == myBusStop.id,
-              );
-              var kameda = false;
-              if (targetBusTripStop == null) {
-                targetBusTripStop = busTrip.stops.firstWhere(
-                  (element) => element.stop.id == 14013,
-                );
-                kameda = true;
-              }
-              final fromBusTripStop = busIsTo
-                  ? targetBusTripStop
-                  : funBusTripStop;
-              final toBusTripStop = busIsTo
-                  ? funBusTripStop
-                  : targetBusTripStop;
-              final now = busPolling;
-              final nowDuration = Duration(
-                hours: now.hour,
-                minutes: now.minute,
-              );
-              final arriveAt = fromBusTripStop.time - nowDuration;
-              var hasKey = false;
-              if (arriveAtSoon && arriveAt > Duration.zero) {
-                arriveAtSoon = false;
-                hasKey = true;
-              }
-              return InkWell(
-                onTap: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute<void>(
-                      builder: (context) => BusTimetableScreen(busTrip),
-                      settings: const RouteSettings(
-                        name: '/home/bus/bus_timetable',
-                      ),
-                    ),
-                  );
-                },
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: BusCard(
-                    busTrip.route,
-                    fromBusTripStop.time,
-                    toBusTripStop.time,
-                    arriveAt,
-                    isKameda: kameda,
-                    key: hasKey ? busKey : null,
-                  ),
+        final busListWidget = data[fromToString]![busIsWeekday ? 'weekday' : 'holiday']!.map((busTrip) {
+          final funBusTripStop = busTrip.stops.firstWhereOrNull((element) => element.stop.id == 14023);
+          if (funBusTripStop == null) {
+            return Container();
+          }
+          var targetBusTripStop = busTrip.stops.firstWhereOrNull((element) => element.stop.id == myBusStop.id);
+          var kameda = false;
+          if (targetBusTripStop == null) {
+            targetBusTripStop = busTrip.stops.firstWhere((element) => element.stop.id == 14013);
+            kameda = true;
+          }
+          final fromBusTripStop = busIsTo ? targetBusTripStop : funBusTripStop;
+          final toBusTripStop = busIsTo ? funBusTripStop : targetBusTripStop;
+          final now = busPolling;
+          final nowDuration = Duration(hours: now.hour, minutes: now.minute);
+          final arriveAt = fromBusTripStop.time - nowDuration;
+          var hasKey = false;
+          if (arriveAtSoon && arriveAt > Duration.zero) {
+            arriveAtSoon = false;
+            hasKey = true;
+          }
+          return InkWell(
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute<void>(
+                  builder: (context) => BusTimetableScreen(busTrip),
+                  settings: const RouteSettings(name: '/home/bus/bus_timetable'),
                 ),
               );
-            }).toList();
+            },
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: BusCard(
+                busTrip.route,
+                fromBusTripStop.time,
+                toBusTripStop.time,
+                arriveAt,
+                isKameda: kameda,
+                key: hasKey ? busKey : null,
+              ),
+            ),
+          );
+        }).toList();
         return SingleChildScrollView(
           controller: scrollController,
           child: Column(spacing: 8, children: busListWidget),
@@ -203,10 +174,7 @@ final class BusScreen extends ConsumerWidget {
             type: DottoButtonType.text,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Icon(Icons.swap_horiz_outlined),
-                Text("${busIsWeekday ? "土日" : "平日"}へ "),
-              ],
+              children: [const Icon(Icons.swap_horiz_outlined), Text("${busIsWeekday ? "土日" : "平日"}へ ")],
             ),
           ),
         ],
@@ -217,18 +185,12 @@ final class BusScreen extends ConsumerWidget {
             padding: const EdgeInsets.all(20),
             child: Column(
               children: [
-                Image.asset(
-                  Asset.bus,
-                  width: MediaQuery.of(context).size.width * 0.57,
-                ),
+                Image.asset(Asset.bus, width: MediaQuery.of(context).size.width * 0.57),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     departure,
-                    Stack(
-                      alignment: AlignmentDirectional.center,
-                      children: [btnChange],
-                    ),
+                    Stack(alignment: AlignmentDirectional.center, children: [btnChange]),
                     destination,
                   ],
                 ),

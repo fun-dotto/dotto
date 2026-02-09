@@ -9,9 +9,7 @@ part 'assignments_controller.g.dart';
 final class AssignmentsNotifier extends _$AssignmentsNotifier {
   @override
   Future<List<KadaiList>> build() async {
-    final userKey = await UserPreferenceRepository.getString(
-      UserPreferenceKeys.userKey,
-    );
+    final userKey = await UserPreferenceRepository.getString(UserPreferenceKeys.userKey);
     if (userKey == null || userKey.isEmpty) {
       throw Exception('User key is not set.');
     }

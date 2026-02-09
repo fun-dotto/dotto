@@ -19,10 +19,7 @@ final class CourseCancellationScreen extends ConsumerWidget {
       itemBuilder: (context, index) {
         final item = list[index];
         return ListTile(
-          title: Text(
-            '${item.date} ${item.period}限',
-            style: Theme.of(context).textTheme.labelMedium,
-          ),
+          title: Text('${item.date} ${item.period}限', style: Theme.of(context).textTheme.labelMedium),
           subtitle: Text(
             '${item.lessonName}\n'
             '${item.comment}',
@@ -42,28 +39,20 @@ final class CourseCancellationScreen extends ConsumerWidget {
       );
     }
     final courseCancellations = ref.watch(courseCancellationProvider);
-    final isFilteredOnlyTakingCourseCancellation = ref.watch(
-      isFilteredOnlyTakingCourseCancellationProvider,
-    );
+    final isFilteredOnlyTakingCourseCancellation = ref.watch(isFilteredOnlyTakingCourseCancellationProvider);
     return Scaffold(
       appBar: AppBar(
         title: const Text('休講・補講'),
         actions: <Widget>[
           DottoButton(
             onPressed: () {
-              ref
-                  .read(isFilteredOnlyTakingCourseCancellationProvider.notifier)
-                  .toggle();
+              ref.read(isFilteredOnlyTakingCourseCancellationProvider.notifier).toggle();
             },
             type: DottoButtonType.text,
             child: Row(
               spacing: 4,
               children: [
-                Icon(
-                  isFilteredOnlyTakingCourseCancellation
-                      ? Icons.filter_alt
-                      : Icons.filter_alt_outlined,
-                ),
+                Icon(isFilteredOnlyTakingCourseCancellation ? Icons.filter_alt : Icons.filter_alt_outlined),
                 Text(isFilteredOnlyTakingCourseCancellation ? '履修中' : 'すべて'),
               ],
             ),
@@ -72,8 +61,7 @@ final class CourseCancellationScreen extends ConsumerWidget {
       ),
       body: courseCancellations.when(
         data: createListView,
-        error: (error, stackTrace) =>
-            const Center(child: Text('データの取得に失敗しました。')),
+        error: (error, stackTrace) => const Center(child: Text('データの取得に失敗しました。')),
         loading: () => const Center(child: CircularProgressIndicator()),
       ),
     );

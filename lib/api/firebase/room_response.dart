@@ -16,6 +16,5 @@ abstract class RoomResponse with _$RoomResponse {
     required List<String>? searchWordList,
   }) = _RoomResponse;
 
-  factory RoomResponse.fromJson(Map<String, Object?> json) =>
-      _$RoomResponseFromJson(json);
+  factory RoomResponse.fromJson(Map<String, Object?> json) => _$RoomResponseFromJson(json);
 }

@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
 
 final class SearchCourseCheckboxItem extends StatelessWidget {
-  const SearchCourseCheckboxItem({
-    required this.label,
-    required this.isSelected,
-    required this.onChanged,
-    super.key,
-  });
+  const SearchCourseCheckboxItem({required this.label, required this.isSelected, required this.onChanged, super.key});
 
   final String label;
   final bool isSelected;

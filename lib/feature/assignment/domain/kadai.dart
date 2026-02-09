@@ -1,29 +1,16 @@
 final class Kadai {
-  Kadai(
-    this.id,
-    this.courseId,
-    this.courseName,
-    this.name,
-    this.url,
-    this.starttime,
-    this.endtime,
-  );
+  Kadai(this.id, this.courseId, this.courseName, this.name, this.url, this.starttime, this.endtime);
 
   factory Kadai.fromFirebase(String id, Map<String, dynamic> data) {
     return Kadai(
-        int.parse(id),
-        data['course_id'] as int?,
-        data['course_name'] as String?,
-        data['name'] as String?,
-        data['url'] as String?,
-        data['starttime'] == 0
-            ? null
-            : DateTime.fromMillisecondsSinceEpoch(
-                (data['starttime'] as int) * 1000),
-        data['endtime'] == 0
-            ? null
-            : DateTime.fromMillisecondsSinceEpoch(
-                (data['endtime'] as int) * 1000));
+      int.parse(id),
+      data['course_id'] as int?,
+      data['course_name'] as String?,
+      data['name'] as String?,
+      data['url'] as String?,
+      data['starttime'] == 0 ? null : DateTime.fromMillisecondsSinceEpoch((data['starttime'] as int) * 1000),
+      data['endtime'] == 0 ? null : DateTime.fromMillisecondsSinceEpoch((data['endtime'] as int) * 1000),
+    );
   }
   final int? id;
   final int? courseId;
@@ -35,12 +22,7 @@ final class Kadai {
 }
 
 final class KadaiList {
-  KadaiList(
-    this.courseId,
-    this.courseName,
-    this.endtime,
-    this.listKadai,
-  );
+  KadaiList(this.courseId, this.courseName, this.endtime, this.listKadai);
 
   final int courseId;
   final String courseName;

@@ -19,25 +19,12 @@ void main() {
   final listener = MockListener<AsyncValue<AnnouncementViewState>>();
 
   final testAnnouncements = [
-    Announcement(
-      id: '1',
-      title: 'お知らせ1',
-      date: DateTime(2025, 1, 1),
-      url: 'https://example.com/announcement1',
-    ),
-    Announcement(
-      id: '2',
-      title: 'お知らせ2',
-      date: DateTime(2025, 1, 2),
-      url: 'https://example.com/announcement2',
-    ),
+    Announcement(id: '1', title: 'お知らせ1', date: DateTime(2025, 1, 1), url: 'https://example.com/announcement1'),
+    Announcement(id: '2', title: 'お知らせ2', date: DateTime(2025, 1, 2), url: 'https://example.com/announcement2'),
   ];
 
-  ProviderContainer createContainer() => ProviderContainer(
-    overrides: [
-      announcementRepositoryProvider.overrideWithValue(announcementRepository),
-    ],
-  );
+  ProviderContainer createContainer() =>
+      ProviderContainer(overrides: [announcementRepositoryProvider.overrideWithValue(announcementRepository)]);
 
   setUp(() {
     reset(listener);
@@ -53,37 +40,19 @@ void main() {
     });
 
     test('初期状態が正しく設定される', () async {
-      final container = createContainer()
-        ..listen(
-          announcementViewModelProvider,
-          listener.call,
-          fireImmediately: true,
-        );
+      final container = createContainer()..listen(announcementViewModelProvider, listener.call, fireImmediately: true);
 
       await expectLater(
         container.read(announcementViewModelProvider.notifier).future,
-        completion(
-          isA<AnnouncementViewState>().having(
-            (p0) => p0.announcements,
-            'announcements',
-            testAnnouncements,
-          ),
-        ),
+        completion(isA<AnnouncementViewState>().having((p0) => p0.announcements, 'announcements', testAnnouncements)),
       );
     });
 
     test('お知らせが正しく取得される', () async {
-      final container = createContainer()
-        ..listen(
-          announcementViewModelProvider,
-          listener.call,
-          fireImmediately: true,
-        );
+      final container = createContainer()..listen(announcementViewModelProvider, listener.call, fireImmediately: true);
 
       // 初期状態を待つ
-      final initialState = await container
-          .read(announcementViewModelProvider.notifier)
-          .future;
+      final initialState = await container.read(announcementViewModelProvider.notifier).future;
 
       expect(initialState.announcements, testAnnouncements);
       expect(initialState.announcements.length, 2);
@@ -102,17 +71,10 @@ void main() {
         return <Announcement>[];
       });
 
-      final container = createContainer()
-        ..listen(
-          announcementViewModelProvider,
-          listener.call,
-          fireImmediately: true,
-        );
+      final container = createContainer()..listen(announcementViewModelProvider, listener.call, fireImmediately: true);
 
       // 初期状態を待つ
-      final initialState = await container
-          .read(announcementViewModelProvider.notifier)
-          .future;
+      final initialState = await container.read(announcementViewModelProvider.notifier).future;
 
       expect(initialState.announcements, isEmpty);
 
@@ -129,12 +91,7 @@ void main() {
     });
 
     test('お知らせの取得に失敗した場合にエラーがthrowされる', () async {
-      final container = createContainer()
-        ..listen(
-          announcementViewModelProvider,
-          listener.call,
-          fireImmediately: true,
-        );
+      final container = createContainer()..listen(announcementViewModelProvider, listener.call, fireImmediately: true);
 
       // AsyncValue がエラー状態になるまで待つ
       var asyncValue = container.read(announcementViewModelProvider);

@@ -3,9 +3,7 @@ import 'package:dotto/domain/announcement.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final announcementRepositoryProvider = Provider<AnnouncementRepository>(
-  (ref) => AnnouncementRepositoryImpl(ref),
-);
+final announcementRepositoryProvider = Provider<AnnouncementRepository>((ref) => AnnouncementRepositoryImpl(ref));
 
 abstract class AnnouncementRepository {
   Future<List<Announcement>> getAnnouncements();
@@ -28,16 +26,7 @@ final class AnnouncementRepositoryImpl implements AnnouncementRepository {
       if (data == null) {
         throw Exception('Failed to get announcements');
       }
-      return data.announcements
-          .map(
-            (e) => Announcement(
-              id: e.id,
-              title: e.title,
-              date: e.date,
-              url: e.url,
-            ),
-          )
-          .toList();
+      return data.announcements.map((e) => Announcement(id: e.id, title: e.title, date: e.date, url: e.url)).toList();
     } catch (e) {
       debugPrint(e.toString());
       rethrow;

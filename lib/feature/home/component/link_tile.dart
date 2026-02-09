@@ -2,12 +2,7 @@ import 'package:dotto_design_system/style/semantic_color.dart';
 import 'package:flutter/material.dart';
 
 final class LinkTile extends StatelessWidget {
-  const LinkTile({
-    required this.title,
-    required this.icon,
-    required this.onTap,
-    super.key,
-  });
+  const LinkTile({required this.title, required this.icon, required this.onTap, super.key});
 
   final String title;
   final String icon;
@@ -24,10 +19,7 @@ final class LinkTile extends StatelessWidget {
       child: InkWell(
         onTap: onTap,
         child: Padding(
-          padding: const EdgeInsets.symmetric(
-            vertical: 12,
-            horizontal: 16,
-          ),
+          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
           child: Row(
             spacing: 8,
             children: [
@@ -35,15 +27,10 @@ final class LinkTile extends StatelessWidget {
               Expanded(
                 child: Text(
                   title,
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: SemanticColor.light.labelPrimary,
-                  ),
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: SemanticColor.light.labelPrimary),
                 ),
               ),
-              Icon(
-                Icons.chevron_right,
-                color: SemanticColor.light.labelSecondary,
-              ),
+              Icon(Icons.chevron_right, color: SemanticColor.light.labelSecondary),
             ],
           ),
         ),

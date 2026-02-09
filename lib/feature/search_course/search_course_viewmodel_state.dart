@@ -10,11 +10,7 @@ part 'search_course_viewmodel_state.freezed.dart';
 @freezed
 abstract class SearchCourseViewModelState with _$SearchCourseViewModelState {
   const factory SearchCourseViewModelState({
-    required Map<
-      SearchCourseFilterOptions,
-      List<SearchCourseFilterOptionChoice>
-    >
-    selectedChoicesMap,
+    required Map<SearchCourseFilterOptions, List<SearchCourseFilterOptionChoice>> selectedChoicesMap,
     required Set<SearchCourseFilterOptions> visibilityStatus,
     required List<Map<String, dynamic>>? searchResults,
     required TextEditingController textEditingController,

@@ -25,10 +25,7 @@ final class BusStopSelectScreen extends ConsumerWidget {
                 .map(
                   (e) => ListTile(
                     onTap: () async {
-                      await UserPreferenceRepository.setInt(
-                        UserPreferenceKeys.myBusStop,
-                        e.id,
-                      );
+                      await UserPreferenceRepository.setInt(UserPreferenceKeys.myBusStop, e.id);
                       ref.read(myBusStopProvider.notifier).value = e;
                       if (context.mounted) {
                         Navigator.of(context).pop();

@@ -11,11 +11,7 @@ enum AcademicArea {
     deprecatedUserPreferenceKey: '情報デザイン',
     deprecatedFilterOptionChoiceKey: '情報デザインコース',
   ),
-  complexCourse(
-    label: '複雑系コース',
-    deprecatedUserPreferenceKey: '複雑',
-    deprecatedFilterOptionChoiceKey: '複雑系コース',
-  ),
+  complexCourse(label: '複雑系コース', deprecatedUserPreferenceKey: '複雑', deprecatedFilterOptionChoiceKey: '複雑系コース'),
   intelligenceSystemCourse(
     label: '知能システムコース',
     deprecatedUserPreferenceKey: '知能',
@@ -32,11 +28,7 @@ enum AcademicArea {
   intelligenceInformationScienceArea(label: '知能情報科学領域'),
   advancedICTArea(label: '高度ICT領域');
 
-  const AcademicArea({
-    required this.label,
-    this.deprecatedUserPreferenceKey,
-    this.deprecatedFilterOptionChoiceKey,
-  });
+  const AcademicArea({required this.label, this.deprecatedUserPreferenceKey, this.deprecatedFilterOptionChoiceKey});
 
   final String label;
   final String? deprecatedUserPreferenceKey;

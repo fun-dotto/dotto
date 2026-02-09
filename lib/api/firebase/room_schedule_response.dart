@@ -14,6 +14,5 @@ abstract class RoomScheduleResponse with _$RoomScheduleResponse {
     required String title,
   }) = _RoomScheduleResponse;
 
-  factory RoomScheduleResponse.fromJson(Map<String, Object?> json) =>
-      _$RoomScheduleResponseFromJson(json);
+  factory RoomScheduleResponse.fromJson(Map<String, Object?> json) => _$RoomScheduleResponseFromJson(json);
 }

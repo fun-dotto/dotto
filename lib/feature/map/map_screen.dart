@@ -62,10 +62,7 @@ final class MapScreen extends ConsumerWidget {
       child: Container(
         decoration: const BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(16),
-            topRight: Radius.circular(16),
-          ),
+          borderRadius: BorderRadius.only(topLeft: Radius.circular(16), topRight: Radius.circular(16)),
         ),
         child: isVisible
             ? MapDetailBottomSheet(
@@ -100,14 +97,10 @@ final class MapScreen extends ConsumerWidget {
                 textEditingController: viewModel.textEditingController,
                 focusNode: viewModel.focusNode,
                 onChanged: (value) {
-                  ref
-                      .read(mapViewModelProvider.notifier)
-                      .onSearchTextChanged(value);
+                  ref.read(mapViewModelProvider.notifier).onSearchTextChanged(value);
                 },
                 onSubmitted: (value) {
-                  ref
-                      .read(mapViewModelProvider.notifier)
-                      .onSearchTextSubmitted(value);
+                  ref.read(mapViewModelProvider.notifier).onSearchTextSubmitted(value);
                 },
                 onCleared: () {
                   ref.read(mapViewModelProvider.notifier).onSearchTextCleared();
@@ -127,9 +120,7 @@ final class MapScreen extends ConsumerWidget {
                           child: MapFloorButton(
                             selectedFloor: viewModel.selectedFloor,
                             onPressed: (floor) {
-                              ref
-                                  .read(mapViewModelProvider.notifier)
-                                  .onFloorButtonTapped(floor);
+                              ref.read(mapViewModelProvider.notifier).onFloorButtonTapped(floor);
                             },
                           ),
                         ),
@@ -140,24 +131,17 @@ final class MapScreen extends ConsumerWidget {
                           children: [
                             SizedBox.expand(
                               child: Map(
-                                mapViewTransformationController:
-                                    viewModel.transformationController,
+                                mapViewTransformationController: viewModel.transformationController,
                                 selectedFloor: viewModel.selectedFloor,
                                 rooms: viewModel.rooms,
-                                focusedMapTileProps:
-                                    viewModel.focusedMapTileProps,
+                                focusedMapTileProps: viewModel.focusedMapTileProps,
                                 dateTime: viewModel.searchDatetime,
                                 onTapped: (props, room) {
-                                  ref
-                                      .read(mapViewModelProvider.notifier)
-                                      .onMapTileTapped(props, room);
+                                  ref.read(mapViewModelProvider.notifier).onMapTileTapped(props, room);
                                 },
                               ),
                             ),
-                            const Padding(
-                              padding: EdgeInsets.only(left: 16),
-                              child: MapLegend(),
-                            ),
+                            const Padding(padding: EdgeInsets.only(left: 16), child: MapLegend()),
                           ],
                         ),
                       ),
@@ -169,31 +153,21 @@ final class MapScreen extends ConsumerWidget {
                           if (setDate.hour == 0) {
                             setDate = DateTime.now();
                           }
-                          ref
-                              .read(mapViewModelProvider.notifier)
-                              .onPeriodButtonTapped(setDate);
+                          ref.read(mapViewModelProvider.notifier).onPeriodButtonTapped(setDate);
                         },
                         onDatePickerConfirmed: (dateTime) async {
-                          ref
-                              .read(mapViewModelProvider.notifier)
-                              .onDatePickerConfirmed(dateTime);
+                          ref.read(mapViewModelProvider.notifier).onDatePickerConfirmed(dateTime);
                         },
                       ),
                     ],
                   ),
                   _bottomSheet(
-                    props: FUNMap.tileProps.firstWhereOrNull(
-                      (e) => e.id == viewModel.focusedMapTileProps?.id,
-                    ),
-                    room: viewModel.rooms.firstWhereOrNull(
-                      (e) => e.id == viewModel.focusedMapTileProps?.id,
-                    ),
+                    props: FUNMap.tileProps.firstWhereOrNull((e) => e.id == viewModel.focusedMapTileProps?.id),
+                    room: viewModel.rooms.firstWhereOrNull((e) => e.id == viewModel.focusedMapTileProps?.id),
                     dateTime: viewModel.searchDatetime,
                     isLoggedIn: user != null,
                     onDismissed: () {
-                      ref
-                          .read(mapViewModelProvider.notifier)
-                          .onBottomSheetDismissed();
+                      ref.read(mapViewModelProvider.notifier).onBottomSheetDismissed();
                     },
                     onGoToSettingButtonTapped: onGoToSettingButtonTapped,
                   ),
@@ -201,9 +175,7 @@ final class MapScreen extends ConsumerWidget {
                     rooms: viewModel.filteredRooms,
                     isFocused: viewModel.focusNode.hasFocus,
                     onTapped: (item) {
-                      ref
-                          .read(mapViewModelProvider.notifier)
-                          .onSearchResultRowTapped(item);
+                      ref.read(mapViewModelProvider.notifier).onSearchResultRowTapped(item);
                     },
                   ),
                 ],

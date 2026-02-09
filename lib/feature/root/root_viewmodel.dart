@@ -35,12 +35,8 @@ class RootViewModel extends _$RootViewModel {
           final userKey = query['userkey'];
           if (userKey == null) return;
           final userKeyPattern = RegExp(r'^[a-zA-Z0-9]{16}$');
-          if (userKey.isEmpty ||
-              (userKey.length == 16 && userKeyPattern.hasMatch(userKey))) {
-            UserPreferenceRepository.setString(
-              UserPreferenceKeys.userKey,
-              userKey,
-            );
+          if (userKey.isEmpty || (userKey.length == 16 && userKeyPattern.hasMatch(userKey))) {
+            UserPreferenceRepository.setString(UserPreferenceKeys.userKey, userKey);
             ref.invalidate(settingsUserKeyProvider);
           }
         })
@@ -51,10 +47,7 @@ class RootViewModel extends _$RootViewModel {
     await _saveFCMToken();
 
     final hasShownAppTutorial =
-        await UserPreferenceRepository.getBool(
-          UserPreferenceKeys.isAppTutorialComplete,
-        ) ??
-        false;
+        await UserPreferenceRepository.getBool(UserPreferenceKeys.isAppTutorialComplete) ?? false;
 
     final config = ref.read(configProvider);
 
@@ -65,10 +58,7 @@ class RootViewModel extends _$RootViewModel {
       isValidAppVersion: config.isValidAppVersion,
       isLatestAppVersion: config.isLatestAppVersion,
       appStorePageUrl: config.appStorePageUrl,
-      navigatorStates: {
-        for (final tabItem in TabItem.values)
-          tabItem: GlobalKey<NavigatorState>(),
-      },
+      navigatorStates: {for (final tabItem in TabItem.values) tabItem: GlobalKey<NavigatorState>()},
     );
   }
 
@@ -96,25 +86,16 @@ class RootViewModel extends _$RootViewModel {
   }
 
   void onGoToSettingButtonTapped() {
-    state = AsyncValue.data(
-      state.value!.copyWith(selectedTab: TabItem.setting),
-    );
+    state = AsyncValue.data(state.value!.copyWith(selectedTab: TabItem.setting));
   }
 
   void onAppTutorialDismissed() {
     state = AsyncValue.data(state.value!.copyWith(hasShownAppTutorial: true));
-    UserPreferenceRepository.setBool(
-      UserPreferenceKeys.isAppTutorialComplete,
-      value: true,
-    );
+    UserPreferenceRepository.setBool(UserPreferenceKeys.isAppTutorialComplete, value: true);
   }
 
   Future<void> _saveFCMToken() async {
-    final didSave =
-        await UserPreferenceRepository.getBool(
-          UserPreferenceKeys.didSaveFCMToken,
-        ) ??
-        false;
+    final didSave = await UserPreferenceRepository.getBool(UserPreferenceKeys.didSaveFCMToken) ?? false;
     if (didSave) {
       return;
     }
@@ -126,22 +107,13 @@ class RootViewModel extends _$RootViewModel {
     if (fcmToken != null && user != null) {
       final db = FirebaseFirestore.instance;
       final tokenRef = db.collection('fcm_token');
-      final tokenQuery = tokenRef
-          .where('uid', isEqualTo: user.uid)
-          .where('token', isEqualTo: fcmToken);
+      final tokenQuery = tokenRef.where('uid', isEqualTo: user.uid).where('token', isEqualTo: fcmToken);
       final tokenQuerySnapshot = await tokenQuery.get();
       final tokenDocs = tokenQuerySnapshot.docs;
       if (tokenDocs.isEmpty) {
-        await tokenRef.add({
-          'uid': user.uid,
-          'token': fcmToken,
-          'last_updated': Timestamp.now(),
-        });
+        await tokenRef.add({'uid': user.uid, 'token': fcmToken, 'last_updated': Timestamp.now()});
       }
-      await UserPreferenceRepository.setBool(
-        UserPreferenceKeys.didSaveFCMToken,
-        value: true,
-      );
+      await UserPreferenceRepository.setBool(UserPreferenceKeys.didSaveFCMToken, value: true);
     }
   }
 

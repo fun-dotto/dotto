@@ -2,10 +2,7 @@ import 'package:dotto_design_system/component/button.dart';
 import 'package:flutter/material.dart';
 
 final class SearchCourseActionButtons extends StatelessWidget {
-  const SearchCourseActionButtons({
-    required this.onSearchButtonTapped,
-    super.key,
-  });
+  const SearchCourseActionButtons({required this.onSearchButtonTapped, super.key});
 
   final void Function() onSearchButtonTapped;
 

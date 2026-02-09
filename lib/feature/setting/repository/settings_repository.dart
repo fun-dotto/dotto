@@ -19,18 +19,12 @@ final class SettingsRepository {
   Future<void> setUserKey(String userKey, WidgetRef ref) async {
     final userKeyPattern = RegExp(r'^[a-zA-Z0-9]{16}$');
     if (userKey.length == 16 && userKeyPattern.hasMatch(userKey)) {
-      await UserPreferenceRepository.setString(
-        UserPreferenceKeys.userKey,
-        userKey,
-      );
+      await UserPreferenceRepository.setString(UserPreferenceKeys.userKey, userKey);
       ref.invalidate(settingsUserKeyProvider);
       return;
     }
     if (userKey.isEmpty) {
-      await UserPreferenceRepository.setString(
-        UserPreferenceKeys.userKey,
-        userKey,
-      );
+      await UserPreferenceRepository.setString(UserPreferenceKeys.userKey, userKey);
       ref.invalidate(settingsUserKeyProvider);
     }
   }
@@ -42,45 +36,27 @@ final class SettingsRepository {
     }
     final db = FirebaseFirestore.instance;
     final tokenRef = db.collection('fcm_token');
-    final tokenQuery = tokenRef
-        .where('uid', isEqualTo: user.uid)
-        .where('token', isEqualTo: fcmToken);
+    final tokenQuery = tokenRef.where('uid', isEqualTo: user.uid).where('token', isEqualTo: fcmToken);
     final tokenQuerySnapshot = await tokenQuery.get();
     final tokenDocs = tokenQuerySnapshot.docs;
     if (tokenDocs.isEmpty) {
-      await tokenRef.add({
-        'uid': user.uid,
-        'token': fcmToken,
-        'last_updated': Timestamp.now(),
-      });
+      await tokenRef.add({'uid': user.uid, 'token': fcmToken, 'last_updated': Timestamp.now()});
     }
-    await UserPreferenceRepository.setBool(
-      UserPreferenceKeys.didSaveFCMToken,
-      value: true,
-    );
+    await UserPreferenceRepository.setBool(UserPreferenceKeys.didSaveFCMToken, value: true);
   }
 
-  Future<void> onLogin(
-    BuildContext context,
-    WidgetRef ref,
-    void Function(User?) callback,
-  ) async {
+  Future<void> onLogin(BuildContext context, WidgetRef ref, void Function(User?) callback) async {
     final user = await FirebaseAuthRepository().signIn();
     if (user != null) {
       callback(user);
       await saveFCMToken(user);
       if (context.mounted) {
-        await TimetableRepository().loadPersonalTimetableListOnLogin(
-          context,
-          ref,
-        );
+        await TimetableRepository().loadPersonalTimetableListOnLogin(context, ref);
       }
       return;
     }
     if (context.mounted) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text('ログインできませんでした。')));
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('ログインできませんでした。')));
     }
   }
 

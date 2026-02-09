@@ -36,11 +36,7 @@ class AssignmentPreferencesNotifier extends _$AssignmentPreferencesNotifier {
     final done = await _loadList(UserPreferenceKeys.kadaiFinishList);
     final alerts = await _loadList(UserPreferenceKeys.kadaiAlertList);
     final hidden = await _loadList(UserPreferenceKeys.kadaiDeleteList);
-    state = state.copyWith(
-      doneAssignmentIds: done,
-      alertAssignmentIds: alerts,
-      hiddenAssignmentIds: hidden,
-    );
+    state = state.copyWith(doneAssignmentIds: done, alertAssignmentIds: alerts, hiddenAssignmentIds: hidden);
   }
 
   Future<List<int>> _loadList(UserPreferenceKeys key) async {
@@ -50,11 +46,7 @@ class AssignmentPreferencesNotifier extends _$AssignmentPreferencesNotifier {
     }
     final decoded = json.decode(jsonString);
     if (decoded is List) {
-      return decoded
-          .map((e) => e is int ? e : int.tryParse(e.toString()))
-          .whereType<int>()
-          .toList()
-        ..sort();
+      return decoded.map((e) => e is int ? e : int.tryParse(e.toString())).whereType<int>().toList()..sort();
     }
     return [];
   }
@@ -76,9 +68,7 @@ class AssignmentPreferencesNotifier extends _$AssignmentPreferencesNotifier {
     final list = _sorted(updated);
     state = state.copyWith(doneAssignmentIds: list);
     await _saveList(UserPreferenceKeys.kadaiFinishList, list);
-    await ref
-        .read(loggerProvider)
-        .logSetAssignmentStatus(assignmentId: id.toString(), isDone: true);
+    await ref.read(loggerProvider).logSetAssignmentStatus(assignmentId: id.toString(), isDone: true);
     return true;
   }
 
@@ -90,9 +80,7 @@ class AssignmentPreferencesNotifier extends _$AssignmentPreferencesNotifier {
     final list = _sorted(updated);
     state = state.copyWith(doneAssignmentIds: list);
     await _saveList(UserPreferenceKeys.kadaiFinishList, list);
-    await ref
-        .read(loggerProvider)
-        .logSetAssignmentStatus(assignmentId: id.toString(), isDone: false);
+    await ref.read(loggerProvider).logSetAssignmentStatus(assignmentId: id.toString(), isDone: false);
     return true;
   }
 
@@ -112,9 +100,7 @@ class AssignmentPreferencesNotifier extends _$AssignmentPreferencesNotifier {
     state = state.copyWith(doneAssignmentIds: list);
     await _saveList(UserPreferenceKeys.kadaiFinishList, list);
     for (final id in changed) {
-      await ref
-          .read(loggerProvider)
-          .logSetAssignmentStatus(assignmentId: id.toString(), isDone: isDone);
+      await ref.read(loggerProvider).logSetAssignmentStatus(assignmentId: id.toString(), isDone: isDone);
     }
     return changed;
   }
@@ -127,12 +113,7 @@ class AssignmentPreferencesNotifier extends _$AssignmentPreferencesNotifier {
     final list = _sorted(updated);
     state = state.copyWith(alertAssignmentIds: list);
     await _saveList(UserPreferenceKeys.kadaiAlertList, list);
-    await ref
-        .read(loggerProvider)
-        .logSetAssignmentStatus(
-          assignmentId: id.toString(),
-          isAlertScheduled: true,
-        );
+    await ref.read(loggerProvider).logSetAssignmentStatus(assignmentId: id.toString(), isAlertScheduled: true);
     return true;
   }
 
@@ -144,12 +125,7 @@ class AssignmentPreferencesNotifier extends _$AssignmentPreferencesNotifier {
     final list = _sorted(updated);
     state = state.copyWith(alertAssignmentIds: list);
     await _saveList(UserPreferenceKeys.kadaiAlertList, list);
-    await ref
-        .read(loggerProvider)
-        .logSetAssignmentStatus(
-          assignmentId: id.toString(),
-          isAlertScheduled: false,
-        );
+    await ref.read(loggerProvider).logSetAssignmentStatus(assignmentId: id.toString(), isAlertScheduled: false);
     return true;
   }
 
@@ -167,12 +143,7 @@ class AssignmentPreferencesNotifier extends _$AssignmentPreferencesNotifier {
     state = state.copyWith(alertAssignmentIds: list);
     await _saveList(UserPreferenceKeys.kadaiAlertList, list);
     for (final id in added) {
-      await ref
-          .read(loggerProvider)
-          .logSetAssignmentStatus(
-            assignmentId: id.toString(),
-            isAlertScheduled: true,
-          );
+      await ref.read(loggerProvider).logSetAssignmentStatus(assignmentId: id.toString(), isAlertScheduled: true);
     }
     return added;
   }
@@ -191,12 +162,7 @@ class AssignmentPreferencesNotifier extends _$AssignmentPreferencesNotifier {
     state = state.copyWith(alertAssignmentIds: list);
     await _saveList(UserPreferenceKeys.kadaiAlertList, list);
     for (final id in removed) {
-      await ref
-          .read(loggerProvider)
-          .logSetAssignmentStatus(
-            assignmentId: id.toString(),
-            isAlertScheduled: false,
-          );
+      await ref.read(loggerProvider).logSetAssignmentStatus(assignmentId: id.toString(), isAlertScheduled: false);
     }
     return removed;
   }
@@ -220,18 +186,13 @@ class AssignmentPreferencesNotifier extends _$AssignmentPreferencesNotifier {
     }
     final hiddenList = _sorted(hidden);
     final alertList = _sorted(alerts);
-    state = state.copyWith(
-      hiddenAssignmentIds: hiddenList,
-      alertAssignmentIds: alertList,
-    );
+    state = state.copyWith(hiddenAssignmentIds: hiddenList, alertAssignmentIds: alertList);
     await Future.wait([
       _saveList(UserPreferenceKeys.kadaiDeleteList, hiddenList),
       _saveList(UserPreferenceKeys.kadaiAlertList, alertList),
     ]);
     for (final id in removedAlerts) {
-      await ref
-          .read(loggerProvider)
-          .logSetAssignmentStatus(assignmentId: id.toString(), isHidden: true);
+      await ref.read(loggerProvider).logSetAssignmentStatus(assignmentId: id.toString(), isHidden: true);
     }
     return removedAlerts;
   }

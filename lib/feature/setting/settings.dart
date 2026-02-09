@@ -23,17 +23,10 @@ import 'package:url_launcher/url_launcher_string.dart';
 final class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
 
-  Widget listDialog(
-    BuildContext context,
-    String title,
-    UserPreferenceKeys userPreferenceKeys,
-    List<String> list,
-  ) {
+  Widget listDialog(BuildContext context, String title, UserPreferenceKeys userPreferenceKeys, List<String> list) {
     return AlertDialog(
       title: Text(title),
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(10)),
-      ),
+      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
       content: SingleChildScrollView(
         child: SizedBox(
           width: double.maxFinite,
@@ -41,9 +34,7 @@ final class SettingsScreen extends ConsumerWidget {
             children: [
               const Divider(),
               ConstrainedBox(
-                constraints: BoxConstraints(
-                  maxHeight: MediaQuery.of(context).size.height * 0.5,
-                ),
+                constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.5),
                 child: ListView.builder(
                   shrinkWrap: true,
                   itemCount: list.length,
@@ -51,10 +42,7 @@ final class SettingsScreen extends ConsumerWidget {
                     return ListTile(
                       title: Text(list[index]),
                       onTap: () async {
-                        await UserPreferenceRepository.setString(
-                          userPreferenceKeys,
-                          list[index],
-                        );
+                        await UserPreferenceRepository.setString(userPreferenceKeys, list[index]);
                         if (context.mounted) {
                           Navigator.of(context).pop(list[index]);
                         }
@@ -94,25 +82,13 @@ final class SettingsScreen extends ConsumerWidget {
                     ? (user == null)
                           ? null
                           : const Text('ログアウト')
-                    : Text(
-                        (user == null)
-                            ? 'Googleアカウント (@fun.ac.jp)'
-                            : '${user.email}でログイン中',
-                      ),
+                    : Text((user == null) ? 'Googleアカウント (@fun.ac.jp)' : '${user.email}でログイン中'),
                 description: (Platform.isIOS)
-                    ? Text(
-                        (user == null)
-                            ? 'Googleアカウント (@fun.ac.jp)'
-                            : '${user.email}でログイン中',
-                      )
+                    ? Text((user == null) ? 'Googleアカウント (@fun.ac.jp)' : '${user.email}でログイン中')
                     : null,
                 leading: Icon((user == null) ? Icons.login : Icons.logout),
                 onPressed: (user == null)
-                    ? (_) => SettingsRepository().onLogin(
-                        context,
-                        ref,
-                        (User? user) => userNotifier.user = user,
-                      )
+                    ? (_) => SettingsRepository().onLogin(context, ref, (User? user) => userNotifier.user = user)
                     : (_) => SettingsRepository().onLogout(userNotifier.logout),
               ),
               // 学年
@@ -121,12 +97,7 @@ final class SettingsScreen extends ConsumerWidget {
                   final returnText = await showDialog<String>(
                     context: context,
                     builder: (_) {
-                      return listDialog(
-                        context,
-                        '学年',
-                        UserPreferenceKeys.grade,
-                        ['なし', '1年', '2年', '3年', '4年'],
-                      );
+                      return listDialog(context, '学年', UserPreferenceKeys.grade, ['なし', '1年', '2年', '3年', '4年']);
                     },
                   );
                   if (returnText != null) {
@@ -143,12 +114,14 @@ final class SettingsScreen extends ConsumerWidget {
                   final returnText = await showDialog<String>(
                     context: context,
                     builder: (_) {
-                      return listDialog(
-                        context,
-                        'コース',
-                        UserPreferenceKeys.course,
-                        ['なし', '情報システム', '情報デザイン', '知能', '複雑', '高度ICT'],
-                      );
+                      return listDialog(context, 'コース', UserPreferenceKeys.course, [
+                        'なし',
+                        '情報システム',
+                        '情報デザイン',
+                        '知能',
+                        '複雑',
+                        '高度ICT',
+                      ]);
                     },
                   );
                   if (returnText != null) {
@@ -174,9 +147,7 @@ final class SettingsScreen extends ConsumerWidget {
                           },
                         ),
                       ),
-                      settings: const RouteSettings(
-                        name: '/setting/hope_continuity',
-                      ),
+                      settings: const RouteSettings(name: '/setting/hope_continuity'),
                     ),
                   );
                 },
@@ -195,9 +166,7 @@ final class SettingsScreen extends ConsumerWidget {
                   Navigator.of(context).push(
                     MaterialPageRoute<void>(
                       builder: (_) => const AnnouncementScreen(),
-                      settings: const RouteSettings(
-                        name: '/setting/announcement',
-                      ),
+                      settings: const RouteSettings(name: '/setting/announcement'),
                     ),
                   );
                 },
@@ -218,9 +187,7 @@ final class SettingsScreen extends ConsumerWidget {
                   Navigator.of(context).push(
                     MaterialPageRoute<void>(
                       builder: (_) => const GitHubContributorScreen(),
-                      settings: const RouteSettings(
-                        name: '/setting/github_contributors',
-                      ),
+                      settings: const RouteSettings(name: '/setting/github_contributors'),
                     ),
                   );
                 },
@@ -232,12 +199,8 @@ final class SettingsScreen extends ConsumerWidget {
                 onPressed: (_) {
                   Navigator.of(context).push(
                     MaterialPageRoute<void>(
-                      builder: (_) => AppTutorial(
-                        onDismissed: () => Navigator.of(context).pop(),
-                      ),
-                      settings: const RouteSettings(
-                        name: '/setting/app_tutorial',
-                      ),
+                      builder: (_) => AppTutorial(onDismissed: () => Navigator.of(context).pop()),
+                      settings: const RouteSettings(name: '/setting/app_tutorial'),
                     ),
                   );
                 },
@@ -276,11 +239,7 @@ final class SettingsScreen extends ConsumerWidget {
                     if (!kDebugMode) {
                       return;
                     }
-                    Navigator.of(context).push(
-                      MaterialPageRoute<void>(
-                        builder: (_) => const DebugScreen(),
-                      ),
-                    );
+                    Navigator.of(context).push(MaterialPageRoute<void>(builder: (_) => const DebugScreen()));
                   },
                   child: FutureBuilder(
                     future: PackageInfo.fromPlatform(),

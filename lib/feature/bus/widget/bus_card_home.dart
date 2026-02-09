@@ -25,23 +25,16 @@ final class BusCardHome extends ConsumerWidget {
 
     return busData.when(
       data: (data) {
-        final dataOfDay =
-            data[fromToString]![busIsWeekday ? 'weekday' : 'holiday']!;
+        final dataOfDay = data[fromToString]![busIsWeekday ? 'weekday' : 'holiday']!;
         for (final busTrip in dataOfDay) {
-          final funBusTripStop = busTrip.stops.firstWhereOrNull(
-            (element) => element.stop.id == 14023,
-          );
+          final funBusTripStop = busTrip.stops.firstWhereOrNull((element) => element.stop.id == 14023);
           if (funBusTripStop == null) {
             continue;
           }
-          var targetBusTripStop = busTrip.stops.firstWhereOrNull(
-            (element) => element.stop.id == myBusStop.id,
-          );
+          var targetBusTripStop = busTrip.stops.firstWhereOrNull((element) => element.stop.id == myBusStop.id);
           var kameda = false;
           if (targetBusTripStop == null) {
-            targetBusTripStop = busTrip.stops.firstWhere(
-              (element) => element.stop.id == 14013,
-            );
+            targetBusTripStop = busTrip.stops.firstWhere((element) => element.stop.id == 14013);
             kameda = true;
           }
           final fromBusTripStop = busIsTo ? targetBusTripStop : funBusTripStop;
@@ -81,13 +74,7 @@ final class BusCardHome extends ConsumerWidget {
               ),
             );
           },
-          child: const BusCard(
-            '0',
-            Duration.zero,
-            Duration.zero,
-            Duration.zero,
-            home: true,
-          ),
+          child: const BusCard('0', Duration.zero, Duration.zero, Duration.zero, home: true),
         );
       },
       error: (error, stackTrace) => const SizedBox.shrink(),

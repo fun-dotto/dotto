@@ -22,8 +22,7 @@ final class WebPdfViewer extends StatefulWidget {
   State<WebPdfViewer> createState() => _WebPdfViewerState();
 }
 
-final class _WebPdfViewerState extends State<WebPdfViewer>
-    with WidgetsBindingObserver {
+final class _WebPdfViewerState extends State<WebPdfViewer> with WidgetsBindingObserver {
   String? _filePath;
   Uint8List? _pdfData;
   bool _isLoading = true;
@@ -63,8 +62,7 @@ final class _WebPdfViewerState extends State<WebPdfViewer>
       // 一時ファイルに保存
       final tempDir = await getTemporaryDirectory();
       final basename = path.basename(Uri.parse(widget.url).path);
-      final filename =
-          widget.filename ?? (basename.isNotEmpty ? basename : 'document.pdf');
+      final filename = widget.filename ?? (basename.isNotEmpty ? basename : 'document.pdf');
       final file = File('${tempDir.path}/$filename');
       await file.writeAsBytes(bytes);
 
@@ -116,9 +114,7 @@ final class _WebPdfViewerState extends State<WebPdfViewer>
       if (content != null) {
         final box = content.findRenderObject() as RenderBox?;
         if (box != null) {
-          await Share.shareXFiles([
-            XFile(_filePath!),
-          ], sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size);
+          await Share.shareXFiles([XFile(_filePath!)], sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size);
         } else {
           await Share.shareXFiles([XFile(_filePath!)]);
         }
@@ -143,18 +139,11 @@ final class _WebPdfViewerState extends State<WebPdfViewer>
             children: [
               const Icon(Icons.error_outline, size: 64, color: Colors.red),
               const SizedBox(height: 16),
-              Text(
-                'PDFの読み込みに失敗しました',
-                style: Theme.of(context).textTheme.titleLarge,
-              ),
+              Text('PDFの読み込みに失敗しました', style: Theme.of(context).textTheme.titleLarge),
               const SizedBox(height: 8),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 32),
-                child: Text(
-                  _errorMessage!,
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.bodyMedium,
-                ),
+                child: Text(_errorMessage!, textAlign: TextAlign.center, style: Theme.of(context).textTheme.bodyMedium),
               ),
               const SizedBox(height: 24),
               ElevatedButton(onPressed: _downloadPdf, child: const Text('再試行')),

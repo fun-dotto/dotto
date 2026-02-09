@@ -49,10 +49,7 @@ final class TimetableRepository {
     final dbPath = await SyllabusDatabaseConfig().getDBPath();
     final database = await openDatabase(dbPath);
 
-    final records = await database.rawQuery(
-      'SELECT LessonId, 過去問, 授業名 FROM sort where LessonId = ?',
-      [lessonId],
-    );
+    final records = await database.rawQuery('SELECT LessonId, 過去問, 授業名 FROM sort where LessonId = ?', [lessonId]);
     if (records.isEmpty) {
       return null;
     }
@@ -71,19 +68,14 @@ final class TimetableRepository {
   }
 
   Future<List<int>> _getPersonalTimetableList() async {
-    final jsonString = await UserPreferenceRepository.getString(
-      UserPreferenceKeys.personalTimetableListKey,
-    );
+    final jsonString = await UserPreferenceRepository.getString(UserPreferenceKeys.personalTimetableListKey);
     if (jsonString != null) {
       return List<int>.from(json.decode(jsonString) as List);
     }
     return [];
   }
 
-  Future<void> loadPersonalTimetableListOnLogin(
-    BuildContext context,
-    WidgetRef ref,
-  ) async {
+  Future<void> loadPersonalTimetableListOnLogin(BuildContext context, WidgetRef ref) async {
     final user = ref.read(userProvider);
     if (user == null) {
       return;
@@ -96,37 +88,25 @@ final class TimetableRepository {
       if (data != null) {
         final firestoreLastUpdated = data['last_updated'] as Timestamp;
         final localLastUpdated =
-            await UserPreferenceRepository.getInt(
-              UserPreferenceKeys.personalTimetableLastUpdateKey,
-            ) ??
-            0;
-        final diff =
-            localLastUpdated - firestoreLastUpdated.millisecondsSinceEpoch;
+            await UserPreferenceRepository.getInt(UserPreferenceKeys.personalTimetableLastUpdateKey) ?? 0;
+        final diff = localLastUpdated - firestoreLastUpdated.millisecondsSinceEpoch;
         final firestoreList = List<int>.from(data['2025'] as List);
         final localList = await _getPersonalTimetableList();
         if (localList.isEmpty) {
           personalTimetableList = firestoreList;
         } else if (firestoreList.isEmpty) {
           personalTimetableList = localList;
-          await savePersonalTimetableListToFirestore(
-            personalTimetableList,
-            ref,
-          );
+          await savePersonalTimetableListToFirestore(personalTimetableList, ref);
         } else if (diff.abs() > 300000) {
           final firestoreSet = firestoreList.toSet();
           final localSet = localList.toSet();
           // firestoreList と locallist のIDが同じかどうか確認
-          if (firestoreSet.containsAll(localSet) &&
-              localSet.containsAll(firestoreSet)) {
+          if (firestoreSet.containsAll(localSet) && localSet.containsAll(firestoreSet)) {
             personalTimetableList = firestoreList;
           } else {
             // LessonName取得
-            final firestoreLessonNameList = await getLessonNameList(
-              firestoreSet.difference(localSet).toList(),
-            );
-            final localLessonNameList = await getLessonNameList(
-              localSet.difference(firestoreSet).toList(),
-            );
+            final firestoreLessonNameList = await getLessonNameList(firestoreSet.difference(localSet).toList());
+            final localLessonNameList = await getLessonNameList(localSet.difference(firestoreSet).toList());
             if (context.mounted) {
               await showDialog<void>(
                 barrierDismissible: false,
@@ -160,10 +140,7 @@ final class TimetableRepository {
                       TextButton(
                         onPressed: () async {
                           personalTimetableList = localList;
-                          await savePersonalTimetableListToFirestore(
-                            personalTimetableList,
-                            ref,
-                          );
+                          await savePersonalTimetableListToFirestore(personalTimetableList, ref);
                           if (context.mounted) {
                             Navigator.of(context).pop();
                           }
@@ -202,12 +179,8 @@ final class TimetableRepository {
         if (data != null) {
           final firestoreLastUpdated = data['last_updated'] as Timestamp;
           final localLastUpdated =
-              await UserPreferenceRepository.getInt(
-                UserPreferenceKeys.personalTimetableLastUpdateKey,
-              ) ??
-              0;
-          final diff =
-              localLastUpdated - firestoreLastUpdated.millisecondsSinceEpoch;
+              await UserPreferenceRepository.getInt(UserPreferenceKeys.personalTimetableLastUpdateKey) ?? 0;
+          final diff = localLastUpdated - firestoreLastUpdated.millisecondsSinceEpoch;
           final firestoreList = List<int>.from(data['2025'] as List);
           final localList = await _getPersonalTimetableList();
           // ここなぜか取得できない
@@ -215,19 +188,13 @@ final class TimetableRepository {
             personalTimetableList = firestoreList;
           } else if (firestoreList.isEmpty || diff > 600000) {
             personalTimetableList = localList;
-            await savePersonalTimetableListToFirestore(
-              personalTimetableList,
-              ref,
-            );
+            await savePersonalTimetableListToFirestore(personalTimetableList, ref);
           } else {
             personalTimetableList = firestoreList;
           }
         } else {
           personalTimetableList = await _getPersonalTimetableList();
-          await savePersonalTimetableListToFirestore(
-            personalTimetableList,
-            ref,
-          );
+          await savePersonalTimetableListToFirestore(personalTimetableList, ref);
         }
       } else {
         personalTimetableList = await _getPersonalTimetableList();
@@ -238,10 +205,7 @@ final class TimetableRepository {
     return personalTimetableList;
   }
 
-  Future<void> addPersonalTimetableListToFirestore(
-    int lessonId,
-    WidgetRef ref,
-  ) async {
+  Future<void> addPersonalTimetableListToFirestore(int lessonId, WidgetRef ref) async {
     final user = ref.read(userProvider);
     if (user == null) {
       return;
@@ -256,10 +220,7 @@ final class TimetableRepository {
     // });
   }
 
-  Future<void> removePersonalTimetableListFromFirestore(
-    int lessonId,
-    WidgetRef ref,
-  ) async {
+  Future<void> removePersonalTimetableListFromFirestore(int lessonId, WidgetRef ref) async {
     final user = ref.read(userProvider);
     if (user == null) {
       return;
@@ -274,28 +235,17 @@ final class TimetableRepository {
     // });
   }
 
-  Future<void> savePersonalTimetableListToFirestore(
-    List<int> personalTimetableList,
-    WidgetRef ref,
-  ) async {
+  Future<void> savePersonalTimetableListToFirestore(List<int> personalTimetableList, WidgetRef ref) async {
     final user = ref.read(userProvider);
     if (user == null) {
       return;
     }
     final doc = db.collection('user_taking_course').doc(user.uid);
-    await doc.set({
-      '2025': personalTimetableList,
-      'last_updated': FieldValue.serverTimestamp(),
-    });
+    await doc.set({'2025': personalTimetableList, 'last_updated': FieldValue.serverTimestamp()});
   }
 
-  Future<void> savePersonalTimetableList(
-    List<int> personalTimetableList,
-    WidgetRef ref,
-  ) async {
-    await ref
-        .read(personalLessonIdListProvider.notifier)
-        .set(personalTimetableList);
+  Future<void> savePersonalTimetableList(List<int> personalTimetableList, WidgetRef ref) async {
+    await ref.read(personalLessonIdListProvider.notifier).set(personalTimetableList);
   }
 
   Future<void> addPersonalTimetableList(int lessonId, WidgetRef ref) async {
@@ -347,8 +297,7 @@ final class TimetableRepository {
     }
   }
 
-  Future<Map<DateTime, Map<int, List<TimetableCourse>>>>
-  get2WeekLessonSchedule() async {
+  Future<Map<DateTime, Map<int, List<TimetableCourse>>>> get2WeekLessonSchedule() async {
     final dates = getDateRange();
     final twoWeekLessonSchedule = <DateTime, Map<int, List<TimetableCourse>>>{};
     try {
@@ -362,17 +311,8 @@ final class TimetableRepository {
   }
 
   // 時間を入れたらその日の授業を返す
-  Future<Map<int, List<TimetableCourse>>> dailyLessonSchedule(
-    DateTime selectTime,
-  ) async {
-    final periodData = <int, Map<int, TimetableCourse>>{
-      1: {},
-      2: {},
-      3: {},
-      4: {},
-      5: {},
-      6: {},
-    };
+  Future<Map<int, List<TimetableCourse>>> dailyLessonSchedule(DateTime selectTime) async {
+    final periodData = <int, Map<int, TimetableCourse>>{1: {}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}};
     final returnData = <int, List<TimetableCourse>>{};
 
     final lessonData = await filterTimetable();
@@ -396,11 +336,7 @@ final class TimetableRepository {
             continue;
           }
         }
-        periodData[period]![lessonId] = TimetableCourse(
-          lessonId,
-          itemMap['title'] as String,
-          resourceId,
-        );
+        periodData[period]![lessonId] = TimetableCourse(lessonId, itemMap['title'] as String, resourceId);
       }
     }
 
@@ -417,12 +353,7 @@ final class TimetableRepository {
         final lessonName = cancelMap['lessonName'] as String;
         if (loadPersonalTimetableMap.containsKey(lessonName)) {
           final lessonId = loadPersonalTimetableMap[lessonName]!;
-          periodData[cancelMap['period'] as int]![lessonId] = TimetableCourse(
-            lessonId,
-            lessonName,
-            [],
-            cancel: true,
-          );
+          periodData[cancelMap['period'] as int]![lessonId] = TimetableCourse(lessonId, lessonName, [], cancel: true);
         }
       }
     }
@@ -434,8 +365,7 @@ final class TimetableRepository {
         final lessonName = supMap['lessonName'] as String;
         if (loadPersonalTimetableMap.containsKey(lessonName)) {
           final lessonId = loadPersonalTimetableMap[lessonName]!;
-          periodData[supMap['period'] as int]![lessonId] =
-              periodData[supMap['period'] as int]![lessonId]!.withSup();
+          periodData[supMap['period'] as int]![lessonId] = periodData[supMap['period'] as int]![lessonId]!.withSup();
         }
       }
     }
@@ -449,9 +379,7 @@ final class TimetableRepository {
     final dbPath = await SyllabusDatabaseConfig().getDBPath();
     final database = await openDatabase(dbPath);
 
-    final List<Map<String, dynamic>> records = await database.rawQuery(
-      'SELECT * FROM week_period order by lessonId',
-    );
+    final List<Map<String, dynamic>> records = await database.rawQuery('SELECT * FROM week_period order by lessonId');
     return records;
   }
 
@@ -459,15 +387,9 @@ final class TimetableRepository {
     final personalLessonIdList = await _getPersonalTimetableList();
     final weekPeriodAllRecords = ref.watch(weekPeriodAllRecordsProvider).value;
     if (weekPeriodAllRecords != null) {
-      final filterWeekPeriod = weekPeriodAllRecords
-          .where((element) => element['lessonId'] == lessonId)
-          .toList();
-      final targetWeekPeriod = filterWeekPeriod
-          .where((element) => element['開講時期'] != 0)
-          .toList();
-      for (final element in filterWeekPeriod.where(
-        (element) => element['開講時期'] == 0,
-      )) {
+      final filterWeekPeriod = weekPeriodAllRecords.where((element) => element['lessonId'] == lessonId).toList();
+      final targetWeekPeriod = filterWeekPeriod.where((element) => element['開講時期'] != 0).toList();
+      for (final element in filterWeekPeriod.where((element) => element['開講時期'] == 0)) {
         final e1 = <String, dynamic>{...element};
         final e2 = <String, dynamic>{...element};
         e1['開講時期'] = 10;
@@ -487,14 +409,9 @@ final class TimetableRepository {
               personalLessonIdList.contains(record['lessonId']);
         }).toList();
         if (selectedLessonList.length > 1) {
-          final removeLessonList = selectedLessonList.sublist(
-            2,
-            selectedLessonList.length,
-          );
+          final removeLessonList = selectedLessonList.sublist(2, selectedLessonList.length);
           if (removeLessonList.isNotEmpty) {
-            removeLessonIdList.addAll(
-              removeLessonList.map((e) => e['lessonId'] as int).toSet(),
-            );
+            removeLessonIdList.addAll(removeLessonList.map((e) => e['lessonId'] as int).toSet());
           }
           flag = true;
         }

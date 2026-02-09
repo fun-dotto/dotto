@@ -10,18 +10,14 @@ final class KamokuDetailFeedbackList extends StatefulWidget {
   final int lessonId;
 
   @override
-  State<KamokuDetailFeedbackList> createState() =>
-      _KamokuDetailFeedbackListState();
+  State<KamokuDetailFeedbackList> createState() => _KamokuDetailFeedbackListState();
 }
 
-final class _KamokuDetailFeedbackListState
-    extends State<KamokuDetailFeedbackList> {
+final class _KamokuDetailFeedbackListState extends State<KamokuDetailFeedbackList> {
   double averageScore = 0;
 
   // 平均満足度の計算
-  double _computeAverageScore(
-    List<DocumentSnapshot<Map<String, dynamic>>> documents,
-  ) {
+  double _computeAverageScore(List<DocumentSnapshot<Map<String, dynamic>>> documents) {
     var totalScore = 0.0;
     for (final document in documents) {
       final score = (document.get('score') as num? ?? 0.0).toDouble();
@@ -31,10 +27,7 @@ final class _KamokuDetailFeedbackListState
   }
 
   // 各点の満足度の割合を計算
-  double _percentageOfRating(
-    List<DocumentSnapshot<Map<String, dynamic>>> documents,
-    int rating,
-  ) {
+  double _percentageOfRating(List<DocumentSnapshot<Map<String, dynamic>>> documents, int rating) {
     var count = 0;
     for (final document in documents) {
       if (document.get('score') == rating) {
@@ -65,147 +58,107 @@ final class _KamokuDetailFeedbackListState
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-      stream: KamokuDetailRepository().getFeedbackListFromFirestore(
-        widget.lessonId,
-      ),
-      builder:
-          (
-            BuildContext context,
-            AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot,
-          ) {
-            if (snapshot.hasData) {
-              final querySnapshot = snapshot.data!;
-              final documents = querySnapshot.docs;
+      stream: KamokuDetailRepository().getFeedbackListFromFirestore(widget.lessonId),
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+        if (snapshot.hasData) {
+          final querySnapshot = snapshot.data!;
+          final documents = querySnapshot.docs;
 
-              if (documents.isEmpty) {
-                return const Center(child: Text('データがありません'));
-              }
+          if (documents.isEmpty) {
+            return const Center(child: Text('データがありません'));
+          }
 
-              averageScore = _computeAverageScore(documents);
+          averageScore = _computeAverageScore(documents);
 
-              return Padding(
-                padding: const EdgeInsets.only(left: 20, right: 20),
-                child: Column(
+          return Padding(
+            padding: const EdgeInsets.only(left: 20, right: 20),
+            child: Column(
+              children: [
+                Row(
                   children: [
-                    Row(
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              averageScore.toStringAsFixed(2),
-                              style: Theme.of(context).textTheme.titleMedium,
-                            ),
-                            RatingBarIndicator(
-                              rating: averageScore,
-                              itemBuilder: (context, index) =>
-                                  const Icon(Icons.star, color: Colors.amber),
-                              itemSize: 20,
-                            ),
-                            Text(
-                              'BASED OF ${documents.length} REVIEWS',
-                              style: Theme.of(context).textTheme.labelMedium
-                                  ?.copyWith(
-                                    color: SemanticColor.light.labelSecondary,
-                                  ),
-                            ),
-                          ],
+                        Text(averageScore.toStringAsFixed(2), style: Theme.of(context).textTheme.titleMedium),
+                        RatingBarIndicator(
+                          rating: averageScore,
+                          itemBuilder: (context, index) => const Icon(Icons.star, color: Colors.amber),
+                          itemSize: 20,
                         ),
-                        Flexible(
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              _buildRatingBar(
-                                5,
-                                Colors.green,
-                                _percentageOfRating(documents, 5),
-                              ),
-                              _buildRatingBar(
-                                4,
-                                Colors.green,
-                                _percentageOfRating(documents, 4),
-                              ),
-                              _buildRatingBar(
-                                3,
-                                Colors.yellow,
-                                _percentageOfRating(documents, 3),
-                              ),
-                              _buildRatingBar(
-                                2,
-                                Colors.orange,
-                                _percentageOfRating(documents, 2),
-                              ),
-                              _buildRatingBar(
-                                1,
-                                Colors.red,
-                                _percentageOfRating(documents, 1),
-                              ),
-                            ],
-                          ),
+                        Text(
+                          'BASED OF ${documents.length} REVIEWS',
+                          style: Theme.of(
+                            context,
+                          ).textTheme.labelMedium?.copyWith(color: SemanticColor.light.labelSecondary),
                         ),
                       ],
                     ),
-                    const SizedBox(height: 20),
-                    // フィードバックリスト
-                    Expanded(
-                      child: ListView.builder(
-                        itemCount: documents.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          final document = documents[index];
-                          final detail = document.get('detail');
-                          final score = (document.get('score') as num? ?? 0)
-                              .toDouble();
-
-                          if (detail == null ||
-                              detail.toString().trim().isEmpty) {
-                            return const SizedBox.shrink(); // detailがnullまたは空の場合は何も表示しない
-                          }
-
-                          return Container(
-                            decoration: const BoxDecoration(
-                              border: Border(
-                                bottom: BorderSide(
-                                  color: Color.fromARGB(
-                                    255,
-                                    211,
-                                    211,
-                                    211,
-                                  ), // 区切り線
-                                ),
-                              ),
-                            ),
-                            child: ListTile(
-                              titleAlignment: ListTileTitleAlignment.center,
-                              leading: RatingBarIndicator(
-                                rating: score,
-                                itemBuilder: (context, index) =>
-                                    const Icon(Icons.star, color: Colors.amber),
-                                itemSize: 15,
-                              ),
-                              title: Text(
-                                '$detail',
-                                style: Theme.of(context).textTheme.labelMedium
-                                    ?.copyWith(
-                                      color: SemanticColor.light.labelSecondary,
-                                    ),
-                              ),
-                            ),
-                          );
-                        },
+                    Flexible(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          _buildRatingBar(5, Colors.green, _percentageOfRating(documents, 5)),
+                          _buildRatingBar(4, Colors.green, _percentageOfRating(documents, 4)),
+                          _buildRatingBar(3, Colors.yellow, _percentageOfRating(documents, 3)),
+                          _buildRatingBar(2, Colors.orange, _percentageOfRating(documents, 2)),
+                          _buildRatingBar(1, Colors.red, _percentageOfRating(documents, 1)),
+                        ],
                       ),
                     ),
                   ],
                 ),
-              );
-            }
-            if (snapshot.hasError) {
-              return Text('エラー: ${snapshot.error}');
-            }
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(child: CircularProgressIndicator());
-            }
-            return const Center(child: Text('データがありません'));
-          },
+                const SizedBox(height: 20),
+                // フィードバックリスト
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: documents.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      final document = documents[index];
+                      final detail = document.get('detail');
+                      final score = (document.get('score') as num? ?? 0).toDouble();
+
+                      if (detail == null || detail.toString().trim().isEmpty) {
+                        return const SizedBox.shrink(); // detailがnullまたは空の場合は何も表示しない
+                      }
+
+                      return Container(
+                        decoration: const BoxDecoration(
+                          border: Border(
+                            bottom: BorderSide(
+                              color: Color.fromARGB(255, 211, 211, 211), // 区切り線
+                            ),
+                          ),
+                        ),
+                        child: ListTile(
+                          titleAlignment: ListTileTitleAlignment.center,
+                          leading: RatingBarIndicator(
+                            rating: score,
+                            itemBuilder: (context, index) => const Icon(Icons.star, color: Colors.amber),
+                            itemSize: 15,
+                          ),
+                          title: Text(
+                            '$detail',
+                            style: Theme.of(
+                              context,
+                            ).textTheme.labelMedium?.copyWith(color: SemanticColor.light.labelSecondary),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
+          );
+        }
+        if (snapshot.hasError) {
+          return Text('エラー: ${snapshot.error}');
+        }
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        return const Center(child: Text('データがありません'));
+      },
     );
   }
 }

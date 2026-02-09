@@ -36,10 +36,7 @@ class MockRoomRepository extends _i1.Mock implements _i2.RoomRepository {
 
   @override
   _i3.Future<List<_i4.Room>> getRooms() =>
-      (super.noSuchMethod(
-            Invocation.method(#getRooms, []),
-            returnValue: _i3.Future<List<_i4.Room>>.value(<_i4.Room>[]),
-          )
+      (super.noSuchMethod(Invocation.method(#getRooms, []), returnValue: _i3.Future<List<_i4.Room>>.value(<_i4.Room>[]))
           as _i3.Future<List<_i4.Room>>);
 }
 
@@ -52,8 +49,6 @@ class MockListener<T> extends _i1.Mock implements _i5.Listener<T> {
   }
 
   @override
-  void call(T? previous, T? next) => super.noSuchMethod(
-    Invocation.method(#call, [previous, next]),
-    returnValueForMissingStub: null,
-  );
+  void call(T? previous, T? next) =>
+      super.noSuchMethod(Invocation.method(#call, [previous, next]), returnValueForMissingStub: null);
 }

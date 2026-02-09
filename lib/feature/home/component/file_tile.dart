@@ -2,12 +2,7 @@ import 'package:dotto_design_system/style/semantic_color.dart';
 import 'package:flutter/material.dart';
 
 final class FileTile extends StatelessWidget {
-  const FileTile({
-    required this.title,
-    required this.icon,
-    required this.onPressed,
-    super.key,
-  });
+  const FileTile({required this.title, required this.icon, required this.onPressed, super.key});
 
   final String title;
   final IconData icon;
@@ -30,9 +25,7 @@ final class FileTile extends StatelessWidget {
             Icon(icon, size: 32, color: SemanticColor.light.accentPrimary),
             Text(
               title,
-              style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                color: SemanticColor.light.labelSecondary,
-              ),
+              style: Theme.of(context).textTheme.labelMedium?.copyWith(color: SemanticColor.light.labelSecondary),
             ),
           ],
         ),

@@ -13,9 +13,6 @@ class DebugViewModel extends _$DebugViewModel {
     final appCheckAccessToken = await FirebaseAppCheck.instance.getToken();
     final idToken = await FirebaseAuth.instance.currentUser?.getIdToken();
     await ref.read(apiEnvironmentProvider.notifier).load();
-    return DebugViewModelState(
-      appCheckAccessToken: appCheckAccessToken,
-      idToken: idToken,
-    );
+    return DebugViewModelState(appCheckAccessToken: appCheckAccessToken, idToken: idToken);
   }
 }

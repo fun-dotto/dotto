@@ -9,8 +9,7 @@ final class FirebaseStorageRepository {
     return _instance;
   }
   FirebaseStorageRepository._internal();
-  static final FirebaseStorageRepository _instance =
-      FirebaseStorageRepository._internal();
+  static final FirebaseStorageRepository _instance = FirebaseStorageRepository._internal();
 
   final FirebaseStorage _storage = FirebaseStorage.instance;
   final String _baseUrl = 'gs://swift2023groupc.appspot.com';

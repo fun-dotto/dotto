@@ -22,10 +22,8 @@ abstract class Room with _$Room {
   bool isInUse(DateTime dateTime) {
     return schedules.any(
       (schedule) =>
-          (schedule.beginDatetime.isBefore(dateTime) ||
-              schedule.beginDatetime.isAtSameMomentAs(dateTime)) &&
-          (schedule.endDatetime.isAfter(dateTime) ||
-              schedule.endDatetime.isAtSameMomentAs(dateTime)),
+          (schedule.beginDatetime.isBefore(dateTime) || schedule.beginDatetime.isAtSameMomentAs(dateTime)) &&
+          (schedule.endDatetime.isAfter(dateTime) || schedule.endDatetime.isAtSameMomentAs(dateTime)),
     );
   }
 }

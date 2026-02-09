@@ -12,22 +12,16 @@ part 'course_cancellation_controller.g.dart';
 final class CourseCancellationNotifier extends _$CourseCancellationNotifier {
   @override
   Future<List<CourseCancellation>> build() async {
-    final isFilteredOnlyTakingCourseCancellation = ref.watch(
-      isFilteredOnlyTakingCourseCancellationProvider,
-    );
+    final isFilteredOnlyTakingCourseCancellation = ref.watch(isFilteredOnlyTakingCourseCancellationProvider);
     final json = await readJsonFile('home/cancel_lecture.json');
     final decodedData = jsonDecode(json) as List<dynamic>;
     final courseCancellations = decodedData
-        .map(
-          (dynamic item) =>
-              CourseCancellation.fromJson(item as Map<String, dynamic>),
-        )
+        .map((dynamic item) => CourseCancellation.fromJson(item as Map<String, dynamic>))
         .toList();
     if (!isFilteredOnlyTakingCourseCancellation) {
       return courseCancellations;
     }
-    final personalTimetableMap = await TimetableRepository()
-        .loadPersonalTimetableMapString();
+    final personalTimetableMap = await TimetableRepository().loadPersonalTimetableMapString();
     return courseCancellations.where((courseCancellation) {
       return personalTimetableMap.keys.contains(courseCancellation.lessonName);
     }).toList();

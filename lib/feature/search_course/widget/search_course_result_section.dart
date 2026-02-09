@@ -16,10 +16,7 @@ final class SearchCourseResultSection extends ConsumerWidget {
       return const SizedBox.shrink();
     }
     if (viewModel.value?.searchResults!.isNotEmpty ?? false) {
-      return SearchCourseResult(
-        records: viewModel.value?.searchResults ?? [],
-        onTapped: onTapped,
-      );
+      return SearchCourseResult(records: viewModel.value?.searchResults ?? [], onTapped: onTapped);
     }
     return const Center(
       child: Padding(padding: EdgeInsets.all(16), child: Text('見つかりませんでした')),

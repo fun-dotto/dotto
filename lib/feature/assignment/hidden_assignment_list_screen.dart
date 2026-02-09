@@ -10,27 +10,20 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 final class HiddenAssignmentListScreen extends StatefulWidget {
-  const HiddenAssignmentListScreen({
-    required this.deletedKadaiLists,
-    super.key,
-  });
+  const HiddenAssignmentListScreen({required this.deletedKadaiLists, super.key});
 
   final List<KadaiList> deletedKadaiLists;
 
   @override
-  State<HiddenAssignmentListScreen> createState() =>
-      _HiddenAssignmentListScreenState();
+  State<HiddenAssignmentListScreen> createState() => _HiddenAssignmentListScreenState();
 }
 
-final class _HiddenAssignmentListScreenState
-    extends State<HiddenAssignmentListScreen> {
+final class _HiddenAssignmentListScreenState extends State<HiddenAssignmentListScreen> {
   List<int> deleteList = [];
   List<Kadai> hiddenKadai = [];
 
   Future<void> loadDeleteList() async {
-    final jsonString = await UserPreferenceRepository.getString(
-      UserPreferenceKeys.kadaiDeleteList,
-    );
+    final jsonString = await UserPreferenceRepository.getString(UserPreferenceKeys.kadaiDeleteList);
     if (jsonString != null) {
       setState(() {
         deleteList = List<int>.from(json.decode(jsonString) as List);
@@ -39,10 +32,7 @@ final class _HiddenAssignmentListScreenState
   }
 
   Future<void> saveDeleteList() async {
-    await UserPreferenceRepository.setString(
-      UserPreferenceKeys.kadaiDeleteList,
-      json.encode(deleteList),
-    );
+    await UserPreferenceRepository.setString(UserPreferenceKeys.kadaiDeleteList, json.encode(deleteList));
   }
 
   Future<void> hiddenKadaiList() async {
@@ -114,17 +104,11 @@ final class _HiddenAssignmentListScreenState
                       ],
                     ),
                     child: ListTile(
-                      title: Text(
-                        hiddenKadai[index].name!,
-                        style: Theme.of(context).textTheme.titleSmall,
-                      ),
+                      title: Text(hiddenKadai[index].name!, style: Theme.of(context).textTheme.titleSmall),
                       subtitle: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            hiddenKadai[index].courseName!,
-                            style: Theme.of(context).textTheme.labelMedium,
-                          ),
+                          Text(hiddenKadai[index].courseName!, style: Theme.of(context).textTheme.labelMedium),
                           if (hiddenKadai[index].endtime != null)
                             Text(
                               '${AssignmentDateFormatter.string(hiddenKadai[index].endtime!)} まで',

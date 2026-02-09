@@ -20,14 +20,11 @@ final class AssignmentListScreen extends ConsumerStatefulWidget {
   const AssignmentListScreen({super.key});
 
   @override
-  ConsumerState<AssignmentListScreen> createState() =>
-      _AssignmentListScreenState();
+  ConsumerState<AssignmentListScreen> createState() => _AssignmentListScreenState();
 }
 
-final class _AssignmentListScreenState
-    extends ConsumerState<AssignmentListScreen> {
-  final FlutterLocalNotificationsPlugin _notificationsPlugin =
-      FlutterLocalNotificationsPlugin();
+final class _AssignmentListScreenState extends ConsumerState<AssignmentListScreen> {
+  final FlutterLocalNotificationsPlugin _notificationsPlugin = FlutterLocalNotificationsPlugin();
 
   @override
   void initState() {
@@ -46,24 +43,18 @@ final class _AssignmentListScreenState
 
   void _requestIOSPermission() {
     _notificationsPlugin
-        .resolvePlatformSpecificImplementation<
-          IOSFlutterLocalNotificationsPlugin
-        >()
+        .resolvePlatformSpecificImplementation<IOSFlutterLocalNotificationsPlugin>()
         ?.requestPermissions(alert: true, badge: true, sound: true);
   }
 
   void _requestAndroidPermission() {
     _notificationsPlugin
-        .resolvePlatformSpecificImplementation<
-          AndroidFlutterLocalNotificationsPlugin
-        >()
+        .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
         ?.requestExactAlarmsPermission();
   }
 
   Future<void> _initNotifications() async {
-    const initializationSettingsAndroid = AndroidInitializationSettings(
-      'app_icon',
-    );
+    const initializationSettingsAndroid = AndroidInitializationSettings('app_icon');
     const initializationSettingsIOS = DarwinInitializationSettings();
     const initializationSettings = InitializationSettings(
       android: initializationSettingsAndroid,
@@ -127,18 +118,13 @@ final class _AssignmentListScreenState
             children: [Text(kadai.name ?? ''), Text(kadai.courseName ?? '')],
           ),
           actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(),
-              child: const Text('キャンセル'),
-            ),
+            TextButton(onPressed: () => Navigator.of(context).pop(), child: const Text('キャンセル')),
             TextButton(
               onPressed: () async {
                 Navigator.of(context).pop();
                 final id = kadai.id;
                 if (id == null) return;
-                final removedAlerts = await ref
-                    .read(assignmentPreferencesProvider.notifier)
-                    .hideAssignments([id]);
+                final removedAlerts = await ref.read(assignmentPreferencesProvider.notifier).hideAssignments([id]);
                 if (removedAlerts.contains(id)) {
                   await _cancelNotification(id);
                 }
@@ -160,31 +146,19 @@ final class _AssignmentListScreenState
           content: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('${listKadai.kadaiList.length}個の課題'),
-              Text(listKadai.courseName),
-            ],
+            children: [Text('${listKadai.kadaiList.length}個の課題'), Text(listKadai.courseName)],
           ),
           actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(),
-              child: const Text('キャンセル'),
-            ),
+            TextButton(onPressed: () => Navigator.of(context).pop(), child: const Text('キャンセル')),
             TextButton(
               onPressed: () async {
                 Navigator.of(context).pop();
                 final visible = listKadai
-                    .hiddenKadai(
-                      ref
-                          .read(assignmentPreferencesProvider)
-                          .hiddenAssignmentIds,
-                    )
+                    .hiddenKadai(ref.read(assignmentPreferencesProvider).hiddenAssignmentIds)
                     .map((kadai) => kadai.id)
                     .whereType<int>()
                     .toList();
-                final removedAlerts = await ref
-                    .read(assignmentPreferencesProvider.notifier)
-                    .hideAssignments(visible);
+                final removedAlerts = await ref.read(assignmentPreferencesProvider.notifier).hideAssignments(visible);
                 for (final id in removedAlerts) {
                   await _cancelNotification(id);
                 }
@@ -197,11 +171,7 @@ final class _AssignmentListScreenState
     );
   }
 
-  bool _listAllCheck(
-    List<int> checklist,
-    KadaiList listKadai,
-    List<int> hiddenList,
-  ) {
+  bool _listAllCheck(List<int> checklist, KadaiList listKadai, List<int> hiddenList) {
     final unchecked = listKadai.hiddenKadai(checklist);
     if (unchecked.isEmpty) {
       return true;
@@ -214,11 +184,7 @@ final class _AssignmentListScreenState
     return true;
   }
 
-  int _unFinishedCount(
-    KadaiList listKadai,
-    List<int> finishList,
-    List<int> hiddenList,
-  ) {
+  int _unFinishedCount(KadaiList listKadai, List<int> finishList, List<int> hiddenList) {
     final unfinished = listKadai.hiddenKadai(finishList);
     if (unfinished.isEmpty) {
       return 0;
@@ -254,21 +220,14 @@ final class _AssignmentListScreenState
   }
 
   TextStyle? _titleTextStyle(BuildContext context, bool isDone) {
-    return Theme.of(context).textTheme.titleSmall?.copyWith(
-      color: isDone ? SemanticColor.light.accentSuccess : null,
-    );
+    return Theme.of(context).textTheme.titleSmall?.copyWith(color: isDone ? SemanticColor.light.accentSuccess : null);
   }
 
   TextStyle? _subtitleTextStyle(BuildContext context, bool isDone) {
-    return Theme.of(context).textTheme.labelMedium?.copyWith(
-      color: isDone ? SemanticColor.light.accentSuccess : null,
-    );
+    return Theme.of(context).textTheme.labelMedium?.copyWith(color: isDone ? SemanticColor.light.accentSuccess : null);
   }
 
-  ActionPane _singleStartActionPane(
-    AssignmentState assignmentState,
-    Kadai kadai,
-  ) {
+  ActionPane _singleStartActionPane(AssignmentState assignmentState, Kadai kadai) {
     final notifier = ref.read(assignmentPreferencesProvider.notifier);
     final isAlertOn = assignmentState.alertAssignmentIds.contains(kadai.id);
     return ActionPane(
@@ -278,9 +237,7 @@ final class _AssignmentListScreenState
         SlidableAction(
           label: isAlertOn ? '通知 OFF' : '通知 ON',
           backgroundColor: isAlertOn ? Colors.red : Colors.green,
-          icon: isAlertOn
-              ? Icons.notifications_off_outlined
-              : Icons.notifications_active_outlined,
+          icon: isAlertOn ? Icons.notifications_off_outlined : Icons.notifications_active_outlined,
           onPressed: (_) async {
             final id = kadai.id;
             if (id == null) return;
@@ -301,10 +258,7 @@ final class _AssignmentListScreenState
     );
   }
 
-  ActionPane _singleEndActionPane(
-    AssignmentState assignmentState,
-    Kadai kadai,
-  ) {
+  ActionPane _singleEndActionPane(AssignmentState assignmentState, Kadai kadai) {
     final notifier = ref.read(assignmentPreferencesProvider.notifier);
     final isDone = assignmentState.doneAssignmentIds.contains(kadai.id);
     return ActionPane(
@@ -344,18 +298,11 @@ final class _AssignmentListScreenState
     );
   }
 
-  ActionPane _groupStartActionPane(
-    AssignmentState assignmentState,
-    KadaiList kadaiList,
-  ) {
+  ActionPane _groupStartActionPane(AssignmentState assignmentState, KadaiList kadaiList) {
     final notifier = ref.read(assignmentPreferencesProvider.notifier);
     final hidden = assignmentState.hiddenAssignmentIds;
     final visible = kadaiList.hiddenKadai(hidden);
-    final isAlertOn = _listAllCheck(
-      assignmentState.alertAssignmentIds,
-      kadaiList,
-      hidden,
-    );
+    final isAlertOn = _listAllCheck(assignmentState.alertAssignmentIds, kadaiList, hidden);
     return ActionPane(
       motion: const StretchMotion(),
       extentRatio: 0.25,
@@ -363,9 +310,7 @@ final class _AssignmentListScreenState
         SlidableAction(
           label: isAlertOn ? '通知 OFF' : '通知 ON',
           backgroundColor: isAlertOn ? Colors.red : Colors.green,
-          icon: isAlertOn
-              ? Icons.notifications_off_outlined
-              : Icons.notifications_active_outlined,
+          icon: isAlertOn ? Icons.notifications_off_outlined : Icons.notifications_active_outlined,
           onPressed: (_) async {
             final ids = visible.map((k) => k.id).whereType<int>().toList();
             if (ids.isEmpty) return;
@@ -388,18 +333,11 @@ final class _AssignmentListScreenState
     );
   }
 
-  ActionPane _groupEndActionPane(
-    AssignmentState assignmentState,
-    KadaiList kadaiList,
-  ) {
+  ActionPane _groupEndActionPane(AssignmentState assignmentState, KadaiList kadaiList) {
     final notifier = ref.read(assignmentPreferencesProvider.notifier);
     final hidden = assignmentState.hiddenAssignmentIds;
     final visible = kadaiList.hiddenKadai(hidden);
-    final isDone = _listAllCheck(
-      assignmentState.doneAssignmentIds,
-      kadaiList,
-      hidden,
-    );
+    final isDone = _listAllCheck(assignmentState.doneAssignmentIds, kadaiList, hidden);
     return ActionPane(
       motion: const StretchMotion(),
       dismissible: DismissiblePane(
@@ -450,22 +388,14 @@ final class _AssignmentListScreenState
           final hasAlert = state.alertAssignmentIds.contains(kadai.id);
           return Slidable(
             key: ValueKey('single_${kadai.id}_${kadaiList.courseId}'),
-            startActionPane: _canStartActionPane(kadai.endtime)
-                ? _singleStartActionPane(state, kadai)
-                : null,
+            startActionPane: _canStartActionPane(kadai.endtime) ? _singleStartActionPane(state, kadai) : null,
             endActionPane: _singleEndActionPane(state, kadai),
             child: ListTile(
-              title: Text(
-                kadai.name ?? '',
-                style: _titleTextStyle(context, isDone),
-              ),
+              title: Text(kadai.name ?? '', style: _titleTextStyle(context, isDone)),
               subtitle: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    kadai.courseName ?? '',
-                    style: _subtitleTextStyle(context, isDone),
-                  ),
+                  Text(kadai.courseName ?? '', style: _subtitleTextStyle(context, isDone)),
                   if (kadai.endtime != null)
                     Text(
                       '${AssignmentDateFormatter.string(kadai.endtime!)} まで',
@@ -479,39 +409,23 @@ final class _AssignmentListScreenState
                     ),
                 ],
               ),
-              trailing: Icon(
-                hasAlert ? Icons.notifications_active : null,
-                size: 20,
-                color: Colors.green,
-              ),
+              trailing: Icon(hasAlert ? Icons.notifications_active : null, size: 20, color: Colors.green),
               onTap: () {
-                launchUrlString(
-                  kadai.url ?? '',
-                  mode: LaunchMode.externalApplication,
-                );
+                launchUrlString(kadai.url ?? '', mode: LaunchMode.externalApplication);
               },
             ),
           );
         }
 
-        final isDoneGroup = _listAllCheck(
-          state.doneAssignmentIds,
-          kadaiList,
-          hidden,
-        );
+        final isDoneGroup = _listAllCheck(state.doneAssignmentIds, kadaiList, hidden);
         return Slidable(
           key: ValueKey('group_${kadaiList.courseId}_${kadaiList.endtime}'),
-          startActionPane: _canStartActionPane(kadaiList.endtime)
-              ? _groupStartActionPane(state, kadaiList)
-              : null,
+          startActionPane: _canStartActionPane(kadaiList.endtime) ? _groupStartActionPane(state, kadaiList) : null,
           endActionPane: _groupEndActionPane(state, kadaiList),
           child: Theme(
             data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
             child: ExpansionTile(
-              title: Text(
-                kadaiList.courseName,
-                style: _titleTextStyle(context, isDoneGroup),
-              ),
+              title: Text(kadaiList.courseName, style: _titleTextStyle(context, isDoneGroup)),
               subtitle: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -525,10 +439,7 @@ final class _AssignmentListScreenState
                       style: _subtitleTextStyle(context, isDoneGroup),
                     )
                   else
-                    Text(
-                      '期限なし',
-                      style: _subtitleTextStyle(context, isDoneGroup),
-                    ),
+                    Text('期限なし', style: _subtitleTextStyle(context, isDoneGroup)),
                 ],
               ),
               children: [
@@ -536,35 +447,21 @@ final class _AssignmentListScreenState
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: visible.map((kadai) {
                     final isDone = state.doneAssignmentIds.contains(kadai.id);
-                    final hasAlert = state.alertAssignmentIds.contains(
-                      kadai.id,
-                    );
+                    final hasAlert = state.alertAssignmentIds.contains(kadai.id);
                     return Column(
                       children: [
                         const Divider(height: 1),
                         Slidable(
-                          key: ValueKey(
-                            'child_${kadai.id}_${kadaiList.courseId}',
-                          ),
+                          key: ValueKey('child_${kadai.id}_${kadaiList.courseId}'),
                           startActionPane: _canStartActionPane(kadai.endtime)
                               ? _singleStartActionPane(state, kadai)
                               : null,
                           endActionPane: _singleEndActionPane(state, kadai),
                           child: ListTile(
-                            title: Text(
-                              kadai.name ?? '',
-                              style: _titleTextStyle(context, isDone),
-                            ),
-                            trailing: Icon(
-                              hasAlert ? Icons.notifications_active : null,
-                              size: 20,
-                              color: Colors.green,
-                            ),
+                            title: Text(kadai.name ?? '', style: _titleTextStyle(context, isDone)),
+                            trailing: Icon(hasAlert ? Icons.notifications_active : null, size: 20, color: Colors.green),
                             onTap: () {
-                              launchUrlString(
-                                kadai.url ?? '',
-                                mode: LaunchMode.externalApplication,
-                              );
+                              launchUrlString(kadai.url ?? '', mode: LaunchMode.externalApplication);
                             },
                           ),
                         ),
@@ -597,11 +494,8 @@ final class _AssignmentListScreenState
               if (data == null) return;
               final result = await Navigator.of(context).push(
                 MaterialPageRoute<String?>(
-                  builder: (_) =>
-                      HiddenAssignmentListScreen(deletedKadaiLists: data),
-                  settings: const RouteSettings(
-                    name: '/assignment/hidden_assignment_list',
-                  ),
+                  builder: (_) => HiddenAssignmentListScreen(deletedKadaiLists: data),
+                  settings: const RouteSettings(name: '/assignment/hidden_assignment_list'),
                 ),
               );
               if (result == 'back') {

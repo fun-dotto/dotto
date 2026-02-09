@@ -45,9 +45,7 @@ final class MapTile extends StatelessWidget {
   }
 
   double get iconSize {
-    final length = (props is RestroomMapTileProps
-        ? (props as RestroomMapTileProps).types.length
-        : 0);
+    final length = (props is RestroomMapTileProps ? (props as RestroomMapTileProps).types.length : 0);
     if (props.width == 1) return 6;
     if (props.width * props.height / length <= 2) return 6;
     return 8;
@@ -93,9 +91,7 @@ final class MapTile extends StatelessWidget {
         padding: padding,
         decoration: BoxDecoration(
           border: border,
-          color: (props is AtriumMapTileProps)
-              ? tileColor
-              : MapColors.aisleTile,
+          color: (props is AtriumMapTileProps) ? tileColor : MapColors.aisleTile,
         ),
         child: SizedBox.expand(
           child: Container(padding: EdgeInsets.zero, color: tileColor),
@@ -107,9 +103,7 @@ final class MapTile extends StatelessWidget {
   Widget _label(BuildContext context) {
     return Text(
       labelText,
-      style: Theme.of(
-        context,
-      ).textTheme.labelSmall?.copyWith(fontSize: fontSize, color: labelColor),
+      style: Theme.of(context).textTheme.labelSmall?.copyWith(fontSize: fontSize, color: labelColor),
     );
   }
 
@@ -131,58 +125,32 @@ final class MapTile extends StatelessWidget {
             direction: (props as StairMapTileProps).type.getDirection(),
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              if ((props as StairMapTileProps).type.direction ==
-                  Axis.horizontal)
+              if ((props as StairMapTileProps).type.direction == Axis.horizontal)
                 for (int i = 0; i < stairWidth.toInt(); i++) ...{
-                  const Expanded(
-                    child: VerticalDivider(thickness: 0.3, color: Colors.black),
-                  ),
+                  const Expanded(child: VerticalDivider(thickness: 0.3, color: Colors.black)),
                 }
               else
                 for (int i = 0; i < stairHeight.toInt(); i++) ...{
-                  const Expanded(
-                    child: Divider(thickness: 0.3, color: Colors.black),
-                  ),
+                  const Expanded(child: Divider(thickness: 0.3, color: Colors.black)),
                 },
             ],
           ),
         ),
-        if ((props as StairMapTileProps).type.up &&
-            !(props as StairMapTileProps).type.down)
+        if ((props as StairMapTileProps).type.up && !(props as StairMapTileProps).type.down)
           SizedBox.expand(
-            child: Center(
-              child: Icon(
-                Icons.arrow_upward_rounded,
-                size: 12,
-                color: Colors.grey.shade700,
-              ),
-            ),
+            child: Center(child: Icon(Icons.arrow_upward_rounded, size: 12, color: Colors.grey.shade700)),
           ),
-        if (!(props as StairMapTileProps).type.up &&
-            ((props as StairMapTileProps).type.down))
+        if (!(props as StairMapTileProps).type.up && ((props as StairMapTileProps).type.down))
           SizedBox.expand(
-            child: Center(
-              child: Icon(
-                Icons.arrow_downward_rounded,
-                size: 12,
-                color: Colors.grey.shade700,
-              ),
-            ),
+            child: Center(child: Icon(Icons.arrow_downward_rounded, size: 12, color: Colors.grey.shade700)),
           ),
-        if (((props as StairMapTileProps).type.up) &&
-            ((props as StairMapTileProps).type.down))
-          const SizedBox.expand(),
+        if (((props as StairMapTileProps).type.up) && ((props as StairMapTileProps).type.down)) const SizedBox.expand(),
       ],
     );
   }
 
   Widget get elevator {
-    return const Icon(
-      Icons.elevator_outlined,
-      size: 12,
-      color: Colors.white,
-      weight: 100,
-    );
+    return const Icon(Icons.elevator_outlined, size: 12, color: Colors.white, weight: 100);
   }
 
   @override

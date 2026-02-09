@@ -42,9 +42,7 @@ final class FunchScreen extends ConsumerWidget {
         title: TextButton(
           child: Text(
             getDateString(date),
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-              color: SemanticColor.light.accentPrimary,
-            ),
+            style: Theme.of(context).textTheme.titleMedium?.copyWith(color: SemanticColor.light.accentPrimary),
           ),
           onPressed: () async {
             if (context.mounted) {
@@ -58,16 +56,11 @@ final class FunchScreen extends ConsumerWidget {
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 16),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: menuTypeButton(context, ref),
-            ),
+            child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: menuTypeButton(context, ref)),
           ),
           Text(
             'メニューは変更される可能性があります',
-            style: Theme.of(context).textTheme.labelMedium?.copyWith(
-              color: SemanticColor.light.labelSecondary,
-            ),
+            style: Theme.of(context).textTheme.labelMedium?.copyWith(color: SemanticColor.light.labelSecondary),
           ),
           Expanded(child: SingleChildScrollView(child: content)),
         ],
@@ -75,24 +68,15 @@ final class FunchScreen extends ConsumerWidget {
     );
   }
 
-  Widget _menuListByCategory(
-    FunchDailyMenu funchDailyMenu,
-    FunchMenuCategory category,
-  ) {
+  Widget _menuListByCategory(FunchDailyMenu funchDailyMenu, FunchMenuCategory category) {
     if (funchDailyMenu.menuItems.isEmpty) {
-      return const Padding(
-        padding: EdgeInsets.symmetric(vertical: 10),
-        child: Text('情報がみつかりません。'),
-      );
+      return const Padding(padding: EdgeInsets.symmetric(vertical: 10), child: Text('情報がみつかりません。'));
     }
 
     final filteredItems = funchDailyMenu.getMenuByCategory(category);
 
     if (filteredItems.isEmpty) {
-      return const Padding(
-        padding: EdgeInsets.symmetric(vertical: 10),
-        child: Text('このカテゴリーのメニューはありません。'),
-      );
+      return const Padding(padding: EdgeInsets.symmetric(vertical: 10), child: Text('このカテゴリーのメニューはありません。'));
     }
 
     return Column(
@@ -102,11 +86,7 @@ final class FunchScreen extends ConsumerWidget {
     );
   }
 
-  Widget makeMenuTypeButton(
-    BuildContext context,
-    WidgetRef ref,
-    FunchMenuCategory menuType,
-  ) {
+  Widget makeMenuTypeButton(BuildContext context, WidgetRef ref, FunchMenuCategory menuType) {
     final funchMenuType = ref.watch(funchMenuCategoryProvider);
 
     return Column(
@@ -114,19 +94,12 @@ final class FunchScreen extends ConsumerWidget {
       children: [
         ElevatedButton(
           onPressed: () {
-            ref.read(funchMenuCategoryProvider.notifier).menuCategory =
-                menuType;
+            ref.read(funchMenuCategoryProvider.notifier).menuCategory = menuType;
           },
           style: ElevatedButton.styleFrom(
-            backgroundColor: funchMenuType == menuType
-                ? SemanticColor.light.accentPrimary
-                : Colors.white,
-            foregroundColor: funchMenuType == menuType
-                ? Colors.white
-                : Colors.black,
-            shape: const CircleBorder(
-              side: BorderSide(style: BorderStyle.none),
-            ),
+            backgroundColor: funchMenuType == menuType ? SemanticColor.light.accentPrimary : Colors.white,
+            foregroundColor: funchMenuType == menuType ? Colors.white : Colors.black,
+            shape: const CircleBorder(side: BorderSide(style: BorderStyle.none)),
             minimumSize: const Size(48, 48),
             fixedSize: const Size(48, 48),
             padding: EdgeInsets.zero,
@@ -145,18 +118,14 @@ final class FunchScreen extends ConsumerWidget {
         ),
         Text(
           menuType.title,
-          style: Theme.of(context).textTheme.labelSmall?.copyWith(
-            color: SemanticColor.light.labelPrimary,
-          ),
+          style: Theme.of(context).textTheme.labelSmall?.copyWith(color: SemanticColor.light.labelPrimary),
         ),
       ],
     );
   }
 
   List<Widget> menuTypeButton(BuildContext context, WidgetRef ref) {
-    return FunchMenuCategory.values
-        .map((e) => makeMenuTypeButton(context, ref, e))
-        .toList();
+    return FunchMenuCategory.values.map((e) => makeMenuTypeButton(context, ref, e)).toList();
   }
 
   String getDateString(DateTime date) {
@@ -164,10 +133,7 @@ final class FunchScreen extends ConsumerWidget {
         '(${DateFormat.E('ja').format(date)})';
   }
 
-  Future<void> _showModalBottomSheet(
-    BuildContext context,
-    WidgetRef ref,
-  ) async {
+  Future<void> _showModalBottomSheet(BuildContext context, WidgetRef ref) async {
     final funchDailyMenuList = ref.watch(funchAllDailyMenuListProvider);
 
     final content = funchDailyMenuList.when(
@@ -183,8 +149,7 @@ final class FunchScreen extends ConsumerWidget {
         return data.keys.map((e) {
           return InkWell(
             onTap: () {
-              ref.read(funchDateProvider.notifier).value =
-                  DateTimeUtility.parseDateKey(e);
+              ref.read(funchDateProvider.notifier).value = DateTimeUtility.parseDateKey(e);
               Navigator.of(context).pop();
             },
             child: Container(
@@ -195,10 +160,7 @@ final class FunchScreen extends ConsumerWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    getDateString(DateTimeUtility.parseDateKey(e)),
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
+                  Text(getDateString(DateTimeUtility.parseDateKey(e)), style: Theme.of(context).textTheme.titleMedium),
                 ],
               ),
             ),
@@ -213,10 +175,7 @@ final class FunchScreen extends ConsumerWidget {
         builder: (BuildContext context) {
           return SizedBox(
             height: MediaQuery.of(context).size.height * 0.3,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: content,
-            ),
+            child: Column(mainAxisAlignment: MainAxisAlignment.center, children: content),
           );
         },
       );
