@@ -9,9 +9,7 @@ import 'package:mockito/mockito.dart';
 import 'github_contributor_service_test.mocks.dart';
 
 /// テスト用の GitHubContributorService Provider
-final GitHubContributorServiceProvider = Provider<GitHubContributorService>(
-  GitHubContributorService.new,
-);
+final GitHubContributorServiceProvider = Provider<GitHubContributorService>(GitHubContributorService.new);
 
 @GenerateMocks([GitHubContributorRepository])
 void main() {
@@ -33,11 +31,7 @@ void main() {
   ];
 
   ProviderContainer createContainer() => ProviderContainer(
-    overrides: [
-      gitHubContributorRepositoryProvider.overrideWithValue(
-        githubContributorRepository,
-      ),
-    ],
+    overrides: [gitHubContributorRepositoryProvider.overrideWithValue(githubContributorRepository)],
   );
 
   setUp(() {
@@ -46,9 +40,7 @@ void main() {
 
   group('GitHubContributorService 正常系', () {
     test('getContributors がGitHubプロフィール一覧を正しく取得する', () async {
-      when(
-        githubContributorRepository.getContributors(),
-      ).thenAnswer((_) async => testGitHubProfiles);
+      when(githubContributorRepository.getContributors()).thenAnswer((_) async => testGitHubProfiles);
 
       final container = createContainer();
       final service = container.read(gitHubContributorRepositoryProvider);
@@ -66,9 +58,7 @@ void main() {
     });
 
     test('getContributors が空のリストを正しく取得する', () async {
-      when(
-        githubContributorRepository.getContributors(),
-      ).thenAnswer((_) async => <GitHubProfile>[]);
+      when(githubContributorRepository.getContributors()).thenAnswer((_) async => <GitHubProfile>[]);
 
       final container = createContainer();
       final service = container.read(GitHubContributorServiceProvider);
@@ -83,9 +73,7 @@ void main() {
 
   group('GitHubContributorService 異常系', () {
     test('getContributors がリポジトリの例外をそのまま伝播する', () async {
-      when(
-        githubContributorRepository.getContributors(),
-      ).thenThrow(Exception('Failed to get contributors'));
+      when(githubContributorRepository.getContributors()).thenThrow(Exception('Failed to get contributors'));
 
       final container = createContainer();
       final service = container.read(GitHubContributorServiceProvider);

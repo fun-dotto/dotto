@@ -14,12 +14,10 @@ final class EditTimetableScreen extends ConsumerStatefulWidget {
   const EditTimetableScreen({super.key});
 
   @override
-  ConsumerState<EditTimetableScreen> createState() =>
-      _EditTimetableScreenState();
+  ConsumerState<EditTimetableScreen> createState() => _EditTimetableScreenState();
 }
 
-class _EditTimetableScreenState extends ConsumerState<EditTimetableScreen>
-    with SingleTickerProviderStateMixin {
+class _EditTimetableScreenState extends ConsumerState<EditTimetableScreen> with SingleTickerProviderStateMixin {
   late final TabController _tabController;
 
   @override
@@ -84,9 +82,7 @@ class _EditTimetableScreenState extends ConsumerState<EditTimetableScreen>
                               decoration: BoxDecoration(
                                 border: Border.all(color: Colors.grey.shade400),
                                 color: Colors.grey.shade300,
-                                borderRadius: const BorderRadius.all(
-                                  Radius.circular(4),
-                                ),
+                                borderRadius: const BorderRadius.all(Radius.circular(4)),
                               ),
                               padding: const EdgeInsets.all(2),
                               child: Text(
@@ -104,9 +100,7 @@ class _EditTimetableScreenState extends ConsumerState<EditTimetableScreen>
                       color: Colors.grey.shade200,
                       borderRadius: const BorderRadius.all(Radius.circular(4)),
                     ),
-                    child: Center(
-                      child: Icon(Icons.add, color: Colors.grey.shade400),
-                    ),
+                    child: Center(child: Icon(Icons.add, color: Colors.grey.shade400)),
                   ),
           ),
           onTap: () {
@@ -147,12 +141,7 @@ class _EditTimetableScreenState extends ConsumerState<EditTimetableScreen>
                 children: DayOfWeek.weekdays
                     .map(
                       (e) => TableCell(
-                        child: Center(
-                          child: Text(
-                            e.label,
-                            style: Theme.of(context).textTheme.labelMedium,
-                          ),
-                        ),
+                        child: Center(child: Text(e.label, style: Theme.of(context).textTheme.labelMedium)),
                       ),
                     )
                     .toList(),
@@ -160,22 +149,13 @@ class _EditTimetableScreenState extends ConsumerState<EditTimetableScreen>
               ...Period.values.map(
                 (period) => TableRow(
                   children: DayOfWeek.weekdays
-                      .map(
-                        (dayOfWeek) => _tableText(
-                          context,
-                          dayOfWeek,
-                          period,
-                          semester,
-                          data,
-                        ),
-                      )
+                      .map((dayOfWeek) => _tableText(context, dayOfWeek, period, semester, data))
                       .toList(),
                 ),
               ),
             ],
           ),
-          error: (error, stackTrace) =>
-              const Center(child: Text('データの取得に失敗しました')),
+          error: (error, stackTrace) => const Center(child: Text('データの取得に失敗しました')),
           loading: () => const Center(child: CircularProgressIndicator()),
         ),
       ),
@@ -191,17 +171,12 @@ class _EditTimetableScreenState extends ConsumerState<EditTimetableScreen>
           data: (personalLessonIdListData) {
             final seasonList = data
                 .where((record) {
-                  return personalLessonIdListData.contains(
-                        record['lessonId'],
-                      ) &&
-                      (record['開講時期'] == semester.number ||
-                          record['開講時期'] == 0);
+                  return personalLessonIdListData.contains(record['lessonId']) &&
+                      (record['開講時期'] == semester.number || record['開講時期'] == 0);
                 })
                 .toList()
                 .sorted((a, b) {
-                  final dayCompare = (a['week'] as int).compareTo(
-                    b['week'] as int,
-                  );
+                  final dayCompare = (a['week'] as int).compareTo(b['week'] as int);
                   if (dayCompare != 0) {
                     return dayCompare;
                   }
@@ -221,8 +196,7 @@ class _EditTimetableScreenState extends ConsumerState<EditTimetableScreen>
               },
             );
           },
-          error: (error, stackTrace) =>
-              const Center(child: Text('データの取得に失敗しました')),
+          error: (error, stackTrace) => const Center(child: Text('データの取得に失敗しました')),
           loading: () => const Center(child: CircularProgressIndicator()),
         );
       },
@@ -246,8 +220,7 @@ class _EditTimetableScreenState extends ConsumerState<EditTimetableScreen>
     final timetableViewStyle = ref.watch(timetableViewStyleProvider);
     final selectedSemester = ref.watch(selectedSemesterProvider);
     final selectedIndex = Semester.values.indexOf(selectedSemester);
-    if (_tabController.index != selectedIndex &&
-        !_tabController.indexIsChanging) {
+    if (_tabController.index != selectedIndex && !_tabController.indexIsChanging) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (!mounted) {
           return;
@@ -275,10 +248,7 @@ class _EditTimetableScreenState extends ConsumerState<EditTimetableScreen>
           tabs: Semester.values.map((e) => Tab(text: e.label)).toList(),
         ),
       ),
-      body: TabBarView(
-        controller: _tabController,
-        children: Semester.values.map(_timetable).toList(),
-      ),
+      body: TabBarView(controller: _tabController, children: Semester.values.map(_timetable).toList()),
     );
   }
 }

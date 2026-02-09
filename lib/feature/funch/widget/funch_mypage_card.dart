@@ -51,11 +51,7 @@ final class FunchMyPageCard extends ConsumerWidget {
             width: double.infinity,
             fit: BoxFit.fill,
             errorBuilder: (context, error, stackTrace) {
-              return Image.asset(
-                Asset.noImage,
-                width: double.infinity,
-                fit: BoxFit.fill,
-              );
+              return Image.asset(Asset.noImage, width: double.infinity, fit: BoxFit.fill);
             },
           ),
         ),
@@ -75,11 +71,7 @@ final class FunchMyPageCard extends ConsumerWidget {
     );
   }
 
-  Widget _buildCarouselIndicators(
-    BuildContext context,
-    WidgetRef ref,
-    List<FunchMenu> menuItems,
-  ) {
+  Widget _buildCarouselIndicators(BuildContext context, WidgetRef ref, List<FunchMenu> menuItems) {
     final selectedIndex = ref.watch(funchMyPageCardIndexProvider);
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
@@ -93,11 +85,9 @@ final class FunchMyPageCard extends ConsumerWidget {
             margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color:
-                  (Theme.of(context).brightness == Brightness.dark
-                          ? Colors.white
-                          : Colors.black)
-                      .withValues(alpha: selectedIndex == index ? 0.9 : 0.4),
+              color: (Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black).withValues(
+                alpha: selectedIndex == index ? 0.9 : 0.4,
+              ),
             ),
           );
         }).toList(),
@@ -105,18 +95,12 @@ final class FunchMyPageCard extends ConsumerWidget {
     );
   }
 
-  Widget _buildCarousel(
-    BuildContext context,
-    WidgetRef ref,
-    List<FunchMenu> menuItems,
-  ) {
+  Widget _buildCarousel(BuildContext context, WidgetRef ref, List<FunchMenu> menuItems) {
     return Column(
       spacing: 8,
       children: [
         CarouselSlider(
-          items: menuItems
-              .map((menu) => _buildCarouselItem(context, menu))
-              .toList(),
+          items: menuItems.map((menu) => _buildCarouselItem(context, menu)).toList(),
           options: CarouselOptions(
             aspectRatio: 4 / 3,
             autoPlay: true,
@@ -146,8 +130,7 @@ final class FunchMyPageCard extends ConsumerWidget {
             Text('${_getDayString(date)}の学食'),
             funchDailyMenuList.when(
               data: (data) {
-                final menuItems =
-                    data[DateTimeUtility.dateKey(date)]?.menuItems;
+                final menuItems = data[DateTimeUtility.dateKey(date)]?.menuItems;
                 if (menuItems == null) {
                   return _buildEmptyCard(context, date);
                 }
@@ -161,9 +144,7 @@ final class FunchMyPageCard extends ConsumerWidget {
             ),
             Text(
               'メニューは変更される可能性があります',
-              style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                color: SemanticColor.light.labelSecondary,
-              ),
+              style: Theme.of(context).textTheme.labelMedium?.copyWith(color: SemanticColor.light.labelSecondary),
             ),
           ],
         ),

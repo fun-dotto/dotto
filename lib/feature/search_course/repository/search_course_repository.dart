@@ -10,27 +10,18 @@ final class SearchCourseRepository {
     return _instance;
   }
   SearchCourseRepository._internal();
-  static final SearchCourseRepository _instance =
-      SearchCourseRepository._internal();
+  static final SearchCourseRepository _instance = SearchCourseRepository._internal();
 
-  Future<List<Map<String, dynamic>>> fetchWeekPeriodDB(
-    List<int> lessonIdList,
-  ) async {
+  Future<List<Map<String, dynamic>>> fetchWeekPeriodDB(List<int> lessonIdList) async {
     return CourseDatabaseHelper.fetchWeekPeriod(lessonIdList);
   }
 
   Future<List<Map<String, dynamic>>> searchCourses({
-    required Map<
-      SearchCourseFilterOptions,
-      List<SearchCourseFilterOptionChoice>
-    >
-    selectedChoicesMap,
+    required Map<SearchCourseFilterOptions, List<SearchCourseFilterOptionChoice>> selectedChoicesMap,
     required String searchWord,
   }) async {
     try {
-      final filterData = CourseFilterExtractor.extractFilters(
-        selectedChoicesMap,
-      );
+      final filterData = CourseFilterExtractor.extractFilters(selectedChoicesMap);
       final queryBuilder = CourseSearchQueryBuilder()
         ..addTermFilter(filterData.termCheckList)
         ..addCategoryFilters(
@@ -45,10 +36,7 @@ final class SearchCourseRepository {
       final whereClause = queryBuilder.build();
       debugPrint(whereClause);
 
-      return await CourseDatabaseHelper.searchCourses(
-        whereClause: whereClause,
-        searchWord: searchWord,
-      );
+      return await CourseDatabaseHelper.searchCourses(whereClause: whereClause, searchWord: searchWord);
     } catch (e) {
       debugPrint('科目検索エラー: $e');
       rethrow;

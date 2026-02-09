@@ -36,14 +36,8 @@ final class KamokuDetailScreen extends StatelessWidget {
         body: TabBarView(
           children: <Widget>[
             KamokuDetailSyllabusScreen(lessonId: lessonId),
-            KamokuFeedbackScreen(
-              lessonId: lessonId,
-              isAuthenticated: isAuthenticated,
-            ),
-            KamokuDetailKakomonListScreen(
-              lessonId: kakomonLessonId ?? lessonId,
-              isAuthenticated: isAuthenticated,
-            ),
+            KamokuFeedbackScreen(lessonId: lessonId, isAuthenticated: isAuthenticated),
+            KamokuDetailKakomonListScreen(lessonId: kakomonLessonId ?? lessonId, isAuthenticated: isAuthenticated),
           ],
         ),
       ),

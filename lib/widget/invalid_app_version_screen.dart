@@ -10,10 +10,7 @@ final class InvalidAppVersionScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Dottoのアップデートが必要です'),
-        centerTitle: false,
-      ),
+      appBar: AppBar(title: const Text('Dottoのアップデートが必要です'), centerTitle: false),
       body: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -21,10 +18,7 @@ final class InvalidAppVersionScreen extends StatelessWidget {
           children: [
             const Text('最新版のDottoをご利用ください'),
             DottoButton(
-              onPressed: () => launchUrlString(
-                appStorePageUrl,
-                mode: LaunchMode.externalApplication,
-              ),
+              onPressed: () => launchUrlString(appStorePageUrl, mode: LaunchMode.externalApplication),
               child: const Text('今すぐアップデート'),
             ),
           ],

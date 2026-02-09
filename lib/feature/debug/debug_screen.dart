@@ -24,9 +24,7 @@ final class DebugScreen extends ConsumerWidget {
             },
             child: ListTile(
               title: Text(environment.name),
-              trailing: Icon(
-                environment == currentEnvironment ? Icons.check : null,
-              ),
+              trailing: Icon(environment == currentEnvironment ? Icons.check : null),
             ),
           );
         }).toList(),
@@ -46,39 +44,25 @@ final class DebugScreen extends ConsumerWidget {
           children: [
             ListTile(
               title: const Text('App Check Access Token'),
-              subtitle: Text(
-                data.appCheckAccessToken ?? '-',
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
+              subtitle: Text(data.appCheckAccessToken ?? '-', maxLines: 1, overflow: TextOverflow.ellipsis),
               trailing: IconButton(
                 icon: const Icon(Icons.copy),
                 onPressed: () {
                   if (data.appCheckAccessToken == null) return;
-                  Clipboard.setData(
-                    ClipboardData(text: data.appCheckAccessToken ?? ''),
-                  );
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('クリップボードにコピーしました')),
-                  );
+                  Clipboard.setData(ClipboardData(text: data.appCheckAccessToken ?? ''));
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('クリップボードにコピーしました')));
                 },
               ),
             ),
             ListTile(
               title: const Text('User ID Token'),
-              subtitle: Text(
-                data.idToken ?? '-',
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
+              subtitle: Text(data.idToken ?? '-', maxLines: 1, overflow: TextOverflow.ellipsis),
               trailing: IconButton(
                 icon: const Icon(Icons.copy),
                 onPressed: () {
                   if (data.idToken == null) return;
                   Clipboard.setData(ClipboardData(text: data.idToken ?? ''));
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('クリップボードにコピーしました')),
-                  );
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('クリップボードにコピーしました')));
                 },
               ),
             ),
@@ -89,9 +73,7 @@ final class DebugScreen extends ConsumerWidget {
               onTap: () => _showEnvironmentPicker(
                 context,
                 environment,
-                (environment) =>
-                    ref.read(apiEnvironmentProvider.notifier).value =
-                        environment,
+                (environment) => ref.read(apiEnvironmentProvider.notifier).value = environment,
               ),
             ),
           ],

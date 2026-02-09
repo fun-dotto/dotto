@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 
 abstract final class MapColors {
   static const Color focusedTile = Colors.red;
-  static const Color roomInUseTile = Color(
-    0xFFFF9800,
-  ); // Colors.orange.shade300
+  static const Color roomInUseTile = Color(0xFFFF9800); // Colors.orange.shade300
   static const Color classroomTile = Color(0xFF616161);
   static const Color facultyRoomTile = Color(0xFF757575);
   static const Color otherRoomTile = Color(0xFFBDBDBD);

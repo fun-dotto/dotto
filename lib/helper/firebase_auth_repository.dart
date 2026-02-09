@@ -7,14 +7,11 @@ final class FirebaseAuthRepository {
     return _instance;
   }
   FirebaseAuthRepository._internal();
-  static final FirebaseAuthRepository _instance =
-      FirebaseAuthRepository._internal();
+  static final FirebaseAuthRepository _instance = FirebaseAuthRepository._internal();
 
   Future<UserCredential?> _authenticate() async {
     final account = await GoogleSignIn.instance.authenticate();
-    final credential = GoogleAuthProvider.credential(
-      idToken: account.authentication.idToken,
-    );
+    final credential = GoogleAuthProvider.credential(idToken: account.authentication.idToken);
     return FirebaseAuth.instance.signInWithCredential(credential);
   }
 

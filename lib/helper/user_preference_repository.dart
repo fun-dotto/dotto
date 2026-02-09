@@ -2,10 +2,7 @@ import 'package:dotto/domain/user_preference_keys.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 final class UserPreferenceRepository {
-  static Future<void> setBool(
-    UserPreferenceKeys key, {
-    required bool value,
-  }) async {
+  static Future<void> setBool(UserPreferenceKeys key, {required bool value}) async {
     final prefs = await SharedPreferences.getInstance();
     if (key.type == bool) {
       await prefs.setBool(key.key, value);

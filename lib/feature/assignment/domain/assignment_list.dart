@@ -1,12 +1,7 @@
 import 'package:dotto/feature/assignment/domain/assignment.dart';
 
 final class AssignmentList {
-  AssignmentList(
-    this.courseId,
-    this.courseName,
-    this.endtime,
-    this.assignments,
-  );
+  AssignmentList(this.courseId, this.courseName, this.endtime, this.assignments);
 
   final int courseId;
   final String courseName;

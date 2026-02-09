@@ -10,17 +10,13 @@ final class MenuCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final energy = menu is FunchCommonMenu
-        ? (menu as FunchCommonMenu).energy
-        : null;
+    final energy = menu is FunchCommonMenu ? (menu as FunchCommonMenu).energy : null;
     const double borderRadius = 10;
     return Card(
       margin: const EdgeInsets.all(10),
       color: Colors.white,
       shadowColor: Colors.black,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(borderRadius),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(borderRadius)),
       child: SizedBox(
         width: MediaQuery.of(context).size.width * 0.85,
         height: 300,
@@ -39,18 +35,10 @@ final class MenuCard extends StatelessWidget {
                         width: double.infinity,
                         menu.imageUrl,
                         errorBuilder: (context, error, stackTrace) {
-                          return Image.asset(
-                            Asset.noImage,
-                            width: double.infinity,
-                            fit: BoxFit.fill,
-                          );
+                          return Image.asset(Asset.noImage, width: double.infinity, fit: BoxFit.fill);
                         },
                       )
-                    : Image.asset(
-                        Asset.noImage,
-                        width: double.infinity,
-                        fit: BoxFit.fill,
-                      ),
+                    : Image.asset(Asset.noImage, width: double.infinity, fit: BoxFit.fill),
               ),
             ),
             Padding(
@@ -58,16 +46,8 @@ final class MenuCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    menu.name,
-                    overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
-                  if (energy != null)
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [Text('${energy}kcal')],
-                    ),
+                  Text(menu.name, overflow: TextOverflow.ellipsis, style: Theme.of(context).textTheme.titleMedium),
+                  if (energy != null) Row(mainAxisAlignment: MainAxisAlignment.end, children: [Text('${energy}kcal')]),
                   Divider(height: 6, color: SemanticColor.light.borderPrimary),
                   const SizedBox(height: 5),
                   FunchPriceList(menu),

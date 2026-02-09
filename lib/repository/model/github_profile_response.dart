@@ -15,6 +15,5 @@ abstract class GitHubProfileResponse with _$GitHubProfileResponse {
     required String htmlUrl,
   }) = _GitHubProfileResponse;
 
-  factory GitHubProfileResponse.fromJson(Map<String, Object?> json) =>
-      _$GitHubProfileResponseFromJson(json);
+  factory GitHubProfileResponse.fromJson(Map<String, Object?> json) => _$GitHubProfileResponseFromJson(json);
 }

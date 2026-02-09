@@ -35,11 +35,7 @@ final class CourseSearchQueryBuilder {
 
     // 専門
     if (largeCategoryCheckList.isNotEmpty && largeCategoryCheckList[0]) {
-      final senmonCondition = _buildSenmonConditions(
-        gradeCheckList,
-        courseCheckList,
-        classificationCheckList,
-      );
+      final senmonCondition = _buildSenmonConditions(gradeCheckList, courseCheckList, classificationCheckList);
       if (senmonCondition.isNotEmpty) {
         categoryConditions.add(senmonCondition);
       }
@@ -47,10 +43,7 @@ final class CourseSearchQueryBuilder {
 
     // 教養
     if (largeCategoryCheckList.length > 1 && largeCategoryCheckList[1]) {
-      final kyoyoCondition = _buildKyoyoConditions(
-        educationCheckList,
-        classificationCheckList,
-      );
+      final kyoyoCondition = _buildKyoyoConditions(educationCheckList, classificationCheckList);
       if (kyoyoCondition.isNotEmpty) {
         categoryConditions.add(kyoyoCondition);
       }
@@ -101,8 +94,7 @@ final class CourseSearchQueryBuilder {
         }
       } else {
         // コース・専門
-        final courseClassificationCondition =
-            _buildCourseClassificationConditions(
+        final courseClassificationCondition = _buildCourseClassificationConditions(
           courseCheckList,
           classificationCheckList,
         );
@@ -114,9 +106,7 @@ final class CourseSearchQueryBuilder {
       senmonConditions.add('sort.専門=1');
     }
 
-    return senmonConditions.isEmpty
-        ? ''
-        : "(${senmonConditions.join(" AND ")})";
+    return senmonConditions.isEmpty ? '' : "(${senmonConditions.join(" AND ")})";
   }
 
   String _buildGradeConditions(List<bool> gradeCheckList) {
@@ -132,10 +122,7 @@ final class CourseSearchQueryBuilder {
     return sqlWhereGrade.isEmpty ? '' : "(${sqlWhereGrade.join(" OR ")})";
   }
 
-  String _buildCourseClassificationConditions(
-    List<bool> courseCheckList,
-    List<bool> classificationCheckList,
-  ) {
+  String _buildCourseClassificationConditions(List<bool> courseCheckList, List<bool> classificationCheckList) {
     final sqlWhereCourseClassification = <String>[];
     final courseIds = SearchCourseFilterOptions.course.ids;
     final classificationIds = SearchCourseFilterOptions.classification.ids;
@@ -146,8 +133,7 @@ final class CourseSearchQueryBuilder {
           if (_isNotAllTrueOrAllFalse(classificationCheckList)) {
             for (var j = 0; j < classificationCheckList.length; j++) {
               if (classificationCheckList[j]) {
-                sqlWhereCourseClassification
-                    .add('sort.${courseIds[i]}=${classificationIds[j]}');
+                sqlWhereCourseClassification.add('sort.${courseIds[i]}=${classificationIds[j]}');
               }
             }
           } else {
@@ -159,15 +145,10 @@ final class CourseSearchQueryBuilder {
       sqlWhereCourseClassification.add('sort.専門=1');
     }
 
-    return sqlWhereCourseClassification.isEmpty
-        ? ''
-        : "(${sqlWhereCourseClassification.join(" OR ")})";
+    return sqlWhereCourseClassification.isEmpty ? '' : "(${sqlWhereCourseClassification.join(" OR ")})";
   }
 
-  String _buildKyoyoConditions(
-    List<bool> educationCheckList,
-    List<bool> classificationCheckList,
-  ) {
+  String _buildKyoyoConditions(List<bool> educationCheckList, List<bool> classificationCheckList) {
     final kyoyoConditions = <String>['(sort.教養!=0)'];
 
     if (_isNotAllTrueOrAllFalse(educationCheckList)) {
@@ -198,9 +179,7 @@ final class CourseSearchQueryBuilder {
   }
 
   String _buildGraduateConditions(List<bool> masterFieldCheckList) {
-    final graduateConditions = <String>[
-      "(sort.LessonId LIKE '$_graduateLessonIdPattern')"
-    ];
+    final graduateConditions = <String>["(sort.LessonId LIKE '$_graduateLessonIdPattern')"];
 
     var masterFieldInt = 0;
     for (var i = 0; i < masterFieldCheckList.length; i++) {
@@ -213,9 +192,7 @@ final class CourseSearchQueryBuilder {
     }
     graduateConditions.add('(sort.大学院 & $masterFieldInt)');
 
-    return graduateConditions.isEmpty
-        ? ''
-        : "(${graduateConditions.join(" AND ")})";
+    return graduateConditions.isEmpty ? '' : "(${graduateConditions.join(" AND ")})";
   }
 
   bool _isNotAllTrueOrAllFalse(List<bool> list) {

@@ -9,17 +9,7 @@ part 'my_bus_stop_controller.g.dart';
 final class MyBusStopNotifier extends _$MyBusStopNotifier {
   @override
   BusStop build() {
-    return const BusStop(14013, '亀田支所前', [
-      '50',
-      '55',
-      '55A',
-      '55B',
-      '55C',
-      '55E',
-      '55F',
-      '55G',
-      '55H',
-    ]);
+    return const BusStop(14013, '亀田支所前', ['50', '55', '55A', '55B', '55C', '55E', '55F', '55G', '55H']);
   }
 
   BusStop get value => state;
@@ -29,12 +19,8 @@ final class MyBusStopNotifier extends _$MyBusStopNotifier {
   }
 
   Future<void> load() async {
-    final myBusStopPreference = await UserPreferenceRepository.getInt(
-      UserPreferenceKeys.myBusStop,
-    );
+    final myBusStopPreference = await UserPreferenceRepository.getInt(UserPreferenceKeys.myBusStop);
     final busStops = await BusRepository().getAllBusStopsFromFirebase();
-    state = busStops.firstWhere(
-      (busStop) => busStop.id == (myBusStopPreference ?? 14013),
-    );
+    state = busStops.firstWhere((busStop) => busStop.id == (myBusStopPreference ?? 14013));
   }
 }

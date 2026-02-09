@@ -3,11 +3,7 @@ import 'package:dotto_design_system/style/semantic_color.dart';
 import 'package:flutter/material.dart';
 
 final class MapFloorButton extends StatelessWidget {
-  const MapFloorButton({
-    required this.selectedFloor,
-    required this.onPressed,
-    super.key,
-  });
+  const MapFloorButton({required this.selectedFloor, required this.onPressed, super.key});
 
   final Floor selectedFloor;
   final void Function(Floor) onPressed;
@@ -15,9 +11,7 @@ final class MapFloorButton extends StatelessWidget {
   Widget _floorButton(BuildContext context, Floor floor) {
     return TextButton(
       style: TextButton.styleFrom(
-        backgroundColor: selectedFloor == floor
-            ? SemanticColor.light.backgroundTertiary
-            : null,
+        backgroundColor: selectedFloor == floor ? SemanticColor.light.backgroundTertiary : null,
       ),
       onPressed: () {
         onPressed(floor);
@@ -25,9 +19,7 @@ final class MapFloorButton extends StatelessWidget {
       child: Text(
         floor.label,
         style: Theme.of(context).textTheme.titleMedium?.copyWith(
-          color: selectedFloor == floor
-              ? SemanticColor.light.accentPrimary
-              : SemanticColor.light.labelSecondary,
+          color: selectedFloor == floor ? SemanticColor.light.accentPrimary : SemanticColor.light.labelSecondary,
         ),
       ),
     );

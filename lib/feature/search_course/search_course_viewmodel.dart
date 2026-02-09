@@ -67,24 +67,15 @@ final class SearchCourseViewModel extends _$SearchCourseViewModel {
     required SearchCourseFilterOptionChoice choice,
     required bool? isSelected,
   }) {
-    debugPrint(
-      'onCheckboxTapped: ${filterOption.name}, ${choice.label}, $isSelected',
-    );
+    debugPrint('onCheckboxTapped: ${filterOption.name}, ${choice.label}, $isSelected');
     switch (state) {
       case AsyncData(:final value):
         // Create a mutable deep copy of the map and its lists
-        final selectedChoicesMap =
-            Map<
-              SearchCourseFilterOptions,
-              List<SearchCourseFilterOptionChoice>
-            >.fromEntries(
-              value.selectedChoicesMap.entries.map(
-                (entry) => MapEntry(
-                  entry.key,
-                  List<SearchCourseFilterOptionChoice>.from(entry.value),
-                ),
-              ),
-            );
+        final selectedChoicesMap = Map<SearchCourseFilterOptions, List<SearchCourseFilterOptionChoice>>.fromEntries(
+          value.selectedChoicesMap.entries.map(
+            (entry) => MapEntry(entry.key, List<SearchCourseFilterOptionChoice>.from(entry.value)),
+          ),
+        );
         if (isSelected ?? false) {
           selectedChoicesMap[filterOption]?.add(choice);
         } else {
@@ -94,45 +85,32 @@ final class SearchCourseViewModel extends _$SearchCourseViewModel {
         final visibilityStatus = _setVisibilityStatus(selectedChoicesMap);
 
         for (final e in SearchCourseFilterOptions.values) {
-          if (value.visibilityStatus.contains(e) &&
-              !visibilityStatus.contains(e)) {
+          if (value.visibilityStatus.contains(e) && !visibilityStatus.contains(e)) {
             selectedChoicesMap[e] = [];
           }
         }
 
         if (!value.visibilityStatus.contains(SearchCourseFilterOptions.grade) &&
             visibilityStatus.contains(SearchCourseFilterOptions.grade)) {
-          final gradeChoice = SearchCourseFilterOptions.grade.choices
-              .firstWhereOrNull(
-                (e) => e.id == value.grade?.deprecatedFilterOptionChoiceKey,
-              );
+          final gradeChoice = SearchCourseFilterOptions.grade.choices.firstWhereOrNull(
+            (e) => e.id == value.grade?.deprecatedFilterOptionChoiceKey,
+          );
           if (gradeChoice != null) {
-            selectedChoicesMap[SearchCourseFilterOptions.grade]?.add(
-              gradeChoice,
-            );
+            selectedChoicesMap[SearchCourseFilterOptions.grade]?.add(gradeChoice);
           }
         }
 
-        if (!value.visibilityStatus.contains(
-              SearchCourseFilterOptions.course,
-            ) &&
+        if (!value.visibilityStatus.contains(SearchCourseFilterOptions.course) &&
             visibilityStatus.contains(SearchCourseFilterOptions.course)) {
-          final courseChoice = SearchCourseFilterOptions.course.choices
-              .firstWhereOrNull(
-                (e) =>
-                    e.id == value.academicArea?.deprecatedFilterOptionChoiceKey,
-              );
+          final courseChoice = SearchCourseFilterOptions.course.choices.firstWhereOrNull(
+            (e) => e.id == value.academicArea?.deprecatedFilterOptionChoiceKey,
+          );
           if (courseChoice != null) {
-            selectedChoicesMap[SearchCourseFilterOptions.course]?.add(
-              courseChoice,
-            );
+            selectedChoicesMap[SearchCourseFilterOptions.course]?.add(courseChoice);
           }
         }
 
-        final newState = value.copyWith(
-          selectedChoicesMap: selectedChoicesMap,
-          visibilityStatus: visibilityStatus,
-        );
+        final newState = value.copyWith(selectedChoicesMap: selectedChoicesMap, visibilityStatus: visibilityStatus);
         state = AsyncValue.data(newState);
       case AsyncLoading():
         return;
@@ -142,8 +120,7 @@ final class SearchCourseViewModel extends _$SearchCourseViewModel {
   }
 
   Set<SearchCourseFilterOptions> _setVisibilityStatus(
-    Map<SearchCourseFilterOptions, List<SearchCourseFilterOptionChoice>>
-    selectedChoicesMap,
+    Map<SearchCourseFilterOptions, List<SearchCourseFilterOptionChoice>> selectedChoicesMap,
   ) {
     final visibilityStatus = <SearchCourseFilterOptions>{
       SearchCourseFilterOptions.largeCategory,

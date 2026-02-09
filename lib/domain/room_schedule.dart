@@ -8,12 +8,8 @@ abstract class RoomSchedule with _$RoomSchedule {
   //
   // ignore: invalid_annotation_target
   @JsonSerializable(fieldRename: FieldRename.snake)
-  const factory RoomSchedule({
-    required DateTime beginDatetime,
-    required DateTime endDatetime,
-    required String title,
-  }) = _RoomSchedule;
+  const factory RoomSchedule({required DateTime beginDatetime, required DateTime endDatetime, required String title}) =
+      _RoomSchedule;
 
-  factory RoomSchedule.fromJson(Map<String, Object?> json) =>
-      _$RoomScheduleFromJson(json);
+  factory RoomSchedule.fromJson(Map<String, Object?> json) => _$RoomScheduleFromJson(json);
 }

@@ -28,39 +28,28 @@ Future<void> main() async {
     await FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
   };
   PlatformDispatcher.instance.onError = (error, stack) {
-    unawaited(
-      FirebaseCrashlytics.instance.recordError(error, stack, fatal: true),
-    );
+    unawaited(FirebaseCrashlytics.instance.recordError(error, stack, fatal: true));
     return true;
   };
 
   // Firebase App Checkの初期化
   await FirebaseAppCheck.instance.activate(
-    providerApple: kReleaseMode
-        ? const AppleAppAttestProvider()
-        : const AppleDebugProvider(),
-    providerAndroid: kReleaseMode
-        ? const AndroidPlayIntegrityProvider()
-        : const AndroidDebugProvider(),
+    providerApple: kReleaseMode ? const AppleAppAttestProvider() : const AppleDebugProvider(),
+    providerAndroid: kReleaseMode ? const AndroidPlayIntegrityProvider() : const AndroidDebugProvider(),
   );
 
   // Firebase Realtime Databaseのパーシステンスを有効化
   FirebaseDatabase.instance.setPersistenceEnabled(true);
 
   // 画面の向きを固定
-  await SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitUp,
-    DeviceOrientation.portraitDown,
-  ]);
+  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
   // ローカルタイムゾーンの設定
   tz.initializeTimeZones();
   tz.setLocalLocation(tz.getLocation('Asia/Tokyo'));
 
   // Firebase Messagingの通知許可をリクエスト
-  await FirebaseMessaging.instance.requestPermission(
-    provisional: true,
-  );
+  await FirebaseMessaging.instance.requestPermission(provisional: true);
 
   // Firebase Messagingのバックグラウンドハンドラーを設定
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);

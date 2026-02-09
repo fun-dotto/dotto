@@ -6,12 +6,10 @@ final class KamokuDetailKakomonListObjects extends StatefulWidget {
   final String url;
 
   @override
-  State<KamokuDetailKakomonListObjects> createState() =>
-      _KamokuDetailKakomonListObjectsState();
+  State<KamokuDetailKakomonListObjects> createState() => _KamokuDetailKakomonListObjectsState();
 }
 
-final class _KamokuDetailKakomonListObjectsState
-    extends State<KamokuDetailKakomonListObjects> {
+final class _KamokuDetailKakomonListObjectsState extends State<KamokuDetailKakomonListObjects> {
   bool _checkbox = false;
 
   @override
@@ -25,8 +23,7 @@ final class _KamokuDetailKakomonListObjectsState
           onPressed: () {
             Navigator.of(context).push(
               MaterialPageRoute<void>(
-                builder: (_) =>
-                    CloudflarePdfViewer(url: widget.url, filename: filename),
+                builder: (_) => CloudflarePdfViewer(url: widget.url, filename: filename),
                 settings: RouteSettings(
                   name:
                       '/course/course_detail/past_exam/file_viewer?filename=$filename&url=${widget.url}&storage=cloudflare',

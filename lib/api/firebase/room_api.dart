@@ -24,20 +24,15 @@ final class RoomAPI {
             return MapEntry(roomId.toString(), RoomResponse.fromJson({}));
           }
           final roomMap = room as Map<Object?, Object?>;
-          final roomResponse = RoomResponse.fromJson(
-            roomMap.map((key, value) => MapEntry(key.toString(), value)),
-          );
+          final roomResponse = RoomResponse.fromJson(roomMap.map((key, value) => MapEntry(key.toString(), value)));
           return MapEntry(roomId.toString(), roomResponse);
         }),
       );
     });
   }
 
-  static Future<Map<String, List<RoomScheduleResponse>>>
-  getRoomSchedules() async {
-    final snapshot = await FirebaseRealtimeDatabaseRepository().getData(
-      'map_room_schedule',
-    );
+  static Future<Map<String, List<RoomScheduleResponse>>> getRoomSchedules() async {
+    final snapshot = await FirebaseRealtimeDatabaseRepository().getData('map_room_schedule');
     if (!snapshot.exists) {
       throw Exception('No data available');
     }
@@ -58,9 +53,7 @@ final class RoomAPI {
           }
           final roomScheduleMap = roomSchedule as Map<Object?, Object?>;
           final roomScheduleResponse = RoomScheduleResponse.fromJson(
-            roomScheduleMap.map(
-              (key, value) => MapEntry(key.toString(), value),
-            ),
+            roomScheduleMap.map((key, value) => MapEntry(key.toString(), value)),
           );
           return roomScheduleResponse;
         }).toList(),

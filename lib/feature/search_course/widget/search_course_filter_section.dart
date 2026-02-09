@@ -12,14 +12,8 @@ final class SearchCourseFilterSection extends StatelessWidget {
   });
 
   final Set<SearchCourseFilterOptions> visibilityStatus;
-  final Map<SearchCourseFilterOptions, List<SearchCourseFilterOptionChoice>>
-  selectedChoicesMap;
-  final void Function(
-    SearchCourseFilterOptions,
-    SearchCourseFilterOptionChoice,
-    bool?,
-  )
-  onChanged;
+  final Map<SearchCourseFilterOptions, List<SearchCourseFilterOptionChoice>> selectedChoicesMap;
+  final void Function(SearchCourseFilterOptions, SearchCourseFilterOptionChoice, bool?) onChanged;
 
   @override
   Widget build(BuildContext context) {

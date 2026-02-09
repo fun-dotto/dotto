@@ -6,17 +6,14 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'personal_lesson_id_list_controller.g.dart';
 
 @riverpod
-final class PersonalLessonIdListNotifier
-    extends _$PersonalLessonIdListNotifier {
+final class PersonalLessonIdListNotifier extends _$PersonalLessonIdListNotifier {
   @override
   Future<List<int>> build() async {
     return _get();
   }
 
   Future<List<int>> _get() async {
-    final jsonString = await UserPreferenceRepository.getString(
-      UserPreferenceKeys.personalTimetableListKey,
-    );
+    final jsonString = await UserPreferenceRepository.getString(UserPreferenceKeys.personalTimetableListKey);
     if (jsonString != null) {
       return List<int>.from(json.decode(jsonString) as List);
     }
@@ -28,9 +25,7 @@ final class PersonalLessonIdListNotifier
   }
 
   Future<void> remove(int lessonId) async {
-    await _updateState(
-      (current) => current.where((element) => element != lessonId).toList(),
-    );
+    await _updateState((current) => current.where((element) => element != lessonId).toList());
   }
 
   Future<void> set(List<int> lessonIdList) async {
@@ -55,10 +50,7 @@ final class PersonalLessonIdListNotifier
   }
 
   Future<void> _save(List<int> lessonIdList) async {
-    await UserPreferenceRepository.setString(
-      UserPreferenceKeys.personalTimetableListKey,
-      json.encode(lessonIdList),
-    );
+    await UserPreferenceRepository.setString(UserPreferenceKeys.personalTimetableListKey, json.encode(lessonIdList));
     await UserPreferenceRepository.setInt(
       UserPreferenceKeys.personalTimetableLastUpdateKey,
       DateTime.now().millisecondsSinceEpoch,

@@ -4,9 +4,7 @@ import 'package:intl/intl.dart';
 abstract class DateFormatter {
   static String full(DateTime dateTime) {
     final locale = WidgetsBinding.instance.platformDispatcher.locale;
-    return DateFormat.yMMMd(
-      locale.toString(),
-    ).add_jm().format(dateTime.toLocal());
+    return DateFormat.yMMMd(locale.toString()).add_jm().format(dateTime.toLocal());
   }
 
   static String dayOfMonth(DateTime dateTime) {

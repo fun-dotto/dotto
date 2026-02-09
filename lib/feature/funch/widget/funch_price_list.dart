@@ -10,10 +10,7 @@ final class FunchPriceList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: priceText(context),
-    );
+    return Row(mainAxisAlignment: MainAxisAlignment.end, children: priceText(context));
   }
 
   List<Widget> priceText(BuildContext context) {
@@ -22,12 +19,7 @@ final class FunchPriceList extends StatelessWidget {
       ...FunchMenuCategory.donCurry.categoryIds,
       ...FunchMenuCategory.noodle.categoryIds,
     ].contains(menu.categoryId)) {
-      return [
-        Text(
-          '¥${menu.prices.medium}',
-          style: Theme.of(context).textTheme.titleMedium,
-        ),
-      ];
+      return [Text('¥${menu.prices.medium}', style: Theme.of(context).textTheme.titleMedium)];
     }
     final sizeStr = ['大', '中', '小'];
     final price = [menu.prices.large, menu.prices.medium, menu.prices.small];
@@ -53,9 +45,7 @@ final class FunchPriceList extends StatelessWidget {
                 color: SemanticColor.accentMaterialColor.shade400,
                 child: Center(
                   child: Text(
-                    style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                      color: SemanticColor.light.labelTertiary,
-                    ),
+                    style: Theme.of(context).textTheme.labelMedium?.copyWith(color: SemanticColor.light.labelTertiary),
                     sizeStr[i],
                   ),
                 ),

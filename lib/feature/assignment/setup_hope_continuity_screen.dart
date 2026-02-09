@@ -18,9 +18,7 @@ class SetupHopeContinuityScreen extends ConsumerWidget {
     final config = ref.watch(configProvider);
     final hopeUserKey = ref.watch(hopeUserKeyProvider);
     final hopeUserKeyNotifier = ref.read(hopeUserKeyProvider.notifier);
-    final textEditingController = ref.watch(
-      hopeContinuityTextEditingControllerProvider,
-    );
+    final textEditingController = ref.watch(hopeContinuityTextEditingControllerProvider);
 
     return Padding(
       padding: const EdgeInsets.all(16),
@@ -39,10 +37,7 @@ class SetupHopeContinuityScreen extends ConsumerWidget {
               controller: textEditingController,
               // 入力数
               maxLength: 16,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: 'ユーザーキー',
-              ),
+              decoration: const InputDecoration(border: OutlineInputBorder(), labelText: 'ユーザーキー'),
               inputFormatters: [
                 LengthLimitingTextInputFormatter(16),
                 FilteringTextInputFormatter.allow(RegExp('[a-zA-Z0-9]')),
@@ -51,19 +46,11 @@ class SetupHopeContinuityScreen extends ConsumerWidget {
             SizedBox(
               width: double.infinity,
               child: DottoButton(
-                onPressed:
-                    textEditingController.text.isEmpty ||
-                        textEditingController.text.length == 16
+                onPressed: textEditingController.text.isEmpty || textEditingController.text.length == 16
                     ? () async {
-                        await hopeUserKeyNotifier.set(
-                          textEditingController.text,
-                        );
+                        await hopeUserKeyNotifier.set(textEditingController.text);
                         onUserKeySaved?.call();
-                        await ref
-                            .read(loggerProvider)
-                            .logSetHopeUserKey(
-                              userKey: textEditingController.text,
-                            );
+                        await ref.read(loggerProvider).logSetHopeUserKey(userKey: textEditingController.text);
                       }
                     : null,
                 child: const Text('保存'),

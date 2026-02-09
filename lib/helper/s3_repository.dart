@@ -21,8 +21,7 @@ final class S3Repository {
 
   Future<List<String>> getListObjectsKey({required String url}) async {
     final returnStr = <String>[];
-    await for (final value
-        in _s3.listObjectsV2(_bucketName, prefix: url, recursive: true)) {
+    await for (final value in _s3.listObjectsV2(_bucketName, prefix: url, recursive: true)) {
       for (final obj in value.objects) {
         returnStr.add(obj.key!);
       }
@@ -34,10 +33,7 @@ final class S3Repository {
     return _s3.getObject(_bucketName, url);
   }
 
-  Stream<ListObjectsResult> listObjectsV2({
-    String prefix = '',
-    String? startAfter,
-  }) async* {
+  Stream<ListObjectsResult> listObjectsV2({String prefix = '', String? startAfter}) async* {
     MinioInvalidBucketNameError.check(_bucketName);
     MinioInvalidPrefixError.check(prefix);
     const delimiter = '';
@@ -46,20 +42,10 @@ final class S3Repository {
     String? continuationToken;
 
     do {
-      final resp = await _s3.listObjectsV2Query(
-        _bucketName,
-        prefix,
-        continuationToken,
-        delimiter,
-        null,
-        startAfter,
-      );
+      final resp = await _s3.listObjectsV2Query(_bucketName, prefix, continuationToken, delimiter, null, startAfter);
       isTruncated = resp.isTruncated;
       continuationToken = resp.nextContinuationToken;
-      yield ListObjectsResult(
-        objects: resp.contents!,
-        prefixes: resp.commonPrefixes.map((e) => e.prefix!).toList(),
-      );
+      yield ListObjectsResult(objects: resp.contents!, prefixes: resp.commonPrefixes.map((e) => e.prefix!).toList());
     } while (isTruncated!);
   }
 }

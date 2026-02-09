@@ -8,9 +8,7 @@ part 'hope_user_key_controller.g.dart';
 final class HopeUserKeyNotifier extends _$HopeUserKeyNotifier {
   @override
   Future<String> build() async {
-    final userKey =
-        await UserPreferenceRepository.getString(UserPreferenceKeys.userKey) ??
-        '';
+    final userKey = await UserPreferenceRepository.getString(UserPreferenceKeys.userKey) ?? '';
     ref.read(hopeContinuityTextEditingControllerProvider).text = userKey;
     return userKey;
   }
@@ -20,9 +18,6 @@ final class HopeUserKeyNotifier extends _$HopeUserKeyNotifier {
     if (userKey.isNotEmpty && !userKeyPattern.hasMatch(userKey)) {
       throw Exception('Invalid user key format.');
     }
-    await UserPreferenceRepository.setString(
-      UserPreferenceKeys.userKey,
-      userKey,
-    );
+    await UserPreferenceRepository.setString(UserPreferenceKeys.userKey, userKey);
   }
 }

@@ -16,6 +16,5 @@ abstract class CourseCancellation with _$CourseCancellation {
     required String type,
   }) = _CourseCancellation;
 
-  factory CourseCancellation.fromJson(Map<String, dynamic> json) =>
-      _$CourseCancellationFromJson(json);
+  factory CourseCancellation.fromJson(Map<String, dynamic> json) => _$CourseCancellationFromJson(json);
 }

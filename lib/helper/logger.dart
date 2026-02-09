@@ -12,12 +12,8 @@ abstract class Logger {
   Future<void> logAppOpen();
   Future<void> logLogin();
   Future<void> logChangedTab({required TabItem tabItem});
-  Future<void> logBuiltTimetableSetting({
-    required TimetablePeriodStyle timetablePeriodStyle,
-  });
-  Future<void> logSetTimetableSetting({
-    required TimetablePeriodStyle timetablePeriodStyle,
-  });
+  Future<void> logBuiltTimetableSetting({required TimetablePeriodStyle timetablePeriodStyle});
+  Future<void> logSetTimetableSetting({required TimetablePeriodStyle timetablePeriodStyle});
   Future<void> logSetHopeUserKey({required String userKey});
   Future<void> logSetAssignmentStatus({
     required String assignmentId,
@@ -65,9 +61,7 @@ final class LoggerImpl implements Logger {
   }
 
   @override
-  Future<void> logBuiltTimetableSetting({
-    required TimetablePeriodStyle timetablePeriodStyle,
-  }) async {
+  Future<void> logBuiltTimetableSetting({required TimetablePeriodStyle timetablePeriodStyle}) async {
     await FirebaseAnalytics.instance.logEvent(
       name: 'built_timetable_setting',
       parameters: {'timetable_period_style': timetablePeriodStyle.key},
@@ -77,9 +71,7 @@ final class LoggerImpl implements Logger {
   }
 
   @override
-  Future<void> logSetTimetableSetting({
-    required TimetablePeriodStyle timetablePeriodStyle,
-  }) async {
+  Future<void> logSetTimetableSetting({required TimetablePeriodStyle timetablePeriodStyle}) async {
     await FirebaseAnalytics.instance.logEvent(
       name: 'set_timetable_setting',
       parameters: {'timetable_period_style': timetablePeriodStyle.key},
@@ -90,10 +82,7 @@ final class LoggerImpl implements Logger {
 
   @override
   Future<void> logSetHopeUserKey({required String userKey}) async {
-    await FirebaseAnalytics.instance.logEvent(
-      name: 'set_hope_user_key',
-      parameters: {'user_key': userKey},
-    );
+    await FirebaseAnalytics.instance.logEvent(name: 'set_hope_user_key', parameters: {'user_key': userKey});
     debugPrint('[Logger] set_hope_user_key');
     debugPrint('user_key: $userKey');
   }
@@ -115,10 +104,7 @@ final class LoggerImpl implements Logger {
     if (isAlertScheduled != null) {
       parameters['is_alert_scheduled'] = isAlertScheduled.toString();
     }
-    await FirebaseAnalytics.instance.logEvent(
-      name: 'set_assignment_status',
-      parameters: parameters,
-    );
+    await FirebaseAnalytics.instance.logEvent(name: 'set_assignment_status', parameters: parameters);
     debugPrint('[Logger] set_assignment_status');
     debugPrint('assignment_id: $assignmentId');
     debugPrint('is_done: $isDone');

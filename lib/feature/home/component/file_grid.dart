@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 
 final class FileGrid extends StatelessWidget {
-  const FileGrid({
-    required this.children,
-    super.key,
-  });
+  const FileGrid({required this.children, super.key});
 
   final List<Widget> children;
 

@@ -41,19 +41,12 @@ final class BusCard extends ConsumerWidget {
     final busIsTo = ref.watch(busIsToProvider);
     final myBusStop = ref.watch(myBusStopProvider);
     final tripType = getType();
-    final headerText = tripType != BusType.other
-        ? tripType.where + (busIsTo ? 'から' : '行き')
-        : '';
+    final headerText = tripType != BusType.other ? tripType.where + (busIsTo ? 'から' : '行き') : '';
     return Card(
       color: Colors.white,
       shadowColor: Colors.black,
       child: Container(
-        padding: EdgeInsets.only(
-          top: home ? 0 : 16,
-          left: 16,
-          right: 16,
-          bottom: 16,
-        ),
+        padding: EdgeInsets.only(top: home ? 0 : 16, left: 16, right: 16, bottom: 16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -63,9 +56,7 @@ final class BusCard extends ConsumerWidget {
                 children: [
                   Expanded(
                     child: Text(
-                      busIsTo
-                          ? '${myBusStop.name} → 未来大'
-                          : '未来大 → ${myBusStop.name}',
+                      busIsTo ? '${myBusStop.name} → 未来大' : '未来大 → ${myBusStop.name}',
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
@@ -91,10 +82,7 @@ final class BusCard extends ConsumerWidget {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      Text(
-                        BusRepository().formatDuration(beginTime),
-                        style: Theme.of(context).textTheme.displayMedium,
-                      ),
+                      Text(BusRepository().formatDuration(beginTime), style: Theme.of(context).textTheme.displayMedium),
                       Transform.translate(
                         offset: const Offset(0, -5),
                         child: Text(isKameda && busIsTo ? '亀田支所発' : '発'),
@@ -110,10 +98,7 @@ final class BusCard extends ConsumerWidget {
                     ],
                   ),
                   Divider(height: 6, color: tripType.dividerColor),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [Text('出発まで${arriveAt.inMinutes}分')],
-                  ),
+                  Row(mainAxisAlignment: MainAxisAlignment.end, children: [Text('出発まで${arriveAt.inMinutes}分')]),
                 ],
               )
             else

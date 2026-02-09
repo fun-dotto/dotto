@@ -34,25 +34,17 @@ final class BusRepository {
   }
 
   Future<List<BusStop>> getAllBusStopsFromFirebase() async {
-    final snapshot = await FirebaseRealtimeDatabaseRepository().getData(
-      'bus/stops',
-    ); //firebaseから情報取得
+    final snapshot = await FirebaseRealtimeDatabaseRepository().getData('bus/stops'); //firebaseから情報取得
     if (snapshot.exists) {
       final busDataStops = snapshot.value! as List;
-      return busDataStops
-          .map((e) => BusStop.fromFirebase(Map<String, dynamic>.from(e as Map)))
-          .toList();
+      return busDataStops.map((e) => BusStop.fromFirebase(Map<String, dynamic>.from(e as Map))).toList();
     } else {
       throw Exception();
     }
   }
 
-  Future<Map<String, Map<String, List<BusTrip>>>> getBusDataFromFirebase(
-    List<BusStop> allBusStops,
-  ) async {
-    final snapshot = await FirebaseRealtimeDatabaseRepository().getData(
-      'bus/trips',
-    ); //firebaseから情報取得
+  Future<Map<String, Map<String, List<BusTrip>>>> getBusDataFromFirebase(List<BusStop> allBusStops) async {
+    final snapshot = await FirebaseRealtimeDatabaseRepository().getData('bus/trips'); //firebaseから情報取得
     if (snapshot.exists) {
       final busTripsData = snapshot.value! as Map;
       final allBusTrips = <String, Map<String, List<BusTrip>>>{
@@ -64,12 +56,7 @@ final class BusRepository {
         (value as Map).forEach((key2, value2) {
           final week = key2 as String;
           allBusTrips[fromTo]![week] = (value2 as List)
-              .map(
-                (e) => BusTrip.fromFirebase(
-                  Map<String, dynamic>.from(e as Map),
-                  allBusStops,
-                ),
-              )
+              .map((e) => BusTrip.fromFirebase(Map<String, dynamic>.from(e as Map), allBusStops))
               .toList();
         });
       });

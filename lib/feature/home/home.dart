@@ -70,9 +70,7 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
             Navigator.of(context).push(
               MaterialPageRoute<void>(
                 builder: (_) => WebPdfViewer(url: item.$2, filename: item.$1),
-                settings: RouteSettings(
-                  name: '/home/web_pdf_viewer?url=${item.$2}',
-                ),
+                settings: RouteSettings(name: '/home/web_pdf_viewer?url=${item.$2}'),
               ),
             );
           },
@@ -98,11 +96,7 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
                     onChanged: (value) {
                       ref
                           .read(timetablePeriodStyleProvider.notifier)
-                          .setStyle(
-                            value
-                                ? TimetablePeriodStyle.numberAndTime
-                                : TimetablePeriodStyle.numberOnly,
-                          );
+                          .setStyle(value ? TimetablePeriodStyle.numberAndTime : TimetablePeriodStyle.numberOnly);
                     },
                   ),
                 ],
@@ -125,9 +119,7 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
                     Navigator.of(context).push(
                       MaterialPageRoute<void>(
                         builder: (_) => const CourseCancellationScreen(),
-                        settings: const RouteSettings(
-                          name: '/home/course_cancellation',
-                        ),
+                        settings: const RouteSettings(name: '/home/course_cancellation'),
                       ),
                     );
                   },
@@ -136,16 +128,10 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
                         .push(
                           MaterialPageRoute<void>(
                             builder: (_) => const EditTimetableScreen(),
-                            settings: const RouteSettings(
-                              name: '/home/edit_timetable',
-                            ),
+                            settings: const RouteSettings(name: '/home/edit_timetable'),
                           ),
                         )
-                        .then(
-                          (value) => ref
-                              .read(twoWeekTimetableProvider.notifier)
-                              .refresh(),
-                        );
+                        .then((value) => ref.read(twoWeekTimetableProvider.notifier).refresh());
                   },
                 ),
               ],
@@ -158,9 +144,7 @@ final class _HomeScreenState extends ConsumerState<HomeScreen> {
                   spacing: 16,
                   children: [
                     const BusCardHome(),
-                    if (config.isFunchEnabled) ...[
-                      const FunchMyPageCard(),
-                    ],
+                    if (config.isFunchEnabled) ...[const FunchMyPageCard()],
                     Column(
                       spacing: 8,
                       children: [

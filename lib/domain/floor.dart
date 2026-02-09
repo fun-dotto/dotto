@@ -12,9 +12,6 @@ enum Floor {
   final String label;
 
   static Floor fromLabel(String label) {
-    return Floor.values.firstWhere(
-      (floor) => floor.label == label,
-      orElse: () => Floor.first,
-    );
+    return Floor.values.firstWhere((floor) => floor.label == label, orElse: () => Floor.first);
   }
 }

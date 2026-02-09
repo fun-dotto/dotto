@@ -3,68 +3,29 @@ import 'package:dotto/feature/search_course/domain/search_course_filter_options.
 
 final class CourseFilterExtractor {
   static CourseFilterData extractFilters(
-    Map<SearchCourseFilterOptions, List<SearchCourseFilterOptionChoice>>
-    selectedChoicesMap,
+    Map<SearchCourseFilterOptions, List<SearchCourseFilterOptionChoice>> selectedChoicesMap,
   ) {
     return CourseFilterData(
       largeCategoryCheckList: SearchCourseFilterOptions.largeCategory.choices
-          .map(
-            (choice) =>
-                selectedChoicesMap[SearchCourseFilterOptions.largeCategory]
-                    ?.contains(choice) ??
-                false,
-          )
+          .map((choice) => selectedChoicesMap[SearchCourseFilterOptions.largeCategory]?.contains(choice) ?? false)
           .toList(),
       termCheckList: SearchCourseFilterOptions.term.choices
-          .map(
-            (choice) =>
-                selectedChoicesMap[SearchCourseFilterOptions.term]?.contains(
-                  choice,
-                ) ??
-                false,
-          )
+          .map((choice) => selectedChoicesMap[SearchCourseFilterOptions.term]?.contains(choice) ?? false)
           .toList(),
       classificationCheckList: SearchCourseFilterOptions.classification.choices
-          .map(
-            (choice) =>
-                selectedChoicesMap[SearchCourseFilterOptions.classification]
-                    ?.contains(choice) ??
-                false,
-          )
+          .map((choice) => selectedChoicesMap[SearchCourseFilterOptions.classification]?.contains(choice) ?? false)
           .toList(),
       gradeCheckList: SearchCourseFilterOptions.grade.choices
-          .map(
-            (choice) =>
-                selectedChoicesMap[SearchCourseFilterOptions.grade]?.contains(
-                  choice,
-                ) ??
-                false,
-          )
+          .map((choice) => selectedChoicesMap[SearchCourseFilterOptions.grade]?.contains(choice) ?? false)
           .toList(),
       courseCheckList: SearchCourseFilterOptions.course.choices
-          .map(
-            (choice) =>
-                selectedChoicesMap[SearchCourseFilterOptions.course]?.contains(
-                  choice,
-                ) ??
-                false,
-          )
+          .map((choice) => selectedChoicesMap[SearchCourseFilterOptions.course]?.contains(choice) ?? false)
           .toList(),
       educationCheckList: SearchCourseFilterOptions.educationField.choices
-          .map(
-            (choice) =>
-                selectedChoicesMap[SearchCourseFilterOptions.educationField]
-                    ?.contains(choice) ??
-                false,
-          )
+          .map((choice) => selectedChoicesMap[SearchCourseFilterOptions.educationField]?.contains(choice) ?? false)
           .toList(),
       masterFieldCheckList: SearchCourseFilterOptions.masterField.choices
-          .map(
-            (choice) =>
-                selectedChoicesMap[SearchCourseFilterOptions.masterField]
-                    ?.contains(choice) ??
-                false,
-          )
+          .map((choice) => selectedChoicesMap[SearchCourseFilterOptions.masterField]?.contains(choice) ?? false)
           .toList(),
     );
   }

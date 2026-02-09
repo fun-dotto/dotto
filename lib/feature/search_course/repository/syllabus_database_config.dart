@@ -11,8 +11,7 @@ final class SyllabusDatabaseConfig {
 
   SyllabusDatabaseConfig._internal();
 
-  static final SyllabusDatabaseConfig _instance =
-      SyllabusDatabaseConfig._internal();
+  static final SyllabusDatabaseConfig _instance = SyllabusDatabaseConfig._internal();
 
   String _path = '';
 

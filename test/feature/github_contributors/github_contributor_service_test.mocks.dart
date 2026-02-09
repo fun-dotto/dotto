@@ -27,8 +27,7 @@ import 'package:mockito/mockito.dart' as _i1;
 /// A class which mocks [GitHubContributorRepository].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockGitHubContributorRepository extends _i1.Mock
-    implements _i2.GitHubContributorRepository {
+class MockGitHubContributorRepository extends _i1.Mock implements _i2.GitHubContributorRepository {
   MockGitHubContributorRepository() {
     _i1.throwOnMissingStub(this);
   }
@@ -37,9 +36,7 @@ class MockGitHubContributorRepository extends _i1.Mock
   _i3.Future<List<_i4.GitHubProfile>> getContributors() =>
       (super.noSuchMethod(
             Invocation.method(#getContributors, []),
-            returnValue: _i3.Future<List<_i4.GitHubProfile>>.value(
-              <_i4.GitHubProfile>[],
-            ),
+            returnValue: _i3.Future<List<_i4.GitHubProfile>>.value(<_i4.GitHubProfile>[]),
           )
           as _i3.Future<List<_i4.GitHubProfile>>);
 }

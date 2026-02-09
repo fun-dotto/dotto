@@ -10,8 +10,6 @@ enum TimetablePeriodStyle {
   final String label;
 
   static TimetablePeriodStyle? fromKey(String key) {
-    return TimetablePeriodStyle.values.firstWhereOrNull(
-      (style) => style.key == key,
-    );
+    return TimetablePeriodStyle.values.firstWhereOrNull((style) => style.key == key);
   }
 }

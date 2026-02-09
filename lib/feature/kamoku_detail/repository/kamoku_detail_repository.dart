@@ -8,23 +8,13 @@ final class KamokuDetailRepository {
     return _instance;
   }
   KamokuDetailRepository._internal();
-  static final KamokuDetailRepository _instance =
-      KamokuDetailRepository._internal();
+  static final KamokuDetailRepository _instance = KamokuDetailRepository._internal();
 
-  Stream<QuerySnapshot<Map<String, dynamic>>> getFeedbackListFromFirestore(
-    int lessonId,
-  ) {
-    return FirebaseFirestore.instance
-        .collection('feedback')
-        .where('lessonId', isEqualTo: lessonId)
-        .snapshots();
+  Stream<QuerySnapshot<Map<String, dynamic>>> getFeedbackListFromFirestore(int lessonId) {
+    return FirebaseFirestore.instance.collection('feedback').where('lessonId', isEqualTo: lessonId).snapshots();
   }
 
-  Future<bool> postFeedback(
-    int lessonId,
-    double? selectedScore,
-    String text,
-  ) async {
+  Future<bool> postFeedback(int lessonId, double? selectedScore, String text) async {
     final userKey = FirebaseAuth.instance.currentUser?.uid;
     if (userKey != '' && selectedScore != null) {
       // Firestoreで同じUserKeyとlessonIdを持つフィードバックを検索

@@ -5,10 +5,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 final class LinkGrid extends StatelessWidget {
-  const LinkGrid({
-    required this.links,
-    super.key,
-  });
+  const LinkGrid({required this.links, super.key});
 
   final List<QuickLink> links;
 
@@ -24,10 +21,7 @@ final class LinkGrid extends StatelessWidget {
         return LinkTile(
           title: links[index].label,
           icon: links[index].icon,
-          onTap: () => launchUrlString(
-            links[index].url,
-            mode: LaunchMode.externalApplication,
-          ),
+          onTap: () => launchUrlString(links[index].url, mode: LaunchMode.externalApplication),
         );
       },
     );

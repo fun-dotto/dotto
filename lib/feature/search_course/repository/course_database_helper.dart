@@ -30,17 +30,13 @@ final class CourseDatabaseHelper {
       final database = await _getDatabase();
       final records = await database.rawQuery('$_coursesQuery$whereClause');
 
-      return records
-          .where((record) =>
-              record['授業名']?.toString().contains(searchWord) ?? false)
-          .toList();
+      return records.where((record) => record['授業名']?.toString().contains(searchWord) ?? false).toList();
     } catch (e) {
       throw DatabaseException('科目検索に失敗しました: $e');
     }
   }
 
-  static Future<List<Map<String, dynamic>>> fetchWeekPeriod(
-      List<int> lessonIdList) async {
+  static Future<List<Map<String, dynamic>>> fetchWeekPeriod(List<int> lessonIdList) async {
     if (lessonIdList.isEmpty) {
       return [];
     }

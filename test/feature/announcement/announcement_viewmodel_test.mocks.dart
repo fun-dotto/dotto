@@ -29,8 +29,7 @@ import 'announcement_viewmodel_test.dart' as _i5;
 /// A class which mocks [AnnouncementRepository].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockAnnouncementRepository extends _i1.Mock
-    implements _i2.AnnouncementRepository {
+class MockAnnouncementRepository extends _i1.Mock implements _i2.AnnouncementRepository {
   MockAnnouncementRepository() {
     _i1.throwOnMissingStub(this);
   }
@@ -39,9 +38,7 @@ class MockAnnouncementRepository extends _i1.Mock
   _i3.Future<List<_i4.Announcement>> getAnnouncements() =>
       (super.noSuchMethod(
             Invocation.method(#getAnnouncements, []),
-            returnValue: _i3.Future<List<_i4.Announcement>>.value(
-              <_i4.Announcement>[],
-            ),
+            returnValue: _i3.Future<List<_i4.Announcement>>.value(<_i4.Announcement>[]),
           )
           as _i3.Future<List<_i4.Announcement>>);
 }
@@ -55,8 +52,6 @@ class MockListener<T> extends _i1.Mock implements _i5.Listener<T> {
   }
 
   @override
-  void call(T? previous, T? next) => super.noSuchMethod(
-    Invocation.method(#call, [previous, next]),
-    returnValueForMissingStub: null,
-  );
+  void call(T? previous, T? next) =>
+      super.noSuchMethod(Invocation.method(#call, [previous, next]), returnValueForMissingStub: null);
 }

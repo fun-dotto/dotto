@@ -10,12 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final class SelectCourseScreen extends ConsumerWidget {
-  const SelectCourseScreen(
-    this.semester,
-    this.dayOfWeek,
-    this.period, {
-    super.key,
-  });
+  const SelectCourseScreen(this.semester, this.dayOfWeek, this.period, {super.key});
 
   final Semester semester;
   final DayOfWeek dayOfWeek;
@@ -27,16 +22,13 @@ final class SelectCourseScreen extends ConsumerWidget {
     final weekPeriodAllRecords = ref.watch(weekPeriodAllRecordsProvider);
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text('${semester.label} ${dayOfWeek.label}曜${period.number}限'),
-      ),
+      appBar: AppBar(title: Text('${semester.label} ${dayOfWeek.label}曜${period.number}限')),
       body: weekPeriodAllRecords.when(
         data: (data) {
           return personalLessonIdList.when(
             data: (personalLessonIdListData) {
               final termList = data.where((record) {
-                return record['week'] ==
-                        dayOfWeek.number && // Use dayOfWeek.number
+                return record['week'] == dayOfWeek.number && // Use dayOfWeek.number
                     record['period'] == period.number && // Use period.number
                     (record['開講時期'] == semester.number || record['開講時期'] == 0);
               }).toList();
@@ -47,14 +39,10 @@ final class SelectCourseScreen extends ConsumerWidget {
                     final lessonId = termList[index]['lessonId'] as int;
                     return ListTile(
                       title: Text(termList[index]['授業名'] as String),
-                      trailing:
-                          personalLessonIdListData.contains(
-                            termList[index]['lessonId'],
-                          )
+                      trailing: personalLessonIdListData.contains(termList[index]['lessonId'])
                           ? DottoButton(
                               onPressed: () async {
-                                await TimetableRepository()
-                                    .removePersonalTimetableList(lessonId, ref);
+                                await TimetableRepository().removePersonalTimetableList(lessonId, ref);
                                 if (context.mounted) {
                                   Navigator.of(context).pop();
                                 }
@@ -72,8 +60,7 @@ final class SelectCourseScreen extends ConsumerWidget {
                                     timetableIsOverSelectedSnackBar(context);
                                   }
                                 } else {
-                                  await TimetableRepository()
-                                      .addPersonalTimetableList(lessonId, ref);
+                                  await TimetableRepository().addPersonalTimetableList(lessonId, ref);
                                   if (context.mounted) {
                                     Navigator.of(context).pop();
                                   }
@@ -92,8 +79,7 @@ final class SelectCourseScreen extends ConsumerWidget {
             loading: () => const SizedBox.shrink(),
           );
         },
-        error: (error, stackTrace) =>
-            const Center(child: Text('データの取得に失敗しました')),
+        error: (error, stackTrace) => const Center(child: Text('データの取得に失敗しました')),
         loading: () => const Center(child: CircularProgressIndicator()),
       ),
     );
