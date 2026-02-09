@@ -3,6 +3,8 @@
 dotenvx = "latest"
 flutter = "3.38.9"
 "github:linux-test-project/lcov" = "latest"
+java = "26"
 node = "24"
+"npm:@openapitools/openapi-generator-cli" = "latest"
 pre-commit = "latest"
 ruby = "4.0"
