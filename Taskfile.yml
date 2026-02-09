@@ -20,7 +20,7 @@ vars:
 tasks:
   default:
     cmds:
-      - task --list-all
+      - task --list
     silent: true
 
   install:
