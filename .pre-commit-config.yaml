@@ -8,3 +8,10 @@ repos:
         pass_filenames: false
         always_run: true
         stages: [pre-commit]
+      - id: check-dart-format
+        name: Check Dart format
+        entry: bash -c 'scripts/pre-commit-check-format.sh'
+        language: system
+        pass_filenames: false
+        always_run: true
+        stages: [pre-commit]

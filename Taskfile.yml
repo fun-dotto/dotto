@@ -126,6 +126,11 @@ tasks:
       - "{{.GENHTML}} coverage/new_lcov.info -o coverage/html"
       - "open coverage/html/index.html"
 
+  format:
+    desc: Format Dart code
+    cmds:
+      - "{{.DART}} format lib/ test/ dotto_design_system/"
+
   analyze:
     desc: Analyze Dart code
     cmds:
