@@ -4,6 +4,10 @@
       "url": "https://mcp.figma.com/mcp",
       "type": "http"
     },
+    "notion": {
+      "url": "https://mcp.notion.com/mcp",
+      "type": "http"
+    },
     "serena": {
       "command": "uvx",
       "args": [
