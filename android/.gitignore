@@ -41,3 +41,5 @@ key.properties
 # End of https://www.toptal.com/developers/gitignore/api/fastlane
 
 app/.cxx
+
+**/fastlane/service-account-key.json

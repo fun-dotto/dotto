@@ -71,7 +71,7 @@ final class _AssignmentListScreenState
     );
 
     await _notificationsPlugin.initialize(
-      initializationSettings,
+      settings: initializationSettings,
       onDidReceiveNotificationResponse: (details) {
         debugPrint('payload:${details.payload}');
       },
@@ -93,11 +93,11 @@ final class _AssignmentListScreenState
     ).subtract(const Duration(days: 1));
     if (scheduledDate.isAfter(now)) {
       await _notificationsPlugin.zonedSchedule(
-        id,
-        '${kadai.courseName}',
-        '${kadai.name}\n締切1日前です',
-        scheduledDate,
-        const NotificationDetails(
+        id: id,
+        title: '${kadai.courseName}',
+        body: '${kadai.name}\n締切1日前です',
+        scheduledDate: scheduledDate,
+        notificationDetails: const NotificationDetails(
           android: AndroidNotificationDetails(
             'your channel id',
             'your channel name',
@@ -112,7 +112,7 @@ final class _AssignmentListScreenState
   }
 
   Future<void> _cancelNotification(int id) async {
-    await _notificationsPlugin.cancel(id);
+    await _notificationsPlugin.cancel(id: id);
   }
 
   Future<void> _showDeleteConfirmation(Kadai kadai) async {
