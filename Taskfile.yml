@@ -9,13 +9,14 @@ includes:
     dir: ./api
 
 vars:
-  FLUTTER: flutter
   DART: dart
-  FASTLANE: fastlane
   DOTENVX: dotenvx
-  PRE_COMMIT: pre-commit
-  LCOV: lcov
+  FASTLANE: fastlane
+  FLUTTER: flutter
   GENHTML: genhtml
+  LCOV: lcov
+  OPENAPI_GENERATOR: openapi-generator-cli
+  PRE_COMMIT: pre-commit
 
 tasks:
   default:
@@ -53,7 +54,7 @@ tasks:
   generate-openapi:
     desc: Generate OpenAPI code
     cmds:
-      - openapi-generator generate -i ./openapi/openapi.yaml -g dart-dio -o ./api
+      - "{{.OPENAPI_GENERATOR}} generate -i ./openapi/openapi.yaml -g dart-dio -o ./api"
 
   build:
     desc: Run build_runner to generate code
